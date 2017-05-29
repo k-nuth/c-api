@@ -1,0 +1,19 @@
+# - Config file for the BITPRIM_NODE_CINT package
+#
+#  BITPRIM_NODE_CINT_INCLUDE_DIRS - include directories for BITPRIM_NODE_CINT
+#  BITPRIM_NODE_CINT_LIBRARIES    - libraries to link against
+
+get_filename_component(BITPRIM_NODE_CINT_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(BITPRIM_NODE_CINT_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+
+include("${BITPRIM_NODE_CINT_CMAKE_DIR}/bitprim-node-cintTargets.cmake")
+set(BITPRIM_NODE_CINT_LIBRARIES bitprim-node-cint)
+
+# if ("WITH_REMOTE_BLOCKCHAIN" IN_LIST _compile_definitions)
+#     find_package(bitprim-blockchain-requester 3.0.0 REQUIRED)
+# else()
+# 	find_package(bitprim-blockchain 3.0.0 REQUIRED)
+# endif()
+
+# find_package(bitprim-network 3.0.0 REQUIRED)
+find_package(bitprim-node 3.0.0 REQUIRED)
