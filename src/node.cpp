@@ -18,15 +18,22 @@
  */
 
 #include <bitprim/nodecint/node.h>
+
+#include <memory>
+
 #include <bitcoin/node/full_node.hpp>
 
 extern "C" {
 
 struct node {
-    template <typename... Args>
-    node(Args&&... args)
-        : actual(std::forward<Args>(args)...)
-    {}
+    // template <typename... Args>
+    // node(Args&&... args)
+    //     : actual(std::forward<Args>(args)...)
+    // {}
+
+    node(char const* path)
+        : actual(path)
+    {}    
 
     libbitcoin::node::full_node actual;
 };
