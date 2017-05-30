@@ -20,6 +20,7 @@
 #ifndef BITPRIM_NODE_CINT_FULL_NODE_H_
 #define BITPRIM_NODE_CINT_FULL_NODE_H_
 
+#include <bitprim/nodecint/visibility.h>
 
 #ifdef __cplusplus
 extern "C" {
