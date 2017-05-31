@@ -33,7 +33,7 @@ option(WITH_CONSOLE "Compile console application." ON)
 
 # Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
 #------------------------------------------------------------------------------
-option(ENABLE_SHARED "" OFF)
+option(ENABLE_SHARED "" ON)
 
 # Check dependencies.
 #==============================================================================
@@ -199,6 +199,9 @@ add_library(bitprim-node-cint ${MODE}
         src/executor.cpp
 )
 
+# set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
+  
+
 target_include_directories(bitprim-node-cint PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>)
@@ -291,7 +294,9 @@ set_target_properties(
 #==============================================================================
 install(TARGETS bitprim-node-cint
         EXPORT bitprim-node-cint
-        ARCHIVE DESTINATION lib)
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+)
 
 
 set(_bitprim_headers
