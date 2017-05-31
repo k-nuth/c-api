@@ -43,6 +43,17 @@ PyObject* module_executor_destruct(PyObject* self, PyObject* args) {
     return Py_BuildValue("");
 }
 
+static
+PyObject* module_executor_initchain(PyObject* self, PyObject* args) {
+    PyObject* py_exec;
+
+    if ( ! PyArg_ParseTuple(args, "O", &py_exec))
+        return NULL;
+
+    executor_t exec = (executor_t)PyCObject_AsVoidPtr(py_exec);
+    int res = executor_initchain(exec);
+    return Py_BuildValue("i", res);
+}
 
 
 static
@@ -50,6 +61,7 @@ PyMethodDef BitprimMethods[] = {
 
     {"construct",  module_executor_construct, METH_VARARGS, "Construct the executor object."},
     {"destruct",  module_executor_destruct, METH_VARARGS, "Destruct the executor object."},
+    {"initchain",  module_executor_initchain, METH_VARARGS, "Directory Initialization."},
 
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };

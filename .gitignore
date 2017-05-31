@@ -1,3 +1,7 @@
 cmake-build-debug/
 .idea/
 build/
+python_console/blockchain/
+python_console/debug.log
+python_console/error.log
+
