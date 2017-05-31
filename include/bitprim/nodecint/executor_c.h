@@ -17,47 +17,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/node.h>
+#ifndef BITPRIM_NODE_CINT_EXECUTOR_H_
+#define BITPRIM_NODE_CINT_EXECUTOR_H_
 
-#include <memory>
+#include <stdio.h>
 
-#include <bitcoin/node/full_node.hpp>
+#include <bitprim/nodecint/visibility.h>
 
+
+#ifdef __cplusplus
 extern "C" {
+#endif
 
-struct node {
-    // template <typename... Args>
-    // node(Args&&... args)
-    //     : actual(std::forward<Args>(args)...)
-    // {}
+typedef struct executor* executor_t;
 
-//    node(char const* path)
-//        : actual(path)
-//    {}
+BITPRIM_EXPORT
+// executor_t executor_construct(char const* person, error_t* out_error);
+//executor_t executor_construct(char const* path, bool init_blockchains);
+executor_t executor_construct(char const* path, FILE* sin, FILE* sout, FILE* serr);
 
-    libbitcoin::node::full_node actual;
-};
+BITPRIM_EXPORT
+void executor_destruct(executor_t exec);
 
-// node_t node_construct(char const* person, error_t* out_error) {
-node_t node_construct(char const* path) {
-    // node_t result = nullptr;
+BITPRIM_EXPORT
+int executor_run(executor_t exec);
 
-    // translateExceptions(out_error, [&]{
-    //     result = std::make_unique<node>(person).release();
-    // });
+BITPRIM_EXPORT
+int executor_initchain(executor_t exec);
 
+BITPRIM_EXPORT
+void executor_stop(executor_t exec);
 
-    // return result;
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
-    //std::make_unique<node>(path).release();
-
-
-    return node_t();
-
-}
-
-void node_destruct(node_t obj) {
-    delete obj;
-}
-
-} /* extern "C" */
+#endif /* BITPRIM_NODE_CINT_EXECUTOR_H_ */

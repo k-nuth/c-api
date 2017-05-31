@@ -195,6 +195,8 @@ endif()
 
 add_library(bitprim-node-cint ${MODE}
         src/node.cpp
+        src/executor_c.cpp
+        src/executor.cpp
 )
 
 target_include_directories(bitprim-node-cint PUBLIC
@@ -212,6 +214,21 @@ _group_sources(bitprim-node-cint "${CMAKE_CURRENT_LIST_DIR}")
 
 
 
+# Console
+#==============================================================================
+
+add_executable(test_console
+        console/main.c)
+
+target_link_libraries(test_console bitprim-node-cint)
+
+set_target_properties(
+        test_console PROPERTIES
+        FOLDER "node"
+        OUTPUT_NAME test_console)
+
+
+#==============================================================================
 
 # # Tests
 # #==============================================================================
@@ -281,7 +298,9 @@ set(_bitprim_headers
         # include_bitcoin_HEADERS =
         include/bitcoin/node.hpp
         # include_bitcoin_node_HEADERS =
-        include/bitcoin/node/node.h
+        include/bitprim/nodecint/node.h
+        include/bitprim/nodecint/executor_c.h
+        include/bitprim/nodecint/executor.hpp
 )
 
 foreach (_header ${_bitprim_headers})

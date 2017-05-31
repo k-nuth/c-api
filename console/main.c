@@ -17,47 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/node.h>
+#include <stdio.h>
 
-#include <memory>
+#include <bitprim/nodecint/executor_c.h>
 
-#include <bitcoin/node/full_node.hpp>
+int main(int argc, char* argv[]) {
 
-extern "C" {
+    executor_t exec = executor_construct("hola", stdin, stdout, stderr);
+    int res = executor_initchain(exec);
+    executor_destruct(exec);
 
-struct node {
-    // template <typename... Args>
-    // node(Args&&... args)
-    //     : actual(std::forward<Args>(args)...)
-    // {}
-
-//    node(char const* path)
-//        : actual(path)
-//    {}
-
-    libbitcoin::node::full_node actual;
-};
-
-// node_t node_construct(char const* person, error_t* out_error) {
-node_t node_construct(char const* path) {
-    // node_t result = nullptr;
-
-    // translateExceptions(out_error, [&]{
-    //     result = std::make_unique<node>(person).release();
-    // });
-
-
-    // return result;
-
-    //std::make_unique<node>(path).release();
-
-
-    return node_t();
-
+    return 0;
 }
 
-void node_destruct(node_t obj) {
-    delete obj;
-}
-
-} /* extern "C" */
