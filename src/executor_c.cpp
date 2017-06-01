@@ -25,6 +25,13 @@
 
 #include <bitprim/nodecint/executor.hpp>
 
+
+libbitcoin::node::configuration make_config(char const* path) {
+    libbitcoin::node::configuration config(libbitcoin::config::settings::mainnet);
+    config.file = boost::filesystem::path(path);
+    return config;
+}
+
 extern "C" {
 
 struct executor {
@@ -42,7 +49,8 @@ struct executor {
         , sin_(&sin_buffer_)
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
-        , actual(libbitcoin::node::configuration(libbitcoin::config::settings::mainnet), sin_, sout_, serr_)
+//        , actual(libbitcoin::node::configuration(libbitcoin::config::settings::mainnet), sin_, sout_, serr_)
+        , actual(make_config(path), sin_, sout_, serr_)
     {
         std::ostream os(&sout_buffer_);
         os << "Hello World!" << std::endl;
@@ -57,7 +65,7 @@ struct executor {
     std::ostream sout_;
     std::ostream serr_;
 
-    bitprim::node::executor actual;
+    bitprim::nodecint::executor actual;
 };
 
 executor_t executor_construct(char const* path, FILE* sin, FILE* sout, FILE* serr) {

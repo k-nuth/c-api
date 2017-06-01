@@ -197,6 +197,7 @@ add_library(bitprim-node-cint ${MODE}
         src/node.cpp
         src/executor_c.cpp
         src/executor.cpp
+        src/parser.cpp
 )
 
 # set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
@@ -306,6 +307,7 @@ set(_bitprim_headers
         include/bitprim/nodecint/node.h
         include/bitprim/nodecint/executor_c.h
         include/bitprim/nodecint/executor.hpp
+        include/bitprim/nodecint/parser.hpp
 )
 
 foreach (_header ${_bitprim_headers})

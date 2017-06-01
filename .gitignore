@@ -4,4 +4,5 @@ build/
 python_console/blockchain/
 python_console/debug.log
 python_console/error.log
-
+python_console/archive/
+python_console/hosts.cache

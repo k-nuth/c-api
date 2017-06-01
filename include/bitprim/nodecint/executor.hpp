@@ -24,7 +24,7 @@
 #include <iostream>
 #include <bitcoin/node.hpp>
 
-namespace bitprim { namespace node {
+namespace bitprim { namespace nodecint {
 
 
 class executor
@@ -130,6 +130,6 @@ private:
     "================= startup %1% =================="
 
 
-}} // namespace bitprim::node
+}} // namespace bitprim::nodecint
 
 #endif /* BITPRIM_NODE_CINT_EXECUTOR_HPP_ */

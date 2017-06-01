@@ -29,9 +29,9 @@
 #include <boost/core/null_deleter.hpp>
 #include <bitcoin/node.hpp>
 
-namespace bitprim {
-namespace node {
+#include <bitprim/nodecint/parser.hpp>
 
+namespace bitprim { namespace nodecint {
 
 using boost::format;
 using namespace boost;
@@ -57,6 +57,15 @@ std::promise<libbitcoin::code> executor::stopping_;
 executor::executor(libbitcoin::node::configuration config, std::istream& input, std::ostream& output, std::ostream& error)
     : config_(config), output_(output), error_(error)
 {
+
+    parser metadata(libbitcoin::config::settings::mainnet);
+    auto res = metadata.parse(std::cerr);
+//    if (!metadata.parse(cerr))
+//        return console_result::failure;
+
+    config_ = metadata.configured;
+
+
     auto const& network = config_.network;
 
     libbitcoin::log::rotable_file const debug_file {
@@ -319,4 +328,4 @@ bool executor::verify_directory() {
 
 #endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
-}} // namespace bitprim::node
+}} // namespace bitprim::nodecint

@@ -23,9 +23,9 @@
 
 int main(int argc, char* argv[]) {
 
-    executor_t exec = executor_construct("hola", stdin, stdout, stderr);
+    executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", stdin, stdout, stderr);
 
-    //int res1 = executor_initchain(exec);
+    int res1 = executor_initchain(exec);
     int res2 = executor_run(exec);
 
     executor_destruct(exec);
