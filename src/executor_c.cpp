@@ -25,6 +25,8 @@
 
 #include <bitprim/nodecint/executor.hpp>
 
+#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
+
 
 libbitcoin::node::configuration make_config(char const* path) {
     libbitcoin::node::configuration config(libbitcoin::config::settings::mainnet);
@@ -56,6 +58,20 @@ struct executor {
         os << "Hello World!" << std::endl;
     }
 
+    executor(char const* path, int sin_fd, int sout_fd, int serr_fd)
+        : sin_buffer_(boost::iostreams::file_descriptor_source(sin_fd, boost::iostreams::never_close_handle))
+          , sout_buffer_(boost::iostreams::file_descriptor_sink(sout_fd, boost::iostreams::never_close_handle))
+          , serr_buffer_(boost::iostreams::file_descriptor_sink(serr_fd, boost::iostreams::never_close_handle))
+          , sin_(&sin_buffer_)
+          , sout_(&sout_buffer_)
+          , serr_(&serr_buffer_)
+          , actual(make_config(path), sin_, sout_, serr_)
+    {
+        std::ostream os(&sout_buffer_);
+        os << "Hello World -- 2!" << std::endl;
+    }
+
+
 
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_source> sin_buffer_;
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> sout_buffer_;
@@ -69,10 +85,17 @@ struct executor {
 };
 
 executor_t executor_construct(char const* path, FILE* sin, FILE* sout, FILE* serr) {
-    return std::make_unique<executor>(path, stdin, stdout, stderr).release();
+    return std::make_unique<executor>(path, sin, sout, serr).release();
+}
+
+executor_t executor_construct_fd(char const* path, int sin_fd, int sout_fd, int serr_fd) {
+    return std::make_unique<executor>(path, sin_fd, sout_fd, serr_fd).release();
 }
 
 void executor_destruct(executor_t exec) {
+    std::cout << "From C++: executor_destruct\n";
+    printf("executor_destruct - exec: 0x%" PRIXPTR "\n", (uintptr_t)exec);
+
     delete exec;
 }
 

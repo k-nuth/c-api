@@ -32,9 +32,10 @@ extern "C" {
 typedef struct executor* executor_t;
 
 BITPRIM_EXPORT
-// executor_t executor_construct(char const* person, error_t* out_error);
-//executor_t executor_construct(char const* path, bool init_blockchains);
 executor_t executor_construct(char const* path, FILE* sin, FILE* sout, FILE* serr);
+
+BITPRIM_EXPORT
+executor_t executor_construct_fd(char const* path, int sin_fd, int sout_fd, int serr_fd);
 
 BITPRIM_EXPORT
 void executor_destruct(executor_t exec);

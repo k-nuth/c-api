@@ -30,7 +30,6 @@ namespace bitprim { namespace nodecint {
 class executor
 {
 public:
-    //executor(parser& metadata, std::istream&, std::ostream& output, std::ostream& error);
     executor(libbitcoin::node::configuration config, std::istream&, std::ostream& output, std::ostream& error);
 
     executor(executor const&) = delete;
