@@ -1,14 +1,10 @@
 // test.js
-const bitprim = require('./build/Release/bitprim');
 
-// ----------------------------------------------------
+const bitprim = require('./bitprim.js');
 
-const executor = bitprim.construct("hola", process.stdin, process.stdout, process.stderr);
-// bitprim.initchain(executor);
-bitprim.run(executor);
-bitprim.destruct(executor);
+bitprim.open("/home/fernando/exec/btc-mainnet.cfg", function (exec) {
+    // exec.initchain()
+    exec.run()
+});
 
-// addon.change_data(external_int_ptr);
-// console.log(addon.receive_data(external_int_ptr));
 
-// ----------------------------------------------------
