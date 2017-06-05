@@ -6,3 +6,8 @@ python_console/debug.log
 python_console/error.log
 python_console/archive/
 python_console/hosts.cache
+node_console/archive/
+node_console/blockchain/
+node_console/hosts.cache
+node_console/debug.log
+node_console/error.log
