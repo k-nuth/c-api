@@ -21,8 +21,10 @@
 #define BITPRIM_NODE_CINT_EXECUTOR_H_
 
 #include <stdio.h>
+#include <stdint.h>
 
 #include <bitprim/nodecint/visibility.h>
+#include <bitcoin/bitcoin/message/header.hpp>
 
 
 #ifdef __cplusplus
@@ -54,15 +56,23 @@ BITPRIM_EXPORT
 void executor_stop(executor_t exec);
 
 
-// virtual void fetch_last_height(last_height_fetch_handler handler) const = 0;
 
-
-// typedef void (*last_height_fetch_handler_t)(void* client_data, const char* name, int32_t votes, const char* html);
 typedef void (*last_height_fetch_handler_t)(size_t h);
+typedef void (*block_height_fetch_handler_t)(size_t h);
+typedef void (*block_header_fetch_handler_t)(libbitcoin::message::header* header, size_t h);
 
+
+
+typedef uint8_t* hash_t;
 
 BITPRIM_EXPORT
 void executor_fetch_last_height(executor_t exec, last_height_fetch_handler_t handler);
+
+BITPRIM_EXPORT
+void executor_fetch_block_height(executor_t exec, hash_t hash, block_height_fetch_handler_t handler);
+
+BITPRIM_EXPORT
+void executor_fetch_block_header(executor_t exec, size_t height, block_header_fetch_handler_t handler);
 
 
 #ifdef __cplusplus

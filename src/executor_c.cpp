@@ -118,34 +118,38 @@ void executor_stop(executor_t exec) {
 
 
 
-// typedef void (*last_height_fetch_handler_t)(void* client_data, const char* name, int32_t votes, const char* html);
-typedef void (*last_height_fetch_handler_t)(size_t h);
 
 
 BITPRIM_EXPORT
 void executor_fetch_last_height(executor_t exec, last_height_fetch_handler_t handler) {
-//    exec->actual.node().chain().fetch_last_height(handler);
-//    exec->actual.node().chain().fetch_last_height([handler](size_t h){ handler(h);});
     exec->actual.node().chain().fetch_last_height([handler](std::error_code const& ec, size_t h) {
         handler(h);
     });
 }
 
-/*
+BITPRIM_EXPORT
+void executor_fetch_block_height(executor_t exec, hash_t hash, block_height_fetch_handler_t handler) {
 
-In function ‘void executor_fetch_last_height(executor_t, last_height_fetch_handler_t)’:
-executor_c.cpp:128:84: error: no matching function for call to
-‘libbitcoin::blockchain::safe_chain::fetch_last_height(executor_fetch_last_height(executor_t, last_height_fetch_handler_t)::<lambda(size_t)>)’
-exec->actual.node().chain().fetch_last_height([handler](size_t h){ handler(h);});
-^
+    libbitcoin::hash_digest hash_cpp;
+    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
 
-note:   no known conversion for argument 1 from
-‘executor_fetch_last_height(executor_t, last_height_fetch_handler_t)::<lambda(size_t)>’ to
+    exec->actual.node().chain().fetch_block_height(hash_cpp, [handler](std::error_code const& ec, size_t h) {
+        handler(h);
+    });
+}
 
-‘libbitcoin::blockchain::safe_chain::last_height_fetch_handler {aka std::function<void(const std::error_code&, const long unsigned int&)>}’
-CMakeFiles/bitprim-node-cint.dir/build.make:86: recipe for target 'CMakeFiles/bitprim-node-cint.dir/src/executor_c.cpp.o' failed
+BITPRIM_EXPORT
+void executor_fetch_block_header(executor_t exec, size_t height, block_header_fetch_handler_t handler) {
 
- */
+    exec->actual.node().chain().fetch_block_header(height, [handler](std::error_code const& ec, libbitcoin::message::header::ptr header, size_t h) {
+        handler(header.get(), h);
+    });
+}
+
+
+
+
+
 
 
 } /* extern "C" */
