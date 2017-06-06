@@ -42,8 +42,13 @@ public:
 #endif
 
     bool run();
+    bool run_wait();
+
+
     static void stop(libbitcoin::code const& ec);
     static void stop();
+
+    libbitcoin::node::full_node& node();
 
 private:
 //    static void stop(libbitcoin::code const& ec);

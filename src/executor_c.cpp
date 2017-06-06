@@ -107,9 +107,45 @@ int executor_run(executor_t exec) {
     return exec->actual.run();
 }
 
+int executor_run_wait(executor_t exec) {
+    return exec->actual.run_wait();
+}
+
 void executor_stop(executor_t exec) {
     exec->actual.stop();
 }
+
+
+
+
+// typedef void (*last_height_fetch_handler_t)(void* client_data, const char* name, int32_t votes, const char* html);
+typedef void (*last_height_fetch_handler_t)(size_t h);
+
+
+BITPRIM_EXPORT
+void executor_fetch_last_height(executor_t exec, last_height_fetch_handler_t handler) {
+//    exec->actual.node().chain().fetch_last_height(handler);
+//    exec->actual.node().chain().fetch_last_height([handler](size_t h){ handler(h);});
+    exec->actual.node().chain().fetch_last_height([handler](std::error_code const& ec, size_t h) {
+        handler(h);
+    });
+}
+
+/*
+
+In function ‘void executor_fetch_last_height(executor_t, last_height_fetch_handler_t)’:
+executor_c.cpp:128:84: error: no matching function for call to
+‘libbitcoin::blockchain::safe_chain::fetch_last_height(executor_fetch_last_height(executor_t, last_height_fetch_handler_t)::<lambda(size_t)>)’
+exec->actual.node().chain().fetch_last_height([handler](size_t h){ handler(h);});
+^
+
+note:   no known conversion for argument 1 from
+‘executor_fetch_last_height(executor_t, last_height_fetch_handler_t)::<lambda(size_t)>’ to
+
+‘libbitcoin::blockchain::safe_chain::last_height_fetch_handler {aka std::function<void(const std::error_code&, const long unsigned int&)>}’
+CMakeFiles/bitprim-node-cint.dir/build.make:86: recipe for target 'CMakeFiles/bitprim-node-cint.dir/src/executor_c.cpp.o' failed
+
+ */
 
 
 } /* extern "C" */

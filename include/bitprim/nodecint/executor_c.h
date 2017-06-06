@@ -44,10 +44,26 @@ BITPRIM_EXPORT
 int executor_run(executor_t exec);
 
 BITPRIM_EXPORT
+int executor_run_wait(executor_t exec);
+
+
+BITPRIM_EXPORT
 int executor_initchain(executor_t exec);
 
 BITPRIM_EXPORT
 void executor_stop(executor_t exec);
+
+
+// virtual void fetch_last_height(last_height_fetch_handler handler) const = 0;
+
+
+// typedef void (*last_height_fetch_handler_t)(void* client_data, const char* name, int32_t votes, const char* html);
+typedef void (*last_height_fetch_handler_t)(size_t h);
+
+
+BITPRIM_EXPORT
+void executor_fetch_last_height(executor_t exec, last_height_fetch_handler_t handler);
+
 
 #ifdef __cplusplus
 } // extern "C"

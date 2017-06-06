@@ -192,6 +192,10 @@ bool executor::do_initchain() {
 // Run.
 // ----------------------------------------------------------------------------
 
+libbitcoin::node::full_node& executor::node() {
+    return *node_;
+}
+
 bool executor::run() {
     initialize_output();
 
@@ -211,6 +215,13 @@ bool executor::run() {
 
     // The callback may be returned on the same thread.
     node_->start(std::bind(&executor::handle_started, this, _1));
+
+    return true;
+}
+
+bool executor::run_wait() {
+
+    run();
 
     // Wait for stop.
     stopping_.get_future().wait();
@@ -266,8 +277,8 @@ void executor::handle_stop(int code) {
     // Reinitialize after each capture to prevent hard shutdown.
     // Do not capture failure signals as calling stop can cause flush lock file
     // to clear due to the aborted thread dropping the flush lock mutex.
-    std::signal(SIGINT, handle_stop);
-    std::signal(SIGTERM, handle_stop);
+    //std::signal(SIGINT, handle_stop);
+    //std::signal(SIGTERM, handle_stop);
 
     if (code == initialize_stop)
         return;
