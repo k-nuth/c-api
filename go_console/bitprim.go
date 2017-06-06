@@ -24,13 +24,11 @@ package main
 #include <bitprim/nodecint/executor_c.h>
 
 typedef void (*fetch_last_height_handler)(int);
+typedef void (*fetch_block_height_handler)(int);
 
 void fetchLastHeightGoCallBack_cgo(int in); // Forward declaration.
+void fetchBlockHeightGoCallBack_cgo(int in); // Forward declaration.
 
-static inline void fetch_last_height(fetch_last_height_handler handler) {
-	printf("C.fetch_last_height()\n");
-	handler(999);
-}
 */
 import "C"
 
@@ -40,7 +38,6 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"runtime"
 	"syscall"
 	"time" // or "runtime"
 	"unsafe"
@@ -89,7 +86,6 @@ func fetchLastHeightGoCallBack(height int) {
 
 func ExecutorFetchLastHeight(exec unsafe.Pointer) int {
 	ptr := (*C.struct_executor)(exec)
-	//C.executor_fetch_last_height(ptr, ...)
 
 	fptr := unsafe.Pointer(C.fetchLastHeightGoCallBack_cgo)
 	fptr2 := (C.last_height_fetch_handler_t)(fptr)
@@ -98,23 +94,30 @@ func ExecutorFetchLastHeight(exec unsafe.Pointer) int {
 	return <-fetchLastHeightChannel
 }
 
-/*
- *
- *
-// typedef void (*last_height_fetch_handler_t)(void* client_data, const char* name, int32_t votes, const char* html);
-typedef void (*last_height_fetch_handler_t)(size_t h);
+// --------------------------------
 
+type hashT [32]byte
 
-BITPRIM_EXPORT
-void executor_fetch_last_height(executor_t exec, last_height_fetch_handler_t handler) {
-//    exec->actual.node().chain().fetch_last_height(handler);
-//    exec->actual.node().chain().fetch_last_height([handler](size_t h){ handler(h);});
-    exec->actual.node().chain().fetch_last_height([handler](std::error_code const& ec, size_t h) {
-        handler(h);
-    });
+var fetchBlockHeightChannel chan int
+
+//export fetchBlockHeightGoCallBack
+func fetchBlockHeightGoCallBack(height int) {
+	fmt.Printf("Go.fetchBlockHeightGoCallBack(): height = %d\n", height)
+	fetchBlockHeightChannel <- height
 }
 
-*/
+func ExecutorFetchBlockHeight(exec unsafe.Pointer, hash hashT) int {
+	ptr := (*C.struct_executor)(exec)
+
+	fptr := unsafe.Pointer(C.fetchBlockHeightGoCallBack_cgo)
+	fptr2 := (C.block_height_fetch_handler_t)(fptr)
+
+	hashC := C.CBytes(hash[:])
+	defer C.free(hashC)
+
+	go C.executor_fetch_block_height(ptr, (*C.uint8_t)(hashC), fptr2)
+	return <-fetchBlockHeightChannel
+}
 
 // --------------------------------
 
@@ -160,6 +163,10 @@ func (e Executor) FetchLastHeight() int {
 	return ExecutorFetchLastHeight(e.exec_native)
 }
 
+func (e Executor) FetchBlockHeight(hash hashT) int {
+	return ExecutorFetchBlockHeight(e.exec_native, hash)
+}
+
 /*
 func main() {
 
@@ -180,9 +187,17 @@ func cleanup() {
 	fmt.Println("cleanup")
 }
 
+func reverseHash(h hashT) hashT {
+	for i, j := 0, len(h)-1; i < j; i, j = i+1, j-1 {
+		h[i], h[j] = h[j], h[i]
+	}
+	return h
+}
+
 func main() {
 	running := true
 	fetchLastHeightChannel = make(chan int)
+	fetchBlockHeightChannel = make(chan int)
 
 	e := NewExecutor("/pepe")
 	//defer e.Close()
@@ -219,28 +234,35 @@ func main() {
 	go func() {
 
 		for sig := range c {
+			signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 			fmt.Printf("captured %v\n", sig)
-			//pprof.StopCPUProfile()
 
 			if running {
+				running = false
 				fmt.Println("cleanup")
 				e.Close()
 				fmt.Println("exiting..")
 				os.Exit(1)
 			}
-			running = false
-			// signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+
 		}
 	}()
 
 	for {
+		fmt.Println("running: ", running)
 		if running {
 			height := e.FetchLastHeight()
 			fmt.Printf("height: %d\n", height)
-		}
 
-		runtime.Gosched()
-		fmt.Println("sleeping...")
+			block_hash := reverseHash([32]byte{0x00, 0x00, 0x00, 0x00, 0x7d, 0x07, 0x68, 0x1a, 0x95, 0x5b, 0x7b, 0xb9, 0xd9, 0x6c, 0x47, 0x3e, 0x84, 0x73, 0x95, 0xb5, 0x92, 0xb6, 0xe9, 0xe5, 0xa7, 0x3b, 0x15, 0xb5, 0x94, 0xbd, 0x40, 0x13})
+			fmt.Println(block_hash)
+			block_height = e.FetchBlockHeight(block_hash)
+			fmt.Printf("block_height: %d\n", block_height)
+
+		} else {
+			//runtime.Gosched()
+			fmt.Println("wait...")
+		}
 		time.Sleep(5 * time.Second) // or runtime.Gosched() or similar per @misterbee
 	}
 }
