@@ -16,7 +16,7 @@ export GODEBUG=cgocheck=0
 package main
 
 /*
-#cgo CFLAGS: -I/home/fernando/dev/bitprim/bitprim-node-cint/include
+#cgo CFLAGS: -I/home/fernando/dev/bitprim/bitprim-node-cint/include -I/home/fernando/dev/bitprim/bitprim-core/include
 #cgo LDFLAGS: -L/home/fernando/dev/bitprim/bitprim-node-cint/cmake-build-debug -lbitprim-node-cint
 
 #include <stdio.h>
@@ -28,6 +28,7 @@ typedef void (*fetch_block_height_handler)(int);
 
 void fetchLastHeightGoCallBack_cgo(int in); // Forward declaration.
 void fetchBlockHeightGoCallBack_cgo(int in); // Forward declaration.
+void fetchBlockHeaderGoCallBack_cgo(header_t header, size_t height); // Forward declaration.
 
 */
 import "C"
@@ -95,6 +96,8 @@ func ExecutorFetchLastHeight(exec unsafe.Pointer) int {
 }
 
 // --------------------------------
+// ExecutorFetchBlockHeight
+// --------------------------------
 
 type hashT [32]byte
 
@@ -117,6 +120,32 @@ func ExecutorFetchBlockHeight(exec unsafe.Pointer, hash hashT) int {
 
 	go C.executor_fetch_block_height(ptr, (*C.uint8_t)(hashC), fptr2)
 	return <-fetchBlockHeightChannel
+}
+
+// --------------------------------
+// ExecutorFetchBlockHeader
+// --------------------------------
+
+var fetchBlockHeaderChannel1 chan unsafe.Pointer
+var fetchBlockHeaderChannel2 chan int
+
+//export fetchBlockHeaderGoCallBack
+func fetchBlockHeaderGoCallBack(header unsafe.Pointer, height int) {
+	fmt.Printf("Go.fetchBlockHeaderGoCallBack(): height = %d\n", height)
+	fmt.Printf("Go.fetchBlockHeaderGoCallBack(): header = %p\n", header)
+
+	fetchBlockHeaderChannel1 <- header
+	fetchBlockHeaderChannel2 <- height
+}
+
+func ExecutorFetchBlockHeader(exec unsafe.Pointer, height int) (unsafe.Pointer, int) {
+	ptr := (*C.struct_executor)(exec)
+
+	fptr := unsafe.Pointer(C.fetchBlockHeaderGoCallBack_cgo)
+	fptr2 := (C.block_header_fetch_handler_t)(fptr)
+
+	go C.executor_fetch_block_header(ptr, (C.size_t)(height), fptr2)
+	return <-fetchBlockHeaderChannel1, <-fetchBlockHeaderChannel2
 }
 
 // --------------------------------
@@ -167,6 +196,10 @@ func (e Executor) FetchBlockHeight(hash hashT) int {
 	return ExecutorFetchBlockHeight(e.exec_native, hash)
 }
 
+func (e Executor) FetchBlockHeader(height int) (unsafe.Pointer, int) {
+	return ExecutorFetchBlockHeader(e.exec_native, height)
+}
+
 /*
 func main() {
 
@@ -198,6 +231,8 @@ func main() {
 	running := true
 	fetchLastHeightChannel = make(chan int)
 	fetchBlockHeightChannel = make(chan int)
+	fetchBlockHeaderChannel1 = make(chan unsafe.Pointer)
+	fetchBlockHeaderChannel2 = make(chan int)
 
 	e := NewExecutor("/pepe")
 	//defer e.Close()
@@ -256,8 +291,16 @@ func main() {
 
 			block_hash := reverseHash([32]byte{0x00, 0x00, 0x00, 0x00, 0x7d, 0x07, 0x68, 0x1a, 0x95, 0x5b, 0x7b, 0xb9, 0xd9, 0x6c, 0x47, 0x3e, 0x84, 0x73, 0x95, 0xb5, 0x92, 0xb6, 0xe9, 0xe5, 0xa7, 0x3b, 0x15, 0xb5, 0x94, 0xbd, 0x40, 0x13})
 			fmt.Println(block_hash)
-			block_height = e.FetchBlockHeight(block_hash)
+
+			block_height := e.FetchBlockHeight(block_hash)
 			fmt.Printf("block_height: %d\n", block_height)
+
+			block_header_1500, temp := e.FetchBlockHeader(1500)
+			fmt.Printf("block_header_1500: %p\n", block_header_1500)
+			fmt.Println("temp:             ", temp)
+			//TODO: Fer: header object must be copied in C++,
+			//			then, the "client language" is responsible for its
+			//          release
 
 		} else {
 			//runtime.Gosched()

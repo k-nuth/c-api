@@ -17,5 +17,11 @@ void fetchBlockHeightGoCallBack_cgo(int height) {
 	fetchBlockHeightGoCallBack(height);
 }
 
+void fetchBlockHeaderGoCallBack_cgo(void* header, size_t height) {
+	printf("C.fetchBlockHeaderGoCallBack_cgo(): header = ?, height = %u\n", height);
+	void fetchBlockHeaderGoCallBack(void*, int);
+	fetchBlockHeaderGoCallBack(header, height);
+}
+
 */
 import "C"

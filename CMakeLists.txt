@@ -29,7 +29,7 @@ option(WITH_TESTS "Compile with unit tests." ON)
 
 # Implement --with-console and declare WITH_CONSOLE.
 #------------------------------------------------------------------------------
-option(WITH_CONSOLE "Compile console application." ON)
+option(WITH_CONSOLE "Compile console application." OFF)
 
 # Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
 #------------------------------------------------------------------------------

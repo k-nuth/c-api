@@ -24,7 +24,7 @@
 #include <stdint.h>
 
 #include <bitprim/nodecint/visibility.h>
-#include <bitcoin/bitcoin/message/header.hpp>
+// #include <bitcoin/bitcoin/message/header.hpp>
 
 
 #ifdef __cplusplus
@@ -32,6 +32,18 @@ extern "C" {
 #endif
 
 typedef struct executor* executor_t;
+// typedef struct header* header_t;
+typedef void* header_t;
+
+typedef void (*last_height_fetch_handler_t)(size_t h);
+typedef void (*block_height_fetch_handler_t)(size_t h);
+
+//typedef void (*block_header_fetch_handler_t)(header_t header, size_t h);
+typedef void (*block_header_fetch_handler_t)(header_t header, size_t h);
+typedef uint8_t* hash_t;
+
+
+
 
 BITPRIM_EXPORT
 executor_t executor_construct(char const* path, FILE* sin, FILE* sout, FILE* serr);
@@ -48,22 +60,11 @@ int executor_run(executor_t exec);
 BITPRIM_EXPORT
 int executor_run_wait(executor_t exec);
 
-
 BITPRIM_EXPORT
 int executor_initchain(executor_t exec);
 
 BITPRIM_EXPORT
 void executor_stop(executor_t exec);
-
-
-
-typedef void (*last_height_fetch_handler_t)(size_t h);
-typedef void (*block_height_fetch_handler_t)(size_t h);
-typedef void (*block_header_fetch_handler_t)(libbitcoin::message::header* header, size_t h);
-
-
-
-typedef uint8_t* hash_t;
 
 BITPRIM_EXPORT
 void executor_fetch_last_height(executor_t exec, last_height_fetch_handler_t handler);

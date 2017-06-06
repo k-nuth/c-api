@@ -18,13 +18,9 @@
  */
 
 #include <bitprim/nodecint/executor_c.h>
-
 #include <memory>
-
 #include <boost/iostreams/device/file_descriptor.hpp>
-
 #include <bitprim/nodecint/executor.hpp>
-
 #include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
 
 
@@ -35,6 +31,10 @@ libbitcoin::node::configuration make_config(char const* path) {
 }
 
 extern "C" {
+
+struct header {
+
+};
 
 struct executor {
 
@@ -115,19 +115,12 @@ void executor_stop(executor_t exec) {
     exec->actual.stop();
 }
 
-
-
-
-
-
-BITPRIM_EXPORT
 void executor_fetch_last_height(executor_t exec, last_height_fetch_handler_t handler) {
     exec->actual.node().chain().fetch_last_height([handler](std::error_code const& ec, size_t h) {
         handler(h);
     });
 }
 
-BITPRIM_EXPORT
 void executor_fetch_block_height(executor_t exec, hash_t hash, block_height_fetch_handler_t handler) {
 
     libbitcoin::hash_digest hash_cpp;
@@ -138,18 +131,11 @@ void executor_fetch_block_height(executor_t exec, hash_t hash, block_height_fetc
     });
 }
 
-BITPRIM_EXPORT
 void executor_fetch_block_header(executor_t exec, size_t height, block_header_fetch_handler_t handler) {
 
     exec->actual.node().chain().fetch_block_header(height, [handler](std::error_code const& ec, libbitcoin::message::header::ptr header, size_t h) {
         handler(header.get(), h);
     });
 }
-
-
-
-
-
-
 
 } /* extern "C" */
