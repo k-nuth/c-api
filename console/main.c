@@ -30,6 +30,9 @@ int main(int argc, char* argv[]) {
 
     executor_destruct(exec);
 
+    void* xxx;
+    header_is_valid(xxx);
+
     return 0;
 }
 

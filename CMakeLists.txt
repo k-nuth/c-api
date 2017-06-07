@@ -29,7 +29,7 @@ option(WITH_TESTS "Compile with unit tests." ON)
 
 # Implement --with-console and declare WITH_CONSOLE.
 #------------------------------------------------------------------------------
-option(WITH_CONSOLE "Compile console application." OFF)
+option(WITH_CONSOLE "Compile console application." ON)
 
 # Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
 #------------------------------------------------------------------------------
@@ -186,6 +186,9 @@ function(_group_sources target sources_dir)
   set_target_properties(${target} PROPERTIES FOLDER "node")
 endfunction()
 
+
+
+
 # src/bitprim-node-cint.la => ${libdir}
 #------------------------------------------------------------------------------
 set(MODE STATIC)
@@ -201,7 +204,7 @@ add_library(bitprim-node-cint ${MODE}
 )
 
 # set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
-  
+
 
 target_include_directories(bitprim-node-cint PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -221,6 +224,10 @@ _group_sources(bitprim-node-cint "${CMAKE_CURRENT_LIST_DIR}")
 # Console
 #==============================================================================
 
+
+#add_executable(test-console-twos
+#        console/main.c)
+
 add_executable(test_console
         console/main.c)
 
@@ -230,6 +237,8 @@ set_target_properties(
         test_console PROPERTIES
         FOLDER "node"
         OUTPUT_NAME test_console)
+
+
 
 
 #==============================================================================

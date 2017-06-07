@@ -115,27 +115,115 @@ void executor_stop(executor_t exec) {
     exec->actual.stop();
 }
 
-void executor_fetch_last_height(executor_t exec, last_height_fetch_handler_t handler) {
+
+
+
+
+
+
+void fetch_last_height(executor_t exec, last_height_fetch_handler_t handler) {
     exec->actual.node().chain().fetch_last_height([handler](std::error_code const& ec, size_t h) {
-        handler(h);
+        handler(ec.value(), h);
     });
 }
 
-void executor_fetch_block_height(executor_t exec, hash_t hash, block_height_fetch_handler_t handler) {
+void fetch_block_height(executor_t exec, hash_t hash, block_height_fetch_handler_t handler) {
 
     libbitcoin::hash_digest hash_cpp;
     std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
 
     exec->actual.node().chain().fetch_block_height(hash_cpp, [handler](std::error_code const& ec, size_t h) {
-        handler(h);
+        handler(ec.value(), h);
     });
 }
 
-void executor_fetch_block_header(executor_t exec, size_t height, block_header_fetch_handler_t handler) {
-
+void fetch_block_header(executor_t exec, size_t height, block_header_fetch_handler_t handler) {
     exec->actual.node().chain().fetch_block_header(height, [handler](std::error_code const& ec, libbitcoin::message::header::ptr header, size_t h) {
-        handler(header.get(), h);
+        auto new_header = new libbitcoin::message::header(*header.get());
+//        auto new_header = std::make_unique(*header.get()).release();
+        //Note: It is the responsability of the user to release/destruct the object
+        handler(ec.value(), new_header, h);
     });
 }
+
+// ------------------------------------------------
+// Header
+// ------------------------------------------------
+
+void header_destruct(header_t header) {
+    auto header_cpp = static_cast<libbitcoin::message::header*>(header);
+    delete header_cpp;
+}
+
+int header_is_valid(header_t header) {
+    return static_cast<libbitcoin::message::header const*>(header)->is_valid();
+}
+
+uint32_t header_version(header_t header) {
+    return static_cast<libbitcoin::message::header const*>(header)->version();
+}
+
+void header_set_version(header_t header, uint32_t version) {
+    return static_cast<libbitcoin::message::header*>(header)->set_version(version);
+}
+
+
+
+
+//// Serialization.
+////-----------------------------------------------------------------------------
+//
+//data_chunk to_data() const;
+//void to_data(std::ostream& stream) const;
+//void to_data(writer& sink) const;
+//
+//// Properties (size, accessors, cache).
+////-----------------------------------------------------------------------------
+//
+//static size_t satoshi_fixed_size();
+//size_t serialized_size() const;
+//
+//uint32_t version() const;
+//void set_version(uint32_t value);
+//
+//// Deprecated (unsafe).
+//hash_digest& previous_block_hash();
+//
+//const hash_digest& previous_block_hash() const;
+//void set_previous_block_hash(const hash_digest& value);
+//void set_previous_block_hash(hash_digest&& value);
+//
+//// Deprecated (unsafe).
+//hash_digest& merkle();
+//
+//const hash_digest& merkle() const;
+//void set_merkle(const hash_digest& value);
+//void set_merkle(hash_digest&& value);
+//
+//uint32_t timestamp() const;
+//void set_timestamp(uint32_t value);
+//
+//uint32_t bits() const;
+//void set_bits(uint32_t value);
+//
+//uint32_t nonce() const;
+//void set_nonce(uint32_t value);
+//
+//hash_digest hash() const;
+//#ifdef LITECOIN
+//hash_digest litecoin_proof_of_work_hash() const;
+//#endif
+//
+//// Validation.
+////-----------------------------------------------------------------------------
+//
+//bool is_valid_time_stamp() const;
+//bool is_valid_proof_of_work() const;
+//
+//code check() const;
+//code accept(const chain_state& state) const;
+
+
+
 
 } /* extern "C" */

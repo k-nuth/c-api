@@ -35,11 +35,10 @@ typedef struct executor* executor_t;
 // typedef struct header* header_t;
 typedef void* header_t;
 
-typedef void (*last_height_fetch_handler_t)(size_t h);
-typedef void (*block_height_fetch_handler_t)(size_t h);
+typedef void (*last_height_fetch_handler_t)(int error, size_t h);
+typedef void (*block_height_fetch_handler_t)(int error, size_t h);
+typedef void (*block_header_fetch_handler_t)(int error, header_t header, size_t h);
 
-//typedef void (*block_header_fetch_handler_t)(header_t header, size_t h);
-typedef void (*block_header_fetch_handler_t)(header_t header, size_t h);
 typedef uint8_t* hash_t;
 
 
@@ -66,14 +65,36 @@ int executor_initchain(executor_t exec);
 BITPRIM_EXPORT
 void executor_stop(executor_t exec);
 
-BITPRIM_EXPORT
-void executor_fetch_last_height(executor_t exec, last_height_fetch_handler_t handler);
+
+// ------------------------------------------------
+// ????
+// ------------------------------------------------
 
 BITPRIM_EXPORT
-void executor_fetch_block_height(executor_t exec, hash_t hash, block_height_fetch_handler_t handler);
+void fetch_last_height(executor_t exec, last_height_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-void executor_fetch_block_header(executor_t exec, size_t height, block_header_fetch_handler_t handler);
+void fetch_block_height(executor_t exec, hash_t hash, block_height_fetch_handler_t handler);
+
+BITPRIM_EXPORT
+void fetch_block_header(executor_t exec, size_t height, block_header_fetch_handler_t handler);
+
+
+// ------------------------------------------------
+// Header
+// ------------------------------------------------
+
+BITPRIM_EXPORT
+void header_destruct(header_t header);
+
+BITPRIM_EXPORT
+int header_is_valid(header_t header);
+
+BITPRIM_EXPORT
+uint32_t header_version(header_t header);
+
+BITPRIM_EXPORT
+void header_set_version(header_t header, uint32_t version);
 
 
 #ifdef __cplusplus
