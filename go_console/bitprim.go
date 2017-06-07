@@ -2,7 +2,6 @@
 export PATH=$PATH:$(/usr/lib/go-1.8/bin/go env GOROOT)/bin
 export GOPATH=$(go env GOPATH)
 export GODEBUG=cgocheck=0
-
 */
 
 // 1. 	go install github.com/fpelliccioni/bitprim
@@ -46,6 +45,10 @@ import (
 
 // --------------------------------------------------------------------------------
 
+// --------------------------------
+// Interface one-to-one with C Interface
+// --------------------------------
+
 func ExecutorConstruct(path string, sin_fd int, sout_fd int, serr_fd int) unsafe.Pointer {
 	path_c := C.CString(path)
 	defer C.free(unsafe.Pointer(path_c))
@@ -74,29 +77,29 @@ func ExecutorInitchain(exec unsafe.Pointer) int {
 }
 
 // --------------------------------
-// ExecutorFetchLastHeight
+// fetchLastHeight
 // --------------------------------
 
 var fetchLastHeightChannel chan int
 
 //export fetchLastHeightGoCallBack
 func fetchLastHeightGoCallBack(height int) {
-	fmt.Printf("Go.fetchLastHeightGoCallBack(): height = %d\n", height)
+	// fmt.Printf("Go.fetchLastHeightGoCallBack(): height = %d\n", height)
 	fetchLastHeightChannel <- height
 }
 
-func ExecutorFetchLastHeight(exec unsafe.Pointer) int {
+func fetchLastHeight(exec unsafe.Pointer) int {
 	ptr := (*C.struct_executor)(exec)
 
 	fptr := unsafe.Pointer(C.fetchLastHeightGoCallBack_cgo)
 	fptr2 := (C.last_height_fetch_handler_t)(fptr)
 
-	go C.executor_fetch_last_height(ptr, fptr2)
+	go C.fetch_last_height(ptr, fptr2)
 	return <-fetchLastHeightChannel
 }
 
 // --------------------------------
-// ExecutorFetchBlockHeight
+// fetchBlockHeight
 // --------------------------------
 
 type hashT [32]byte
@@ -105,11 +108,11 @@ var fetchBlockHeightChannel chan int
 
 //export fetchBlockHeightGoCallBack
 func fetchBlockHeightGoCallBack(height int) {
-	fmt.Printf("Go.fetchBlockHeightGoCallBack(): height = %d\n", height)
+	// fmt.Printf("Go.fetchBlockHeightGoCallBack(): height = %d\n", height)
 	fetchBlockHeightChannel <- height
 }
 
-func ExecutorFetchBlockHeight(exec unsafe.Pointer, hash hashT) int {
+func fetchBlockHeight(exec unsafe.Pointer, hash hashT) int {
 	ptr := (*C.struct_executor)(exec)
 
 	fptr := unsafe.Pointer(C.fetchBlockHeightGoCallBack_cgo)
@@ -118,12 +121,12 @@ func ExecutorFetchBlockHeight(exec unsafe.Pointer, hash hashT) int {
 	hashC := C.CBytes(hash[:])
 	defer C.free(hashC)
 
-	go C.executor_fetch_block_height(ptr, (*C.uint8_t)(hashC), fptr2)
+	go C.fetch_block_height(ptr, (*C.uint8_t)(hashC), fptr2)
 	return <-fetchBlockHeightChannel
 }
 
 // --------------------------------
-// ExecutorFetchBlockHeader
+// fetchBlockHeader
 // --------------------------------
 
 var fetchBlockHeaderChannel1 chan unsafe.Pointer
@@ -138,19 +141,48 @@ func fetchBlockHeaderGoCallBack(header unsafe.Pointer, height int) {
 	fetchBlockHeaderChannel2 <- height
 }
 
-func ExecutorFetchBlockHeader(exec unsafe.Pointer, height int) (unsafe.Pointer, int) {
+func fetchBlockHeader(exec unsafe.Pointer, height int) (unsafe.Pointer, int) {
 	ptr := (*C.struct_executor)(exec)
 
 	fptr := unsafe.Pointer(C.fetchBlockHeaderGoCallBack_cgo)
 	fptr2 := (C.block_header_fetch_handler_t)(fptr)
 
-	go C.executor_fetch_block_header(ptr, (C.size_t)(height), fptr2)
+	go C.fetch_block_header(ptr, (C.size_t)(height), fptr2)
 	return <-fetchBlockHeaderChannel1, <-fetchBlockHeaderChannel2
+}
+
+// --------------------------------
+// Header
+// --------------------------------
+
+func headerDestruct(header unsafe.Pointer) {
+	ptr := (C.header_t)(header)
+	C.header_destruct(ptr)
+}
+
+func headerIsValid(header unsafe.Pointer) bool {
+	ptr := (C.header_t)(header)
+	res := C.header_is_valid(ptr)
+	return res == 0
+}
+
+func headerVersion(header unsafe.Pointer) int {
+	ptr := (C.header_t)(header)
+	return (int)(C.header_version(ptr))
+}
+
+func headerSetVersion(header unsafe.Pointer, version int) {
+	ptr := (C.header_t)(header)
+	C.header_set_version(ptr, (C.uint32_t)(version))
 }
 
 // --------------------------------
 
 // --------------------------------------------------------------------------------
+
+// --------------------------------
+// Executor Golang idiomatic Interface
+// --------------------------------
 
 type Executor struct {
 	exec_native unsafe.Pointer
@@ -189,32 +221,57 @@ func (e Executor) Initchain() int {
 }
 
 func (e Executor) FetchLastHeight() int {
-	return ExecutorFetchLastHeight(e.exec_native)
+	return fetchLastHeight(e.exec_native)
 }
 
 func (e Executor) FetchBlockHeight(hash hashT) int {
-	return ExecutorFetchBlockHeight(e.exec_native, hash)
+	return fetchBlockHeight(e.exec_native, hash)
 }
 
-func (e Executor) FetchBlockHeader(height int) (unsafe.Pointer, int) {
-	return ExecutorFetchBlockHeader(e.exec_native, height)
+// func (e Executor) FetchBlockHeader(height int) (unsafe.Pointer, int) {
+// 	return fetchBlockHeader(e.exec_native, height)
+// }
+
+func (e Executor) FetchBlockHeader(height int) *Header {
+	pepe := NewHeader(fetchBlockHeader(e.exec_native, height))
+	return pepe
 }
 
-/*
-func main() {
+// --------------------------------
+// Header Golang idiomatic Interface
+// --------------------------------
 
-	e := NewExecutor("/pepe")
-	defer e.Close()
-
-	// res := e.Initchain()
-	res := e.Run()
-
-	for {
-	}
-
-	fmt.Printf("%d\n", res)
+type Header struct {
+	header_native unsafe.Pointer
+	height        int
 }
-*/
+
+func NewHeader(header_native unsafe.Pointer, height int) *Header {
+	h := new(Header)
+	h.header_native = header_native
+	h.height = height
+	return h
+}
+
+func (h Header) Close() {
+	headerDestruct(h.header_native)
+}
+
+func (h Header) IsValid() bool {
+	return headerIsValid(h.header_native)
+}
+
+func (h Header) Version() int {
+	return headerVersion(h.header_native)
+}
+
+func (h *Header) SetVersion(version int) {
+	headerSetVersion(h.header_native, version)
+}
+
+// ----------------------------------------------------------------
+// Test code
+// ----------------------------------------------------------------
 
 func cleanup() {
 	fmt.Println("cleanup")
@@ -284,23 +341,30 @@ func main() {
 	}()
 
 	for {
-		fmt.Println("running: ", running)
+		// fmt.Println("running: ", running)
 		if running {
 			height := e.FetchLastHeight()
 			fmt.Printf("height: %d\n", height)
 
-			block_hash := reverseHash([32]byte{0x00, 0x00, 0x00, 0x00, 0x7d, 0x07, 0x68, 0x1a, 0x95, 0x5b, 0x7b, 0xb9, 0xd9, 0x6c, 0x47, 0x3e, 0x84, 0x73, 0x95, 0xb5, 0x92, 0xb6, 0xe9, 0xe5, 0xa7, 0x3b, 0x15, 0xb5, 0x94, 0xbd, 0x40, 0x13})
-			fmt.Println(block_hash)
+			if height >= 1500 {
+				block_hash := reverseHash([32]byte{0x00, 0x00, 0x00, 0x00, 0x7d, 0x07, 0x68, 0x1a, 0x95, 0x5b, 0x7b, 0xb9, 0xd9, 0x6c, 0x47, 0x3e, 0x84, 0x73, 0x95, 0xb5, 0x92, 0xb6, 0xe9, 0xe5, 0xa7, 0x3b, 0x15, 0xb5, 0x94, 0xbd, 0x40, 0x13})
+				//fmt.Println(block_hash)
 
-			block_height := e.FetchBlockHeight(block_hash)
-			fmt.Printf("block_height: %d\n", block_height)
+				block_height := e.FetchBlockHeight(block_hash)
+				fmt.Printf("block_height: %d\n", block_height)
 
-			block_header_1500, temp := e.FetchBlockHeader(1500)
-			fmt.Printf("block_header_1500: %p\n", block_header_1500)
-			fmt.Println("temp:             ", temp)
-			//TODO: Fer: header object must be copied in C++,
-			//			then, the "client language" is responsible for its
-			//          release
+				block_header_1500 := e.FetchBlockHeader(1500)
+				defer e.Close()
+
+				fmt.Printf("block_header_1500.header_native: %p\n", block_header_1500.header_native)
+				fmt.Printf("block_header_1500.height:        %p\n", block_header_1500.height)
+				fmt.Printf("block_header_1500..IsValid():    %p\n", block_header_1500.IsValid())
+				fmt.Printf("block_header_1500..Version():    %p\n", block_header_1500.Version())
+
+				//TODO: Fer: header object must be copied in C++,
+				//			then, the "client language" is responsible for its
+				//          release
+			}
 
 		} else {
 			//runtime.Gosched()
