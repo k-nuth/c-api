@@ -201,6 +201,9 @@ add_library(bitprim-node-cint ${MODE}
         src/executor_c.cpp
         src/executor.cpp
         src/parser.cpp
+        src/block.cpp
+        src/transaction.cpp
+        src/header.cpp
 )
 
 # set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
