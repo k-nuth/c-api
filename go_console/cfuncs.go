@@ -46,5 +46,12 @@ void fetchTransactionGoCallBack_cgo(int error, void* transaction, size_t height,
 	void fetchTransactionGoCallBack(int, void*, int, int);
 	fetchTransactionGoCallBack(error, transaction, height, index);
 }
+
+void fetchOutputGoCallBack_cgo(int error, void* output) {
+	// printf("C.fetchTransactionGoCallBack_cgo(): output = ?\n");
+	void fetchOutputGoCallBack(int, void*);
+	fetchOutputGoCallBack(error, output);
+}
+
 */
 import "C"

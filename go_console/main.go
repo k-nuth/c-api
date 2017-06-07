@@ -127,6 +127,11 @@ func doSomeQueries(e *Executor) {
 
 func main() {
 	running := true
+
+	//TODO: Fer: ver donde ubicamos todos estos channels.
+	//TODO: Fer: consular con expertos en Golang a ver si es la forma correcta de pasar de un esquema asincronico a uno sincronico
+	// ----------------------------------------------------------
+
 	fetchLastHeightChannel = make(chan int)
 	fetchBlockHeightChannel = make(chan int)
 
@@ -142,6 +147,10 @@ func main() {
 
 	fetchTransactionChannel1 = make(chan unsafe.Pointer)
 	fetchTransactionChannel2 = make(chan int)
+
+	fetchOutputChannel = make(chan unsafe.Pointer)
+
+	// ----------------------------------------------------------
 
 	e := NewExecutor("/pepe")
 	//defer e.Close()

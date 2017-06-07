@@ -80,3 +80,8 @@ func (x Executor) FetchTransaction(hash hashT, requiredConfirmed bool) *Transact
 	res := NewTransaction(fetchTransaction(x.native_ptr, hash, requiredConfirmed))
 	return res
 }
+
+func (x Executor) FetchOutput(hash hashT, index int, requiredConfirmed bool) *Output {
+	res := NewOutput(fetchOutput(x.native_ptr, hash, index, requiredConfirmed))
+	return res
+}

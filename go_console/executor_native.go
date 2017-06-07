@@ -29,6 +29,8 @@ void fetchBlockByHashGoCallBack_cgo(block_t block, size_t height); // Forward de
 
 void fetchTransactionGoCallBack_cgo(transaction_t transaction, size_t height, size_t index); // Forward declaration.
 
+void fetchOutputGoCallBack_cgo(output_t output); // Forward declaration.
+
 */
 import "C"
 
@@ -275,4 +277,38 @@ func fetchTransaction(exec unsafe.Pointer, hash hashT, requireConfirmed bool) (u
 
 	go C.fetch_transaction(ptr, (*C.uint8_t)(hashC), requireConfirmedC, fptr2)
 	return <-fetchTransactionChannel1, <-fetchTransactionChannel2, <-fetchTransactionChannel2
+}
+
+// --------------------------------
+// fetchOutput
+// --------------------------------
+
+var fetchOutputChannel chan unsafe.Pointer
+
+//export fetchOutputGoCallBack
+func fetchOutputGoCallBack(err int, output unsafe.Pointer) {
+	fmt.Printf("Go.fetchOutputGoCallBack(): output = %p\n", output)
+	fmt.Printf("Go.fetchOutputGoCallBack(): err    = %d\n", err)
+
+	fetchOutputChannel <- output
+}
+
+func fetchOutput(exec unsafe.Pointer, hash hashT, index int, requireConfirmed bool) unsafe.Pointer {
+	ptr := (*C.struct_executor)(exec)
+
+	fptr := unsafe.Pointer(C.fetchOutputGoCallBack_cgo)
+	fptr2 := (C.output_fetch_handler_t)(fptr)
+
+	hashC := C.CBytes(hash[:])
+	defer C.free(hashC)
+
+	var requireConfirmedC C.int
+	if requireConfirmed {
+		requireConfirmedC = 1
+	} else {
+		requireConfirmedC = 0
+	}
+
+	go C.fetch_output(ptr, (*C.uint8_t)(hashC), C.uint32_t(index), requireConfirmedC, fptr2)
+	return <-fetchOutputChannel
 }
