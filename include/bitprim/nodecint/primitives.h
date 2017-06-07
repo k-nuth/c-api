@@ -33,10 +33,16 @@ extern "C" {
 typedef struct executor* executor_t;
 // typedef struct header* header_t;
 
+//typedef struct point_t {
+//    uint8_t* hash;
+//    uint32_t index;
+//} point_t;
+
 
 typedef void* header_t;
 typedef void* block_t;
 typedef void* transaction_t;
+typedef void* output_t;
 typedef uint8_t* hash_t;
 
 typedef void (*last_height_fetch_handler_t)(int error, size_t h);
@@ -47,6 +53,10 @@ typedef void (*block_fetch_handler_t)(int error, block_t block, size_t h);
 
 //typedef std::function<void(const code&, transaction_ptr, size_t, size_t)> transaction_fetch_handler;
 typedef void (*transaction_fetch_handler_t)(int error, transaction_t transaction, size_t h, size_t i);
+
+//typedef handle1<chain::output> output_fetch_handler;
+typedef void (*output_fetch_handler_t)(int error, output_t output);
+
 
 
 #ifdef __cplusplus

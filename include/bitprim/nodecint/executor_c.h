@@ -78,6 +78,9 @@ void fetch_block_by_hash(executor_t exec, hash_t hash, block_fetch_handler_t han
 BITPRIM_EXPORT
 void fetch_transaction(executor_t exec, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler);
 
+BITPRIM_EXPORT
+void fetch_output(executor_t exec, hash_t hash, uint32_t index, int require_confirmed, output_fetch_handler_t handler);
+
 
 
 #ifdef __cplusplus

@@ -184,5 +184,20 @@ void fetch_transaction(executor_t exec, hash_t hash, int require_confirmed, tran
     });
 }
 
+//virtual void fetch_output(const chain::output_point& outpoint, bool require_confirmed, output_fetch_handler handler) const = 0;
+
+void fetch_output(executor_t exec, hash_t hash, uint32_t index, int require_confirmed, output_fetch_handler_t handler) {
+
+    libbitcoin::hash_digest hash_cpp;
+    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
+
+    libbitcoin::chain::output_point point(hash_cpp, index);
+
+    exec->actual.node().chain().fetch_output(point, require_confirmed, [handler](std::error_code const& ec, libbitcoin::chain::output const& output) {
+        auto new_output = new libbitcoin::chain::output(output);
+        handler(ec.value(), new_output);
+    });
+}
+
 
 } /* extern "C" */
