@@ -33,13 +33,21 @@ extern "C" {
 
 typedef struct executor* executor_t;
 // typedef struct header* header_t;
+
 typedef void* header_t;
+typedef void* block_t;
+typedef void* transaction_t;
+typedef uint8_t* hash_t;
 
 typedef void (*last_height_fetch_handler_t)(int error, size_t h);
 typedef void (*block_height_fetch_handler_t)(int error, size_t h);
 typedef void (*block_header_fetch_handler_t)(int error, header_t header, size_t h);
+// typedef std::function<void(const code&, block_ptr, size_t)> block_fetch_handler;
+typedef void (*block_fetch_handler_t)(int error, block_t block, size_t h);
 
-typedef uint8_t* hash_t;
+//typedef std::function<void(const code&, transaction_ptr, size_t, size_t)> transaction_fetch_handler;
+typedef void (*transaction_fetch_handler_t)(int error, transaction_t transaction, size_t h, size_t i);
+
 
 
 
@@ -79,6 +87,18 @@ void fetch_block_height(executor_t exec, hash_t hash, block_height_fetch_handler
 BITPRIM_EXPORT
 void fetch_block_header(executor_t exec, size_t height, block_header_fetch_handler_t handler);
 
+BITPRIM_EXPORT
+void fetch_block_header_by_hash(executor_t exec, hash_t hash, block_header_fetch_handler_t handler);
+
+BITPRIM_EXPORT
+void fetch_block(executor_t exec, size_t height, block_fetch_handler_t handler);
+
+BITPRIM_EXPORT
+void fetch_block_by_hash(executor_t exec, hash_t hash, block_fetch_handler_t handler);
+
+BITPRIM_EXPORT
+void fetch_transaction(executor_t exec, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler);
+
 
 // ------------------------------------------------
 // Header
@@ -96,6 +116,79 @@ uint32_t header_version(header_t header);
 BITPRIM_EXPORT
 void header_set_version(header_t header, uint32_t version);
 
+
+BITPRIM_EXPORT
+uint32_t header_timestamp(header_t header);
+
+BITPRIM_EXPORT
+void header_set_timestamp(header_t header, uint32_t timestamp);
+
+BITPRIM_EXPORT
+uint32_t header_bits(header_t header);
+
+BITPRIM_EXPORT
+void header_set_bits(header_t header, uint32_t bits);
+
+BITPRIM_EXPORT
+uint32_t header_nonce(header_t header);
+
+BITPRIM_EXPORT
+void header_set_nonce(header_t header, uint32_t nonce);
+
+BITPRIM_EXPORT
+hash_t header_previous_block_hash(header_t header);
+
+BITPRIM_EXPORT
+hash_t header_merkle(header_t header);
+
+BITPRIM_EXPORT
+hash_t header_hash(header_t header);
+
+
+
+// ------------------------------------------------
+// Block
+// ------------------------------------------------
+
+BITPRIM_EXPORT
+void block_destruct(block_t block);
+
+BITPRIM_EXPORT
+int block_is_valid(block_t block);
+
+BITPRIM_EXPORT
+header_t block_header(block_t block);
+
+BITPRIM_EXPORT
+hash_t block_hash(block_t block);
+
+BITPRIM_EXPORT
+size_t block_transaction_count(block_t block);
+
+BITPRIM_EXPORT
+transaction_t block_transactions(block_t block, size_t* n);
+
+BITPRIM_EXPORT
+transaction_t block_transaction_next(transaction_t transaction);
+
+// ------------------------------------------------
+// Transaction
+// ------------------------------------------------
+
+BITPRIM_EXPORT
+void transaction_destruct(transaction_t transaction);
+
+BITPRIM_EXPORT
+int transaction_is_valid(transaction_t transaction);
+
+BITPRIM_EXPORT
+uint32_t transaction_version(transaction_t transaction);
+
+BITPRIM_EXPORT
+void transaction_set_version(transaction_t transaction, uint32_t version);
+
+BITPRIM_EXPORT
+hash_t transaction_hash(transaction_t transaction);
 
 #ifdef __cplusplus
 } // extern "C"
