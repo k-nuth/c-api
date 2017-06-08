@@ -18,7 +18,7 @@
  */
 
 // --------------------------------
-// Output Golang idiomatic Interface
+// Input Golang idiomatic Interface
 // --------------------------------
 
 package bitprim
@@ -27,38 +27,46 @@ import (
 	"unsafe"
 )
 
-type Output struct {
+type Input struct {
 	ptr unsafe.Pointer
 }
 
-func NewOutput(ptr unsafe.Pointer) *Output {
-	x := new(Output)
+func NewInput(ptr unsafe.Pointer) *Input {
+	x := new(Input)
 	x.ptr = ptr
 	return x
 }
 
-func (x *Output) Close() {
-	// fmt.Printf("Go.Output.Close() - ptr: %p\n", x.ptr)
-	outputDestruct(x.ptr)
+func (x *Input) Close() {
+	// fmt.Printf("Go.Input.Close() - ptr: %p\n", x.ptr)
+	inputDestruct(x.ptr)
 	x.ptr = nil
 }
 
-func (x *Output) IsValid() bool {
-	return outputIsValid(x.ptr)
+func (x *Input) IsValid() bool {
+	return inputIsValid(x.ptr)
 }
 
-func (x *Output) SerializedSize(wire bool /* = true*/) uint64 /*size_t*/ {
-	return outputSerializedSize(x.ptr, wire)
+func (x *Input) IsFinal() bool {
+	return inputIsFinal(x.ptr)
 }
 
-func (x *Output) Value() uint64 {
-	return outputValue(x.ptr)
+func (x *Input) SerializedSize(wire bool /* = true*/) uint64 /*size_t*/ {
+	return inputSerializedSize(x.ptr, wire)
 }
 
-func (x *Output) SignatureOperations() uint64 /*size_t*/ {
-	return outputSignatureOperations(x.ptr)
+func (x *Input) Sequence() uint32 {
+	return inputSequence(x.ptr)
 }
 
-// func (x *Output) Script() unsafe.Pointer {
-// 	return outputScript(x.ptr)
+func (x *Input) SignatureOperations(bip16Active bool) uint64 /*size_t*/ {
+	return inputSignatureOperations(x.ptr, bip16Active)
+}
+
+// func (x *Input) Script() unsafe.Pointer {
+// 	return inputScript(x.ptr)
+// }
+
+// func (x *Input) PreviousOutput() unsafe.Pointer {
+// 	return inputPreviousOutput(x.ptr)
 // }

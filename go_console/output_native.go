@@ -17,10 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// --------------------------------
-// Output
-// --------------------------------
-
 package bitprim
 
 // #include <bitprim/nodecint/output.h>
@@ -31,6 +27,25 @@ import (
 )
 
 func outputDestruct(output unsafe.Pointer) {
-	ptr := (C.output_t)(output)
-	C.output_destruct(ptr)
+	C.output_destruct(C.output_t(output))
+}
+
+func outputIsValid(output unsafe.Pointer) bool {
+	return CToBool(C.output_is_valid(C.output_t(output)))
+}
+
+func outputSerializedSize(output unsafe.Pointer, wire bool /* = true*/) uint64 /*size_t*/ {
+	return uint64(C.output_serialized_size(C.output_t(output), boolToC(wire)))
+}
+
+func outputValue(output unsafe.Pointer) uint64 {
+	return uint64(C.output_value(C.output_t(output)))
+}
+
+func outputSignatureOperations(output unsafe.Pointer) uint64 /*size_t*/ {
+	return uint64(C.output_signature_operations(C.output_t(output)))
+}
+
+func outputScript(output unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.output_script(C.output_t(output)))
 }

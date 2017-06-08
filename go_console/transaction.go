@@ -24,108 +24,140 @@
 package bitprim
 
 import (
-	"fmt" // or "runtime"
 	"unsafe"
 )
 
 type Transaction struct {
-	native_ptr unsafe.Pointer
-	height     int
-	index      int
+	ptr     unsafe.Pointer
+	height  int
+	index   int
+	outputs []Output
+	inputs  []Input
 }
 
-func NewTransaction(native_ptr unsafe.Pointer, height int, index int) *Transaction {
+func NewTransaction(ptr unsafe.Pointer, height int, index int) *Transaction {
 	x := new(Transaction)
-	x.native_ptr = native_ptr
+	x.ptr = ptr
 	x.height = height
 	x.index = index
+
+	n := transactionOutputCount(ptr)
+	i := 0
+	for i != n {
+		ptr := transactionOutputNth(ptr, i)
+		out := NewOutput(ptr)
+		x.outputs = append(x.outputs, *out)
+		i++
+	}
+
+	n = transactionInputCount(ptr)
+	i = 0
+	for i != n {
+		ptr := transactionInputNth(ptr, i)
+		in := NewInput(ptr)
+		x.inputs = append(x.inputs, *in)
+		i++
+	}
+
 	return x
 }
 
 func (x *Transaction) Close() {
-	fmt.Printf("Go.Transaction.Close() - native_ptr: %p\n", x.native_ptr)
-	transactionDestruct(x.native_ptr)
-	x.native_ptr = nil
+	// fmt.Printf("Go.Transaction.Close() - ptr: %p\n", x.ptr)
+	transactionDestruct(x.ptr)
+	x.ptr = nil
 }
 
 func (x Transaction) IsValid() bool {
-	return transactionIsValid(x.native_ptr)
+	return transactionIsValid(x.ptr)
 }
 
 func (x Transaction) Version() int {
-	return transactionVersion(x.native_ptr)
+	return transactionVersion(x.ptr)
 }
 
 func (x *Transaction) SetVersion(version int) {
-	transactionSetVersion(x.native_ptr, version)
+	transactionSetVersion(x.ptr, version)
 }
 
 func (x Transaction) Hash() hashT {
-	return transactionHash(x.native_ptr)
+	return transactionHash(x.ptr)
+}
+
+func (x Transaction) HashSighashType(sighash_type uint32) hashT {
+	return transactionHashSighashType(x.ptr, sighash_type)
 }
 
 // -----------------------------------
 
 func (x Transaction) Locktime() uint32 {
-	return transactionLocktime(x.native_ptr)
+	return transactionLocktime(x.ptr)
 }
 
 func (x Transaction) SerializedSize(wire bool /*= true*/) uint64 /*size_t*/ {
-	return transactionSerializedSize(x.native_ptr, wire)
+	return transactionSerializedSize(x.ptr, wire)
 }
 
 func (x Transaction) Fees() uint64 {
-	return transactionFees(x.native_ptr)
+	return transactionFees(x.ptr)
 }
 
 func (x Transaction) SignatureOperations() uint64 /*size_t*/ {
-	return transactionSignatureOperations(x.native_ptr)
+	return transactionSignatureOperations(x.ptr)
 }
 
 func (x Transaction) SignatureOperationsBip16Active(bip16Active bool) uint64 /*size_t*/ {
-	return transactionSignatureOperationsBip16Active(x.native_ptr, bip16Active)
+	return transactionSignatureOperationsBip16Active(x.ptr, bip16Active)
 }
 
 func (x Transaction) TotalInputValue() uint64 {
-	return transactionTotalInputValue(x.native_ptr)
+	return transactionTotalInputValue(x.ptr)
 }
 
 func (x Transaction) TotalOutputValue() uint64 {
-	return transactionTotalOutputValue(x.native_ptr)
+	return transactionTotalOutputValue(x.ptr)
 }
 
 func (x Transaction) IsCoinbase() bool {
-	return transactionIsCoinbase(x.native_ptr)
+	return transactionIsCoinbase(x.ptr)
 }
 
 func (x Transaction) IsNullNonCoinbase() bool {
-	return transactionIsNullNonCoinbase(x.native_ptr)
+	return transactionIsNullNonCoinbase(x.ptr)
 }
 
 func (x Transaction) IsOversizedCoinbase() bool {
-	return transactionIsOversizedCoinbase(x.native_ptr)
+	return transactionIsOversizedCoinbase(x.ptr)
 }
 
 func (x Transaction) IsImmature(targetHeight uint64 /*size_t*/) bool {
-	return transactionIsImmature(x.native_ptr, targetHeight)
+	return transactionIsImmature(x.ptr, targetHeight)
 }
 
 func (x Transaction) IsOverspent() bool {
-	return transactionIsOverspent(x.native_ptr)
+	return transactionIsOverspent(x.ptr)
 }
 
 func (x Transaction) IsDoubleSpend(includeUnconfirmed bool) bool {
-	return transactionIsDoubleSpend(x.native_ptr, includeUnconfirmed)
+	return transactionIsDoubleSpend(x.ptr, includeUnconfirmed)
 }
 
 func (x Transaction) IsMissingPreviousOutputs() bool {
-	return transactionIsMissingPreviousOutputs(x.native_ptr)
+	return transactionIsMissingPreviousOutputs(x.ptr)
 }
 
 func (x Transaction) IsFinal(blockHeight uint64 /*size_t*/, blockTime uint32) bool {
-	return transactionIsFinal(x.native_ptr, blockHeight, blockTime)
+	return transactionIsFinal(x.ptr, blockHeight, blockTime)
 }
 
 func (x Transaction) IsLocktimeConflict() bool {
-	return transactionIsLocktimeConflict(x.native_ptr)
+	return transactionIsLocktimeConflict(x.ptr)
+}
+
+func (x Transaction) Inputs() []Input {
+	return x.inputs
+}
+
+func (x Transaction) Outputs() []Output {
+	return x.outputs
 }

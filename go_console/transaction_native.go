@@ -56,6 +56,11 @@ func transactionHash(tx unsafe.Pointer) hashT {
 	return CHashToGo(C.transaction_hash(ptr))
 }
 
+func transactionHashSighashType(tx unsafe.Pointer, sighash_type uint32) hashT {
+	ptr := C.transaction_t(tx)
+	return CHashToGo(C.transaction_hash_sighash_type(ptr, C.uint32_t(sighash_type)))
+}
+
 // ------------------------------
 
 func transactionLocktime(tx unsafe.Pointer) uint32 {
@@ -120,4 +125,24 @@ func transactionIsFinal(tx unsafe.Pointer, blockHeight uint64 /*size_t*/, blockT
 
 func transactionIsLocktimeConflict(tx unsafe.Pointer) bool {
 	return CToBool(C.transaction_is_locktime_conflict(C.transaction_t(tx)))
+}
+
+// --------------------------------------
+
+func transactionOutputCount(transaction unsafe.Pointer) int {
+	return (int)(C.transaction_output_count(C.transaction_t(transaction)))
+}
+
+func transactionOutputNth(transaction unsafe.Pointer, n int) unsafe.Pointer {
+	res := C.transaction_output_nth(C.transaction_t(transaction), C.size_t(n))
+	return unsafe.Pointer(res)
+}
+
+func transactionInputCount(transaction unsafe.Pointer) int {
+	return (int)(C.transaction_input_count(C.transaction_t(transaction)))
+}
+
+func transactionInputNth(transaction unsafe.Pointer, n int) unsafe.Pointer {
+	res := C.transaction_input_nth(C.transaction_t(transaction), C.size_t(n))
+	return unsafe.Pointer(res)
 }
