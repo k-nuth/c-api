@@ -1,3 +1,22 @@
+/**
+ * Copyright (c) 2017 Bitprim developers (see AUTHORS)
+ *
+ * This file is part of Bitprim.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 // --------------------------------
 // Interface one-to-one with C Interface
 // --------------------------------
@@ -48,6 +67,20 @@ func CHashToGo(hashCPtr C.hash_t) hashT {
 	var hash hashT
 	copy(hash[:], hashGoSlice)
 	return hash
+}
+
+func boolToC(x bool) C.int {
+	if x {
+		return 1
+	}
+	return 0
+}
+
+func CToBool(x C.int) bool {
+	if x == 0 {
+		return false
+	}
+	return true
 }
 
 func ExecutorConstruct(path string, sin_fd int, sout_fd int, serr_fd int) unsafe.Pointer {
@@ -268,14 +301,7 @@ func fetchTransaction(exec unsafe.Pointer, hash hashT, requireConfirmed bool) (u
 	hashC := C.CBytes(hash[:])
 	defer C.free(hashC)
 
-	var requireConfirmedC C.int
-	if requireConfirmed {
-		requireConfirmedC = 1
-	} else {
-		requireConfirmedC = 0
-	}
-
-	go C.fetch_transaction(ptr, (*C.uint8_t)(hashC), requireConfirmedC, fptr2)
+	go C.fetch_transaction(ptr, (*C.uint8_t)(hashC), boolToC(requireConfirmed), fptr2)
 	return <-fetchTransactionChannel1, <-fetchTransactionChannel2, <-fetchTransactionChannel2
 }
 
