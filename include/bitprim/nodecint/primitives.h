@@ -33,17 +33,19 @@ extern "C" {
 typedef struct executor* executor_t;
 // typedef struct header* header_t;
 
-//typedef struct point_t {
+//typedef struct output_point_t {
 //    uint8_t* hash;
 //    uint32_t index;
-//} point_t;
+//} output_point_t;
 
 
 typedef void* header_t;
 typedef void* block_t;
 typedef void* transaction_t;
 typedef void* output_t;
+typedef void* input_t;
 typedef void* script_t;
+typedef void* output_point_t;
 typedef uint8_t* hash_t;
 
 typedef void (*last_height_fetch_handler_t)(int error, size_t h);

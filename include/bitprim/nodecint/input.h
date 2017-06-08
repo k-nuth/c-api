@@ -17,25 +17,45 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * API Users: Include only this header. Direct use of other headers is fragile
- * and unsupported as header organization is subject to change.
- *
- * Maintainers: Do not include this header internal to this library.
- */
+#ifndef BITPRIM_NODE_CINT_INPUT_H_
+#define BITPRIM_NODE_CINT_INPUT_H_
 
-#ifndef BITPRIM_NODE_CINT_NODE_H_
-#define BITPRIM_NODE_CINT_NODE_H_
+#include <stdio.h>
+#include <stdint.h>
 
-#include <bitprim/nodecint/block.h>
-#include <bitprim/nodecint/executor_c.h>
-#include <bitprim/nodecint/header.h>
-#include <bitprim/nodecint/input.h>
-#include <bitprim/nodecint/node.h>
-#include <bitprim/nodecint/output.h>
-#include <bitprim/nodecint/primitives.h>
-#include <bitprim/nodecint/script.h>
-#include <bitprim/nodecint/transaction.h>
 #include <bitprim/nodecint/visibility.h>
+#include <bitprim/nodecint/primitives.h>
 
-#endif /* BITPRIM_NODE_CINT_NODE_H_ */
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+BITPRIM_EXPORT
+void input_destruct(input_t input);
+
+BITPRIM_EXPORT
+int input_is_valid(input_t input);
+
+BITPRIM_EXPORT
+int /*bool*/ input_is_final(input_t input);
+
+BITPRIM_EXPORT
+size_t input_serialized_size(input_t input, int wire /* = true*/);
+
+BITPRIM_EXPORT
+uint32_t input_sequence(input_t input);
+
+BITPRIM_EXPORT
+size_t input_signature_operations(input_t input, bool bip16_active);
+
+BITPRIM_EXPORT
+script_t input_script(input_t input);
+
+BITPRIM_EXPORT
+output_point_t input_previous_output(input_t input);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
+
+#endif /* BITPRIM_NODE_CINT_INPUT_H_ */

@@ -103,9 +103,9 @@ int /*bool*/ transaction_is_overspent(transaction_t transaction) {
     return tx_const_cpp(transaction).is_overspent();
 }
 
-int /*bool*/ transaction_is_double_spend(transaction_t transaction, bool include_unconfirmed) {
-    return tx_const_cpp(transaction).is_double_spend(include_unconfirmed);
-}
+//int /*bool*/ transaction_is_double_spend(transaction_t transaction, bool include_unconfirmed) {
+//    return tx_const_cpp(transaction).is_double_spend(include_unconfirmed);
+//}
 
 int /*bool*/ transaction_is_missing_previous_outputs(transaction_t transaction) {
     return tx_const_cpp(transaction).is_missing_previous_outputs();

@@ -20,31 +20,38 @@
 #include <bitprim/nodecint/output.h>
 #include <bitcoin/bitcoin/chain/output.hpp>
 
+libbitcoin::chain::output const& output_const_cpp(output_t output) {
+    return *static_cast<libbitcoin::chain::output const*>(output);
+}
+
+libbitcoin::chain::output& output_cpp(output_t output) {
+    return *static_cast<libbitcoin::chain::output*>(output);
+}
+
 extern "C" {
 
 void output_destruct(output_t output) {
-    auto output_cpp = static_cast<libbitcoin::chain::output*>(output);
-    delete output_cpp;
+    delete &output_cpp(output);
 }
 
 int output_is_valid(output_t output) {
-    return static_cast<libbitcoin::chain::output const*>(output)->is_valid();
+    return output_const_cpp(output).is_valid();
 }
 
 size_t output_serialized_size(output_t output, int wire /* = true*/) {
-    return static_cast<libbitcoin::chain::output const*>(output)->serialized_size(wire);
+    return output_const_cpp(output).serialized_size(wire);
 }
 
 uint64_t output_value(output_t output) {
-    return static_cast<libbitcoin::chain::output const*>(output)->value();
+    return output_const_cpp(output).value();
 }
 
 size_t output_signature_operations(output_t output) {
-    return static_cast<libbitcoin::chain::output const*>(output)->signature_operations();
+    return output_const_cpp(output).signature_operations();
 }
 
 script_t output_script(output_t output) {
-    return &(static_cast<libbitcoin::chain::output*>(output)->script());
+    return &(output_cpp(output).script());
 }
 
 
