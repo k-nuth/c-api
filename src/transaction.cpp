@@ -52,6 +52,13 @@ hash_t transaction_hash(transaction_t transaction) {
     return hash_cpp.data();
 }
 
+hash_t transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type) {
+    auto hash_cpp = tx_const_cpp(transaction).hash(sighash_type);
+    return hash_cpp.data();
+}
+
+
+
 
 
 
@@ -103,9 +110,9 @@ int /*bool*/ transaction_is_overspent(transaction_t transaction) {
     return tx_const_cpp(transaction).is_overspent();
 }
 
-//int /*bool*/ transaction_is_double_spend(transaction_t transaction, bool include_unconfirmed) {
-//    return tx_const_cpp(transaction).is_double_spend(include_unconfirmed);
-//}
+int /*bool*/ transaction_is_double_spend(transaction_t transaction, int /*bool*/ include_unconfirmed) {
+    return tx_const_cpp(transaction).is_double_spend(include_unconfirmed);
+}
 
 int /*bool*/ transaction_is_missing_previous_outputs(transaction_t transaction) {
     return tx_const_cpp(transaction).is_missing_previous_outputs();
@@ -118,6 +125,37 @@ int /*bool*/ transaction_is_final(transaction_t transaction, size_t block_height
 int /*bool*/ transaction_is_locktime_conflict(transaction_t transaction) {
     return tx_const_cpp(transaction).is_locktime_conflict();
 }
+
+
+
+// ----------------------------------
+
+
+
+size_t transaction_output_count(transaction_t transaction) {
+    return tx_const_cpp(transaction).outputs().size();
+}
+
+transaction_t transaction_output_nth(transaction_t transaction, size_t n) {
+    //precondition: n >=0 && n < outputs().size()
+
+    auto* tx = &tx_cpp(transaction);
+    auto& out_n = tx->outputs()[n];
+    return &out_n;
+}
+
+size_t transaction_input_count(transaction_t transaction) {
+    return tx_const_cpp(transaction).inputs().size();
+}
+
+transaction_t transaction_input_nth(transaction_t transaction, size_t n) {
+    //precondition: n >=0 && n < inputs().size()
+
+    auto* tx = &tx_cpp(transaction);
+    auto& in_n = tx->inputs()[n];
+    return &in_n;
+}
+
 
 
 
@@ -140,11 +178,9 @@ int /*bool*/ transaction_is_locktime_conflict(transaction_t transaction) {
 //
 //void set_locktime(uint32_t value);
 //
-//const input::list& inputs() const;
 //void set_inputs(const ins& value);
 //void set_inputs(ins&& value);
 //
-//const outs& outputs() const;
 //void set_outputs(const outs& value);
 //void set_outputs(outs&& value);
 //

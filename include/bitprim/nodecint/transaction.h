@@ -46,6 +46,10 @@ BITPRIM_EXPORT
 hash_t transaction_hash(transaction_t transaction);
 
 BITPRIM_EXPORT
+hash_t transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type);
+
+
+BITPRIM_EXPORT
 uint32_t transaction_locktime(transaction_t transaction);
 
 BITPRIM_EXPORT
@@ -92,6 +96,18 @@ int /*bool*/ transaction_is_final(transaction_t transaction, size_t block_height
 
 BITPRIM_EXPORT
 int /*bool*/ transaction_is_locktime_conflict(transaction_t transaction);
+
+BITPRIM_EXPORT
+size_t transaction_output_count(transaction_t transaction);
+
+BITPRIM_EXPORT
+transaction_t transaction_output_nth(transaction_t transaction, size_t n);
+
+BITPRIM_EXPORT
+size_t transaction_input_count(transaction_t transaction);
+
+BITPRIM_EXPORT
+transaction_t transaction_input_nth(transaction_t transaction, size_t n);
 
 
 

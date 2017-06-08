@@ -52,7 +52,7 @@ uint32_t input_sequence(input_t input) {
     return input_const_cpp(input).sequence();
 }
 
-size_t input_signature_operations(input_t input, bool bip16_active) {
+size_t input_signature_operations(input_t input, int /*bool*/ bip16_active) {
     return input_const_cpp(input).signature_operations(bip16_active);
 }
 

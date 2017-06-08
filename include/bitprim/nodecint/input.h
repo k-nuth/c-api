@@ -46,7 +46,7 @@ BITPRIM_EXPORT
 uint32_t input_sequence(input_t input);
 
 BITPRIM_EXPORT
-size_t input_signature_operations(input_t input, bool bip16_active);
+size_t input_signature_operations(input_t input, int /*bool*/ bip16_active);
 
 BITPRIM_EXPORT
 script_t input_script(input_t input);
