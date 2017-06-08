@@ -19,10 +19,14 @@
 
 #include <bitprim/nodecint/transaction.h>
 #include <bitcoin/bitcoin/message/transaction.hpp>
-//#include <memory>
-//#include <boost/iostreams/device/file_descriptor.hpp>
-//#include <bitprim/nodecint/executor.hpp>
-//#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
+
+libbitcoin::message::transaction const& tx_const_cpp(transaction_t transaction) {
+    return *static_cast<libbitcoin::message::transaction const*>(transaction);
+}
+
+libbitcoin::message::transaction& tx_cpp(transaction_t transaction) {
+    return *static_cast<libbitcoin::message::transaction*>(transaction);
+}
 
 extern "C" {
 
@@ -32,11 +36,11 @@ void transaction_destruct(transaction_t transaction) {
 }
 
 int transaction_is_valid(transaction_t transaction) {
-    return static_cast<libbitcoin::message::transaction const*>(transaction)->is_valid();
+    return tx_const_cpp(transaction).is_valid();
 }
 
 uint32_t transaction_version(transaction_t transaction) {
-    return static_cast<libbitcoin::message::transaction const*>(transaction)->version();
+    return tx_const_cpp(transaction).version();
 }
 
 void transaction_set_version(transaction_t transaction, uint32_t version) {
@@ -44,9 +48,83 @@ void transaction_set_version(transaction_t transaction, uint32_t version) {
 }
 
 hash_t transaction_hash(transaction_t transaction) {
-    auto hash_cpp = static_cast<libbitcoin::message::transaction const*>(transaction)->hash();
+    auto hash_cpp = tx_const_cpp(transaction).hash();
     return hash_cpp.data();
 }
+
+
+
+
+uint32_t transaction_locktime(transaction_t transaction) {
+    return tx_const_cpp(transaction).locktime();
+}
+
+size_t transaction_serialized_size(transaction_t transaction, int wire /*= true*/) {
+    return tx_const_cpp(transaction).serialized_size(wire);
+}
+
+uint64_t transaction_fees(transaction_t transaction) {
+    return tx_const_cpp(transaction).fees();
+}
+
+size_t transaction_signature_operations(transaction_t transaction) {
+    return tx_const_cpp(transaction).signature_operations();
+}
+
+size_t transaction_signature_operations_bip16_active(transaction_t transaction, int /*bool*/ bip16_active) {
+    return tx_const_cpp(transaction).signature_operations(bip16_active);
+}
+
+uint64_t transaction_total_input_value(transaction_t transaction) {
+    return tx_const_cpp(transaction).total_input_value();
+}
+
+uint64_t transaction_total_output_value(transaction_t transaction) {
+    return tx_const_cpp(transaction).total_output_value();
+}
+
+int /*bool*/ transaction_is_coinbase(transaction_t transaction) {
+    return tx_const_cpp(transaction).is_coinbase();
+}
+
+int /*bool*/ transaction_is_null_non_coinbase(transaction_t transaction) {
+    return tx_const_cpp(transaction).is_null_non_coinbase();
+}
+
+int /*bool*/ transaction_is_oversized_coinbase(transaction_t transaction) {
+    return tx_const_cpp(transaction).is_oversized_coinbase();
+}
+
+int /*bool*/ transaction_is_immature(transaction_t transaction, size_t target_height) {
+    return tx_const_cpp(transaction).is_immature(target_height);
+}
+
+int /*bool*/ transaction_is_overspent(transaction_t transaction) {
+    return tx_const_cpp(transaction).is_overspent();
+}
+
+int /*bool*/ transaction_is_double_spend(transaction_t transaction, bool include_unconfirmed) {
+    return tx_const_cpp(transaction).is_double_spend(include_unconfirmed);
+}
+
+int /*bool*/ transaction_is_missing_previous_outputs(transaction_t transaction) {
+    return tx_const_cpp(transaction).is_missing_previous_outputs();
+}
+
+int /*bool*/ transaction_is_final(transaction_t transaction, size_t block_height, uint32_t block_time) {
+    return tx_const_cpp(transaction).is_final(block_height, block_time);
+}
+
+int /*bool*/ transaction_is_locktime_conflict(transaction_t transaction) {
+    return tx_const_cpp(transaction).is_locktime_conflict();
+}
+
+
+
+
+
+
+
 
 
 //
@@ -60,20 +138,11 @@ hash_t transaction_hash(transaction_t transaction) {
 //// Properties (size, accessors, cache).
 ////-----------------------------------------------------------------------------
 //
-//size_t serialized_size(bool wire=true) const;
-//
-//uint32_t locktime() const;
 //void set_locktime(uint32_t value);
-//
-//// Deprecated (unsafe).
-//ins& inputs();
 //
 //const input::list& inputs() const;
 //void set_inputs(const ins& value);
 //void set_inputs(ins&& value);
-//
-//// Deprecated (unsafe).
-//outs& outputs();
 //
 //const outs& outputs() const;
 //void set_outputs(const outs& value);
@@ -86,24 +155,10 @@ hash_t transaction_hash(transaction_t transaction) {
 //// Validation.
 ////-----------------------------------------------------------------------------
 //
-//uint64_t fees() const;
 //output_point::list missing_previous_outputs() const;
 //hash_list missing_previous_transactions() const;
-//uint64_t total_input_value() const;
-//uint64_t total_output_value() const;
-//size_t signature_operations() const;
-//size_t signature_operations(bool bip16_active) const;
 //
-//bool is_coinbase() const;
-//bool is_null_non_coinbase() const;
-//bool is_oversized_coinbase() const;
-//bool is_immature(size_t target_height) const;
-//bool is_overspent() const;
-//bool is_double_spend(bool include_unconfirmed) const;
-//bool is_missing_previous_outputs() const;
-//bool is_final(size_t block_height, uint32_t block_time) const;
-//bool is_locktime_conflict() const;
-//
+
 //code check(bool transaction_pool=true) const;
 //code accept(bool transaction_pool=true) const;
 //code accept(const chain_state& state, bool transaction_pool=true) const;

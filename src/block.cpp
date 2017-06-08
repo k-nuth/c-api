@@ -20,40 +20,42 @@
 #include <bitprim/nodecint/block.h>
 #include <bitcoin/bitcoin/message/block.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
-//#include <memory>
-//#include <boost/iostreams/device/file_descriptor.hpp>
-//#include <bitprim/nodecint/executor.hpp>
-// #include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
+
+libbitcoin::message::block const& block_const_cpp(block_t block) {
+    return *static_cast<libbitcoin::message::block const*>(block);
+}
+
+libbitcoin::message::block& block_cpp(block_t block) {
+    return *static_cast<libbitcoin::message::block*>(block);
+}
 
 extern "C" {
 
 void block_destruct(block_t block) {
-    auto block_cpp = static_cast<libbitcoin::message::block*>(block);
-    delete block_cpp;
+    delete &block_cpp(block);
 }
 
 int block_is_valid(block_t block) {
-    return static_cast<libbitcoin::message::block const*>(block)->is_valid();
+    return block_const_cpp(block).is_valid();
 }
 
 header_t block_header(block_t block) {
-    auto& header = static_cast<libbitcoin::message::block*>(block)->header();
-    return &header;
+    return &block_cpp(block).header();
 }
 
 hash_t block_hash(block_t block) {
-    auto hash_cpp = static_cast<libbitcoin::message::block const*>(block)->hash();
+    auto hash_cpp = block_const_cpp(block).hash();
     return hash_cpp.data();
 }
 
 size_t block_transaction_count(block_t block) {
-    return static_cast<libbitcoin::message::block const*>(block)->transactions().size();
+    return block_const_cpp(block).transactions().size();
 }
 
 transaction_t block_transactions(block_t block, size_t* n) {
-    auto* block_cpp = static_cast<libbitcoin::message::block*>(block);
-    *n = block_cpp->transactions().size();
-    return block_cpp->transactions().data();
+    auto* blk = &block_cpp(block);
+    *n = blk->transactions().size();
+    return blk->transactions().data();
 }
 
 transaction_t block_transaction_next(transaction_t transaction) {
@@ -65,10 +67,93 @@ transaction_t block_transaction_next(transaction_t transaction) {
 transaction_t block_transaction_nth(block_t block, size_t n) {
     //precondition: n >=0 && n < transactions().size()
 
-    auto* block_cpp = static_cast<libbitcoin::message::block*>(block);
-    auto& tx_n = block_cpp->transactions()[n];
+    auto* blk = &block_cpp(block);
+    auto& tx_n = blk->transactions()[n];
     return &tx_n;
 }
+
+
+// -----------------------
+
+size_t block_serialized_size(block_t block, uint32_t version) {
+    return block_const_cpp(block).serialized_size(version);
+}
+
+/*static*/
+uint64_t block_subsidy(size_t height) {
+    return libbitcoin::message::block::subsidy(height);
+}
+
+//static uint256_t block_proof(uint32_t bits) {}
+
+///*static*/
+//uint256_t block_proof(size_t height) {
+//    return libbitcoin::message::block::proof(height);
+//}
+
+uint64_t block_fees(block_t block) {
+    return block_const_cpp(block).fees();
+}
+
+uint64_t block_claim(block_t block) {
+    return block_const_cpp(block).claim();
+}
+
+uint64_t block_reward(block_t block, size_t height) {
+    return block_const_cpp(block).reward(height);
+}
+
+//uint256_t block_proof(block_t block) {}
+//hash_digest block_generate_merkle_root(block_t block) {}
+
+//Note: The user is responsible for the resource release
+hash_t block_generate_merkle_root(block_t block) {
+    auto hash_cpp = block_const_cpp(block).generate_merkle_root();
+    hash_t ret = (uint8_t*)malloc(hash_cpp.size() * sizeof(uint8_t));
+    std::copy_n(std::begin(hash_cpp), hash_cpp.size(), ret);
+    return ret;
+}
+
+size_t block_signature_operations(block_t block) {
+    return block_const_cpp(block).signature_operations();
+}
+
+size_t block_signature_operations_bip16_active(block_t block, int /*bool*/ bip16_active) {
+    return block_const_cpp(block).signature_operations(bip16_active);
+}
+
+size_t block_total_inputs(block_t block, int /*bool*/ with_coinbase=true) {
+    return block_const_cpp(block).total_inputs(with_coinbase);
+}
+
+int /*bool*/ block_is_extra_coinbases(block_t block) {
+    return block_const_cpp(block).is_extra_coinbases();
+}
+
+int /*bool*/ block_is_final(block_t block, size_t height) {
+    return block_const_cpp(block).is_final(height);
+}
+
+int /*bool*/ block_is_distinct_transaction_set(block_t block) {
+    return block_const_cpp(block).is_distinct_transaction_set();
+}
+
+int /*bool*/ block_is_valid_coinbase_claim(block_t block, size_t height) {
+    return block_const_cpp(block).is_valid_coinbase_claim(height);
+}
+
+int /*bool*/ block_is_valid_coinbase_script(block_t block, size_t height) {
+    return block_const_cpp(block).is_valid_coinbase_script(height);
+}
+
+int /*bool*/ block_is_internal_double_spend(block_t block) {
+    return block_const_cpp(block).is_internal_double_spend();
+}
+
+int /*bool*/ block_is_valid_merkle_root(block_t block) {
+    return block_const_cpp(block).is_valid_merkle_root();
+}
+
 
 
 //
@@ -88,8 +173,6 @@ transaction_t block_transaction_nth(block_t block, size_t n) {
 //// Properties (size, accessors, cache).
 ////-------------------------------------------------------------------------
 //
-//size_t serialized_size() const;
-//
 //void set_header(const chain::header& value);
 //void set_header(chain::header&& value);
 //
@@ -101,25 +184,10 @@ transaction_t block_transaction_nth(block_t block, size_t n) {
 //// Validation.
 ////-------------------------------------------------------------------------
 //
-//static uint64_t subsidy(size_t height);
 //static uint256_t proof(uint32_t bits);
 //
-//uint64_t fees() const;
-//uint64_t claim() const;
-//uint64_t reward(size_t height) const;
 //uint256_t proof() const;
 //hash_digest generate_merkle_root() const;
-//size_t signature_operations() const;
-//size_t signature_operations(bool bip16_active) const;
-//size_t total_inputs(bool with_coinbase=true) const;
-//
-//bool is_extra_coinbases() const;
-//bool is_final(size_t height) const;
-//bool is_distinct_transaction_set() const;
-//bool is_valid_coinbase_claim(size_t height) const;
-//bool is_valid_coinbase_script(size_t height) const;
-//bool is_internal_double_spend() const;
-//bool is_valid_merkle_root() const;
 //
 //code check() const;
 //code check_transactions() const;

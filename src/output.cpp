@@ -27,7 +27,49 @@ void output_destruct(output_t output) {
     delete output_cpp;
 }
 
+int output_is_valid(output_t output) {
+    return static_cast<libbitcoin::chain::output const*>(output)->is_valid();
+}
+
+size_t output_serialized_size(output_t output, int wire /* = true*/) {
+    return static_cast<libbitcoin::chain::output const*>(output)->serialized_size(wire);
+}
+
+uint64_t output_value(output_t output) {
+    return static_cast<libbitcoin::chain::output const*>(output)->value();
+}
+
+size_t output_signature_operations(output_t output) {
+    return static_cast<libbitcoin::chain::output const*>(output)->signature_operations();
+}
+
+script_t output_script(output_t output) {
+    return &(static_cast<libbitcoin::chain::output*>(output)->script());
+}
+
+
+//const chain::script& script() const;
+
+//// Serialization.
+////-----------------------------------------------------------------------------
 //
+//data_chunk to_data(bool wire=true) const;
+//void to_data(std::ostream& stream, bool wire=true) const;
+//void to_data(writer& sink, bool wire=true) const;
+//
+//// Properties (size, accessors, cache).
+////-----------------------------------------------------------------------------
+//
+//
+//void set_value(uint64_t value);
+//
+//const chain::script& script() const;
+//void set_script(const chain::script& value);
+//void set_script(chain::script&& value);
+//
+///// The payment address extracted from this output as a standard script.
+//wallet::payment_address address() const;
+
 
 
 } /* extern "C" */

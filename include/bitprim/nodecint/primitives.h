@@ -43,6 +43,7 @@ typedef void* header_t;
 typedef void* block_t;
 typedef void* transaction_t;
 typedef void* output_t;
+typedef void* script_t;
 typedef uint8_t* hash_t;
 
 typedef void (*last_height_fetch_handler_t)(int error, size_t h);

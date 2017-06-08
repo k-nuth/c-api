@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_OUTPUT_H_
-#define BITPRIM_NODE_CINT_OUTPUT_H_
+#ifndef BITPRIM_NODE_CINT_SCRIPT_H_
+#define BITPRIM_NODE_CINT_SCRIPT_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -31,26 +31,33 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-void output_destruct(output_t output);
+void script_destruct(script_t script);
 
 BITPRIM_EXPORT
-int output_is_valid(output_t output);
+int script_is_valid(script_t script);
 
 BITPRIM_EXPORT
-size_t output_serialized_size(output_t output, int /*bool*/ wire /*= true*/);
+int script_is_valid_operations(script_t script);
 
 BITPRIM_EXPORT
-uint64_t output_value(output_t output);
+size_t script_satoshi_content_size(script_t script);
 
 BITPRIM_EXPORT
-size_t output_signature_operations(output_t output);
+size_t script_serialized_size(script_t script, bool prefix);
+
+//Note: user of the function has to release the resource (memory) manually
+BITPRIM_EXPORT
+char const* script_to_string(script_t script, uint32_t active_forks);
 
 BITPRIM_EXPORT
-script_t output_script(output_t output);
+size_t script_sigops(script_t script, bool embedded);
+
+BITPRIM_EXPORT
+size_t script_embedded_sigops(script_t script, script_t prevout_script);
 
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODE_CINT_OUTPUT_H_ */
+#endif /* BITPRIM_NODE_CINT_SCRIPT_H_ */
