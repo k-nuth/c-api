@@ -43,15 +43,17 @@ if (NOT ENABLE_SHARED)
   set(Boost_USE_STATIC_LIBS ON)
 endif()
 
+
+#------------------------------------------------------------------------------
+
+#set(CMAKE_C_STANDARD_LIBRARIES "${CMAKE_C_STANDARD_LIBRARIES} -lwsock32" )
+#set(CMAKE_C_STANDARD_LIBRARIES "${CMAKE_C_STANDARD_LIBRARIES} -lws2_32" )
+
+#------------------------------------------------------------------------------
+
 find_package(
         Boost 1.56.0 REQUIRED
         COMPONENTS unit_test_framework)
-
-# Require bitprim-protocol of at least version 3.0.0 and output ${bitprim_protocol_CPPFLAGS/LIBS/PKG}.
-#------------------------------------------------------------------------------
-if (NOT TARGET bitprim-protocol)
-  find_package(bitprim-protocol 3.0.0 REQUIRED)
-endif()
 
 # Require bitprim-consensus of at least version 2.0.0 and output ${bitprim_consensus_CPPFLAGS/LIBS/PKG}.
 #------------------------------------------------------------------------------
@@ -67,8 +69,6 @@ option(WITH_LITECOIN "Compile with Litecoin support." OFF)
 if (WITH_LITECOIN)
   add_definitions(-DLITECOIN)
 endif()
-
-
 
 
 # Require bitprim-node of at least version 3.0.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
@@ -191,9 +191,11 @@ endfunction()
 
 # src/bitprim-node-cint.la => ${libdir}
 #------------------------------------------------------------------------------
-set(MODE STATIC)
+#set(MODE STATIC)
 if (ENABLE_SHARED)
-  set(MODE SHARED)
+    set(MODE SHARED)
+else()
+    set(MODE STATIC)
 endif()
 
 add_library(bitprim-node-cint ${MODE}
@@ -212,6 +214,8 @@ add_library(bitprim-node-cint ${MODE}
 # set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 
+target_compile_definitions(bitprim-node-cint PUBLIC -Dbitprim_EXPORTS)
+
 target_include_directories(bitprim-node-cint PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>)
@@ -221,7 +225,14 @@ if (NOT MSVC)
   target_compile_definitions(bitprim-node-cint PUBLIC -DSYSCONFDIR=\"${SYSCONFDIR}\")
 endif()
 
-target_link_libraries(bitprim-node-cint bitprim-node)
+
+target_link_libraries(bitprim-node-cint PUBLIC bitprim-node)
+#if (MINGW)
+#  target_link_libraries(bitprim-node-cint PUBLIC bitprim-node wsock32)
+#else()
+#    target_link_libraries(bitprim-node-cint PUBLIC bitprim-node)
+#endif()
+
 
 _group_sources(bitprim-node-cint "${CMAKE_CURRENT_LIST_DIR}")
 
