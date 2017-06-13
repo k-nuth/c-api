@@ -21,7 +21,8 @@
 #include <memory>
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <bitprim/nodecint/executor.hpp>
-#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
+//#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
+//#include <cinttypes>   //TODO: Remove, it is for the printf (printing pointer addresses)
 
 
 libbitcoin::node::configuration make_config(char const* path) {
@@ -88,7 +89,7 @@ executor_t executor_construct_fd(char const* path, int sin_fd, int sout_fd, int 
 
 void executor_destruct(executor_t exec) {
     std::cout << "From C++: executor_destruct\n";
-    printf("executor_destruct - exec: 0x%" PRIXPTR "\n", (uintptr_t)exec);
+//    printf("executor_destruct - exec: 0x%" PRIXPTR "\n", (uintptr_t)exec);
 
     delete exec;
 }

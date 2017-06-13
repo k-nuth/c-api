@@ -47,12 +47,6 @@ find_package(
         Boost 1.56.0 REQUIRED
         COMPONENTS unit_test_framework)
 
-## Require bitprim-protocol of at least version 3.0.0 and output ${bitprim_protocol_CPPFLAGS/LIBS/PKG}.
-##------------------------------------------------------------------------------
-#if (NOT TARGET bitprim-protocol)
-#  find_package(bitprim-protocol 3.0.0 REQUIRED)
-#endif()
-
 # Require bitprim-consensus of at least version 2.0.0 and output ${bitprim_consensus_CPPFLAGS/LIBS/PKG}.
 #------------------------------------------------------------------------------
 if (WITH_CONSENSUS)
@@ -67,8 +61,6 @@ option(WITH_LITECOIN "Compile with Litecoin support." OFF)
 if (WITH_LITECOIN)
   add_definitions(-DLITECOIN)
 endif()
-
-
 
 
 # Require bitprim-node of at least version 3.0.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
@@ -211,6 +203,8 @@ add_library(bitprim-node-cint ${MODE}
 
 # set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
 
+
+target_compile_definitions(bitprim-node-cint PUBLIC -Dbitprim_EXPORTS)
 
 target_include_directories(bitprim-node-cint PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
