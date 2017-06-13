@@ -83,15 +83,15 @@ func CToBool(x C.int) bool {
 	return true
 }
 
-func ExecutorConstruct(path string, sin_fd int, sout_fd int, serr_fd int) unsafe.Pointer {
-	path_c := C.CString(path)
-	defer C.free(unsafe.Pointer(path_c))
+// func ExecutorConstruct(path string, sin_fd int, sout_fd int, serr_fd int) unsafe.Pointer {
+// 	path_c := C.CString(path)
+// 	defer C.free(unsafe.Pointer(path_c))
 
-	exec := C.executor_construct_fd(path_c, C.int(sin_fd), C.int(sout_fd), C.int(serr_fd))
-	fmt.Printf("exec address = %p.\n", unsafe.Pointer(exec))
-	return unsafe.Pointer(exec)
+// 	exec := C.executor_construct_fd(path_c, C.int(sin_fd), C.int(sout_fd), C.int(serr_fd))
+// 	fmt.Printf("exec address = %p.\n", unsafe.Pointer(exec))
+// 	return unsafe.Pointer(exec)
 
-}
+// }
 
 func ExecutorDestruct(exec unsafe.Pointer) {
 	ptr := (*C.struct_executor)(exec)

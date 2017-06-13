@@ -34,21 +34,11 @@ type Executor struct {
 	native_ptr unsafe.Pointer
 }
 
-/*
-func (x Executor) Construct() *Executor {
-	m := new(matrix)
-	m.rows = rows
-	m.cols = cols
-	m.elems = make([]float, rows*cols)
-	return m
-}
-*/
-
-func NewExecutorWithStd(path string, sin_fd int, sout_fd int, serr_fd int) *Executor {
-	x := new(Executor)
-	x.native_ptr = ExecutorConstruct(path, sin_fd, sout_fd, serr_fd)
-	return x
-}
+// func NewExecutorWithStd(path string, sin_fd int, sout_fd int, serr_fd int) *Executor {
+// 	x := new(Executor)
+// 	x.native_ptr = ExecutorConstruct(path, sin_fd, sout_fd, serr_fd)
+// 	return x
+// }
 
 func NewExecutor(path string) *Executor {
 	return NewExecutorWithStd(path, syscall.Stdin, syscall.Stdout, syscall.Stderr)
