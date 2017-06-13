@@ -68,39 +68,39 @@ func (x Executor) Initchain() int {
 }
 
 func (x Executor) FetchLastHeight() int {
-	return fetchLastHeight(x.native_ptr)
+	return FetchLastHeight(x.native_ptr)
 }
 
-func (x Executor) FetchBlockHeight(hash hashT) int {
-	return fetchBlockHeight(x.native_ptr, hash)
+func (x Executor) FetchBlockHeight(hash HashT) int {
+	return FetchBlockHeight(x.native_ptr, hash)
 }
 
 func (x Executor) FetchBlockHeader(height int) *Header {
-	res := NewHeader(fetchBlockHeader(x.native_ptr, height))
+	res := NewHeader(FetchBlockHeader(x.native_ptr, height))
 	return res
 }
 
-func (x Executor) FetchBlockHeaderByHash(hash hashT) *Header {
-	res := NewHeader(fetchBlockHeaderByHash(x.native_ptr, hash))
+func (x Executor) FetchBlockHeaderByHash(hash HashT) *Header {
+	res := NewHeader(FetchBlockHeaderByHash(x.native_ptr, hash))
 	return res
 }
 
 func (x Executor) FetchBlock(height int) *Block {
-	res := NewBlock(fetchBlock(x.native_ptr, height))
+	res := NewBlock(FetchBlock(x.native_ptr, height))
 	return res
 }
 
-func (x Executor) FetchBlockByHash(hash hashT) *Block {
-	res := NewBlock(fetchBlockByHash(x.native_ptr, hash))
+func (x Executor) FetchBlockByHash(hash HashT) *Block {
+	res := NewBlock(FetchBlockByHash(x.native_ptr, hash))
 	return res
 }
 
-func (x Executor) FetchTransaction(hash hashT, requiredConfirmed bool) *Transaction {
-	res := NewTransaction(fetchTransaction(x.native_ptr, hash, requiredConfirmed))
+func (x Executor) FetchTransaction(hash HashT, requiredConfirmed bool) *Transaction {
+	res := NewTransaction(FetchTransaction(x.native_ptr, hash, requiredConfirmed))
 	return res
 }
 
-func (x Executor) FetchOutput(hash hashT, index int, requiredConfirmed bool) *Output {
-	res := NewOutput(fetchOutput(x.native_ptr, hash, index, requiredConfirmed))
+func (x Executor) FetchOutput(hash HashT, index int, requiredConfirmed bool) *Output {
+	res := NewOutput(FetchOutput(x.native_ptr, hash, index, requiredConfirmed))
 	return res
 }

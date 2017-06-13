@@ -80,11 +80,11 @@ func (x *Transaction) SetVersion(version int) {
 	transactionSetVersion(x.ptr, version)
 }
 
-func (x Transaction) Hash() hashT {
+func (x Transaction) Hash() HashT {
 	return transactionHash(x.ptr)
 }
 
-func (x Transaction) HashSighashType(sighash_type uint32) hashT {
+func (x Transaction) HashSighashType(sighash_type uint32) HashT {
 	return transactionHashSighashType(x.ptr, sighash_type)
 }
 

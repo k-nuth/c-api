@@ -82,14 +82,14 @@ func (x *Header) SetNonce(nonce int) {
 	headerSetNonce(x.native_ptr, nonce)
 }
 
-func (x Header) PreviousBlockHash() hashT {
+func (x Header) PreviousBlockHash() HashT {
 	return headerPreviousBlockHash(x.native_ptr)
 }
 
-func (x Header) Merkle() hashT {
+func (x Header) Merkle() HashT {
 	return headerMerkle(x.native_ptr)
 }
 
-func (x Header) Hash() hashT {
+func (x Header) Hash() HashT {
 	return headerHash(x.native_ptr)
 }

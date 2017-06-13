@@ -39,7 +39,7 @@ func blockIsValid(block unsafe.Pointer) bool {
 	return res == 0
 }
 
-func blockHash(block unsafe.Pointer) hashT {
+func blockHash(block unsafe.Pointer) HashT {
 	ptr := (C.block_t)(block)
 	return CHashToGo(C.block_hash(ptr))
 }
@@ -95,7 +95,7 @@ func blockReward(block unsafe.Pointer, height uint64) uint64 {
 	return uint64(C.block_reward((C.block_t)(block), C.size_t(height)))
 }
 
-func blockGenerateMerkleRoot(block unsafe.Pointer) hashT {
+func blockGenerateMerkleRoot(block unsafe.Pointer) HashT {
 	return CHashToGo(C.block_generate_merkle_root((C.block_t)(block)))
 }
 

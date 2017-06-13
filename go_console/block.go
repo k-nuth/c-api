@@ -60,7 +60,7 @@ func (x Block) IsValid() bool {
 	return blockIsValid(x.native_ptr)
 }
 
-func (x Block) Hash() hashT {
+func (x Block) Hash() HashT {
 	return blockHash(x.native_ptr)
 }
 
@@ -95,7 +95,7 @@ func (x Block) Reward(height uint64) uint64 {
 	return blockReward(x.native_ptr, height)
 }
 
-func (x Block) GenerateMerkleRoot(block unsafe.Pointer) hashT {
+func (x Block) GenerateMerkleRoot(block unsafe.Pointer) HashT {
 	return blockGenerateMerkleRoot(x.native_ptr)
 }
 

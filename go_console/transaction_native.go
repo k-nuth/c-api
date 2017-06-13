@@ -51,12 +51,12 @@ func transactionSetVersion(tx unsafe.Pointer, version int) {
 	C.transaction_set_version(ptr, (C.uint32_t)(version))
 }
 
-func transactionHash(tx unsafe.Pointer) hashT {
+func transactionHash(tx unsafe.Pointer) HashT {
 	ptr := C.transaction_t(tx)
 	return CHashToGo(C.transaction_hash(ptr))
 }
 
-func transactionHashSighashType(tx unsafe.Pointer, sighash_type uint32) hashT {
+func transactionHashSighashType(tx unsafe.Pointer, sighash_type uint32) HashT {
 	ptr := C.transaction_t(tx)
 	return CHashToGo(C.transaction_hash_sighash_type(ptr, C.uint32_t(sighash_type)))
 }

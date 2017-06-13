@@ -60,11 +60,11 @@ import (
 	"unsafe"
 )
 
-func CHashToGo(hashCPtr C.hash_t) hashT {
+func CHashToGo(hashCPtr C.hash_t) HashT {
 	hashC := unsafe.Pointer(hashCPtr)
 
 	hashGoSlice := C.GoBytes(hashC, 32)
-	var hash hashT
+	var hash HashT
 	copy(hash[:], hashGoSlice)
 	return hash
 }
@@ -111,42 +111,41 @@ func ExecutorInitchain(exec unsafe.Pointer) int {
 }
 
 // --------------------------------
-// fetchLastHeight
+// FetchLastHeight
 // --------------------------------
 
-var fetchLastHeightChannel chan int
+var FetchLastHeightChannel chan int
 
-//export fetchLastHeightGoCallBack
-func fetchLastHeightGoCallBack(err int, height int) {
-	// fmt.Printf("Go.fetchLastHeightGoCallBack(): height = %d\n", height)
-	fetchLastHeightChannel <- height
+//export FetchLastHeightGoCallBack
+func FetchLastHeightGoCallBack(err int, height int) {
+	// fmt.Printf("Go.FetchLastHeightGoCallBack(): height = %d\n", height)
+	FetchLastHeightChannel <- height
 }
 
-func fetchLastHeight(exec unsafe.Pointer) int {
+func FetchLastHeight(exec unsafe.Pointer) int {
 	ptr := (*C.struct_executor)(exec)
 
 	fptr := unsafe.Pointer(C.fetchLastHeightGoCallBack_cgo)
 	fptr2 := (C.last_height_fetch_handler_t)(fptr)
 
 	go C.fetch_last_height(ptr, fptr2)
-	return <-fetchLastHeightChannel
+	return <-FetchLastHeightChannel
 }
 
 // --------------------------------
 // fetchBlockHeight
 // --------------------------------
+type HashT [32]byte
 
-type hashT [32]byte
+var FetchBlockHeightChannel chan int
 
-var fetchBlockHeightChannel chan int
-
-//export fetchBlockHeightGoCallBack
-func fetchBlockHeightGoCallBack(err int, height int) {
-	// fmt.Printf("Go.fetchBlockHeightGoCallBack(): height = %d\n", height)
-	fetchBlockHeightChannel <- height
+//export FetchBlockHeightGoCallBack
+func FetchBlockHeightGoCallBack(err int, height int) {
+	// fmt.Printf("Go.FetchBlockHeightGoCallBack(): height = %d\n", height)
+	FetchBlockHeightChannel <- height
 }
 
-func fetchBlockHeight(exec unsafe.Pointer, hash hashT) int {
+func FetchBlockHeight(exec unsafe.Pointer, hash HashT) int {
 	ptr := (*C.struct_executor)(exec)
 
 	fptr := unsafe.Pointer(C.fetchBlockHeightGoCallBack_cgo)
@@ -156,54 +155,54 @@ func fetchBlockHeight(exec unsafe.Pointer, hash hashT) int {
 	defer C.free(hashC)
 
 	go C.fetch_block_height(ptr, (*C.uint8_t)(hashC), fptr2)
-	return <-fetchBlockHeightChannel
+	return <-FetchBlockHeightChannel
 }
 
 // --------------------------------
-// fetchBlockHeader
+// FetchBlockHeader
 // --------------------------------
 
-var fetchBlockHeaderChannel1 chan unsafe.Pointer
-var fetchBlockHeaderChannel2 chan int
+var FetchBlockHeaderChannel1 chan unsafe.Pointer
+var FetchBlockHeaderChannel2 chan int
 
-//export fetchBlockHeaderGoCallBack
-func fetchBlockHeaderGoCallBack(err int, header unsafe.Pointer, height int) {
-	// fmt.Printf("Go.fetchBlockHeaderGoCallBack(): height = %d\n", height)
-	// fmt.Printf("Go.fetchBlockHeaderGoCallBack(): header = %p\n", header)
-	// fmt.Printf("Go.fetchBlockHeaderGoCallBack(): err    = %d\n", err)
+//export FetchBlockHeaderGoCallBack
+func FetchBlockHeaderGoCallBack(err int, header unsafe.Pointer, height int) {
+	// fmt.Printf("Go.FetchBlockHeaderGoCallBack(): height = %d\n", height)
+	// fmt.Printf("Go.FetchBlockHeaderGoCallBack(): header = %p\n", header)
+	// fmt.Printf("Go.FetchBlockHeaderGoCallBack(): err    = %d\n", err)
 
-	fetchBlockHeaderChannel1 <- header
-	fetchBlockHeaderChannel2 <- height
+	FetchBlockHeaderChannel1 <- header
+	FetchBlockHeaderChannel2 <- height
 }
 
-func fetchBlockHeader(exec unsafe.Pointer, height int) (unsafe.Pointer, int) {
+func FetchBlockHeader(exec unsafe.Pointer, height int) (unsafe.Pointer, int) {
 	ptr := (*C.struct_executor)(exec)
 
 	fptr := unsafe.Pointer(C.fetchBlockHeaderGoCallBack_cgo)
 	fptr2 := (C.block_header_fetch_handler_t)(fptr)
 
 	go C.fetch_block_header(ptr, (C.size_t)(height), fptr2)
-	return <-fetchBlockHeaderChannel1, <-fetchBlockHeaderChannel2
+	return <-FetchBlockHeaderChannel1, <-FetchBlockHeaderChannel2
 }
 
 // --------------------------------
-// fetchBlockHeaderByHash
+// FetchBlockHeaderByHash
 // --------------------------------
 
-var fetchBlockHeaderByHashChannel1 chan unsafe.Pointer
-var fetchBlockHeaderByHashChannel2 chan int
+var FetchBlockHeaderByHashChannel1 chan unsafe.Pointer
+var FetchBlockHeaderByHashChannel2 chan int
 
-//export fetchBlockHeaderByHashGoCallBack
-func fetchBlockHeaderByHashGoCallBack(err int, header unsafe.Pointer, height int) {
-	// fmt.Printf("Go.fetchBlockHeaderByHashGoCallBack(): height = %d\n", height)
-	// fmt.Printf("Go.fetchBlockHeaderByHashGoCallBack(): header = %p\n", header)
-	// fmt.Printf("Go.fetchBlockHeaderByHashGoCallBack(): err    = %d\n", err)
+//export FetchBlockHeaderByHashGoCallBack
+func FetchBlockHeaderByHashGoCallBack(err int, header unsafe.Pointer, height int) {
+	// fmt.Printf("Go.FetchBlockHeaderByHashGoCallBack(): height = %d\n", height)
+	// fmt.Printf("Go.FetchBlockHeaderByHashGoCallBack(): header = %p\n", header)
+	// fmt.Printf("Go.FetchBlockHeaderByHashGoCallBack(): err    = %d\n", err)
 
-	fetchBlockHeaderByHashChannel1 <- header
-	fetchBlockHeaderByHashChannel2 <- height
+	FetchBlockHeaderByHashChannel1 <- header
+	FetchBlockHeaderByHashChannel2 <- height
 }
 
-func fetchBlockHeaderByHash(exec unsafe.Pointer, hash hashT) (unsafe.Pointer, int) {
+func FetchBlockHeaderByHash(exec unsafe.Pointer, hash HashT) (unsafe.Pointer, int) {
 	ptr := (*C.struct_executor)(exec)
 
 	fptr := unsafe.Pointer(C.fetchBlockHeaderByHashGoCallBack_cgo)
@@ -213,54 +212,54 @@ func fetchBlockHeaderByHash(exec unsafe.Pointer, hash hashT) (unsafe.Pointer, in
 	defer C.free(hashC)
 
 	go C.fetch_block_header_by_hash(ptr, (*C.uint8_t)(hashC), fptr2)
-	return <-fetchBlockHeaderByHashChannel1, <-fetchBlockHeaderByHashChannel2
+	return <-FetchBlockHeaderByHashChannel1, <-FetchBlockHeaderByHashChannel2
 }
 
 // --------------------------------
-// fetchBlock
+// FetchBlock
 // --------------------------------
 
-var fetchBlockChannel1 chan unsafe.Pointer
-var fetchBlockChannel2 chan int
+var FetchBlockChannel1 chan unsafe.Pointer
+var FetchBlockChannel2 chan int
 
-//export fetchBlockGoCallBack
-func fetchBlockGoCallBack(err int, block unsafe.Pointer, height int) {
-	// fmt.Printf("Go.fetchBlockGoCallBack(): height = %d\n", height)
-	// fmt.Printf("Go.fetchBlockGoCallBack(): block = %p\n", block)
-	// fmt.Printf("Go.fetchBlockGoCallBack(): err    = %d\n", err)
+//export FetchBlockGoCallBack
+func FetchBlockGoCallBack(err int, block unsafe.Pointer, height int) {
+	// fmt.Printf("Go.FetchBlockGoCallBack(): height = %d\n", height)
+	// fmt.Printf("Go.FetchBlockGoCallBack(): block = %p\n", block)
+	// fmt.Printf("Go.FetchBlockGoCallBack(): err    = %d\n", err)
 
-	fetchBlockChannel1 <- block
-	fetchBlockChannel2 <- height
+	FetchBlockChannel1 <- block
+	FetchBlockChannel2 <- height
 }
 
-func fetchBlock(exec unsafe.Pointer, height int) (unsafe.Pointer, int) {
+func FetchBlock(exec unsafe.Pointer, height int) (unsafe.Pointer, int) {
 	ptr := (*C.struct_executor)(exec)
 
 	fptr := unsafe.Pointer(C.fetchBlockGoCallBack_cgo)
 	fptr2 := (C.block_fetch_handler_t)(fptr)
 
 	go C.fetch_block(ptr, (C.size_t)(height), fptr2)
-	return <-fetchBlockChannel1, <-fetchBlockChannel2
+	return <-FetchBlockChannel1, <-FetchBlockChannel2
 }
 
 // --------------------------------
-// fetchBlockByHash
+// FetchBlockByHash
 // --------------------------------
 
-var fetchBlockByHashChannel1 chan unsafe.Pointer
-var fetchBlockByHashChannel2 chan int
+var FetchBlockByHashChannel1 chan unsafe.Pointer
+var FetchBlockByHashChannel2 chan int
 
-//export fetchBlockByHashGoCallBack
-func fetchBlockByHashGoCallBack(err int, block unsafe.Pointer, height int) {
-	// fmt.Printf("Go.fetchBlockByHashGoCallBack(): height = %d\n", height)
-	// fmt.Printf("Go.fetchBlockByHashGoCallBack(): block = %p\n", block)
-	// fmt.Printf("Go.fetchBlockByHashGoCallBack(): err    = %d\n", err)
+//export FetchBlockByHashGoCallBack
+func FetchBlockByHashGoCallBack(err int, block unsafe.Pointer, height int) {
+	// fmt.Printf("Go.FetchBlockByHashGoCallBack(): height = %d\n", height)
+	// fmt.Printf("Go.FetchBlockByHashGoCallBack(): block = %p\n", block)
+	// fmt.Printf("Go.FetchBlockByHashGoCallBack(): err    = %d\n", err)
 
-	fetchBlockByHashChannel1 <- block
-	fetchBlockByHashChannel2 <- height
+	FetchBlockByHashChannel1 <- block
+	FetchBlockByHashChannel2 <- height
 }
 
-func fetchBlockByHash(exec unsafe.Pointer, hash hashT) (unsafe.Pointer, int) {
+func FetchBlockByHash(exec unsafe.Pointer, hash HashT) (unsafe.Pointer, int) {
 	ptr := (*C.struct_executor)(exec)
 
 	fptr := unsafe.Pointer(C.fetchBlockByHashGoCallBack_cgo)
@@ -270,29 +269,29 @@ func fetchBlockByHash(exec unsafe.Pointer, hash hashT) (unsafe.Pointer, int) {
 	defer C.free(hashC)
 
 	go C.fetch_block_by_hash(ptr, (*C.uint8_t)(hashC), fptr2)
-	return <-fetchBlockByHashChannel1, <-fetchBlockByHashChannel2
+	return <-FetchBlockByHashChannel1, <-FetchBlockByHashChannel2
 }
 
 // --------------------------------
-// fetchTransaction
+// FetchTransaction
 // --------------------------------
 
-var fetchTransactionChannel1 chan unsafe.Pointer
-var fetchTransactionChannel2 chan int
+var FetchTransactionChannel1 chan unsafe.Pointer
+var FetchTransactionChannel2 chan int
 
-//export fetchTransactionGoCallBack
-func fetchTransactionGoCallBack(err int, transaction unsafe.Pointer, height int, index int) {
-	fmt.Printf("Go.fetchTransactionGoCallBack(): height = %d\n", height)
-	fmt.Printf("Go.fetchTransactionGoCallBack(): index = %d\n", index)
-	fmt.Printf("Go.fetchTransactionGoCallBack(): transaction = %p\n", transaction)
-	fmt.Printf("Go.fetchTransactionGoCallBack(): err    = %d\n", err)
+//export FetchTransactionGoCallBack
+func FetchTransactionGoCallBack(err int, transaction unsafe.Pointer, height int, index int) {
+	fmt.Printf("Go.FetchTransactionGoCallBack(): height = %d\n", height)
+	fmt.Printf("Go.FetchTransactionGoCallBack(): index = %d\n", index)
+	fmt.Printf("Go.FetchTransactionGoCallBack(): transaction = %p\n", transaction)
+	fmt.Printf("Go.FetchTransactionGoCallBack(): err    = %d\n", err)
 
-	fetchTransactionChannel1 <- transaction
-	fetchTransactionChannel2 <- height
-	fetchTransactionChannel2 <- index
+	FetchTransactionChannel1 <- transaction
+	FetchTransactionChannel2 <- height
+	FetchTransactionChannel2 <- index
 }
 
-func fetchTransaction(exec unsafe.Pointer, hash hashT, requireConfirmed bool) (unsafe.Pointer, int, int) {
+func FetchTransaction(exec unsafe.Pointer, hash HashT, requireConfirmed bool) (unsafe.Pointer, int, int) {
 	ptr := (*C.struct_executor)(exec)
 
 	fptr := unsafe.Pointer(C.fetchTransactionGoCallBack_cgo)
@@ -302,24 +301,24 @@ func fetchTransaction(exec unsafe.Pointer, hash hashT, requireConfirmed bool) (u
 	defer C.free(hashC)
 
 	go C.fetch_transaction(ptr, (*C.uint8_t)(hashC), boolToC(requireConfirmed), fptr2)
-	return <-fetchTransactionChannel1, <-fetchTransactionChannel2, <-fetchTransactionChannel2
+	return <-FetchTransactionChannel1, <-FetchTransactionChannel2, <-FetchTransactionChannel2
 }
 
 // --------------------------------
 // fetchOutput
 // --------------------------------
 
-var fetchOutputChannel chan unsafe.Pointer
+var FetchOutputChannel chan unsafe.Pointer
 
-//export fetchOutputGoCallBack
-func fetchOutputGoCallBack(err int, output unsafe.Pointer) {
-	fmt.Printf("Go.fetchOutputGoCallBack(): output = %p\n", output)
-	fmt.Printf("Go.fetchOutputGoCallBack(): err    = %d\n", err)
+//export FetchOutputGoCallBack
+func FetchOutputGoCallBack(err int, output unsafe.Pointer) {
+	fmt.Printf("Go.FetchOutputGoCallBack(): output = %p\n", output)
+	fmt.Printf("Go.FetchOutputGoCallBack(): err    = %d\n", err)
 
-	fetchOutputChannel <- output
+	FetchOutputChannel <- output
 }
 
-func fetchOutput(exec unsafe.Pointer, hash hashT, index int, requireConfirmed bool) unsafe.Pointer {
+func FetchOutput(exec unsafe.Pointer, hash HashT, index int, requireConfirmed bool) unsafe.Pointer {
 	ptr := (*C.struct_executor)(exec)
 
 	fptr := unsafe.Pointer(C.fetchOutputGoCallBack_cgo)
@@ -336,5 +335,5 @@ func fetchOutput(exec unsafe.Pointer, hash hashT, index int, requireConfirmed bo
 	}
 
 	go C.fetch_output(ptr, (*C.uint8_t)(hashC), C.uint32_t(index), requireConfirmedC, fptr2)
-	return <-fetchOutputChannel
+	return <-FetchOutputChannel
 }

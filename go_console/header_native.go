@@ -81,17 +81,17 @@ func headerSetNonce(header unsafe.Pointer, nonce int) {
 	C.header_set_nonce(ptr, (C.uint32_t)(nonce))
 }
 
-func headerPreviousBlockHash(header unsafe.Pointer) hashT {
+func headerPreviousBlockHash(header unsafe.Pointer) HashT {
 	ptr := (C.header_t)(header)
 	return CHashToGo(C.header_previous_block_hash(ptr))
 }
 
-func headerMerkle(header unsafe.Pointer) hashT {
+func headerMerkle(header unsafe.Pointer) HashT {
 	ptr := (C.header_t)(header)
 	return CHashToGo(C.header_merkle(ptr))
 }
 
-func headerHash(header unsafe.Pointer) hashT {
+func headerHash(header unsafe.Pointer) HashT {
 	ptr := (C.header_t)(header)
 	return CHashToGo(C.header_hash(ptr))
 }
