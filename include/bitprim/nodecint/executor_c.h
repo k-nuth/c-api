@@ -58,6 +58,12 @@ void executor_stop(executor_t exec);
 // ------------------------------------------------
 
 BITPRIM_EXPORT
+void fetch_block(executor_t exec, size_t height, block_fetch_handler_t handler);
+
+BITPRIM_EXPORT
+void fetch_block_by_hash(executor_t exec, hash_t hash, block_fetch_handler_t handler);
+
+BITPRIM_EXPORT
 void fetch_last_height(executor_t exec, last_height_fetch_handler_t handler);
 
 BITPRIM_EXPORT
@@ -70,10 +76,10 @@ BITPRIM_EXPORT
 void fetch_block_header_by_hash(executor_t exec, hash_t hash, block_header_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-void fetch_block(executor_t exec, size_t height, block_fetch_handler_t handler);
+void fetch_merkle_block_by_height(executor_t exec, size_t height, merkle_block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-void fetch_block_by_hash(executor_t exec, hash_t hash, block_fetch_handler_t handler);
+void fetch_merkle_block_by_hash(executor_t exec, hash_t hash, merkle_block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 void fetch_transaction(executor_t exec, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler);

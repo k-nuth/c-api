@@ -150,8 +150,8 @@ void fetch_block_header_by_hash(executor_t exec, hash_t hash, block_header_fetch
 
 void fetch_block(executor_t exec, size_t height, block_fetch_handler_t handler) {
     exec->actual.node().chain().fetch_block(height, [handler](std::error_code const& ec, libbitcoin::message::block::ptr block, size_t h) {
+
         auto new_block = new libbitcoin::message::block(*block.get());
-//        auto new_block = std::make_unique(*block.get()).release();
         //Note: It is the responsability of the user to release/destruct the object
         handler(ec.value(), new_block, h);
     });
@@ -170,11 +170,34 @@ void fetch_block_by_hash(executor_t exec, hash_t hash, block_fetch_handler_t han
     });
 }
 
+void fetch_merkle_block_by_height(executor_t exec, size_t height, merkle_block_fetch_handler_t handler){
+    exec->actual.node().chain().fetch_merkle_block(height, [handler](std::error_code const& ec, libbitcoin::message::merkle_block::ptr block, size_t h) {
+
+        auto new_block = new libbitcoin::message::merkle_block(*block.get());
+        //Note: It is the responsibility of the user to release/destruct the object
+        handler(ec.value(), new_block, h);
+    });
+}
+
+void fetch_merkle_block_by_hash(executor_t exec, hash_t hash, merkle_block_fetch_handler_t handler) {
+
+    libbitcoin::hash_digest hash_cpp;
+    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
+
+    exec->actual.node().chain().fetch_merkle_block(hash_cpp, [handler](std::error_code const& ec, libbitcoin::message::merkle_block::ptr block, size_t h) {
+        auto new_block = new libbitcoin::message::merkle_block(*block.get());
+//        auto new_block = std::make_unique(*block.get()).release();
+        //Note: It is the responsability of the user to release/destruct the object
+        handler(ec.value(), new_block, h);
+    });
+}
+
 //virtual void fetch_transaction(const hash_digest& hash,
 //                               bool require_confirmed, transaction_fetch_handler handler) const = 0;
 
 
 void fetch_transaction(executor_t exec, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler) {
+    //precondition:  [hash, 32] is a valid range
 
     libbitcoin::hash_digest hash_cpp;
     std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));

@@ -41,6 +41,7 @@ typedef struct executor* executor_t;
 
 typedef void* header_t;
 typedef void* block_t;
+typedef void* merkle_block_t;
 typedef void* transaction_t;
 typedef void* output_t;
 typedef void* input_t;
@@ -48,11 +49,17 @@ typedef void* script_t;
 typedef void* output_point_t;
 typedef uint8_t* hash_t;
 
+// (bitprim-node)
+//          block_ptr -> libbitcoin::message::block::ptr
+//                    -> std::shared_ptr<libbitcoin::message::block>
+
+
 typedef void (*last_height_fetch_handler_t)(int error, size_t h);
 typedef void (*block_height_fetch_handler_t)(int error, size_t h);
 typedef void (*block_header_fetch_handler_t)(int error, header_t header, size_t h);
 // typedef std::function<void(const code&, block_ptr, size_t)> block_fetch_handler;
 typedef void (*block_fetch_handler_t)(int error, block_t block, size_t h);
+typedef void (*merkle_block_fetch_handler_t)(int error, merkle_block_t block, size_t h);
 
 //typedef std::function<void(const code&, transaction_ptr, size_t, size_t)> transaction_fetch_handler;
 typedef void (*transaction_fetch_handler_t)(int error, transaction_t transaction, size_t h, size_t i);
