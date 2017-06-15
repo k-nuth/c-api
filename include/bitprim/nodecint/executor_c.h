@@ -37,6 +37,16 @@ executor_t executor_construct(char const* path, FILE* sin, FILE* sout, FILE* ser
 BITPRIM_EXPORT
 executor_t executor_construct_fd(char const* path, int sin_fd, int sout_fd, int serr_fd);
 
+
+#if defined(_WIN32)
+
+BITPRIM_EXPORT
+executor_t executor_construct_handles(char const* path, void* sin, void* sout, void* serr);
+
+#endif /* defined(_WIN32) */
+
+
+
 BITPRIM_EXPORT
 void executor_destruct(executor_t exec);
 
@@ -61,26 +71,51 @@ BITPRIM_EXPORT
 void fetch_last_height(executor_t exec, last_height_fetch_handler_t handler);
 
 BITPRIM_EXPORT
+int get_last_height(executor_t exec, size_t* height);
+
+
+BITPRIM_EXPORT
 void fetch_block_height(executor_t exec, hash_t hash, block_height_fetch_handler_t handler);
+
+BITPRIM_EXPORT
+int get_block_height(executor_t exec, hash_t hash, size_t* height);
+
 
 BITPRIM_EXPORT
 void fetch_block_header(executor_t exec, size_t height, block_header_fetch_handler_t handler);
 
 BITPRIM_EXPORT
+int get_block_header(executor_t exec, size_t height, header_t* header, size_t* ret_height);
+
+BITPRIM_EXPORT
 void fetch_block_header_by_hash(executor_t exec, hash_t hash, block_header_fetch_handler_t handler);
+
+BITPRIM_EXPORT
+int get_block_header_by_hash(executor_t exec, hash_t hash, header_t* header, size_t* ret_height);
 
 BITPRIM_EXPORT
 void fetch_block(executor_t exec, size_t height, block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
+int get_block(executor_t exec, size_t height, block_t* block, size_t* ret_height);
+
+BITPRIM_EXPORT
 void fetch_block_by_hash(executor_t exec, hash_t hash, block_fetch_handler_t handler);
+
+BITPRIM_EXPORT
+int get_block_by_hash(executor_t exec, hash_t hash, block_t* block, size_t* ret_height);
 
 BITPRIM_EXPORT
 void fetch_transaction(executor_t exec, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler);
 
 BITPRIM_EXPORT
+int get_transaction(executor_t exec, hash_t hash, int require_confirmed, transaction_t* transaction, size_t* ret_height, size_t* index);
+
+BITPRIM_EXPORT
 void fetch_output(executor_t exec, hash_t hash, uint32_t index, int require_confirmed, output_fetch_handler_t handler);
 
+BITPRIM_EXPORT
+int get_output(executor_t exec, hash_t hash, uint32_t index, int require_confirmed, output_t* output);
 
 
 #ifdef __cplusplus

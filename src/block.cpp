@@ -45,7 +45,7 @@ header_t block_header(block_t block) {
 
 hash_t block_hash(block_t block) {
     auto hash_cpp = block_const_cpp(block).hash();
-    return hash_cpp.data();
+    return hash_cpp.data(); //TODO: returning a dangling pointer
 }
 
 size_t block_transaction_count(block_t block) {
