@@ -16,11 +16,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #==============================================================================
 # Implement --with-remote-blockchain and declare WITH_REMOTE_BLOCKCHAIN.
 #------------------------------------------------------------------------------
-option(WITH_REMOTE_BLOCKCHAIN "Compile with remote bitprim-blockchain (aka. bitprim-blockchain-requester)." ON)
+option(WITH_REMOTE_BLOCKCHAIN "Compile with remote bitprim-blockchain (aka. bitprim-blockchain-requester)." OFF)
 
 # Implement --with-remote-database and declare WITH_REMOTE_DATABASE.
 #------------------------------------------------------------------------------
-option(WITH_REMOTE_DATABASE "Compile with remote bitprim-database (aka. bitprim-database-requester)." ON)
+option(WITH_REMOTE_DATABASE "Compile with remote bitprim-database (aka. bitprim-database-requester)." OFF)
 
 
 # Implement --with-tests and declare WITH_TESTS.
@@ -33,7 +33,7 @@ option(WITH_CONSOLE "Compile console application." ON)
 
 # Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
 #------------------------------------------------------------------------------
-option(ENABLE_SHARED "" ON)
+option(ENABLE_SHARED "" OFF)
 
 # Check dependencies.
 #==============================================================================

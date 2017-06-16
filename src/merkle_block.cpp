@@ -31,130 +31,41 @@ libbitcoin::message::merkle_block& merkle_block_cpp(merkle_block_t block) {
 
 extern "C" {
 
-void merkle_block_destruct(merkle_block_t block) {
-    delete &merkle_block_cpp(block);
-}
+hash_t merkle_block_hash_nth(merkle_block_t block, size_t n) {
+    //precondition: n >=0 && n < hashes().size()
 
-int merkle_block_is_valid(merkle_block_t block) {
-    return merkle_block_const_cpp(block).is_valid();
+    auto* blk = &merkle_block_cpp(block);
+    auto& hash_n = blk->hashes()[n];
+    return &hash_n;
 }
 
 header_t merkle_block_header(merkle_block_t block) {
     return &merkle_block_cpp(block).header();
 }
 
-hash_t merkle_block_hash(merkle_block_t block) {
-    auto hash_cpp = merkle_block_const_cpp(block).hash();
-    return hash_cpp.data();
+int merkle_block_is_valid(merkle_block_t block) {
+    return merkle_block_const_cpp(block).is_valid();
 }
 
-size_t merkle_block_transaction_count(merkle_block_t block) {
-    return merkle_block_const_cpp(block).transactions().size();
+size_t merkle_block_hash_count(merkle_block_t block) {
+    return merkle_block_const_cpp(block).hashes().size();
 }
-
-transaction_t merkle_block_transactions(merkle_block_t block, size_t* n) {
-    auto* blk = &merkle_block_cpp(block);
-    *n = blk->transactions().size();
-    return blk->transactions().data();
-}
-
-transaction_t merkle_block_transaction_next(transaction_t transaction) {
-    auto* transaction_cpp = static_cast<libbitcoin::message::transaction*>(transaction);
-    ++transaction_cpp;
-    return transaction_cpp;
-}
-
-transaction_t merkle_block_transaction_nth(merkle_block_t block, size_t n) {
-    //precondition: n >=0 && n < transactions().size()
-
-    auto* blk = &merkle_block_cpp(block);
-    auto& tx_n = blk->transactions()[n];
-    return &tx_n;
-}
-
-
-// -----------------------
 
 size_t merkle_block_serialized_size(merkle_block_t block, uint32_t version) {
     return merkle_block_const_cpp(block).serialized_size(version);
 }
 
-/*static*/
-uint64_t merkle_block_subsidy(size_t height) {
-    return libbitcoin::message::merkle_block::subsidy(height);
+size_t merkle_block_total_transaction_count(merkle_block_t block){
+    return merkle_block_const_cpp(block).total_transactions();
 }
 
-//static uint256_t merkle_block_proof(uint32_t bits) {}
-
-///*static*/
-//uint256_t merkle_block_proof(size_t height) {
-//    return libbitcoin::message::merkle_block::proof(height);
-//}
-
-uint64_t merkle_block_fees(merkle_block_t block) {
-    return merkle_block_const_cpp(block).fees();
+void merkle_block_destruct(merkle_block_t block) {
+    delete &merkle_block_cpp(block);
 }
 
-uint64_t merkle_block_claim(merkle_block_t block) {
-    return merkle_block_const_cpp(block).claim();
+void merkle_block_reset(merkle_block_t block){
+    merkle_block_cpp(block).reset();
 }
-
-uint64_t merkle_block_reward(merkle_block_t block, size_t height) {
-    return merkle_block_const_cpp(block).reward(height);
-}
-
-//uint256_t merkle_block_proof(merkle_block_t block) {}
-//hash_digest merkle_block_generate_merkle_root(merkle_block_t block) {}
-
-//Note: The user is responsible for the resource release
-hash_t merkle_block_generate_merkle_root(merkle_block_t block) {
-    auto hash_cpp = merkle_block_const_cpp(block).generate_merkle_root();
-    hash_t ret = (uint8_t*)malloc(hash_cpp.size() * sizeof(uint8_t));
-    std::copy_n(std::begin(hash_cpp), hash_cpp.size(), ret);
-    return ret;
-}
-
-size_t merkle_block_signature_operations(merkle_block_t block) {
-    return merkle_block_const_cpp(block).signature_operations();
-}
-
-size_t merkle_block_signature_operations_bip16_active(merkle_block_t block, int /*bool*/ bip16_active) {
-    return merkle_block_const_cpp(block).signature_operations(bip16_active);
-}
-
-size_t merkle_block_total_inputs(merkle_block_t block, int /*bool*/ with_coinbase=true) {
-    return merkle_block_const_cpp(block).total_inputs(with_coinbase);
-}
-
-int /*bool*/ merkle_block_is_extra_coinbases(merkle_block_t block) {
-    return merkle_block_const_cpp(block).is_extra_coinbases();
-}
-
-int /*bool*/ merkle_block_is_final(merkle_block_t block, size_t height) {
-    return merkle_block_const_cpp(block).is_final(height);
-}
-
-int /*bool*/ merkle_block_is_distinct_transaction_set(merkle_block_t block) {
-    return merkle_block_const_cpp(block).is_distinct_transaction_set();
-}
-
-int /*bool*/ merkle_block_is_valid_coinbase_claim(merkle_block_t block, size_t height) {
-    return merkle_block_const_cpp(block).is_valid_coinbase_claim(height);
-}
-
-int /*bool*/ merkle_block_is_valid_coinbase_script(merkle_block_t block, size_t height) {
-    return merkle_block_const_cpp(block).is_valid_coinbase_script(height);
-}
-
-int /*bool*/ merkle_block_is_internal_double_spend(merkle_block_t block) {
-    return merkle_block_const_cpp(block).is_internal_double_spend();
-}
-
-int /*bool*/ merkle_block_is_valid_merkle_root(merkle_block_t block) {
-    return merkle_block_const_cpp(block).is_valid_merkle_root();
-}
-
-
 
 //
 //bool from_data(const data_chunk& data);

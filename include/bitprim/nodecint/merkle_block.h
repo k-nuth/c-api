@@ -30,84 +30,29 @@
 extern "C" {
 #endif
 
-
 BITPRIM_EXPORT
-void merkle_block_destruct(merkle_block_t block);
-
-BITPRIM_EXPORT
-int merkle_block_is_valid(merkle_block_t block);
+hash_t merkle_block_hash_nth(merkle_block_t block, size_t n);
 
 BITPRIM_EXPORT
 header_t merkle_block_header(merkle_block_t block);
 
 BITPRIM_EXPORT
-hash_t merkle_block_hash(merkle_block_t block);
+int merkle_block_is_valid(merkle_block_t block);
 
 BITPRIM_EXPORT
-size_t merkle_block_transaction_count(merkle_block_t block);
-
-BITPRIM_EXPORT
-transaction_t merkle_block_transactions(merkle_block_t block, size_t* n);
-
-BITPRIM_EXPORT
-transaction_t merkle_block_transaction_next(transaction_t transaction);
-
-BITPRIM_EXPORT
-transaction_t merkle_block_transaction_nth(merkle_block_t block, size_t n);
-
+size_t merkle_block_hash_count(merkle_block_t block);
 
 BITPRIM_EXPORT
 size_t merkle_block_serialized_size(merkle_block_t block, uint32_t version);
 
 BITPRIM_EXPORT
-/*static*/
-uint64_t merkle_block_subsidy(size_t height);
+size_t merkle_block_total_transaction_count(merkle_block_t block);
 
 BITPRIM_EXPORT
-uint64_t merkle_block_fees(merkle_block_t block);
+void merkle_block_destruct(merkle_block_t block);
 
 BITPRIM_EXPORT
-uint64_t merkle_block_claim(merkle_block_t block);
-
-BITPRIM_EXPORT
-uint64_t merkle_block_reward(merkle_block_t block, size_t height);
-
-//Note: The user is responsible for the resource release
-BITPRIM_EXPORT
-hash_t merkle_block_generate_merkle_root(merkle_block_t block);
-
-BITPRIM_EXPORT
-size_t merkle_block_signature_operations(merkle_block_t block);
-
-BITPRIM_EXPORT
-size_t merkle_block_signature_operations_bip16_active(merkle_block_t block, int /*bool*/ bip16_active);
-
-BITPRIM_EXPORT
-size_t merkle_block_total_inputs(merkle_block_t block, int /*bool*/ with_coinbase /*= true*/);
-
-BITPRIM_EXPORT
-int /*bool*/ merkle_block_is_extra_coinbases(merkle_block_t block);
-
-BITPRIM_EXPORT
-int /*bool*/ merkle_block_is_final(merkle_block_t block, size_t height);
-
-BITPRIM_EXPORT
-int /*bool*/ merkle_block_is_distinct_transaction_set(merkle_block_t block);
-
-BITPRIM_EXPORT
-int /*bool*/ merkle_block_is_valid_coinbase_claim(merkle_block_t block, size_t height);
-
-BITPRIM_EXPORT
-int /*bool*/ merkle_block_is_valid_coinbase_script(merkle_block_t block, size_t height);
-
-BITPRIM_EXPORT
-int /*bool*/ merkle_block_is_internal_double_spend(merkle_block_t block);
-
-BITPRIM_EXPORT
-int /*bool*/ merkle_block_is_valid_merkle_root(merkle_block_t block);
-
-
-
+void merkle_block_reset(merkle_block_t block);
 
 #ifdef __cplusplus
 } // extern "C"
