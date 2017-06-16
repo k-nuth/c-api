@@ -241,4 +241,13 @@ void fetch_compact_block_by_hash(executor_t exec, hash_t hash, compact_block_fet
     });
 }
 
+void fetch_transaction_position(executor_t exec, hash_t hash, int require_confirmed, transaction_index_fetch_handler_t handler){
+    libbitcoin::hash_digest hash_cpp;
+    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
+
+    exec->actual.node().chain().fetch_transaction_position(hash_cpp, require_confirmed, [handler](std::error_code const& ec, size_t position, size_t height){
+        handler(ec.value(), position, height);
+    });
+}
+
 } /* extern "C" */

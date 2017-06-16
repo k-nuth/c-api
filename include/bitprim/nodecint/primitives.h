@@ -68,6 +68,9 @@ typedef void (*output_fetch_handler_t)(int error, output_t output);
 //typedef std::function<void(const code&, transaction_ptr, size_t, size_t)> transaction_fetch_handler;
 typedef void (*transaction_fetch_handler_t)(int error, transaction_t transaction, size_t h, size_t i);
 
+//std::function<void(const code&, size_t, size_t>
+typedef void (*transaction_index_fetch_handler_t)(int error, size_t position, size_t height);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

@@ -91,9 +91,10 @@ BITPRIM_EXPORT
 void fetch_transaction(executor_t exec, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler);
 
 BITPRIM_EXPORT
+void fetch_transaction_position(executor_t exec, hash_t hash, int require_confirmed, transaction_index_fetch_handler_t handler);
+
+BITPRIM_EXPORT
 void fetch_output(executor_t exec, hash_t hash, uint32_t index, int require_confirmed, output_fetch_handler_t handler);
-
-
 
 #ifdef __cplusplus
 } // extern "C"
