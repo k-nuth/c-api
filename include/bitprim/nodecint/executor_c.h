@@ -82,6 +82,12 @@ BITPRIM_EXPORT
 void fetch_merkle_block_by_hash(executor_t exec, hash_t hash, merkle_block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
+void fetch_compact_block_by_height(executor_t exec, size_t height, compact_block_fetch_handler_t handler);
+
+BITPRIM_EXPORT
+void fetch_compact_block_by_hash(executor_t exec, hash_t hash, compact_block_fetch_handler_t handler);
+
+BITPRIM_EXPORT
 void fetch_transaction(executor_t exec, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler);
 
 BITPRIM_EXPORT

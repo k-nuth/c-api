@@ -186,8 +186,6 @@ void fetch_merkle_block_by_hash(executor_t exec, hash_t hash, merkle_block_fetch
 
     exec->actual.node().chain().fetch_merkle_block(hash_cpp, [handler](std::error_code const& ec, libbitcoin::message::merkle_block::ptr block, size_t h) {
         auto new_block = new libbitcoin::message::merkle_block(*block.get());
-//        auto new_block = std::make_unique(*block.get()).release();
-        //Note: It is the responsability of the user to release/destruct the object
         handler(ec.value(), new_block, h);
     });
 }
@@ -223,5 +221,24 @@ void fetch_output(executor_t exec, hash_t hash, uint32_t index, int require_conf
     });
 }
 
+void fetch_compact_block_by_height(executor_t exec, size_t height, compact_block_fetch_handler_t handler){
+    exec->actual.node().chain().fetch_compact_block(height, [handler](std::error_code const& ec, libbitcoin::message::compact_block::ptr block, size_t h) {
+
+        auto new_block = new libbitcoin::message::compact_block(*block.get());
+        //Note: It is the responsibility of the user to release/destruct the object
+        handler(ec.value(), new_block, h);
+    });
+}
+
+void fetch_compact_block_by_hash(executor_t exec, hash_t hash, compact_block_fetch_handler_t handler){
+    libbitcoin::hash_digest hash_cpp;
+    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
+
+    exec->actual.node().chain().fetch_compact_block(hash_cpp, [handler](std::error_code const& ec, libbitcoin::message::compact_block::ptr block, size_t h) {
+        auto new_block = new libbitcoin::message::compact_block(*block.get());
+        //Note: It is the responsibility of the user to release/destruct the object
+        handler(ec.value(), new_block, h);
+    });
+}
 
 } /* extern "C" */

@@ -210,7 +210,7 @@ add_library(bitprim-node-cint ${MODE}
         src/output.cpp
         src/input.cpp
         src/script.cpp
-)
+        src/compact_block.cpp)
 
 # set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
 

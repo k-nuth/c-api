@@ -67,46 +67,4 @@ void merkle_block_reset(merkle_block_t block){
     merkle_block_cpp(block).reset();
 }
 
-//
-//bool from_data(const data_chunk& data);
-//bool from_data(std::istream& stream);
-//bool from_data(reader& source);
-//
-//
-//// Serialization.
-////-------------------------------------------------------------------------
-//
-//data_chunk to_data() const;
-//void to_data(std::ostream& stream) const;
-//void to_data(writer& sink) const;
-//hash_list to_hashes() const;
-//
-//// Properties (size, accessors, cache).
-////-------------------------------------------------------------------------
-//
-//void set_header(const chain::header& value);
-//void set_header(chain::header&& value);
-//
-//void set_transactions(const transaction::list& value);
-//void set_transactions(transaction::list&& value);
-//
-//
-
-//// Validation.
-////-------------------------------------------------------------------------
-//
-//static uint256_t proof(uint32_t bits);
-//
-//uint256_t proof() const;
-//hash_digest generate_merkle_root() const;
-//
-//code check() const;
-//code check_transactions() const;
-//code accept(bool transactions=true) const;
-//code accept(const chain_state& state, bool transactions=true) const;
-//code accept_transactions(const chain_state& state) const;
-//code connect() const;
-//code connect(const chain_state& state) const;
-//code connect_transactions(const chain_state& state) const;
-
 } /* extern "C" */
