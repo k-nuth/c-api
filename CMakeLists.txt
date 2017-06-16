@@ -204,6 +204,7 @@ add_library(bitprim-node-cint ${MODE}
         src/executor.cpp
         src/parser.cpp
         src/block.cpp
+        src/merkle_block.cpp
         src/transaction.cpp
         src/header.cpp
         src/output.cpp

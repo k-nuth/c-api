@@ -28,10 +28,14 @@ int main(int argc, char* argv[]) {
     int res1 = executor_initchain(exec);
     int res2 = executor_run(exec);
 
+    fetch_merkle_block_by_height(exec, 0, NULL);
+
     executor_destruct(exec);
 
+
+
     void* xxx;
-    header_is_valid(xxx);
+    //header_is_valid(xxx);
 
     return 0;
 }
