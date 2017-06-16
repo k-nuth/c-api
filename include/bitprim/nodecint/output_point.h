@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_OUTPUT_H_
-#define BITPRIM_NODE_CINT_OUTPUT_H_
+#ifndef BITPRIM_NODE_CINT_OUTPUT_POINT_H
+#define BITPRIM_NODE_CINT_OUTPUT_POINT_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -26,37 +26,13 @@
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+BITPRIM_EXPORT
+void output_point_destruct(output_point_t output);
 
 BITPRIM_EXPORT
-void output_destruct(output_t output);
+hash_t output_point_get_hash(output_point_t output);
 
 BITPRIM_EXPORT
-int output_is_valid(output_t output);
+uint32_t output_point_get_index(output_point_t output);
 
-BITPRIM_EXPORT
-size_t output_serialized_size(output_t output, int /*bool*/ wire /*= true*/);
-
-BITPRIM_EXPORT
-uint64_t output_value(output_t output);
-
-BITPRIM_EXPORT
-size_t output_signature_operations(output_t output);
-
-BITPRIM_EXPORT
-script_t output_script(output_t output);
-
-BITPRIM_EXPORT
-hash_t output_get_hash(output_t output);
-
-BITPRIM_EXPORT
-uint32_t output_get_index(output_t output);
-
-
-#ifdef __cplusplus
-} // extern "C"
-#endif
-
-#endif /* BITPRIM_NODE_CINT_OUTPUT_H_ */
+#endif //BITPRIM_NODE_CINT_OUTPUT_POINT_H

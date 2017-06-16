@@ -65,7 +65,10 @@ typedef void (*merkle_block_fetch_handler_t)(int error, merkle_block_t block, si
 //typedef handle1<chain::output> output_fetch_handler;
 typedef void (*output_fetch_handler_t)(int error, output_t output);
 
-//typedef std::function<void(const code&, transaction_ptr, size_t, size_t)> transaction_fetch_handler;
+//std::function<void(const code&, chain::input_point)>;
+typedef void (*spend_fetch_handler_t)(int error, input_t output);
+
+//std::function<void(const code&, transaction_ptr, size_t, size_t)> transaction_fetch_handler;
 typedef void (*transaction_fetch_handler_t)(int error, transaction_t transaction, size_t h, size_t i);
 
 //std::function<void(const code&, size_t, size_t>

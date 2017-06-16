@@ -21,6 +21,8 @@
 #include <memory>
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <bitprim/nodecint/executor.hpp>
+#include <bitprim/nodecint/output_point.h>
+
 //#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
 //#include <cinttypes>   //TODO: Remove, it is for the printf (printing pointer addresses)
 
@@ -216,6 +218,7 @@ void fetch_output(executor_t exec, hash_t hash, uint32_t index, int require_conf
     libbitcoin::chain::output_point point(hash_cpp, index);
 
     exec->actual.node().chain().fetch_output(point, require_confirmed, [handler](std::error_code const& ec, libbitcoin::chain::output const& output) {
+        //It is the user's responsibility to release this memory
         auto new_output = new libbitcoin::chain::output(output);
         handler(ec.value(), new_output);
     });
@@ -247,6 +250,19 @@ void fetch_transaction_position(executor_t exec, hash_t hash, int require_confir
 
     exec->actual.node().chain().fetch_transaction_position(hash_cpp, require_confirmed, [handler](std::error_code const& ec, size_t position, size_t height){
         handler(ec.value(), position, height);
+    });
+}
+
+void fetch_spend(executor_t exec, output_point_t outpoint, spend_fetch_handler_t handler){
+    libbitcoin::chain::output_point outpoint_cpp;
+    hash_t hash = output_point_get_hash(outpoint);
+    libbitcoin::hash_digest hash_cpp;
+    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
+    outpoint_cpp.set_hash(hash_cpp);
+    outpoint_cpp.set_index(output_point_get_index(outpoint));
+
+    exec->actual.node().chain().fetch_spend(outpoint_cpp, [handler](std::error_code const& ec, input_t input){
+        handler(ec.value(), input);
     });
 }
 
