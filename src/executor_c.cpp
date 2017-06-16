@@ -166,8 +166,8 @@ void fetch_block_by_hash(executor_t exec, hash_t hash, block_fetch_handler_t han
 
     exec->actual.node().chain().fetch_block(hash_cpp, [handler](std::error_code const& ec, libbitcoin::message::block::ptr block, size_t h) {
         auto new_block = new libbitcoin::message::block(*block.get());
-//        auto new_block = std::make_unique(*block.get()).release();
-        //Note: It is the responsability of the user to release/destruct the object
+        //auto new_block = std::make_unique(*block.get()).release();
+        //Note: It is the responsibility of the user to release/destruct the object
         handler(ec.value(), new_block, h);
     });
 }
@@ -254,15 +254,11 @@ void fetch_transaction_position(executor_t exec, hash_t hash, int require_confir
 }
 
 void fetch_spend(executor_t exec, output_point_t outpoint, spend_fetch_handler_t handler){
-    libbitcoin::chain::output_point outpoint_cpp;
-    hash_t hash = output_point_get_hash(outpoint);
-    libbitcoin::hash_digest hash_cpp;
-    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
-    outpoint_cpp.set_hash(hash_cpp);
-    outpoint_cpp.set_index(output_point_get_index(outpoint));
+    libbitcoin::chain::output_point* outpoint_cpp = static_cast<libbitcoin::chain::output_point*>(outpoint);
 
-    exec->actual.node().chain().fetch_spend(outpoint_cpp, [handler](std::error_code const& ec, input_t input){
-        handler(ec.value(), input);
+    exec->actual.node().chain().fetch_spend(*outpoint_cpp, [handler](std::error_code const& ec, libbitcoin::chain::input_point input){
+        auto new_input = new libbitcoin::chain::input_point(input);
+        handler(ec.value(), new_input);
     });
 }
 
