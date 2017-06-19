@@ -208,6 +208,7 @@ add_library(bitprim-node-cint ${MODE}
         src/transaction.cpp
         src/header.cpp
         src/output.cpp
+        src/output_point.cpp
         src/input.cpp
         src/script.cpp
         src/compact_block.cpp)
