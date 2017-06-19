@@ -199,19 +199,22 @@ else()
 endif()
 
 add_library(bitprim-node-cint ${MODE}
-        src/node.cpp
-        src/executor_c.cpp
-        src/executor.cpp
-        src/parser.cpp
         src/block.cpp
-        src/merkle_block.cpp
-        src/transaction.cpp
+        src/compact_block.cpp
+        src/executor.cpp
+        src/executor_c.cpp
         src/header.cpp
+        src/history_compact.cpp
+        src/history_compact_list.cpp
+        src/input.cpp
+        src/merkle_block.cpp
+        src/node.cpp
         src/output.cpp
         src/output_point.cpp
-        src/input.cpp
+        src/parser.cpp
+        src/payment_address.cpp
         src/script.cpp
-        src/compact_block.cpp)
+        src/transaction.cpp)
 
 # set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
 
@@ -289,31 +292,21 @@ set_target_properties(
 # 
 # # local: test/bitprim_node_cint_test
 # #------------------------------------------------------------------------------
-# if (WITH_TESTS)
-#   add_executable(bitprim_node_cint_test
-#           test/check_list.cpp
-#           test/configuration.cpp
-#           test/header_list.cpp
-#           test/main.cpp
-#           test/node.cpp
-#           test/performance.cpp
-#           test/reservation.cpp
-#           test/reservations.cpp
-#           test/settings.cpp
-#           test/utility.cpp
-#           test/utility.hpp)
-#   target_link_libraries(bitprim_node_cint_test PUBLIC bitprim-node-cint)
-#   _group_sources(bitprim_node_cint_test "${CMAKE_CURRENT_LIST_DIR}/test")
-# 
-#   _add_tests(bitprim_node_cint_test
-#           configuration_tests
-#           node_tests
-#          header_queue_tests
-#           performance_tests
-#           reservation_tests
-#           reservations_tests
-#           settings_tests)
-# endif()
+ if (WITH_TESTS)
+   add_executable(queries
+           test/queries.cpp)
+   target_link_libraries(queries PUBLIC bitprim-node-cint)
+   #_group_sources(queries "${CMAKE_CURRENT_LIST_DIR}/test")
+
+   #_add_tests(bitprim_node_cint_test
+   #        configuration_tests
+   #        node_tests
+   #       header_queue_tests
+   #        performance_tests
+   #        reservation_tests
+   #        reservations_tests
+   #        settings_tests)
+ endif()
 
 
 

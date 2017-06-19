@@ -262,4 +262,11 @@ void fetch_spend(executor_t exec, output_point_t outpoint, spend_fetch_handler_t
     });
 }
 
+void fetch_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler){
+    const libbitcoin::wallet::payment_address& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
+    /*exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [handler](){
+        //TODO
+    });*/
+}
+
 } /* extern "C" */
