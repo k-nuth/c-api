@@ -47,13 +47,8 @@ struct executor {
         , serr_(&serr_buffer_)
         , actual(make_config(path), sin_, sout_, serr_)
     {
-//        boost::iostreams::file_descriptor_source()
-//        std::cout << fileno(sin) << std::endl;
-//        std::cout << fileno(sout) << std::endl;
-//        std::cout << fileno(serr) << std::endl;
-
         std::ostream os(&sout_buffer_);
-        os << "Hello World!" << std::endl;
+//        os << "Hello World!" << std::endl;
     }
 
     executor(char const* path, int sin_fd, int sout_fd, int serr_fd)
@@ -66,7 +61,7 @@ struct executor {
           , actual(make_config(path), sin_, sout_, serr_)
     {
         std::ostream os(&sout_buffer_);
-        os << "Hello World -- 2!" << std::endl;
+//        os << "Hello World -- 2!" << std::endl;
     }
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
@@ -83,7 +78,7 @@ struct executor {
         , actual(make_config(path), sin_, sout_, serr_)
     {
         std::ostream os(&sout_buffer_);
-        os << "Hello World -- 3!" << std::endl;
+//        os << "Hello World -- 3!" << std::endl;
     }
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
@@ -116,7 +111,7 @@ executor_t executor_construct_handles(char const* path, void* sin, void* sout, v
 
 
 void executor_destruct(executor_t exec) {
-    std::cout << "From C++: executor_destruct\n";
+//    std::cout << "From C++: executor_destruct\n";
 //    printf("executor_destruct - exec: 0x%" PRIXPTR "\n", (uintptr_t)exec);
 
     delete exec;
