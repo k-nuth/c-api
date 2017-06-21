@@ -23,6 +23,9 @@
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/thread/latch.hpp>
 #include <bitprim/nodecint/executor.hpp>
+#include <bitprim/nodecint/output_point.h>
+//#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
+//#include <cinttypes>   //TODO: Remove, it is for the printf (printing pointer addresses)
 
 libbitcoin::node::configuration make_config(char const* path) {
     libbitcoin::node::configuration config(libbitcoin::config::settings::mainnet);
@@ -47,26 +50,42 @@ int devnull_fileno() {
     return fileno(devnull_file());
 }
 
+inline
+int fileno_or_devnull(FILE* f) {
+    if (f == 0) {
+        return devnull_fileno();
+    } else {
+        return fileno(f);
+    }
+}
+
+inline
+int fileno_or_devnull(int fd) {
+    if (fd < 0) {
+        return devnull_fileno();
+    } else {
+        return fd;
+    }
+}
+
 extern "C" {
 
 struct executor {
 
-    executor(char const* path)
-        :
-        sout_buffer_(boost::iostreams::file_descriptor_sink(devnull_fileno(), boost::iostreams::never_close_handle))
-        , serr_buffer_(boost::iostreams::file_descriptor_sink(devnull_fileno(), boost::iostreams::never_close_handle))
-        , sout_(&sout_buffer_)
-        , serr_(&serr_buffer_)
-        , actual(make_config(path), sout_, serr_)
-    {
-//        std::ostream os(&sout_buffer_);
-//        os << "Hello World!" << std::endl;
-    }
+//    executor(char const* path)
+//        : sout_buffer_(boost::iostreams::file_descriptor_sink(devnull_fileno(), boost::iostreams::never_close_handle))
+//        , serr_buffer_(boost::iostreams::file_descriptor_sink(devnull_fileno(), boost::iostreams::never_close_handle))
+//        , sout_(&sout_buffer_)
+//        , serr_(&serr_buffer_)
+//        , actual(make_config(path), sout_, serr_)
+//    {
+////        std::ostream os(&sout_buffer_);
+////        os << "Hello World!" << std::endl;
+//    }
 
     executor(char const* path, FILE* sout, FILE* serr)
-        :
-        sout_buffer_(boost::iostreams::file_descriptor_sink(fileno(sout), boost::iostreams::never_close_handle))
-        , serr_buffer_(boost::iostreams::file_descriptor_sink(fileno(serr), boost::iostreams::never_close_handle))
+        : sout_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(sout), boost::iostreams::never_close_handle))
+        , serr_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(serr), boost::iostreams::never_close_handle))
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
         , actual(make_config(path), sout_, serr_)
@@ -76,17 +95,14 @@ struct executor {
     }
 
     executor(char const* path, int sout_fd, int serr_fd)
-        :
-//        sin_buffer_(boost::iostreams::file_descriptor_source(sin_fd, boost::iostreams::never_close_handle))
-          sout_buffer_(boost::iostreams::file_descriptor_sink(sout_fd, boost::iostreams::never_close_handle))
-          , serr_buffer_(boost::iostreams::file_descriptor_sink(serr_fd, boost::iostreams::never_close_handle))
-//          , sin_(&sin_buffer_)
-          , sout_(&sout_buffer_)
-          , serr_(&serr_buffer_)
-          , actual(make_config(path), sout_, serr_)
+        : sout_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(sout_fd), boost::iostreams::never_close_handle))
+        , serr_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(serr_fd), boost::iostreams::never_close_handle))
+        , sout_(&sout_buffer_)
+        , serr_(&serr_buffer_)
+        , actual(make_config(path), sout_, serr_)
     {
-        std::ostream os(&sout_buffer_);
-        os << "Hello World -- 2!" << std::endl;
+//        std::ostream os(&sout_buffer_);
+//        os << "Hello World -- 2!" << std::endl;
     }
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
@@ -94,34 +110,27 @@ struct executor {
     using handle_sink = typename boost::iostreams::file_descriptor_sink::handle_type;
 
     executor(char const* path, handle_sink sout, handle_sink serr)
-        :
-//        sin_buffer_(boost::iostreams::file_descriptor_source(sin, boost::iostreams::never_close_handle))
-        sout_buffer_(boost::iostreams::file_descriptor_sink(sout, boost::iostreams::never_close_handle))
+        : sout_buffer_(boost::iostreams::file_descriptor_sink(sout, boost::iostreams::never_close_handle))
         , serr_buffer_(boost::iostreams::file_descriptor_sink(serr, boost::iostreams::never_close_handle))
-//        , sin_(&sin_buffer_)
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
         , actual(make_config(path), sout_, serr_)
     {
-        std::ostream os(&sout_buffer_);
-        os << "Hello World -- 3!" << std::endl;
+//        std::ostream os(&sout_buffer_);
+//        os << "Hello World -- 3!" << std::endl;
     }
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
-//    boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_source> sin_buffer_;
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> sout_buffer_;
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> serr_buffer_;
-
-//    std::istream sin_;
     std::ostream sout_;
     std::ostream serr_;
-
     bitprim::nodecint::executor actual;
 };
 
-executor_t executor_construct_devnull(char const* path) {
-    return std::make_unique<executor>(path).release();
-}
+//executor_t executor_construct_devnull(char const* path) {
+//    return std::make_unique<executor>(path).release();
+//}
 
 executor_t executor_construct(char const* path, FILE* sout, FILE* serr) {
     return std::make_unique<executor>(path, sout, serr).release();
@@ -211,7 +220,7 @@ int get_block_height(executor_t exec, hash_t hash, size_t* height) {
     return res;
 }
 
-void fetch_block_header(executor_t exec, size_t height, block_header_fetch_handler_t handler) {
+void fetch_block_header_by_height(executor_t exec, size_t height, block_header_fetch_handler_t handler) {
     exec->actual.node().chain().fetch_block_header(height, [handler](std::error_code const& ec, libbitcoin::message::header::ptr header, size_t h) {
         auto new_header = new libbitcoin::message::header(*header.get());
 //        auto new_header = std::make_unique(*header.get()).release();
@@ -220,7 +229,7 @@ void fetch_block_header(executor_t exec, size_t height, block_header_fetch_handl
     });
 }
 
-int get_block_header(executor_t exec, size_t height, header_t* out_header, size_t* out_height) {
+int get_block_header_by_height(executor_t exec, size_t height, header_t* out_header, size_t* out_height) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
 
@@ -270,16 +279,16 @@ int get_block_header_by_hash(executor_t exec, hash_t hash, header_t* out_header,
     return res;
 }
 
-void fetch_block(executor_t exec, size_t height, block_fetch_handler_t handler) {
+void fetch_block_by_height(executor_t exec, size_t height, block_fetch_handler_t handler) {
     exec->actual.node().chain().fetch_block(height, [handler](std::error_code const& ec, libbitcoin::message::block::ptr block, size_t h) {
+
         auto new_block = new libbitcoin::message::block(*block.get());
-//        auto new_block = std::make_unique(*block.get()).release();
         //Note: It is the responsability of the user to release/destruct the object
         handler(ec.value(), new_block, h);
     });
 }
 
-int get_block(executor_t exec, size_t height, block_t* out_block, size_t* out_height) {
+int get_block_by_height(executor_t exec, size_t height, block_t* out_block, size_t* out_height) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
 
@@ -302,8 +311,8 @@ void fetch_block_by_hash(executor_t exec, hash_t hash, block_fetch_handler_t han
     std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
 
     exec->actual.node().chain().fetch_block(hash_cpp, [handler](std::error_code const& ec, libbitcoin::message::block::ptr block, size_t h) {
-        auto new_block = new libbitcoin::message::block(*block.get());
         //Note: It is the responsability of the user to release/destruct the object
+        auto new_block = new libbitcoin::message::block(*block.get());
         handler(ec.value(), new_block, h);
     });
 }
@@ -316,9 +325,8 @@ int get_block_by_hash(executor_t exec, hash_t hash, block_t* out_block, size_t* 
     std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
 
     exec->actual.node().chain().fetch_block(hash_cpp, [&](std::error_code const& ec, libbitcoin::message::block::ptr block, size_t h) {
-        *out_block = new libbitcoin::message::block(*block.get());
         //Note: It is the responsability of the user to release/destruct the object
-
+        *out_block = new libbitcoin::message::block(*block.get());
         *out_height = h;
         res = ec.value();
         latch.count_down();
@@ -328,7 +336,28 @@ int get_block_by_hash(executor_t exec, hash_t hash, block_t* out_block, size_t* 
     return res;
 }
 
+void fetch_merkle_block_by_height(executor_t exec, size_t height, merkle_block_fetch_handler_t handler){
+    exec->actual.node().chain().fetch_merkle_block(height, [handler](std::error_code const& ec, libbitcoin::message::merkle_block::ptr block, size_t h) {
+
+        auto new_block = new libbitcoin::message::merkle_block(*block.get());
+        //Note: It is the responsibility of the user to release/destruct the object
+        handler(ec.value(), new_block, h);
+    });
+}
+
+void fetch_merkle_block_by_hash(executor_t exec, hash_t hash, merkle_block_fetch_handler_t handler) {
+
+    libbitcoin::hash_digest hash_cpp;
+    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
+
+    exec->actual.node().chain().fetch_merkle_block(hash_cpp, [handler](std::error_code const& ec, libbitcoin::message::merkle_block::ptr block, size_t h) {
+        auto new_block = new libbitcoin::message::merkle_block(*block.get());
+        handler(ec.value(), new_block, h);
+    });
+}
+
 void fetch_transaction(executor_t exec, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler) {
+    //precondition:  [hash, 32] is a valid range
 
     libbitcoin::hash_digest hash_cpp;
     std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
@@ -367,6 +396,7 @@ void fetch_output(executor_t exec, hash_t hash, uint32_t index, int require_conf
     libbitcoin::chain::output_point point(hash_cpp, index);
 
     exec->actual.node().chain().fetch_output(point, require_confirmed, [handler](std::error_code const& ec, libbitcoin::chain::output const& output) {
+        //It is the user's responsibility to release this memory
         auto new_output = new libbitcoin::chain::output(output);
         handler(ec.value(), new_output);
     });
@@ -381,7 +411,6 @@ int get_output(executor_t exec, hash_t hash, uint32_t index, int require_confirm
 
     libbitcoin::chain::output_point point(hash_cpp, index);
 
-
     exec->actual.node().chain().fetch_output(point, require_confirmed, [&](std::error_code const& ec, libbitcoin::chain::output const& output) {
         *out_output = new libbitcoin::chain::output(output);
 
@@ -392,5 +421,86 @@ int get_output(executor_t exec, hash_t hash, uint32_t index, int require_confirm
     latch.count_down_and_wait();
     return res;
 }
+
+void fetch_compact_block_by_height(executor_t exec, size_t height, compact_block_fetch_handler_t handler){
+    exec->actual.node().chain().fetch_compact_block(height, [handler](std::error_code const& ec, libbitcoin::message::compact_block::ptr block, size_t h) {
+
+        auto new_block = new libbitcoin::message::compact_block(*block.get());
+        //Note: It is the responsibility of the user to release/destruct the object
+        handler(ec.value(), new_block, h);
+    });
+}
+
+void fetch_compact_block_by_hash(executor_t exec, hash_t hash, compact_block_fetch_handler_t handler){
+    libbitcoin::hash_digest hash_cpp;
+    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
+
+    exec->actual.node().chain().fetch_compact_block(hash_cpp, [handler](std::error_code const& ec, libbitcoin::message::compact_block::ptr block, size_t h) {
+        auto new_block = new libbitcoin::message::compact_block(*block.get());
+        //Note: It is the responsibility of the user to release/destruct the object
+        handler(ec.value(), new_block, h);
+    });
+}
+
+void fetch_transaction_position(executor_t exec, hash_t hash, int require_confirmed, transaction_index_fetch_handler_t handler){
+    libbitcoin::hash_digest hash_cpp;
+    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
+
+    exec->actual.node().chain().fetch_transaction_position(hash_cpp, require_confirmed, [handler](std::error_code const& ec, size_t position, size_t height){
+        handler(ec.value(), position, height);
+    });
+}
+
+void fetch_spend(executor_t exec, output_point_t outpoint, spend_fetch_handler_t handler){
+    libbitcoin::chain::output_point* outpoint_cpp = static_cast<libbitcoin::chain::output_point*>(outpoint);
+
+    exec->actual.node().chain().fetch_spend(*outpoint_cpp, [handler](std::error_code const& ec, libbitcoin::chain::input_point input){
+        auto new_input = new libbitcoin::chain::input_point(input);
+        handler(ec.value(), new_input);
+    });
+}
+
+
+//
+//void send_history_result(const code& ec,
+//                         const chain::history_compact::list& history, const message& request,
+//                         send_handler handler)
+//{
+//    static constexpr size_t row_size = sizeof(uint8_t) + point_size +
+//                                       sizeof(uint32_t) + sizeof(uint64_t);
+//
+//    data_chunk result(code_size + row_size * history.size());
+//    auto serial = make_unsafe_serializer(result.begin());
+//    serial.write_error_code(ec);
+//    ////BITCOIN_ASSERT(serial.iterator() == result.begin() + code_size);
+//
+//    // TODO: add serialization to history_compact.
+//    for (const auto& row: history)
+//    {
+//        BITCOIN_ASSERT(row.height <= max_uint32);
+//        serial.write_byte(static_cast<uint8_t>(row.kind));
+//        serial.write_bytes(row.point.to_data());
+//        serial.write_4_bytes_little_endian(row.height);
+//        serial.write_8_bytes_little_endian(row.value);
+//    }
+//
+//    ////BITCOIN_ASSERT(serial.iterator() == result.end());
+//
+//    handler(message(request, result));
+//}
+
+
+void fetch_history(executor_t exec, zstring_t address, size_t limit, size_t from_height, history_fetch_handler_t handler) {
+
+    std::string const str_address_cpp(address);
+    libbitcoin::wallet::payment_address const address_cpp(str_address_cpp);
+
+    exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [handler](std::error_code const& ec, libbitcoin::chain::history_compact::list const& history){
+//        typedef std::vector<history_compact> list;
+        auto new_history = new libbitcoin::chain::history_compact::list(history);
+        handler(ec.value(), new_history);
+    });
+}
+
 
 } /* extern "C" */

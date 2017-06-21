@@ -49,7 +49,7 @@ parser::parser(libbitcoin::config::settings const& context)
   : configured(context)
 {
     // A node doesn't require history, and history is expensive.
-    configured.database.index_start_height = libbitcoin::max_uint32;
+//    configured.database.index_start_height = libbitcoin::max_uint32;
 
 #if WITH_NODE_REQUESTER
     // Default endpoint for blockchain replier.
@@ -469,7 +469,15 @@ libbitcoin::options_metadata parser::load_settings() {
         "node.refresh_transactions",
         value<bool>(&configured.node.refresh_transactions),
         "Request transactions on each channel start, defaults to true."
-    );
+    )
+    //TODO: ver como implementamos esto para diferenciar server y node
+    (
+        /* Internally this database, but it applies to server.*/
+        "node.index_start_height",
+        value<uint32_t>(&configured.database.index_start_height),
+        "The lower limit of address and spend indexing, defaults to 0."
+    )
+    ;
 
     return description;
 }

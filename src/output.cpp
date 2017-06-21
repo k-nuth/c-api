@@ -54,7 +54,6 @@ script_t output_script(output_t output) {
     return &(output_cpp(output).script());
 }
 
-
 //const chain::script& script() const;
 
 //// Serialization.
