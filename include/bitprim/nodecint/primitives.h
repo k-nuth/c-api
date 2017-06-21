@@ -54,7 +54,9 @@ typedef void* point_t;
 typedef void* point_list_t;
 typedef void* transaction_t;
 typedef void* payment_address_t;
+typedef void* word_list_t;
 typedef uint8_t* hash_t;
+typedef uint8_t* long_hash_t;
 
 
 // (bitprim-node)

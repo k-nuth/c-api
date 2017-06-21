@@ -22,6 +22,7 @@
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <bitprim/nodecint/executor.hpp>
 #include <bitprim/nodecint/output_point.h>
+#include <bitcoin/bitcoin/wallet/mnemonic.hpp>
 
 //#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
 //#include <cinttypes>   //TODO: Remove, it is for the printf (printing pointer addresses)
@@ -266,10 +267,16 @@ void fetch_spend(executor_t exec, output_point_t outpoint, spend_fetch_handler_t
 //It is the user's responsibility to release the history returned in the callback
 void fetch_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler){
     const libbitcoin::wallet::payment_address& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
+
     exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [handler](std::error_code const& ec, libbitcoin::chain::history_compact::list history){
         auto new_history = new libbitcoin::chain::history_compact::list(history);
         handler(ec.value(), new_history);
     });
+}
+
+long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics){
+    auto hash_cpp = libbitcoin::wallet::decode_mnemonic(*static_cast<const std::vector<std::string>*>(mnemonics));
+    return hash_cpp.data();
 }
 
 } /* extern "C" */
