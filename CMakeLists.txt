@@ -213,6 +213,8 @@ add_library(bitprim-node-cint ${MODE}
         src/output_point.cpp
         src/parser.cpp
         src/payment_address.cpp
+        src/point.cpp
+        src/point_list.cpp
         src/script.cpp
         src/transaction.cpp)
 

@@ -38,6 +38,8 @@
 #include <bitprim/nodecint/node.h>
 #include <bitprim/nodecint/output.h>
 #include <bitprim/nodecint/output_point.h>
+#include <bitprim/nodecint/point.h>
+#include <bitprim/nodecint/point_list.h>
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/script.h>
 #include <bitprim/nodecint/transaction.h>

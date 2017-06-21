@@ -30,6 +30,8 @@
 extern "C" {
 #endif
 
+typedef enum point_kind {output=0, spend=1} point_kind_t;
+
 typedef struct executor* executor_t;
 // typedef struct header* header_t;
 
@@ -48,6 +50,8 @@ typedef void* merkle_block_t;
 typedef void* script_t;
 typedef void* output_point_t;
 typedef void* output_t;
+typedef void* point_t;
+typedef void* point_list_t;
 typedef void* transaction_t;
 typedef void* payment_address_t;
 typedef uint8_t* hash_t;

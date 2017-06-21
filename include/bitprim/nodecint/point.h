@@ -1,7 +1,7 @@
 /**
- * Copyright (c) 2017 Bitprim developers (see AUTHORS)
+ * Copyright (c) 2011-2017 libbitcoin developers (see AUTHORS)
  *
- * This file is part of Bitprim.
+ * This file is part of libbitcoin.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_HISTORY_COMPACT_H
-#define BITPRIM_NODE_CINT_HISTORY_COMPACT_H
+#ifndef BITPRIM_NODE_CINT_POINT_H
+#define BITPRIM_NODE_CINT_POINT_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -31,16 +31,19 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-history_compact_t history_compact_list_nth(history_compact_list_t history_compact_list);
+hash_t point_get_hash(point_t point);
 
 BITPRIM_EXPORT
-size_t history_compact_list_count(history_compact_list_t history_compact_list);
+int /*bool*/ point_is_valid(point_t point);
 
 BITPRIM_EXPORT
-void history_compact_list_destruct(history_compact_list_t history_compact_list);
+uint32_t point_get_index(point_t point);
+
+BITPRIM_EXPORT
+uint64_t point_get_checksum(point_t point);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif //BITPRIM_NODE_CINT_HISTORY_COMPACT_H
+#endif //BITPRIM_NODE_CINT_POINT_H
