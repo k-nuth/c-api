@@ -101,12 +101,16 @@ int executor_initchain(executor_t exec) {
     return exec->actual.do_initchain();
 }
 
-int executor_run(executor_t exec) {
-    return exec->actual.run();
+int executor_run(executor_t exec, run_handler_t handler) {
+    return exec->actual.run([handler](std::error_code const& ec){
+        handler(ec.value());
+    });
 }
 
-int executor_run_wait(executor_t exec) {
-    return exec->actual.run_wait();
+int executor_run_wait(executor_t exec, run_handler_t handler) {
+    return exec->actual.run_wait([handler](std::error_code const& ec){
+        handler(ec.value());
+    });
 }
 
 void executor_stop(executor_t exec) {
