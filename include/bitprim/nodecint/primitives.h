@@ -63,7 +63,7 @@ typedef void (*block_fetch_handler_t)(int error, block_t block, size_t h);
 typedef void (*block_height_fetch_handler_t)(int error, size_t h);
 typedef void (*block_header_fetch_handler_t)(int error, header_t header, size_t h);
 typedef void (*compact_block_fetch_handler_t)(int error, compact_block_t block, size_t h);
-typedef void (*history_fetch_handler_t)();
+typedef void (*history_fetch_handler_t)(int error, history_compact_list_t history);
 typedef void (*last_height_fetch_handler_t)(int error, size_t h);
 typedef void (*merkle_block_fetch_handler_t)(int error, merkle_block_t block, size_t h);
 

@@ -253,6 +253,7 @@ void fetch_transaction_position(executor_t exec, hash_t hash, int require_confir
     });
 }
 
+//It is the user's responsibility to release the input point returned in the callback
 void fetch_spend(executor_t exec, output_point_t outpoint, spend_fetch_handler_t handler){
     libbitcoin::chain::output_point* outpoint_cpp = static_cast<libbitcoin::chain::output_point*>(outpoint);
 
@@ -262,11 +263,13 @@ void fetch_spend(executor_t exec, output_point_t outpoint, spend_fetch_handler_t
     });
 }
 
+//It is the user's responsibility to release the history returned in the callback
 void fetch_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler){
     const libbitcoin::wallet::payment_address& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
-    /*exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [handler](){
-        //TODO
-    });*/
+    exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [handler](std::error_code const& ec, libbitcoin::chain::history_compact::list history){
+        auto new_history = new libbitcoin::chain::history_compact::list(history);
+        handler(ec.value(), new_history);
+    });
 }
 
 } /* extern "C" */
