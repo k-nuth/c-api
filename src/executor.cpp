@@ -42,19 +42,15 @@ using namespace bc::database;
 using namespace bc::network;
 using namespace std::placeholders;
 
-//static const auto application_name = "bn";
 static constexpr int initialize_stop = 0;
 static constexpr int directory_exists = 0;
 static constexpr int directory_not_found = 2;
-//static const auto mode = std::ofstream::out | std::ofstream::app;
 
 std::promise<libbitcoin::code> executor::stopping_;
 
-//executor::executor(parser& metadata, std::istream& input,
-//                   std::ostream& output, std::ostream& error)
-//: metadata_(metadata), output_(output), error_(error)
 
-executor::executor(libbitcoin::node::configuration config, std::istream& input, std::ostream& output, std::ostream& error)
+
+executor::executor(libbitcoin::node::configuration config, std::ostream& output, std::ostream& error)
     : config_(config), output_(output), error_(error)
 {
 
@@ -64,6 +60,8 @@ executor::executor(libbitcoin::node::configuration config, std::istream& input, 
 //        return console_result::failure;
 
     config_ = metadata.configured;
+
+//    std::cout << "metadata.configured.network.verbose: " << metadata.configured.network.verbose << std::endl;
 
 
     auto const& network = config_.network;
@@ -93,30 +91,6 @@ executor::executor(libbitcoin::node::configuration config, std::istream& input, 
     handle_stop(initialize_stop);
 }
 
-// Command line options.
-// ----------------------------------------------------------------------------
-// Emit directly to standard output (not the log).
-
-//void executor::do_help() {
-//    auto const options = metadata_.load_options();
-//    printer help(options, application_name, BN_INFORMATION_MESSAGE);
-//    help.initialize();
-//    help.commandline(output_);
-//}
-//
-//void executor::do_settings() {
-//    auto const settings = metadata_.load_settings();
-//    printer print(settings, application_name, BN_SETTINGS_MESSAGE);
-//    print.initialize();
-//    print.settings(output_);
-//}
-
-//void executor::do_version() {
-//    output_ << format(BN_VERSION_MESSAGE) %
-//               LIBBITCOIN_NODE_VERSION %
-//               LIBBITCOIN_BLOCKCHAIN_VERSION %
-//               LIBBITCOIN_VERSION << std::endl;
-//}
 
 #if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
@@ -158,36 +132,6 @@ bool executor::do_initchain() {
 
 #endif   // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
-// Menu selection.
-// ----------------------------------------------------------------------------
-
-//bool executor::menu() {
-//    auto const& config = config_;
-//
-//    if (config.help) {
-//        do_help();
-//        return true;
-//    }
-//
-//    if (config.settings) {
-//        do_settings();
-//        return true;
-//    }
-//
-//    if (config.version) {
-//        do_version();
-//        return true;
-//    }
-//
-//#if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
-//    if (config.initchain) {
-//        return do_initchain();
-//    }
-//#endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
-//
-//    // There are no command line arguments, just run the node.
-//    return run();
-//}
 
 // Run.
 // ----------------------------------------------------------------------------

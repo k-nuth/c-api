@@ -32,16 +32,19 @@ extern "C" {
 
 
 BITPRIM_EXPORT
-executor_t executor_construct(char const* path, FILE* sin, FILE* sout, FILE* serr);
+executor_t executor_construct_devnull(char const* path);
 
 BITPRIM_EXPORT
-executor_t executor_construct_fd(char const* path, int sin_fd, int sout_fd, int serr_fd);
+executor_t executor_construct(char const* path, FILE* sout, FILE* serr);
+
+BITPRIM_EXPORT
+executor_t executor_construct_fd(char const* path, int sout_fd, int serr_fd);
 
 
 #if defined(_WIN32)
 
 BITPRIM_EXPORT
-executor_t executor_construct_handles(char const* path, void* sin, void* sout, void* serr);
+executor_t executor_construct_handles(char const* path, void* sout, void* serr);
 
 #endif /* defined(_WIN32) */
 

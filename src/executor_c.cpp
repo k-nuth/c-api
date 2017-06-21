@@ -18,6 +18,7 @@
  */
 
 #include <bitprim/nodecint/executor_c.h>
+#include <cstdio>
 #include <memory>
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/thread/latch.hpp>
@@ -29,41 +30,60 @@ libbitcoin::node::configuration make_config(char const* path) {
     return config;
 }
 
+
+
+
+inline
+FILE* devnull_file() {
+#ifdef BOOST_IOSTREAMS_WINDOWS
+    return fopen ("nul", "w");
+#else
+    return fopen ("/dev/null", "w");
+#endif
+}
+
+inline
+int devnull_fileno() {
+    return fileno(devnull_file());
+}
+
 extern "C" {
 
 struct executor {
 
-    // template <typename... Args>
-    // node(Args&&... args)
-    //     : actual(std::forward<Args>(args)...)
-    // {}
-
-    executor(char const* path, FILE* sin, FILE* sout, FILE* serr)
-        : sin_buffer_(boost::iostreams::file_descriptor_source(fileno(sin), boost::iostreams::never_close_handle))
-        , sout_buffer_(boost::iostreams::file_descriptor_sink(fileno(sout), boost::iostreams::never_close_handle))
-        , serr_buffer_(boost::iostreams::file_descriptor_sink(fileno(serr), boost::iostreams::never_close_handle))
-        , sin_(&sin_buffer_)
+    executor(char const* path)
+        :
+        sout_buffer_(boost::iostreams::file_descriptor_sink(devnull_fileno(), boost::iostreams::never_close_handle))
+        , serr_buffer_(boost::iostreams::file_descriptor_sink(devnull_fileno(), boost::iostreams::never_close_handle))
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
-        , actual(make_config(path), sin_, sout_, serr_)
+        , actual(make_config(path), sout_, serr_)
     {
-//        boost::iostreams::file_descriptor_source()
-//        std::cout << fileno(sin) << std::endl;
-//        std::cout << fileno(sout) << std::endl;
-//        std::cout << fileno(serr) << std::endl;
-
-        std::ostream os(&sout_buffer_);
-        os << "Hello World!" << std::endl;
+//        std::ostream os(&sout_buffer_);
+//        os << "Hello World!" << std::endl;
     }
 
-    executor(char const* path, int sin_fd, int sout_fd, int serr_fd)
-        : sin_buffer_(boost::iostreams::file_descriptor_source(sin_fd, boost::iostreams::never_close_handle))
-          , sout_buffer_(boost::iostreams::file_descriptor_sink(sout_fd, boost::iostreams::never_close_handle))
+    executor(char const* path, FILE* sout, FILE* serr)
+        :
+        sout_buffer_(boost::iostreams::file_descriptor_sink(fileno(sout), boost::iostreams::never_close_handle))
+        , serr_buffer_(boost::iostreams::file_descriptor_sink(fileno(serr), boost::iostreams::never_close_handle))
+        , sout_(&sout_buffer_)
+        , serr_(&serr_buffer_)
+        , actual(make_config(path), sout_, serr_)
+    {
+//        std::ostream os(&sout_buffer_);
+//        os << "Hello World!" << std::endl;
+    }
+
+    executor(char const* path, int sout_fd, int serr_fd)
+        :
+//        sin_buffer_(boost::iostreams::file_descriptor_source(sin_fd, boost::iostreams::never_close_handle))
+          sout_buffer_(boost::iostreams::file_descriptor_sink(sout_fd, boost::iostreams::never_close_handle))
           , serr_buffer_(boost::iostreams::file_descriptor_sink(serr_fd, boost::iostreams::never_close_handle))
-          , sin_(&sin_buffer_)
+//          , sin_(&sin_buffer_)
           , sout_(&sout_buffer_)
           , serr_(&serr_buffer_)
-          , actual(make_config(path), sin_, sout_, serr_)
+          , actual(make_config(path), sout_, serr_)
     {
         std::ostream os(&sout_buffer_);
         os << "Hello World -- 2!" << std::endl;
@@ -73,51 +93,57 @@ struct executor {
     using handle_source = typename boost::iostreams::file_descriptor_source::handle_type;
     using handle_sink = typename boost::iostreams::file_descriptor_sink::handle_type;
 
-    executor(char const* path, handle_source sin, handle_sink sout, handle_sink serr)
-        : sin_buffer_(boost::iostreams::file_descriptor_source(sin, boost::iostreams::never_close_handle))
-        , sout_buffer_(boost::iostreams::file_descriptor_sink(sout, boost::iostreams::never_close_handle))
+    executor(char const* path, handle_sink sout, handle_sink serr)
+        :
+//        sin_buffer_(boost::iostreams::file_descriptor_source(sin, boost::iostreams::never_close_handle))
+        sout_buffer_(boost::iostreams::file_descriptor_sink(sout, boost::iostreams::never_close_handle))
         , serr_buffer_(boost::iostreams::file_descriptor_sink(serr, boost::iostreams::never_close_handle))
-        , sin_(&sin_buffer_)
+//        , sin_(&sin_buffer_)
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
-        , actual(make_config(path), sin_, sout_, serr_)
+        , actual(make_config(path), sout_, serr_)
     {
         std::ostream os(&sout_buffer_);
         os << "Hello World -- 3!" << std::endl;
     }
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
-    boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_source> sin_buffer_;
+//    boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_source> sin_buffer_;
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> sout_buffer_;
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> serr_buffer_;
 
-    std::istream sin_;
+//    std::istream sin_;
     std::ostream sout_;
     std::ostream serr_;
 
     bitprim::nodecint::executor actual;
 };
 
-executor_t executor_construct(char const* path, FILE* sin, FILE* sout, FILE* serr) {
-    return std::make_unique<executor>(path, sin, sout, serr).release();
+executor_t executor_construct_devnull(char const* path) {
+    return std::make_unique<executor>(path).release();
 }
 
-executor_t executor_construct_fd(char const* path, int sin_fd, int sout_fd, int serr_fd) {
-    return std::make_unique<executor>(path, sin_fd, sout_fd, serr_fd).release();
+executor_t executor_construct(char const* path, FILE* sout, FILE* serr) {
+    return std::make_unique<executor>(path, sout, serr).release();
+}
+
+executor_t executor_construct_fd(char const* path, int sout_fd, int serr_fd) {
+    return std::make_unique<executor>(path, sout_fd, serr_fd).release();
 }
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
 
-executor_t executor_construct_handles(char const* path, void* sin, void* sout, void* serr) {
-    return std::make_unique<executor>(path, sin, sout, serr).release();
+executor_t executor_construct_handles(char const* path, void* sout, void* serr) {
+    return std::make_unique<executor>(path, sout, serr).release();
 }
 
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
 
 void executor_destruct(executor_t exec) {
-    std::cout << "From C++: executor_destruct\n";
-//    printf("executor_destruct - exec: 0x%" PRIXPTR "\n", (uintptr_t)exec);
+//    std::cout << "From C++: executor_destruct\n";
+//    printf("executor_destruct - ex
+// ec: 0x%" PRIXPTR "\n", (uintptr_t)exec);
 
     delete exec;
 }
