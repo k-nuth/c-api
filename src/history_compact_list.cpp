@@ -17,3 +17,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <bitprim/nodecint/history_compact_list.h>
+#include <bitcoin/bitcoin/chain/output_point.hpp>
+#include <bitcoin/bitcoin/chain/history.hpp>
+
+std::vector<libbitcoin::chain::history_compact> const& history_compact_list_const_cpp(history_compact_list_t history_list) {
+    return *static_cast<std::vector<libbitcoin::chain::history_compact> const*>(history_list);
+}
+
+std::vector<libbitcoin::chain::history_compact>& history_compact_list_cpp(history_compact_list_t history_list) {
+    return *static_cast<std::vector<libbitcoin::chain::history_compact>*>(history_list);
+}
+
+history_compact_t history_compact_list_nth(history_compact_list_t history_list, size_t n){
+    auto& history_compact_n = history_compact_list_cpp(history_list)[n];
+    return &history_compact_n;
+}
+
+size_t history_compact_list_count(history_compact_list_t history_list){
+    return history_compact_list_const_cpp(history_list).size();
+}
+
+void history_compact_list_destruct(history_compact_list_t history_list){
+    delete &history_compact_list_cpp(history_list);
+}

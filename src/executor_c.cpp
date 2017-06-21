@@ -23,7 +23,7 @@
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/thread/latch.hpp>
 #include <bitprim/nodecint/executor.hpp>
-#include <bitprim/nodecint/output_point.h>
+//#include <bitprim/nodecint/output_point.h>
 //#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
 //#include <cinttypes>   //TODO: Remove, it is for the printf (printing pointer addresses)
 
@@ -32,9 +32,6 @@ libbitcoin::node::configuration make_config(char const* path) {
     config.file = boost::filesystem::path(path);
     return config;
 }
-
-
-
 
 inline
 FILE* devnull_file() {
@@ -71,17 +68,6 @@ int fileno_or_devnull(int fd) {
 extern "C" {
 
 struct executor {
-
-//    executor(char const* path)
-//        : sout_buffer_(boost::iostreams::file_descriptor_sink(devnull_fileno(), boost::iostreams::never_close_handle))
-//        , serr_buffer_(boost::iostreams::file_descriptor_sink(devnull_fileno(), boost::iostreams::never_close_handle))
-//        , sout_(&sout_buffer_)
-//        , serr_(&serr_buffer_)
-//        , actual(make_config(path), sout_, serr_)
-//    {
-////        std::ostream os(&sout_buffer_);
-////        os << "Hello World!" << std::endl;
-//    }
 
     executor(char const* path, FILE* sout, FILE* serr)
         : sout_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(sout), boost::iostreams::never_close_handle))
@@ -127,10 +113,6 @@ struct executor {
     std::ostream serr_;
     bitprim::nodecint::executor actual;
 };
-
-//executor_t executor_construct_devnull(char const* path) {
-//    return std::make_unique<executor>(path).release();
-//}
 
 executor_t executor_construct(char const* path, FILE* sout, FILE* serr) {
     return std::make_unique<executor>(path, sout, serr).release();
@@ -451,6 +433,7 @@ void fetch_transaction_position(executor_t exec, hash_t hash, int require_confir
     });
 }
 
+//It is the user's responsibility to release the input point returned in the callback
 void fetch_spend(executor_t exec, output_point_t outpoint, spend_fetch_handler_t handler){
     libbitcoin::chain::output_point* outpoint_cpp = static_cast<libbitcoin::chain::output_point*>(outpoint);
 
@@ -461,42 +444,23 @@ void fetch_spend(executor_t exec, output_point_t outpoint, spend_fetch_handler_t
 }
 
 
+//void fetch_history(executor_t exec, zstring_t address, size_t limit, size_t from_height, history_fetch_handler_t handler) {
 //
-//void send_history_result(const code& ec,
-//                         const chain::history_compact::list& history, const message& request,
-//                         send_handler handler)
-//{
-//    static constexpr size_t row_size = sizeof(uint8_t) + point_size +
-//                                       sizeof(uint32_t) + sizeof(uint64_t);
+//    std::string const str_address_cpp(address);
+//    libbitcoin::wallet::payment_address const address_cpp(str_address_cpp);
 //
-//    data_chunk result(code_size + row_size * history.size());
-//    auto serial = make_unsafe_serializer(result.begin());
-//    serial.write_error_code(ec);
-//    ////BITCOIN_ASSERT(serial.iterator() == result.begin() + code_size);
-//
-//    // TODO: add serialization to history_compact.
-//    for (const auto& row: history)
-//    {
-//        BITCOIN_ASSERT(row.height <= max_uint32);
-//        serial.write_byte(static_cast<uint8_t>(row.kind));
-//        serial.write_bytes(row.point.to_data());
-//        serial.write_4_bytes_little_endian(row.height);
-//        serial.write_8_bytes_little_endian(row.value);
-//    }
-//
-//    ////BITCOIN_ASSERT(serial.iterator() == result.end());
-//
-//    handler(message(request, result));
+//    exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [handler](std::error_code const& ec, libbitcoin::chain::history_compact::list const& history){
+////        typedef std::vector<history_compact> list;
+//        auto new_history = new libbitcoin::chain::history_compact::list(history);
+//        handler(ec.value(), new_history);
+//    });
 //}
 
 
-void fetch_history(executor_t exec, zstring_t address, size_t limit, size_t from_height, history_fetch_handler_t handler) {
-
-    std::string const str_address_cpp(address);
-    libbitcoin::wallet::payment_address const address_cpp(str_address_cpp);
-
-    exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [handler](std::error_code const& ec, libbitcoin::chain::history_compact::list const& history){
-//        typedef std::vector<history_compact> list;
+//It is the user's responsibility to release the history returned in the callback
+void fetch_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler){
+    libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
+    exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [handler](std::error_code const& ec, libbitcoin::chain::history_compact::list history){
         auto new_history = new libbitcoin::chain::history_compact::list(history);
         handler(ec.value(), new_history);
     });

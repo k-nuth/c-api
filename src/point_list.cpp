@@ -17,30 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_HISTORY_COMPACT_H
-#define BITPRIM_NODE_CINT_HISTORY_COMPACT_H
+#include <bitprim/nodecint/point_list.h>
+#include <bitcoin/bitcoin/chain/point.hpp>
 
-#include <stdio.h>
-#include <stdint.h>
+std::vector<libbitcoin::chain::point> const& point_list_const_cpp(point_list_t point_list) {
+    return *static_cast<std::vector<libbitcoin::chain::point> const*>(point_list);
+}
 
-#include <bitprim/nodecint/visibility.h>
-#include <bitprim/nodecint/primitives.h>
+std::vector<libbitcoin::chain::point>& point_list_cpp(point_list_t point_list) {
+    return *static_cast<std::vector<libbitcoin::chain::point>*>(point_list);
+}
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+point_t point_list_nth(point_list_t point_list, size_t n){
+    auto& point_n = point_list_cpp(point_list)[n];
+    return &point_n;
+}
 
-BITPRIM_EXPORT
-history_compact_t history_compact_list_nth(history_compact_list_t history_compact_list);
+size_t point_list_count(point_list_t point_list){
+    return point_list_const_cpp(point_list).size();
+}
 
-BITPRIM_EXPORT
-size_t history_compact_list_count(history_compact_list_t history_compact_list);
-
-BITPRIM_EXPORT
-void history_compact_list_destruct(history_compact_list_t history_compact_list);
-
-#ifdef __cplusplus
-} // extern "C"
-#endif
-
-#endif //BITPRIM_NODE_CINT_HISTORY_COMPACT_H
+void point_list_destruct(point_list_t point_list){
+    delete &point_list_cpp(point_list);
+}

@@ -17,33 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_HISTORY_COMPACT_H
-#define BITPRIM_NODE_CINT_HISTORY_COMPACT_H
+#include <bitprim/nodecint/point.h>
+#include <bitcoin/bitcoin/chain/point.hpp>
 
-#include <stdio.h>
-#include <stdint.h>
+libbitcoin::chain::point const& point_const_cpp(point_t point) {
+    return *static_cast<libbitcoin::chain::point const*>(point);
+}
 
-#include <bitprim/nodecint/visibility.h>
-#include <bitprim/nodecint/primitives.h>
+libbitcoin::chain::point& history_compact_cpp(history_compact_t point) {
+    return *static_cast<libbitcoin::chain::point*>(point);
+}
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+hash_t point_get_hash(point_t point){
+    auto hash_cpp = point_const_cpp(point).hash();
+    return hash_cpp.data();
+}
 
-BITPRIM_EXPORT
-point_kind_t history_compact_get_point_kind(history_compact_t history);
+int /*bool*/ point_is_valid(point_t point){
+    return point_const_cpp(point).is_valid();
+}
 
-BITPRIM_EXPORT
-point_t history_compact_get_point(history_compact_t history);
+uint32_t point_get_index(point_t point){
+    return point_const_cpp(point).index();
+}
 
-BITPRIM_EXPORT
-uint32_t history_compact_get_height(history_compact_t history);
-
-BITPRIM_EXPORT
-uint64_t history_compact_get_value_or_spend(history_compact_t history);
-
-#ifdef __cplusplus
-} // extern "C"
-#endif
-
-#endif //BITPRIM_NODE_CINT_HISTORY_COMPACT_H
+uint64_t point_get_checksum(point_t point){
+    return point_const_cpp(point).checksum();
+}
