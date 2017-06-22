@@ -56,7 +56,7 @@ typedef void* transaction_t;
 typedef void* payment_address_t;
 
 typedef uint8_t const* hash_t;
-typedef uint8_t const* long_hash_t;
+typedef uint8_t* long_hash_t;
 //typedef char const* zstring_t;
 typedef void* word_list_t;
 

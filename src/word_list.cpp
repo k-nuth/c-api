@@ -20,6 +20,7 @@
 #include <bitprim/nodecint/word_list.h>
 #include <string>
 #include <vector>
+#include <iostream>
 
 std::vector<std::string> const& word_list_const_cpp(word_list_t word_list) {
     return *static_cast<std::vector<std::string> const*>(word_list);
@@ -29,14 +30,22 @@ std::vector<std::string>& word_list_cpp(word_list_t world_list) {
     return *static_cast<std::vector<std::string>*>(world_list);
 }
 
-word_list_t word_list_construct(){
+extern "C" {
+
+word_list_t word_list_construct() {
     return new std::vector<std::string>();
 }
 
-void word_list_add_word(word_list_t word_list, char const* word){
-    word_list_cpp(word_list).push_back(std::string(word));
-}
-
-void point_list_destruct(word_list_t word_list){
+void word_list_destruct(word_list_t word_list) {
     delete &word_list_cpp(word_list);
 }
+
+void word_list_add_word(word_list_t word_list, char const* word) {
+    word_list_cpp(word_list).push_back(std::string(word));
+
+//    for (auto const& x : word_list_cpp(word_list)) {
+//        std::cout << x << std::endl;
+//    }
+}
+
+} /* extern "C" */

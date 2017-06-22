@@ -486,9 +486,25 @@ void fetch_history(executor_t exec, payment_address_t address, size_t limit, siz
     });
 }
 
-long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics){
-    auto hash_cpp = libbitcoin::wallet::decode_mnemonic(*static_cast<const std::vector<std::string>*>(mnemonics));
-    return hash_cpp.data();
+long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
+
+    auto const& mnemonics_cpp = *static_cast<const std::vector<std::string>*>(mnemonics);
+
+//    for (auto const& x : mnemonics_cpp) {
+//        std::cout << x << std::endl;
+//    }
+
+    auto hash_cpp = libbitcoin::wallet::decode_mnemonic(mnemonics_cpp);
+//    return hash_cpp.data();
+
+//    std::cout << (int)hash_cpp[0] << std::endl;
+//    std::cout << (int)hash_cpp[1] << std::endl;
+//    std::cout << (int)hash_cpp[2] << std::endl;
+
+
+    uint8_t* ret = (uint8_t*)malloc(hash_cpp.size() * sizeof(uint8_t));
+    std::copy_n(std::begin(hash_cpp), hash_cpp.size(), ret);
+    return ret;
 }
 
 
