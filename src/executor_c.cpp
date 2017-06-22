@@ -491,4 +491,10 @@ long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics){
     return hash_cpp.data();
 }
 
+void validate_tx(executor_t exec, transaction_t tx, run_handler_t handler){
+    exec->actual.node().chain().organize(static_cast<libbitcoin::message::transaction::const_ptr>(tx), [handler](std::error_code const& ec){
+        handler(ec.value());
+    });
+}
+
 } /* extern "C" */

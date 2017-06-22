@@ -164,6 +164,9 @@ void fetch_history(executor_t exec, payment_address_t address, size_t limit, siz
 //BITPRIM_EXPORT
 //void fetch_stealth(const binary& filter, size_t from_height, stealth_fetch_handler handler);
 
+BITPRIM_EXPORT
+void validate_tx(executor_t exec, transaction_t tx, run_handler_t handler);
+
 // ------------------------------------------------
 // Wallet functions
 // ------------------------------------------------
