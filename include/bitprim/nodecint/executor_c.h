@@ -173,6 +173,10 @@ void validate_tx(executor_t exec, transaction_t tx, run_handler_t handler);
 BITPRIM_EXPORT
 long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics);
 
+BITPRIM_EXPORT
+void long_hash_destroy(long_hash_t ptr);
+
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

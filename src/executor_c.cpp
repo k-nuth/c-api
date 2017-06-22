@@ -503,11 +503,14 @@ long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
 
 
     uint8_t* ret = (uint8_t*)malloc(hash_cpp.size() * sizeof(uint8_t));
+    printf("wallet_mnemonics_to_seed - ret: %p\n", ret);
     std::copy_n(std::begin(hash_cpp), hash_cpp.size(), ret);
     return ret;
 }
 
-
+void long_hash_destroy(long_hash_t ptr) {
+    free(ptr);
+}
 
 
 libbitcoin::message::transaction::const_ptr const& tx_shared(transaction_t tx) {
