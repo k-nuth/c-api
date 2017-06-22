@@ -19,6 +19,7 @@
 
 #include <bitprim/nodecint/point.h>
 #include <bitcoin/bitcoin/chain/point.hpp>
+#include <bitcoin/bitcoin/formats/base_16.hpp>
 
 libbitcoin::chain::point const& point_const_cpp(point_t point) {
     return *static_cast<libbitcoin::chain::point const*>(point);
@@ -30,6 +31,12 @@ libbitcoin::chain::point& history_compact_cpp(history_compact_t point) {
 
 hash_t point_get_hash(point_t point){
     auto const& hash_cpp = point_const_cpp(point).hash();
+//    std::cout << "point_get_hash - hash_cpp: " << libbitcoin::encode_hash(hash_cpp) << std::endl;
+//
+//    std::cout << "(int)hash_cpp[0]: " << (int)hash_cpp[0] << std::endl;
+//    std::cout << "(int)hash_cpp[1]: " << (int)hash_cpp[1] << std::endl;
+//    std::cout << "(int)hash_cpp[2]: " << (int)hash_cpp[2] << std::endl;
+
     return hash_cpp.data();
 }
 

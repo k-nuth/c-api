@@ -132,7 +132,7 @@ executor_t executor_construct_handles(char const* path, void* sout, void* serr) 
 
 
 void executor_destruct(executor_t exec) {
-    std::cout << "From C++: executor_destruct\n";
+//    std::cout << "From C++: executor_destruct\n";
 //    printf("executor_destruct - ex
 // ec: 0x%" PRIXPTR "\n", (uintptr_t)exec);
 

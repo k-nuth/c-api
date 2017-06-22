@@ -38,6 +38,6 @@ size_t history_compact_list_count(history_compact_list_t history_list) {
 }
 
 history_compact_t history_compact_list_nth(history_compact_list_t history_list, size_t n) {
-    auto& history_compact_n = history_compact_list_cpp(history_list)[n];
-    return &history_compact_n;
+    auto& x = history_compact_list_cpp(history_list)[n];
+    return &x;
 }
