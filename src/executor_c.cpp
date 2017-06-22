@@ -491,8 +491,21 @@ long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics){
     return hash_cpp.data();
 }
 
+
+
+
+libbitcoin::message::transaction::const_ptr const& tx_shared(transaction_t tx) {
+    auto const& tx_ref = *static_cast<libbitcoin::message::transaction const*>(tx);
+    auto* tx_new = new libbitcoin::message::transaction(tx_ref);
+    return libbitcoin::message::transaction::const_ptr(tx_new);
+}
+
 void validate_tx(executor_t exec, transaction_t tx, run_handler_t handler){
-    exec->actual.node().chain().organize(static_cast<libbitcoin::message::transaction::const_ptr>(tx), [handler](std::error_code const& ec){
+//    exec->actual.node().chain().organize(static_cast<libbitcoin::message::transaction::const_ptr>(tx), [handler](std::error_code const& ec){
+//        handler(ec.value());
+//    });
+
+    exec->actual.node().chain().organize(tx_shared(tx), [handler](std::error_code const& ec){
         handler(ec.value());
     });
 }
