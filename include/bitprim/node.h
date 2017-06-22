@@ -44,5 +44,6 @@
 #include <bitprim/nodecint/script.h>
 #include <bitprim/nodecint/transaction.h>
 #include <bitprim/nodecint/visibility.h>
+#include <bitprim/nodecint/word_list.h>
 
 #endif /* BITPRIM_NODE_CINT_NODE_H_ */

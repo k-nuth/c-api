@@ -54,10 +54,13 @@ BITPRIM_EXPORT
 void executor_destruct(executor_t exec);
 
 BITPRIM_EXPORT
-int executor_run(executor_t exec);
+void executor_run(executor_t exec, run_handler_t handler);
 
 BITPRIM_EXPORT
 int executor_run_wait(executor_t exec);
+
+//BITPRIM_EXPORT
+//int executor_run_wait(executor_t exec, run_handler_t handler);
 
 BITPRIM_EXPORT
 int executor_initchain(executor_t exec);
@@ -159,7 +162,13 @@ BITPRIM_EXPORT
 void fetch_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler);
 
 //BITPRIM_EXPORT
-//void fetch_history(executor_t exec, zstring_t address, size_t limit, size_t from_height, history_fetch_handler_t handler);
+//void fetch_stealth(const binary& filter, size_t from_height, stealth_fetch_handler handler);
+
+// ------------------------------------------------
+// Wallet functions
+// ------------------------------------------------
+BITPRIM_EXPORT
+long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics);
 
 #ifdef __cplusplus
 } // extern "C"

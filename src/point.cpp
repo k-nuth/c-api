@@ -19,7 +19,7 @@
 
 #include <bitprim/nodecint/point.h>
 #include <bitcoin/bitcoin/chain/point.hpp>
-#include <bitcoin/bitcoin/formats/base_16.hpp>
+//#include <bitcoin/bitcoin/formats/base_16.hpp>
 
 libbitcoin::chain::point const& point_const_cpp(point_t point) {
     return *static_cast<libbitcoin::chain::point const*>(point);

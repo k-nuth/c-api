@@ -46,25 +46,44 @@ void last_height_fetch_handler(int error, size_t h) {
 	//}
 }
 
+bool waiting = true;
+
 
 int main(int argc, char* argv[]) {
+	using namespace std::chrono_literals;
 
-    //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
-	executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+    executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
+	//executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
     int res1 = executor_initchain(exec);
-    int res2 = executor_run(exec);
+
+	int res2 = executor_run_wait(exec);
+
+	//executor_run(exec, [](int e) {
+	//	waiting = false;
+	//});
+
+	//while (waiting) {
+	//	std::this_thread::sleep_for(500ms);
+	//	//std::cout << "..." << std::endl;
+	//}
 
 //    fetch_merkle_block_by_height(exec, 0, NULL);
 
 
-	fetch_last_height(exec, last_height_fetch_handler);
+	//fetch_last_height(exec, last_height_fetch_handler);
 
 
-    history_compact_t history;
-    point_kind_t xxx = history_compact_get_point_kind(history);
+    //history_compact_t history;
+    //point_kind_t xxx = history_compact_get_point_kind(history);
 
+	//std::this_thread::sleep_for(5s);
 
+	while (true) {
+		fetch_last_height(exec, last_height_fetch_handler);
+		std::this_thread::sleep_for(500ms);
+		//std::cout << "..." << std::endl;
+	}
 
     executor_destruct(exec);
 

@@ -140,7 +140,10 @@ libbitcoin::node::full_node& executor::node() {
     return *node_;
 }
 
-bool executor::run() {
+bool executor::run(libbitcoin::handle0 handler) {
+
+    run_handler_ = handler;
+
     initialize_output();
 
     LOG_INFO(LOG_NODE) << BN_NODE_INTERRUPT;
@@ -163,9 +166,9 @@ bool executor::run() {
     return true;
 }
 
-bool executor::run_wait() {
+bool executor::run_wait(libbitcoin::handle0 handler) {
 
-    run();
+    run(handler);
 
     // Wait for stop.
     stopping_.get_future().wait();
@@ -196,6 +199,8 @@ void executor::handle_started(libbitcoin::code const& ec) {
 
     // This is the beginning of the run sequence.
     node_->run(std::bind(&executor::handle_running, this, _1));
+
+
 }
 
 // This is the end of the run sequence.
@@ -207,6 +212,10 @@ void executor::handle_running(libbitcoin::code const& ec) {
     }
 
     LOG_INFO(LOG_NODE) << BN_NODE_STARTED;
+
+    if (run_handler_) {
+        run_handler_(ec);
+    }
 }
 
 // This is the end of the stop sequence.

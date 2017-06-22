@@ -24,6 +24,7 @@
 #include <boost/thread/latch.hpp>
 #include <bitprim/nodecint/executor.hpp>
 //#include <bitprim/nodecint/output_point.h>
+#include <bitcoin/bitcoin/wallet/mnemonic.hpp>
 //#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
 //#include <cinttypes>   //TODO: Remove, it is for the printf (printing pointer addresses)
 
@@ -143,12 +144,30 @@ int executor_initchain(executor_t exec) {
     return exec->actual.do_initchain();
 }
 
-int executor_run(executor_t exec) {
-    return exec->actual.run();
+void executor_run(executor_t exec, run_handler_t handler) {
+    exec->actual.run([handler](std::error_code const& ec) {
+		if (handler != nullptr) {
+			handler(ec.value());
+		}
+    });
 }
 
+//int executor_run_wait(executor_t exec, run_handler_t handler) {
+//    return exec->actual.run_wait([handler](std::error_code const& ec){
+//        handler(ec.value());
+//    });
+//}
+
 int executor_run_wait(executor_t exec) {
-    return exec->actual.run_wait();
+    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    int res;
+	exec->actual.run([&](std::error_code const& ec) {
+        res = ec.value();
+        latch.count_down();
+    });
+
+    latch.count_down_and_wait();
+    return res;
 }
 
 void executor_stop(executor_t exec) {
@@ -461,17 +480,15 @@ void fetch_spend(executor_t exec, output_point_t outpoint, spend_fetch_handler_t
 void fetch_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler){
     libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
 
-//	std::cout << "fetch_history - address_cpp.encoded(): -" << address_cpp.encoded() << "-" << std::endl;
-
     exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [handler](std::error_code const& ec, libbitcoin::chain::history_compact::list history){
         auto new_history = new libbitcoin::chain::history_compact::list(history);
-
-//        printf("new_history: %p\n", new_history);
-//        std::cout << "fetch_history HANDLER - history.size():      " << history.size() << std::endl;
-//        std::cout << "fetch_history HANDLER - new_history->size(): " << new_history->size() << std::endl;
         handler(ec.value(), new_history);
     });
 }
 
+long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics){
+    auto hash_cpp = libbitcoin::wallet::decode_mnemonic(*static_cast<const std::vector<std::string>*>(mnemonics));
+    return hash_cpp.data();
+}
 
 } /* extern "C" */

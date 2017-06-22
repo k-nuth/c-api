@@ -225,7 +225,8 @@ add_library(bitprim-node-cint ${MODE}
         src/point.cpp
         src/point_list.cpp
         src/script.cpp
-        src/transaction.cpp)
+        src/transaction.cpp
+        src/word_list.cpp)
 
 # set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
 
