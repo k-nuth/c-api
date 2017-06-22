@@ -17,10 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_HISTORY_COMPACT_H
-#define BITPRIM_NODE_CINT_HISTORY_COMPACT_H
+#ifndef BITPRIM_NODE_CINT_HISTORY_COMPACT_LIST_H
+#define BITPRIM_NODE_CINT_HISTORY_COMPACT_LIST_H
 
-#include <stdio.h>
+//#include <stdio.h>
 #include <stdint.h>
 
 #include <bitprim/nodecint/visibility.h>
@@ -31,16 +31,16 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-history_compact_t history_compact_list_nth(history_compact_list_t history_compact_list);
+void history_compact_list_destruct(history_compact_list_t history_compact_list);
 
 BITPRIM_EXPORT
 size_t history_compact_list_count(history_compact_list_t history_compact_list);
 
 BITPRIM_EXPORT
-void history_compact_list_destruct(history_compact_list_t history_compact_list);
+history_compact_t history_compact_list_nth(history_compact_list_t history_list, size_t n);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif //BITPRIM_NODE_CINT_HISTORY_COMPACT_H
+#endif //BITPRIM_NODE_CINT_HISTORY_COMPACT_LIST_H

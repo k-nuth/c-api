@@ -54,14 +54,12 @@ typedef void* point_t;
 typedef void* point_list_t;
 typedef void* transaction_t;
 typedef void* payment_address_t;
-typedef uint8_t* hash_t;
+typedef uint8_t const* hash_t;
 //typedef char const* zstring_t;
 
 
 
-// (bitprim-node)
-//          block_ptr -> libbitcoin::message::block::ptr
-//                    -> std::shared_ptr<libbitcoin::message::block>
+
 
 // typedef std::function<void(const code&, block_ptr, size_t)> block_fetch_handler;
 typedef void (*block_fetch_handler_t)(int error, block_t block, size_t h);

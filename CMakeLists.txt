@@ -33,7 +33,7 @@ option(WITH_CONSOLE "Compile console application." ON)
 
 # Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
 #------------------------------------------------------------------------------
-option(ENABLE_SHARED "" OFF)
+option(ENABLE_SHARED "" ON)
 
 # Check dependencies.
 #==============================================================================

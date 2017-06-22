@@ -37,7 +37,7 @@ void output_point_destruct(output_point_t outpoint){
 }
 
 hash_t output_point_get_hash(output_point_t outpoint){
-    auto hash_cpp = output_point_const_cpp(outpoint).hash();
+    auto const& hash_cpp = output_point_const_cpp(outpoint).hash();
     return hash_cpp.data();
 }
 

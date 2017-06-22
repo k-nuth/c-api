@@ -132,7 +132,7 @@ executor_t executor_construct_handles(char const* path, void* sout, void* serr) 
 
 
 void executor_destruct(executor_t exec) {
-//    std::cout << "From C++: executor_destruct\n";
+    std::cout << "From C++: executor_destruct\n";
 //    printf("executor_destruct - ex
 // ec: 0x%" PRIXPTR "\n", (uintptr_t)exec);
 
@@ -460,8 +460,15 @@ void fetch_spend(executor_t exec, output_point_t outpoint, spend_fetch_handler_t
 //It is the user's responsibility to release the history returned in the callback
 void fetch_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler){
     libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
+
+//	std::cout << "fetch_history - address_cpp.encoded(): -" << address_cpp.encoded() << "-" << std::endl;
+
     exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [handler](std::error_code const& ec, libbitcoin::chain::history_compact::list history){
         auto new_history = new libbitcoin::chain::history_compact::list(history);
+
+//        printf("new_history: %p\n", new_history);
+//        std::cout << "fetch_history HANDLER - history.size():      " << history.size() << std::endl;
+//        std::cout << "fetch_history HANDLER - new_history->size(): " << new_history->size() << std::endl;
         handler(ec.value(), new_history);
     });
 }

@@ -20,6 +20,9 @@
 #include <stdio.h>
 
 #include <bitprim/nodecint/executor_c.h>
+#include <bitprim/nodecint/payment_address.h>
+#include <bitprim/nodecint/history_compact_list.h>
+#include <bitprim/nodecint/history_compact.h>
 
 
 #include <iostream>
@@ -28,31 +31,42 @@
 
 void history_fetch_handler(int error, history_compact_list_t history_list) {
      printf("C callback (history_fetch_handler) called\n");
+
+	 auto count = history_compact_list_count(history_list);
+	 printf("history_fetch_handler count: %d\n", count);
+
+	 history_compact_list_destruct(history_list);
 }
+
+void last_height_fetch_handler(int error, size_t h) {
+	printf("last_height_fetch_handler h: %d\n", h);
+
+	//if (h >= 1000) {
+
+	//}
+}
+
 
 int main(int argc, char* argv[]) {
 
-    executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
+    //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
+	executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
     int res1 = executor_initchain(exec);
     int res2 = executor_run(exec);
 
 //    fetch_merkle_block_by_height(exec, 0, NULL);
 
-    fetch_history(exec, "134HfD2fdeBTohfx8YANxEpsYXsv5UoWyz", 0, 0, history_fetch_handler);
+
+	fetch_last_height(exec, last_height_fetch_handler);
 
 
-    using namespace std::chrono_literals;
-    std::cout << "Hello waiter" << std::endl;
-    auto start = std::chrono::high_resolution_clock::now();
-    std::this_thread::sleep_for(15s);
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed = end-start;
-    std::cout << "Waited " << elapsed.count() << " ms\n";
+    history_compact_t history;
+    point_kind_t xxx = history_compact_get_point_kind(history);
+
 
 
     executor_destruct(exec);
 
     return 0;
 }
-

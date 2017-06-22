@@ -31,10 +31,10 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-const char* payment_address_encoded(payment_address_t payment_address);
+char const* payment_address_encoded(payment_address_t payment_address);
 
 BITPRIM_EXPORT
-payment_address_t payment_address_construct_from_string(const char* address);
+payment_address_t payment_address_construct_from_string(char const* address);
 
 BITPRIM_EXPORT
 uint8_t version(payment_address_t payment_address);

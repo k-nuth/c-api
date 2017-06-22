@@ -17,8 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/history_compact_list.h>
-#include <bitcoin/bitcoin/chain/output_point.hpp>
+#include <bitprim/nodecint/history_compact.h>
 #include <bitcoin/bitcoin/chain/history.hpp>
 
 libbitcoin::chain::history_compact const& history_compact_const_cpp(history_compact_t history) {

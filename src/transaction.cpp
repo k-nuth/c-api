@@ -48,12 +48,12 @@ void transaction_set_version(transaction_t transaction, uint32_t version) {
 }
 
 hash_t transaction_hash(transaction_t transaction) {
-    auto hash_cpp = tx_const_cpp(transaction).hash();
+    auto const& hash_cpp = tx_const_cpp(transaction).hash();
     return hash_cpp.data();
 }
 
 hash_t transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type) {
-    auto hash_cpp = tx_const_cpp(transaction).hash(sighash_type);
+    auto const& hash_cpp = tx_const_cpp(transaction).hash(sighash_type);
     return hash_cpp.data();
 }
 

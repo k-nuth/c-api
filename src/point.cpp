@@ -29,7 +29,7 @@ libbitcoin::chain::point& history_compact_cpp(history_compact_t point) {
 }
 
 hash_t point_get_hash(point_t point){
-    auto hash_cpp = point_const_cpp(point).hash();
+    auto const& hash_cpp = point_const_cpp(point).hash();
     return hash_cpp.data();
 }
 
