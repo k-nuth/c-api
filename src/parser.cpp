@@ -515,30 +515,13 @@ bool parser::load_configuration_variables(variables_map& variables, boost::files
 }
 
 // bool parser::parse(int argc, char const* argv[], std::ostream& error) {
-bool parser::parse(std::ostream& error) {
+bool parser::parse(boost::filesystem::path config_path, std::ostream& error) {
     try {
-//        auto file = false;
-//        variables_map variables;
-//        load_command_variables(variables, argc, argv);
-//        load_environment_variables(variables, BN_ENVIRONMENT_VARIABLE_PREFIX);
-//
-//        // Don't load the rest if any of these options are specified.
-//        if (!get_option(variables, BN_VERSION_VARIABLE) &&
-//            !get_option(variables, BN_SETTINGS_VARIABLE) &&
-//            !get_option(variables, BN_HELP_VARIABLE))
-//        {
-//            // Returns true if the settings were loaded from a file.
-//            file = load_configuration_variables(variables, BN_CONFIG_VARIABLE);
-//        }
-
-
-//        "/home/fernando/exec/btc-mainnet.cfg"
         variables_map variables;
-//        variables[BN_CONFIG_VARIABLE] = std::string("/home/fernando/exec/btc-mainnet.cfg");
 
-//        auto file = load_configuration_variables(variables, BN_CONFIG_VARIABLE);
+  //      //boost::filesystem::path config_path("/home/fernando/exec/btc-mainnet.cfg");
+		//boost::filesystem::path config_path("/home/PEPE/exec/btc-mainnet.cfg");
 
-        boost::filesystem::path config_path("/home/fernando/exec/btc-mainnet.cfg");
         configured.file = config_path;
         auto file = load_configuration_variables(variables, config_path);
 

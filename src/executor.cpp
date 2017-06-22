@@ -53,9 +53,9 @@ std::promise<libbitcoin::code> executor::stopping_;
 executor::executor(libbitcoin::node::configuration config, std::ostream& output, std::ostream& error)
     : config_(config), output_(output), error_(error)
 {
-
+	
     parser metadata(libbitcoin::config::settings::mainnet);
-    auto res = metadata.parse(std::cerr);
+    auto res = metadata.parse(config_.file, std::cerr);
 //    if (!metadata.parse(cerr))
 //        return console_result::failure;
 

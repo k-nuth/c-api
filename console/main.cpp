@@ -52,7 +52,7 @@ bool waiting = true;
 int main(int argc, char* argv[]) {
 	using namespace std::chrono_literals;
 
-    executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
+    executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
 	//executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
     int res1 = executor_initchain(exec);
