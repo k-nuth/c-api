@@ -44,7 +44,7 @@ header_t block_header(block_t block) {
 }
 
 hash_t block_hash(block_t block) {
-    auto hash_cpp = block_const_cpp(block).hash();
+    auto const& hash_cpp = block_const_cpp(block).hash();
     return hash_cpp.data(); //TODO: returning a dangling pointer
 }
 
@@ -109,7 +109,7 @@ uint64_t block_reward(block_t block, size_t height) {
 //Note: The user is responsible for the resource release
 hash_t block_generate_merkle_root(block_t block) {
     auto hash_cpp = block_const_cpp(block).generate_merkle_root();
-    hash_t ret = (uint8_t*)malloc(hash_cpp.size() * sizeof(uint8_t));
+    uint8_t* ret = (uint8_t*)malloc(hash_cpp.size() * sizeof(uint8_t));
     std::copy_n(std::begin(hash_cpp), hash_cpp.size(), ret);
     return ret;
 }

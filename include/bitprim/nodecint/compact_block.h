@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_OUTPUT_H_
-#define BITPRIM_NODE_CINT_OUTPUT_H_
+#ifndef BITPRIM_NODE_CINT_COMPACT_BLOCK_H
+#define BITPRIM_NODE_CINT_COMPACT_BLOCK_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -30,33 +30,34 @@
 extern "C" {
 #endif
 
-BITPRIM_EXPORT
-void output_destruct(output_t output);
+//TODO Dario check how to map compact_block::short_ids()
 
 BITPRIM_EXPORT
-int output_is_valid(output_t output);
+header_t compact_block_header(compact_block_t block);
 
 BITPRIM_EXPORT
-size_t output_serialized_size(output_t output, int /*bool*/ wire /*= true*/);
+int /*bool*/ compact_block_is_valid(compact_block_t block);
 
 BITPRIM_EXPORT
-uint64_t output_value(output_t output);
+size_t compact_block_serialized_size(compact_block_t block, uint32_t version);
 
 BITPRIM_EXPORT
-size_t output_signature_operations(output_t output);
+size_t compact_block_transaction_count(compact_block_t block);
 
 BITPRIM_EXPORT
-script_t output_script(output_t output);
+transaction_t compact_block_transaction_nth(compact_block_t block, size_t n);
 
 BITPRIM_EXPORT
-hash_t output_get_hash(output_t output);
+uint64_t compact_block_nonce(compact_block_t block);
 
 BITPRIM_EXPORT
-uint32_t output_get_index(output_t output);
+void compact_block_destruct(compact_block_t block);
 
+BITPRIM_EXPORT
+void compact_block_reset(compact_block_t block);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODE_CINT_OUTPUT_H_ */
+#endif //BITPRIM_NODE_CINT_COMPACT_BLOCK_H

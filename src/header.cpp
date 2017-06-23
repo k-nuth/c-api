@@ -64,17 +64,17 @@ void header_set_nonce(header_t header, uint32_t nonce) {
 }
 
 hash_t header_previous_block_hash(header_t header) {
-    auto hash_cpp = static_cast<libbitcoin::message::header const*>(header)->previous_block_hash();
+    auto const& hash_cpp = static_cast<libbitcoin::message::header const*>(header)->previous_block_hash();
     return hash_cpp.data();
 }
 
 hash_t header_merkle(header_t header) {
-    auto hash_cpp = static_cast<libbitcoin::message::header const*>(header)->merkle();
+    auto const& hash_cpp = static_cast<libbitcoin::message::header const*>(header)->merkle();
     return hash_cpp.data();
 }
 
 hash_t header_hash(header_t header) {
-    auto hash_cpp = static_cast<libbitcoin::message::header const*>(header)->hash();
+    auto const& hash_cpp = static_cast<libbitcoin::message::header const*>(header)->hash();
     return hash_cpp.data();
 }
 

@@ -47,13 +47,16 @@ BITPRIM_EXPORT
 size_t block_transaction_count(block_t block);
 
 BITPRIM_EXPORT
-transaction_t block_transactions(block_t block, size_t* n);
-
-BITPRIM_EXPORT
-transaction_t block_transaction_next(transaction_t transaction);
-
-BITPRIM_EXPORT
 transaction_t block_transaction_nth(block_t block, size_t n);
+
+
+
+//BITPRIM_EXPORT
+//transaction_t block_transactions(block_t block, size_t* n);
+//
+//BITPRIM_EXPORT
+//transaction_t block_transaction_next(transaction_t transaction);
+
 
 
 BITPRIM_EXPORT

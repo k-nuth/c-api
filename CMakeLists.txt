@@ -16,11 +16,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #==============================================================================
 # Implement --with-remote-blockchain and declare WITH_REMOTE_BLOCKCHAIN.
 #------------------------------------------------------------------------------
-option(WITH_REMOTE_BLOCKCHAIN "Compile with remote bitprim-blockchain (aka. bitprim-blockchain-requester)." ON)
+option(WITH_REMOTE_BLOCKCHAIN "Compile with remote bitprim-blockchain (aka. bitprim-blockchain-requester)." OFF)
 
 # Implement --with-remote-database and declare WITH_REMOTE_DATABASE.
 #------------------------------------------------------------------------------
-option(WITH_REMOTE_DATABASE "Compile with remote bitprim-database (aka. bitprim-database-requester)." ON)
+option(WITH_REMOTE_DATABASE "Compile with remote bitprim-database (aka. bitprim-database-requester)." OFF)
 
 
 # Implement --with-tests and declare WITH_TESTS.
@@ -208,17 +208,25 @@ else()
 endif()
 
 add_library(bitprim-node-cint ${MODE}
-        src/node.cpp
-        src/executor_c.cpp
-        src/executor.cpp
-        src/parser.cpp
         src/block.cpp
-        src/transaction.cpp
+        src/compact_block.cpp
+        src/executor.cpp
+        src/executor_c.cpp
         src/header.cpp
-        src/output.cpp
+        src/history_compact.cpp
+        src/history_compact_list.cpp
         src/input.cpp
+        src/merkle_block.cpp
+        src/node.cpp
+        src/output.cpp
+        src/output_point.cpp
+        src/parser.cpp
+        src/payment_address.cpp
+        src/point.cpp
+        src/point_list.cpp
         src/script.cpp
-)
+        src/transaction.cpp
+        src/word_list.cpp)
 
 # set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
 
@@ -260,7 +268,7 @@ _group_sources(bitprim-node-cint "${CMAKE_CURRENT_LIST_DIR}")
 #        console/main.c)
 
 add_executable(test_console
-        console/main.c)
+        console/main.cpp)
 
 target_link_libraries(test_console bitprim-node-cint)
 
@@ -301,31 +309,21 @@ set_target_properties(
 # 
 # # local: test/bitprim_node_cint_test
 # #------------------------------------------------------------------------------
-# if (WITH_TESTS)
-#   add_executable(bitprim_node_cint_test
-#           test/check_list.cpp
-#           test/configuration.cpp
-#           test/header_list.cpp
-#           test/main.cpp
-#           test/node.cpp
-#           test/performance.cpp
-#           test/reservation.cpp
-#           test/reservations.cpp
-#           test/settings.cpp
-#           test/utility.cpp
-#           test/utility.hpp)
-#   target_link_libraries(bitprim_node_cint_test PUBLIC bitprim-node-cint)
-#   _group_sources(bitprim_node_cint_test "${CMAKE_CURRENT_LIST_DIR}/test")
-# 
-#   _add_tests(bitprim_node_cint_test
-#           configuration_tests
-#           node_tests
-#          header_queue_tests
-#           performance_tests
-#           reservation_tests
-#           reservations_tests
-#           settings_tests)
-# endif()
+ if (WITH_TESTS)
+   add_executable(queries
+           test/queries.cpp)
+   target_link_libraries(queries PUBLIC bitprim-node-cint)
+   #_group_sources(queries "${CMAKE_CURRENT_LIST_DIR}/test")
+
+   #_add_tests(bitprim_node_cint_test
+   #        configuration_tests
+   #        node_tests
+   #       header_queue_tests
+   #        performance_tests
+   #        reservation_tests
+   #        reservations_tests
+   #        settings_tests)
+ endif()
 
 
 

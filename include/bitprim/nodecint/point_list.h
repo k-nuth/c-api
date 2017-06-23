@@ -1,7 +1,7 @@
 /**
- * Copyright (c) 2017 Bitprim developers (see AUTHORS)
+ * Copyright (c) 2011-2017 libbitcoin developers (see AUTHORS)
  *
- * This file is part of Bitprim.
+ * This file is part of libbitcoin.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_OUTPUT_H_
-#define BITPRIM_NODE_CINT_OUTPUT_H_
+#ifndef BITPRIM_NODE_CINT_POINT_LIST_H
+#define BITPRIM_NODE_CINT_POINT_LIST_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -31,32 +31,16 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-void output_destruct(output_t output);
+point_t point_list_nth(point_list_t point_list, size_t n);
 
 BITPRIM_EXPORT
-int output_is_valid(output_t output);
+size_t point_list_count(point_list_t point_list);
 
 BITPRIM_EXPORT
-size_t output_serialized_size(output_t output, int /*bool*/ wire /*= true*/);
-
-BITPRIM_EXPORT
-uint64_t output_value(output_t output);
-
-BITPRIM_EXPORT
-size_t output_signature_operations(output_t output);
-
-BITPRIM_EXPORT
-script_t output_script(output_t output);
-
-BITPRIM_EXPORT
-hash_t output_get_hash(output_t output);
-
-BITPRIM_EXPORT
-uint32_t output_get_index(output_t output);
-
+void point_list_destruct(point_list_t point_list);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODE_CINT_OUTPUT_H_ */
+#endif //BITPRIM_NODE_CINT_POINT_LIST_H

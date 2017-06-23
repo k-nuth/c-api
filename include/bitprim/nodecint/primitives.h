@@ -30,6 +30,8 @@
 extern "C" {
 #endif
 
+typedef enum point_kind {output = 0, spend = 1} point_kind_t;
+
 typedef struct executor* executor_t;
 // typedef struct header* header_t;
 
@@ -38,29 +40,41 @@ typedef struct executor* executor_t;
 //    uint32_t index;
 //} output_point_t;
 
-
-typedef void* header_t;
 typedef void* block_t;
-typedef void* transaction_t;
-typedef void* output_t;
+typedef void* compact_block_t;
+typedef void* header_t;
+typedef void* history_compact_t;
+typedef void* history_compact_list_t;
 typedef void* input_t;
+typedef void* merkle_block_t;
 typedef void* script_t;
 typedef void* output_point_t;
-typedef uint8_t* hash_t;
+typedef void* output_t;
+typedef void* point_t;
+typedef void* point_list_t;
+typedef void* transaction_t;
+typedef void* payment_address_t;
 
-typedef void (*last_height_fetch_handler_t)(int error, size_t h);
+typedef uint8_t const* hash_t;
+typedef uint8_t* long_hash_t;
+//typedef char const* zstring_t;
+typedef void* word_list_t;
+
+
+
+
+typedef void (*block_fetch_handler_t)(int error, block_t block, size_t h);
 typedef void (*block_height_fetch_handler_t)(int error, size_t h);
 typedef void (*block_header_fetch_handler_t)(int error, header_t header, size_t h);
-// typedef std::function<void(const code&, block_ptr, size_t)> block_fetch_handler;
-typedef void (*block_fetch_handler_t)(int error, block_t block, size_t h);
-
-//typedef std::function<void(const code&, transaction_ptr, size_t, size_t)> transaction_fetch_handler;
-typedef void (*transaction_fetch_handler_t)(int error, transaction_t transaction, size_t h, size_t i);
-
-//typedef handle1<chain::output> output_fetch_handler;
+typedef void (*compact_block_fetch_handler_t)(int error, compact_block_t block, size_t h);
+typedef void (*history_fetch_handler_t)(int error, history_compact_list_t history);
+typedef void (*last_height_fetch_handler_t)(int error, size_t h);
+typedef void (*merkle_block_fetch_handler_t)(int error, merkle_block_t block, size_t h);
 typedef void (*output_fetch_handler_t)(int error, output_t output);
-
-
+typedef void (*run_handler_t)(int error);
+typedef void (*spend_fetch_handler_t)(int error, input_t output);
+typedef void (*transaction_fetch_handler_t)(int error, transaction_t transaction, size_t h, size_t i);
+typedef void (*transaction_index_fetch_handler_t)(int error, size_t position, size_t height);
 
 #ifdef __cplusplus
 } // extern "C"

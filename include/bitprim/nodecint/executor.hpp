@@ -23,6 +23,7 @@
 #include <future>
 #include <iostream>
 #include <bitcoin/node.hpp>
+#include <bitcoin/bitcoin/handlers.hpp>
 
 namespace bitprim { namespace nodecint {
 
@@ -30,7 +31,7 @@ namespace bitprim { namespace nodecint {
 class executor
 {
 public:
-    executor(libbitcoin::node::configuration config, std::istream&, std::ostream& output, std::ostream& error);
+    executor(libbitcoin::node::configuration config, std::ostream& output, std::ostream& error);
 
     executor(executor const&) = delete;
     void operator=(executor const&) = delete;
@@ -41,8 +42,8 @@ public:
     bool do_initchain();
 #endif
 
-    bool run();
-    bool run_wait();
+    bool run(libbitcoin::handle0 handler);
+    bool run_wait(libbitcoin::handle0 handler);
 
 
     static void stop(libbitcoin::code const& ec);
@@ -78,6 +79,7 @@ private:
     std::ostream& output_;
     std::ostream& error_;
     libbitcoin::node::full_node::ptr node_;
+    libbitcoin::handle0 run_handler_;
 };
 
 // Localizable messages.

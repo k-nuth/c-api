@@ -17,10 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_OUTPUT_H_
-#define BITPRIM_NODE_CINT_OUTPUT_H_
+#ifndef BITPRIM_NODE_CINT_HISTORY_COMPACT_LIST_H
+#define BITPRIM_NODE_CINT_HISTORY_COMPACT_LIST_H
 
-#include <stdio.h>
+//#include <stdio.h>
 #include <stdint.h>
 
 #include <bitprim/nodecint/visibility.h>
@@ -31,32 +31,16 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-void output_destruct(output_t output);
+void history_compact_list_destruct(history_compact_list_t history_compact_list);
 
 BITPRIM_EXPORT
-int output_is_valid(output_t output);
+size_t history_compact_list_count(history_compact_list_t history_compact_list);
 
 BITPRIM_EXPORT
-size_t output_serialized_size(output_t output, int /*bool*/ wire /*= true*/);
-
-BITPRIM_EXPORT
-uint64_t output_value(output_t output);
-
-BITPRIM_EXPORT
-size_t output_signature_operations(output_t output);
-
-BITPRIM_EXPORT
-script_t output_script(output_t output);
-
-BITPRIM_EXPORT
-hash_t output_get_hash(output_t output);
-
-BITPRIM_EXPORT
-uint32_t output_get_index(output_t output);
-
+history_compact_t history_compact_list_nth(history_compact_list_t history_list, size_t n);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODE_CINT_OUTPUT_H_ */
+#endif //BITPRIM_NODE_CINT_HISTORY_COMPACT_LIST_H
