@@ -162,7 +162,7 @@ BITPRIM_EXPORT
 void fetch_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-void get_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_compact_list_t* out_history);
+int get_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_compact_list_t* out_history);
 
 
 //BITPRIM_EXPORT

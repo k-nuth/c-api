@@ -465,13 +465,13 @@ void fetch_history(executor_t exec, payment_address_t address, size_t limit, siz
 }
 
 //It is the user's responsibility to release the history returned in the callback
-void get_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_compact_list_t* out_history) {
+int get_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_compact_list_t* out_history) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
 
     libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
 
-    exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [handler](std::error_code const& ec, libbitcoin::chain::history_compact::list history){
+    exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [&](std::error_code const& ec, libbitcoin::chain::history_compact::list history){
         *out_history = new libbitcoin::chain::history_compact::list(history);
 
         res = ec.value();
