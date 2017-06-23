@@ -150,12 +150,6 @@ void executor_run(executor_t exec, run_handler_t handler) {
     });
 }
 
-//int executor_run_wait(executor_t exec, run_handler_t handler) {
-//    return exec->actual.run_wait([handler](std::error_code const& ec){
-//        handler(ec.value());
-//    });
-//}
-
 int executor_run_wait(executor_t exec) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
@@ -460,20 +454,6 @@ void fetch_spend(executor_t exec, output_point_t outpoint, spend_fetch_handler_t
     });
 }
 
-
-//void fetch_history(executor_t exec, zstring_t address, size_t limit, size_t from_height, history_fetch_handler_t handler) {
-//
-//    std::string const str_address_cpp(address);
-//    libbitcoin::wallet::payment_address const address_cpp(str_address_cpp);
-//
-//    exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [handler](std::error_code const& ec, libbitcoin::chain::history_compact::list const& history){
-////        typedef std::vector<history_compact> list;
-//        auto new_history = new libbitcoin::chain::history_compact::list(history);
-//        handler(ec.value(), new_history);
-//    });
-//}
-
-
 //It is the user's responsibility to release the history returned in the callback
 void fetch_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler){
     libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
@@ -483,6 +463,25 @@ void fetch_history(executor_t exec, payment_address_t address, size_t limit, siz
         handler(ec.value(), new_history);
     });
 }
+
+//It is the user's responsibility to release the history returned in the callback
+void get_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_compact_list_t* out_history) {
+    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    int res;
+
+    libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
+
+    exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [handler](std::error_code const& ec, libbitcoin::chain::history_compact::list history){
+        *out_history = new libbitcoin::chain::history_compact::list(history);
+
+        res = ec.value();
+        latch.count_down();
+    });
+
+    latch.count_down_and_wait();
+    return res;
+}
+
 
 long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
 
@@ -509,7 +508,6 @@ long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
 void long_hash_destroy(long_hash_t ptr) {
     free(ptr);
 }
-
 
 libbitcoin::message::transaction::const_ptr const& tx_shared(transaction_t tx) {
     auto const& tx_ref = *static_cast<libbitcoin::message::transaction const*>(tx);
