@@ -25,9 +25,9 @@ libbitcoin::chain::point const& point_const_cpp(point_t point) {
     return *static_cast<libbitcoin::chain::point const*>(point);
 }
 
-libbitcoin::chain::point& history_compact_cpp(history_compact_t point) {
-    return *static_cast<libbitcoin::chain::point*>(point);
-}
+//libbitcoin::chain::point& history_compact_cpp(history_compact_t point) {
+//    return *static_cast<libbitcoin::chain::point*>(point);
+//}
 
 hash_t point_get_hash(point_t point){
     auto const& hash_cpp = point_const_cpp(point).hash();
