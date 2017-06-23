@@ -31,9 +31,6 @@ extern "C" {
 #endif
 
 
-//BITPRIM_EXPORT
-//executor_t executor_construct_devnull(char const* path);
-
 BITPRIM_EXPORT
 executor_t executor_construct(char const* path, FILE* sout, FILE* serr);
 
