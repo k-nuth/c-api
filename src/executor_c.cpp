@@ -573,8 +573,8 @@ transaction_t hex_to_tx(char const* tx_hex) {
     printf("tx_hex: %s\n", tx_hex);
     std::string tx_hex_cpp(tx_hex);
     printf("tx_hex_cpp: %s\n", tx_hex_cpp.c_str());
-	std::vector<uint8_t> data; // (tx_hex_cpp.begin(), tx_hex_cpp.end());
-	data.reserve(tx_hex_cpp.size() / 2);
+	std::vector<uint8_t> data(tx_hex_cpp.size() / 2); // (tx_hex_cpp.begin(), tx_hex_cpp.end());
+	//data.reserve(tx_hex_cpp.size() / 2);
 
 	hex2bin(tx_hex_cpp.c_str(), data.data());
 
