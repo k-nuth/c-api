@@ -537,6 +537,25 @@ libbitcoin::message::transaction::const_ptr const& tx_shared(transaction_t tx) {
 }
 
 
+namespace {
+int char2int(char input) {
+	if (input >= '0' && input <= '9')
+		return input - '0';
+	if (input >= 'A' && input <= 'F')
+		return input - 'A' + 10;
+	if (input >= 'a' && input <= 'f')
+		return input - 'a' + 10;
+	throw std::invalid_argument("Invalid input string");
+}
+
+void hex2bin(const char* src, uint8_t* target) {
+	while (*src && src[1]) {
+		*(target++) = char2int(*src) * 16 + char2int(src[1]);
+		src += 2;
+	}
+}
+}
+
 //It is the user's responsibility to release the transaction returned
 transaction_t hex_to_tx(char const* tx_hex) {
 
@@ -554,7 +573,10 @@ transaction_t hex_to_tx(char const* tx_hex) {
     printf("tx_hex: %s\n", tx_hex);
     std::string tx_hex_cpp(tx_hex);
     printf("tx_hex_cpp: %s\n", tx_hex_cpp.c_str());
-    std::vector<uint8_t> data(tx_hex_cpp.begin(), tx_hex_cpp.end());
+	std::vector<uint8_t> data; // (tx_hex_cpp.begin(), tx_hex_cpp.end());
+	data.reserve(tx_hex_cpp.size() / 2);
+
+	hex2bin(tx_hex_cpp.c_str(), data.data());
 
     printf("hex_to_tx - 4\n");
 
