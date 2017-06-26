@@ -173,7 +173,7 @@ BITPRIM_EXPORT
 transaction_t hex_to_tx(char const* tx_hex);
 
 BITPRIM_EXPORT
-void validate_tx(executor_t exec, transaction_t tx, run_handler_t handler);
+void validate_tx(executor_t exec, transaction_t tx, validate_tx_handler_t handler);
 
 // ------------------------------------------------
 // Wallet functions

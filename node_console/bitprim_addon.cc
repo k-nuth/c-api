@@ -178,10 +178,14 @@ void validate_tx_callback(int error) {
 
     printf("validate_tx_callback - 1\n");
 
-    unsigned int const argc = 2;
+    printf("validate_tx_callback - error: %d\n", error);
 
-//    Local<Value> argv[argc] = { Null(isolate), String::NewFromUtf8(isolate, "success") };
-    Local<Value> argv[argc] = { Null(isolate), Number::New(isolate, error) };
+//    unsigned int const argc = 2;
+////    Local<Value> argv[argc] = { Null(isolate), String::NewFromUtf8(isolate, "success") };
+//    Local<Value> argv[argc] = { Null(isolate), Number::New(isolate, error) };
+
+    unsigned int const argc = 1;
+    Local<Value> argv[argc] = { Number::New(isolate, error) };
 
     printf("validate_tx_callback - 2n");
 

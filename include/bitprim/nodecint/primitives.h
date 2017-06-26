@@ -75,6 +75,7 @@ typedef void (*run_handler_t)(int error);
 typedef void (*spend_fetch_handler_t)(int error, input_t output);
 typedef void (*transaction_fetch_handler_t)(int error, transaction_t transaction, size_t h, size_t i);
 typedef void (*transaction_index_fetch_handler_t)(int error, size_t position, size_t height);
+typedef void (*validate_tx_handler_t)(int error, char* message);
 
 #ifdef __cplusplus
 } // extern "C"

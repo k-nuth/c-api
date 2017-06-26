@@ -598,7 +598,7 @@ libbitcoin::message::transaction::const_ptr const& tx_shared(transaction_t tx) {
 	return libbitcoin::message::transaction::const_ptr(tx_new);
 }
 
-void validate_tx(executor_t exec, transaction_t tx, run_handler_t handler) {
+void validate_tx(executor_t exec, transaction_t tx, validate_tx_handler_t handler) {
 
 
     printf("validate_tx - 1\n");
@@ -612,6 +612,12 @@ void validate_tx(executor_t exec, transaction_t tx, run_handler_t handler) {
 	exec->actual.node().chain().organize(txs, [handler](std::error_code const& ec) {
 		printf("validate_tx CALLBACK - 2\n");
 		if (handler != nullptr) {
+            char* msg_str_c = nullptr;
+            if (!ec) {
+                auto* msg_str = new std::string(ec.message());
+                msg_str_c = msg_str;
+            }
+
 			handler(ec.value());
 		}
     });
