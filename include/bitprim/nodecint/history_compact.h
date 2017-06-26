@@ -40,7 +40,7 @@ BITPRIM_EXPORT
 uint32_t history_compact_get_height(history_compact_t history);
 
 BITPRIM_EXPORT
-uint64_t history_compact_get_value_or_spend(history_compact_t history);
+uint64_t history_compact_get_value_or_previous_checksum(history_compact_t history);
 
 #ifdef __cplusplus
 } // extern "C"

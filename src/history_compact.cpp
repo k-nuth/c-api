@@ -40,7 +40,7 @@ uint32_t history_compact_get_height(history_compact_t history){
     return history_compact_const_cpp(history).height;
 }
 
-uint64_t history_compact_get_value_or_spend(history_compact_t history){
+uint64_t history_compact_get_value_or_previous_checksum(history_compact_t history){
     auto const& history_const_cpp = history_compact_const_cpp(history);
     return history_const_cpp.value;
 }

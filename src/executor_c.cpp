@@ -50,7 +50,7 @@ int devnull_fileno() {
 
 inline
 int fileno_or_devnull(FILE* f) {
-    if (f == 0) {
+    if (f == nullptr) {
         return devnull_fileno();
     } else {
         return fileno(f);
@@ -65,6 +65,23 @@ int fileno_or_devnull(int fd) {
         return fd;
     }
 }
+
+#ifdef BOOST_IOSTREAMS_WINDOWS
+//using handle_source = typename boost::iostreams::file_descriptor_source::handle_type;
+using handle_sink = typename boost::iostreams::file_descriptor_sink::handle_type;
+
+//inline
+//int fileno_or_devnull(handle_sink s) {
+//    if (s == nullptr) {
+//        return devnull_fileno();
+//    } else {
+//        return fileno(f);
+//    }
+//}
+
+#endif /* BOOST_IOSTREAMS_WINDOWS */
+
+
 
 extern "C" {
 
@@ -93,9 +110,6 @@ struct executor {
     }
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
-    using handle_source = typename boost::iostreams::file_descriptor_source::handle_type;
-    using handle_sink = typename boost::iostreams::file_descriptor_sink::handle_type;
-
     executor(char const* path, handle_sink sout, handle_sink serr)
         : sout_buffer_(boost::iostreams::file_descriptor_sink(sout, boost::iostreams::never_close_handle))
         , serr_buffer_(boost::iostreams::file_descriptor_sink(serr, boost::iostreams::never_close_handle))
