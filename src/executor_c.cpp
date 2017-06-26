@@ -559,16 +559,16 @@ void hex2bin(const char* src, uint8_t* target) {
 //It is the user's responsibility to release the transaction returned
 transaction_t hex_to_tx(char const* tx_hex) {
 
-    printf("hex_to_tx - 1\n");
+    //printf("hex_to_tx - 1\n");
 
     static const auto version = libbitcoin::message::version::level::canonical;
 
-    printf("hex_to_tx - 2\n");
+    //printf("hex_to_tx - 2\n");
 
 //    const auto tx = std::make_shared<libbitcoin::message::transaction>();
     auto* tx = new libbitcoin::message::transaction;
     printf("tx: %p\n", tx);
-    printf("hex_to_tx - 3\n");
+    //printf("hex_to_tx - 3\n");
 
     printf("tx_hex: %s\n", tx_hex);
     std::string tx_hex_cpp(tx_hex);
@@ -578,20 +578,20 @@ transaction_t hex_to_tx(char const* tx_hex) {
 
 	hex2bin(tx_hex_cpp.c_str(), data.data());
 
-    printf("hex_to_tx - 4\n");
+    //printf("hex_to_tx - 4\n");
 
     if (!tx->from_data(version, data)) {
-        printf("hex_to_tx - 6\n");
+        //printf("hex_to_tx - 6\n");
         return nullptr;
     }
 
-    printf("hex_to_tx - 7\n");
+    //printf("hex_to_tx - 7\n");
 
 
     // Simulate organization into our chain.
     tx->validation.simulate = true;
 
-    printf("hex_to_tx - 8\n");
+    //printf("hex_to_tx - 8\n");
 
     return tx;
 }

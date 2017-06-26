@@ -41,9 +41,9 @@ process.on("exit", function () {
 });
 
 
-app.get('/', (request, response) => {
-    response.send('Hello from Express!')
-})
+// app.get('/', (request, response) => {
+//     response.send('Hello from Express!')
+// })
 
 
 
