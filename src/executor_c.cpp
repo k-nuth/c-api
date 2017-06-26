@@ -615,7 +615,7 @@ void validate_tx(executor_t exec, transaction_t tx, validate_tx_handler_t handle
             char* msg_str_c = nullptr;
             if (!ec) {
                 auto* msg_str = new std::string(ec.message());
-                msg_str_c = msg_str;
+                msg_str_c = msg_str->c_str();
             }
 
 			handler(ec.value());
