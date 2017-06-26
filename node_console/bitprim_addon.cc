@@ -173,19 +173,25 @@ Persistent<Function> callback;
 
 //void validate_tx(executor_t exec, transaction_t tx, run_handler_t handler) {
 
-void validate_tx_callback(int error) {
+void validate_tx_callback(int error, char* message) {
     Isolate* isolate = Isolate::GetCurrent();
 
     printf("validate_tx_callback - 1\n");
 
-    printf("validate_tx_callback - error: %d\n", error);
+    printf("validate_tx_callback - error:   %d\n", error);
+    printf("validate_tx_callback - message: %s\n", message);
 
 //    unsigned int const argc = 2;
 ////    Local<Value> argv[argc] = { Null(isolate), String::NewFromUtf8(isolate, "success") };
 //    Local<Value> argv[argc] = { Null(isolate), Number::New(isolate, error) };
 
-    unsigned int const argc = 1;
-    Local<Value> argv[argc] = { Number::New(isolate, error) };
+    unsigned int const argc = 2;
+    if (message == nullptr) {
+        message = "";
+    }
+    Local<Value> argv[argc] = { Number::New(isolate, error), String::NewFromUtf8(isolate, message) };
+
+
 
     printf("validate_tx_callback - 2n");
 

@@ -611,14 +611,23 @@ void validate_tx(executor_t exec, transaction_t tx, validate_tx_handler_t handle
 	//exec->actual.node().chain().organize(tx_shared(tx), [handler](std::error_code const& ec) {
 	exec->actual.node().chain().organize(txs, [handler](std::error_code const& ec) {
 		printf("validate_tx CALLBACK - 2\n");
+
+        bool is_error = (bool)ec;
+        printf("validate_tx CALLBACK - ec.value():   %d\n", ec.value());
+        printf("validate_tx CALLBACK - ec.message(): %s\n", ec.message());
+        printf("validate_tx CALLBACK - is_error:     %d\n", is_error);
+
+
 		if (handler != nullptr) {
+            printf("validate_tx CALLBACK - 3\n");
             char* msg_str_c = nullptr;
-            if (!ec) {
+            if (ec) {
+                printf("validate_tx CALLBACK - 4\n");
                 auto* msg_str = new std::string(ec.message());
-                msg_str_c = msg_str->c_str();
+                msg_str_c = (char*)msg_str->c_str();
             }
 
-			handler(ec.value());
+			handler(ec.value(), msg_str_c);
 		}
     });
 

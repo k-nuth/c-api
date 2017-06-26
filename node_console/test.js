@@ -52,9 +52,9 @@ app.get('/validate-tx/:txhex', function(request, response) {
     var txhex = request.params.txhex; //or use request.param('txhex')
     console.log(`validate_tx request txhex: ${txhex}`)
 
-    exec.validate_tx(txhex, function (err) {
-        console.log(`validate_tx callback err: ${err}`)
-        response.send(`validate_tx callback err: ${err}`)
+    exec.validate_tx(txhex, function (err, message) {
+        console.log(`validate_tx callback - err: ${err}, message: ${message}`)
+        response.send(`validate_tx callback - err: ${err}, message: ${message}`)
     })
 })
 
