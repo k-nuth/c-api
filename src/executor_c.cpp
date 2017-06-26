@@ -530,11 +530,7 @@ void long_hash_destroy(long_hash_t ptr) {
     free(ptr);
 }
 
-libbitcoin::message::transaction::const_ptr const& tx_shared(transaction_t tx) {
-    auto const& tx_ref = *static_cast<libbitcoin::message::transaction const*>(tx);
-    auto* tx_new = new libbitcoin::message::transaction(tx_ref);
-    return libbitcoin::message::transaction::const_ptr(tx_new);
-}
+
 
 
 namespace {
@@ -596,17 +592,28 @@ transaction_t hex_to_tx(char const* tx_hex) {
     return tx;
 }
 
+libbitcoin::message::transaction::const_ptr const& tx_shared(transaction_t tx) {
+	auto const& tx_ref = *static_cast<libbitcoin::message::transaction const*>(tx);
+	auto* tx_new = new libbitcoin::message::transaction(tx_ref);
+	return libbitcoin::message::transaction::const_ptr(tx_new);
+}
 
 void validate_tx(executor_t exec, transaction_t tx, run_handler_t handler) {
-//    exec->actual.node().chain().organize(static_cast<libbitcoin::message::transaction::const_ptr>(tx), [handler](std::error_code const& ec){
-//        handler(ec.value());
-//    });
+
 
     printf("validate_tx - 1\n");
     printf("tx: %p\n", tx);
-    exec->actual.node().chain().organize(tx_shared(tx), [handler](std::error_code const& ec) {
-        printf("validate_tx CALLBACK - 2\n");
-        handler(ec.value());
+
+	auto const& tx_ref = *static_cast<libbitcoin::message::transaction const*>(tx);
+	auto* tx_new = new libbitcoin::message::transaction(tx_ref);
+	libbitcoin::message::transaction::const_ptr txs(tx_new);
+
+	//exec->actual.node().chain().organize(tx_shared(tx), [handler](std::error_code const& ec) {
+	exec->actual.node().chain().organize(txs, [handler](std::error_code const& ec) {
+		printf("validate_tx CALLBACK - 2\n");
+		if (handler != nullptr) {
+			handler(ec.value());
+		}
     });
 
     printf("validate_tx - 2\n");
