@@ -165,6 +165,13 @@ int get_history(executor_t exec, payment_address_t address, size_t limit, size_t
 //BITPRIM_EXPORT
 //void fetch_stealth(const binary& filter, size_t from_height, stealth_fetch_handler handler);
 
+
+
+// ------------------------------------------------
+
+BITPRIM_EXPORT
+transaction_t hex_to_tx(char const* tx_hex);
+
 BITPRIM_EXPORT
 void validate_tx(executor_t exec, transaction_t tx, run_handler_t handler);
 
@@ -176,6 +183,7 @@ long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics);
 
 BITPRIM_EXPORT
 void long_hash_destroy(long_hash_t ptr);
+
 
 
 #ifdef __cplusplus

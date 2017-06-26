@@ -167,13 +167,20 @@ void executor_run(executor_t exec, run_handler_t handler) {
 int executor_run_wait(executor_t exec) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
-	exec->actual.run([&](std::error_code const& ec) {
+	bool run_res = exec->actual.run([&](std::error_code const& ec) {
+//        std::cout << "lambda ec.value(): " << ec.value() << std::endl;
         res = ec.value();
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
-    return res;
+//    std::cout << "run_res: " << std::boolalpha << run_res << std::endl;
+
+    if (run_res) {
+        latch.count_down_and_wait();
+        return res;
+    } else {
+        return 1;
+    }
 }
 
 void executor_stop(executor_t exec) {
@@ -529,14 +536,58 @@ libbitcoin::message::transaction::const_ptr const& tx_shared(transaction_t tx) {
     return libbitcoin::message::transaction::const_ptr(tx_new);
 }
 
-void validate_tx(executor_t exec, transaction_t tx, run_handler_t handler){
+
+//It is the user's responsibility to release the transaction returned
+transaction_t hex_to_tx(char const* tx_hex) {
+
+    printf("hex_to_tx - 1\n");
+
+    static const auto version = libbitcoin::message::version::level::canonical;
+
+    printf("hex_to_tx - 2\n");
+
+//    const auto tx = std::make_shared<libbitcoin::message::transaction>();
+    auto* tx = new libbitcoin::message::transaction;
+    printf("tx: %p\n", tx);
+    printf("hex_to_tx - 3\n");
+
+    printf("tx_hex: %s\n", tx_hex);
+    std::string tx_hex_cpp(tx_hex);
+    printf("tx_hex_cpp: %s\n", tx_hex_cpp.c_str());
+    std::vector<uint8_t> data(tx_hex_cpp.begin(), tx_hex_cpp.end());
+
+    printf("hex_to_tx - 4\n");
+
+    if (!tx->from_data(version, data)) {
+        printf("hex_to_tx - 6\n");
+        return nullptr;
+    }
+
+    printf("hex_to_tx - 7\n");
+
+
+    // Simulate organization into our chain.
+    tx->validation.simulate = true;
+
+    printf("hex_to_tx - 8\n");
+
+    return tx;
+}
+
+
+void validate_tx(executor_t exec, transaction_t tx, run_handler_t handler) {
 //    exec->actual.node().chain().organize(static_cast<libbitcoin::message::transaction::const_ptr>(tx), [handler](std::error_code const& ec){
 //        handler(ec.value());
 //    });
 
-    exec->actual.node().chain().organize(tx_shared(tx), [handler](std::error_code const& ec){
+    printf("validate_tx - 1\n");
+    printf("tx: %p\n", tx);
+    exec->actual.node().chain().organize(tx_shared(tx), [handler](std::error_code const& ec) {
+        printf("validate_tx CALLBACK - 2\n");
         handler(ec.value());
     });
+
+    printf("validate_tx - 2\n");
 }
 
 } /* extern "C" */

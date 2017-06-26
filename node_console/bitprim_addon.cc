@@ -15,6 +15,8 @@ using v8::Value;
 using v8::External;
 using v8::Exception;
 using v8::Number;
+using v8::Persistent;
+using v8::Function;
 
 //void Method(FunctionCallbackInfo<Value> const& args) {
 //    Isolate* isolate = args.GetIsolate();
@@ -34,9 +36,14 @@ void bitprim_executor_construct(FunctionCallbackInfo<Value> const& args) {
 //    printf("args[1]->IsObject(): %d\n", args[1]->IsObject());
 //    printf("args[2]->IsObject(): %d\n", args[2]->IsObject());
 
+//    printf("args[1]->IsObject(): %d\n", args[1]->IsObject());
+//    printf("args[2]->IsObject(): %d\n", args[2]->IsObject());
+//    printf("args[1]->IsNull():   %d\n", args[1]->IsNull());
+//    printf("args[2]->IsNull():   %d\n", args[2]->IsNull());
+
     if ( ! args[0]->IsString() ||
-         ! args[1]->IsObject() ||
-         ! args[2]->IsObject()
+         ! (args[1]->IsObject() || args[1]->IsNull()) ||
+         ! (args[2]->IsObject() || args[2]->IsNull())
        ) {
         isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
         return;
@@ -44,64 +51,19 @@ void bitprim_executor_construct(FunctionCallbackInfo<Value> const& args) {
 
     v8::String::Utf8Value path(args[0]->ToString());
 
-//    printf("xxxxx 1\n");
 
-    auto sout_obj = args[1]->ToObject();
-    auto serr_obj = args[2]->ToObject();
+    int32_t sout_fd = -1;
+    int32_t serr_fd = -1;
 
+    if (! args[1]->IsNull()) {
+        auto sout_obj = args[1]->ToObject();
+        sout_fd = sout_obj->Get(String::NewFromUtf8(isolate, "fd"))->Int32Value();
+    }
 
-//    printf("sout_obj->IsUndefined():    %d\n", sout_obj->IsUndefined());
-//    printf("sout_obj->IsNull():         %d\n", sout_obj->IsNull());
-//    printf("sout_obj->IsTrue():         %d\n", sout_obj->IsTrue());
-//    printf("sout_obj->IsFalse():        %d\n", sout_obj->IsFalse());
-//    printf("sout_obj->IsString():       %d\n", sout_obj->IsString());
-//    printf("sout_obj->IsFunction():     %d\n", sout_obj->IsFunction());
-//    printf("sout_obj->IsArray():        %d\n", sout_obj->IsArray());
-//    printf("sout_obj->IsObject():       %d\n", sout_obj->IsObject());
-//    printf("sout_obj->IsBoolean():      %d\n", sout_obj->IsBoolean());
-//    printf("sout_obj->IsNumber():       %d\n", sout_obj->IsNumber());
-//    printf("sout_obj->IsExternal():     %d\n", sout_obj->IsExternal());
-//    printf("sout_obj->IsInt32():        %d\n", sout_obj->IsInt32());
-//    printf("sout_obj->IsUint32():       %d\n", sout_obj->IsUint32());
-//    printf("sout_obj->IsDate():         %d\n", sout_obj->IsDate());
-//    printf("sout_obj->IsBooleanObject():%d\n", sout_obj->IsBooleanObject());
-//    printf("sout_obj->IsNumberObject(): %d\n", sout_obj->IsNumberObject());
-//    printf("sout_obj->IsStringObject(): %d\n", sout_obj->IsStringObject());
-//    printf("sout_obj->IsNativeError():  %d\n", sout_obj->IsNativeError());
-//    printf("sout_obj->IsRegExp():       %d\n", sout_obj->IsRegExp());
-
-
-//    printf("xxxxx 2\n");
-
-    auto yyyy = sout_obj->Get(String::NewFromUtf8(isolate, "fd"));
-
-//    printf("yyyy->IsUndefined():    %d\n", yyyy->IsUndefined());
-//    printf("yyyy->IsNull():         %d\n", yyyy->IsNull());
-//    printf("yyyy->IsTrue():         %d\n", yyyy->IsTrue());
-//    printf("yyyy->IsFalse():        %d\n", yyyy->IsFalse());
-//    printf("yyyy->IsString():       %d\n", yyyy->IsString());
-//    printf("yyyy->IsFunction():     %d\n", yyyy->IsFunction());
-//    printf("yyyy->IsArray():        %d\n", yyyy->IsArray());
-//    printf("yyyy->IsObject():       %d\n", yyyy->IsObject());
-//    printf("yyyy->IsBoolean():      %d\n", yyyy->IsBoolean());
-//    printf("yyyy->IsNumber():       %d\n", yyyy->IsNumber());
-//    printf("yyyy->IsExternal():     %d\n", yyyy->IsExternal());
-//    printf("yyyy->IsInt32():        %d\n", yyyy->IsInt32());
-//    printf("yyyy->IsUint32():       %d\n", yyyy->IsUint32());
-//    printf("yyyy->IsDate():         %d\n", yyyy->IsDate());
-//    printf("yyyy->IsBooleanObject():%d\n", yyyy->IsBooleanObject());
-//    printf("yyyy->IsNumberObject(): %d\n", yyyy->IsNumberObject());
-//    printf("yyyy->IsStringObject(): %d\n", yyyy->IsStringObject());
-//    printf("yyyy->IsNativeError():  %d\n", yyyy->IsNativeError());
-//    printf("yyyy->IsRegExp():       %d\n", yyyy->IsRegExp());
-
-
-//    printf("xxxxx 3\n");
-
-//    printf("yyyy: %d\n", yyyy);
-
-    auto sout_fd = sout_obj->Get(String::NewFromUtf8(isolate, "fd"))->Int32Value();
-    auto serr_fd = serr_obj->Get(String::NewFromUtf8(isolate, "fd"))->Int32Value();
+    if (! args[2]->IsNull()) {
+        auto serr_obj = args[2]->ToObject();
+        serr_fd = serr_obj->Get(String::NewFromUtf8(isolate, "fd"))->Int32Value();
+    }
 
 //    printf("path:    %s\n", *path);
 //    printf("sout_fd: %d\n", sout_fd);
@@ -205,13 +167,139 @@ void bitprim_executor_run_wait(const FunctionCallbackInfo<Value>& args) {
 }
 
 
+// ---------------------------------------------
+
+Persistent<Function> callback;
+
+//void validate_tx(executor_t exec, transaction_t tx, run_handler_t handler) {
+
+void validate_tx_callback(int error) {
+    Isolate* isolate = Isolate::GetCurrent();
+
+    printf("validate_tx_callback - 1\n");
+
+    unsigned int const argc = 2;
+
+//    Local<Value> argv[argc] = { Null(isolate), String::NewFromUtf8(isolate, "success") };
+    Local<Value> argv[argc] = { Null(isolate), Number::New(isolate, error) };
+
+    printf("validate_tx_callback - 2n");
+
+    Local<Function>::New(isolate, callback)->Call(isolate->GetCurrentContext()->Global(), argc, argv);
+
+    printf("validate_tx_callback - 3\n");
+
+    callback.Reset();
+
+    printf("validate_tx_callback - 4\n");
+}
+
+void bitprim_validate_tx(FunctionCallbackInfo<Value> const& args) {
+    Isolate* isolate = args.GetIsolate();
+
+    printf("bitprim_validate_tx - 1\n");
+    if (args.Length() != 3) {
+        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong number of arguments")));
+        return;
+    }
+
+    printf("bitprim_validate_tx - 2\n");
+
+    if ( ! args[0]->IsExternal()) {
+        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        return;
+    }
+
+    printf("bitprim_validate_tx - 3\n");
+
+    if ( ! args[1]->IsString()) {
+        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        return;
+    }
+
+    printf("bitprim_validate_tx - 4\n");
+
+    if ( ! args[2]->IsFunction()) {
+        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        return;
+    }
+
+    printf("bitprim_validate_tx - 5\n");
+
+    void* vptr = v8::External::Cast(*args[0])->Value();
+    executor_t exec = (executor_t)vptr;
+
+    printf("bitprim_validate_tx - 6\n");
+
+
+    v8::String::Utf8Value tx_hex(args[1]->ToString());
+
+    printf("bitprim_validate_tx - 7\n");
+
+
+    callback.Reset(isolate, args[2].As<Function>());
+
+    printf("bitprim_validate_tx - 8\n");
+
+    auto tx = hex_to_tx(*tx_hex);
+
+    printf("bitprim_validate_tx - 9\n");
+
+    printf("tx: %p\n", tx);
+
+    validate_tx(exec, tx, validate_tx_callback);
+
+    printf("bitprim_validate_tx - 10\n");
+
+    //TODO: free tx
+}
+
+
+//    void resize(const v8::FunctionCallbackInfo<Value> &args) {
+//        Isolate *isolate = Isolate::GetCurrent();
+//        HandleScope scope(isolate);
+//        Persistent<Function> callback;
+//        callback.Reset(isolate, args[0].As<Function>())
+//        const unsigned argc = 2;
+//        Local<Value> argv[argc] = { Null(isolate), String::NewFromUtf8(isolate, "success") };
+//        Local<Function>::New(isolate, work->callback)->Call(isolate->GetCurrentContext()->Global(), argc, argv);
+//        callback.Reset();
+//    }
+
+//-------------------
+
+//Handle<Value> addEventListener(Arguments const& args) {
+//    HandleScope scope;
+//    if (!args[0]->IsFunction()) {
+//        return ThrowException(Exception::TypeError(String::New("Wrong arguments")));
+//    }
+//
+//    Persistent<Function> fn = Persistent<Function>::New(Handle<Function>::Cast(args[0]));
+////    Local<Number> num = Number::New(registerListener(&callback, &fn));
+//    Local<Number> num = Number::New(registerListener(&callback, *fn));
+//
+//    scope.Close(num);
+//}
+//
+//void callback(int event, void* context ) {
+//    HandleScope scope;
+//    Local<Value> args[] = { Local<Value>::New(Number::New(event)) };
+//    Persistent<Function> *func = static_cast<Persistent<Function> *>(context);
+//    (* func)->Call((* func), 1, args);
+//
+//    scope.Close(Undefined());
+//}
+
+//-------------------
+
+
 void init(Local<Object> exports) {
     NODE_SET_METHOD(exports, "construct", bitprim_executor_construct);
     NODE_SET_METHOD(exports, "destruct", bitprim_executor_destruct);
     NODE_SET_METHOD(exports, "initchain", bitprim_executor_initchain);
 //    NODE_SET_METHOD(exports, "run", bitprim_executor_run);
     NODE_SET_METHOD(exports, "run_wait", bitprim_executor_run_wait);
-
+    NODE_SET_METHOD(exports, "validate_tx", bitprim_validate_tx);
 
 }
 

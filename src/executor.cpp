@@ -188,7 +188,11 @@ bool executor::run_wait(libbitcoin::handle0 handler) {
 void executor::handle_started(libbitcoin::code const& ec) {
     if (ec) {
         LOG_ERROR(LOG_NODE) << format(BN_NODE_START_FAIL) % ec.message();
-        stop(ec);
+//        stop(ec);
+
+        if (run_handler_) {
+            run_handler_(ec);
+        }
         return;
     }
 
@@ -207,7 +211,12 @@ void executor::handle_started(libbitcoin::code const& ec) {
 void executor::handle_running(libbitcoin::code const& ec) {
     if (ec) {
         LOG_INFO(LOG_NODE) << format(BN_NODE_START_FAIL) % ec.message();
-        stop(ec);
+//        stop(ec);
+
+        if (run_handler_) {
+            run_handler_(ec);
+        }
+
         return;
     }
 
