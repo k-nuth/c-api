@@ -10,6 +10,10 @@ ExecutorResource.prototype.initchain = function() {
     return bitprim_native.initchain(this.executor)
 };
 
+ExecutorResource.prototype.stop = function() {
+    bitprim_native.stop(this.executor)
+};
+
 // ExecutorResource.prototype.run = function() {
 //     return bitprim_native.run(this.executor);
 // };
@@ -18,6 +22,10 @@ ExecutorResource.prototype.run_wait = function() {
     const resX = bitprim_native.run_wait(this.executor)
     // console.log(`resX: ${resX}`)
     return resX
+};
+
+ExecutorResource.prototype.get_last_height = function() {
+    return bitprim_native.get_last_height(this.executor);
 };
 
 ExecutorResource.prototype.validate_tx = function(tx_hex, callback) {
