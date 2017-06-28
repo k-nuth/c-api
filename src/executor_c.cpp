@@ -521,7 +521,7 @@ long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
 
 
     uint8_t* ret = (uint8_t*)malloc(hash_cpp.size() * sizeof(uint8_t));
-    printf("wallet_mnemonics_to_seed - ret: %p\n", ret);
+//    printf("wallet_mnemonics_to_seed - ret: %p\n", ret);
     std::copy_n(std::begin(hash_cpp), hash_cpp.size(), ret);
     return ret;
 }
@@ -563,12 +563,12 @@ transaction_t hex_to_tx(char const* tx_hex) {
 
 //    const auto tx = std::make_shared<libbitcoin::message::transaction>();
     auto* tx = new libbitcoin::message::transaction;
-    printf("tx: %p\n", tx);
+//    printf("tx: %p\n", tx);
     //printf("hex_to_tx - 3\n");
 
-    printf("tx_hex: %s\n", tx_hex);
+//    printf("tx_hex: %s\n", tx_hex);
     std::string tx_hex_cpp(tx_hex);
-    printf("tx_hex_cpp: %s\n", tx_hex_cpp.c_str());
+//    printf("tx_hex_cpp: %s\n", tx_hex_cpp.c_str());
 	std::vector<uint8_t> data(tx_hex_cpp.size() / 2); // (tx_hex_cpp.begin(), tx_hex_cpp.end());
 	//data.reserve(tx_hex_cpp.size() / 2);
 
@@ -601,8 +601,8 @@ libbitcoin::message::transaction::const_ptr const& tx_shared(transaction_t tx) {
 void validate_tx(executor_t exec, transaction_t tx, validate_tx_handler_t handler) {
 
 
-    printf("validate_tx - 1\n");
-    printf("tx: %p\n", tx);
+//    printf("validate_tx - 1\n");
+//    printf("tx: %p\n", tx);
 
 	auto const& tx_ref = *static_cast<libbitcoin::message::transaction const*>(tx);
 	auto* tx_new = new libbitcoin::message::transaction(tx_ref);
@@ -610,19 +610,19 @@ void validate_tx(executor_t exec, transaction_t tx, validate_tx_handler_t handle
 
 	//exec->actual.node().chain().organize(tx_shared(tx), [handler](std::error_code const& ec) {
 	exec->actual.node().chain().organize(txs, [handler](std::error_code const& ec) {
-		printf("validate_tx CALLBACK - 2\n");
+//		printf("validate_tx CALLBACK - 2\n");
 
         bool is_error = (bool)ec;
-        printf("validate_tx CALLBACK - ec.value():   %d\n", ec.value());
-        printf("validate_tx CALLBACK - ec.message(): %s\n", ec.message());
-        printf("validate_tx CALLBACK - is_error:     %d\n", is_error);
+//        printf("validate_tx CALLBACK - ec.value():   %d\n", ec.value());
+//        printf("validate_tx CALLBACK - ec.message(): %s\n", ec.message());
+//        printf("validate_tx CALLBACK - is_error:     %d\n", is_error);
 
 
 		if (handler != nullptr) {
-            printf("validate_tx CALLBACK - 3\n");
+//            printf("validate_tx CALLBACK - 3\n");
             char* msg_str_c = nullptr;
             if (ec) {
-                printf("validate_tx CALLBACK - 4\n");
+//                printf("validate_tx CALLBACK - 4\n");
                 auto* msg_str = new std::string(ec.message());
                 msg_str_c = (char*)msg_str->c_str();
             }
@@ -631,7 +631,7 @@ void validate_tx(executor_t exec, transaction_t tx, validate_tx_handler_t handle
 		}
     });
 
-    printf("validate_tx - 2\n");
+//    printf("validate_tx - 2\n");
 }
 
 } /* extern "C" */
