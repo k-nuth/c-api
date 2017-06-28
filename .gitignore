@@ -3,6 +3,7 @@ cmake-build-release/
 .idea/
 build/
 build-mingw/
+build-mingw-old/
 bitprim-node-cint.dir/
 build2/
 test_console.dir/
