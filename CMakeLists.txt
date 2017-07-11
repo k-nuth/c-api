@@ -34,14 +34,70 @@ option(WITH_CONSOLE "Compile console application." ON)
 # Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
 #------------------------------------------------------------------------------
 option(ENABLE_SHARED "" ON)
+option(ENABLE_SHARED_NODE_CINT "" ON)
+
+if (ENABLE_SHARED_NODE_CINT)
+  set(ENABLE_SHARED ON)
+endif()
+
+# set(ENABLE_SHARED ON)
+
+# IF(APPLE)
+#   SET(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
+# ENDIF(APPLE)
+
+# message(${CMAKE_SHARED_MODULE_CREATE_C_FLAGS})
+# message(${CMAKE_SHARED_MODULE_CREATE_CXX_FLAGS})
+# set(CMAKE_SHARED_MODULE_CREATE_C_FLAGS "-fer -Wl,-headerpad_max_install_names")
+# set(CMAKE_SHARED_MODULE_CREATE_CXX_FLAGS "-bundle -Wl,-headerpad_max_install_names")
+# message(${CMAKE_SHARED_MODULE_CREATE_C_FLAGS})
+# message(${CMAKE_SHARED_MODULE_CREATE_CXX_FLAGS})
+
+
+#  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${_Flag}" )
+#  set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} ${_Flag}" )
+
+# message(${CMAKE_SHARED_LINKER_FLAGS})
+# message(${CMAKE_STATIC_LINKER_FLAGS})
+
+# _add_link_flag(-fstack-protector _has_stack_protector_flag)
+
+# set(CMAKE_SHARED_LINKER_FLAGS "-bundle -Wl,-headerpad_max_install_names")
+# set(CMAKE_STATIC_LINKER_FLAGS "-bundle -Wl,-headerpad_max_install_names")
+
+# message(${CMAKE_SHARED_LINKER_FLAGS})
+# message(${CMAKE_STATIC_LINKER_FLAGS})
+
+# message(${CMAKE_C_LINK_FLAGS})
+# message(${CMAKE_CXX_LINK_FLAGS})
+
+# SET(CMAKE_C_LINK_FLAGS "-bundle -Wl,-headerpad_max_install_names")
+# SET(CMAKE_CXX_LINK_FLAGS "-bundle -Wl,-headerpad_max_install_names")
+
+# message(${CMAKE_C_LINK_FLAGS})
+# message(${CMAKE_CXX_LINK_FLAGS})
+
+#------------------------------------------------------------------------------
+
+option(WITH_CONSOLE_NODE_CINT "" OFF)
+
+
+
+
+#------------------------------------------------------------------------------
+
+
+
+
 
 # Check dependencies.
 #==============================================================================
 # Require Boost of at least version 1.56.0 and output ${boost_CPPFLAGS/LDFLAGS}.
 #------------------------------------------------------------------------------
-if (NOT ENABLE_SHARED)
+# if (NOT ENABLE_SHARED)
   set(Boost_USE_STATIC_LIBS ON)
-endif()
+# endif()
+
 
 
 #------------------------------------------------------------------------------
@@ -264,18 +320,21 @@ _group_sources(bitprim-node-cint "${CMAKE_CURRENT_LIST_DIR}")
 #==============================================================================
 
 
-#add_executable(test-console-twos
-#        console/main.c)
+if (WITH_CONSOLE_NODE_CINT)
+  #add_executable(test-console-twos
+  #        console/main.c)
 
-add_executable(test_console
-        console/main.cpp)
+  add_executable(test_console
+          console/main.cpp)
 
-target_link_libraries(test_console bitprim-node-cint)
+  target_link_libraries(test_console bitprim-node-cint)
 
-set_target_properties(
-        test_console PROPERTIES
-        FOLDER "node"
-        OUTPUT_NAME test_console)
+  set_target_properties(
+          test_console PROPERTIES
+          FOLDER "node"
+          OUTPUT_NAME test_console)
+endif()
+
 
 
 
