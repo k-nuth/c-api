@@ -63,19 +63,19 @@ typedef void* word_list_t;
 
 
 
-typedef void (*block_fetch_handler_t)(int error, block_t block, size_t h);
-typedef void (*block_height_fetch_handler_t)(int error, size_t h);
-typedef void (*block_header_fetch_handler_t)(int error, header_t header, size_t h);
-typedef void (*compact_block_fetch_handler_t)(int error, compact_block_t block, size_t h);
-typedef void (*history_fetch_handler_t)(int error, history_compact_list_t history);
-typedef void (*last_height_fetch_handler_t)(int error, size_t h);
-typedef void (*merkle_block_fetch_handler_t)(int error, merkle_block_t block, size_t h);
-typedef void (*output_fetch_handler_t)(int error, output_t output);
-typedef void (*run_handler_t)(int error);
-typedef void (*spend_fetch_handler_t)(int error, input_t output);
-typedef void (*transaction_fetch_handler_t)(int error, transaction_t transaction, size_t h, size_t i);
-typedef void (*transaction_index_fetch_handler_t)(int error, size_t position, size_t height);
-typedef void (*validate_tx_handler_t)(int error, char* message);
+typedef void (*block_fetch_handler_t)(executor_t exec, void* context, int error, block_t block, size_t h);
+typedef void (*block_height_fetch_handler_t)(executor_t exec, void* context, int error, size_t h);
+typedef void (*block_header_fetch_handler_t)(executor_t exec, void* context, int error, header_t header, size_t h);
+typedef void (*compact_block_fetch_handler_t)(executor_t exec, void* context, int error, compact_block_t block, size_t h);
+typedef void (*history_fetch_handler_t)(executor_t exec, void* context, int error, history_compact_list_t history);
+typedef void (*last_height_fetch_handler_t)(executor_t exec, void* context, int error, size_t h);
+typedef void (*merkle_block_fetch_handler_t)(executor_t exec, void* context, int error, merkle_block_t block, size_t h);
+typedef void (*output_fetch_handler_t)(executor_t exec, void* context, int error, output_t output);
+typedef void (*run_handler_t)(executor_t exec, void* context, int error);
+typedef void (*spend_fetch_handler_t)(executor_t exec, void* context, int error, input_t output);
+typedef void (*transaction_fetch_handler_t)(executor_t exec, void* context, int error, transaction_t transaction, size_t h, size_t i);
+typedef void (*transaction_index_fetch_handler_t)(executor_t exec, void* context, int error, size_t position, size_t height);
+typedef void (*validate_tx_handler_t)(executor_t exec, void* context, int error, char* message);
 
 #ifdef __cplusplus
 } // extern "C"

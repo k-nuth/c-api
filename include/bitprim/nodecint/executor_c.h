@@ -51,7 +51,7 @@ BITPRIM_EXPORT
 void executor_destruct(executor_t exec);
 
 BITPRIM_EXPORT
-void executor_run(executor_t exec, run_handler_t handler);
+void executor_run(executor_t exec, void* context, run_handler_t handler);
 
 BITPRIM_EXPORT
 int executor_run_wait(executor_t exec);
@@ -77,13 +77,13 @@ void executor_stop(executor_t exec);
 //void fetch_block_by_hash(executor_t exec, hash_t hash, block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-void fetch_last_height(executor_t exec, last_height_fetch_handler_t handler);
+void fetch_last_height(executor_t exec, void* ctx, last_height_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 int get_last_height(executor_t exec, size_t* height);
 
 BITPRIM_EXPORT
-void fetch_block_height(executor_t exec, hash_t hash, block_height_fetch_handler_t handler);
+void fetch_block_height(executor_t exec, void* ctx, hash_t hash, block_height_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 int get_block_height(executor_t exec, hash_t hash, size_t* height);
@@ -91,13 +91,13 @@ int get_block_height(executor_t exec, hash_t hash, size_t* height);
 
 // Block Header ---------------------------------------------------------------------
 BITPRIM_EXPORT
-void fetch_block_header_by_height(executor_t exec, size_t height, block_header_fetch_handler_t handler);
+void fetch_block_header_by_height(executor_t exec, void* ctx, size_t height, block_header_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 int get_block_header_by_height(executor_t exec, size_t height, header_t* header, size_t* ret_height);
 
 BITPRIM_EXPORT
-void fetch_block_header_by_hash(executor_t exec, hash_t hash, block_header_fetch_handler_t handler);
+void fetch_block_header_by_hash(executor_t exec, void* ctx, hash_t hash, block_header_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 int get_block_header_by_hash(executor_t exec, hash_t hash, header_t* header, size_t* ret_height);
@@ -105,13 +105,13 @@ int get_block_header_by_hash(executor_t exec, hash_t hash, header_t* header, siz
 
 // Block ---------------------------------------------------------------------
 BITPRIM_EXPORT
-void fetch_block_by_height(executor_t exec, size_t height, block_fetch_handler_t handler);
+void fetch_block_by_height(executor_t exec, void* ctx, size_t height, block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 int get_block_by_height(executor_t exec, size_t height, block_t* block, size_t* ret_height);
 
 BITPRIM_EXPORT
-void fetch_block_by_hash(executor_t exec, hash_t hash, block_fetch_handler_t handler);
+void fetch_block_by_hash(executor_t exec, void* ctx, hash_t hash, block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 int get_block_by_hash(executor_t exec, hash_t hash, block_t* block, size_t* ret_height);
@@ -119,44 +119,44 @@ int get_block_by_hash(executor_t exec, hash_t hash, block_t* block, size_t* ret_
 
 // Merkle Block ---------------------------------------------------------------------
 BITPRIM_EXPORT
-void fetch_merkle_block_by_height(executor_t exec, size_t height, merkle_block_fetch_handler_t handler);
+void fetch_merkle_block_by_height(executor_t exec, void* ctx, size_t height, merkle_block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-void fetch_merkle_block_by_hash(executor_t exec, hash_t hash, merkle_block_fetch_handler_t handler);
+void fetch_merkle_block_by_hash(executor_t exec, void* ctx, hash_t hash, merkle_block_fetch_handler_t handler);
 
 // Compact Block ---------------------------------------------------------------------
 BITPRIM_EXPORT
-void fetch_compact_block_by_height(executor_t exec, size_t height, compact_block_fetch_handler_t handler);
+void fetch_compact_block_by_height(executor_t exec, void* ctx, size_t height, compact_block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-void fetch_compact_block_by_hash(executor_t exec, hash_t hash, compact_block_fetch_handler_t handler);
+void fetch_compact_block_by_hash(executor_t exec, void* ctx, hash_t hash, compact_block_fetch_handler_t handler);
 
 
 // Transaction ---------------------------------------------------------------------
 BITPRIM_EXPORT
-void fetch_transaction(executor_t exec, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler);
+void fetch_transaction(executor_t exec, void* ctx, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 int get_transaction(executor_t exec, hash_t hash, int require_confirmed, transaction_t* transaction, size_t* ret_height, size_t* index);
 
 BITPRIM_EXPORT
-void fetch_transaction_position(executor_t exec, hash_t hash, int require_confirmed, transaction_index_fetch_handler_t handler);
+void fetch_transaction_position(executor_t exec, void* ctx, hash_t hash, int require_confirmed, transaction_index_fetch_handler_t handler);
 
 
 // Output  ---------------------------------------------------------------------
 BITPRIM_EXPORT
-void fetch_output(executor_t exec, hash_t hash, uint32_t index, int require_confirmed, output_fetch_handler_t handler);
+void fetch_output(executor_t exec, void* ctx, hash_t hash, uint32_t index, int require_confirmed, output_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 int get_output(executor_t exec, hash_t hash, uint32_t index, int require_confirmed, output_t* output);
 
 // Spend ---------------------------------------------------------------------
 BITPRIM_EXPORT
-void fetch_spend(executor_t exec, output_point_t outpoint, spend_fetch_handler_t handler);
+void fetch_spend(executor_t exec, void* ctx, output_point_t outpoint, spend_fetch_handler_t handler);
 
 // History ---------------------------------------------------------------------
 BITPRIM_EXPORT
-void fetch_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler);
+void fetch_history(executor_t exec, void* ctx, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 int get_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_compact_list_t* out_history);
@@ -173,7 +173,7 @@ BITPRIM_EXPORT
 transaction_t hex_to_tx(char const* tx_hex);
 
 BITPRIM_EXPORT
-void validate_tx(executor_t exec, transaction_t tx, validate_tx_handler_t handler);
+void validate_tx(executor_t exec, void* ctx, transaction_t tx, validate_tx_handler_t handler);
 
 // ------------------------------------------------
 // Wallet functions

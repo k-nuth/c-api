@@ -153,10 +153,10 @@ int executor_initchain(executor_t exec) {
     return exec->actual.do_initchain();
 }
 
-void executor_run(executor_t exec, run_handler_t handler) {
-    exec->actual.run([handler](std::error_code const& ec) {
+void executor_run(executor_t exec, void* ctx, run_handler_t handler) {
+    exec->actual.run([exec, ctx, handler](std::error_code const& ec) {
 		if (handler != nullptr) {
-			handler(ec.value());
+			handler(exec, ctx, ec.value());
 		}
     });
 }
@@ -184,9 +184,10 @@ void executor_stop(executor_t exec) {
     exec->actual.stop();
 }
 
-void fetch_last_height(executor_t exec, last_height_fetch_handler_t handler) {
-    exec->actual.node().chain().fetch_last_height([handler](std::error_code const& ec, size_t h) {
-        handler(ec.value(), h);
+void fetch_last_height(executor_t exec, void* ctx, last_height_fetch_handler_t handler) {
+    exec->actual.node().chain().fetch_last_height(
+        [exec, ctx, handler](std::error_code const& ec, size_t h) {
+        handler(exec, ctx, ec.value(), h);
     });
 }
 
@@ -204,13 +205,13 @@ int get_last_height(executor_t exec, size_t* height) {
     return res;
 }
 
-void fetch_block_height(executor_t exec, hash_t hash, block_height_fetch_handler_t handler) {
+void fetch_block_height(executor_t exec, void* ctx, hash_t hash, block_height_fetch_handler_t handler) {
 
     libbitcoin::hash_digest hash_cpp;
     std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
 
-    exec->actual.node().chain().fetch_block_height(hash_cpp, [handler](std::error_code const& ec, size_t h) {
-        handler(ec.value(), h);
+    exec->actual.node().chain().fetch_block_height(hash_cpp, [exec, ctx, handler](std::error_code const& ec, size_t h) {
+        handler(exec, ctx, ec.value(), h);
     });
 }
 
@@ -231,12 +232,12 @@ int get_block_height(executor_t exec, hash_t hash, size_t* height) {
     return res;
 }
 
-void fetch_block_header_by_height(executor_t exec, size_t height, block_header_fetch_handler_t handler) {
-    exec->actual.node().chain().fetch_block_header(height, [handler](std::error_code const& ec, libbitcoin::message::header::ptr header, size_t h) {
+void fetch_block_header_by_height(executor_t exec, void* ctx, size_t height, block_header_fetch_handler_t handler) {
+    exec->actual.node().chain().fetch_block_header(height, [exec, ctx, handler](std::error_code const& ec, libbitcoin::message::header::ptr header, size_t h) {
         auto new_header = new libbitcoin::message::header(*header.get());
 //        auto new_header = std::make_unique(*header.get()).release();
         //Note: It is the responsability of the user to release/destruct the object
-        handler(ec.value(), new_header, h);
+        handler(exec, ctx, ec.value(), new_header, h);
     });
 }
 
@@ -257,16 +258,16 @@ int get_block_header_by_height(executor_t exec, size_t height, header_t* out_hea
     return res;
 }
 
-void fetch_block_header_by_hash(executor_t exec, hash_t hash, block_header_fetch_handler_t handler) {
+void fetch_block_header_by_hash(executor_t exec, void* ctx, hash_t hash, block_header_fetch_handler_t handler) {
 
     libbitcoin::hash_digest hash_cpp;
     std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
 
-    exec->actual.node().chain().fetch_block_header(hash_cpp, [handler](std::error_code const& ec, libbitcoin::message::header::ptr header, size_t h) {
+    exec->actual.node().chain().fetch_block_header(hash_cpp, [exec, ctx, handler](std::error_code const& ec, libbitcoin::message::header::ptr header, size_t h) {
         auto new_header = new libbitcoin::message::header(*header.get());
 //        auto new_header = std::make_unique(*header.get()).release();
         //Note: It is the responsability of the user to release/destruct the object
-        handler(ec.value(), new_header, h);
+        handler(exec, ctx, ec.value(), new_header, h);
     });
 }
 
@@ -290,12 +291,12 @@ int get_block_header_by_hash(executor_t exec, hash_t hash, header_t* out_header,
     return res;
 }
 
-void fetch_block_by_height(executor_t exec, size_t height, block_fetch_handler_t handler) {
-    exec->actual.node().chain().fetch_block(height, [handler](std::error_code const& ec, libbitcoin::message::block::ptr block, size_t h) {
+void fetch_block_by_height(executor_t exec, void* ctx, size_t height, block_fetch_handler_t handler) {
+    exec->actual.node().chain().fetch_block(height, [exec, ctx, handler](std::error_code const& ec, libbitcoin::message::block::ptr block, size_t h) {
 
         auto new_block = new libbitcoin::message::block(*block.get());
         //Note: It is the responsability of the user to release/destruct the object
-        handler(ec.value(), new_block, h);
+        handler(exec, ctx, ec.value(), new_block, h);
     });
 }
 
@@ -316,15 +317,15 @@ int get_block_by_height(executor_t exec, size_t height, block_t* out_block, size
     return res;
 }
 
-void fetch_block_by_hash(executor_t exec, hash_t hash, block_fetch_handler_t handler) {
+void fetch_block_by_hash(executor_t exec, void* ctx, hash_t hash, block_fetch_handler_t handler) {
 
     libbitcoin::hash_digest hash_cpp;
     std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
 
-    exec->actual.node().chain().fetch_block(hash_cpp, [handler](std::error_code const& ec, libbitcoin::message::block::ptr block, size_t h) {
+    exec->actual.node().chain().fetch_block(hash_cpp, [exec, ctx, handler](std::error_code const& ec, libbitcoin::message::block::ptr block, size_t h) {
         //Note: It is the responsability of the user to release/destruct the object
         auto new_block = new libbitcoin::message::block(*block.get());
-        handler(ec.value(), new_block, h);
+        handler(exec, ctx, ec.value(), new_block, h);
     });
 }
 
@@ -347,35 +348,35 @@ int get_block_by_hash(executor_t exec, hash_t hash, block_t* out_block, size_t* 
     return res;
 }
 
-void fetch_merkle_block_by_height(executor_t exec, size_t height, merkle_block_fetch_handler_t handler){
-    exec->actual.node().chain().fetch_merkle_block(height, [handler](std::error_code const& ec, libbitcoin::message::merkle_block::ptr block, size_t h) {
+void fetch_merkle_block_by_height(executor_t exec, void* ctx, size_t height, merkle_block_fetch_handler_t handler){
+    exec->actual.node().chain().fetch_merkle_block(height, [exec, ctx, handler](std::error_code const& ec, libbitcoin::message::merkle_block::ptr block, size_t h) {
 
         auto new_block = new libbitcoin::message::merkle_block(*block.get());
         //Note: It is the responsibility of the user to release/destruct the object
-        handler(ec.value(), new_block, h);
+        handler(exec, ctx, ec.value(), new_block, h);
     });
 }
 
-void fetch_merkle_block_by_hash(executor_t exec, hash_t hash, merkle_block_fetch_handler_t handler) {
+void fetch_merkle_block_by_hash(executor_t exec, void* ctx, hash_t hash, merkle_block_fetch_handler_t handler) {
 
     libbitcoin::hash_digest hash_cpp;
     std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
 
-    exec->actual.node().chain().fetch_merkle_block(hash_cpp, [handler](std::error_code const& ec, libbitcoin::message::merkle_block::ptr block, size_t h) {
+    exec->actual.node().chain().fetch_merkle_block(hash_cpp, [exec, ctx, handler](std::error_code const& ec, libbitcoin::message::merkle_block::ptr block, size_t h) {
         auto new_block = new libbitcoin::message::merkle_block(*block.get());
-        handler(ec.value(), new_block, h);
+        handler(exec, ctx, ec.value(), new_block, h);
     });
 }
 
-void fetch_transaction(executor_t exec, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler) {
+void fetch_transaction(executor_t exec, void* ctx, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler) {
     //precondition:  [hash, 32] is a valid range
 
     libbitcoin::hash_digest hash_cpp;
     std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
 
-    exec->actual.node().chain().fetch_transaction(hash_cpp, require_confirmed, [handler](std::error_code const& ec, libbitcoin::message::transaction::ptr transaction, size_t h, size_t i) {
+    exec->actual.node().chain().fetch_transaction(hash_cpp, require_confirmed, [exec, ctx, handler](std::error_code const& ec, libbitcoin::message::transaction::ptr transaction, size_t h, size_t i) {
         auto new_transaction = new libbitcoin::message::transaction(*transaction.get());
-        handler(ec.value(), new_transaction, h, i);
+        handler(exec, ctx, ec.value(), new_transaction, h, i);
     });
 }
 
@@ -399,17 +400,17 @@ int get_transaction(executor_t exec, hash_t hash, int require_confirmed, transac
 
 }
 
-void fetch_output(executor_t exec, hash_t hash, uint32_t index, int require_confirmed, output_fetch_handler_t handler) {
+void fetch_output(executor_t exec, void* ctx, hash_t hash, uint32_t index, int require_confirmed, output_fetch_handler_t handler) {
 
     libbitcoin::hash_digest hash_cpp;
     std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
 
     libbitcoin::chain::output_point point(hash_cpp, index);
 
-    exec->actual.node().chain().fetch_output(point, require_confirmed, [handler](std::error_code const& ec, libbitcoin::chain::output const& output) {
+    exec->actual.node().chain().fetch_output(point, require_confirmed, [exec, ctx, handler](std::error_code const& ec, libbitcoin::chain::output const& output) {
         //It is the user's responsibility to release this memory
         auto new_output = new libbitcoin::chain::output(output);
-        handler(ec.value(), new_output);
+        handler(exec, ctx, ec.value(), new_output);
     });
 }
 
@@ -433,52 +434,51 @@ int get_output(executor_t exec, hash_t hash, uint32_t index, int require_confirm
     return res;
 }
 
-void fetch_compact_block_by_height(executor_t exec, size_t height, compact_block_fetch_handler_t handler){
-    exec->actual.node().chain().fetch_compact_block(height, [handler](std::error_code const& ec, libbitcoin::message::compact_block::ptr block, size_t h) {
-
+void fetch_compact_block_by_height(executor_t exec, void* ctx, size_t height, compact_block_fetch_handler_t handler){
+    exec->actual.node().chain().fetch_compact_block(height, [exec, ctx, handler](std::error_code const& ec, libbitcoin::message::compact_block::ptr block, size_t h) {
         auto new_block = new libbitcoin::message::compact_block(*block.get());
         //Note: It is the responsibility of the user to release/destruct the object
-        handler(ec.value(), new_block, h);
+        handler(exec, ctx, ec.value(), new_block, h);
     });
 }
 
-void fetch_compact_block_by_hash(executor_t exec, hash_t hash, compact_block_fetch_handler_t handler){
+void fetch_compact_block_by_hash(executor_t exec, void* ctx, hash_t hash, compact_block_fetch_handler_t handler){
     libbitcoin::hash_digest hash_cpp;
     std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
 
-    exec->actual.node().chain().fetch_compact_block(hash_cpp, [handler](std::error_code const& ec, libbitcoin::message::compact_block::ptr block, size_t h) {
+    exec->actual.node().chain().fetch_compact_block(hash_cpp, [exec, ctx, handler](std::error_code const& ec, libbitcoin::message::compact_block::ptr block, size_t h) {
         auto new_block = new libbitcoin::message::compact_block(*block.get());
         //Note: It is the responsibility of the user to release/destruct the object
-        handler(ec.value(), new_block, h);
+        handler(exec, ctx, ec.value(), new_block, h);
     });
 }
 
-void fetch_transaction_position(executor_t exec, hash_t hash, int require_confirmed, transaction_index_fetch_handler_t handler){
+void fetch_transaction_position(executor_t exec, void* ctx, hash_t hash, int require_confirmed, transaction_index_fetch_handler_t handler){
     libbitcoin::hash_digest hash_cpp;
     std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
 
-    exec->actual.node().chain().fetch_transaction_position(hash_cpp, require_confirmed, [handler](std::error_code const& ec, size_t position, size_t height){
-        handler(ec.value(), position, height);
+    exec->actual.node().chain().fetch_transaction_position(hash_cpp, require_confirmed, [exec, ctx, handler](std::error_code const& ec, size_t position, size_t height){
+        handler(exec, ctx, ec.value(), position, height);
     });
 }
 
 //It is the user's responsibility to release the input point returned in the callback
-void fetch_spend(executor_t exec, output_point_t outpoint, spend_fetch_handler_t handler){
+void fetch_spend(executor_t exec, void* ctx, output_point_t outpoint, spend_fetch_handler_t handler){
     libbitcoin::chain::output_point* outpoint_cpp = static_cast<libbitcoin::chain::output_point*>(outpoint);
 
-    exec->actual.node().chain().fetch_spend(*outpoint_cpp, [handler](std::error_code const& ec, libbitcoin::chain::input_point input){
+    exec->actual.node().chain().fetch_spend(*outpoint_cpp, [exec, ctx, handler](std::error_code const& ec, libbitcoin::chain::input_point input){
         auto new_input = new libbitcoin::chain::input_point(input);
-        handler(ec.value(), new_input);
+        handler(exec, ctx, ec.value(), new_input);
     });
 }
 
 //It is the user's responsibility to release the history returned in the callback
-void fetch_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler){
+void fetch_history(executor_t exec, void* ctx, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler){
     libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
 
-    exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [handler](std::error_code const& ec, libbitcoin::chain::history_compact::list history){
+    exec->actual.node().chain().fetch_history(address_cpp, limit, from_height, [exec, ctx, handler](std::error_code const& ec, libbitcoin::chain::history_compact::list history){
         auto new_history = new libbitcoin::chain::history_compact::list(history);
-        handler(ec.value(), new_history);
+        handler(exec, ctx, ec.value(), new_history);
     });
 }
 
@@ -589,40 +589,21 @@ transaction_t hex_to_tx(char const* tx_hex) {
     return tx;
 }
 
-void validate_tx(executor_t exec, transaction_t tx, validate_tx_handler_t handler) {
+void validate_tx(executor_t exec, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
 
-
-//    printf("validate_tx - 1\n");
-//    printf("tx: %p\n", tx);
-
-//	auto const& tx_ref = *static_cast<libbitcoin::message::transaction const*>(tx);
-//	auto* tx_new = new libbitcoin::message::transaction(tx_ref);
-//	libbitcoin::message::transaction::const_ptr txs(tx_new);
-
-	exec->actual.node().chain().organize(tx_shared(tx), [handler](std::error_code const& ec) {
-//	exec->actual.node().chain().organize(txs, [handler](std::error_code const& ec) {
-//		printf("validate_tx CALLBACK - 2\n");
+	exec->actual.node().chain().organize(tx_shared(tx), [exec, ctx, handler](std::error_code const& ec) {
 
         bool is_error = (bool)ec;
-//        printf("validate_tx CALLBACK - ec.value():   %d\n", ec.value());
-//        printf("validate_tx CALLBACK - ec.message(): %s\n", ec.message());
-//        printf("validate_tx CALLBACK - is_error:     %d\n", is_error);
-
-
 		if (handler != nullptr) {
-//            printf("validate_tx CALLBACK - 3\n");
             char* msg_str_c = nullptr;
             if (ec) {
-//                printf("validate_tx CALLBACK - 4\n");
                 auto* msg_str = new std::string(ec.message());
                 msg_str_c = (char*)msg_str->c_str();
             }
 
-			handler(ec.value(), msg_str_c);
+			handler(exec, ctx, ec.value(), msg_str_c);
 		}
     });
-
-//    printf("validate_tx - 2\n");
 }
 
 } /* extern "C" */
