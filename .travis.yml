@@ -38,7 +38,7 @@ matrix:
 
 branches:
   only:
-    - c-api
+    - master
 
 before_install:
 
