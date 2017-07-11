@@ -1,4 +1,4 @@
-<!-- [![Build Status](https://travis-ci.org/bitprim/bitprim-node-cint.svg?branch=master)](https://travis-ci.org/bitprim/bitprim-node-cint) -->
+[![Build Status](https://travis-ci.org/bitprim/bitprim-node-cint.svg?branch=master)](https://travis-ci.org/bitprim/bitprim-node-cint)
 
 # Bitprim Node C Interface
 
