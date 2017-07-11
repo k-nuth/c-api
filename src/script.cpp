@@ -39,7 +39,7 @@ size_t script_satoshi_content_size(script_t script) {
     return static_cast<libbitcoin::chain::script const*>(script)->satoshi_content_size();
 }
 
-size_t script_serialized_size(script_t script, bool prefix) {
+size_t script_serialized_size(script_t script, /*bool*/ int prefix) {
     return static_cast<libbitcoin::chain::script const*>(script)->serialized_size(prefix);
 }
 
@@ -54,7 +54,7 @@ char const* script_to_string(script_t script, uint32_t active_forks) {
 //std::string (uint32_t active_forks) const;
 
 
-size_t script_sigops(script_t script, bool embedded) {
+size_t script_sigops(script_t script, /*bool*/ int embedded) {
     return static_cast<libbitcoin::chain::script const*>(script)->sigops(embedded);
 }
 

@@ -43,14 +43,14 @@ BITPRIM_EXPORT
 size_t script_satoshi_content_size(script_t script);
 
 BITPRIM_EXPORT
-size_t script_serialized_size(script_t script, bool prefix);
+size_t script_serialized_size(script_t script, /*bool*/ int prefix);
 
 //Note: user of the function has to release the resource (memory) manually
 BITPRIM_EXPORT
 char const* script_to_string(script_t script, uint32_t active_forks);
 
 BITPRIM_EXPORT
-size_t script_sigops(script_t script, bool embedded);
+size_t script_sigops(script_t script, /*bool*/ int embedded);
 
 BITPRIM_EXPORT
 size_t script_embedded_sigops(script_t script, script_t prevout_script);

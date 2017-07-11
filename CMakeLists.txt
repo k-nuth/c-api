@@ -117,7 +117,11 @@ else()
           COMPONENTS unit_test_framework)
 endif()
 
-
+if (UNIX)
+  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/lib/cmake")
+elseif (WIN32)
+  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "cmake")
+endif()
 
 # Require bitprim-consensus of at least version 2.0.0 and output ${bitprim_consensus_CPPFLAGS/LIBS/PKG}.
 #------------------------------------------------------------------------------
@@ -399,12 +403,12 @@ install(TARGETS bitprim-node-cint
 
 set(_bitprim_headers
         # include_bitcoin_HEADERS =
-        include/bitcoin/node.hpp
+        bitprim/node.h
         # include_bitcoin_node_HEADERS =
-        include/bitprim/nodecint/node.h
-        include/bitprim/nodecint/executor_c.h
-        include/bitprim/nodecint/executor.hpp
-        include/bitprim/nodecint/parser.hpp
+        bitprim/nodecint/node.h
+        bitprim/nodecint/executor_c.h
+        bitprim/nodecint/executor.hpp
+        bitprim/nodecint/parser.hpp
 )
 
 foreach (_header ${_bitprim_headers})
