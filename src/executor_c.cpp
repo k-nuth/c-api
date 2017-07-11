@@ -81,6 +81,12 @@ using handle_sink = typename boost::iostreams::file_descriptor_sink::handle_type
 
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
+inline
+libbitcoin::message::transaction::const_ptr tx_shared(transaction_t tx) {
+    auto const& tx_ref = *static_cast<libbitcoin::message::transaction const*>(tx);
+    auto* tx_new = new libbitcoin::message::transaction(tx_ref);
+    return libbitcoin::message::transaction::const_ptr(tx_new);
+}
 
 
 extern "C" {
@@ -93,10 +99,7 @@ struct executor {
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
         , actual(make_config(path), sout_, serr_)
-    {
-//        std::ostream os(&sout_buffer_);
-//        os << "Hello World!" << std::endl;
-    }
+    {}
 
     executor(char const* path, int sout_fd, int serr_fd)
         : sout_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(sout_fd), boost::iostreams::never_close_handle))
@@ -104,10 +107,7 @@ struct executor {
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
         , actual(make_config(path), sout_, serr_)
-    {
-//        std::ostream os(&sout_buffer_);
-//        os << "Hello World -- 2!" << std::endl;
-    }
+    {}
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
     executor(char const* path, handle_sink sout, handle_sink serr)
@@ -116,10 +116,7 @@ struct executor {
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
         , actual(make_config(path), sout_, serr_)
-    {
-//        std::ostream os(&sout_buffer_);
-//        os << "Hello World -- 3!" << std::endl;
-    }
+    {}
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> sout_buffer_;
@@ -592,24 +589,18 @@ transaction_t hex_to_tx(char const* tx_hex) {
     return tx;
 }
 
-libbitcoin::message::transaction::const_ptr const& tx_shared(transaction_t tx) {
-	auto const& tx_ref = *static_cast<libbitcoin::message::transaction const*>(tx);
-	auto* tx_new = new libbitcoin::message::transaction(tx_ref);
-	return libbitcoin::message::transaction::const_ptr(tx_new);
-}
-
 void validate_tx(executor_t exec, transaction_t tx, validate_tx_handler_t handler) {
 
 
 //    printf("validate_tx - 1\n");
 //    printf("tx: %p\n", tx);
 
-	auto const& tx_ref = *static_cast<libbitcoin::message::transaction const*>(tx);
-	auto* tx_new = new libbitcoin::message::transaction(tx_ref);
-	libbitcoin::message::transaction::const_ptr txs(tx_new);
+//	auto const& tx_ref = *static_cast<libbitcoin::message::transaction const*>(tx);
+//	auto* tx_new = new libbitcoin::message::transaction(tx_ref);
+//	libbitcoin::message::transaction::const_ptr txs(tx_new);
 
-	//exec->actual.node().chain().organize(tx_shared(tx), [handler](std::error_code const& ec) {
-	exec->actual.node().chain().organize(txs, [handler](std::error_code const& ec) {
+	exec->actual.node().chain().organize(tx_shared(tx), [handler](std::error_code const& ec) {
+//	exec->actual.node().chain().organize(txs, [handler](std::error_code const& ec) {
 //		printf("validate_tx CALLBACK - 2\n");
 
         bool is_error = (bool)ec;
