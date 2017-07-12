@@ -409,6 +409,7 @@ set(_bitprim_headers
         bitprim/nodecint/executor_c.h
         bitprim/nodecint/executor.hpp
         bitprim/nodecint/parser.hpp
+        bitprim/nodecint/version.h
 )
 
 foreach (_header ${_bitprim_headers})
