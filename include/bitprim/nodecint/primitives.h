@@ -54,9 +54,13 @@ typedef void* point_t;
 typedef void* point_list_t;
 typedef void* transaction_t;
 typedef void* payment_address_t;
+typedef void* binary_t;
+typedef void* stealth_compact_t;
+typedef void* stealth_compact_list_t;
 
 typedef uint8_t const* hash_t;
 typedef uint8_t* long_hash_t;
+typedef uint8_t* short_hash_t;
 //typedef char const* zstring_t;
 typedef void* word_list_t;
 
@@ -76,6 +80,7 @@ typedef void (*spend_fetch_handler_t)(int error, input_t output);
 typedef void (*transaction_fetch_handler_t)(int error, transaction_t transaction, size_t h, size_t i);
 typedef void (*transaction_index_fetch_handler_t)(int error, size_t position, size_t height);
 typedef void (*validate_tx_handler_t)(int error, char* message);
+typedef void (*stealth_fetch_handler_t)(int error, stealth_compact_list_t stealth);
 
 #ifdef __cplusplus
 } // extern "C"

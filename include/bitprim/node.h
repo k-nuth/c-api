@@ -28,11 +28,14 @@
 #define BITPRIM_NODE_CINT_NODE_H_
 
 #include <bitprim/nodecint/block.h>
+#include <bitprim/nodecint/binary.h>
 #include <bitprim/nodecint/compact_block.h>
 #include <bitprim/nodecint/executor_c.h>
 #include <bitprim/nodecint/header.h>
 #include <bitprim/nodecint/history_compact.h>
 #include <bitprim/nodecint/history_compact_list.h>
+#include <bitprim/nodecint/stealth_compact.h>
+#include <bitprim/nodecint/stealth_compact_list.h>
 #include <bitprim/nodecint/input.h>
 #include <bitprim/nodecint/merkle_block.h>
 #include <bitprim/nodecint/node.h>

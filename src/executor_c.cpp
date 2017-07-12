@@ -23,7 +23,6 @@
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/thread/latch.hpp>
 #include <bitprim/nodecint/executor.hpp>
-//#include <bitprim/nodecint/output_point.h>
 #include <bitcoin/bitcoin/wallet/mnemonic.hpp>
 //#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
 //#include <cinttypes>   //TODO: Remove, it is for the printf (printing pointer addresses)
@@ -502,6 +501,37 @@ int get_history(executor_t exec, payment_address_t address, size_t limit, size_t
     latch.count_down_and_wait();
     return res;
 }
+
+
+
+/*
+void block_chain::fetch_stealth(const binary& filter, size_t from_height,
+    stealth_fetch_handler handler) const
+{
+    if (stopped())
+    {
+        handler(error::service_stopped, {});
+        return;
+    }
+
+    const auto do_fetch = [&](size_t slock)
+    {
+        return finish_read(slock, handler, error::success,
+            database_.stealth().scan(filter, from_height));
+    };
+    read_serial(do_fetch);
+}
+*/
+
+void fetch_stealth(executor_t exec, binary_t filter, size_t from_height, stealth_fetch_handler_t handler){
+	auto* filter_cpp_ptr = static_cast<const libbitcoin::binary*>(filter);
+	libbitcoin::binary const& filter_cpp  = *filter_cpp_ptr;
+
+    exec->actual.node().chain().fetch_stealth(filter_cpp, from_height, [handler](std::error_code const& ec, libbitcoin::chain::stealth_compact::list stealth){
+        auto new_stealth = new libbitcoin::chain::stealth_compact::list(stealth);
+        handler(ec.value(), new_stealth);
+    });
+} 
 
 
 long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {

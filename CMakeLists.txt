@@ -33,7 +33,7 @@ option(WITH_CONSOLE "Compile console application." ON)
 
 # Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
 #------------------------------------------------------------------------------
-option(ENABLE_SHARED "" ON)
+set(ENABLE_SHARED ON)
 
 # Check dependencies.
 #==============================================================================
@@ -209,12 +209,15 @@ endif()
 
 add_library(bitprim-node-cint ${MODE}
         src/block.cpp
+        src/binary.cpp
         src/compact_block.cpp
         src/executor.cpp
         src/executor_c.cpp
         src/header.cpp
         src/history_compact.cpp
         src/history_compact_list.cpp
+        src/stealth_compact.cpp
+        src/stealth_compact_list.cpp
         src/input.cpp
         src/merkle_block.cpp
         src/node.cpp

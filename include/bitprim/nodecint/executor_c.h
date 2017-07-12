@@ -161,6 +161,9 @@ void fetch_history(executor_t exec, payment_address_t address, size_t limit, siz
 BITPRIM_EXPORT
 int get_history(executor_t exec, payment_address_t address, size_t limit, size_t from_height, history_compact_list_t* out_history);
 
+// Stealth ---------------------------------------------------------------------
+BITPRIM_EXPORT
+void fetch_stealth(executor_t exec, binary_t filter, size_t from_height, stealth_fetch_handler_t handler);
 
 //BITPRIM_EXPORT
 //void fetch_stealth(const binary& filter, size_t from_height, stealth_fetch_handler handler);
