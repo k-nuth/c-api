@@ -17,47 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/node.h>
-
-#include <memory>
-
-#include <bitcoin/node/full_node.hpp>
-
-extern "C" {
-
-struct node {
-    // template <typename... Args>
-    // node(Args&&... args)
-    //     : actual(std::forward<Args>(args)...)
-    // {}
-
-//    node(char const* path)
-//        : actual(path)
-//    {}
-
-    libbitcoin::node::full_node actual;
-};
-
-// node_t node_construct(char const* person, error_t* out_error) {
-node_t node_construct(char const* path) {
-    // node_t result = nullptr;
-
-    // translateExceptions(out_error, [&]{
-    //     result = std::make_unique<node>(person).release();
-    // });
+//#include <bitprim/nodecint/wallet.h>
+//#include <cstdio>
+//#include <memory>
+//#include <boost/iostreams/device/file_descriptor.hpp>
+//#include <boost/thread/latch.hpp>
+//#include <bitprim/nodecint/executor.hpp>
+//#include <bitcoin/bitcoin/wallet/mnemonic.hpp>
 
 
-    // return result;
+long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
+    auto const& mnemonics_cpp = *static_cast<const std::vector<std::string>*>(mnemonics);
+    auto hash_cpp = libbitcoin::wallet::decode_mnemonic(mnemonics_cpp);
 
-    //std::make_unique<node>(path).release();
-
-
-    return node_t();
-
+    uint8_t* ret = (uint8_t*)malloc(hash_cpp.size() * sizeof(uint8_t));
+    std::copy_n(std::begin(hash_cpp), hash_cpp.size(), ret);
+    return ret;
 }
 
-void node_destruct(node_t obj) {
-    delete obj;
+void long_hash_destroy(long_hash_t ptr) {
+    free(ptr);
 }
 
 } /* extern "C" */

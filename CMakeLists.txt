@@ -264,29 +264,31 @@ endfunction()
 if (ENABLE_SHARED)
     set(MODE SHARED)
 else()
-    set(MODE STATIC)
+    set(MODE STATIC )
 endif()
 
 add_library(bitprim-node-cint ${MODE}
-        src/block.cpp
-        src/compact_block.cpp
         src/executor.cpp
         src/executor_c.cpp
-        src/header.cpp
-        src/history_compact.cpp
-        src/history_compact_list.cpp
-        src/input.cpp
-        src/merkle_block.cpp
-        src/node.cpp
-        src/output.cpp
-        src/output_point.cpp
+        src/node_borrar.cpp
         src/parser.cpp
-        src/payment_address.cpp
-        src/point.cpp
-        src/point_list.cpp
-        src/script.cpp
-        src/transaction.cpp
-        src/word_list.cpp)
+        src/chain/block.cpp
+        src/chain/chain.cpp
+        src/chain/compact_block.cpp
+        src/chain/header.cpp
+        src/chain/history_compact.cpp
+        src/chain/history_compact_list.cpp
+        src/chain/input.cpp
+        src/chain/merkle_block.cpp
+        src/chain/output.cpp
+        src/chain/output_point.cpp
+        src/chain/payment_address.cpp
+        src/chain/point.cpp
+        src/chain/point_list.cpp
+        src/chain/script.cpp
+        src/chain/transaction.cpp
+        src/wallet/word_list.cpp
+        )
 
 # set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
 
