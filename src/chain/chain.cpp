@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/chain.h>
+#include <bitprim/nodecint/chain/chain.h>
 #include <cstdio>
 #include <memory>
 #include <boost/thread/latch.hpp>

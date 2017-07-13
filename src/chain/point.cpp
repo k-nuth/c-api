@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/point.h>
+#include <bitprim/nodecint/chain/point.h>
 #include <bitcoin/bitcoin/chain/point.hpp>
 //#include <bitcoin/bitcoin/formats/base_16.hpp>
 

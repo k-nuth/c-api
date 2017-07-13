@@ -17,14 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//#include <bitprim/nodecint/wallet.h>
-//#include <cstdio>
-//#include <memory>
-//#include <boost/iostreams/device/file_descriptor.hpp>
-//#include <boost/thread/latch.hpp>
-//#include <bitprim/nodecint/executor.hpp>
-//#include <bitcoin/bitcoin/wallet/mnemonic.hpp>
 
+#include <bitprim/nodecint/wallet/wallet.h>
+
+#include <bitcoin/bitcoin/wallet/mnemonic.hpp>
+
+extern "C" {
 
 long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
     auto const& mnemonics_cpp = *static_cast<const std::vector<std::string>*>(mnemonics);

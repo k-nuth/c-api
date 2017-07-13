@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/payment_address.h>
+#include <bitprim/nodecint/chain/payment_address.h>
 #include <bitcoin/bitcoin/wallet/payment_address.hpp>
 
 libbitcoin::wallet::payment_address const& payment_address_const_cpp(payment_address_t payment_address) {

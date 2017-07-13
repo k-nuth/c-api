@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/output.h>
+#include <bitprim/nodecint/chain/output.h>
 #include <bitcoin/bitcoin/chain/output.hpp>
 
 libbitcoin::chain::output const& output_const_cpp(output_t output) {

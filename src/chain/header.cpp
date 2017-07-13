@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/header.h>
+#include <bitprim/nodecint/chain/header.h>
 #include <bitcoin/bitcoin/message/header.hpp>
 
 extern "C" {
@@ -75,7 +75,7 @@ hash_t header_merkle(header_t header) {
 
 hash_t header_hash(header_t header) {
     auto const& hash_cpp = static_cast<libbitcoin::message::header const*>(header)->hash();
-    return hash_cpp.data();
+    return hash_cpp.data(); //TODO: returning a dangling pointer
 }
 
 

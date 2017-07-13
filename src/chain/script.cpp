@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/script.h>
+#include <bitprim/nodecint/chain/script.h>
 #include <bitcoin/bitcoin/chain/script.hpp>
 
 extern "C" {

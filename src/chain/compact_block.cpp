@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/compact_block.h>
+#include <bitprim/nodecint/chain/compact_block.h>
 #include <bitcoin/bitcoin/message/compact_block.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
 

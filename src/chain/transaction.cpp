@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/transaction.h>
+#include <bitprim/nodecint/chain/transaction.h>
 #include <bitcoin/bitcoin/message/transaction.hpp>
 
 libbitcoin::message::transaction const& tx_const_cpp(transaction_t transaction) {
@@ -49,18 +49,13 @@ void transaction_set_version(transaction_t transaction, uint32_t version) {
 
 hash_t transaction_hash(transaction_t transaction) {
     auto const& hash_cpp = tx_const_cpp(transaction).hash();
-    return hash_cpp.data();
+    return hash_cpp.data(); //TODO: returning a dangling pointer
 }
 
 hash_t transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type) {
     auto const& hash_cpp = tx_const_cpp(transaction).hash(sighash_type);
-    return hash_cpp.data();
+    return hash_cpp.data(); //TODO: returning a dangling pointer
 }
-
-
-
-
-
 
 uint32_t transaction_locktime(transaction_t transaction) {
     return tx_const_cpp(transaction).locktime();

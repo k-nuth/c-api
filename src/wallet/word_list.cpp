@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/word_list.h>
+#include <bitprim/nodecint/wallet/word_list.h>
 #include <string>
 #include <vector>
 #include <iostream>

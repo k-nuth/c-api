@@ -82,12 +82,7 @@ endif()
 option(WITH_CONSOLE_NODE_CINT "" OFF)
 
 
-
-
 #------------------------------------------------------------------------------
-
-
-
 
 
 # Check dependencies.
@@ -264,13 +259,12 @@ endfunction()
 if (ENABLE_SHARED)
     set(MODE SHARED)
 else()
-    set(MODE STATIC )
+    set(MODE STATIC)
 endif()
 
 add_library(bitprim-node-cint ${MODE}
         src/executor.cpp
         src/executor_c.cpp
-        src/node_borrar.cpp
         src/parser.cpp
         src/chain/block.cpp
         src/chain/chain.cpp
@@ -287,6 +281,7 @@ add_library(bitprim-node-cint ${MODE}
         src/chain/point_list.cpp
         src/chain/script.cpp
         src/chain/transaction.cpp
+        src/wallet/wallet.cpp
         src/wallet/word_list.cpp
         )
 
@@ -396,22 +391,43 @@ endif()
 
 # Install
 #==============================================================================
+#install(TARGETS bitprim-node-cint
+#        EXPORT bitprim-node-cint
+#        ARCHIVE DESTINATION lib
+#        LIBRARY DESTINATION lib
+#)
+
+
 install(TARGETS bitprim-node-cint
         EXPORT bitprim-node-cint
-        ARCHIVE DESTINATION lib
-        LIBRARY DESTINATION lib
-)
+        LIBRARY DESTINATION "lib"
+        ARCHIVE DESTINATION "lib"
+        RUNTIME DESTINATION "lib"
+        COMPONENT library
+        )
 
 
 set(_bitprim_headers
-        # include_bitcoin_HEADERS =
-        bitprim/node.h
-        # include_bitcoin_node_HEADERS =
-        bitprim/nodecint/node.h
         bitprim/nodecint/executor_c.h
-        bitprim/nodecint/executor.hpp
-        bitprim/nodecint/parser.hpp
+        bitprim/nodecint/parser.h
         bitprim/nodecint/version.h
+        bitprim/nodecint/chain/block.h
+        bitprim/nodecint/chain/chain.h
+        bitprim/nodecint/chain/compact_block.h
+        bitprim/nodecint/chain/header.h
+        bitprim/nodecint/chain/history_compact.h
+        bitprim/nodecint/chain/history_compact_list.h
+        bitprim/nodecint/chain/input.h
+        bitprim/nodecint/chain/merkle_block.h
+        bitprim/nodecint/chain/output.h
+        bitprim/nodecint/chain/output_point.h
+        bitprim/nodecint/chain/payment_address.h
+        bitprim/nodecint/chain/point.h
+        bitprim/nodecint/chain/point_list.h
+        bitprim/nodecint/chain/script.h
+        bitprim/nodecint/chain/transaction.h
+        bitprim/nodecint/wallet/wallet.h
+        bitprim/nodecint/wallet/word_list.h
 )
 
 foreach (_header ${_bitprim_headers})

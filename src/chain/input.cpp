@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/input.h>
+#include <bitprim/nodecint/chain/input.h>
 #include <bitcoin/bitcoin/chain/input.hpp>
 
 
