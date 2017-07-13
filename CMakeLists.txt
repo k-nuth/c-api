@@ -437,8 +437,9 @@ install(TARGETS bitprim-node-cint
 
 set(_bitprim_headers
         bitprim/nodecint/executor_c.h
-        bitprim/nodecint/parser.h
+        bitprim/nodecint/primitives.h
         bitprim/nodecint/version.h
+        bitprim/nodecint/visibility.h
         bitprim/nodecint/chain/block.h
         bitprim/nodecint/chain/chain.h
         bitprim/nodecint/chain/compact_block.h
