@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_VISIBILITY_H_
-#define BITPRIM_NODE_CINT_VISIBILITY_H_
+#ifndef BITPRIM_NODECINT_VISIBILITY_H_
+#define BITPRIM_NODECINT_VISIBILITY_H_
 
 #if defined(_WIN32) || defined(__CYGWIN__)
   #ifdef bitprim_EXPORTS
@@ -42,4 +42,4 @@
   #endif
 #endif
 
-#endif /* BITPRIM_NODE_CINT_VISIBILITY_H_ */
+#endif /* BITPRIM_NODECINT_VISIBILITY_H_ */

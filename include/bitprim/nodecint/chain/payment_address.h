@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_PAYMENT_ADDRESS_H
-#define BITPRIM_NODE_CINT_PAYMENT_ADDRESS_H
+#ifndef BITPRIM_NODECINT_PAYMENT_ADDRESS_H
+#define BITPRIM_NODECINT_PAYMENT_ADDRESS_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -46,4 +46,4 @@ void payment_address_destruct(payment_address_t payment_address);
 } // extern "C"
 #endif
 
-#endif //BITPRIM_NODE_CINT_PAYMENT_ADDRESS_H
+#endif //BITPRIM_NODECINT_PAYMENT_ADDRESS_H

@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_PRIMITIVES_H_
-#define BITPRIM_NODE_CINT_PRIMITIVES_H_
+#ifndef BITPRIM_NODECINT_PRIMITIVES_H_
+#define BITPRIM_NODECINT_PRIMITIVES_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -81,4 +81,4 @@ typedef void (*validate_tx_handler_t)(chain_t chain, void* context, int error, c
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODE_CINT_PRIMITIVES_H_ */
+#endif /* BITPRIM_NODECINT_PRIMITIVES_H_ */

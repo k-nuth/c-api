@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_COMPACT_BLOCK_H
-#define BITPRIM_NODE_CINT_COMPACT_BLOCK_H
+#ifndef BITPRIM_NODECINT_COMPACT_BLOCK_H
+#define BITPRIM_NODECINT_COMPACT_BLOCK_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -60,4 +60,4 @@ void compact_block_reset(compact_block_t block);
 } // extern "C"
 #endif
 
-#endif //BITPRIM_NODE_CINT_COMPACT_BLOCK_H
+#endif //BITPRIM_NODECINT_COMPACT_BLOCK_H

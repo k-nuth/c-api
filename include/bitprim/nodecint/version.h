@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_VERSION_H_
-#define BITPRIM_NODE_CINT_VERSION_H_
+#ifndef BITPRIM_NODECINT_VERSION_H_
+#define BITPRIM_NODECINT_VERSION_H_
 
 
 //! @internal
@@ -26,26 +26,26 @@
 //! form 0xVVRRPPPP to allow comparing versions in a normalized way.
 //!
 //! See http://sourceforge.net/p/predef/wiki/VersionNormalization.
-#define BITPRIM_NODE_CINT_CONFIG_VERSION(version, revision, patch) \
+#define BITPRIM_NODECINT_CONFIG_VERSION(version, revision, patch) \
     (((version) << 24) + ((revision) << 16) + (patch))
 
 //! @ingroup group-config
 //! Macro expanding to the major version of the library, i.e. the `x` in `x.y.z`.
-#define BITPRIM_NODE_CINT_MAJOR_VERSION 1
+#define BITPRIM_NODECINT_MAJOR_VERSION 1
 
 //! @ingroup group-config
 //! Macro expanding to the minor version of the library, i.e. the `y` in `x.y.z`.
-#define BITPRIM_NODE_CINT_MINOR_VERSION 2
+#define BITPRIM_NODECINT_MINOR_VERSION 2
 
 //! @ingroup group-config
 //! Macro expanding to the patch level of the library, i.e. the `z` in `x.y.z`.
-#define BITPRIM_NODE_CINT_PATCH_VERSION 0
+#define BITPRIM_NODECINT_PATCH_VERSION 0
 
 //! @ingroup group-config
 //! Macro expanding to the full version of the library, in hexadecimal
 //! representation.
 //!
-//! Specifically, `BITPRIM_NODE_CINT_VERSION` expands to an hexadecimal number of the
+//! Specifically, `BITPRIM_NODECINT_VERSION` expands to an hexadecimal number of the
 //! form 0xVVRRPPPP, where `VV` is the major version of the library, `RR` is
 //! the minor version and `PPPP` is the patch level. This allows the version
 //! of the library to be compared:
@@ -54,11 +54,11 @@
 //!
 //! @note
 //! The major, minor and patch versions of the library are also available
-//! individually with the `BITPRIM_NODE_CINT_{MAJOR,MINOR,PATCH}_VERSION` macros.
-#define BITPRIM_NODE_CINT_VERSION                                                  \
-    BITPRIM_NODE_CINT_CONFIG_VERSION(BITPRIM_NODE_CINT_MAJOR_VERSION,              \
-                              BITPRIM_NODE_CINT_MINOR_VERSION,                     \
-                              BITPRIM_NODE_CINT_PATCH_VERSION)                     \
+//! individually with the `BITPRIM_NODECINT_{MAJOR,MINOR,PATCH}_VERSION` macros.
+#define BITPRIM_NODECINT_VERSION                                                  \
+    BITPRIM_NODECINT_CONFIG_VERSION(BITPRIM_NODECINT_MAJOR_VERSION,              \
+                              BITPRIM_NODECINT_MINOR_VERSION,                     \
+                              BITPRIM_NODECINT_PATCH_VERSION)                     \
 /**/
 
-#endif //BITPRIM_NODE_CINT_VERSION_H_
+#endif //BITPRIM_NODECINT_VERSION_H_

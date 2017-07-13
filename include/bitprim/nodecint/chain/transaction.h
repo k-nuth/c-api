@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_TRANSACTION_H_
-#define BITPRIM_NODE_CINT_TRANSACTION_H_
+#ifndef BITPRIM_NODECINT_TRANSACTION_H_
+#define BITPRIM_NODECINT_TRANSACTION_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -115,4 +115,4 @@ transaction_t transaction_input_nth(transaction_t transaction, size_t n);
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODE_CINT_TRANSACTION_H_ */
+#endif /* BITPRIM_NODECINT_TRANSACTION_H_ */

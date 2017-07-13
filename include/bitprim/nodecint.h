@@ -24,26 +24,9 @@
  * Maintainers: Do not include this header internal to this library.
  */
 
-#ifndef BITPRIM_NODE_CINT_NODE_H_
-#define BITPRIM_NODE_CINT_NODE_H_
+#ifndef BITPRIM_NODECINT_H_
+#define BITPRIM_NODECINT_H_
 
-#include <bitprim/nodecint/block.h>
-#include <bitprim/nodecint/compact_block.h>
-#include <bitprim/nodecint/executor_c.h>
-#include <bitprim/nodecint/header.h>
-#include <bitprim/nodecint/history_compact.h>
-#include <bitprim/nodecint/history_compact_list.h>
-#include <bitprim/nodecint/input.h>
-#include <bitprim/nodecint/merkle_block.h>
-#include <bitprim/nodecint/node.h>
-#include <bitprim/nodecint/output.h>
-#include <bitprim/nodecint/output_point.h>
-#include <bitprim/nodecint/point.h>
-#include <bitprim/nodecint/point_list.h>
-#include <bitprim/nodecint/primitives.h>
-#include <bitprim/nodecint/script.h>
-#include <bitprim/nodecint/transaction.h>
-#include <bitprim/nodecint/visibility.h>
-#include <bitprim/nodecint/word_list.h>
+#include <bitprim/nodecint/nodecint.h>
 
-#endif /* BITPRIM_NODE_CINT_NODE_H_ */
+#endif /* BITPRIM_NODECINT_H_ */

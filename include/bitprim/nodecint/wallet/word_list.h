@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_WORD_LIST_H
-#define BITPRIM_NODE_CINT_WORD_LIST_H
+#ifndef BITPRIM_NODECINT_WORD_LIST_H
+#define BITPRIM_NODECINT_WORD_LIST_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -43,4 +43,4 @@ void word_list_destruct(word_list_t word_list);
 } // extern "C"
 #endif
 
-#endif //BITPRIM_NODE_CINT_WORD_LIST_H
+#endif //BITPRIM_NODECINT_WORD_LIST_H
