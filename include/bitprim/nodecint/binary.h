@@ -31,7 +31,19 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-binary_t binary_construct(const char* string);
+binary_t binary_construct();
+
+BITPRIM_EXPORT
+binary_t binary_construct_string(const char* string);
+
+BITPRIM_EXPORT
+binary_t binary_construct_blocks(size_t bits_size, uint8_t* blocks, size_t n);
+
+BITPRIM_EXPORT
+uint8_t* binary_blocks(binary_t binary);
+
+BITPRIM_EXPORT
+char* binary_encoded(binary_t binary);
 
 //BITPRIM_EXPORT
 //void word_list_add_word(word_list_t word_list, const char* word);
