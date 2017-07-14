@@ -107,6 +107,14 @@ before_build:
   - cmake --build .
   
   - cd C:\projects\deps
+  - git clone https://github.com/bitprim/bitprim-network -b c-api
+  - cd bitprim-network
+  - mkdir build
+  - cd build
+  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
+  - cmake --build .
+  
+  - cd C:\projects\deps
   - git clone https://github.com/bitprim/bitprim-blockchain -b c-api
   - cd bitprim-blockchain
   - mkdir build
