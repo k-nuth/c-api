@@ -44,7 +44,7 @@ int /*bool*/ input_is_final(input_t input) {
     return input_const_cpp(input).is_final();
 }
 
-size_t input_serialized_size(input_t input, int wire /* = true*/) {
+uint64_t /*size_t*/ input_serialized_size(input_t input, int wire /* = true*/) {
     return input_const_cpp(input).serialized_size(wire);
 }
 
@@ -52,7 +52,7 @@ uint32_t input_sequence(input_t input) {
     return input_const_cpp(input).sequence();
 }
 
-size_t input_signature_operations(input_t input, int /*bool*/ bip16_active) {
+uint64_t /*size_t*/ input_signature_operations(input_t input, int /*bool*/ bip16_active) {
     return input_const_cpp(input).signature_operations(bip16_active);
 }
 

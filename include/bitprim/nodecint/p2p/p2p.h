@@ -31,7 +31,7 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-size_t p2p_address_count(p2p_t p2p);
+uint64_t /*size_t*/ p2p_address_count(p2p_t p2p);
 
 #ifdef __cplusplus
 } // extern "C"

@@ -42,7 +42,7 @@ libbitcoin::network::p2p& p2p_cast(p2p_t p2p) {
 extern "C" {
 
 BITPRIM_EXPORT
-size_t p2p_address_count(p2p_t p2p) {
+uint64_t /*size_t*/ p2p_address_count(p2p_t p2p) {
     return p2p_cast(p2p).address_count();
 }
 

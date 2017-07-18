@@ -35,11 +35,11 @@ int script_is_valid_operations(script_t script) {
     return static_cast<libbitcoin::chain::script const*>(script)->is_valid_operations();
 }
 
-size_t script_satoshi_content_size(script_t script) {
+uint64_t /*size_t*/ script_satoshi_content_size(script_t script) {
     return static_cast<libbitcoin::chain::script const*>(script)->satoshi_content_size();
 }
 
-size_t script_serialized_size(script_t script, /*bool*/ int prefix) {
+uint64_t /*size_t*/ script_serialized_size(script_t script, /*bool*/ int prefix) {
     return static_cast<libbitcoin::chain::script const*>(script)->serialized_size(prefix);
 }
 
@@ -54,11 +54,11 @@ char const* script_to_string(script_t script, uint32_t active_forks) {
 //std::string (uint32_t active_forks) const;
 
 
-size_t script_sigops(script_t script, /*bool*/ int embedded) {
+uint64_t /*size_t*/ script_sigops(script_t script, /*bool*/ int embedded) {
     return static_cast<libbitcoin::chain::script const*>(script)->sigops(embedded);
 }
 
-size_t script_embedded_sigops(script_t script, script_t prevout_script) {
+uint64_t /*size_t*/ script_embedded_sigops(script_t script, script_t prevout_script) {
     auto& prevout_script_cpp = *static_cast<libbitcoin::chain::script const*>(prevout_script);
     return static_cast<libbitcoin::chain::script const*>(script)->embedded_sigops(prevout_script_cpp);
 }

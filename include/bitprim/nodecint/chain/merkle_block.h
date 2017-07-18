@@ -31,7 +31,7 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-hash_t merkle_block_hash_nth(merkle_block_t block, size_t n);
+hash_t merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n);
 
 BITPRIM_EXPORT
 header_t merkle_block_header(merkle_block_t block);
@@ -40,13 +40,13 @@ BITPRIM_EXPORT
 int merkle_block_is_valid(merkle_block_t block);
 
 BITPRIM_EXPORT
-size_t merkle_block_hash_count(merkle_block_t block);
+uint64_t /*size_t*/ merkle_block_hash_count(merkle_block_t block);
 
 BITPRIM_EXPORT
-size_t merkle_block_serialized_size(merkle_block_t block, uint32_t version);
+uint64_t /*size_t*/ merkle_block_serialized_size(merkle_block_t block, uint32_t version);
 
 BITPRIM_EXPORT
-size_t merkle_block_total_transaction_count(merkle_block_t block);
+uint64_t /*size_t*/ merkle_block_total_transaction_count(merkle_block_t block);
 
 BITPRIM_EXPORT
 void merkle_block_destruct(merkle_block_t block);

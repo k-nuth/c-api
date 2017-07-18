@@ -40,13 +40,13 @@ BITPRIM_EXPORT
 int /*bool*/ input_is_final(input_t input);
 
 BITPRIM_EXPORT
-size_t input_serialized_size(input_t input, int wire /* = true*/);
+uint64_t /*size_t*/ input_serialized_size(input_t input, int wire /* = true*/);
 
 BITPRIM_EXPORT
 uint32_t input_sequence(input_t input);
 
 BITPRIM_EXPORT
-size_t input_signature_operations(input_t input, int /*bool*/ bip16_active);
+uint64_t /*size_t*/ input_signature_operations(input_t input, int /*bool*/ bip16_active);
 
 BITPRIM_EXPORT
 script_t input_script(input_t input);

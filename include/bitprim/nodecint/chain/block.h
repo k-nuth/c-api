@@ -44,15 +44,15 @@ BITPRIM_EXPORT
 hash_t block_hash(block_t block);
 
 BITPRIM_EXPORT
-size_t block_transaction_count(block_t block);
+uint64_t /*size_t*/ block_transaction_count(block_t block);
 
 BITPRIM_EXPORT
-transaction_t block_transaction_nth(block_t block, size_t n);
+transaction_t block_transaction_nth(block_t block, uint64_t /*size_t*/ n);
 
 
 
 //BITPRIM_EXPORT
-//transaction_t block_transactions(block_t block, size_t* n);
+//transaction_t block_transactions(block_t block, uint64_t /*size_t*/* n);
 //
 //BITPRIM_EXPORT
 //transaction_t block_transaction_next(transaction_t transaction);
@@ -60,11 +60,13 @@ transaction_t block_transaction_nth(block_t block, size_t n);
 
 
 BITPRIM_EXPORT
-size_t block_serialized_size(block_t block, uint32_t version);
+uint64_t /*size_t*/ block_serialized_size(block_t block, uint32_t version);
+
+
 
 BITPRIM_EXPORT
 /*static*/
-uint64_t block_subsidy(size_t height);
+uint64_t block_subsidy(uint64_t /*size_t*/ height);
 
 BITPRIM_EXPORT
 uint64_t block_fees(block_t block);
@@ -73,35 +75,35 @@ BITPRIM_EXPORT
 uint64_t block_claim(block_t block);
 
 BITPRIM_EXPORT
-uint64_t block_reward(block_t block, size_t height);
+uint64_t block_reward(block_t block, uint64_t /*size_t*/ height);
 
 //Note: The user is responsible for the resource release
 BITPRIM_EXPORT
 hash_t block_generate_merkle_root(block_t block);
 
 BITPRIM_EXPORT
-size_t block_signature_operations(block_t block);
+uint64_t /*size_t*/ block_signature_operations(block_t block);
 
 BITPRIM_EXPORT
-size_t block_signature_operations_bip16_active(block_t block, int /*bool*/ bip16_active);
+uint64_t /*size_t*/ block_signature_operations_bip16_active(block_t block, int /*bool*/ bip16_active);
 
 BITPRIM_EXPORT
-size_t block_total_inputs(block_t block, int /*bool*/ with_coinbase /*= true*/);
+uint64_t /*size_t*/ block_total_inputs(block_t block, int /*bool*/ with_coinbase /*= true*/);
 
 BITPRIM_EXPORT
 int /*bool*/ block_is_extra_coinbases(block_t block);
 
 BITPRIM_EXPORT
-int /*bool*/ block_is_final(block_t block, size_t height);
+int /*bool*/ block_is_final(block_t block, uint64_t /*size_t*/ height);
 
 BITPRIM_EXPORT
 int /*bool*/ block_is_distinct_transaction_set(block_t block);
 
 BITPRIM_EXPORT
-int /*bool*/ block_is_valid_coinbase_claim(block_t block, size_t height);
+int /*bool*/ block_is_valid_coinbase_claim(block_t block, uint64_t /*size_t*/ height);
 
 BITPRIM_EXPORT
-int /*bool*/ block_is_valid_coinbase_script(block_t block, size_t height);
+int /*bool*/ block_is_valid_coinbase_script(block_t block, uint64_t /*size_t*/ height);
 
 BITPRIM_EXPORT
 int /*bool*/ block_is_internal_double_spend(block_t block);

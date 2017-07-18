@@ -31,10 +31,10 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-point_t point_list_nth(point_list_t point_list, size_t n);
+point_t point_list_nth(point_list_t point_list, uint64_t /*size_t*/ n);
 
 BITPRIM_EXPORT
-size_t point_list_count(point_list_t point_list);
+uint64_t /*size_t*/ point_list_count(point_list_t point_list);
 
 BITPRIM_EXPORT
 void point_list_destruct(point_list_t point_list);

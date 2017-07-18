@@ -35,53 +35,53 @@ BITPRIM_EXPORT
 void chain_fetch_last_height(chain_t chain, void* ctx, last_height_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-int chain_get_last_height(chain_t chain, size_t* height);
+int chain_get_last_height(chain_t chain, uint64_t /*size_t*/* height);
 
 BITPRIM_EXPORT
 void chain_fetch_block_height(chain_t chain, void* ctx, hash_t hash, block_height_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-int chain_get_block_height(chain_t chain, hash_t hash, size_t* height);
+int chain_get_block_height(chain_t chain, hash_t hash, uint64_t /*size_t*/* height);
 
 
 // Block Header ---------------------------------------------------------------------
 BITPRIM_EXPORT
-void chain_fetch_block_header_by_height(chain_t chain, void* ctx, size_t height, block_header_fetch_handler_t handler);
+void chain_fetch_block_header_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_header_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-int chain_get_block_header_by_height(chain_t chain, size_t height, header_t* header, size_t* ret_height);
+int chain_get_block_header_by_height(chain_t chain, uint64_t /*size_t*/ height, header_t* header, uint64_t /*size_t*/* ret_height);
 
 BITPRIM_EXPORT
 void chain_fetch_block_header_by_hash(chain_t chain, void* ctx, hash_t hash, block_header_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-int chain_get_block_header_by_hash(chain_t chain, hash_t hash, header_t* header, size_t* ret_height);
+int chain_get_block_header_by_hash(chain_t chain, hash_t hash, header_t* header, uint64_t /*size_t*/* ret_height);
 
 
 // Block ---------------------------------------------------------------------
 BITPRIM_EXPORT
-void chain_fetch_block_by_height(chain_t chain, void* ctx, size_t height, block_fetch_handler_t handler);
+void chain_fetch_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-int chain_get_block_by_height(chain_t chain, size_t height, block_t* block, size_t* ret_height);
+int chain_get_block_by_height(chain_t chain, uint64_t /*size_t*/ height, block_t* block, uint64_t /*size_t*/* ret_height);
 
 BITPRIM_EXPORT
 void chain_fetch_block_by_hash(chain_t chain, void* ctx, hash_t hash, block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-int chain_get_block_by_hash(chain_t chain, hash_t hash, block_t* block, size_t* ret_height);
+int chain_get_block_by_hash(chain_t chain, hash_t hash, block_t* block, uint64_t /*size_t*/* ret_height);
 
 
 // Merkle Block ---------------------------------------------------------------------
 BITPRIM_EXPORT
-void chain_fetch_merkle_block_by_height(chain_t chain, void* ctx, size_t height, merkle_block_fetch_handler_t handler);
+void chain_fetch_merkle_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, merkle_block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 void chain_fetch_merkle_block_by_hash(chain_t chain, void* ctx, hash_t hash, merkle_block_fetch_handler_t handler);
 
 // Compact Block ---------------------------------------------------------------------
 BITPRIM_EXPORT
-void chain_fetch_compact_block_by_height(chain_t chain, void* ctx, size_t height, compact_block_fetch_handler_t handler);
+void chain_fetch_compact_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, compact_block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 void chain_fetch_compact_block_by_hash(chain_t chain, void* ctx, hash_t hash, compact_block_fetch_handler_t handler);
@@ -92,7 +92,7 @@ BITPRIM_EXPORT
 void chain_fetch_transaction(chain_t chain, void* ctx, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-int chain_get_transaction(chain_t chain, hash_t hash, int require_confirmed, transaction_t* transaction, size_t* ret_height, size_t* index);
+int chain_get_transaction(chain_t chain, hash_t hash, int require_confirmed, transaction_t* transaction, uint64_t /*size_t*/* ret_height, uint64_t /*size_t*/* index);
 
 BITPRIM_EXPORT
 void chain_fetch_transaction_position(chain_t chain, void* ctx, hash_t hash, int require_confirmed, transaction_index_fetch_handler_t handler);
@@ -111,14 +111,14 @@ void chain_fetch_spend(chain_t chain, void* ctx, output_point_t outpoint, spend_
 
 // History ---------------------------------------------------------------------
 BITPRIM_EXPORT
-void chain_fetch_history(chain_t chain, void* ctx, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler);
+void chain_fetch_history(chain_t chain, void* ctx, payment_address_t address, uint64_t /*size_t*/ limit, uint64_t /*size_t*/ from_height, history_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-int chain_get_history(chain_t chain, payment_address_t address, size_t limit, size_t from_height, history_compact_list_t* out_history);
+int chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_t*/ limit, uint64_t /*size_t*/ from_height, history_compact_list_t* out_history);
 
 
 //BITPRIM_EXPORT
-//void chain_fetch_stealth(const binary& filter, size_t from_height, stealth_fetch_handler handler);
+//void chain_fetch_stealth(const binary& filter, uint64_t /*size_t*/ from_height, stealth_fetch_handler handler);
 
 
 // ------------------------------------------------

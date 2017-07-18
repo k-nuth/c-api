@@ -61,7 +61,7 @@ uint32_t transaction_locktime(transaction_t transaction) {
     return tx_const_cpp(transaction).locktime();
 }
 
-size_t transaction_serialized_size(transaction_t transaction, int wire /*= true*/) {
+uint64_t /*size_t*/ transaction_serialized_size(transaction_t transaction, int wire /*= true*/) {
     return tx_const_cpp(transaction).serialized_size(wire);
 }
 
@@ -69,11 +69,11 @@ uint64_t transaction_fees(transaction_t transaction) {
     return tx_const_cpp(transaction).fees();
 }
 
-size_t transaction_signature_operations(transaction_t transaction) {
+uint64_t /*size_t*/ transaction_signature_operations(transaction_t transaction) {
     return tx_const_cpp(transaction).signature_operations();
 }
 
-size_t transaction_signature_operations_bip16_active(transaction_t transaction, int /*bool*/ bip16_active) {
+uint64_t /*size_t*/ transaction_signature_operations_bip16_active(transaction_t transaction, int /*bool*/ bip16_active) {
     return tx_const_cpp(transaction).signature_operations(bip16_active);
 }
 
@@ -97,7 +97,7 @@ int /*bool*/ transaction_is_oversized_coinbase(transaction_t transaction) {
     return tx_const_cpp(transaction).is_oversized_coinbase();
 }
 
-int /*bool*/ transaction_is_immature(transaction_t transaction, size_t target_height) {
+int /*bool*/ transaction_is_immature(transaction_t transaction, uint64_t /*size_t*/ target_height) {
     return tx_const_cpp(transaction).is_immature(target_height);
 }
 
@@ -113,7 +113,7 @@ int /*bool*/ transaction_is_missing_previous_outputs(transaction_t transaction) 
     return tx_const_cpp(transaction).is_missing_previous_outputs();
 }
 
-int /*bool*/ transaction_is_final(transaction_t transaction, size_t block_height, uint32_t block_time) {
+int /*bool*/ transaction_is_final(transaction_t transaction, uint64_t /*size_t*/ block_height, uint32_t block_time) {
     return tx_const_cpp(transaction).is_final(block_height, block_time);
 }
 
@@ -127,11 +127,11 @@ int /*bool*/ transaction_is_locktime_conflict(transaction_t transaction) {
 
 
 
-size_t transaction_output_count(transaction_t transaction) {
+uint64_t /*size_t*/ transaction_output_count(transaction_t transaction) {
     return tx_const_cpp(transaction).outputs().size();
 }
 
-transaction_t transaction_output_nth(transaction_t transaction, size_t n) {
+transaction_t transaction_output_nth(transaction_t transaction, uint64_t /*size_t*/ n) {
     //precondition: n >=0 && n < outputs().size()
 
     auto* tx = &tx_cpp(transaction);
@@ -139,11 +139,11 @@ transaction_t transaction_output_nth(transaction_t transaction, size_t n) {
     return &out_n;
 }
 
-size_t transaction_input_count(transaction_t transaction) {
+uint64_t /*size_t*/ transaction_input_count(transaction_t transaction) {
     return tx_const_cpp(transaction).inputs().size();
 }
 
-transaction_t transaction_input_nth(transaction_t transaction, size_t n) {
+transaction_t transaction_input_nth(transaction_t transaction, uint64_t /*size_t*/ n) {
     //precondition: n >=0 && n < inputs().size()
 
     auto* tx = &tx_cpp(transaction);

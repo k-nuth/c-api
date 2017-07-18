@@ -38,7 +38,7 @@ int output_is_valid(output_t output) {
     return output_const_cpp(output).is_valid();
 }
 
-size_t output_serialized_size(output_t output, int wire /* = true*/) {
+uint64_t /*size_t*/ output_serialized_size(output_t output, int wire /* = true*/) {
     return output_const_cpp(output).serialized_size(wire);
 }
 
@@ -46,7 +46,7 @@ uint64_t output_value(output_t output) {
     return output_const_cpp(output).value();
 }
 
-size_t output_signature_operations(output_t output) {
+uint64_t /*size_t*/ output_signature_operations(output_t output) {
     return output_const_cpp(output).signature_operations();
 }
 

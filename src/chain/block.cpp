@@ -48,11 +48,11 @@ hash_t block_hash(block_t block) {
     return hash_cpp.data(); //TODO: returning a dangling pointer
 }
 
-size_t block_transaction_count(block_t block) {
+uint64_t /*size_t*/ block_transaction_count(block_t block) {
     return block_const_cpp(block).transactions().size();
 }
 
-transaction_t block_transactions(block_t block, size_t* n) {
+transaction_t block_transactions(block_t block, uint64_t /*size_t*/* n) {
     auto* blk = &block_cpp(block);
     *n = blk->transactions().size();
     return blk->transactions().data();
@@ -64,7 +64,7 @@ transaction_t block_transaction_next(transaction_t transaction) {
     return transaction_cpp;
 }
 
-transaction_t block_transaction_nth(block_t block, size_t n) {
+transaction_t block_transaction_nth(block_t block, uint64_t /*size_t*/ n) {
     //precondition: n >=0 && n < transactions().size()
 
     auto* blk = &block_cpp(block);
@@ -75,19 +75,19 @@ transaction_t block_transaction_nth(block_t block, size_t n) {
 
 // -----------------------
 
-size_t block_serialized_size(block_t block, uint32_t version) {
+uint64_t /*size_t*/ block_serialized_size(block_t block, uint32_t version) {
     return block_const_cpp(block).serialized_size(version);
 }
 
 /*static*/
-uint64_t block_subsidy(size_t height) {
+uint64_t block_subsidy(uint64_t /*size_t*/ height) {
     return libbitcoin::message::block::subsidy(height);
 }
 
 //static uint256_t block_proof(uint32_t bits) {}
 
 ///*static*/
-//uint256_t block_proof(size_t height) {
+//uint256_t block_proof(uint64_t /*size_t*/ height) {
 //    return libbitcoin::message::block::proof(height);
 //}
 
@@ -99,7 +99,7 @@ uint64_t block_claim(block_t block) {
     return block_const_cpp(block).claim();
 }
 
-uint64_t block_reward(block_t block, size_t height) {
+uint64_t block_reward(block_t block, uint64_t /*size_t*/ height) {
     return block_const_cpp(block).reward(height);
 }
 
@@ -114,15 +114,15 @@ hash_t block_generate_merkle_root(block_t block) {
     return ret;
 }
 
-size_t block_signature_operations(block_t block) {
+uint64_t /*size_t*/ block_signature_operations(block_t block) {
     return block_const_cpp(block).signature_operations();
 }
 
-size_t block_signature_operations_bip16_active(block_t block, int /*bool*/ bip16_active) {
+uint64_t /*size_t*/ block_signature_operations_bip16_active(block_t block, int /*bool*/ bip16_active) {
     return block_const_cpp(block).signature_operations(bip16_active);
 }
 
-size_t block_total_inputs(block_t block, int /*bool*/ with_coinbase=true) {
+uint64_t /*size_t*/ block_total_inputs(block_t block, int /*bool*/ with_coinbase=true) {
     return block_const_cpp(block).total_inputs(with_coinbase);
 }
 
@@ -130,7 +130,7 @@ int /*bool*/ block_is_extra_coinbases(block_t block) {
     return block_const_cpp(block).is_extra_coinbases();
 }
 
-int /*bool*/ block_is_final(block_t block, size_t height) {
+int /*bool*/ block_is_final(block_t block, uint64_t /*size_t*/ height) {
     return block_const_cpp(block).is_final(height);
 }
 
@@ -138,11 +138,11 @@ int /*bool*/ block_is_distinct_transaction_set(block_t block) {
     return block_const_cpp(block).is_distinct_transaction_set();
 }
 
-int /*bool*/ block_is_valid_coinbase_claim(block_t block, size_t height) {
+int /*bool*/ block_is_valid_coinbase_claim(block_t block, uint64_t /*size_t*/ height) {
     return block_const_cpp(block).is_valid_coinbase_claim(height);
 }
 
-int /*bool*/ block_is_valid_coinbase_script(block_t block, size_t height) {
+int /*bool*/ block_is_valid_coinbase_script(block_t block, uint64_t /*size_t*/ height) {
     return block_const_cpp(block).is_valid_coinbase_script(height);
 }
 

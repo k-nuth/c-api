@@ -34,10 +34,10 @@ BITPRIM_EXPORT
 void history_compact_list_destruct(history_compact_list_t history_compact_list);
 
 BITPRIM_EXPORT
-size_t history_compact_list_count(history_compact_list_t history_compact_list);
+uint64_t /*size_t*/ history_compact_list_count(history_compact_list_t history_compact_list);
 
 BITPRIM_EXPORT
-history_compact_t history_compact_list_nth(history_compact_list_t history_list, size_t n);
+history_compact_t history_compact_list_nth(history_compact_list_t history_list, uint64_t /*size_t*/ n);
 
 #ifdef __cplusplus
 } // extern "C"

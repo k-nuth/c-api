@@ -53,16 +53,16 @@ BITPRIM_EXPORT
 uint32_t transaction_locktime(transaction_t transaction);
 
 BITPRIM_EXPORT
-size_t transaction_serialized_size(transaction_t transaction, int wire /*= true*/);
+uint64_t /*size_t*/ transaction_serialized_size(transaction_t transaction, int wire /*= true*/);
 
 BITPRIM_EXPORT
 uint64_t transaction_fees(transaction_t transaction);
 
 BITPRIM_EXPORT
-size_t transaction_signature_operations(transaction_t transaction);
+uint64_t /*size_t*/ transaction_signature_operations(transaction_t transaction);
 
 BITPRIM_EXPORT
-size_t transaction_signature_operations_bip16_active(transaction_t transaction, int /*bool*/ bip16_active);
+uint64_t /*size_t*/ transaction_signature_operations_bip16_active(transaction_t transaction, int /*bool*/ bip16_active);
 
 BITPRIM_EXPORT
 uint64_t transaction_total_input_value(transaction_t transaction);
@@ -80,7 +80,7 @@ BITPRIM_EXPORT
 int /*bool*/ transaction_is_oversized_coinbase(transaction_t transaction);
 
 BITPRIM_EXPORT
-int /*bool*/ transaction_is_immature(transaction_t transaction, size_t target_height);
+int /*bool*/ transaction_is_immature(transaction_t transaction, uint64_t /*size_t*/ target_height);
 
 BITPRIM_EXPORT
 int /*bool*/ transaction_is_overspent(transaction_t transaction);
@@ -92,22 +92,22 @@ BITPRIM_EXPORT
 int /*bool*/ transaction_is_missing_previous_outputs(transaction_t transaction);
 
 BITPRIM_EXPORT
-int /*bool*/ transaction_is_final(transaction_t transaction, size_t block_height, uint32_t block_time);
+int /*bool*/ transaction_is_final(transaction_t transaction, uint64_t /*size_t*/ block_height, uint32_t block_time);
 
 BITPRIM_EXPORT
 int /*bool*/ transaction_is_locktime_conflict(transaction_t transaction);
 
 BITPRIM_EXPORT
-size_t transaction_output_count(transaction_t transaction);
+uint64_t /*size_t*/ transaction_output_count(transaction_t transaction);
 
 BITPRIM_EXPORT
-transaction_t transaction_output_nth(transaction_t transaction, size_t n);
+transaction_t transaction_output_nth(transaction_t transaction, uint64_t /*size_t*/ n);
 
 BITPRIM_EXPORT
-size_t transaction_input_count(transaction_t transaction);
+uint64_t /*size_t*/ transaction_input_count(transaction_t transaction);
 
 BITPRIM_EXPORT
-transaction_t transaction_input_nth(transaction_t transaction, size_t n);
+transaction_t transaction_input_nth(transaction_t transaction, uint64_t /*size_t*/ n);
 
 
 

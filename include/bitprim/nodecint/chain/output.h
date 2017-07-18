@@ -37,13 +37,13 @@ BITPRIM_EXPORT
 int output_is_valid(output_t output);
 
 BITPRIM_EXPORT
-size_t output_serialized_size(output_t output, int /*bool*/ wire /*= true*/);
+uint64_t /*size_t*/ output_serialized_size(output_t output, int /*bool*/ wire /*= true*/);
 
 BITPRIM_EXPORT
 uint64_t output_value(output_t output);
 
 BITPRIM_EXPORT
-size_t output_signature_operations(output_t output);
+uint64_t /*size_t*/ output_signature_operations(output_t output);
 
 BITPRIM_EXPORT
 script_t output_script(output_t output);

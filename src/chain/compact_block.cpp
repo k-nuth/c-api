@@ -39,15 +39,15 @@ int compact_block_is_valid(compact_block_t block) {
     return compact_block_const_cpp(block).is_valid();
 }
 
-size_t compact_block_serialized_size(compact_block_t block, uint32_t version) {
+uint64_t /*size_t*/ compact_block_serialized_size(compact_block_t block, uint32_t version) {
     return compact_block_const_cpp(block).serialized_size(version);
 }
 
-size_t compact_block_transaction_count(compact_block_t block) {
+uint64_t /*size_t*/ compact_block_transaction_count(compact_block_t block) {
     return compact_block_const_cpp(block).transactions().size();
 }
 
-transaction_t compact_block_hash_nth(compact_block_t block, size_t n) {
+transaction_t compact_block_hash_nth(compact_block_t block, uint64_t /*size_t*/ n) {
     //precondition: n >=0 && n < transactions().size()
 
     auto* blk = &compact_block_cpp(block);

@@ -31,7 +31,7 @@ libbitcoin::message::merkle_block& merkle_block_cpp(merkle_block_t block) {
 
 extern "C" {
 
-hash_t merkle_block_hash_nth(merkle_block_t block, size_t n) {
+hash_t merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) {
     //precondition: n >=0 && n < hashes().size()
 
     auto* blk = &merkle_block_cpp(block);
@@ -47,15 +47,15 @@ int merkle_block_is_valid(merkle_block_t block) {
     return merkle_block_const_cpp(block).is_valid();
 }
 
-size_t merkle_block_hash_count(merkle_block_t block) {
+uint64_t /*size_t*/ merkle_block_hash_count(merkle_block_t block) {
     return merkle_block_const_cpp(block).hashes().size();
 }
 
-size_t merkle_block_serialized_size(merkle_block_t block, uint32_t version) {
+uint64_t /*size_t*/ merkle_block_serialized_size(merkle_block_t block, uint32_t version) {
     return merkle_block_const_cpp(block).serialized_size(version);
 }
 
-size_t merkle_block_total_transaction_count(merkle_block_t block){
+uint64_t /*size_t*/ merkle_block_total_transaction_count(merkle_block_t block){
     return merkle_block_const_cpp(block).total_transactions();
 }
 

@@ -33,11 +33,11 @@ void history_compact_list_destruct(history_compact_list_t history_list) {
     delete &history_compact_list_cpp(history_list);
 }
 
-size_t history_compact_list_count(history_compact_list_t history_list) {
+uint64_t /*size_t*/ history_compact_list_count(history_compact_list_t history_list) {
     return history_compact_list_const_cpp(history_list).size();
 }
 
-history_compact_t history_compact_list_nth(history_compact_list_t history_list, size_t n) {
+history_compact_t history_compact_list_nth(history_compact_list_t history_list, uint64_t /*size_t*/ n) {
     auto& x = history_compact_list_cpp(history_list)[n];
     return &x;
 }

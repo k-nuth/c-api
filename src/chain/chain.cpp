@@ -76,7 +76,7 @@ void chain_fetch_last_height(chain_t chain, void* ctx, last_height_fetch_handler
         });
 }
 
-int chain_get_last_height(chain_t chain, size_t* height) {
+int chain_get_last_height(chain_t chain, uint64_t /*size_t*/* height) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
 
     int res;
@@ -100,7 +100,7 @@ void chain_fetch_block_height(chain_t chain, void* ctx, hash_t hash, block_heigh
     });
 }
 
-int chain_get_block_height(chain_t chain, hash_t hash, size_t* height) {
+int chain_get_block_height(chain_t chain, hash_t hash, uint64_t /*size_t*/* height) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
 
@@ -117,7 +117,7 @@ int chain_get_block_height(chain_t chain, hash_t hash, size_t* height) {
     return res;
 }
 
-void chain_fetch_block_header_by_height(chain_t chain, void* ctx, size_t height, block_header_fetch_handler_t handler) {
+void chain_fetch_block_header_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_header_fetch_handler_t handler) {
     safe_chain(chain).fetch_block_header(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::header::ptr header, size_t h) {
         auto new_header = new libbitcoin::message::header(*header.get());
 //        auto new_header = std::make_unique(*header.get()).release();
@@ -126,7 +126,7 @@ void chain_fetch_block_header_by_height(chain_t chain, void* ctx, size_t height,
     });
 }
 
-int chain_get_block_header_by_height(chain_t chain, size_t height, header_t* out_header, size_t* out_height) {
+int chain_get_block_header_by_height(chain_t chain, uint64_t /*size_t*/ height, header_t* out_header, uint64_t /*size_t*/* out_height) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
 
@@ -156,7 +156,7 @@ void chain_fetch_block_header_by_hash(chain_t chain, void* ctx, hash_t hash, blo
     });
 }
 
-int chain_get_block_header_by_hash(chain_t chain, hash_t hash, header_t* out_header, size_t* out_height) {
+int chain_get_block_header_by_hash(chain_t chain, hash_t hash, header_t* out_header, uint64_t /*size_t*/* out_height) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
 
@@ -176,7 +176,7 @@ int chain_get_block_header_by_hash(chain_t chain, hash_t hash, header_t* out_hea
     return res;
 }
 
-void chain_fetch_block_by_height(chain_t chain, void* ctx, size_t height, block_fetch_handler_t handler) {
+void chain_fetch_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_fetch_handler_t handler) {
     safe_chain(chain).fetch_block(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::block::ptr block, size_t h) {
 
         auto new_block = new libbitcoin::message::block(*block.get());
@@ -185,7 +185,7 @@ void chain_fetch_block_by_height(chain_t chain, void* ctx, size_t height, block_
     });
 }
 
-int chain_get_block_by_height(chain_t chain, size_t height, block_t* out_block, size_t* out_height) {
+int chain_get_block_by_height(chain_t chain, uint64_t /*size_t*/ height, block_t* out_block, uint64_t /*size_t*/* out_height) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
 
@@ -214,7 +214,7 @@ void chain_fetch_block_by_hash(chain_t chain, void* ctx, hash_t hash, block_fetc
     });
 }
 
-int chain_get_block_by_hash(chain_t chain, hash_t hash, block_t* out_block, size_t* out_height) {
+int chain_get_block_by_hash(chain_t chain, hash_t hash, block_t* out_block, uint64_t /*size_t*/* out_height) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
 
@@ -233,7 +233,7 @@ int chain_get_block_by_hash(chain_t chain, hash_t hash, block_t* out_block, size
     return res;
 }
 
-void chain_fetch_merkle_block_by_height(chain_t chain, void* ctx, size_t height, merkle_block_fetch_handler_t handler){
+void chain_fetch_merkle_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, merkle_block_fetch_handler_t handler){
     safe_chain(chain).fetch_merkle_block(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::merkle_block::ptr block, size_t h) {
 
         auto new_block = new libbitcoin::message::merkle_block(*block.get());
@@ -265,7 +265,7 @@ void chain_fetch_transaction(chain_t chain, void* ctx, hash_t hash, int require_
     });
 }
 
-int chain_get_transaction(chain_t chain, hash_t hash, int require_confirmed, transaction_t* out_transaction, size_t* out_height, size_t* out_index) {
+int chain_get_transaction(chain_t chain, hash_t hash, int require_confirmed, transaction_t* out_transaction, uint64_t /*size_t*/* out_height, uint64_t /*size_t*/* out_index) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
 
@@ -319,7 +319,7 @@ int chain_get_output(chain_t chain, hash_t hash, uint32_t index, int require_con
     return res;
 }
 
-void chain_fetch_compact_block_by_height(chain_t chain, void* ctx, size_t height, compact_block_fetch_handler_t handler){
+void chain_fetch_compact_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, compact_block_fetch_handler_t handler){
     safe_chain(chain).fetch_compact_block(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::compact_block::ptr block, size_t h) {
         auto new_block = new libbitcoin::message::compact_block(*block.get());
         //Note: It is the responsibility of the user to release/destruct the object
@@ -358,7 +358,7 @@ void chain_fetch_spend(chain_t chain, void* ctx, output_point_t outpoint, spend_
 }
 
 //It is the user's responsibility to release the history returned in the callback
-void chain_fetch_history(chain_t chain, void* ctx, payment_address_t address, size_t limit, size_t from_height, history_fetch_handler_t handler){
+void chain_fetch_history(chain_t chain, void* ctx, payment_address_t address, uint64_t /*size_t*/ limit, uint64_t /*size_t*/ from_height, history_fetch_handler_t handler){
     libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
 
     safe_chain(chain).fetch_history(address_cpp, limit, from_height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::chain::history_compact::list history){
@@ -368,7 +368,7 @@ void chain_fetch_history(chain_t chain, void* ctx, payment_address_t address, si
 }
 
 //It is the user's responsibility to release the history returned in the callback
-int chain_get_history(chain_t chain, payment_address_t address, size_t limit, size_t from_height, history_compact_list_t* out_history) {
+int chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_t*/ limit, uint64_t /*size_t*/ from_height, history_compact_list_t* out_history) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
 
