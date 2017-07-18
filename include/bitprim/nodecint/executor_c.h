@@ -68,6 +68,9 @@ void executor_stop(executor_t exec);
 BITPRIM_EXPORT
 chain_t executor_get_chain(executor_t exec);
 
+BITPRIM_EXPORT
+p2p_t executor_get_p2p(executor_t exec);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

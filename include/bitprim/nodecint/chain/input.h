@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_INPUT_H_
-#define BITPRIM_NODECINT_INPUT_H_
+#ifndef BITPRIM_NODECINT_CHAIN_INPUT_H_
+#define BITPRIM_NODECINT_CHAIN_INPUT_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -58,4 +58,4 @@ output_point_t input_previous_output(input_t input);
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_INPUT_H_ */
+#endif /* BITPRIM_NODECINT_CHAIN_INPUT_H_ */

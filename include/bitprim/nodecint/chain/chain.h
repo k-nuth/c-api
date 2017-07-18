@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_CHAIN_H_
-#define BITPRIM_NODECINT_CHAIN_H_
+#ifndef BITPRIM_NODECINT_CHAIN_CHAIN_H_
+#define BITPRIM_NODECINT_CHAIN_CHAIN_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -136,4 +136,4 @@ void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_h
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_CHAIN_H_ */
+#endif /* BITPRIM_NODECINT_CHAIN_CHAIN_H_ */

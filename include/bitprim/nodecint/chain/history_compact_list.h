@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_HISTORY_COMPACT_LIST_H
-#define BITPRIM_NODECINT_HISTORY_COMPACT_LIST_H
+#ifndef BITPRIM_NODECINT_CHAIN_HISTORY_COMPACT_LIST_H_
+#define BITPRIM_NODECINT_CHAIN_HISTORY_COMPACT_LIST_H_
 
 //#include <stdio.h>
 #include <stdint.h>
@@ -43,4 +43,4 @@ history_compact_t history_compact_list_nth(history_compact_list_t history_list, 
 } // extern "C"
 #endif
 
-#endif //BITPRIM_NODECINT_HISTORY_COMPACT_LIST_H
+#endif /* BITPRIM_NODECINT_CHAIN_HISTORY_COMPACT_LIST_H_ */

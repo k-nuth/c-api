@@ -24,8 +24,8 @@
  * Maintainers: Do not include this header internal to this library.
  */
 
-#ifndef BITPRIM_NODECINT_NODE_H_
-#define BITPRIM_NODECINT_NODE_H_
+#ifndef BITPRIM_NODECINT_NODECINT_H_
+#define BITPRIM_NODECINT_NODECINT_H_
 
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
@@ -48,7 +48,9 @@
 #include <bitprim/nodecint/chain/script.h>
 #include <bitprim/nodecint/chain/transaction.h>
 
+#include <bitprim/nodecint/p2p/p2p.h>
+
 #include <bitprim/nodecint/wallet/wallet.h>
 #include <bitprim/nodecint/wallet/word_list.h>
 
-#endif /* BITPRIM_NODECINT_NODE_H_ */
+#endif /* BITPRIM_NODECINT_NODECINT_H_ */

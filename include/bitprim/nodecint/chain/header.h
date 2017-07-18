@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_HEADER_H_
-#define BITPRIM_NODECINT_HEADER_H_
+#ifndef BITPRIM_NODECINT_CHAIN_HEADER_H_
+#define BITPRIM_NODECINT_CHAIN_HEADER_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -73,4 +73,4 @@ hash_t header_hash(header_t header);
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_HEADER_H_ */
+#endif /* BITPRIM_NODECINT_CHAIN_HEADER_H_ */

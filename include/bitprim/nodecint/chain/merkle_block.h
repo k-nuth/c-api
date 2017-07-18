@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_MERKLE_BLOCK_H_
-#define BITPRIM_NODECINT_MERKLE_BLOCK_H_
+#ifndef BITPRIM_NODECINT_CHAIN_MERKLE_BLOCK_H_
+#define BITPRIM_NODECINT_CHAIN_MERKLE_BLOCK_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -58,4 +58,4 @@ void merkle_block_reset(merkle_block_t block);
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_MERKLE_BLOCK_H_ */
+#endif /* BITPRIM_NODECINT_CHAIN_MERKLE_BLOCK_H_ */

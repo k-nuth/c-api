@@ -17,33 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_CHAIN_PAYMENT_ADDRESS_H_
-#define BITPRIM_NODECINT_CHAIN_PAYMENT_ADDRESS_H_
+#include <bitprim/nodecint/p2p/p2p.h>
+//#include <cstdio>
+//#include <memory>
+//#include <boost/thread/latch.hpp>
+//#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
+//#include <cinttypes>   //TODO: Remove, it is for the printf (printing pointer addresses)
 
-#include <stdio.h>
-#include <stdint.h>
+#include <bitcoin/network/p2p.hpp>
 
-#include <bitprim/nodecint/visibility.h>
-#include <bitprim/nodecint/primitives.h>
 
-#ifdef __cplusplus
+
+
+namespace {
+
+inline
+libbitcoin::network::p2p& p2p_cast(p2p_t p2p) {
+    return *static_cast<libbitcoin::network::p2p*>(p2p);
+}
+
+} /* end of anonymous namespace */
+
+
 extern "C" {
-#endif
 
 BITPRIM_EXPORT
-char const* payment_address_encoded(payment_address_t payment_address);
+size_t p2p_address_count(p2p_t p2p) {
+    return p2p_cast(p2p).address_count();
+}
 
-BITPRIM_EXPORT
-payment_address_t payment_address_construct_from_string(char const* address);
-
-BITPRIM_EXPORT
-uint8_t version(payment_address_t payment_address);
-
-BITPRIM_EXPORT
-void payment_address_destruct(payment_address_t payment_address);
-
-#ifdef __cplusplus
-} // extern "C"
-#endif
-
-#endif /* BITPRIM_NODECINT_CHAIN_PAYMENT_ADDRESS_H_ */
+} /* extern "C" */

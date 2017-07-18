@@ -282,6 +282,9 @@ set(_bitprim_sources
         src/chain/point_list.cpp
         src/chain/script.cpp
         src/chain/transaction.cpp
+
+        src/p2p/p2p.cpp
+
         src/wallet/wallet.cpp
         src/wallet/word_list.cpp
 )
@@ -455,6 +458,9 @@ set(_bitprim_headers
         bitprim/nodecint/chain/point_list.h
         bitprim/nodecint/chain/script.h
         bitprim/nodecint/chain/transaction.h
+
+        bitprim/nodecint/p2p/p2p.h
+
         bitprim/nodecint/wallet/wallet.h
         bitprim/nodecint/wallet/word_list.h
 )

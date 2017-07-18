@@ -34,6 +34,7 @@ typedef enum point_kind {output = 0, spend = 1} point_kind_t;
 
 typedef struct executor* executor_t;
 typedef void* chain_t;
+typedef void* p2p_t;
 
 //typedef struct output_point_t {
 //    uint8_t* hash;

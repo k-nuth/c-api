@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_SCRIPT_H_
-#define BITPRIM_NODECINT_SCRIPT_H_
+#ifndef BITPRIM_NODECINT_CHAIN_SCRIPT_H_
+#define BITPRIM_NODECINT_CHAIN_SCRIPT_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -60,4 +60,4 @@ size_t script_embedded_sigops(script_t script, script_t prevout_script);
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_SCRIPT_H_ */
+#endif /* BITPRIM_NODECINT_CHAIN_SCRIPT_H_ */

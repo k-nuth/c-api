@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_HISTORY_COMPACT_H
-#define BITPRIM_NODECINT_HISTORY_COMPACT_H
+#ifndef BITPRIM_NODECINT_CHAIN_HISTORY_COMPACT_H
+#define BITPRIM_NODECINT_CHAIN_HISTORY_COMPACT_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -46,4 +46,4 @@ uint64_t history_compact_get_value_or_previous_checksum(history_compact_t histor
 } // extern "C"
 #endif
 
-#endif //BITPRIM_NODECINT_HISTORY_COMPACT_H
+#endif /* BITPRIM_NODECINT_CHAIN_HISTORY_COMPACT_H_ */

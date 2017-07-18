@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_WALLET_H_
-#define BITPRIM_NODECINT_WALLET_H_
+#ifndef BITPRIM_NODECINT_WALLET_WALLET_H_
+#define BITPRIM_NODECINT_WALLET_WALLET_H_
 
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
@@ -37,4 +37,4 @@ void long_hash_destroy(long_hash_t ptr);
 } // extern "C"
 #endif
 
-#endif //BITPRIM_NODECINT_WALLET_H_
+#endif /* BITPRIM_NODECINT_WALLET_WALLET_H_ */

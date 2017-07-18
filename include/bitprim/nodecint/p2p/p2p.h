@@ -17,11 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_CHAIN_OUTPUT_H_
-#define BITPRIM_NODECINT_CHAIN_OUTPUT_H_
+#ifndef BITPRIM_NODECINT_P2P_P2P_H_
+#define BITPRIM_NODECINT_P2P_P2P_H_
 
-#include <stdio.h>
-#include <stdint.h>
+//#include <stdio.h>
+//#include <stdint.h>
 
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
@@ -31,32 +31,10 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-void output_destruct(output_t output);
-
-BITPRIM_EXPORT
-int output_is_valid(output_t output);
-
-BITPRIM_EXPORT
-size_t output_serialized_size(output_t output, int /*bool*/ wire /*= true*/);
-
-BITPRIM_EXPORT
-uint64_t output_value(output_t output);
-
-BITPRIM_EXPORT
-size_t output_signature_operations(output_t output);
-
-BITPRIM_EXPORT
-script_t output_script(output_t output);
-
-BITPRIM_EXPORT
-hash_t output_get_hash(output_t output);
-
-BITPRIM_EXPORT
-uint32_t output_get_index(output_t output);
-
+size_t p2p_address_count(p2p_t p2p);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_CHAIN_OUTPUT_H_ */
+#endif /* BITPRIM_NODECINT_P2P_P2P_H_ */

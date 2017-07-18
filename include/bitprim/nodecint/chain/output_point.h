@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_OUTPUT_POINT_H
-#define BITPRIM_NODECINT_OUTPUT_POINT_H
+#ifndef BITPRIM_NODECINT_CHAIN_OUTPUT_POINT_H_
+#define BITPRIM_NODECINT_CHAIN_OUTPUT_POINT_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -39,4 +39,4 @@ uint32_t output_point_get_index(output_point_t output);
 BITPRIM_EXPORT
 void output_point_destruct(output_point_t output);
 
-#endif //BITPRIM_NODECINT_OUTPUT_POINT_H
+#endif /* BITPRIM_NODECINT_CHAIN_OUTPUT_POINT_H_ */
