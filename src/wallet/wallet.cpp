@@ -17,29 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_VISIBILITY_H_
-#define BITPRIM_NODECINT_VISIBILITY_H_
 
-#if defined(_WIN32) || defined(__CYGWIN__)
-  #ifdef bitprim_EXPORTS
-    #ifdef __GNUC__
-      #define BITPRIM_EXPORT __attribute__ ((dllexport))
-    #else
-      #define BITPRIM_EXPORT __declspec(dllexport)
-    #endif
-  #else
-    #ifdef __GNUC__
-      #define BITPRIM_EXPORT __attribute__ ((dllimport))
-    #else
-      #define BITPRIM_EXPORT __declspec(dllimport)
-    #endif
-  #endif
-#else
-  #if __GNUC__ >= 4
-    #define BITPRIM_EXPORT __attribute__ ((visibility ("default")))
-  #else
-    #define BITPRIM_EXPORT
-  #endif
-#endif
+#include <bitprim/nodecint/wallet/wallet.h>
 
-#endif /* BITPRIM_NODECINT_VISIBILITY_H_ */
+#include <bitcoin/bitcoin/wallet/mnemonic.hpp>
+
+extern "C" {
+
+long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
+    auto const& mnemonics_cpp = *static_cast<const std::vector<std::string>*>(mnemonics);
+    auto hash_cpp = libbitcoin::wallet::decode_mnemonic(mnemonics_cpp);
+
+    uint8_t* ret = (uint8_t*)malloc(hash_cpp.size() * sizeof(uint8_t));
+    std::copy_n(std::begin(hash_cpp), hash_cpp.size(), ret);
+    return ret;
+}
+
+void long_hash_destroy(long_hash_t ptr) {
+    free(ptr);
+}
+
+} /* extern "C" */

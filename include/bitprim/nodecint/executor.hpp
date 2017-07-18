@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_EXECUTOR_HPP_
-#define BITPRIM_NODE_CINT_EXECUTOR_HPP_
+#ifndef BITPRIM_NODECINT_EXECUTOR_HPP_
+#define BITPRIM_NODECINT_EXECUTOR_HPP_
 
 #include <future>
 #include <iostream>
@@ -138,4 +138,4 @@ private:
 
 }} // namespace bitprim::nodecint
 
-#endif /* BITPRIM_NODE_CINT_EXECUTOR_HPP_ */
+#endif /* BITPRIM_NODECINT_EXECUTOR_HPP_ */

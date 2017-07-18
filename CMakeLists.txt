@@ -33,15 +33,66 @@ option(WITH_CONSOLE "Compile console application." ON)
 
 # Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
 #------------------------------------------------------------------------------
-set(ENABLE_SHARED ON)
+
+option(ENABLE_SHARED "" ON)
+option(ENABLE_SHARED_NODE_CINT "" ON)
+
+if (ENABLE_SHARED_NODE_CINT)
+  set(ENABLE_SHARED ON)
+endif()
+
+# set(ENABLE_SHARED ON)
+
+# IF(APPLE)
+#   SET(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
+# ENDIF(APPLE)
+
+# message(${CMAKE_SHARED_MODULE_CREATE_C_FLAGS})
+# message(${CMAKE_SHARED_MODULE_CREATE_CXX_FLAGS})
+# set(CMAKE_SHARED_MODULE_CREATE_C_FLAGS "-fer -Wl,-headerpad_max_install_names")
+# set(CMAKE_SHARED_MODULE_CREATE_CXX_FLAGS "-bundle -Wl,-headerpad_max_install_names")
+# message(${CMAKE_SHARED_MODULE_CREATE_C_FLAGS})
+# message(${CMAKE_SHARED_MODULE_CREATE_CXX_FLAGS})
+
+
+#  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${_Flag}" )
+#  set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} ${_Flag}" )
+
+# message(${CMAKE_SHARED_LINKER_FLAGS})
+# message(${CMAKE_STATIC_LINKER_FLAGS})
+
+# _add_link_flag(-fstack-protector _has_stack_protector_flag)
+
+# set(CMAKE_SHARED_LINKER_FLAGS "-bundle -Wl,-headerpad_max_install_names")
+# set(CMAKE_STATIC_LINKER_FLAGS "-bundle -Wl,-headerpad_max_install_names")
+
+# message(${CMAKE_SHARED_LINKER_FLAGS})
+# message(${CMAKE_STATIC_LINKER_FLAGS})
+
+# message(${CMAKE_C_LINK_FLAGS})
+# message(${CMAKE_CXX_LINK_FLAGS})
+
+# SET(CMAKE_C_LINK_FLAGS "-bundle -Wl,-headerpad_max_install_names")
+# SET(CMAKE_CXX_LINK_FLAGS "-bundle -Wl,-headerpad_max_install_names")
+
+# message(${CMAKE_C_LINK_FLAGS})
+# message(${CMAKE_CXX_LINK_FLAGS})
+
+#------------------------------------------------------------------------------
+
+option(WITH_CONSOLE_NODE_CINT "" OFF)
+
+
+#------------------------------------------------------------------------------
 
 # Check dependencies.
 #==============================================================================
 # Require Boost of at least version 1.56.0 and output ${boost_CPPFLAGS/LDFLAGS}.
 #------------------------------------------------------------------------------
-if (NOT ENABLE_SHARED)
+# if (NOT ENABLE_SHARED)
   set(Boost_USE_STATIC_LIBS ON)
-endif()
+# endif()
+
 
 
 #------------------------------------------------------------------------------
@@ -61,7 +112,11 @@ else()
           COMPONENTS unit_test_framework)
 endif()
 
-
+if (UNIX)
+  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/lib/cmake")
+elseif (WIN32)
+  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "cmake")
+endif()
 
 # Require bitprim-consensus of at least version 2.0.0 and output ${bitprim_consensus_CPPFLAGS/LIBS/PKG}.
 #------------------------------------------------------------------------------
@@ -207,32 +262,62 @@ else()
     set(MODE STATIC)
 endif()
 
-add_library(bitprim-node-cint ${MODE}
-        src/block.cpp
-        src/binary.cpp
-        src/compact_block.cpp
+set(_bitprim_sources
         src/executor.cpp
         src/executor_c.cpp
-        src/header.cpp
-        src/history_compact.cpp
-        src/history_compact_list.cpp
-        src/stealth_compact.cpp
-        src/stealth_compact_list.cpp
-        src/input.cpp
-        src/merkle_block.cpp
-        src/node.cpp
-        src/output.cpp
-        src/output_point.cpp
+
         src/parser.cpp
-        src/payment_address.cpp
-        src/point.cpp
-        src/point_list.cpp
-        src/script.cpp
-        src/transaction.cpp
-        src/word_list.cpp)
+        src/binary.cpp
+        src/chain/block.cpp
+        src/chain/chain.cpp
+        src/chain/compact_block.cpp
+        src/chain/header.cpp
+        src/chain/history_compact.cpp
+        src/chain/history_compact_list.cpp
+        src/chain/stealth_compact.cpp
+        src/chain/stealth_compact_list.cpp
+        src/chain/input.cpp
+        src/chain/merkle_block.cpp
+        src/chain/output.cpp
+        src/chain/output_point.cpp
+        src/chain/payment_address.cpp
+        src/chain/point.cpp
+        src/chain/point_list.cpp
+        src/chain/script.cpp
+        src/chain/transaction.cpp
+        src/wallet/wallet.cpp
+        src/wallet/word_list.cpp
+)
+
+
+add_library(bitprim-node-cint ${MODE}
+        ${_bitprim_sources}
+        )
+
+#add_library(bitprim-node-cint ${MODE}
+#        src/executor.cpp
+#        src/executor_c.cpp
+#        src/parser.cpp
+#        src/chain/block.cpp
+#        src/chain/chain.cpp
+#        src/chain/compact_block.cpp
+#        src/chain/header.cpp
+#        src/chain/history_compact.cpp
+#        src/chain/history_compact_list.cpp
+#        src/chain/input.cpp
+#        src/chain/merkle_block.cpp
+#        src/chain/output.cpp
+#        src/chain/output_point.cpp
+#        src/chain/payment_address.cpp
+#        src/chain/point.cpp
+#        src/chain/point_list.cpp
+#        src/chain/script.cpp
+#        src/chain/transaction.cpp
+#        src/wallet/wallet.cpp
+#        src/wallet/word_list.cpp
+#)
 
 # set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
-
 
 target_compile_definitions(bitprim-node-cint PUBLIC -Dbitprim_EXPORTS)
 
@@ -267,18 +352,21 @@ _group_sources(bitprim-node-cint "${CMAKE_CURRENT_LIST_DIR}")
 #==============================================================================
 
 
-#add_executable(test-console-twos
-#        console/main.c)
+if (WITH_CONSOLE_NODE_CINT)
+  #add_executable(test-console-twos
+  #        console/main.c)
 
-add_executable(test_console
-        console/main.cpp)
+  add_executable(test_console
+          console/main.cpp)
 
-target_link_libraries(test_console bitprim-node-cint)
+  target_link_libraries(test_console bitprim-node-cint)
 
-set_target_properties(
-        test_console PROPERTIES
-        FOLDER "node"
-        OUTPUT_NAME test_console)
+  set_target_properties(
+          test_console PROPERTIES
+          FOLDER "node"
+          OUTPUT_NAME test_console)
+endif()
+
 
 
 
@@ -334,21 +422,47 @@ set_target_properties(
 
 # Install
 #==============================================================================
+#install(TARGETS bitprim-node-cint
+#        EXPORT bitprim-node-cint
+#        ARCHIVE DESTINATION lib
+#        LIBRARY DESTINATION lib
+#)
+
+
 install(TARGETS bitprim-node-cint
         EXPORT bitprim-node-cint
-        ARCHIVE DESTINATION lib
-        LIBRARY DESTINATION lib
-)
+        LIBRARY DESTINATION "lib"
+        ARCHIVE DESTINATION "lib"
+        RUNTIME DESTINATION "lib"
+        COMPONENT library
+        )
 
 
 set(_bitprim_headers
-        # include_bitcoin_HEADERS =
-        include/bitcoin/node.hpp
-        # include_bitcoin_node_HEADERS =
-        include/bitprim/nodecint/node.h
-        include/bitprim/nodecint/executor_c.h
-        include/bitprim/nodecint/executor.hpp
-        include/bitprim/nodecint/parser.hpp
+        bitprim/nodecint/executor_c.h
+        bitprim/nodecint/primitives.h
+        bitprim/nodecint/version.h
+        bitprim/nodecint/visibility.h
+        bitprim/nodecint/chain/block.h
+        bitprim/nodecint/chain/chain.h
+        bitprim/nodecint/chain/compact_block.h
+        bitprim/nodecint/chain/header.h
+        bitprim/nodecint/chain/history_compact.h
+        bitprim/nodecint/chain/history_compact_list.h
+        bitprim/nodecint/chain/stealth_compact.h
+        bitprim/nodecint/chain/stealth_compact_list.h
+        bitprim/nodecint/chain/input.h
+        bitprim/nodecint/chain/merkle_block.h
+        bitprim/nodecint/chain/output.h
+        bitprim/nodecint/chain/output_point.h
+        bitprim/nodecint/chain/payment_address.h
+        bitprim/nodecint/chain/point.h
+        bitprim/nodecint/chain/point_list.h
+        bitprim/nodecint/chain/script.h
+        bitprim/nodecint/chain/transaction.h
+        bitprim/nodecint/wallet/wallet.h
+        bitprim/nodecint/wallet/word_list.h
+        bitprim/nodecint/binary.h
 )
 
 foreach (_header ${_bitprim_headers})

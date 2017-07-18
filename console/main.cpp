@@ -33,13 +33,17 @@
 void stealth_fetch_handler(int error, stealth_compact_list_t history_list) {
      printf("C callback (stealth_fetch_handler) called\n");
 
-	 //auto count = history_compact_list_count(history_list);
-	 //printf("history_fetch_handler count: %d\n", count);
+	 auto count = history_compact_list_count(history_list);
+	 printf("history_fetch_handler count: %zu\n", count);
+
 
 	 //history_compact_list_destruct(history_list);
 }
 
-/*binary_t = void**/
+
+void last_height_fetch_handler(int error, size_t h) {
+	printf("last_height_fetch_handler h: %zu\n", h);
+
 
 binary_t binary_construct(char* str) {
 	std::string str_cpp(str);

@@ -17,29 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_VISIBILITY_H_
-#define BITPRIM_NODECINT_VISIBILITY_H_
+#include <bitprim/nodecint/chain/point_list.h>
+#include <bitcoin/bitcoin/chain/point.hpp>
 
-#if defined(_WIN32) || defined(__CYGWIN__)
-  #ifdef bitprim_EXPORTS
-    #ifdef __GNUC__
-      #define BITPRIM_EXPORT __attribute__ ((dllexport))
-    #else
-      #define BITPRIM_EXPORT __declspec(dllexport)
-    #endif
-  #else
-    #ifdef __GNUC__
-      #define BITPRIM_EXPORT __attribute__ ((dllimport))
-    #else
-      #define BITPRIM_EXPORT __declspec(dllimport)
-    #endif
-  #endif
-#else
-  #if __GNUC__ >= 4
-    #define BITPRIM_EXPORT __attribute__ ((visibility ("default")))
-  #else
-    #define BITPRIM_EXPORT
-  #endif
-#endif
+std::vector<libbitcoin::chain::point> const& point_list_const_cpp(point_list_t point_list) {
+    return *static_cast<std::vector<libbitcoin::chain::point> const*>(point_list);
+}
 
-#endif /* BITPRIM_NODECINT_VISIBILITY_H_ */
+std::vector<libbitcoin::chain::point>& point_list_cpp(point_list_t point_list) {
+    return *static_cast<std::vector<libbitcoin::chain::point>*>(point_list);
+}
+
+point_t point_list_nth(point_list_t point_list, size_t n){
+    auto& point_n = point_list_cpp(point_list)[n];
+    return &point_n;
+}
+
+size_t point_list_count(point_list_t point_list){
+    return point_list_const_cpp(point_list).size();
+}
+
+void point_list_destruct(point_list_t point_list){
+    delete &point_list_cpp(point_list);
+}

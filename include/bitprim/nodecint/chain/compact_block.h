@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_EXECUTOR_H_
-#define BITPRIM_NODECINT_EXECUTOR_H_
+#ifndef BITPRIM_NODECINT_COMPACT_BLOCK_H
+#define BITPRIM_NODECINT_COMPACT_BLOCK_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -30,47 +30,34 @@
 extern "C" {
 #endif
 
+//TODO Dario check how to map compact_block::short_ids()
 
 BITPRIM_EXPORT
-executor_t executor_construct(char const* path, FILE* sout, FILE* serr);
+header_t compact_block_header(compact_block_t block);
 
 BITPRIM_EXPORT
-executor_t executor_construct_fd(char const* path, int sout_fd, int serr_fd);
-
-
-#if defined(_WIN32)
+int /*bool*/ compact_block_is_valid(compact_block_t block);
 
 BITPRIM_EXPORT
-executor_t executor_construct_handles(char const* path, void* sout, void* serr);
-
-#endif /* defined(_WIN32) */
-
-
+size_t compact_block_serialized_size(compact_block_t block, uint32_t version);
 
 BITPRIM_EXPORT
-void executor_destruct(executor_t exec);
+size_t compact_block_transaction_count(compact_block_t block);
 
 BITPRIM_EXPORT
-void executor_run(executor_t exec, void* context, run_handler_t handler);
+transaction_t compact_block_transaction_nth(compact_block_t block, size_t n);
 
 BITPRIM_EXPORT
-int executor_run_wait(executor_t exec);
-
-//BITPRIM_EXPORT
-//int executor_run_wait(executor_t exec, run_handler_t handler);
+uint64_t compact_block_nonce(compact_block_t block);
 
 BITPRIM_EXPORT
-int executor_initchain(executor_t exec);
+void compact_block_destruct(compact_block_t block);
 
 BITPRIM_EXPORT
-void executor_stop(executor_t exec);
-
-BITPRIM_EXPORT
-chain_t executor_get_chain(executor_t exec);
-
+void compact_block_reset(compact_block_t block);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_EXECUTOR_H_ */
+#endif //BITPRIM_NODECINT_COMPACT_BLOCK_H

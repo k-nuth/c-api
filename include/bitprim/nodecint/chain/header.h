@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_EXECUTOR_H_
-#define BITPRIM_NODECINT_EXECUTOR_H_
+#ifndef BITPRIM_NODECINT_HEADER_H_
+#define BITPRIM_NODECINT_HEADER_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -30,47 +30,47 @@
 extern "C" {
 #endif
 
+BITPRIM_EXPORT
+void header_destruct(header_t header);
 
 BITPRIM_EXPORT
-executor_t executor_construct(char const* path, FILE* sout, FILE* serr);
+int header_is_valid(header_t header);
 
 BITPRIM_EXPORT
-executor_t executor_construct_fd(char const* path, int sout_fd, int serr_fd);
-
-
-#if defined(_WIN32)
+uint32_t header_version(header_t header);
 
 BITPRIM_EXPORT
-executor_t executor_construct_handles(char const* path, void* sout, void* serr);
-
-#endif /* defined(_WIN32) */
-
-
+void header_set_version(header_t header, uint32_t version);
 
 BITPRIM_EXPORT
-void executor_destruct(executor_t exec);
+uint32_t header_timestamp(header_t header);
 
 BITPRIM_EXPORT
-void executor_run(executor_t exec, void* context, run_handler_t handler);
+void header_set_timestamp(header_t header, uint32_t timestamp);
 
 BITPRIM_EXPORT
-int executor_run_wait(executor_t exec);
-
-//BITPRIM_EXPORT
-//int executor_run_wait(executor_t exec, run_handler_t handler);
+uint32_t header_bits(header_t header);
 
 BITPRIM_EXPORT
-int executor_initchain(executor_t exec);
+void header_set_bits(header_t header, uint32_t bits);
 
 BITPRIM_EXPORT
-void executor_stop(executor_t exec);
+uint32_t header_nonce(header_t header);
 
 BITPRIM_EXPORT
-chain_t executor_get_chain(executor_t exec);
+void header_set_nonce(header_t header, uint32_t nonce);
 
+BITPRIM_EXPORT
+hash_t header_previous_block_hash(header_t header);
+
+BITPRIM_EXPORT
+hash_t header_merkle(header_t header);
+
+BITPRIM_EXPORT
+hash_t header_hash(header_t header);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_EXECUTOR_H_ */
+#endif /* BITPRIM_NODECINT_HEADER_H_ */

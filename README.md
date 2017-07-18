@@ -1,4 +1,4 @@
-<!-- [![Build Status](https://travis-ci.org/bitprim/bitprim-node-cint.svg?branch=master)](https://travis-ci.org/bitprim/bitprim-node-cint) -->
+[![Build Status](https://travis-ci.org/bitprim/bitprim-node-cint.svg?branch=master)](https://travis-ci.org/bitprim/bitprim-node-cint) [![Appveyor Status](https://ci.appveyor.com/api/projects/status/github/bitprim/bitprim-node-cint?branch=master&svg=true)](https://ci.appveyor.com/project/hanchon/bitprim-node-cint?branch=master)
 
 # Bitprim Node C Interface
 

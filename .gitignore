@@ -22,3 +22,6 @@ node_console/debug.log
 node_console/error.log
 node_console/bitprim-node-cint.dll
 node_console/node_modules/
+
+docs/html
+docs/latex

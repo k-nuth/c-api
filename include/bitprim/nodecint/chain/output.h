@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_EXECUTOR_H_
-#define BITPRIM_NODECINT_EXECUTOR_H_
+#ifndef BITPRIM_NODECINT_OUTPUT_H_
+#define BITPRIM_NODECINT_OUTPUT_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -30,47 +30,33 @@
 extern "C" {
 #endif
 
+BITPRIM_EXPORT
+void output_destruct(output_t output);
 
 BITPRIM_EXPORT
-executor_t executor_construct(char const* path, FILE* sout, FILE* serr);
+int output_is_valid(output_t output);
 
 BITPRIM_EXPORT
-executor_t executor_construct_fd(char const* path, int sout_fd, int serr_fd);
-
-
-#if defined(_WIN32)
+size_t output_serialized_size(output_t output, int /*bool*/ wire /*= true*/);
 
 BITPRIM_EXPORT
-executor_t executor_construct_handles(char const* path, void* sout, void* serr);
-
-#endif /* defined(_WIN32) */
-
-
+uint64_t output_value(output_t output);
 
 BITPRIM_EXPORT
-void executor_destruct(executor_t exec);
+size_t output_signature_operations(output_t output);
 
 BITPRIM_EXPORT
-void executor_run(executor_t exec, void* context, run_handler_t handler);
+script_t output_script(output_t output);
 
 BITPRIM_EXPORT
-int executor_run_wait(executor_t exec);
-
-//BITPRIM_EXPORT
-//int executor_run_wait(executor_t exec, run_handler_t handler);
+hash_t output_get_hash(output_t output);
 
 BITPRIM_EXPORT
-int executor_initchain(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_stop(executor_t exec);
-
-BITPRIM_EXPORT
-chain_t executor_get_chain(executor_t exec);
+uint32_t output_get_index(output_t output);
 
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_EXECUTOR_H_ */
+#endif /* BITPRIM_NODECINT_OUTPUT_H_ */

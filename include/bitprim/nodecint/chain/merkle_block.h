@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_EXECUTOR_H_
-#define BITPRIM_NODECINT_EXECUTOR_H_
+#ifndef BITPRIM_NODECINT_MERKLE_BLOCK_H_
+#define BITPRIM_NODECINT_MERKLE_BLOCK_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -30,47 +30,32 @@
 extern "C" {
 #endif
 
+BITPRIM_EXPORT
+hash_t merkle_block_hash_nth(merkle_block_t block, size_t n);
 
 BITPRIM_EXPORT
-executor_t executor_construct(char const* path, FILE* sout, FILE* serr);
+header_t merkle_block_header(merkle_block_t block);
 
 BITPRIM_EXPORT
-executor_t executor_construct_fd(char const* path, int sout_fd, int serr_fd);
-
-
-#if defined(_WIN32)
+int merkle_block_is_valid(merkle_block_t block);
 
 BITPRIM_EXPORT
-executor_t executor_construct_handles(char const* path, void* sout, void* serr);
-
-#endif /* defined(_WIN32) */
-
-
+size_t merkle_block_hash_count(merkle_block_t block);
 
 BITPRIM_EXPORT
-void executor_destruct(executor_t exec);
+size_t merkle_block_serialized_size(merkle_block_t block, uint32_t version);
 
 BITPRIM_EXPORT
-void executor_run(executor_t exec, void* context, run_handler_t handler);
+size_t merkle_block_total_transaction_count(merkle_block_t block);
 
 BITPRIM_EXPORT
-int executor_run_wait(executor_t exec);
-
-//BITPRIM_EXPORT
-//int executor_run_wait(executor_t exec, run_handler_t handler);
+void merkle_block_destruct(merkle_block_t block);
 
 BITPRIM_EXPORT
-int executor_initchain(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_stop(executor_t exec);
-
-BITPRIM_EXPORT
-chain_t executor_get_chain(executor_t exec);
-
+void merkle_block_reset(merkle_block_t block);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_EXECUTOR_H_ */
+#endif /* BITPRIM_NODECINT_MERKLE_BLOCK_H_ */

@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_PARSER_HPP_
-#define BITPRIM_NODE_CINT_PARSER_HPP_
+#ifndef BITPRIM_NODECINT_PARSER_HPP_
+#define BITPRIM_NODECINT_PARSER_HPP_
 
 #include <ostream>
 #include <bitcoin/bitcoin.hpp>
@@ -65,4 +65,4 @@ public:
 
 }} // namespace bitprim::nodecint
 
-#endif /* BITPRIM_NODE_CINT_PARSER_HPP_ */
+#endif /* BITPRIM_NODECINT_PARSER_HPP_ */

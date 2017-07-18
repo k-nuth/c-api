@@ -17,11 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_EXECUTOR_H_
-#define BITPRIM_NODECINT_EXECUTOR_H_
-
-#include <stdio.h>
-#include <stdint.h>
+#ifndef BITPRIM_NODECINT_WALLET_H_
+#define BITPRIM_NODECINT_WALLET_H_
 
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
@@ -30,47 +27,14 @@
 extern "C" {
 #endif
 
+BITPRIM_EXPORT
+long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics);
 
 BITPRIM_EXPORT
-executor_t executor_construct(char const* path, FILE* sout, FILE* serr);
-
-BITPRIM_EXPORT
-executor_t executor_construct_fd(char const* path, int sout_fd, int serr_fd);
-
-
-#if defined(_WIN32)
-
-BITPRIM_EXPORT
-executor_t executor_construct_handles(char const* path, void* sout, void* serr);
-
-#endif /* defined(_WIN32) */
-
-
-
-BITPRIM_EXPORT
-void executor_destruct(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_run(executor_t exec, void* context, run_handler_t handler);
-
-BITPRIM_EXPORT
-int executor_run_wait(executor_t exec);
-
-//BITPRIM_EXPORT
-//int executor_run_wait(executor_t exec, run_handler_t handler);
-
-BITPRIM_EXPORT
-int executor_initchain(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_stop(executor_t exec);
-
-BITPRIM_EXPORT
-chain_t executor_get_chain(executor_t exec);
-
+void long_hash_destroy(long_hash_t ptr);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_EXECUTOR_H_ */
+#endif //BITPRIM_NODECINT_WALLET_H_
