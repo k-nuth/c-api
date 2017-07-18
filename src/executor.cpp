@@ -96,7 +96,9 @@ executor::executor(libbitcoin::node::configuration config, std::ostream& output,
 
 // Emit to the log.
 bool executor::do_initchain() {
+//    printf("executor::do_initchain() - 1\n");
     initialize_output();
+//    printf("executor::do_initchain() - 2\n");
 
     error_code ec;
     auto const& directory = config_.database.directory;
@@ -264,8 +266,14 @@ void executor::stop() {
 
 // Set up logging.
 void executor::initialize_output() {
+//    printf("executor::initialize_output() - 1\n");
+
     auto const header = format(BN_LOG_HEADER) % libbitcoin::local_time();
+//    printf("executor::initialize_output() - 2\n");
+
     LOG_DEBUG(LOG_NODE) << header;
+//    printf("executor::initialize_output() - 3\n");
+
     LOG_INFO(LOG_NODE) << header;
     LOG_WARNING(LOG_NODE) << header;
     LOG_ERROR(LOG_NODE) << header;

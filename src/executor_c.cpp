@@ -143,31 +143,48 @@ void executor_destruct(executor_t exec) {
 }
 
 int executor_initchain(executor_t exec) {
-    return exec->actual.do_initchain();
+    //TODO: return error_t to inform error in detail
+    try {
+        return exec->actual.do_initchain();
+//    } catch (const std::exception& e) {
+//        return 0;
+    } catch (...) {
+        return 0;
+    }
 }
 
 void executor_run(executor_t exec, void* ctx, run_handler_t handler) {
-    exec->actual.run([exec, ctx, handler](std::error_code const& ec) {
-		if (handler != nullptr) {
-			handler(exec, ctx, ec.value());
-		}
-    });
+    try {
+        exec->actual.run([exec, ctx, handler](std::error_code const& ec) {
+            if (handler != nullptr) {
+                handler(exec, ctx, ec.value());
+            }
+        });
+    } catch (...) {
+        handler(exec, ctx, 1); //TODO: return error_t to inform errors in detail
+    }
 }
 
 int executor_run_wait(executor_t exec) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
 
     int res;
-	bool run_res = exec->actual.run([&](std::error_code const& ec) {
-        res = ec.value();
-        latch.count_down();
-    });
+    bool run_res = false;
+
+    try {
+        run_res = exec->actual.run([&](std::error_code const& ec) {
+            res = ec.value();
+            latch.count_down();
+        });
+    } catch (...) {
+        run_res = false;
+    }
 
     if (run_res) {
         latch.count_down_and_wait();
         return res;
     } else {
-        return 1;
+        return 1; //TODO: return error_t to inform errors in detail
     }
 }
 
