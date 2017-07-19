@@ -21,6 +21,8 @@
 #include <bitcoin/bitcoin/message/block.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
 
+namespace {
+
 libbitcoin::message::block const& block_const_cpp(block_t block) {
     return *static_cast<libbitcoin::message::block const*>(block);
 }
@@ -28,6 +30,8 @@ libbitcoin::message::block const& block_const_cpp(block_t block) {
 libbitcoin::message::block& block_cpp(block_t block) {
     return *static_cast<libbitcoin::message::block*>(block);
 }
+
+} /* end of anonymous namespace */
 
 extern "C" {
 

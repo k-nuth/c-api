@@ -48,6 +48,7 @@ typedef void* compact_block_t;
 typedef void* header_t;
 typedef void* history_compact_t;
 typedef void* history_compact_list_t;
+typedef void* input_point_t;
 typedef void* input_t;
 typedef void* merkle_block_t;
 typedef void* script_t;
@@ -75,7 +76,7 @@ typedef void (*history_fetch_handler_t)(chain_t chain, void* context, int error,
 typedef void (*last_height_fetch_handler_t)(chain_t chain, void* context, int error, uint64_t /*size_t*/ h);
 typedef void (*merkle_block_fetch_handler_t)(chain_t chain, void* context, int error, merkle_block_t block, uint64_t /*size_t*/ h);
 typedef void (*output_fetch_handler_t)(chain_t chain, void* context, int error, output_t output);
-typedef void (*spend_fetch_handler_t)(chain_t chain, void* context, int error, input_t output);
+typedef void (*spend_fetch_handler_t)(chain_t chain, void* context, int error, input_point_t input_point);
 typedef void (*transaction_fetch_handler_t)(chain_t chain, void* context, int error, transaction_t transaction, uint64_t /*size_t*/ h, uint64_t /*size_t*/ i);
 typedef void (*transaction_index_fetch_handler_t)(chain_t chain, void* context, int error, uint64_t /*size_t*/ position, uint64_t /*size_t*/ height);
 typedef void (*validate_tx_handler_t)(chain_t chain, void* context, int error, char* message);
