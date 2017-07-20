@@ -20,9 +20,9 @@
 #include <stdio.h>
 
 #include <bitprim/nodecint/executor_c.h>
-#include <bitprim/nodecint/payment_address.h>
-#include <bitprim/nodecint/history_compact_list.h>
-#include <bitprim/nodecint/history_compact.h>
+#include <bitprim/nodecint/chain/payment_address.h>
+#include <bitprim/nodecint/chain/history_compact_list.h>
+#include <bitprim/nodecint/chain/history_compact.h>
 #include <bitcoin/bitcoin/message/transaction.hpp>
 
 
@@ -34,7 +34,7 @@ void history_fetch_handler(int error, history_compact_list_t history_list) {
      printf("C callback (history_fetch_handler) called\n");
 
 	 auto count = history_compact_list_count(history_list);
-	 printf("history_fetch_handler count: %zu\n", count);
+	 printf("history_fetch_handler count: %llu\n", count);
 
 	 history_compact_list_destruct(history_list);
 }
