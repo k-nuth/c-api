@@ -175,7 +175,7 @@ void executor_stop(executor_t exec) {
 }
 
 chain_t executor_get_chain(executor_t exec) {
-    return &exec->actual.node().chain();
+    return &(exec->actual.node().chain());
 
 }
 
