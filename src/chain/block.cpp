@@ -39,7 +39,7 @@ void block_destruct(block_t block) {
     delete &block_cpp(block);
 }
 
-int block_is_valid(block_t block) {
+int /*bool*/ block_is_valid(block_t block) {
     return block_const_cpp(block).is_valid();
 }
 

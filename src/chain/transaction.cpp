@@ -20,6 +20,8 @@
 #include <bitprim/nodecint/chain/transaction.h>
 #include <bitcoin/bitcoin/message/transaction.hpp>
 
+namespace {
+
 libbitcoin::message::transaction const& tx_const_cpp(transaction_t transaction) {
     return *static_cast<libbitcoin::message::transaction const*>(transaction);
 }
@@ -28,6 +30,8 @@ libbitcoin::message::transaction& tx_cpp(transaction_t transaction) {
     return *static_cast<libbitcoin::message::transaction*>(transaction);
 }
 
+} /* end of anonymous namespace */
+
 extern "C" {
 
 void transaction_destruct(transaction_t transaction) {
@@ -35,7 +39,7 @@ void transaction_destruct(transaction_t transaction) {
     delete transaction_cpp;
 }
 
-int transaction_is_valid(transaction_t transaction) {
+int /*bool*/ transaction_is_valid(transaction_t transaction) {
     return tx_const_cpp(transaction).is_valid();
 }
 
