@@ -77,15 +77,27 @@ BITPRIM_EXPORT
 void chain_fetch_merkle_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, merkle_block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
+int chain_get_merkle_block_by_height(chain_t chain, uint64_t /*size_t*/ height, merkle_block_t* out_block, uint64_t /*size_t*/* out_height);
+
+BITPRIM_EXPORT
 void chain_fetch_merkle_block_by_hash(chain_t chain, void* ctx, hash_t hash, merkle_block_fetch_handler_t handler);
+
+BITPRIM_EXPORT
+int chain_get_merkle_block_by_hash(chain_t chain, hash_t hash, merkle_block_t* out_block, uint64_t /*size_t*/* out_height);
+
 
 // Compact Block ---------------------------------------------------------------------
 BITPRIM_EXPORT
 void chain_fetch_compact_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, compact_block_fetch_handler_t handler);
 
 BITPRIM_EXPORT
+int chain_get_compact_block_by_height(chain_t chain, uint64_t /*size_t*/ height, compact_block_t* out_block, uint64_t /*size_t*/* out_height);
+
+BITPRIM_EXPORT
 void chain_fetch_compact_block_by_hash(chain_t chain, void* ctx, hash_t hash, compact_block_fetch_handler_t handler);
 
+BITPRIM_EXPORT
+int chain_get_compact_block_by_hash(chain_t chain, hash_t hash, compact_block_t* out_block, uint64_t /*size_t*/* out_height);
 
 // Transaction ---------------------------------------------------------------------
 BITPRIM_EXPORT
@@ -96,6 +108,9 @@ int chain_get_transaction(chain_t chain, hash_t hash, int require_confirmed, tra
 
 BITPRIM_EXPORT
 void chain_fetch_transaction_position(chain_t chain, void* ctx, hash_t hash, int require_confirmed, transaction_index_fetch_handler_t handler);
+
+BITPRIM_EXPORT
+int chain_get_transaction_position(chain_t chain, hash_t hash, int require_confirmed, uint64_t /*size_t*/* out_position, uint64_t /*size_t*/* out_height);
 
 
 // Output  ---------------------------------------------------------------------
@@ -119,6 +134,24 @@ int chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_
 
 //BITPRIM_EXPORT
 //void chain_fetch_stealth(const binary& filter, uint64_t /*size_t*/ from_height, stealth_fetch_handler handler);
+
+
+
+
+// Organizers.
+//-------------------------------------------------------------------------
+
+//virtual void organize(block_const_ptr block, result_handler handler) = 0;
+//virtual void organize(transaction_const_ptr tx, result_handler handler) = 0;
+
+BITPRIM_EXPORT
+void chain_organize_block(chain_t chain, void* ctx, block_t block, result_handler_t handler);
+
+BITPRIM_EXPORT
+void chain_organize_transaction(chain_t chain, void* ctx, transaction_t transaction, result_handler_t handler);
+
+
+
 
 
 // ------------------------------------------------

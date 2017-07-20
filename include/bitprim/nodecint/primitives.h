@@ -81,6 +81,9 @@ typedef void (*transaction_fetch_handler_t)(chain_t chain, void* context, int er
 typedef void (*transaction_index_fetch_handler_t)(chain_t chain, void* context, int error, uint64_t /*size_t*/ position, uint64_t /*size_t*/ height);
 typedef void (*validate_tx_handler_t)(chain_t chain, void* context, int error, char* message);
 
+typedef void (*result_handler_t)(chain_t chain, void* context, int error);
+
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

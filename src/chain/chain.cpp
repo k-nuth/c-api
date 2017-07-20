@@ -1,21 +1,21 @@
 /**
- * Copyright (c) 2017 Bitprim developers (see AUTHORS)
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+* Copyright (c) 2017 Bitprim developers (see AUTHORS)
+*
+* This file is part of Bitprim.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Affero General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Affero General Public License for more details.
+*
+* You should have received a copy of the GNU Affero General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include <bitprim/nodecint/chain/chain.h>
 #include <cstdio>
@@ -44,6 +44,13 @@ libbitcoin::message::transaction::const_ptr tx_shared(transaction_t tx) {
     auto const& tx_ref = *static_cast<libbitcoin::message::transaction const*>(tx);
     auto* tx_new = new libbitcoin::message::transaction(tx_ref);
     return libbitcoin::message::transaction::const_ptr(tx_new);
+}
+
+inline
+libbitcoin::message::block::const_ptr block_shared(block_t block) {
+    auto const& block_ref = *static_cast<libbitcoin::message::block const*>(block);
+    auto* block_new = new libbitcoin::message::block(block_ref);
+    return libbitcoin::message::block::const_ptr(block_new);
 }
 
 inline
@@ -494,8 +501,28 @@ int chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_
 
 
 
+// Organizers.
+//-------------------------------------------------------------------------
+
+//virtual void organize(block_const_ptr block, result_handler handler) = 0;
+//virtual void organize(transaction_const_ptr tx, result_handler handler) = 0;
+
+void chain_organize_block(chain_t chain, void* ctx, block_t block, result_handler_t handler) {
+    safe_chain(chain).organize(block_shared(block), [chain, ctx, handler](std::error_code const& ec) {
+        handler(chain, ctx, ec.value());
+    });
+}
+
+void chain_organize_transaction(chain_t chain, void* ctx, transaction_t transaction, result_handler_t handler) {
+    safe_chain(chain).organize(tx_shared(transaction), [chain, ctx, handler](std::error_code const& ec) {
+        handler(chain, ctx, ec.value());
+    });
+}
 
 
+
+
+//-------------------------------------------------------------------------
 
 
 
