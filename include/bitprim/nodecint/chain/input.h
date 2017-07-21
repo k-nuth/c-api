@@ -26,33 +26,51 @@
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
 
+#include <bitcoin/bitcoin/chain/input.hpp>
+
+
+libbitcoin::chain::input const& chain_input_const_cpp(input_t input);
+
+libbitcoin::chain::input& chain_input_cpp(input_t input);
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+
+
+//input();
 BITPRIM_EXPORT
-void input_destruct(input_t input);
+input_t chain_input_construct_default();
+
+//input(output_point&& previous_output, chain::script&& script, uint32_t sequence);
+//input(const output_point& previous_output, const chain::script& script, uint32_t sequence);
+BITPRIM_EXPORT
+input_t chain_input_construct(output_point_t previous_output, script_t script, uint32_t sequence);
 
 BITPRIM_EXPORT
-int input_is_valid(input_t input);
+void chain_input_destruct(input_t input);
 
 BITPRIM_EXPORT
-int /*bool*/ input_is_final(input_t input);
+int chain_input_is_valid(input_t input);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ input_serialized_size(input_t input, int wire /* = true*/);
+int /*bool*/ chain_input_is_final(input_t input);
 
 BITPRIM_EXPORT
-uint32_t input_sequence(input_t input);
+uint64_t /*size_t*/ chain_input_serialized_size(input_t input, int /*bool*/ wire /* = true*/);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ input_signature_operations(input_t input, int /*bool*/ bip16_active);
+uint32_t chain_input_sequence(input_t input);
 
 BITPRIM_EXPORT
-script_t input_script(input_t input);
+uint64_t /*size_t*/ chain_input_signature_operations(input_t input, int /*bool*/ bip16_active);
 
 BITPRIM_EXPORT
-output_point_t input_previous_output(input_t input);
+script_t chain_input_script(input_t input);
+
+BITPRIM_EXPORT
+output_point_t chain_input_previous_output(input_t input);
 
 #ifdef __cplusplus
 } // extern "C"

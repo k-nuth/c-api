@@ -26,9 +26,28 @@
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
 
+#include <bitcoin/bitcoin/chain/output.hpp>
+
+
+//TODO: rename "output_..." by "chain_output_..."
+
+libbitcoin::chain::output const& chain_output_const_cpp(output_t output);
+
+libbitcoin::chain::output& chain_output_cpp(output_t output);
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+BITPRIM_EXPORT
+output_t output_construct_default();
+
+//output(uint64_t value, chain::script&& script);
+//output(uint64_t value, const chain::script& script);
+BITPRIM_EXPORT
+output_t output_construct(uint64_t value, script_t script);
+
 
 BITPRIM_EXPORT
 void output_destruct(output_t output);

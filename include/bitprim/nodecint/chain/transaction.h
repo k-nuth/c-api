@@ -30,6 +30,15 @@
 extern "C" {
 #endif
 
+//transaction();
+BITPRIM_EXPORT
+transaction_t transaction_construct_default();
+
+//transaction(uint32_t version, uint32_t locktime, chain::input::list&& inputs, chain::output::list&& outputs);
+//transaction(uint32_t version, uint32_t locktime, const chain::input::list& inputs, const chain::output::list& outputs);
+BITPRIM_EXPORT
+transaction_t transaction_construct(uint32_t version, uint32_t locktime, input_list_t inputs, output_list_t outputs);
+
 BITPRIM_EXPORT
 void transaction_destruct(transaction_t transaction);
 
@@ -97,19 +106,29 @@ int /*bool*/ transaction_is_final(transaction_t transaction, uint64_t /*size_t*/
 BITPRIM_EXPORT
 int /*bool*/ transaction_is_locktime_conflict(transaction_t transaction);
 
+
+
+//BITPRIM_EXPORT
+//uint64_t /*size_t*/ transaction_output_count(transaction_t transaction);
+//
+//BITPRIM_EXPORT
+//transaction_t transaction_output_nth(transaction_t transaction, uint64_t /*size_t*/ n);
+
+
 BITPRIM_EXPORT
-uint64_t /*size_t*/ transaction_output_count(transaction_t transaction);
+output_list_t transaction_outputs(transaction_t transaction);
+
+
+
+
+//BITPRIM_EXPORT
+//uint64_t /*size_t*/ transaction_input_count(transaction_t transaction);
+//
+//BITPRIM_EXPORT
+//transaction_t transaction_input_nth(transaction_t transaction, uint64_t /*size_t*/ n);
 
 BITPRIM_EXPORT
-transaction_t transaction_output_nth(transaction_t transaction, uint64_t /*size_t*/ n);
-
-BITPRIM_EXPORT
-uint64_t /*size_t*/ transaction_input_count(transaction_t transaction);
-
-BITPRIM_EXPORT
-transaction_t transaction_input_nth(transaction_t transaction, uint64_t /*size_t*/ n);
-
-
+input_list_t transaction_inputs(transaction_t transaction);
 
 #ifdef __cplusplus
 } // extern "C"

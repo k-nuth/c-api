@@ -18,7 +18,11 @@
  */
 
 #include <bitprim/nodecint/chain/transaction.h>
+
+#include <bitprim/nodecint/chain/output_list.h>
+#include <bitprim/nodecint/chain/input_list.h>
 #include <bitcoin/bitcoin/message/transaction.hpp>
+
 
 namespace {
 
@@ -33,6 +37,20 @@ libbitcoin::message::transaction& tx_cpp(transaction_t transaction) {
 } /* end of anonymous namespace */
 
 extern "C" {
+
+
+//transaction();
+transaction_t transaction_construct_default() {
+    return new libbitcoin::message::transaction();
+}
+
+//transaction(uint32_t version, uint32_t locktime, chain::input::list&& inputs, chain::output::list&& outputs);
+//transaction(uint32_t version, uint32_t locktime, const chain::input::list& inputs, const chain::output::list& outputs);
+transaction_t transaction_construct(uint32_t version, uint32_t locktime, input_list_t inputs, output_list_t outputs) {
+    return new libbitcoin::message::transaction(version, locktime,
+                                                chain_input_list_const_cpp(inputs),
+                                                chain_output_list_const_cpp(outputs));
+}
 
 void transaction_destruct(transaction_t transaction) {
     auto transaction_cpp = static_cast<libbitcoin::message::transaction*>(transaction);
@@ -131,31 +149,45 @@ int /*bool*/ transaction_is_locktime_conflict(transaction_t transaction) {
 
 
 
-uint64_t /*size_t*/ transaction_output_count(transaction_t transaction) {
-    return tx_const_cpp(transaction).outputs().size();
-}
+//uint64_t /*size_t*/ transaction_output_count(transaction_t transaction) {
+//    return tx_const_cpp(transaction).outputs().size();
+//}
+//
+//transaction_t transaction_output_nth(transaction_t transaction, uint64_t /*size_t*/ n) {
+//    //precondition: n >=0 && n < outputs().size()
+//
+//    auto* tx = &tx_cpp(transaction);
+//    auto& out_n = tx->outputs()[n];
+//    return &out_n;
+//}
 
-transaction_t transaction_output_nth(transaction_t transaction, uint64_t /*size_t*/ n) {
-    //precondition: n >=0 && n < outputs().size()
 
-    auto* tx = &tx_cpp(transaction);
-    auto& out_n = tx->outputs()[n];
-    return &out_n;
-}
-
-uint64_t /*size_t*/ transaction_input_count(transaction_t transaction) {
-    return tx_const_cpp(transaction).inputs().size();
-}
-
-transaction_t transaction_input_nth(transaction_t transaction, uint64_t /*size_t*/ n) {
-    //precondition: n >=0 && n < inputs().size()
-
-    auto* tx = &tx_cpp(transaction);
-    auto& in_n = tx->inputs()[n];
-    return &in_n;
+output_list_t transaction_outputs(transaction_t transaction) {
+    auto& tx = tx_cpp(transaction);
+    return chain_output_list_construct_from_cpp(tx.outputs()); //TODO: transaction::outputs() is deprecated... check how to do it better...
 }
 
 
+
+
+
+//uint64_t /*size_t*/ transaction_input_count(transaction_t transaction) {
+//    return tx_const_cpp(transaction).inputs().size();
+//}
+//
+//transaction_t transaction_input_nth(transaction_t transaction, uint64_t /*size_t*/ n) {
+//    //precondition: n >=0 && n < inputs().size()
+//
+//    auto* tx = &tx_cpp(transaction);
+//    auto& in_n = tx->inputs()[n];
+//    return &in_n;
+//}
+
+
+input_list_t transaction_inputs(transaction_t transaction) {
+    auto& tx = tx_cpp(transaction);
+    return chain_input_list_construct_from_cpp(tx.inputs()); //TODO: transaction::inputs() is deprecated... check how to do it better...
+}
 
 
 

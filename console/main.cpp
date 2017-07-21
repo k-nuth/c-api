@@ -23,6 +23,13 @@
 #include <bitprim/nodecint/chain/payment_address.h>
 #include <bitprim/nodecint/chain/history_compact_list.h>
 #include <bitprim/nodecint/chain/history_compact.h>
+
+#include <bitprim/nodecint/chain/transaction.h>
+#include <bitprim/nodecint/chain/input_list.h>
+#include <bitprim/nodecint/chain/input.h>
+#include <bitprim/nodecint/chain/output_list.h>
+#include <bitprim/nodecint/chain/output.h>
+
 #include <bitcoin/bitcoin/message/transaction.hpp>
 
 
@@ -48,7 +55,6 @@ void last_height_fetch_handler(int error, size_t h) {
 }
 
 bool waiting = true;
-
 
 libbitcoin::message::transaction const& tx_const_cpp2(transaction_t transaction) {
 	return *static_cast<libbitcoin::message::transaction const*>(transaction);
@@ -92,6 +98,28 @@ int main(int argc, char* argv[]) {
         executor_destruct(exec);
         return -1;
     }
+
+
+    auto inputs = chain_input_list_construct_default();
+
+    auto input0 = chain_input_construct_default();
+    auto input1 = chain_input_construct_default();
+    auto input2 = chain_input_construct_default();
+    chain_input_list_push_back(inputs, input0);
+    chain_input_list_push_back(inputs, input1);
+    chain_input_list_push_back(inputs, input2);
+
+
+    auto outputs = chain_output_list_construct_default();
+    auto output0 = output_construct_default();
+    auto output1 = output_construct_default();
+    auto output2 = output_construct_default();
+    chain_output_list_push_back(outputs, output0);
+    chain_output_list_push_back(outputs, output1);
+    chain_output_list_push_back(outputs, output2);
+
+
+    auto tr = transaction_construct(1, 1, inputs, outputs);
 
 
     executor_destruct(exec);

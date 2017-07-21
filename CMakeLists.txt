@@ -235,8 +235,10 @@ set(_bitprim_sources
         src/chain/history_compact.cpp
         src/chain/history_compact_list.cpp
         src/chain/input.cpp
+        src/chain/input_list.cpp
         src/chain/merkle_block.cpp
         src/chain/output.cpp
+        src/chain/output_list.cpp
         src/chain/output_point.cpp
         src/chain/payment_address.cpp
         src/chain/point.cpp
@@ -372,8 +374,11 @@ set(_bitprim_headers
         bitprim/nodecint/chain/history_compact.h
         bitprim/nodecint/chain/history_compact_list.h
         bitprim/nodecint/chain/input.h
+        bitprim/nodecint/chain/input_list.h
+
         bitprim/nodecint/chain/merkle_block.h
         bitprim/nodecint/chain/output.h
+        bitprim/nodecint/chain/output_list.h
         bitprim/nodecint/chain/output_point.h
         bitprim/nodecint/chain/payment_address.h
         bitprim/nodecint/chain/point.h
