@@ -34,9 +34,22 @@ libbitcoin::network::p2p& p2p_cast(p2p_t p2p) {
 
 extern "C" {
 
-BITPRIM_EXPORT
 uint64_t /*size_t*/ p2p_address_count(p2p_t p2p) {
     return p2p_cast(p2p).address_count();
 }
+
+void p2p_stop(p2p_t p2p) {
+    p2p_cast(p2p).stop();
+}
+
+void p2p_close(p2p_t p2p) {
+    p2p_cast(p2p).close();
+}
+
+//virtual bool stopped() const;
+bool p2p_stopped(p2p_t p2p) {
+    return p2p_cast(p2p).stopped();
+}
+
 
 } /* extern "C" */
