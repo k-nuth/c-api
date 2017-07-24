@@ -26,6 +26,16 @@
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
 
+#include <bitcoin/bitcoin/chain/output_point.hpp>
+
+libbitcoin::chain::output_point const& output_point_const_cpp(output_point_t op);
+
+libbitcoin::chain::output_point& output_point_cpp(output_point_t op);
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 BITPRIM_EXPORT
 hash_t output_point_get_hash(output_point_t output);
@@ -38,5 +48,10 @@ uint32_t output_point_get_index(output_point_t output);
 
 BITPRIM_EXPORT
 void output_point_destruct(output_point_t output);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
+
 
 #endif /* BITPRIM_NODECINT_CHAIN_OUTPUT_POINT_H_ */

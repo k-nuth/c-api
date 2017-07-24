@@ -20,9 +20,16 @@
 #include <stdio.h>
 
 #include <bitprim/nodecint/executor_c.h>
-#include <bitprim/nodecint/payment_address.h>
-#include <bitprim/nodecint/history_compact_list.h>
-#include <bitprim/nodecint/history_compact.h>
+#include <bitprim/nodecint/chain/payment_address.h>
+#include <bitprim/nodecint/chain/history_compact_list.h>
+#include <bitprim/nodecint/chain/history_compact.h>
+
+#include <bitprim/nodecint/chain/transaction.h>
+#include <bitprim/nodecint/chain/input_list.h>
+#include <bitprim/nodecint/chain/input.h>
+#include <bitprim/nodecint/chain/output_list.h>
+#include <bitprim/nodecint/chain/output.h>
+
 #include <bitcoin/bitcoin/message/transaction.hpp>
 
 
@@ -37,7 +44,7 @@ void history_fetch_handler(int error, history_compact_list_t history_list) {
      printf("C callback (history_fetch_handler) called\n");
 
 	 auto count = history_compact_list_count(history_list);
-	 printf("history_fetch_handler count: %zu\n", count);
+	 printf("history_fetch_handler count: %llu\n", count);
 
 	 history_compact_list_destruct(history_list);
 }
@@ -51,7 +58,6 @@ void last_height_fetch_handler(int error, size_t h) {
 }
 
 bool waiting = true;
-
 
 libbitcoin::message::transaction const& tx_const_cpp2(transaction_t transaction) {
 	return *static_cast<libbitcoin::message::transaction const*>(transaction);
@@ -150,6 +156,7 @@ int main(int argc, char* argv[]) {
     printf("yyy[2]:     %d\n", yyy.hash[2]);
     printf("yyy[3]:     %d\n", yyy.hash[3]);
     printf("yyy[4]:     %d\n", yyy.hash[4]);
+
 
 }
 

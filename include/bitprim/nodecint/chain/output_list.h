@@ -17,10 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_CHAIN_OUTPUT_H_
-#define BITPRIM_NODECINT_CHAIN_OUTPUT_H_
+#ifndef BITPRIM_NODECINT_CHAIN_OUTPUT_LIST_H_
+#define BITPRIM_NODECINT_CHAIN_OUTPUT_LIST_H_
 
-#include <stdio.h>
 #include <stdint.h>
 
 #include <bitprim/nodecint/visibility.h>
@@ -29,11 +28,12 @@
 #include <bitcoin/bitcoin/chain/output.hpp>
 
 
-//TODO: rename "output_..." by "chain_output_..."
+std::vector<libbitcoin::chain::output> const& chain_output_list_const_cpp(output_list_t list);
 
-libbitcoin::chain::output const& chain_output_const_cpp(output_t output);
+std::vector<libbitcoin::chain::output>& chain_output_list_cpp(output_list_t list);
 
-libbitcoin::chain::output& chain_output_cpp(output_t output);
+//Note: output_list_t created with this function has not have to destruct it...
+output_list_t chain_output_list_construct_from_cpp(libbitcoin::chain::output::list& list);
 
 
 #ifdef __cplusplus
@@ -41,40 +41,22 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-output_t chain_output_construct_default();
-
-//output(uint64_t value, chain::script&& script);
-//output(uint64_t value, const chain::script& script);
-BITPRIM_EXPORT
-output_t chain_output_construct(uint64_t value, script_t script);
+output_list_t chain_output_list_construct_default();
 
 BITPRIM_EXPORT
-void chain_output_destruct(output_t output);
+void chain_output_list_push_back(output_list_t output_list, output_t output);
 
 BITPRIM_EXPORT
-int chain_output_is_valid(output_t output);
+void chain_output_list_destruct(output_list_t output_list);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_output_serialized_size(output_t output, int /*bool*/ wire /*= true*/);
+uint64_t /*size_t*/ chain_output_list_count(output_list_t output_list);
 
 BITPRIM_EXPORT
-uint64_t chain_output_value(output_t output);
-
-BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_output_signature_operations(output_t output);
-
-BITPRIM_EXPORT
-script_t chain_output_script(output_t output);
-
-BITPRIM_EXPORT
-hash_t chain_output_get_hash(output_t output);
-
-BITPRIM_EXPORT
-uint32_t chain_output_get_index(output_t output);
-
+output_t chain_output_list_nth(output_list_t output_list, uint64_t /*size_t*/ n);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_CHAIN_OUTPUT_H_ */
+#endif /* BITPRIM_NODECINT_CHAIN_OUTPUT_LIST_H_ */

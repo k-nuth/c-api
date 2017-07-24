@@ -18,7 +18,16 @@
  */
 
 #include <bitprim/nodecint/chain/script.h>
-#include <bitcoin/bitcoin/chain/script.hpp>
+
+
+libbitcoin::chain::script const& script_const_cpp(script_t s) {
+    return *static_cast<libbitcoin::chain::script const*>(s);
+}
+
+libbitcoin::chain::script& script_cpp(script_t s) {
+    return *static_cast<libbitcoin::chain::script*>(s);
+}
+
 
 extern "C" {
 

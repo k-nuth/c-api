@@ -156,9 +156,6 @@ hash_t chain_header_hash(header_t header) {
 //// Properties (size, accessors, cache).
 ////-----------------------------------------------------------------------------
 //
-//static size_t satoshi_fixed_size();
-//size_t serialized_size() const;
-//
 //
 //void set_previous_block_hash(const hash_digest& value);
 //void set_previous_block_hash(hash_digest&& value);

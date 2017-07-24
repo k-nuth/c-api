@@ -137,65 +137,15 @@ int /*bool*/ chain_transaction_is_locktime_conflict(transaction_t transaction) {
     return chain_transaction_const_cpp(transaction).is_locktime_conflict();
 }
 
-
-
-// ----------------------------------
-
-
-
-//uint64_t /*size_t*/ chain_transaction_output_count(transaction_t transaction) {
-//    return chain_transaction_const_cpp(transaction).outputs().size();
-//}
-//
-//transaction_t chain_transaction_output_nth(transaction_t transaction, uint64_t /*size_t*/ n) {
-//    //precondition: n >=0 && n < outputs().size()
-//
-//    auto* tx = &transaction_cpp(transaction);
-//    auto& out_n = tx->outputs()[n];
-//    return &out_n;
-//}
-
-
 output_list_t chain_transaction_outputs(transaction_t transaction) {
     auto& tx = chain_transaction_cpp(transaction);
     return chain_output_list_construct_from_cpp(tx.outputs()); //TODO: transaction::outputs() is deprecated... check how to do it better...
 }
 
-transaction_t transaction_output_nth(transaction_t transaction, uint64_t /*size_t*/ n) {
-    //precondition: n >=0 && n < outputs().size()
-
-    auto* tx = &tx_cpp(transaction);
-    auto& out_n = tx->outputs()[n];
-    return &out_n;
-}
-
-uint64_t /*size_t*/ transaction_input_count(transaction_t transaction) {
-    return tx_const_cpp(transaction).inputs().size();
-}
-
-transaction_t transaction_input_nth(transaction_t transaction, uint64_t /*size_t*/ n) {
-    //precondition: n >=0 && n < inputs().size()
-
-//uint64_t /*size_t*/ chain_transaction_input_count(transaction_t transaction) {
-//    return chain_transaction_const_cpp(transaction).inputs().size();
-//}
-//
-//transaction_t chain_transaction_input_nth(transaction_t transaction, uint64_t /*size_t*/ n) {
-//    //precondition: n >=0 && n < inputs().size()
-//
-//    auto* tx = &transaction_cpp(transaction);
-//    auto& in_n = tx->inputs()[n];
-//    return &in_n;
-//}
-
-
 input_list_t chain_transaction_inputs(transaction_t transaction) {
     auto& tx = chain_transaction_cpp(transaction);
     return chain_input_list_construct_from_cpp(tx.inputs()); //TODO: transaction::inputs() is deprecated... check how to do it better...
 }
-
-
-
 
 
 

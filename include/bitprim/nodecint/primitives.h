@@ -44,17 +44,25 @@ typedef void* p2p_t;
 //    uint32_t index;
 //} output_point_t;
 
+
+//TODO: check if we can encapsulate the pointer into a struct to make them more "type safe"
 typedef void* block_t;
 typedef void* compact_block_t;
 typedef void* header_t;
 typedef void* history_compact_t;
 typedef void* history_compact_list_t;
-typedef void* input_point_t;
+
 typedef void* input_t;
+typedef void* input_list_t;
+typedef void* input_point_t;
+
 typedef void* merkle_block_t;
 typedef void* script_t;
-typedef void* output_point_t;
+
 typedef void* output_t;
+typedef void* output_list_t;
+typedef void* output_point_t;
+
 typedef void* point_t;
 typedef void* point_list_t;
 typedef void* transaction_t;
