@@ -22,7 +22,7 @@
 #include <bitprim/nodecint/chain/header.h>
 #include <bitprim/nodecint/chain/transaction_list.h>
 
-#include <bitcoin/bitcoin/message/transaction.hpp>
+// #include <bitcoin/bitcoin/message/transaction.hpp>
 
 
 libbitcoin::message::block const& chain_block_const_cpp(block_t block) {
@@ -63,9 +63,15 @@ header_t chain_block_header(block_t block) {
     return &chain_block_cpp(block).header();
 }
 
+//hash_t chain_block_hash(block_t block) {
+//    auto const& hash_cpp = chain_block_const_cpp(block).hash();
+//    return hash_cpp.data(); //TODO: returning a dangling pointer
+//}
+
+//TODO: Breaking change.
 hash_t chain_block_hash(block_t block) {
     auto const& hash_cpp = chain_block_const_cpp(block).hash();
-    return hash_cpp.data(); //TODO: returning a dangling pointer
+    return to_hash_t(hash_cpp);
 }
 
 uint64_t /*size_t*/ chain_block_transaction_count(block_t block) {
@@ -126,12 +132,17 @@ uint64_t chain_block_reward(block_t block, uint64_t /*size_t*/ height) {
 //uint256_t chain_block_proof(block_t block) {}
 //hash_digest chain_block_generate_merkle_root(block_t block) {}
 
-//Note: The user is responsible for the resource release
+////Note: The user is responsible for the resource release
+//hash_t chain_block_generate_merkle_root(block_t block) {
+//    auto hash_cpp = chain_block_const_cpp(block).generate_merkle_root();
+//    uint8_t* ret = (uint8_t*)malloc(hash_cpp.size() * sizeof(uint8_t));
+//    std::copy_n(std::begin(hash_cpp), hash_cpp.size(), ret);
+//    return ret;
+//}
+
 hash_t chain_block_generate_merkle_root(block_t block) {
     auto hash_cpp = chain_block_const_cpp(block).generate_merkle_root();
-    uint8_t* ret = (uint8_t*)malloc(hash_cpp.size() * sizeof(uint8_t));
-    std::copy_n(std::begin(hash_cpp), hash_cpp.size(), ret);
-    return ret;
+    return to_hash_t(hash_cpp);
 }
 
 uint64_t /*size_t*/ chain_block_signature_operations(block_t block) {

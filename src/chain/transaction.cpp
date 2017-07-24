@@ -63,14 +63,24 @@ void chain_transaction_set_version(transaction_t transaction, uint32_t version) 
     return static_cast<libbitcoin::message::transaction*>(transaction)->set_version(version);
 }
 
+//hash_t chain_transaction_hash(transaction_t transaction) {
+//    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash();
+//    return hash_cpp.data(); //TODO: returning a dangling pointer
+//}
+//
+//hash_t chain_transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type) {
+//    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type);
+//    return hash_cpp.data(); //TODO: returning a dangling pointer
+//}
+
 hash_t chain_transaction_hash(transaction_t transaction) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash();
-    return hash_cpp.data(); //TODO: returning a dangling pointer
+    return to_hash_t(hash_cpp);
 }
 
 hash_t chain_transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type);
-    return hash_cpp.data(); //TODO: returning a dangling pointer
+    return to_hash_t(hash_cpp);
 }
 
 uint32_t chain_transaction_locktime(transaction_t transaction) {

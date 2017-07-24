@@ -39,9 +39,14 @@ void output_point_destruct(output_point_t outpoint){
     delete &output_point_cpp(outpoint);
 }
 
+//hash_t output_point_get_hash(output_point_t outpoint){
+//    auto const& hash_cpp = output_point_const_cpp(outpoint).hash();
+//    return hash_cpp.data();
+//}
+
 hash_t output_point_get_hash(output_point_t outpoint){
     auto const& hash_cpp = output_point_const_cpp(outpoint).hash();
-    return hash_cpp.data();
+    return to_hash_t(hash_cpp);
 }
 
 uint32_t output_point_get_index(output_point_t outpoint){

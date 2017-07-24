@@ -20,6 +20,7 @@
 #ifndef BITPRIM_NODECINT_HELPERS_HPP_
 #define BITPRIM_NODECINT_HELPERS_HPP_
 
+#include <array>
 #include <cstddef>
 #include <utility>
 

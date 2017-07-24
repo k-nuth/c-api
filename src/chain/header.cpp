@@ -123,21 +123,35 @@ void chain_header_set_nonce(header_t header, uint32_t nonce) {
     return chain_header_cpp(header).set_nonce(nonce);
 }
 
+//hash_t chain_header_previous_block_hash(header_t header) {
+//    auto const& hash_cpp = chain_header_const_cpp(header).previous_block_hash();
+//    return hash_cpp.data();
+//}
+
+//hash_t chain_header_merkle(header_t header) {
+//    auto const& hash_cpp = chain_header_const_cpp(header).merkle();
+//    return hash_cpp.data();
+//}
+
+//hash_t chain_header_hash(header_t header) {
+//    auto const& hash_cpp = chain_header_const_cpp(header).hash();
+//    return hash_cpp.data(); //TODO: returning a dangling pointer
+//}
+
 hash_t chain_header_previous_block_hash(header_t header) {
     auto const& hash_cpp = chain_header_const_cpp(header).previous_block_hash();
-    return hash_cpp.data();
+    return to_hash_t(hash_cpp);
 }
 
 hash_t chain_header_merkle(header_t header) {
     auto const& hash_cpp = chain_header_const_cpp(header).merkle();
-    return hash_cpp.data();
+    return to_hash_t(hash_cpp);
 }
 
 hash_t chain_header_hash(header_t header) {
     auto const& hash_cpp = chain_header_const_cpp(header).hash();
-    return hash_cpp.data(); //TODO: returning a dangling pointer
+    return to_hash_t(hash_cpp);
 }
-
 
 //const hash_digest& () const;
 //void set_previous_block_hash(const hash_digest& value);

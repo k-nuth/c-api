@@ -31,12 +31,20 @@ libbitcoin::message::merkle_block& merkle_block_cpp(merkle_block_t block) {
 
 extern "C" {
 
+//hash_t merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) {
+//    //precondition: n >=0 && n < hashes().size()
+//
+//    auto* blk = &merkle_block_cpp(block);
+//    auto& hash_n = blk->hashes()[n];
+//    return hash_n.data();
+//}
+
 hash_t merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) {
     //precondition: n >=0 && n < hashes().size()
 
     auto* blk = &merkle_block_cpp(block);
     auto& hash_n = blk->hashes()[n];
-    return hash_n.data();
+    return to_hash_t(hash_n);
 }
 
 header_t merkle_block_header(merkle_block_t block) {

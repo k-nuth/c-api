@@ -24,8 +24,10 @@
 #include <stdint.h>
 
 #include <bitprim/nodecint/visibility.h>
+#include <bitprim/nodecint/helpers.hpp>
 
 #include <bitcoin/bitcoin/math/hash.hpp>
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -70,17 +72,17 @@ typedef void* transaction_list_t;
 
 typedef void* payment_address_t;
 
-typedef uint8_t const* hash_t;
-typedef uint8_t* long_hash_t;
+//typedef uint8_t const* hash_t;
+//typedef uint8_t* long_hash_t;
 
 
-//typedef struct hash_t {
-//    uint8_t hash[libbitcoin::hash_size];
-//} hash_t;
-//
-//typedef struct long_hash_t {
-//    uint8_t hash[libbitcoin::long_hash_size];
-//} long_hash_t;
+typedef struct hash_t {
+    uint8_t hash[libbitcoin::hash_size];
+} hash_t;
+
+typedef struct long_hash_t {
+    uint8_t hash[libbitcoin::long_hash_size];
+} long_hash_t;
 
 
 
@@ -111,5 +113,16 @@ typedef void (*result_handler_t)(chain_t chain, void* context, int error);
 #ifdef __cplusplus
 } // extern "C"
 #endif
+
+inline
+hash_t to_hash_t(libbitcoin::hash_digest const& x) {
+    return bitprim::to_c_array<hash_t>(x);
+}
+
+inline
+long_hash_t to_long_hash_t(libbitcoin::long_hash const& x) {
+    return bitprim::to_c_array<long_hash_t>(x);
+}
+
 
 #endif /* BITPRIM_NODECINT_PRIMITIVES_H_ */
