@@ -19,6 +19,9 @@
 
 #include <bitprim/nodecint/chain/output_point.h>
 
+#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/helpers.hpp>
+
 libbitcoin::chain::output_point const& output_point_const_cpp(output_point_t outpoint) {
     return *static_cast<libbitcoin::chain::output_point const*>(outpoint);
 }
@@ -27,9 +30,7 @@ libbitcoin::chain::output_point& output_point_cpp(output_point_t outpoint) {
     return *static_cast<libbitcoin::chain::output_point*>(outpoint);
 }
 
-
 extern "C" {
-
 
 output_point_t output_point_construct(){
     return std::make_unique<libbitcoin::chain::output_point>().release();
@@ -46,7 +47,7 @@ void output_point_destruct(output_point_t outpoint){
 
 hash_t output_point_get_hash(output_point_t outpoint){
     auto const& hash_cpp = output_point_const_cpp(outpoint).hash();
-    return to_hash_t(hash_cpp);
+    return bitprim::to_hash_t(hash_cpp);
 }
 
 uint32_t output_point_get_index(output_point_t outpoint){

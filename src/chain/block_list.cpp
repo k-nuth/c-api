@@ -20,7 +20,7 @@
 #include <bitprim/nodecint/chain/block_list.h>
 
 #include <bitprim/nodecint/chain/block.h>
-
+#include <bitprim/nodecint/convertions.hpp>
 
 //namespace {
 

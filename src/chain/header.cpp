@@ -19,6 +19,8 @@
 
 #include <bitprim/nodecint/chain/header.h>
 
+#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/helpers.hpp>
 
 libbitcoin::message::header const& chain_header_const_cpp(header_t header) {
     return *static_cast<libbitcoin::message::header const*>(header);
@@ -140,17 +142,17 @@ void chain_header_set_nonce(header_t header, uint32_t nonce) {
 
 hash_t chain_header_previous_block_hash(header_t header) {
     auto const& hash_cpp = chain_header_const_cpp(header).previous_block_hash();
-    return to_hash_t(hash_cpp);
+    return bitprim::to_hash_t(hash_cpp);
 }
 
 hash_t chain_header_merkle(header_t header) {
     auto const& hash_cpp = chain_header_const_cpp(header).merkle();
-    return to_hash_t(hash_cpp);
+    return bitprim::to_hash_t(hash_cpp);
 }
 
 hash_t chain_header_hash(header_t header) {
     auto const& hash_cpp = chain_header_const_cpp(header).hash();
-    return to_hash_t(hash_cpp);
+    return bitprim::to_hash_t(hash_cpp);
 }
 
 //const hash_digest& () const;

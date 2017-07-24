@@ -25,15 +25,6 @@
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
 
-#include <bitcoin/bitcoin/chain/input.hpp>
-
-
-std::vector<libbitcoin::chain::input> const& chain_input_list_const_cpp(input_list_t list);
-
-std::vector<libbitcoin::chain::input>& chain_input_list_cpp(input_list_t list);
-
-//Note: input_list_t created with this function has not have to destruct it...
-input_list_t chain_input_list_construct_from_cpp(libbitcoin::chain::input::list& list);
 
 // ----------------------------------------------------------------------------------------
 #ifdef __cplusplus

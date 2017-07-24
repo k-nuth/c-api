@@ -365,6 +365,7 @@ install(TARGETS bitprim-node-cint
 
 
 set(_bitprim_headers
+        bitprim/nodecint/convertions.hpp
         bitprim/nodecint/helpers.hpp
         bitprim/nodecint/executor_c.h
         bitprim/nodecint/primitives.h

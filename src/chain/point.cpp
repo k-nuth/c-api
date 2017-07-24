@@ -19,7 +19,9 @@
 
 #include <bitprim/nodecint/chain/point.h>
 
+#include <bitprim/nodecint/helpers.hpp>
 #include <bitcoin/bitcoin/chain/point.hpp>
+
 
 libbitcoin::chain::point const& point_const_cpp(point_t point) {
     return *static_cast<libbitcoin::chain::point const*>(point);
@@ -39,7 +41,7 @@ extern "C" {
 
 hash_t point_get_hash(point_t point) {
     auto const& hash_cpp = point_const_cpp(point).hash();
-    return to_hash_t(hash_cpp);
+    return bitprim::to_hash_t(hash_cpp);
 }
 
 int /*bool*/ point_is_valid(point_t point) {

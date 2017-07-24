@@ -22,6 +22,8 @@
 #include <memory>
 #include <boost/thread/latch.hpp>
 
+#include <bitprim/nodecint/helpers.hpp>
+
 #include <bitprim/nodecint/chain/block_list.h>
 
 #include <bitcoin/bitcoin/message/block.hpp>
@@ -575,7 +577,7 @@ int chain_organize_block_sync(chain_t chain, block_t block) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
 
-    safe_chain(chain).organize(block_shared(block), [](std::error_code const& ec) {
+    safe_chain(chain).organize(block_shared(block), [&](std::error_code const& ec) {
         res = ec.value();
         latch.count_down();
     });
@@ -594,7 +596,7 @@ int chain_organize_transaction_sync(chain_t chain, transaction_t transaction) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
 
-    safe_chain(chain).organize(tx_shared(transaction), [](std::error_code const& ec) {
+    safe_chain(chain).organize(tx_shared(transaction), [&](std::error_code const& ec) {
         res = ec.value();
         latch.count_down();
     });

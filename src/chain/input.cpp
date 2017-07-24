@@ -19,6 +19,7 @@
 
 #include <bitprim/nodecint/chain/input.h>
 
+#include <bitprim/nodecint/convertions.hpp>
 #include <bitprim/nodecint/chain/output_point.h>
 #include <bitprim/nodecint/chain/script.h>
 

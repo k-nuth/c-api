@@ -26,13 +26,6 @@
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
 
-#include <bitcoin/bitcoin/message/transaction.hpp>
-
-
-libbitcoin::message::transaction const& chain_transaction_const_cpp(transaction_t transaction);
-
-libbitcoin::message::transaction& chain_transaction_cpp(transaction_t transaction);
-
 
 #ifdef __cplusplus
 extern "C" {

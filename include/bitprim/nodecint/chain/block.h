@@ -26,13 +26,6 @@
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
 
-#include <bitcoin/bitcoin/message/block.hpp>
-
-
-libbitcoin::message::block const& chain_block_const_cpp(block_t block);
-
-libbitcoin::message::block& chain_block_cpp(block_t block);
-
 
 #ifdef __cplusplus
 extern "C" {

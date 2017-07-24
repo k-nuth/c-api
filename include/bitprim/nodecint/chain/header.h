@@ -26,12 +26,6 @@
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
 
-#include <bitcoin/bitcoin/message/header.hpp>
-
-
-libbitcoin::message::header const& chain_header_const_cpp(header_t header);
-
-libbitcoin::message::header& chain_header_cpp(header_t header);
 
 
 #ifdef __cplusplus

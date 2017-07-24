@@ -25,15 +25,6 @@
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
 
-#include <bitcoin/bitcoin/message/block.hpp>
-
-
-std::vector<libbitcoin::message::block> const& chain_block_list_const_cpp(block_list_t list);
-
-std::vector<libbitcoin::message::block>& chain_block_list_cpp(block_list_t list);
-
-//Note: block_list_t created with this function has not have to destruct it...
-block_list_t chain_block_list_construct_from_cpp(libbitcoin::message::block::list& list);
 
 
 #ifdef __cplusplus

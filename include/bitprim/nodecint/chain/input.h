@@ -26,18 +26,10 @@
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
 
-#include <bitcoin/bitcoin/chain/input.hpp>
-
-
-libbitcoin::chain::input const& chain_input_const_cpp(input_t input);
-
-libbitcoin::chain::input& chain_input_cpp(input_t input);
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
 
 //input();
 BITPRIM_EXPORT

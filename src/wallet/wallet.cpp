@@ -20,6 +20,7 @@
 
 #include <bitprim/nodecint/wallet/wallet.h>
 
+#include <bitprim/nodecint/helpers.hpp>
 #include <bitcoin/bitcoin/wallet/mnemonic.hpp>
 
 extern "C" {
@@ -36,7 +37,7 @@ extern "C" {
 long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
     auto const& mnemonics_cpp = *static_cast<const std::vector<std::string>*>(mnemonics);
     auto hash_cpp = libbitcoin::wallet::decode_mnemonic(mnemonics_cpp);
-    return to_long_hash_t(hash_cpp);
+    return bitprim::to_long_hash_t(hash_cpp);
 }
 
 //void long_hash_destroy(long_hash_t ptr) {

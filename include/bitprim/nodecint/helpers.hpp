@@ -24,6 +24,8 @@
 #include <cstddef>
 #include <utility>
 
+#include <bitcoin/bitcoin/math/hash.hpp>
+
 namespace bitprim {
 namespace detail {
 
@@ -52,6 +54,16 @@ template <typename R, typename T, std::size_t N>
 constexpr
 R to_c_array(std::array<T, N> const& x) {
     return detail::to_c_array_impl<R>(x, std::make_index_sequence<N>{});
+}
+
+inline
+hash_t to_hash_t(libbitcoin::hash_digest const& x) {
+    return to_c_array<hash_t>(x);
+}
+
+inline
+long_hash_t to_long_hash_t(libbitcoin::long_hash const& x) {
+    return to_c_array<long_hash_t>(x);
 }
 
 } /* namespace bitprim */

@@ -26,14 +26,6 @@
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
 
-#include <bitcoin/bitcoin/chain/script.hpp>
-
-
-libbitcoin::chain::script const& script_const_cpp(script_t s);
-
-libbitcoin::chain::script& script_cpp(script_t s);
-
-
 #ifdef __cplusplus
 extern "C" {
 #endif

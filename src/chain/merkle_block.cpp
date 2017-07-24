@@ -18,6 +18,8 @@
  */
 
 #include <bitprim/nodecint/chain/block.h>
+
+#include <bitprim/nodecint/helpers.hpp>
 #include <bitcoin/bitcoin/message/merkle_block.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
 
@@ -44,7 +46,7 @@ hash_t merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) {
 
     auto* blk = &merkle_block_cpp(block);
     auto& hash_n = blk->hashes()[n];
-    return to_hash_t(hash_n);
+    return bitprim::to_hash_t(hash_n);
 }
 
 header_t merkle_block_header(merkle_block_t block) {

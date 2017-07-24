@@ -24,10 +24,6 @@
 #include <stdint.h>
 
 #include <bitprim/nodecint/visibility.h>
-#include <bitprim/nodecint/helpers.hpp>
-
-#include <bitcoin/bitcoin/math/hash.hpp>
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -77,22 +73,21 @@ typedef void* payment_address_t;
 
 
 typedef struct hash_t {
-    uint8_t hash[libbitcoin::hash_size];
+//    uint8_t hash[libbitcoin::hash_size];
+    uint8_t hash[32];
 } hash_t;
 
 typedef struct long_hash_t {
-    uint8_t hash[libbitcoin::long_hash_size];
+//    uint8_t hash[libbitcoin::long_hash_size];
+    uint8_t hash[64];
 } long_hash_t;
-
-
-
 
 //typedef char const* zstring_t;
 typedef void* word_list_t;
 
 
-typedef void (*run_handler_t)(executor_t exec, void* context, int error);
 
+typedef void (*run_handler_t)(executor_t exec, void* context, int error);
 
 typedef void (*block_fetch_handler_t)(chain_t, void*, int, block_t block, uint64_t /*size_t*/ h);
 typedef void (*block_height_fetch_handler_t)(chain_t, void*, int, uint64_t /*size_t*/ h);
@@ -109,52 +104,13 @@ typedef void (*validate_tx_handler_t)(chain_t, void*, int, char* message);
 
 typedef void (*result_handler_t)(chain_t, void*, int);
 
-/// Subscription handlers.
-//typedef std::function<bool(code, size_t, block_const_ptr_list_const_ptr, block_const_ptr_list_const_ptr)> reorganize_handler;
-//typedef std::function<bool(code, transaction_const_ptr)> transaction_handler;
-
-//typedef std::shared_ptr<block> ptr;
-//typedef std::shared_ptr<const block> const_ptr;
-//typedef std::vector<ptr> ptr_list;
-//typedef std::vector<const_ptr> const_ptr_list;
-//typedef std::shared_ptr<const_ptr_list> const_ptr_list_ptr;
-//typedef std::shared_ptr<const const_ptr_list> const_ptr_list_const_ptr;
-
-//typedef std::shared_ptr<const std::vector<std::shared_ptr<const block>>> const_ptr_list_const_ptr;
-
-//std::shared_ptr<
-//    const std::vector<
-//        std::shared_ptr<
-//            const block
-//        >
-//    >
-//>
-
-typedef bool (*reorganize_handler_t)(chain_t, void*, int, uint64_t /*size_t*/, block_list_t, block_list_t);
-
-
-//typedef std::function<bool(code, transaction_const_ptr)> transaction_handler;
-//typedef std::shared_ptr<const transaction> const_ptr;
-
-typedef bool (*transaction_handler_t)(chain_t, void*, int, transaction_t);
-
-
-
+typedef int (*reorganize_handler_t)(chain_t, void*, int, uint64_t /*size_t*/, block_list_t, block_list_t);
+typedef int (*transaction_handler_t)(chain_t, void*, int, transaction_t);
 
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
-
-inline
-hash_t to_hash_t(libbitcoin::hash_digest const& x) {
-    return bitprim::to_c_array<hash_t>(x);
-}
-
-inline
-long_hash_t to_long_hash_t(libbitcoin::long_hash const& x) {
-    return bitprim::to_c_array<long_hash_t>(x);
-}
 
 
 #endif /* BITPRIM_NODECINT_PRIMITIVES_H_ */

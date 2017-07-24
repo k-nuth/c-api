@@ -26,12 +26,6 @@
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
 
-#include <bitcoin/bitcoin/chain/output.hpp>
-
-libbitcoin::chain::output const& chain_output_const_cpp(output_t output);
-
-libbitcoin::chain::output& chain_output_cpp(output_t output);
-
 #ifdef __cplusplus
 extern "C" {
 #endif

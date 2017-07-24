@@ -19,10 +19,12 @@
 
 #include <bitprim/nodecint/chain/block.h>
 
-#include <bitprim/nodecint/chain/header.h>
-#include <bitprim/nodecint/chain/transaction_list.h>
+#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/helpers.hpp>
 
-// #include <bitcoin/bitcoin/message/transaction.hpp>
+//#include <bitprim/nodecint/chain/header.h>
+//#include <bitprim/nodecint/chain/transaction_list.h>
+ #include <bitcoin/bitcoin/message/transaction.hpp>
 
 
 libbitcoin::message::block const& chain_block_const_cpp(block_t block) {
@@ -71,7 +73,7 @@ header_t chain_block_header(block_t block) {
 //TODO: Breaking change.
 hash_t chain_block_hash(block_t block) {
     auto const& hash_cpp = chain_block_const_cpp(block).hash();
-    return to_hash_t(hash_cpp);
+    return bitprim::to_hash_t(hash_cpp);
 }
 
 uint64_t /*size_t*/ chain_block_transaction_count(block_t block) {
@@ -142,7 +144,7 @@ uint64_t chain_block_reward(block_t block, uint64_t /*size_t*/ height) {
 
 hash_t chain_block_generate_merkle_root(block_t block) {
     auto hash_cpp = chain_block_const_cpp(block).generate_merkle_root();
-    return to_hash_t(hash_cpp);
+    return bitprim::to_hash_t(hash_cpp);
 }
 
 uint64_t /*size_t*/ chain_block_signature_operations(block_t block) {

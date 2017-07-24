@@ -19,6 +19,7 @@
 
 #include <bitprim/nodecint/chain/input_list.h>
 
+#include <bitprim/nodecint/convertions.hpp>
 #include <bitprim/nodecint/chain/input.h>
 #include <bitcoin/bitcoin/chain/input.hpp>
 

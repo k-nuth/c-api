@@ -25,15 +25,6 @@
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
 
-#include <bitcoin/bitcoin/chain/output.hpp>
-
-
-std::vector<libbitcoin::chain::output> const& chain_output_list_const_cpp(output_list_t list);
-
-std::vector<libbitcoin::chain::output>& chain_output_list_cpp(output_list_t list);
-
-//Note: output_list_t created with this function has not have to destruct it...
-output_list_t chain_output_list_construct_from_cpp(libbitcoin::chain::output::list& list);
 
 
 #ifdef __cplusplus
