@@ -236,6 +236,7 @@ set(_bitprim_sources
         src/chain/point_list.cpp
         src/chain/script.cpp
         src/chain/transaction.cpp
+        src/chain/transaction_list.cpp
 
         src/p2p/p2p.cpp
 
@@ -375,6 +376,7 @@ install(TARGETS bitprim-node-cint
 
 
 set(_bitprim_headers
+        bitprim/nodecint/helpers.hpp
         bitprim/nodecint/executor_c.h
         bitprim/nodecint/primitives.h
         bitprim/nodecint/version.h
@@ -394,6 +396,7 @@ set(_bitprim_headers
         bitprim/nodecint/chain/point_list.h
         bitprim/nodecint/chain/script.h
         bitprim/nodecint/chain/transaction.h
+        bitprim/nodecint/chain/transaction_list.h
 
         bitprim/nodecint/p2p/p2p.h
 

@@ -18,107 +18,123 @@
  */
 
 #include <bitprim/nodecint/chain/transaction.h>
-#include <bitcoin/bitcoin/message/transaction.hpp>
 
-libbitcoin::message::transaction const& tx_const_cpp(transaction_t transaction) {
+#include <bitprim/nodecint/chain/output_list.h>
+#include <bitprim/nodecint/chain/input_list.h>
+
+libbitcoin::message::transaction const& chain_transaction_const_cpp(transaction_t transaction) {
     return *static_cast<libbitcoin::message::transaction const*>(transaction);
 }
 
-libbitcoin::message::transaction& tx_cpp(transaction_t transaction) {
+libbitcoin::message::transaction& chain_transaction_cpp(transaction_t transaction) {
     return *static_cast<libbitcoin::message::transaction*>(transaction);
 }
 
+
 extern "C" {
 
-void transaction_destruct(transaction_t transaction) {
+//transaction();
+transaction_t chain_transaction_construct_default() {
+    return new libbitcoin::message::transaction();
+}
+
+//transaction(uint32_t version, uint32_t locktime, chain::input::list&& inputs, chain::output::list&& outputs);
+//transaction(uint32_t version, uint32_t locktime, const chain::input::list& inputs, const chain::output::list& outputs);
+transaction_t chain_transaction_construct(uint32_t version, uint32_t locktime, input_list_t inputs, output_list_t outputs) {
+    return new libbitcoin::message::transaction(version, locktime,
+                                                chain_input_list_const_cpp(inputs),
+                                                chain_output_list_const_cpp(outputs));
+}
+
+void chain_transaction_destruct(transaction_t transaction) {
     auto transaction_cpp = static_cast<libbitcoin::message::transaction*>(transaction);
     delete transaction_cpp;
 }
 
-int transaction_is_valid(transaction_t transaction) {
-    return tx_const_cpp(transaction).is_valid();
+int /*bool*/ chain_transaction_is_valid(transaction_t transaction) {
+    return chain_transaction_const_cpp(transaction).is_valid();
 }
 
-uint32_t transaction_version(transaction_t transaction) {
-    return tx_const_cpp(transaction).version();
+uint32_t chain_transaction_version(transaction_t transaction) {
+    return chain_transaction_const_cpp(transaction).version();
 }
 
-void transaction_set_version(transaction_t transaction, uint32_t version) {
+void chain_transaction_set_version(transaction_t transaction, uint32_t version) {
     return static_cast<libbitcoin::message::transaction*>(transaction)->set_version(version);
 }
 
-hash_t transaction_hash(transaction_t transaction) {
-    auto const& hash_cpp = tx_const_cpp(transaction).hash();
+hash_t chain_transaction_hash(transaction_t transaction) {
+    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash();
     return hash_cpp.data(); //TODO: returning a dangling pointer
 }
 
-hash_t transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type) {
-    auto const& hash_cpp = tx_const_cpp(transaction).hash(sighash_type);
+hash_t chain_transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type) {
+    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type);
     return hash_cpp.data(); //TODO: returning a dangling pointer
 }
 
-uint32_t transaction_locktime(transaction_t transaction) {
-    return tx_const_cpp(transaction).locktime();
+uint32_t chain_transaction_locktime(transaction_t transaction) {
+    return chain_transaction_const_cpp(transaction).locktime();
 }
 
-uint64_t /*size_t*/ transaction_serialized_size(transaction_t transaction, int wire /*= true*/) {
-    return tx_const_cpp(transaction).serialized_size(wire);
+uint64_t /*size_t*/ chain_transaction_serialized_size(transaction_t transaction, int wire /*= true*/) {
+    return chain_transaction_const_cpp(transaction).serialized_size(wire);
 }
 
-uint64_t transaction_fees(transaction_t transaction) {
-    return tx_const_cpp(transaction).fees();
+uint64_t chain_transaction_fees(transaction_t transaction) {
+    return chain_transaction_const_cpp(transaction).fees();
 }
 
-uint64_t /*size_t*/ transaction_signature_operations(transaction_t transaction) {
-    return tx_const_cpp(transaction).signature_operations();
+uint64_t /*size_t*/ chain_transaction_signature_operations(transaction_t transaction) {
+    return chain_transaction_const_cpp(transaction).signature_operations();
 }
 
-uint64_t /*size_t*/ transaction_signature_operations_bip16_active(transaction_t transaction, int /*bool*/ bip16_active) {
-    return tx_const_cpp(transaction).signature_operations(bip16_active);
+uint64_t /*size_t*/ chain_transaction_signature_operations_bip16_active(transaction_t transaction, int /*bool*/ bip16_active) {
+    return chain_transaction_const_cpp(transaction).signature_operations(bip16_active);
 }
 
-uint64_t transaction_total_input_value(transaction_t transaction) {
-    return tx_const_cpp(transaction).total_input_value();
+uint64_t chain_transaction_total_input_value(transaction_t transaction) {
+    return chain_transaction_const_cpp(transaction).total_input_value();
 }
 
-uint64_t transaction_total_output_value(transaction_t transaction) {
-    return tx_const_cpp(transaction).total_output_value();
+uint64_t chain_transaction_total_output_value(transaction_t transaction) {
+    return chain_transaction_const_cpp(transaction).total_output_value();
 }
 
-int /*bool*/ transaction_is_coinbase(transaction_t transaction) {
-    return tx_const_cpp(transaction).is_coinbase();
+int /*bool*/ chain_transaction_is_coinbase(transaction_t transaction) {
+    return chain_transaction_const_cpp(transaction).is_coinbase();
 }
 
-int /*bool*/ transaction_is_null_non_coinbase(transaction_t transaction) {
-    return tx_const_cpp(transaction).is_null_non_coinbase();
+int /*bool*/ chain_transaction_is_null_non_coinbase(transaction_t transaction) {
+    return chain_transaction_const_cpp(transaction).is_null_non_coinbase();
 }
 
-int /*bool*/ transaction_is_oversized_coinbase(transaction_t transaction) {
-    return tx_const_cpp(transaction).is_oversized_coinbase();
+int /*bool*/ chain_transaction_is_oversized_coinbase(transaction_t transaction) {
+    return chain_transaction_const_cpp(transaction).is_oversized_coinbase();
 }
 
-int /*bool*/ transaction_is_immature(transaction_t transaction, uint64_t /*size_t*/ target_height) {
-    return tx_const_cpp(transaction).is_immature(target_height);
+int /*bool*/ chain_transaction_is_immature(transaction_t transaction, uint64_t /*size_t*/ target_height) {
+    return chain_transaction_const_cpp(transaction).is_immature(target_height);
 }
 
-int /*bool*/ transaction_is_overspent(transaction_t transaction) {
-    return tx_const_cpp(transaction).is_overspent();
+int /*bool*/ chain_transaction_is_overspent(transaction_t transaction) {
+    return chain_transaction_const_cpp(transaction).is_overspent();
 }
 
-int /*bool*/ transaction_is_double_spend(transaction_t transaction, int /*bool*/ include_unconfirmed) {
-    return tx_const_cpp(transaction).is_double_spend(include_unconfirmed);
+int /*bool*/ chain_transaction_is_double_spend(transaction_t transaction, int /*bool*/ include_unconfirmed) {
+    return chain_transaction_const_cpp(transaction).is_double_spend(include_unconfirmed);
 }
 
-int /*bool*/ transaction_is_missing_previous_outputs(transaction_t transaction) {
-    return tx_const_cpp(transaction).is_missing_previous_outputs();
+int /*bool*/ chain_transaction_is_missing_previous_outputs(transaction_t transaction) {
+    return chain_transaction_const_cpp(transaction).is_missing_previous_outputs();
 }
 
-int /*bool*/ transaction_is_final(transaction_t transaction, uint64_t /*size_t*/ block_height, uint32_t block_time) {
-    return tx_const_cpp(transaction).is_final(block_height, block_time);
+int /*bool*/ chain_transaction_is_final(transaction_t transaction, uint64_t /*size_t*/ block_height, uint32_t block_time) {
+    return chain_transaction_const_cpp(transaction).is_final(block_height, block_time);
 }
 
-int /*bool*/ transaction_is_locktime_conflict(transaction_t transaction) {
-    return tx_const_cpp(transaction).is_locktime_conflict();
+int /*bool*/ chain_transaction_is_locktime_conflict(transaction_t transaction) {
+    return chain_transaction_const_cpp(transaction).is_locktime_conflict();
 }
 
 
@@ -127,8 +143,22 @@ int /*bool*/ transaction_is_locktime_conflict(transaction_t transaction) {
 
 
 
-uint64_t /*size_t*/ transaction_output_count(transaction_t transaction) {
-    return tx_const_cpp(transaction).outputs().size();
+//uint64_t /*size_t*/ chain_transaction_output_count(transaction_t transaction) {
+//    return chain_transaction_const_cpp(transaction).outputs().size();
+//}
+//
+//transaction_t chain_transaction_output_nth(transaction_t transaction, uint64_t /*size_t*/ n) {
+//    //precondition: n >=0 && n < outputs().size()
+//
+//    auto* tx = &transaction_cpp(transaction);
+//    auto& out_n = tx->outputs()[n];
+//    return &out_n;
+//}
+
+
+output_list_t chain_transaction_outputs(transaction_t transaction) {
+    auto& tx = chain_transaction_cpp(transaction);
+    return chain_output_list_construct_from_cpp(tx.outputs()); //TODO: transaction::outputs() is deprecated... check how to do it better...
 }
 
 transaction_t transaction_output_nth(transaction_t transaction, uint64_t /*size_t*/ n) {
@@ -146,12 +176,23 @@ uint64_t /*size_t*/ transaction_input_count(transaction_t transaction) {
 transaction_t transaction_input_nth(transaction_t transaction, uint64_t /*size_t*/ n) {
     //precondition: n >=0 && n < inputs().size()
 
-    auto* tx = &tx_cpp(transaction);
-    auto& in_n = tx->inputs()[n];
-    return &in_n;
+//uint64_t /*size_t*/ chain_transaction_input_count(transaction_t transaction) {
+//    return chain_transaction_const_cpp(transaction).inputs().size();
+//}
+//
+//transaction_t chain_transaction_input_nth(transaction_t transaction, uint64_t /*size_t*/ n) {
+//    //precondition: n >=0 && n < inputs().size()
+//
+//    auto* tx = &transaction_cpp(transaction);
+//    auto& in_n = tx->inputs()[n];
+//    return &in_n;
+//}
+
+
+input_list_t chain_transaction_inputs(transaction_t transaction) {
+    auto& tx = chain_transaction_cpp(transaction);
+    return chain_input_list_construct_from_cpp(tx.inputs()); //TODO: transaction::inputs() is deprecated... check how to do it better...
 }
-
-
 
 
 

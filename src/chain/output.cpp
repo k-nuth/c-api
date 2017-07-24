@@ -20,38 +20,50 @@
 #include <bitprim/nodecint/chain/output.h>
 #include <bitcoin/bitcoin/chain/output.hpp>
 
-libbitcoin::chain::output const& output_const_cpp(output_t output) {
+libbitcoin::chain::output const& chain_output_const_cpp(output_t output) {
     return *static_cast<libbitcoin::chain::output const*>(output);
 }
 
-libbitcoin::chain::output& output_cpp(output_t output) {
+libbitcoin::chain::output& chain_output_cpp(output_t output) {
     return *static_cast<libbitcoin::chain::output*>(output);
 }
 
 extern "C" {
 
-void output_destruct(output_t output) {
-    delete &output_cpp(output);
+
+//output();
+output_t chain_output_construct_default() {
+    return new libbitcoin::chain::output();
 }
 
-int output_is_valid(output_t output) {
-    return output_const_cpp(output).is_valid();
+//output(uint64_t value, chain::script&& script);
+//output(uint64_t value, const chain::script& script);
+output_t chain_output_construct(uint64_t value, script_t script) {
+    return new libbitcoin::chain::output(value, script_const_cpp(script));
 }
 
-uint64_t /*size_t*/ output_serialized_size(output_t output, int wire /* = true*/) {
-    return output_const_cpp(output).serialized_size(wire);
+void chain_output_destruct(output_t output) {
+    delete &chain_output_const_cpp(output);
 }
 
-uint64_t output_value(output_t output) {
-    return output_const_cpp(output).value();
+int chain_output_is_valid(output_t output) {
+    return chain_output_const_cpp(output).is_valid();
 }
 
-uint64_t /*size_t*/ output_signature_operations(output_t output) {
-    return output_const_cpp(output).signature_operations();
+uint64_t /*size_t*/ chain_output_serialized_size(output_t output, int /* bool */ wire /* = true */) {
+    return chain_output_const_cpp(output).serialized_size(wire);
 }
 
-script_t output_script(output_t output) {
-    return &(output_cpp(output).script());
+uint64_t chain_output_value(output_t output) {
+    return chain_output_const_cpp(output).value();
+}
+
+uint64_t /*size_t*/ chain_output_signature_operations(output_t output) {
+    return chain_output_const_cpp(output).signature_operations();
+}
+
+script_t chain_output_script(output_t output) {
+    return &(chain_output_cpp(output).script());
 }
 
 //const chain::script& script() const;

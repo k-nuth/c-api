@@ -31,28 +31,36 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-void output_destruct(output_t output);
+output_t chain_output_construct_default();
+
+//output(uint64_t value, chain::script&& script);
+//output(uint64_t value, const chain::script& script);
+BITPRIM_EXPORT
+output_t chain_output_construct(uint64_t value, script_t script);
 
 BITPRIM_EXPORT
-int output_is_valid(output_t output);
+void chain_output_destruct(output_t output);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ output_serialized_size(output_t output, int /*bool*/ wire /*= true*/);
+int chain_output_is_valid(output_t output);
 
 BITPRIM_EXPORT
-uint64_t output_value(output_t output);
+uint64_t /*size_t*/ chain_output_serialized_size(output_t output, int /*bool*/ wire /*= true*/);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ output_signature_operations(output_t output);
+uint64_t chain_output_value(output_t output);
 
 BITPRIM_EXPORT
-script_t output_script(output_t output);
+uint64_t /*size_t*/ chain_output_signature_operations(output_t output);
 
 BITPRIM_EXPORT
-hash_t output_get_hash(output_t output);
+script_t chain_output_script(output_t output);
 
 BITPRIM_EXPORT
-uint32_t output_get_index(output_t output);
+hash_t chain_output_get_hash(output_t output);
+
+BITPRIM_EXPORT
+uint32_t chain_output_get_index(output_t output);
 
 
 #ifdef __cplusplus

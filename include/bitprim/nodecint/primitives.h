@@ -25,6 +25,7 @@
 
 #include <bitprim/nodecint/visibility.h>
 
+#include <bitcoin/bitcoin/math/hash.hpp>
 
 #ifdef __cplusplus
 extern "C" {
@@ -57,10 +58,25 @@ typedef void* output_t;
 typedef void* point_t;
 typedef void* point_list_t;
 typedef void* transaction_t;
+typedef void* transaction_list_t;
+
 typedef void* payment_address_t;
 
 typedef uint8_t const* hash_t;
 typedef uint8_t* long_hash_t;
+
+
+//typedef struct hash_t {
+//    uint8_t hash[libbitcoin::hash_size];
+//} hash_t;
+//
+//typedef struct long_hash_t {
+//    uint8_t hash[libbitcoin::long_hash_size];
+//} long_hash_t;
+
+
+
+
 //typedef char const* zstring_t;
 typedef void* word_list_t;
 

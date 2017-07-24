@@ -18,15 +18,8 @@
  */
 
 #include <bitprim/nodecint/p2p/p2p.h>
-//#include <cstdio>
-//#include <memory>
-//#include <boost/thread/latch.hpp>
-//#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
-//#include <cinttypes>   //TODO: Remove, it is for the printf (printing pointer addresses)
 
 #include <bitcoin/network/p2p.hpp>
-
-
 
 
 namespace {

@@ -21,14 +21,11 @@
 #include <cstdio>
 #include <memory>
 #include <boost/thread/latch.hpp>
-//#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
-//#include <cinttypes>   //TODO: Remove, it is for the printf (printing pointer addresses)
 
 #include <bitcoin/bitcoin/message/block.hpp>
 #include <bitcoin/bitcoin/message/header.hpp>
 #include <bitcoin/bitcoin/message/merkle_block.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
-
 #include <bitcoin/blockchain/interface/safe_chain.hpp>
 
 
@@ -525,7 +522,6 @@ void chain_organize_transaction(chain_t chain, void* ctx, transaction_t transact
 //-------------------------------------------------------------------------
 
 
-
 //It is the user's responsibility to release the transaction returned
 transaction_t chain_hex_to_tx(char const* tx_hex) {
 
@@ -566,10 +562,6 @@ void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_h
         }
     });
 }
-
-
-
-
 
 
 } /* extern "C" */
