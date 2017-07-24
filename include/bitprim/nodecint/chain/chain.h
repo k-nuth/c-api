@@ -138,6 +138,21 @@ int chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_
 
 
 
+// Subscribers.
+//-------------------------------------------------------------------------
+
+//virtual void subscribe_reorganize(reorganize_handler&& handler) = 0;
+//virtual void subscribe_transaction(transaction_handler&& handler) = 0;
+
+
+BITPRIM_EXPORT
+void chain_subscribe_reorganize(chain_t chain, void* ctx, reorganize_handler_t handler);
+
+
+BITPRIM_EXPORT
+void chain_subscribe_transaction(chain_t chain, void* ctx, transaction_handler_t handler);
+
+
 // Organizers.
 //-------------------------------------------------------------------------
 
@@ -148,8 +163,13 @@ BITPRIM_EXPORT
 void chain_organize_block(chain_t chain, void* ctx, block_t block, result_handler_t handler);
 
 BITPRIM_EXPORT
+int chain_organize_block_sync(chain_t chain, block_t block);
+
+BITPRIM_EXPORT
 void chain_organize_transaction(chain_t chain, void* ctx, transaction_t transaction, result_handler_t handler);
 
+BITPRIM_EXPORT
+int chain_organize_transaction_sync(chain_t chain, transaction_t transaction);
 
 
 

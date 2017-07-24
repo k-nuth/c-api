@@ -33,8 +33,6 @@
 extern "C" {
 #endif
 
-typedef uint64_t /*size_t*/ uint64_t /*size_t*/;
-
 typedef enum point_kind {output = 0, spend = 1} point_kind_t;
 
 typedef struct executor* executor_t;
@@ -49,6 +47,8 @@ typedef void* p2p_t;
 
 //TODO: check if we can encapsulate the pointer into a struct to make them more "type safe"
 typedef void* block_t;
+typedef void* block_list_t;
+
 typedef void* compact_block_t;
 typedef void* header_t;
 typedef void* history_compact_t;
@@ -94,20 +94,52 @@ typedef void* word_list_t;
 typedef void (*run_handler_t)(executor_t exec, void* context, int error);
 
 
-typedef void (*block_fetch_handler_t)(chain_t chain, void* context, int error, block_t block, uint64_t /*size_t*/ h);
-typedef void (*block_height_fetch_handler_t)(chain_t chain, void* context, int error, uint64_t /*size_t*/ h);
-typedef void (*block_header_fetch_handler_t)(chain_t chain, void* context, int error, header_t header, uint64_t /*size_t*/ h);
-typedef void (*compact_block_fetch_handler_t)(chain_t chain, void* context, int error, compact_block_t block, uint64_t /*size_t*/ h);
-typedef void (*history_fetch_handler_t)(chain_t chain, void* context, int error, history_compact_list_t history);
-typedef void (*last_height_fetch_handler_t)(chain_t chain, void* context, int error, uint64_t /*size_t*/ h);
-typedef void (*merkle_block_fetch_handler_t)(chain_t chain, void* context, int error, merkle_block_t block, uint64_t /*size_t*/ h);
-typedef void (*output_fetch_handler_t)(chain_t chain, void* context, int error, output_t output);
-typedef void (*spend_fetch_handler_t)(chain_t chain, void* context, int error, input_point_t input_point);
-typedef void (*transaction_fetch_handler_t)(chain_t chain, void* context, int error, transaction_t transaction, uint64_t /*size_t*/ h, uint64_t /*size_t*/ i);
-typedef void (*transaction_index_fetch_handler_t)(chain_t chain, void* context, int error, uint64_t /*size_t*/ position, uint64_t /*size_t*/ height);
-typedef void (*validate_tx_handler_t)(chain_t chain, void* context, int error, char* message);
+typedef void (*block_fetch_handler_t)(chain_t, void*, int, block_t block, uint64_t /*size_t*/ h);
+typedef void (*block_height_fetch_handler_t)(chain_t, void*, int, uint64_t /*size_t*/ h);
+typedef void (*block_header_fetch_handler_t)(chain_t, void*, int, header_t header, uint64_t /*size_t*/ h);
+typedef void (*compact_block_fetch_handler_t)(chain_t, void*, int, compact_block_t block, uint64_t /*size_t*/ h);
+typedef void (*history_fetch_handler_t)(chain_t, void*, int, history_compact_list_t history);
+typedef void (*last_height_fetch_handler_t)(chain_t, void*, int, uint64_t /*size_t*/ h);
+typedef void (*merkle_block_fetch_handler_t)(chain_t, void*, int, merkle_block_t block, uint64_t /*size_t*/ h);
+typedef void (*output_fetch_handler_t)(chain_t, void*, int, output_t output);
+typedef void (*spend_fetch_handler_t)(chain_t, void*, int, input_point_t input_point);
+typedef void (*transaction_fetch_handler_t)(chain_t, void*, int, transaction_t transaction, uint64_t /*size_t*/ h, uint64_t /*size_t*/ i);
+typedef void (*transaction_index_fetch_handler_t)(chain_t, void*, int, uint64_t /*size_t*/ position, uint64_t /*size_t*/ height);
+typedef void (*validate_tx_handler_t)(chain_t, void*, int, char* message);
 
-typedef void (*result_handler_t)(chain_t chain, void* context, int error);
+typedef void (*result_handler_t)(chain_t, void*, int);
+
+/// Subscription handlers.
+//typedef std::function<bool(code, size_t, block_const_ptr_list_const_ptr, block_const_ptr_list_const_ptr)> reorganize_handler;
+//typedef std::function<bool(code, transaction_const_ptr)> transaction_handler;
+
+//typedef std::shared_ptr<block> ptr;
+//typedef std::shared_ptr<const block> const_ptr;
+//typedef std::vector<ptr> ptr_list;
+//typedef std::vector<const_ptr> const_ptr_list;
+//typedef std::shared_ptr<const_ptr_list> const_ptr_list_ptr;
+//typedef std::shared_ptr<const const_ptr_list> const_ptr_list_const_ptr;
+
+//typedef std::shared_ptr<const std::vector<std::shared_ptr<const block>>> const_ptr_list_const_ptr;
+
+//std::shared_ptr<
+//    const std::vector<
+//        std::shared_ptr<
+//            const block
+//        >
+//    >
+//>
+
+typedef bool (*reorganize_handler_t)(chain_t, void*, int, uint64_t /*size_t*/, block_list_t, block_list_t);
+
+
+//typedef std::function<bool(code, transaction_const_ptr)> transaction_handler;
+//typedef std::shared_ptr<const transaction> const_ptr;
+
+typedef bool (*transaction_handler_t)(chain_t, void*, int, transaction_t);
+
+
+
 
 
 #ifdef __cplusplus

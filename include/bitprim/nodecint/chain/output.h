@@ -28,13 +28,9 @@
 
 #include <bitcoin/bitcoin/chain/output.hpp>
 
-
-//TODO: rename "output_..." by "chain_output_..."
-
 libbitcoin::chain::output const& chain_output_const_cpp(output_t output);
 
 libbitcoin::chain::output& chain_output_cpp(output_t output);
-
 
 #ifdef __cplusplus
 extern "C" {

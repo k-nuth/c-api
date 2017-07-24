@@ -23,10 +23,7 @@
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/thread/latch.hpp>
 #include <bitprim/nodecint/executor.hpp>
-//#include <bitprim/nodecint/output_point.h>
 #include <bitcoin/bitcoin/wallet/mnemonic.hpp>
-//#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
-//#include <cinttypes>   //TODO: Remove, it is for the printf (printing pointer addresses)
 
 libbitcoin::node::configuration make_config(char const* path) {
     libbitcoin::node::configuration config(libbitcoin::config::settings::mainnet);

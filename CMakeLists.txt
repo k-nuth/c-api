@@ -229,6 +229,7 @@ set(_bitprim_sources
         src/executor_c.cpp
         src/parser.cpp
         src/chain/block.cpp
+        src/chain/block_list.cpp
         src/chain/chain.cpp
         src/chain/compact_block.cpp
         src/chain/header.cpp
@@ -370,6 +371,7 @@ set(_bitprim_headers
         bitprim/nodecint/version.h
         bitprim/nodecint/visibility.h
         bitprim/nodecint/chain/block.h
+        bitprim/nodecint/chain/block_list.h
         bitprim/nodecint/chain/chain.h
         bitprim/nodecint/chain/compact_block.h
         bitprim/nodecint/chain/header.h

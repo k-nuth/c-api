@@ -22,12 +22,13 @@
 #include <memory>
 #include <boost/thread/latch.hpp>
 
+#include <bitprim/nodecint/chain/block_list.h>
+
 #include <bitcoin/bitcoin/message/block.hpp>
 #include <bitcoin/bitcoin/message/header.hpp>
 #include <bitcoin/bitcoin/message/merkle_block.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/blockchain/interface/safe_chain.hpp>
-
 
 namespace {
 
@@ -522,6 +523,42 @@ int chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_
 
 
 
+
+// Subscribers.
+//-------------------------------------------------------------------------
+
+//virtual void subscribe_reorganize(reorganize_handler&& handler) = 0;
+//virtual void subscribe_transaction(transaction_handler&& handler) = 0;
+
+void chain_subscribe_reorganize(chain_t chain, void* ctx, reorganize_handler_t handler) {
+    safe_chain(chain).subscribe_reorganize([chain, ctx, handler](std::error_code const& ec, size_t fork_height, libbitcoin::block_const_ptr_list_const_ptr incoming, libbitcoin::block_const_ptr_list_const_ptr replaced_blocks) {
+//        auto new_history = new libbitcoin::chain::history_compact::list(history);
+
+        auto* incoming_cpp = chain_block_list_construct_default();
+        for (auto&& x : *incoming) {
+            auto new_block = new libbitcoin::message::block(*x.get());
+            chain_block_list_push_back(incoming_cpp, new_block);
+        }
+
+        auto* replaced_blocks_cpp = chain_block_list_construct_default();
+        for (auto&& x : *replaced_blocks) {
+            auto new_block = new libbitcoin::message::block(*x.get());
+            chain_block_list_push_back(replaced_blocks_cpp, new_block);
+        }
+
+        return handler(chain, ctx, ec.value(), fork_height, incoming_cpp, replaced_blocks_cpp);
+    });
+}
+
+void chain_subscribe_transaction(chain_t chain, void* ctx, transaction_handler_t handler) {
+    safe_chain(chain).subscribe_transaction([chain, ctx, handler](std::error_code const& ec, libbitcoin::transaction_const_ptr tx) {
+        auto new_tx = new libbitcoin::message::transaction(*tx.get());
+        return handler(chain, ctx, ec.value(), new_tx);
+    });
+}
+
+
+
 // Organizers.
 //-------------------------------------------------------------------------
 
@@ -534,10 +571,36 @@ void chain_organize_block(chain_t chain, void* ctx, block_t block, result_handle
     });
 }
 
+int chain_organize_block_sync(chain_t chain, block_t block) {
+    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    int res;
+
+    safe_chain(chain).organize(block_shared(block), [](std::error_code const& ec) {
+        res = ec.value();
+        latch.count_down();
+    });
+
+    latch.count_down_and_wait();
+    return res;
+}
+
 void chain_organize_transaction(chain_t chain, void* ctx, transaction_t transaction, result_handler_t handler) {
     safe_chain(chain).organize(tx_shared(transaction), [chain, ctx, handler](std::error_code const& ec) {
         handler(chain, ctx, ec.value());
     });
+}
+
+int chain_organize_transaction_sync(chain_t chain, transaction_t transaction) {
+    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    int res;
+
+    safe_chain(chain).organize(tx_shared(transaction), [](std::error_code const& ec) {
+        res = ec.value();
+        latch.count_down();
+    });
+
+    latch.count_down_and_wait();
+    return res;
 }
 
 
