@@ -43,6 +43,7 @@ typedef void* p2p_t;
 
 //TODO: check if we can encapsulate the pointer into a struct to make them more "type safe"
 typedef void* block_t;
+typedef void* block_indexes_t;
 typedef void* block_list_t;
 
 typedef void* compact_block_t;
@@ -66,7 +67,17 @@ typedef void* point_list_t;
 typedef void* transaction_t;
 typedef void* transaction_list_t;
 
+typedef void* get_blocks_t;
+typedef void* get_blocks_ptr_t;
+typedef void* get_headers_t;
+typedef void* get_headers_ptr_t;
+
+
 typedef void* payment_address_t;
+
+typedef void* hash_list_t;
+
+
 
 //typedef uint8_t const* hash_t;
 //typedef uint8_t* long_hash_t;
@@ -101,6 +112,12 @@ typedef void (*spend_fetch_handler_t)(chain_t, void*, int, input_point_t input_p
 typedef void (*transaction_fetch_handler_t)(chain_t, void*, int, transaction_t transaction, uint64_t /*size_t*/ h, uint64_t /*size_t*/ i);
 typedef void (*transaction_index_fetch_handler_t)(chain_t, void*, int, uint64_t /*size_t*/ position, uint64_t /*size_t*/ height);
 typedef void (*validate_tx_handler_t)(chain_t, void*, int, char* message);
+
+//typedef std::function<void(const code&, get_headers_ptr)> block_locator_fetch_handler;
+typedef void (*block_locator_fetch_handler_t)(chain_t, void*, int, get_headers_ptr_t);
+
+//typedef std::function<void(const code&, inventory_ptr)> inventory_fetch_handler;
+
 
 typedef void (*result_handler_t)(chain_t, void*, int);
 

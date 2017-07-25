@@ -22,6 +22,7 @@
 #include <memory>
 #include <boost/thread/latch.hpp>
 
+#include <bitprim/nodecint/convertions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
 #include <bitprim/nodecint/chain/block_list.h>
@@ -521,6 +522,70 @@ int chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_
     latch.count_down_and_wait();
     return res;
 }
+
+
+
+// ------------------------------------------------------------------
+//virtual void fetch_block_locator(const chain::block::indexes& heights, block_locator_fetch_handler handler) const = 0;
+
+void chain_fetch_block_locator(chain_t chain, void* ctx, block_indexes_t heights, block_locator_fetch_handler_t handler) {
+    auto const& heights_cpp = chain_block_indexes_const_cpp(heights);
+
+    safe_chain(chain).fetch_block_locator(heights_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::get_headers_ptr headers) {
+        //TODO: check if the pointer is set, before dereferencing
+        auto* new_headers = new libbitcoin::message::get_headers(*headers);
+        handler(chain, ctx, ec.value(), new_headers);
+    });
+}
+
+//It is the user's responsibility to release the history returned in the callback
+int chain_get_block_locator(chain_t chain, block_indexes_t heights, get_headers_ptr_t* out_headers) {
+    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    int res;
+
+    auto const& heights_cpp = chain_block_indexes_const_cpp(heights);
+
+    safe_chain(chain).fetch_block_locator(heights_cpp, [&](std::error_code const& ec, libbitcoin::get_headers_ptr headers) {
+        //TODO: check if the pointer is set, before dereferencing
+        *out_headers = new libbitcoin::message::get_headers(*headers);
+        res = ec.value();
+        latch.count_down();
+    });
+
+    latch.count_down_and_wait();
+    return res;
+}
+
+
+
+// ------------------------------------------------------------------
+//virtual void fetch_locator_block_hashes(get_blocks_const_ptr locator, const hash_digest& threshold, size_t limit, inventory_fetch_handler handler) const = 0;
+
+//void chain_fetch_locator_block_hashes(chain_t chain, void* ctx, get_blocks_ptr_t locator, hash_t threshold, uint64_t /*size_t*/ limit, inventory_fetch_handler handler) {
+//}
+
+
+//virtual void fetch_locator_block_headers(get_headers_const_ptr locator, const hash_digest& threshold, size_t limit, locator_block_headers_fetch_handler handler) const = 0;
+//
+
+//// Transaction Pool.
+////-------------------------------------------------------------------------
+//
+//virtual void fetch_template(merkle_block_fetch_handler handler) const = 0;
+//virtual void fetch_mempool(size_t count_limit, uint64_t minimum_fee, inventory_fetch_handler handler) const = 0;
+//
+//// Filters.
+////-------------------------------------------------------------------------
+//
+//virtual void filter_blocks(get_data_ptr message, result_handler handler) const = 0;
+
+//void chain_filter_blocks(chain_t chain, void* ctx, get_data_ptr message, result_handler handler) {
+//}
+
+
+//virtual void filter_transactions(get_data_ptr message, result_handler handler) const = 0;
+// ------------------------------------------------------------------
+
 
 
 
