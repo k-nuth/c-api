@@ -23,58 +23,58 @@
 #include <bitcoin/bitcoin/message/merkle_block.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
 
-libbitcoin::message::merkle_block const& merkle_block_const_cpp(merkle_block_t block) {
+libbitcoin::message::merkle_block const& chain_merkle_block_const_cpp(merkle_block_t block) {
     return *static_cast<libbitcoin::message::merkle_block const*>(block);
 }
 
-libbitcoin::message::merkle_block& merkle_block_cpp(merkle_block_t block) {
+libbitcoin::message::merkle_block& chain_merkle_block_cpp(merkle_block_t block) {
     return *static_cast<libbitcoin::message::merkle_block*>(block);
 }
 
 extern "C" {
 
-//hash_t merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) {
+//hash_t chain_merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) {
 //    //precondition: n >=0 && n < hashes().size()
 //
-//    auto* blk = &merkle_block_cpp(block);
+//    auto* blk = &chain_merkle_block_cpp(block);
 //    auto& hash_n = blk->hashes()[n];
 //    return hash_n.data();
 //}
 
-hash_t merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) {
+hash_t chain_merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) {
     //precondition: n >=0 && n < hashes().size()
 
-    auto* blk = &merkle_block_cpp(block);
+    auto* blk = &chain_merkle_block_cpp(block);
     auto& hash_n = blk->hashes()[n];
     return bitprim::to_hash_t(hash_n);
 }
 
-header_t merkle_block_header(merkle_block_t block) {
-    return &merkle_block_cpp(block).header();
+header_t chain_merkle_block_header(merkle_block_t block) {
+    return &chain_merkle_block_cpp(block).header();
 }
 
-int merkle_block_is_valid(merkle_block_t block) {
-    return merkle_block_const_cpp(block).is_valid();
+int /*bool*/ chain_merkle_block_is_valid(merkle_block_t block) {
+    return chain_merkle_block_const_cpp(block).is_valid();
 }
 
-uint64_t /*size_t*/ merkle_block_hash_count(merkle_block_t block) {
-    return merkle_block_const_cpp(block).hashes().size();
+uint64_t /*size_t*/ chain_merkle_block_hash_count(merkle_block_t block) {
+    return chain_merkle_block_const_cpp(block).hashes().size();
 }
 
-uint64_t /*size_t*/ merkle_block_serialized_size(merkle_block_t block, uint32_t version) {
-    return merkle_block_const_cpp(block).serialized_size(version);
+uint64_t /*size_t*/ chain_merkle_block_serialized_size(merkle_block_t block, uint32_t version) {
+    return chain_merkle_block_const_cpp(block).serialized_size(version);
 }
 
-uint64_t /*size_t*/ merkle_block_total_transaction_count(merkle_block_t block){
-    return merkle_block_const_cpp(block).total_transactions();
+uint64_t /*size_t*/ chain_merkle_block_total_transaction_count(merkle_block_t block){
+    return chain_merkle_block_const_cpp(block).total_transactions();
 }
 
-void merkle_block_destruct(merkle_block_t block) {
-    delete &merkle_block_cpp(block);
+void chain_merkle_block_destruct(merkle_block_t block) {
+    delete &chain_merkle_block_cpp(block);
 }
 
-void merkle_block_reset(merkle_block_t block){
-    merkle_block_cpp(block).reset();
+void chain_merkle_block_reset(merkle_block_t block){
+    chain_merkle_block_cpp(block).reset();
 }
 
 } /* extern "C" */
