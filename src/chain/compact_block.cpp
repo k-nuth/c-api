@@ -58,15 +58,15 @@ transaction_t compact_block_hash_nth(compact_block_t block, uint64_t /*size_t*/ 
     return &tx_n;
 }
 
-uint64_t compact_block_nonce(compact_block_t block){
+uint64_t compact_block_nonce(compact_block_t block) {
     return compact_block_const_cpp(block).nonce();
 }
 
-void compact_block_destruct(compact_block_t block){
+void compact_block_destruct(compact_block_t block) {
     delete &compact_block_cpp(block);
 }
 
-void compact_block_reset(compact_block_t block){
+void compact_block_reset(compact_block_t block) {
     compact_block_cpp(block).reset();
 }
 

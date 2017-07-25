@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/chain/block.h>
+#include <bitprim/nodecint/chain/merkle_block.h>
 
 #include <bitprim/nodecint/helpers.hpp>
 #include <bitcoin/bitcoin/message/merkle_block.hpp>
@@ -32,6 +32,11 @@ libbitcoin::message::merkle_block& chain_merkle_block_cpp(merkle_block_t block) 
 }
 
 extern "C" {
+
+
+void chain_merkle_block_destruct(merkle_block_t block) {
+    delete &chain_merkle_block_cpp(block);
+}
 
 //hash_t chain_merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) {
 //    //precondition: n >=0 && n < hashes().size()
@@ -65,15 +70,11 @@ uint64_t /*size_t*/ chain_merkle_block_serialized_size(merkle_block_t block, uin
     return chain_merkle_block_const_cpp(block).serialized_size(version);
 }
 
-uint64_t /*size_t*/ chain_merkle_block_total_transaction_count(merkle_block_t block){
+uint64_t /*size_t*/ chain_merkle_block_total_transaction_count(merkle_block_t block) {
     return chain_merkle_block_const_cpp(block).total_transactions();
 }
 
-void chain_merkle_block_destruct(merkle_block_t block) {
-    delete &chain_merkle_block_cpp(block);
-}
-
-void chain_merkle_block_reset(merkle_block_t block){
+void chain_merkle_block_reset(merkle_block_t block) {
     chain_merkle_block_cpp(block).reset();
 }
 

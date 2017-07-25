@@ -26,14 +26,14 @@ class QueriesTestsFixture {
 private:
     executor_t exec;
 public:
-    QueriesTestsFixture(){
+    QueriesTestsFixture() {
         exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
         int res1 = executor_initchain(exec);
         std::cout << "Init chain returned: " << res1 << std::endl;
         //int res2 = executor_run(exec);
     }
 
-    executor_t getExecutor(){
+    executor_t getExecutor() {
         return exec;
     }
 };

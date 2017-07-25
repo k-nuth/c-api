@@ -43,10 +43,10 @@
 void history_fetch_handler(int error, history_compact_list_t history_list) {
      printf("C callback (history_fetch_handler) called\n");
 
-	 auto count = history_compact_list_count(history_list);
+	 auto count = chain_history_compact_list_count(history_list);
 	 printf("history_fetch_handler count: %llu\n", count);
 
-	 history_compact_list_destruct(history_list);
+	 chain_history_compact_list_destruct(history_list);
 }
 
 void last_height_fetch_handler(int error, size_t h) {

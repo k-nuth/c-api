@@ -32,25 +32,25 @@ libbitcoin::chain::output_point& output_point_cpp(output_point_t outpoint) {
 
 extern "C" {
 
-output_point_t output_point_construct(){
+output_point_t output_point_construct() {
     return std::make_unique<libbitcoin::chain::output_point>().release();
 }
 
-void output_point_destruct(output_point_t outpoint){
+void output_point_destruct(output_point_t outpoint) {
     delete &output_point_cpp(outpoint);
 }
 
-//hash_t output_point_get_hash(output_point_t outpoint){
+//hash_t output_point_get_hash(output_point_t outpoint) {
 //    auto const& hash_cpp = output_point_const_cpp(outpoint).hash();
 //    return hash_cpp.data();
 //}
 
-hash_t output_point_get_hash(output_point_t outpoint){
+hash_t output_point_get_hash(output_point_t outpoint) {
     auto const& hash_cpp = output_point_const_cpp(outpoint).hash();
     return bitprim::to_hash_t(hash_cpp);
 }
 
-uint32_t output_point_get_index(output_point_t outpoint){
+uint32_t output_point_get_index(output_point_t outpoint) {
     return output_point_const_cpp(outpoint).index();
 }
 
