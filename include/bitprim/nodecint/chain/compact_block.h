@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_COMPACT_BLOCK_H
-#define BITPRIM_NODECINT_COMPACT_BLOCK_H
+#ifndef BITPRIM_NODECINT_CHAIN_COMPACT_BLOCK_H_
+#define BITPRIM_NODECINT_CHAIN_COMPACT_BLOCK_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -39,13 +39,13 @@ BITPRIM_EXPORT
 int /*bool*/ compact_block_is_valid(compact_block_t block);
 
 BITPRIM_EXPORT
-size_t compact_block_serialized_size(compact_block_t block, uint32_t version);
+uint64_t /*size_t*/ compact_block_serialized_size(compact_block_t block, uint32_t version);
 
 BITPRIM_EXPORT
-size_t compact_block_transaction_count(compact_block_t block);
+uint64_t /*size_t*/ compact_block_transaction_count(compact_block_t block);
 
 BITPRIM_EXPORT
-transaction_t compact_block_transaction_nth(compact_block_t block, size_t n);
+transaction_t compact_block_transaction_nth(compact_block_t block, uint64_t /*size_t*/ n);
 
 BITPRIM_EXPORT
 uint64_t compact_block_nonce(compact_block_t block);
@@ -60,4 +60,4 @@ void compact_block_reset(compact_block_t block);
 } // extern "C"
 #endif
 
-#endif //BITPRIM_NODECINT_COMPACT_BLOCK_H
+#endif /* BITPRIM_NODECINT_CHAIN_COMPACT_BLOCK_H_ */

@@ -17,33 +17,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_CHAIN_PAYMENT_ADDRESS_H_
-#define BITPRIM_NODECINT_CHAIN_PAYMENT_ADDRESS_H_
+#ifndef BITPRIM_NODECINT_CHAIN_OUTPUT_LIST_H_
+#define BITPRIM_NODECINT_CHAIN_OUTPUT_LIST_H_
 
-#include <stdio.h>
 #include <stdint.h>
 
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
+
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 BITPRIM_EXPORT
-char const* payment_address_encoded(payment_address_t payment_address);
+output_list_t chain_output_list_construct_default();
 
 BITPRIM_EXPORT
-payment_address_t payment_address_construct_from_string(char const* address);
+void chain_output_list_push_back(output_list_t output_list, output_t output);
 
 BITPRIM_EXPORT
-uint8_t version(payment_address_t payment_address);
+void chain_output_list_destruct(output_list_t output_list);
 
 BITPRIM_EXPORT
-void payment_address_destruct(payment_address_t payment_address);
+uint64_t /*size_t*/ chain_output_list_count(output_list_t output_list);
+
+BITPRIM_EXPORT
+output_t chain_output_list_nth(output_list_t output_list, uint64_t /*size_t*/ n);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_CHAIN_PAYMENT_ADDRESS_H_ */
+#endif /* BITPRIM_NODECINT_CHAIN_OUTPUT_LIST_H_ */

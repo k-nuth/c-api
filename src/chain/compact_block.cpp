@@ -19,15 +19,18 @@
 
 #include <bitprim/nodecint/chain/compact_block.h>
 #include <bitcoin/bitcoin/message/compact_block.hpp>
-#include <bitcoin/bitcoin/message/transaction.hpp>
 
-libbitcoin::message::compact_block const& compact_block_const_cpp(compact_block_t block) {
-    return *static_cast<libbitcoin::message::compact_block const*>(block);
+namespace {
+
+libbitcoin::message::compact_block const &compact_block_const_cpp(compact_block_t block) {
+    return *static_cast<libbitcoin::message::compact_block const *>(block);
 }
 
-libbitcoin::message::compact_block& compact_block_cpp(compact_block_t block) {
-    return *static_cast<libbitcoin::message::compact_block*>(block);
+libbitcoin::message::compact_block &compact_block_cpp(compact_block_t block) {
+    return *static_cast<libbitcoin::message::compact_block *>(block);
 }
+
+} /* end of anonymous namespace */
 
 extern "C" {
 
@@ -35,19 +38,19 @@ header_t compact_block_header(compact_block_t block) {
     return &compact_block_cpp(block).header();
 }
 
-int compact_block_is_valid(compact_block_t block) {
+int /*bool*/ compact_block_is_valid(compact_block_t block) {
     return compact_block_const_cpp(block).is_valid();
 }
 
-size_t compact_block_serialized_size(compact_block_t block, uint32_t version) {
+uint64_t /*size_t*/ compact_block_serialized_size(compact_block_t block, uint32_t version) {
     return compact_block_const_cpp(block).serialized_size(version);
 }
 
-size_t compact_block_transaction_count(compact_block_t block) {
+uint64_t /*size_t*/ compact_block_transaction_count(compact_block_t block) {
     return compact_block_const_cpp(block).transactions().size();
 }
 
-transaction_t compact_block_hash_nth(compact_block_t block, size_t n) {
+transaction_t compact_block_hash_nth(compact_block_t block, uint64_t /*size_t*/ n) {
     //precondition: n >=0 && n < transactions().size()
 
     auto* blk = &compact_block_cpp(block);
@@ -55,15 +58,15 @@ transaction_t compact_block_hash_nth(compact_block_t block, size_t n) {
     return &tx_n;
 }
 
-uint64_t compact_block_nonce(compact_block_t block){
+uint64_t compact_block_nonce(compact_block_t block) {
     return compact_block_const_cpp(block).nonce();
 }
 
-void compact_block_destruct(compact_block_t block){
+void compact_block_destruct(compact_block_t block) {
     delete &compact_block_cpp(block);
 }
 
-void compact_block_reset(compact_block_t block){
+void compact_block_reset(compact_block_t block) {
     compact_block_cpp(block).reset();
 }
 

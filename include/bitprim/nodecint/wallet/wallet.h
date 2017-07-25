@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_WALLET_H_
-#define BITPRIM_NODECINT_WALLET_H_
+#ifndef BITPRIM_NODECINT_WALLET_WALLET_H_
+#define BITPRIM_NODECINT_WALLET_WALLET_H_
 
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
@@ -30,11 +30,11 @@ extern "C" {
 BITPRIM_EXPORT
 long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics);
 
-BITPRIM_EXPORT
-void long_hash_destroy(long_hash_t ptr);
+//BITPRIM_EXPORT
+//void long_hash_destroy(long_hash_t ptr);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif //BITPRIM_NODECINT_WALLET_H_
+#endif /* BITPRIM_NODECINT_WALLET_WALLET_H_ */

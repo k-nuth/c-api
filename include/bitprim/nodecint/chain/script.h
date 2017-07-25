@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_SCRIPT_H_
-#define BITPRIM_NODECINT_SCRIPT_H_
+#ifndef BITPRIM_NODECINT_CHAIN_SCRIPT_H_
+#define BITPRIM_NODECINT_CHAIN_SCRIPT_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -40,24 +40,24 @@ BITPRIM_EXPORT
 int script_is_valid_operations(script_t script);
 
 BITPRIM_EXPORT
-size_t script_satoshi_content_size(script_t script);
+uint64_t /*size_t*/ script_satoshi_content_size(script_t script);
 
 BITPRIM_EXPORT
-size_t script_serialized_size(script_t script, /*bool*/ int prefix);
+uint64_t /*size_t*/ script_serialized_size(script_t script, /*bool*/ int prefix);
 
 //Note: user of the function has to release the resource (memory) manually
 BITPRIM_EXPORT
 char const* script_to_string(script_t script, uint32_t active_forks);
 
 BITPRIM_EXPORT
-size_t script_sigops(script_t script, /*bool*/ int embedded);
+uint64_t /*size_t*/ script_sigops(script_t script, /*bool*/ int embedded);
 
 BITPRIM_EXPORT
-size_t script_embedded_sigops(script_t script, script_t prevout_script);
+uint64_t /*size_t*/ script_embedded_sigops(script_t script, script_t prevout_script);
 
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_SCRIPT_H_ */
+#endif /* BITPRIM_NODECINT_CHAIN_SCRIPT_H_ */

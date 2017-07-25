@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_HISTORY_COMPACT_H
-#define BITPRIM_NODECINT_HISTORY_COMPACT_H
+#ifndef BITPRIM_NODECINT_CHAIN_HISTORY_COMPACT_H
+#define BITPRIM_NODECINT_CHAIN_HISTORY_COMPACT_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -31,19 +31,19 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-point_kind_t history_compact_get_point_kind(history_compact_t history);
+point_kind_t chain_history_compact_get_point_kind(history_compact_t history);
 
 BITPRIM_EXPORT
-point_t history_compact_get_point(history_compact_t history);
+point_t chain_history_compact_get_point(history_compact_t history);
 
 BITPRIM_EXPORT
-uint32_t history_compact_get_height(history_compact_t history);
+uint32_t chain_history_compact_get_height(history_compact_t history);
 
 BITPRIM_EXPORT
-uint64_t history_compact_get_value_or_previous_checksum(history_compact_t history);
+uint64_t chain_history_compact_get_value_or_previous_checksum(history_compact_t history);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif //BITPRIM_NODECINT_HISTORY_COMPACT_H
+#endif /* BITPRIM_NODECINT_CHAIN_HISTORY_COMPACT_H_ */

@@ -28,15 +28,15 @@ std::vector<libbitcoin::chain::point>& point_list_cpp(point_list_t point_list) {
     return *static_cast<std::vector<libbitcoin::chain::point>*>(point_list);
 }
 
-point_t point_list_nth(point_list_t point_list, size_t n){
+point_t point_list_nth(point_list_t point_list, uint64_t /*size_t*/ n) {
     auto& point_n = point_list_cpp(point_list)[n];
     return &point_n;
 }
 
-size_t point_list_count(point_list_t point_list){
+uint64_t /*size_t*/ point_list_count(point_list_t point_list) {
     return point_list_const_cpp(point_list).size();
 }
 
-void point_list_destruct(point_list_t point_list){
+void point_list_destruct(point_list_t point_list) {
     delete &point_list_cpp(point_list);
 }

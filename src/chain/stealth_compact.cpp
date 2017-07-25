@@ -19,7 +19,7 @@
 
 #include <bitprim/nodecint/chain/stealth_compact.h>
 #include <bitcoin/bitcoin/chain/stealth.hpp>
-
+#include <bitprim/nodecint/helpers.hpp>
 
 libbitcoin::chain::stealth_compact const& stealth_compact_const_cpp(stealth_compact_t stealth){
 	return *static_cast<libbitcoin::chain::stealth_compact const*>(stealth);
@@ -33,23 +33,24 @@ hash_t stealth_compact_get_ephemeral_public_key_hash(stealth_compact_t stealth){
     //return &stealth_compact_cpp(stealth).ephemeral_public_key_hash;
 
     auto const& hash_cpp = stealth_compact_cpp(stealth).ephemeral_public_key_hash;
-    return hash_cpp.data(); //TODO: returning a dangling pointer
+    return bitprim::to_hash_t(hash_cpp); 
 }
 
 hash_t stealth_compact_get_transaction_hash(stealth_compact_t stealth){
     //return &stealth_compact_cpp(stealth).transaction_hash;
     auto const& hash_cpp = stealth_compact_cpp(stealth).transaction_hash;
-    return hash_cpp.data(); //TODO: returning a dangling pointer
+    return bitprim::to_hash_t(hash_cpp);
 
 }
 
 short_hash_t stealth_compact_get_public_key_hash(stealth_compact_t stealth){
 //    return &stealth_compact_cpp(stealth).public_key_hash;
 
-    uint8_t* ret = (uint8_t*)malloc(stealth_compact_cpp(stealth).public_key_hash.size() * sizeof(uint8_t));
-//    printf("wallet_mnemonics_to_seed - ret: %p\n", ret);
-    std::copy_n(std::begin(stealth_compact_cpp(stealth).public_key_hash), stealth_compact_cpp(stealth).public_key_hash.size(), ret);
-    return ret;
+    //uint8_t* ret = (uint8_t*)malloc(stealth_compact_cpp(stealth).public_key_hash.size() * sizeof(uint8_t));
+    //std::copy_n(std::begin(stealth_compact_cpp(stealth).public_key_hash), stealth_compact_cpp(stealth).public_key_hash.size(), ret);
+    //return ret;
+    auto const& hash_cpp = stealth_compact_cpp(stealth).public_key_hash;
+    return bitprim::to_short_hash_t(hash_cpp);
 }
 
 

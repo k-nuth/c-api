@@ -18,50 +18,65 @@
  */
 
 #include <bitprim/nodecint/chain/input.h>
-#include <bitcoin/bitcoin/chain/input.hpp>
+
+#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/chain/output_point.h>
+#include <bitprim/nodecint/chain/script.h>
 
 
-libbitcoin::chain::input const& input_const_cpp(input_t input) {
+libbitcoin::chain::input const& chain_input_const_cpp(input_t input) {
     return *static_cast<libbitcoin::chain::input const*>(input);
 }
 
-libbitcoin::chain::input& input_cpp(input_t input) {
+libbitcoin::chain::input& chain_input_cpp(input_t input) {
     return *static_cast<libbitcoin::chain::input*>(input);
 }
 
 
 extern "C" {
 
-void input_destruct(input_t input) {
-    delete &input_cpp(input);
+//input();
+input_t chain_input_construct_default() {
+    return new libbitcoin::chain::input();
 }
 
-int /*bool*/ input_is_valid(input_t input) {
-    return input_const_cpp(input).is_valid();
+//input(output_point&& previous_output, chain::script&& script, uint32_t sequence);
+//input(const output_point& previous_output, const chain::script& script, uint32_t sequence);
+input_t chain_input_construct(output_point_t previous_output, script_t script, uint32_t sequence) {
+    return new libbitcoin::chain::input(output_point_const_cpp(previous_output), script_const_cpp(script), sequence);
 }
 
-int /*bool*/ input_is_final(input_t input) {
-    return input_const_cpp(input).is_final();
+
+void chain_input_destruct(input_t input) {
+    delete &chain_input_cpp(input);
 }
 
-size_t input_serialized_size(input_t input, int wire /* = true*/) {
-    return input_const_cpp(input).serialized_size(wire);
+int /*bool*/ chain_input_is_valid(input_t input) {
+    return chain_input_const_cpp(input).is_valid();
 }
 
-uint32_t input_sequence(input_t input) {
-    return input_const_cpp(input).sequence();
+int /*bool*/ chain_input_is_final(input_t input) {
+    return chain_input_const_cpp(input).is_final();
 }
 
-size_t input_signature_operations(input_t input, int /*bool*/ bip16_active) {
-    return input_const_cpp(input).signature_operations(bip16_active);
+uint64_t /*size_t*/ chain_input_serialized_size(input_t input, int /*bool*/ wire /* = true*/) {
+    return chain_input_const_cpp(input).serialized_size(wire);
 }
 
-script_t input_script(input_t input) {
-    return &(input_cpp(input).script());
+uint32_t chain_input_sequence(input_t input) {
+    return chain_input_const_cpp(input).sequence();
 }
 
-output_point_t input_previous_output(input_t input) {
-    return &(input_cpp(input).previous_output());
+uint64_t /*size_t*/ chain_input_signature_operations(input_t input, int /*bool*/ bip16_active) {
+    return chain_input_const_cpp(input).signature_operations(bip16_active);
+}
+
+script_t chain_input_script(input_t input) {
+    return &(chain_input_cpp(input).script());
+}
+
+output_point_t chain_input_previous_output(input_t input) {
+    return &(chain_input_cpp(input).previous_output());
 }
 
 //// Serialization.
@@ -85,8 +100,6 @@ output_point_t input_previous_output(input_t input) {
 //
 ///// The payment address extraxcted from this input as a standard script.
 //wallet::payment_address address() const;
-
-
 
 
 } /* extern "C" */

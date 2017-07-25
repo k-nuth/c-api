@@ -17,33 +17,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_CHAIN_PAYMENT_ADDRESS_H_
-#define BITPRIM_NODECINT_CHAIN_PAYMENT_ADDRESS_H_
+#include <bitprim/nodecint/p2p/p2p.h>
 
-#include <stdio.h>
-#include <stdint.h>
+#include <bitcoin/network/p2p.hpp>
 
-#include <bitprim/nodecint/visibility.h>
-#include <bitprim/nodecint/primitives.h>
 
-#ifdef __cplusplus
+namespace {
+
+inline
+libbitcoin::network::p2p& p2p_cast(p2p_t p2p) {
+    return *static_cast<libbitcoin::network::p2p*>(p2p);
+}
+
+} /* end of anonymous namespace */
+
+
 extern "C" {
-#endif
 
-BITPRIM_EXPORT
-char const* payment_address_encoded(payment_address_t payment_address);
+uint64_t /*size_t*/ p2p_address_count(p2p_t p2p) {
+    return p2p_cast(p2p).address_count();
+}
 
-BITPRIM_EXPORT
-payment_address_t payment_address_construct_from_string(char const* address);
+void p2p_stop(p2p_t p2p) {
+    p2p_cast(p2p).stop();
+}
 
-BITPRIM_EXPORT
-uint8_t version(payment_address_t payment_address);
+void p2p_close(p2p_t p2p) {
+    p2p_cast(p2p).close();
+}
 
-BITPRIM_EXPORT
-void payment_address_destruct(payment_address_t payment_address);
+//virtual bool stopped() const;
+bool p2p_stopped(p2p_t p2p) {
+    return p2p_cast(p2p).stopped();
+}
 
-#ifdef __cplusplus
-} // extern "C"
-#endif
 
-#endif /* BITPRIM_NODECINT_CHAIN_PAYMENT_ADDRESS_H_ */
+} /* extern "C" */

@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_POINT_LIST_H
-#define BITPRIM_NODECINT_POINT_LIST_H
+#ifndef BITPRIM_NODECINT_CHAIN_POINT_LIST_H_
+#define BITPRIM_NODECINT_CHAIN_POINT_LIST_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -31,10 +31,10 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-point_t point_list_nth(point_list_t point_list, size_t n);
+point_t point_list_nth(point_list_t point_list, uint64_t /*size_t*/ n);
 
 BITPRIM_EXPORT
-size_t point_list_count(point_list_t point_list);
+uint64_t /*size_t*/ point_list_count(point_list_t point_list);
 
 BITPRIM_EXPORT
 void point_list_destruct(point_list_t point_list);
@@ -43,4 +43,4 @@ void point_list_destruct(point_list_t point_list);
 } // extern "C"
 #endif
 
-#endif //BITPRIM_NODECINT_POINT_LIST_H
+#endif /* BITPRIM_NODECINT_CHAIN_POINT_LIST_H_ */

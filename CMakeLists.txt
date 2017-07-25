@@ -80,8 +80,8 @@ endif()
 
 #------------------------------------------------------------------------------
 
-option(WITH_CONSOLE_NODE_CINT "" OFF)
-
+option(WITH_CONSOLE_NODE_CINT "" ON)
+set(WITH_CONSOLE_NODE_CINT ON)
 
 #------------------------------------------------------------------------------
 
@@ -147,28 +147,12 @@ endif()
 #==============================================================================
 include(CheckCXXCompilerFlag)
 
-function(_add_c_compile_flag _Flag _Var)
-  check_cxx_compiler_flag(${_Flag} ${_Var})
-  if (${_Var})
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${_Flag}" )
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${_Flag}" )
-  endif()
-endfunction()
 
-function(_add_cxx_compile_flag _Flag _Var)
-  check_cxx_compiler_flag(${_Flag} ${_Var})
-  if (${_Var})
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${_Flag}" )
-  endif()
-endfunction()
+# Including common functions
+#------------------------------------------------------------------------------
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+include(BitprimTools)
 
-function(_add_link_flag _Flag _Var)
-  check_cxx_compiler_flag(${_Flag} ${_Var})
-  if (${_Var})
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${_Flag}" )
-    set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} ${_Flag}" )
-  endif()
-endfunction()
 
 # Warn on all stuff.
 #------------------------------------------------------------------------------
@@ -229,29 +213,6 @@ endif()
 
 # Build
 #==============================================================================
-function(_group_sources target sources_dir)
-  file(GLOB_RECURSE _headers
-          ${sources_dir}/include/*.h ${sources_dir}/include/*.hpp)
-  target_sources(${target} PRIVATE ${_headers})
-
-  get_target_property(sources ${target} SOURCES)
-  foreach (source ${sources})
-    get_filename_component(group ${source} ABSOLUTE)
-    get_filename_component(group ${group} DIRECTORY)
-    file(RELATIVE_PATH group "${sources_dir}" "${group}")
-    if (group)
-      if (MSVC)
-        string(REPLACE "/" "\\" group "${group}")
-      endif()
-      source_group("${group}" FILES "${source}")
-    endif()
-  endforeach()
-
-  set_target_properties(${target} PROPERTIES FOLDER "node")
-endfunction()
-
-
-
 
 # src/bitprim-node-cint.la => ${libdir}
 #------------------------------------------------------------------------------
@@ -269,6 +230,7 @@ set(_bitprim_sources
         src/parser.cpp
         src/binary.cpp
         src/chain/block.cpp
+        src/chain/block_list.cpp
         src/chain/chain.cpp
         src/chain/compact_block.cpp
         src/chain/header.cpp
@@ -277,14 +239,20 @@ set(_bitprim_sources
         src/chain/stealth_compact.cpp
         src/chain/stealth_compact_list.cpp
         src/chain/input.cpp
+        src/chain/input_list.cpp
         src/chain/merkle_block.cpp
         src/chain/output.cpp
+        src/chain/output_list.cpp
         src/chain/output_point.cpp
         src/chain/payment_address.cpp
         src/chain/point.cpp
         src/chain/point_list.cpp
         src/chain/script.cpp
         src/chain/transaction.cpp
+        src/chain/transaction_list.cpp
+
+        src/p2p/p2p.cpp
+
         src/wallet/wallet.cpp
         src/wallet/word_list.cpp
 )
@@ -294,30 +262,9 @@ add_library(bitprim-node-cint ${MODE}
         ${_bitprim_sources}
         )
 
-#add_library(bitprim-node-cint ${MODE}
-#        src/executor.cpp
-#        src/executor_c.cpp
-#        src/parser.cpp
-#        src/chain/block.cpp
-#        src/chain/chain.cpp
-#        src/chain/compact_block.cpp
-#        src/chain/header.cpp
-#        src/chain/history_compact.cpp
-#        src/chain/history_compact_list.cpp
-#        src/chain/input.cpp
-#        src/chain/merkle_block.cpp
-#        src/chain/output.cpp
-#        src/chain/output_point.cpp
-#        src/chain/payment_address.cpp
-#        src/chain/point.cpp
-#        src/chain/point_list.cpp
-#        src/chain/script.cpp
-#        src/chain/transaction.cpp
-#        src/wallet/wallet.cpp
-#        src/wallet/word_list.cpp
-#)
 
 # set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
+#set_target_properties(bitprim-node-cint PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
 target_compile_definitions(bitprim-node-cint PUBLIC -Dbitprim_EXPORTS)
 
@@ -375,25 +322,7 @@ endif()
 
 # # Tests
 # #==============================================================================
-# function(_add_tests target)
-#   if (ENABLE_SHARED)
-#     target_compile_definitions(${target} PRIVATE -DBOOST_TEST_DYN_LINK)
-#   endif()
-#   target_include_directories(${target} SYSTEM PUBLIC ${Boost_INCLUDE_DIR})
-#   target_link_libraries(${target} PUBLIC ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
-# 
-#   foreach (_test_name ${ARGN})
-#     add_test(
-#             NAME test.node.${_test_name}
-#             COMMAND ${target}
-#             --run_test=${_test_name}
-#             --show_progress=no
-#             --detect_memory_leak=0
-#             --report_level=no
-#             --build_info=yes)
-#   endforeach()
-# endfunction()
-# 
+#
 # if (WITH_TESTS)
 #   enable_testing()
 # endif()
@@ -439,11 +368,14 @@ install(TARGETS bitprim-node-cint
 
 
 set(_bitprim_headers
+        bitprim/nodecint/convertions.hpp
+        bitprim/nodecint/helpers.hpp
         bitprim/nodecint/executor_c.h
         bitprim/nodecint/primitives.h
         bitprim/nodecint/version.h
         bitprim/nodecint/visibility.h
         bitprim/nodecint/chain/block.h
+        bitprim/nodecint/chain/block_list.h
         bitprim/nodecint/chain/chain.h
         bitprim/nodecint/chain/compact_block.h
         bitprim/nodecint/chain/header.h
@@ -452,14 +384,21 @@ set(_bitprim_headers
         bitprim/nodecint/chain/stealth_compact.h
         bitprim/nodecint/chain/stealth_compact_list.h
         bitprim/nodecint/chain/input.h
+        bitprim/nodecint/chain/input_list.h
+
         bitprim/nodecint/chain/merkle_block.h
         bitprim/nodecint/chain/output.h
+        bitprim/nodecint/chain/output_list.h
         bitprim/nodecint/chain/output_point.h
         bitprim/nodecint/chain/payment_address.h
         bitprim/nodecint/chain/point.h
         bitprim/nodecint/chain/point_list.h
         bitprim/nodecint/chain/script.h
         bitprim/nodecint/chain/transaction.h
+        bitprim/nodecint/chain/transaction_list.h
+
+        bitprim/nodecint/p2p/p2p.h
+
         bitprim/nodecint/wallet/wallet.h
         bitprim/nodecint/wallet/word_list.h
         bitprim/nodecint/binary.h
