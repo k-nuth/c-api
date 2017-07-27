@@ -131,6 +131,11 @@ void chain_fetch_history(chain_t chain, void* ctx, payment_address_t address, ui
 BITPRIM_EXPORT
 int chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_t*/ limit, uint64_t /*size_t*/ from_height, history_compact_list_t* out_history);
 
+
+// Stealth ---------------------------------------------------------------------
+BITPRIM_EXPORT
+void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t from_height, stealth_fetch_handler_t handler);
+
 //BITPRIM_EXPORT
 //void chain_fetch_stealth(const binary& filter, uint64_t /*size_t*/ from_height, stealth_fetch_handler handler);
 
@@ -160,7 +165,6 @@ int chain_get_block_locator(chain_t chain, block_indexes_t heights, get_headers_
 //virtual void filter_blocks(get_data_ptr message, result_handler handler) const = 0;
 //virtual void filter_transactions(get_data_ptr message, result_handler handler) const = 0;
 // ------------------------------------------------------------------
-
 
 
 
@@ -196,7 +200,6 @@ void chain_organize_transaction(chain_t chain, void* ctx, transaction_t transact
 
 BITPRIM_EXPORT
 int chain_organize_transaction_sync(chain_t chain, transaction_t transaction);
-
 
 
 

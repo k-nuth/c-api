@@ -31,7 +31,7 @@
 #include <bitprim/nodecint/chain/output.h>
 
 #include <bitcoin/bitcoin/message/transaction.hpp>
-
+#include <bitcoin/bitcoin/utility/binary.hpp>
 
 #include <bitprim/nodecint/helpers.hpp>
 
@@ -40,52 +40,24 @@
 #include <chrono>
 #include <thread>
 
-void history_fetch_handler(int error, history_compact_list_t history_list) {
-     printf("C callback (history_fetch_handler) called\n");
 
-	 auto count = chain_history_compact_list_count(history_list);
-	 printf("history_fetch_handler count: %llu\n", count);
-
-	 chain_history_compact_list_destruct(history_list);
-}
-
-void last_height_fetch_handler(int error, size_t h) {
-	printf("last_height_fetch_handler h: %zu\n", h);
-
-	//if (h >= 1000) {
-
-	//}
-}
 
 bool waiting = true;
 
 libbitcoin::message::transaction const& tx_const_cpp2(transaction_t transaction) {
 	return *static_cast<libbitcoin::message::transaction const*>(transaction);
+
 }
 
-int char2int(char input) {
-	if (input >= '0' && input <= '9')
-		return input - '0';
-	if (input >= 'A' && input <= 'F')
-		return input - 'A' + 10;
-	if (input >= 'a' && input <= 'f')
-		return input - 'a' + 10;
-	throw std::invalid_argument("Invalid input string");
-}
+//binary(const std::string& bit_string);
 
-void hex2bin(const char* src, uint8_t* target) {
-	while (*src && src[1]) {
-		*(target++) = char2int(*src) * 16 + char2int(src[1]);
-		src += 2;
-	}
-}
 
 using pepe = std::array<uint8_t, 5>;
+
 
 typedef struct pepe_t {
     uint8_t hash[5];
 } pepe_t;
-
 
 
 struct xxx {

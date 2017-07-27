@@ -718,4 +718,15 @@ void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_h
 }
 
 
+void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t from_height, stealth_fetch_handler_t handler){
+	auto* filter_cpp_ptr = static_cast<const libbitcoin::binary*>(filter);
+	libbitcoin::binary const& filter_cpp  = *filter_cpp_ptr;
+
+    safe_chain(chain).fetch_stealth(filter_cpp, from_height, [chain,ctx,handler](std::error_code const& ec, libbitcoin::chain::stealth_compact::list stealth){
+        auto new_stealth = new libbitcoin::chain::stealth_compact::list(stealth);
+        handler(chain, ctx, ec.value(), new_stealth);
+    });
+} 
+
+
 } /* extern "C" */

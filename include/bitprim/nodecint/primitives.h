@@ -74,6 +74,10 @@ typedef void* get_headers_ptr_t;
 
 
 typedef void* payment_address_t;
+typedef void* binary_t;
+typedef void* stealth_compact_t;
+typedef void* stealth_compact_list_t;
+
 
 typedef void* hash_list_t;
 
@@ -81,7 +85,14 @@ typedef void* hash_list_t;
 
 //typedef uint8_t const* hash_t;
 //typedef uint8_t* long_hash_t;
+//typedef uint8_t* short_hash_t;
 
+//typedef uint8_t const* hash_t;
+//typedef uint8_t* long_hash_t;
+typedef struct short_hash_t {
+//    uint8_t hash[libbitcoin::hash_size];
+    uint8_t hash[20];
+} short_hash_t;
 
 typedef struct hash_t {
 //    uint8_t hash[libbitcoin::hash_size];
@@ -100,6 +111,8 @@ typedef void* word_list_t;
 
 typedef void (*run_handler_t)(executor_t exec, void* context, int error);
 
+
+typedef void (*stealth_fetch_handler_t)(chain_t chain, void*, int, stealth_compact_list_t stealth);
 typedef void (*block_fetch_handler_t)(chain_t, void*, int, block_t block, uint64_t /*size_t*/ h);
 typedef void (*block_height_fetch_handler_t)(chain_t, void*, int, uint64_t /*size_t*/ h);
 typedef void (*block_header_fetch_handler_t)(chain_t, void*, int, header_t header, uint64_t /*size_t*/ h);
@@ -123,6 +136,7 @@ typedef void (*result_handler_t)(chain_t, void*, int);
 
 typedef int (*reorganize_handler_t)(chain_t, void*, int, uint64_t /*size_t*/, block_list_t, block_list_t);
 typedef int (*transaction_handler_t)(chain_t, void*, int, transaction_t);
+
 
 
 #ifdef __cplusplus

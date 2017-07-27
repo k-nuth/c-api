@@ -62,6 +62,11 @@ hash_t to_hash_t(libbitcoin::hash_digest const& x) {
 }
 
 inline
+short_hash_t to_short_hash_t(libbitcoin::short_hash const& x) {
+    return to_c_array<short_hash_t>(x);
+}
+
+inline
 long_hash_t to_long_hash_t(libbitcoin::long_hash const& x) {
     return to_c_array<long_hash_t>(x);
 }

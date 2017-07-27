@@ -17,10 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_EXECUTOR_H_
-#define BITPRIM_NODECINT_EXECUTOR_H_
+#ifndef BITPRIM_NODE_CINT_STEALTH_COMPACT_LIST_H
+#define BITPRIM_NODE_CINT_STEALTH_COMPACT_LIST_H
 
-#include <stdio.h>
+//#include <stdio.h>
 #include <stdint.h>
 
 #include <bitprim/nodecint/visibility.h>
@@ -30,50 +30,17 @@
 extern "C" {
 #endif
 
+BITPRIM_EXPORT
+void stealth_compact_list_destruct(stealth_compact_list_t stealth_compact_list);
 
 BITPRIM_EXPORT
-executor_t executor_construct(char const* path, FILE* sout, FILE* serr);
+size_t stealth_compact_list_count(stealth_compact_list_t stealth_compact_list);
 
 BITPRIM_EXPORT
-executor_t executor_construct_fd(char const* path, int sout_fd, int serr_fd);
-
-
-#if defined(_WIN32)
-
-BITPRIM_EXPORT
-executor_t executor_construct_handles(char const* path, void* sout, void* serr);
-
-#endif /* defined(_WIN32) */
-
-
-
-BITPRIM_EXPORT
-void executor_destruct(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_run(executor_t exec, void* context, run_handler_t handler);
-
-BITPRIM_EXPORT
-int executor_run_wait(executor_t exec);
-
-//BITPRIM_EXPORT
-//int executor_run_wait(executor_t exec, run_handler_t handler);
-
-BITPRIM_EXPORT
-int executor_initchain(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_stop(executor_t exec);
-
-BITPRIM_EXPORT
-chain_t executor_get_chain(executor_t exec);
-
-BITPRIM_EXPORT
-p2p_t executor_get_p2p(executor_t exec);
-
+stealth_compact_t stealth_compact_list_nth(stealth_compact_list_t stealth_list, size_t n);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_EXECUTOR_H_ */
+#endif //BITPRIM_NODE_CINT_STEALTH_COMPACT_LIST_H
