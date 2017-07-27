@@ -35,6 +35,7 @@ hash_list_t chain_hash_list_construct_from_cpp(std::vector<libbitcoin::hash_dige
 }
 
 
+
 extern "C" {
 
 hash_list_t chain_hash_list_construct_default() {
