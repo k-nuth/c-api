@@ -80,17 +80,17 @@ uint64_t /*size_t*/ chain_block_transaction_count(block_t block) {
     return chain_block_const_cpp(block).transactions().size();
 }
 
-transaction_t chain_block_transactions(block_t block, uint64_t /*size_t*/* n) {
-    auto* blk = &chain_block_cpp(block);
-    *n = blk->transactions().size();
-    return blk->transactions().data();
-}
+//transaction_t chain_block_transactions(block_t block, uint64_t /*size_t*/* n) {
+//    auto* blk = &chain_block_cpp(block);
+//    *n = blk->transactions().size();
+//    return blk->transactions().data();
+//}
 
-transaction_t chain_block_transaction_next(transaction_t transaction) {
-    auto* transaction_cpp = static_cast<libbitcoin::message::transaction*>(transaction);
-    ++transaction_cpp;
-    return transaction_cpp;
-}
+//transaction_t chain_block_transaction_next(transaction_t transaction) {
+//    auto* transaction_cpp = static_cast<libbitcoin::message::transaction*>(transaction);
+//    ++transaction_cpp;
+//    return transaction_cpp;
+//}
 
 transaction_t chain_block_transaction_nth(block_t block, uint64_t /*size_t*/ n) {
     //precondition: n >=0 && n < transactions().size()

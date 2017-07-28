@@ -74,7 +74,7 @@ long_hash_t to_long_hash_t(libbitcoin::long_hash const& x) {
 
 inline
 libbitcoin::hash_digest hash_to_cpp(uint8_t* x) {
-    libbitcoin::hash_digest ret;
+    libbitcoin::hash_digest ret;        // NOLINT
     std::copy_n(x, ret.size(), std::begin(ret));
     return ret;
 }

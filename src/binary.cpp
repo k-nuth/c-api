@@ -43,7 +43,7 @@ binary_t binary_construct_string(const char* string) {
 }
 
 binary_t binary_construct_blocks(size_t bits_size, uint8_t* blocks, size_t n) {   
-    libbitcoin::data_slice blocks_cpp(blocks, blocks + n);
+    libbitcoin::data_slice blocks_cpp(blocks, blocks + n);      // NOLINT
     return new libbitcoin::binary(bits_size, blocks_cpp);
 }
 

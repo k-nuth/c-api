@@ -682,9 +682,9 @@ int chain_organize_transaction_sync(chain_t chain, transaction_t transaction) {
 //It is the user's responsibility to release the transaction returned
 transaction_t chain_hex_to_tx(char const* tx_hex) {
 
-    static const auto version = libbitcoin::message::version::level::canonical;
+    static auto const version = libbitcoin::message::version::level::canonical;
 
-//    const auto tx = std::make_shared<libbitcoin::message::transaction>();
+//    auto const tx = std::make_shared<libbitcoin::message::transaction>();
     auto* tx = new libbitcoin::message::transaction;
 
     std::string tx_hex_cpp(tx_hex);

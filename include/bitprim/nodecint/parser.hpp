@@ -27,7 +27,7 @@
 
 namespace bitprim { namespace nodecint {
 
-typedef boost::program_options::variables_map variables_map;
+using variables_map = boost::program_options::variables_map;
 
 /// Parse configurable values from environment variables, settings file, and
 /// command line positional and non-positional options.

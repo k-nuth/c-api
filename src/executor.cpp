@@ -36,26 +36,15 @@ namespace bitprim { namespace nodecint {
 using boost::format;
 using boost::null_deleter;
 using boost::system::error_code;
-
 using bc::chain::block;
 using bc::database::data_base;
-
 using std::placeholders::_1;
-//using namespace boost;
-//using namespace boost::system;
-//using namespace bc::chain;
-//using namespace bc::config;
-//using namespace bc::database;
-//using namespace bc::network;
-//using namespace std::placeholders;
 
 static constexpr int initialize_stop = 0;
 static constexpr int directory_exists = 0;
 static constexpr int directory_not_found = 2;
 
-std::promise<libbitcoin::code> executor::stopping_;
-
-
+//std::promise<libbitcoin::code> executor::stopping_;
 
 executor::executor(libbitcoin::node::configuration const& config, std::ostream& output, std::ostream& error)
     : config_(config), output_(output), error_(error)
@@ -105,9 +94,7 @@ executor::executor(libbitcoin::node::configuration const& config, std::ostream& 
 
 // Emit to the log.
 bool executor::do_initchain() {
-//    printf("executor::do_initchain() - 1\n");
     initialize_output();
-//    printf("executor::do_initchain() - 2\n");
 
     error_code ec;
     auto const& directory = config_.database.directory;
@@ -278,14 +265,9 @@ void executor::stop() {
 
 // Set up logging.
 void executor::initialize_output() {
-//    printf("executor::initialize_output() - 1\n");
-
     auto const header = format(BN_LOG_HEADER) % libbitcoin::local_time();
-//    printf("executor::initialize_output() - 2\n");
 
     LOG_DEBUG(LOG_NODE) << header;
-//    printf("executor::initialize_output() - 3\n");
-
     LOG_INFO(LOG_NODE) << header;
     LOG_WARNING(LOG_NODE) << header;
     LOG_ERROR(LOG_NODE) << header;

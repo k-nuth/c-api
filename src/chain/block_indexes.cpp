@@ -21,8 +21,6 @@
 
 #include <bitprim/nodecint/convertions.hpp>
 
-//namespace {
-
 std::vector<uint64_t /*size_t*/> const& chain_block_indexes_const_cpp(block_indexes_t list) {
     return *static_cast<std::vector<uint64_t /*size_t*/> const*>(list);
 }
@@ -30,9 +28,6 @@ std::vector<uint64_t /*size_t*/> const& chain_block_indexes_const_cpp(block_inde
 std::vector<uint64_t /*size_t*/>& chain_block_indexes_cpp(block_indexes_t list) {
     return *static_cast<std::vector<uint64_t /*size_t*/>*>(list);
 }
-
-//} /* end of anonymous namespace */
-
 
 block_indexes_t chain_block_indexes_construct_from_cpp(std::vector<uint64_t /*size_t*/>& list) {
     return &list;

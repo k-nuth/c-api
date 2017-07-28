@@ -22,15 +22,13 @@
 
 #include <vector>
 
-#include <bitcoin/bitcoin/message/block.hpp>
-#include <bitcoin/bitcoin/message/header.hpp>
 #include <bitcoin/bitcoin/chain/input.hpp>
 #include <bitcoin/bitcoin/chain/output.hpp>
 #include <bitcoin/bitcoin/chain/output_point.hpp>
 #include <bitcoin/bitcoin/chain/script.hpp>
+#include <bitcoin/bitcoin/message/block.hpp>
+#include <bitcoin/bitcoin/message/header.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
-
-
 
 libbitcoin::message::block const& chain_block_const_cpp(block_t block);
 libbitcoin::message::block& chain_block_cpp(block_t block);
