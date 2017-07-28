@@ -124,7 +124,7 @@ typedef void (*output_fetch_handler_t)(chain_t, void*, int, output_t output);
 typedef void (*spend_fetch_handler_t)(chain_t, void*, int, input_point_t input_point);
 typedef void (*transaction_fetch_handler_t)(chain_t, void*, int, transaction_t transaction, uint64_t /*size_t*/ h, uint64_t /*size_t*/ i);
 typedef void (*transaction_index_fetch_handler_t)(chain_t, void*, int, uint64_t /*size_t*/ position, uint64_t /*size_t*/ height);
-typedef void (*validate_tx_handler_t)(chain_t, void*, int, char* message);
+typedef void (*validate_tx_handler_t)(chain_t, void*, int, char const* message);
 
 //typedef std::function<void(const code&, get_headers_ptr)> block_locator_fetch_handler;
 typedef void (*block_locator_fetch_handler_t)(chain_t, void*, int, get_headers_ptr_t);

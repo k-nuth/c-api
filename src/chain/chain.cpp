@@ -704,18 +704,15 @@ int chain_organize_transaction_sync(chain_t chain, transaction_t transaction) {
 //}
 
 void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
-
     safe_chain(chain).organize(tx_shared(tx), [chain, ctx, handler](std::error_code const& ec) {
-
-        auto is_error = (bool)ec;
+//        auto is_error = (bool)ec;
         if (handler != nullptr) {
-            char* msg_str_c = nullptr;
             if (ec) {
                 auto* msg_str = new std::string(ec.message());
-                msg_str_c = (char*)msg_str->c_str();
+                handler(chain, ctx, ec.value(), msg_str->c_str());
+            } else {
+                handler(chain, ctx, ec.value(), nullptr);
             }
-
-            handler(chain, ctx, ec.value(), msg_str_c);
         }
     });
 }
