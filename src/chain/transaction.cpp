@@ -151,12 +151,12 @@ int /*bool*/ chain_transaction_is_locktime_conflict(transaction_t transaction) {
 
 output_list_t chain_transaction_outputs(transaction_t transaction) {
     auto& tx = chain_transaction_cpp(transaction);
-    return chain_output_list_construct_from_cpp(tx.outputs()); //TODO: transaction::outputs() is deprecated... check how to do it better...
+    return chain_output_list_construct_from_cpp(tx.outputs()); // TODO(fernando): transaction::outputs() is deprecated... check how to do it better...
 }
 
 input_list_t chain_transaction_inputs(transaction_t transaction) {
     auto& tx = chain_transaction_cpp(transaction);
-    return chain_input_list_construct_from_cpp(tx.inputs()); //TODO: transaction::inputs() is deprecated... check how to do it better...
+    return chain_input_list_construct_from_cpp(tx.inputs()); // TODO(fernando): transaction::inputs() is deprecated... check how to do it better...
 }
 
 

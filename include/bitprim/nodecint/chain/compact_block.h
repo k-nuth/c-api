@@ -30,7 +30,7 @@
 extern "C" {
 #endif
 
-//TODO Dario check how to map compact_block::short_ids()
+// TODO(fernando): Dario check how to map compact_block::short_ids()
 
 BITPRIM_EXPORT
 header_t compact_block_header(compact_block_t block);

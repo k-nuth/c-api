@@ -70,7 +70,7 @@ header_t chain_block_header(block_t block) {
 //    return hash_cpp.data(); //TODO: returning a dangling pointer
 //}
 
-//TODO: Breaking change.
+// TODO(fernando): Breaking change.
 hash_t chain_block_hash(block_t block) {
     auto const& hash_cpp = chain_block_const_cpp(block).hash();
     return bitprim::to_hash_t(hash_cpp);

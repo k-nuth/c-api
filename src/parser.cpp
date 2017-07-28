@@ -31,7 +31,7 @@
 
 //BC_DECLARE_CONFIG_DEFAULT_PATH("libbitcoin" / "bn.cfg")
 
-// TODO: localize descriptions.
+// TODO(fernando): localize descriptions.
 
 namespace bitprim { namespace nodecint {
 
@@ -470,7 +470,7 @@ libbitcoin::options_metadata parser::load_settings() {
         value<bool>(&configured.node.refresh_transactions),
         "Request transactions on each channel start, defaults to true."
     )
-    //TODO: ver como implementamos esto para diferenciar server y node
+    // TODO(fernando): ver como implementamos esto para diferenciar server y node
     (
         /* Internally this database, but it applies to server.*/
         "node.index_start_height",

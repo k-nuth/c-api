@@ -140,7 +140,7 @@ void executor_destruct(executor_t exec) {
 }
 
 int executor_initchain(executor_t exec) {
-    //TODO: return error_t to inform error in detail
+    // TODO(fernando): return error_t to inform error in detail
     try {
         return static_cast<int>(exec->actual.do_initchain());
 //    } catch (const std::exception& e) {
@@ -158,7 +158,7 @@ void executor_run(executor_t exec, void* ctx, run_handler_t handler) {
             }
         });
     } catch (...) {
-        handler(exec, ctx, 1); //TODO: return error_t to inform errors in detail
+        handler(exec, ctx, 1); // TODO(fernando): return error_t to inform errors in detail
     }
 }
 
@@ -181,7 +181,7 @@ int executor_run_wait(executor_t exec) {
         latch.count_down_and_wait();
         return res;
     } else {
-        return 1; //TODO: return error_t to inform errors in detail
+        return 1; // TODO(fernando): return error_t to inform errors in detail
     }
 }
 

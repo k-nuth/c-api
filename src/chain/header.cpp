@@ -37,7 +37,7 @@ extern "C" {
 header_t chain_header_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
     libbitcoin::data_chunk data_cpp(data, data + n);
     auto header = libbitcoin::message::header::factory_from_data(version, data_cpp);
-    return new libbitcoin::message::header(std::move(header)); //TODO: revisar todos los "new"'s que hay por todos lados para ver si podemos hacer un move de los recursos...
+    return new libbitcoin::message::header(std::move(header)); // TODO(fernando): revisar todos los "new"'s que hay por todos lados para ver si podemos hacer un move de los recursos...
 }
 
 uint64_t /*size_t*/ chain_header_satoshi_fixed_size(uint32_t version) {

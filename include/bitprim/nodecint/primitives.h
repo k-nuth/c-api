@@ -41,7 +41,7 @@ typedef void* p2p_t;
 //} output_point_t;
 
 
-//TODO: check if we can encapsulate the pointer into a struct to make them more "type safe"
+// TODO(fernando): check if we can encapsulate the pointer into a struct to make them more "type safe"
 typedef void* block_t;
 typedef void* block_indexes_t;
 typedef void* block_list_t;

@@ -106,7 +106,7 @@ bool executor::do_initchain() {
     if (create_directories(directory, ec)) {
         LOG_INFO(LOG_NODE) << format(BN_INITIALIZING_CHAIN) % directory;
 
-        //TODO: BITPRIM: hardcoded identifiers
+        // TODO(fernando): BITPRIM: hardcoded identifiers
         // Unfortunately we are limited to a choice of hardcoded chains.
 #ifdef LITECOIN
         auto const testnet = (config_.network.identifier == 4056470269u); //Litecoin
