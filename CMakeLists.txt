@@ -33,6 +33,7 @@ option(WITH_CONSOLE "Compile console application." ON)
 
 # Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
 #------------------------------------------------------------------------------
+
 option(ENABLE_SHARED "" ON)
 option(ENABLE_SHARED_NODE_CINT "" ON)
 
@@ -83,7 +84,6 @@ option(WITH_CONSOLE_NODE_CINT "" ON)
 set(WITH_CONSOLE_NODE_CINT ON)
 
 #------------------------------------------------------------------------------
-
 
 # Check dependencies.
 #==============================================================================
@@ -223,11 +223,12 @@ else()
     set(MODE STATIC)
 endif()
 
-
 set(_bitprim_sources
         src/executor.cpp
         src/executor_c.cpp
+
         src/parser.cpp
+        src/binary.cpp
         src/chain/block.cpp
         src/chain/block_indexes.cpp
         src/chain/block_list.cpp
@@ -239,6 +240,8 @@ set(_bitprim_sources
         src/chain/header.cpp
         src/chain/history_compact.cpp
         src/chain/history_compact_list.cpp
+        src/chain/stealth_compact.cpp
+        src/chain/stealth_compact_list.cpp
         src/chain/input.cpp
         src/chain/input_list.cpp
         src/chain/merkle_block.cpp
@@ -386,6 +389,8 @@ set(_bitprim_headers
         bitprim/nodecint/chain/header.h
         bitprim/nodecint/chain/history_compact.h
         bitprim/nodecint/chain/history_compact_list.h
+        bitprim/nodecint/chain/stealth_compact.h
+        bitprim/nodecint/chain/stealth_compact_list.h
         bitprim/nodecint/chain/input.h
         bitprim/nodecint/chain/input_list.h
 
@@ -404,6 +409,7 @@ set(_bitprim_headers
 
         bitprim/nodecint/wallet/wallet.h
         bitprim/nodecint/wallet/word_list.h
+        bitprim/nodecint/binary.h
 )
 
 foreach (_header ${_bitprim_headers})

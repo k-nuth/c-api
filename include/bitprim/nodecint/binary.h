@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_EXECUTOR_H_
-#define BITPRIM_NODECINT_EXECUTOR_H_
+#ifndef BITPRIM_NODE_CINT_BINARY_H
+#define BITPRIM_NODE_CINT_BINARY_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -30,50 +30,29 @@
 extern "C" {
 #endif
 
+BITPRIM_EXPORT
+binary_t binary_construct();
 
 BITPRIM_EXPORT
-executor_t executor_construct(char const* path, FILE* sout, FILE* serr);
+binary_t binary_construct_string(const char* string);
 
 BITPRIM_EXPORT
-executor_t executor_construct_fd(char const* path, int sout_fd, int serr_fd);
-
-
-#if defined(_WIN32)
+binary_t binary_construct_blocks(size_t bits_size, uint8_t* blocks, size_t n);
 
 BITPRIM_EXPORT
-executor_t executor_construct_handles(char const* path, void* sout, void* serr);
-
-#endif /* defined(_WIN32) */
-
-
+uint8_t* binary_blocks(binary_t binary);
 
 BITPRIM_EXPORT
-void executor_destruct(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_run(executor_t exec, void* context, run_handler_t handler);
-
-BITPRIM_EXPORT
-int executor_run_wait(executor_t exec);
+char* binary_encoded(binary_t binary);
 
 //BITPRIM_EXPORT
-//int executor_run_wait(executor_t exec, run_handler_t handler);
+//void word_list_add_word(word_list_t word_list, const char* word);
 
-BITPRIM_EXPORT
-int executor_initchain(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_stop(executor_t exec);
-
-BITPRIM_EXPORT
-chain_t executor_get_chain(executor_t exec);
-
-BITPRIM_EXPORT
-p2p_t executor_get_p2p(executor_t exec);
-
+//BITPRIM_EXPORT
+//void word_list_destruct(word_list_t word_list);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_EXECUTOR_H_ */
+#endif //BITPRIM_NODE_CINT_BINARY_H
