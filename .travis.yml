@@ -315,6 +315,8 @@ script:
   ############################################################################
   # Check for common formatting errors.
   ############################################################################
+  - echo ${CMAKE_OPTIONS}
+  - pwd
   - export PATH=$PATH:/usr/local/opt/llvm/bin/
   - clang-tidy --version
   # - sudo find / -name "run-clang-tidy.py"
