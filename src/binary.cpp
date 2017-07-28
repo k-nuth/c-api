@@ -47,10 +47,16 @@ binary_t binary_construct_blocks(size_t bits_size, uint8_t* blocks, size_t n) {
     return new libbitcoin::binary(bits_size, blocks_cpp);
 }
 
-uint8_t* binary_blocks(binary_t binary) {
-    auto* ret = (uint8_t*)malloc(binary_const_cpp(binary).blocks().size() * sizeof(uint8_t));
-    std::copy_n(std::begin(binary_const_cpp(binary).blocks()), binary_const_cpp(binary).blocks().size(), ret);
-    return ret;
+//uint8_t* binary_blocks(binary_t binary) {
+//    auto* ret = (uint8_t*)malloc(binary_const_cpp(binary).blocks().size() * sizeof(uint8_t));
+//    std::copy_n(std::begin(binary_const_cpp(binary).blocks()), binary_const_cpp(binary).blocks().size(), ret);
+//    return ret;
+//}
+
+
+uint8_t* binary_blocks(binary_t binary, uint64_t /*size_t*/ out_n) {
+    out_n = binary_const_cpp(binary).blocks().size();
+    return binary_const_cpp(binary).blocks().data();
 }
 
 char* binary_encoded(binary_t binary) {
