@@ -233,8 +233,8 @@ install:
   ############################################################################
   - |
     if [[ "${CHECK_FORMATTING}" == "true" ]]; then
-      brew upgrade pcre || brew install pcre || exit 1
-      brew upgrade vera++ || brew install vera++ || exit 1
+      # brew upgrade pcre || brew install pcre || exit 1
+      # brew upgrade vera++ || brew install vera++ || exit 1
       brew upgrade llvm --with-clang --with-clang-extra-tools || brew install llvm --with-clang --with-clang-extra-tools || exit 1
       ls /usr/local/opt/llvm/bin | grep clang
     fi 
@@ -315,24 +315,29 @@ script:
   ############################################################################
   # Check for common formatting errors.
   ############################################################################
-  - |
-    if [[ "${CHECK_FORMATTING}" == "true" ]]; then
+  - export PATH=$PATH:/usr/local/opt/llvm/bin/
+  - clang-tidy --version
+  # - sudo find / -name "run-clang-tidy.py"
+  - /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -header-filter='.*' -checks='-*,modernize-use-override'
 
-      export PATH=$PATH:/usr/local/opt/llvm/bin/
-      clang-tidy --version
-      # sudo find / -name "run-clang-tidy.py"
-      /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -header-filter='.*' -checks='-*,modernize-use-override'
+  # - |
+  #   if [[ "${CHECK_FORMATTING}" == "true" ]]; then
 
-      # Find non-ASCII characters in headers
-      hpps=$(find include doc -name \*\.hpp)
-      cpps=$(find test example -name \*\.cpp)
-      pcregrep --color='auto' -n "[\x80-\xFF]" ${hpps} ${cpps}
-      if [[ $? -ne 1 ]]; then exit 1; fi
-      # F001: Source files should not use the '\r' (CR) character
-      # L001: No trailing whitespace at the end of lines
-      # L002: Don't use tab characters
-      find include -name \*\.hpp | vera++ --rule F001 --rule L001 --rule L002 --error
-    fi
+  #     export PATH=$PATH:/usr/local/opt/llvm/bin/
+  #     clang-tidy --version
+  #     # sudo find / -name "run-clang-tidy.py"
+  #     /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -header-filter='.*' -checks='-*,modernize-use-override'
+
+  #     # # Find non-ASCII characters in headers
+  #     # hpps=$(find include doc -name \*\.hpp)
+  #     # cpps=$(find test example -name \*\.cpp)
+  #     # pcregrep --color='auto' -n "[\x80-\xFF]" ${hpps} ${cpps}
+  #     # if [[ $? -ne 1 ]]; then exit 1; fi
+  #     # # F001: Source files should not use the '\r' (CR) character
+  #     # # L001: No trailing whitespace at the end of lines
+  #     # # L002: Don't use tab characters
+  #     # find include -name \*\.hpp | vera++ --rule F001 --rule L001 --rule L002 --error
+  #   fi
 
   ############################################################################
   # Build and run the unit tests and examples.
