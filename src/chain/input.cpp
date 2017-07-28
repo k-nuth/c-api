@@ -43,7 +43,7 @@ input_t chain_input_construct_default() {
 //input(output_point&& previous_output, chain::script&& script, uint32_t sequence);
 //input(const output_point& previous_output, const chain::script& script, uint32_t sequence);
 input_t chain_input_construct(output_point_t previous_output, script_t script, uint32_t sequence) {
-    return new libbitcoin::chain::input(output_point_const_cpp(previous_output), script_const_cpp(script), sequence);
+    return new libbitcoin::chain::input(output_point_const_cpp(previous_output), chain_script_const_cpp(script), sequence);
 }
 
 

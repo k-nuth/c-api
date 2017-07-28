@@ -41,7 +41,7 @@ output_t chain_output_construct_default() {
 //output(uint64_t value, chain::script&& script);
 //output(uint64_t value, const chain::script& script);
 output_t chain_output_construct(uint64_t value, script_t script) {
-    return new libbitcoin::chain::output(value, script_const_cpp(script));
+    return new libbitcoin::chain::output(value, chain_script_const_cpp(script));
 }
 
 void chain_output_destruct(output_t output) {

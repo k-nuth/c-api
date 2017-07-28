@@ -64,8 +64,8 @@ libbitcoin::chain::output_point& output_point_cpp(output_point_t op);
 
 
 
-libbitcoin::chain::script const& script_const_cpp(script_t s);
-libbitcoin::chain::script& script_cpp(script_t s);
+libbitcoin::chain::script const& chain_script_const_cpp(script_t s);
+libbitcoin::chain::script& chain_script_cpp(script_t s);
 
 libbitcoin::message::transaction const& chain_transaction_const_cpp(transaction_t transaction);
 libbitcoin::message::transaction& chain_transaction_cpp(transaction_t transaction);

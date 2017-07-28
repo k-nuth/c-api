@@ -69,7 +69,7 @@ uint64_t /*size_t*/ chain_script_sigops(script_t script, int /*bool*/ embedded) 
 }
 
 uint64_t /*size_t*/ chain_script_embedded_sigops(script_t script, script_t prevout_script) {
-    auto& prevout_script_cpp = *chain_script_const_cpp(prevout_script);
+    auto const& prevout_script_cpp = chain_script_const_cpp(prevout_script);
     return chain_script_const_cpp(script).embedded_sigops(prevout_script_cpp);
 }
 
