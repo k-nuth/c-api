@@ -35,16 +35,16 @@ BITPRIM_EXPORT
 transaction_list_t chain_transaction_list_construct_default();
 
 BITPRIM_EXPORT
-void chain_transaction_list_push_back(transaction_list_t transaction_list, transaction_t transaction);
+void chain_transaction_list_push_back(transaction_list_t list, transaction_t transaction);
 
 BITPRIM_EXPORT
-void chain_transaction_list_destruct(transaction_list_t transaction_list);
+void chain_transaction_list_destruct(transaction_list_t list);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_transaction_list_count(transaction_list_t transaction_list);
+uint64_t /*size_t*/ chain_transaction_list_count(transaction_list_t list);
 
 BITPRIM_EXPORT
-transaction_t chain_transaction_list_nth(transaction_list_t transaction_list, uint64_t /*size_t*/ n);
+transaction_t chain_transaction_list_nth(transaction_list_t list, uint64_t /*size_t*/ n);
 
 #ifdef __cplusplus
 } // extern "C"

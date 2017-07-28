@@ -56,12 +56,15 @@ libbitcoin::message::block::const_ptr block_shared(block_t block) {
 
 inline
 int char2int(char input) {
-    if (input >= '0' && input <= '9')
+    if (input >= '0' && input <= '9') {
         return input - '0';
-    if (input >= 'A' && input <= 'F')
+    }
+    if (input >= 'A' && input <= 'F') {
         return input - 'A' + 10;
-    if (input >= 'a' && input <= 'f')
+    }
+    if (input >= 'a' && input <= 'f') {
         return input - 'a' + 10;
+    }
     throw std::invalid_argument("Invalid input string");
 }
 
@@ -470,8 +473,8 @@ int chain_get_transaction_position(chain_t chain, hash_t hash, int require_confi
 }
 
 //It is the user's responsibility to release the input point returned in the callback
-void chain_fetch_spend(chain_t chain, void* ctx, output_point_t outpoint, spend_fetch_handler_t handler) {
-    libbitcoin::chain::output_point* outpoint_cpp = static_cast<libbitcoin::chain::output_point*>(outpoint);
+void chain_fetch_spend(chain_t chain, void* ctx, output_point_t op, spend_fetch_handler_t handler) {
+    libbitcoin::chain::output_point* outpoint_cpp = static_cast<libbitcoin::chain::output_point*>(op);
 
     safe_chain(chain).fetch_spend(*outpoint_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::chain::input_point input_point) {
         auto new_input_point = new libbitcoin::chain::input_point(input_point);
@@ -479,11 +482,11 @@ void chain_fetch_spend(chain_t chain, void* ctx, output_point_t outpoint, spend_
     });
 }
 
-int chain_get_spend(chain_t chain, output_point_t outpoint, input_point_t* out_input_point) {
+int chain_get_spend(chain_t chain, output_point_t op, input_point_t* out_input_point) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     int res;
 
-    libbitcoin::chain::output_point* outpoint_cpp = static_cast<libbitcoin::chain::output_point*>(outpoint);
+    libbitcoin::chain::output_point* outpoint_cpp = static_cast<libbitcoin::chain::output_point*>(op);
 
     safe_chain(chain).fetch_spend(*outpoint_cpp, [&](std::error_code const& ec, libbitcoin::chain::input_point input_point) {
         *out_input_point = new libbitcoin::chain::input_point(input_point);

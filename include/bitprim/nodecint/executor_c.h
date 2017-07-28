@@ -51,7 +51,7 @@ BITPRIM_EXPORT
 void executor_destruct(executor_t exec);
 
 BITPRIM_EXPORT
-void executor_run(executor_t exec, void* context, run_handler_t handler);
+void executor_run(executor_t exec, void* ctx, run_handler_t handler);
 
 BITPRIM_EXPORT
 int executor_run_wait(executor_t exec);

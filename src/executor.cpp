@@ -152,8 +152,9 @@ bool executor::run(libbitcoin::handle0 handler) {
     LOG_INFO(LOG_NODE) << BN_NODE_STARTING;
 
 #if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
-    if (!verify_directory())
+    if (!verify_directory()) {
         return false;
+    }
 #endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
     // Now that the directory is verified we can create the node for it.
@@ -178,10 +179,11 @@ bool executor::run_wait(libbitcoin::handle0 handler) {
     LOG_INFO(LOG_NODE) << BN_NODE_STOPPING;
 
     // Close must be called from main thread.
-    if (node_->close())
+    if (node_->close()) {
         LOG_INFO(LOG_NODE) << BN_NODE_STOPPED;
-    else
+    } else {
         LOG_INFO(LOG_NODE) << BN_NODE_STOP_FAIL;
+    }
 
     return true;
 }
@@ -244,8 +246,9 @@ void executor::handle_stop(int code) {
     //std::signal(SIGINT, handle_stop);
     //std::signal(SIGTERM, handle_stop);
 
-    if (code == initialize_stop)
+    if (code == initialize_stop) {
         return;
+    }
 
     LOG_INFO(LOG_NODE) << format(BN_NODE_SIGNALED) % code;
     stop(libbitcoin::error::success);
@@ -281,10 +284,11 @@ void executor::initialize_output() {
 
     auto const& file = config_.file;
 
-    if (file.empty())
+    if (file.empty()) {
         LOG_INFO(LOG_NODE) << BN_USING_DEFAULT_CONFIG;
-    else
+    } else {
         LOG_INFO(LOG_NODE) << format(BN_USING_CONFIG_FILE) % file;
+    }
 }
 
 #if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
@@ -294,8 +298,9 @@ bool executor::verify_directory() {
     error_code ec;
     auto const& directory = config_.database.directory;
 
-    if (exists(directory, ec))
+    if (exists(directory, ec)) {
         return true;
+    }
 
     if (ec.value() == directory_not_found) {
         LOG_ERROR(LOG_NODE) << format(BN_UNINITIALIZED_CHAIN) % directory;

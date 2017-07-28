@@ -109,7 +109,7 @@ typedef void* word_list_t;
 
 
 
-typedef void (*run_handler_t)(executor_t exec, void* context, int error);
+typedef void (*run_handler_t)(executor_t exec, void* ctx, int error);
 
 
 typedef void (*stealth_fetch_handler_t)(chain_t chain, void*, int, stealth_compact_list_t stealth);

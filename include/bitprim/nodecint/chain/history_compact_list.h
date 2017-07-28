@@ -31,13 +31,13 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-void chain_history_compact_list_destruct(history_compact_list_t history_compact_list);
+void chain_history_compact_list_destruct(history_compact_list_t list);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_history_compact_list_count(history_compact_list_t history_compact_list);
+uint64_t /*size_t*/ chain_history_compact_list_count(history_compact_list_t list);
 
 BITPRIM_EXPORT
-history_compact_t chain_history_compact_list_nth(history_compact_list_t history_list, uint64_t /*size_t*/ n);
+history_compact_t chain_history_compact_list_nth(history_compact_list_t list, uint64_t /*size_t*/ n);
 
 #ifdef __cplusplus
 } // extern "C"
