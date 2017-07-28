@@ -528,33 +528,33 @@ int chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_
 // ------------------------------------------------------------------
 //virtual void fetch_block_locator(const chain::block::indexes& heights, block_locator_fetch_handler handler) const = 0;
 
-void chain_fetch_block_locator(chain_t chain, void* ctx, block_indexes_t heights, block_locator_fetch_handler_t handler) {
-    auto const& heights_cpp = chain_block_indexes_const_cpp(heights);
-
-    safe_chain(chain).fetch_block_locator(heights_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::get_headers_ptr headers) {
-        //TODO: check if the pointer is set, before dereferencing
-        auto* new_headers = new libbitcoin::message::get_headers(*headers);
-        handler(chain, ctx, ec.value(), new_headers);
-    });
-}
-
-//It is the user's responsibility to release the history returned in the callback
-int chain_get_block_locator(chain_t chain, block_indexes_t heights, get_headers_ptr_t* out_headers) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
-    int res;
-
-    auto const& heights_cpp = chain_block_indexes_const_cpp(heights);
-
-    safe_chain(chain).fetch_block_locator(heights_cpp, [&](std::error_code const& ec, libbitcoin::get_headers_ptr headers) {
-        //TODO: check if the pointer is set, before dereferencing
-        *out_headers = new libbitcoin::message::get_headers(*headers);
-        res = ec.value();
-        latch.count_down();
-    });
-
-    latch.count_down_and_wait();
-    return res;
-}
+//void chain_fetch_block_locator(chain_t chain, void* ctx, block_indexes_t heights, block_locator_fetch_handler_t handler) {
+//    auto const& heights_cpp = chain_block_indexes_const_cpp(heights);
+//
+//    safe_chain(chain).fetch_block_locator(heights_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::get_headers_ptr headers) {
+//        //TODO: check if the pointer is set, before dereferencing
+//        auto* new_headers = new libbitcoin::message::get_headers(*headers);
+//        handler(chain, ctx, ec.value(), new_headers);
+//    });
+//}
+//
+////It is the user's responsibility to release the history returned in the callback
+//int chain_get_block_locator(chain_t chain, block_indexes_t heights, get_headers_ptr_t* out_headers) {
+//    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+//    int res;
+//
+//    auto const& heights_cpp = chain_block_indexes_const_cpp(heights);
+//
+//    safe_chain(chain).fetch_block_locator(heights_cpp, [&](std::error_code const& ec, libbitcoin::get_headers_ptr headers) {
+//        //TODO: check if the pointer is set, before dereferencing
+//        *out_headers = new libbitcoin::message::get_headers(*headers);
+//        res = ec.value();
+//        latch.count_down();
+//    });
+//
+//    latch.count_down_and_wait();
+//    return res;
+//}
 
 
 
