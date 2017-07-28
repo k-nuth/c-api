@@ -4,47 +4,99 @@
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-language: cpp
+language: c++
 git:
   submodules: false
-
-matrix:
-  include:
-    - env: GCC_VERSION=6 CXX_FLAGS="-std=c++11" BUILD_TYPE=Release
-      os: linux
-      sudo: required
-      dist: trusty
-      group: edge
-      addons: &gcc6
-        apt:
-          packages:
-            - g++-6
-            - libc6
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - env: GCC_VERSION=6 CXX_FLAGS="-std=c++11" BUILD_TYPE=Debug
-      os: linux
-      sudo: required
-      dist: trusty
-      group: edge
-      addons: &gcc6d
-        apt:
-          packages:
-            - g++-6
-            - libc6
-          sources:
-            - ubuntu-toolchain-r-test
 
 branches:
   only:
     - master
     - dev
 
+addons:
+  apt:
+    packages:
+      - valgrind
+      - g++-6
+      - libc6
+    sources: &sources
+      - ubuntu-toolchain-r-test
+
+cache:
+  directories:
+    - ${TRAVIS_BUILD_DIR}/deps/llvm-3.6.2
+    - ${TRAVIS_BUILD_DIR}/deps/llvm-3.7.1
+    - ${TRAVIS_BUILD_DIR}/deps/llvm-3.8.0
+    - ${TRAVIS_BUILD_DIR}/deps/llvm-3.9.0
+    - ${TRAVIS_BUILD_DIR}/deps/boost-1.59.0
+    - ${TRAVIS_BUILD_DIR}/deps/boost-1.60.0
+    - ${TRAVIS_BUILD_DIR}/deps/boost-1.61.0
+    - ${TRAVIS_BUILD_DIR}/deps/boost-1.62.0
+    - ${TRAVIS_BUILD_DIR}/deps/boost-1.63.0
+
+matrix:
+  include:
+    ##########################################################################
+    # Check for code formatting errors
+    ##########################################################################
+    - os: osx
+      env: CHECK_FORMATTING=true
+      osx_image: xcode8
+
+    ##########################################################################
+    # Build with the main configuration on all the supported compilers
+    #
+    # Note that we only use the memory checker on the main configuration to
+    # speed up Travis builds.
+    ##########################################################################
+    - os: linux
+      # env: UNIT_TESTS=true GCC_VERSION=6 CXX_FLAGS="-std=c++11" BUILD_TYPE=Release
+      env: UNIT_TESTS=true COMPILER=g++-6     BOOST_VERSION=default ENABLE_MEMCHECK=true
+      sudo: required
+      # dist: trusty
+      # group: edge
+      # addons: &gcc6
+      #   apt:
+      #     packages:
+      #       - g++-6
+      #       - libc6
+      #     sources:
+      #       - ubuntu-toolchain-r-test
+
+    # - os: linux
+    #   # env: UNIT_TESTS=true GCC_VERSION=6 CXX_FLAGS="-std=c++11" BUILD_TYPE=Debug
+    #   env: UNIT_TESTS=true COMPILER=g++-6     BOOST_VERSION=default ENABLE_MEMCHECK=true
+    #   sudo: required
+    #   # dist: trusty
+    #   # group: edge
+    #   # addons: &gcc6d
+    #   #   apt:
+    #   #     packages:
+    #   #       - g++-6
+    #   #       - libc6
+    #   #     sources:
+    #   #       - ubuntu-toolchain-r-test
+
+    ##########################################################################
+    # Build with variations in the configuration
+    ##########################################################################
+    # # Without concept checks
+    # - os: linux
+    #   env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF"
+    #   compiler: clang
+
+    ##########################################################################
+    # Benchmarks
+    ##########################################################################
+    # - os: linux
+    #   env: BENCHMARKS=true LLVM_VERSION=3.8.0 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
+    #   compiler: clang
+
+
 before_install:
 
   # Update submodules
-  - git submodule update --init --recursive
+  # - git submodule update --init --recursive
 
   - if [ -n "$GCC_VERSION" ]; then export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"; fi
   - if [ -n "$CLANG_VERSION" ]; then export CXX="clang++-${CLANG_VERSION}" CC="clang-${CLANG_VERSION}"; fi
@@ -53,36 +105,157 @@ before_install:
 
 install:
   ############################################################################
-  # All the dependencies are installed in /home/travis/deps/
+  # All the dependencies are installed in ${TRAVIS_BUILD_DIR}/deps/
   ############################################################################
-  - DEPS_DIR="/home/travis/deps"
-  - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+  - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
+
+############################################################################
+  # Setup default versions and override compiler if needed
+  ############################################################################
+  - if [[ "${LLVM_VERSION}" == "default" ]]; then LLVM_VERSION=3.9.0; fi
+  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.64.0; fi
+  - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
+
+
   ############################################################################
   # Install a recent CMake
   ############################################################################
-  - CMAKE_URL="https://cmake.org/files/v3.9/cmake-3.9.0-rc5-Linux-x86_64.tar.gz"
-  - mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
-  - echo 'Cmake 3.9.0 installed';
-  - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+ - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      CMAKE_URL="https://cmake.org/files/v3.9/cmake-3.9.0-rc5-Linux-x86_64.tar.gz"
+      mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+      echo 'Cmake 3.9.0 installed';
+      export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+    else
+      brew upgrade cmake || brew install cmake
+    fi
+  - cmake --version  
+  
+  ############################################################################
+  # Install Clang, libc++ and libc++abi  (just for Linux with Clang)
+  ############################################################################
+  - |
+    if [[ "${LLVM_VERSION}" != "" ]]; then
+      LLVM_DIR=${DEPS_DIR}/llvm-${LLVM_VERSION}
+      if [[ -z "$(ls -A ${LLVM_DIR})" ]]; then
+        LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
+        LIBCXX_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxx-${LLVM_VERSION}.src.tar.xz"
+        LIBCXXABI_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxxabi-${LLVM_VERSION}.src.tar.xz"
+        CLANG_URL="http://llvm.org/releases/${LLVM_VERSION}/clang+llvm-${LLVM_VERSION}-x86_64-linux-gnu-ubuntu-14.04.tar.xz"
+        mkdir -p ${LLVM_DIR} ${LLVM_DIR}/build ${LLVM_DIR}/projects/libcxx ${LLVM_DIR}/projects/libcxxabi ${LLVM_DIR}/clang
+        travis_retry wget --quiet -O - ${LLVM_URL}      | tar --strip-components=1 -xJ -C ${LLVM_DIR}
+        travis_retry wget --quiet -O - ${LIBCXX_URL}    | tar --strip-components=1 -xJ -C ${LLVM_DIR}/projects/libcxx
+        travis_retry wget --quiet -O - ${LIBCXXABI_URL} | tar --strip-components=1 -xJ -C ${LLVM_DIR}/projects/libcxxabi
+        travis_retry wget --quiet -O - ${CLANG_URL}     | tar --strip-components=1 -xJ -C ${LLVM_DIR}/clang
+        (cd ${LLVM_DIR}/build && cmake .. -DCMAKE_INSTALL_PREFIX=${LLVM_DIR}/install -DCMAKE_CXX_COMPILER=clang++)
+        (cd ${LLVM_DIR}/build/projects/libcxx && make install -j2)
+        (cd ${LLVM_DIR}/build/projects/libcxxabi && make install -j2)
+      fi
+      export CXXFLAGS="-nostdinc++ -isystem ${LLVM_DIR}/install/include/c++/v1"
+      export LDFLAGS="-L ${LLVM_DIR}/install/lib -l c++ -l c++abi"
+      export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${LLVM_DIR}/install/lib"
+      export PATH="${LLVM_DIR}/clang/bin:${PATH}"
+    fi
+  - ${CXX} --version
+
   ############################################################################
   # Install a Boost with -fPIC
   ############################################################################
-  - cd ${DEPS_DIR}
-  - wget -O boost_1_64_0.tar.gz https://sourceforge.net/projects/boost/files/boost/1.64.0/boost_1_64_0.tar.gz/download
-  - tar -xzf boost_1_64_0.tar.gz
-  - cd boost_1_64_0
-  - wget -O boost_bin_fpic.tar.bz2 http://repo.bitprim.org/packages/binary/boost_bin_fpic.tar.bz2
-  - tar -xvjf boost_bin_fpic.tar.bz2
-  - export BOOST_OPTS="-DBOOST_ROOT=/home/travis/deps/boost_1_64_0 -DBOOST_INCLUDEDIR=/home/travis/deps/boost_1_64_0 -DBOOST_LIBRARYDIR=/home/travis/deps/boost_1_64_0/lib"
-  - sudo ldconfig
-  - echo 'Boost 1.64.0 installed';
+  # - |
+  #   if [[ "${BOOST_VERSION}" != "" ]]; then
+  #     BOOST_DIR=${DEPS_DIR}/boost-${BOOST_VERSION}
+  #     if [[ -z "$(ls -A ${BOOST_DIR})" ]]; then
+  #       if [[ "${BOOST_VERSION}" == "trunk" ]]; then
+  #         BOOST_URL="http://github.com/boostorg/boost.git"
+  #         travis_retry git clone --depth 1 --recursive ${BOOST_URL} ${BOOST_DIR} || exit 1
+  #         (cd ${BOOST_DIR} && ./bootstrap.sh && ./b2 headers) || exit 1
+  #       else
+  #         BOOST_URL="http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/boost_${BOOST_VERSION//\./_}.tar.gz"
+  #         mkdir -p ${BOOST_DIR}
+  #         { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
+  #       fi
+  #       # Make sure we don't conflict with the Hana shipped with Boost
+  #       rm -rf ${BOOST_DIR}/include/boost/{hana,hana.hpp} || exit 1
+  #     fi
+  #     CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
+  #   fi
+
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then   #TODO: temp... enable for macOS too
+      if [[ "${BOOST_VERSION}" != "" ]]; then
+        BOOST_DIR=${DEPS_DIR}/boost-${BOOST_VERSION}
+        if [[ -z "$(ls -A ${BOOST_DIR})" ]]; then
+
+          # BOOST_URL="http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/boost_${BOOST_VERSION//\./_}.tar.gz"
+          # mkdir -p ${BOOST_DIR}
+          # { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
+
+          cd ${DEPS_DIR}
+          wget -O boost_1_64_0.tar.gz https://sourceforge.net/projects/boost/files/boost/1.64.0/boost_1_64_0.tar.gz/download
+          tar -xzf boost_1_64_0.tar.gz
+          cd boost_1_64_0
+
+          wget -O boost_bin_fpic.tar.bz2 http://repo.bitprim.org/packages/binary/boost_bin_fpic.tar.bz2
+          tar -xvjf boost_bin_fpic.tar.bz2
+          # export BOOST_OPTS="-DBOOST_ROOT=/home/travis/deps/boost_1_64_0 -DBOOST_INCLUDEDIR=/home/travis/deps/boost_1_64_0 -DBOOST_LIBRARYDIR=/home/travis/deps/boost_1_64_0/lib"
+          sudo ldconfig
+          echo 'Boost 1.64.0 installed';
+
+          # CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
+          CMAKE_OPTIONS+=" -DBOOST_ROOT=${DEPS_DIR}/boost_1_64_0"
+          CMAKE_OPTIONS+=" -DBOOST_INCLUDEDIR=${DEPS_DIR}/boost_1_64_0"
+          CMAKE_OPTIONS+=" -DBOOST_LIBRARYDIR=${DEPS_DIR}/boost_1_64_0/lib"
+        fi
+      fi  
+    else
+    fi
+
+  # ############################################################################
+  # # Install a recent Doxygen
+  # ############################################################################
+  # - |
+  #   if [[ "${DOCUMENTATION}" == "true" ]]; then
+  #     DOXYGEN_URL="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.11.linux.bin.tar.gz"
+  #     mkdir doxygen && travis_retry wget --quiet -O - ${DOXYGEN_URL} | tar --strip-components=1 -xz -C doxygen
+  #     export PATH=${DEPS_DIR}/doxygen/bin:${PATH}
+  #     doxygen --version
+  #   fi
+
+  # ############################################################################
+  # # Install and use a more recent Ruby and install the gems for the benchmarks
+  # ############################################################################
+  # - rvm use 2.1 --install --binary --fuzzy
+  # - gem install ruby-progressbar tilt
+
+  ############################################################################
+  # Install tools to check for code formatting errors (run on OS X only)
+  ############################################################################
+  - |
+    if [[ "${CHECK_FORMATTING}" == "true" ]]; then
+      brew upgrade pcre || brew install pcre || exit 1
+      brew upgrade vera++ || brew install vera++ || exit 1
+      brew upgrade llvm --with-clang --with-clang-extra-tools || brew install llvm --with-clang --with-clang-extra-tools || exit 1
+      ls /usr/local/opt/llvm/bin | grep clang
+    fi 
 
 before_script:
+  ############################################################################
+  # Set some compiler flags
+  ############################################################################
+  # CMAKE_OPTIONS+=" -DCMAKE_CXX_FLAGS=-std=c++11"
+
+  - |
+    CMAKE_OPTIONS+=" -DENABLE_TESTS=OFF"
+    CMAKE_OPTIONS+=" -DWITH_TESTS=OFF"
+    CMAKE_OPTIONS+=" -DWITH_TOOLS=OFF"
+
   ############################################################################
   # Set the git identity (for pushing the documentation and the benchmarks)
   ############################################################################
   - git config --global user.name "Travis bot"
-  - git config --global user.email travis-bot@travis-ci.org
+  # - git config --global user.email travis-bot@travis-ci.org
+  - git config --global user.email "<>"
 
   - if [ -n "$GCC_VERSION" ]; then export CXX_FLAGS="${CXX_FLAGS} "; fi
   - if [ -n "$CLANG_VERSION" ]; then export CXX_FLAGS="${CXX_FLAGS} "; fi
@@ -94,14 +267,17 @@ before_script:
   - |
     function build_project
     {
-    cd $1
-    mkdir build
-    cd build
-    cmake .. -G "Unix Makefiles" -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" ${BOOST_OPTS} -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=Debug
-    make -j4
-    sudo make install
-    cd ..
-    cd ..
+      cd $1
+      mkdir build && cd build
+      # cmake .. -G "Unix Makefiles" -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" ${BOOST_OPTS} -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=Debug
+      # make -j4
+      # CXX_FLAGS="-std=c++11"
+
+      cmake .. ${CMAKE_OPTIONS} -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DENABLE_MODULE_RECOVERY=ON -DCMAKE_BUILD_TYPE=Debug
+      make -j2
+      sudo make install
+      cd ..
+      cd ..
     }
   - git clone 'https://github.com/bitprim/secp256k1' -b c-api
   - git clone 'https://github.com/bitprim/bitprim-core' -b c-api
@@ -119,17 +295,80 @@ before_script:
   - build_project bitprim-blockchain
   - build_project bitprim-node
 
+
+  - |
+    if [[ "${CHECK_FORMATTING}" == "true" ]]; then
+      CMAKE_OPTIONS+=" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+    fi
+
   ############################################################################
   # Build this repo
   ############################################################################
   - cd ${TRAVIS_BUILD_DIR}
-  - mkdir build
-  - cd build
-  - cmake .. -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" ${BOOST_OPTS}
+  # - mkdir build
+  # - cd build
+  # - cmake .. -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" ${BOOST_OPTS}
+  - (mkdir build && cd build && cmake .. ${CMAKE_OPTIONS})
+
 
 script:
-  - make -j2
-  - sudo make install
+  ############################################################################
+  # Check for common formatting errors.
+  ############################################################################
+  - |
+    if [[ "${CHECK_FORMATTING}" == "true" ]]; then
+
+      export PATH=$PATH:/usr/local/opt/llvm/bin/
+      clang-tidy --version
+      # sudo find / -name "run-clang-tidy.py"
+      /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -header-filter='.*' -checks='-*,modernize-use-override'
+
+      # Find non-ASCII characters in headers
+      hpps=$(find include doc -name \*\.hpp)
+      cpps=$(find test example -name \*\.cpp)
+      pcregrep --color='auto' -n "[\x80-\xFF]" ${hpps} ${cpps}
+      if [[ $? -ne 1 ]]; then exit 1; fi
+      # F001: Source files should not use the '\r' (CR) character
+      # L001: No trailing whitespace at the end of lines
+      # L002: Don't use tab characters
+      find include -name \*\.hpp | vera++ --rule F001 --rule L001 --rule L002 --error
+    fi
+
+  ############################################################################
+  # Build and run the unit tests and examples.
+  ############################################################################
+
+  - |
+    if [[ "${UNIT_TESTS}" == "true" && "${BOOST_BUILD}" != "true" ]]; then
+      (cd build && make -j2 -k)
+
+      # - make -j2
+      # - sudo make install
+
+    fi
+
+  # - |
+  #   if [[ "${UNIT_TESTS}" == "true" && "${BOOST_BUILD}" != "true" ]]; then
+  #     (cd build && make tests examples -j2 -k) &&
+  #     if [[ "${ENABLE_MEMCHECK}" == "true" ]]; then
+  #       (cd build && ctest --output-on-failure -j2 -D ExperimentalMemCheck)
+  #     else
+  #       (cd build && ctest --output-on-failure -j2)
+  #     fi
+  #   fi
+
+  # - |
+  #   if [[ "${UNIT_TESTS}" == "true" && "${BOOST_BUILD}" == "true" ]]; then
+  #     touch Jamroot
+  #     echo "using clang : : ${CXX} ;" > project-config.jam
+  #     if [[ "${LDFLAGS}" == "" ]]; then
+  #       (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" include="${BOOST_DIR}")
+  #     else
+  #       (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" include="${BOOST_DIR}" linkflags="${LDFLAGS}")
+  #     fi
+  #   fi
+
+
 
 notifications:
   email: false
