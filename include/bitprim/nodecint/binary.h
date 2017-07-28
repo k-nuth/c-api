@@ -40,7 +40,8 @@ BITPRIM_EXPORT
 binary_t binary_construct_blocks(size_t bits_size, uint8_t* blocks, size_t n);
 
 BITPRIM_EXPORT
-uint8_t* binary_blocks(binary_t binary);
+//uint8_t* binary_blocks(binary_t binary);
+uint8_t const* binary_blocks(binary_t binary, uint64_t /*size_t*/ out_n);
 
 BITPRIM_EXPORT
 char* binary_encoded(binary_t binary);

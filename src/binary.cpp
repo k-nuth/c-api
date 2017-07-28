@@ -54,9 +54,9 @@ binary_t binary_construct_blocks(size_t bits_size, uint8_t* blocks, size_t n) {
 //}
 
 
-uint8_t* binary_blocks(binary_t binary, uint64_t /*size_t*/ out_n) {
+uint8_t const* binary_blocks(binary_t binary, uint64_t /*size_t*/ out_n) {
     out_n = binary_const_cpp(binary).blocks().size();
-    return binary_const_cpp(binary).blocks().data();
+    return binary_cpp(binary).blocks().data();
 }
 
 char* binary_encoded(binary_t binary) {
