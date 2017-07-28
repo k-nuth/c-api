@@ -50,15 +50,15 @@ void chain_output_list_push_back(output_list_t list, output_t output) {
     chain_output_list_cpp(list).push_back(chain_output_const_cpp(output));
 }
 
-void output_list_destruct(output_list_t list) {
+void chain_output_list_destruct(output_list_t list) {
     delete &chain_output_list_cpp(list);
 }
 
-uint64_t /*size_t*/ output_list_count(output_list_t list) {
+uint64_t /*size_t*/ chain_output_list_count(output_list_t list) {
     return chain_output_list_const_cpp(list).size();
 }
 
-output_t output_list_nth(output_list_t list, uint64_t /*size_t*/ n) {
+output_t chain_output_list_nth(output_list_t list, uint64_t /*size_t*/ n) {
     auto &x = chain_output_list_cpp(list)[n];
     return &x;
 }
