@@ -182,7 +182,8 @@ install:
   #   fi
 
   - |
-    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then   #TODO: temp... enable for macOS too
+    #TODO: temp... enable for macOS too
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
       if [[ "${BOOST_VERSION}" != "" ]]; then
         BOOST_DIR=${DEPS_DIR}/boost-${BOOST_VERSION}
         if [[ -z "$(ls -A ${BOOST_DIR})" ]]; then
@@ -208,7 +209,6 @@ install:
           CMAKE_OPTIONS+=" -DBOOST_LIBRARYDIR=${DEPS_DIR}/boost_1_64_0/lib"
         fi
       fi  
-    else
     fi
 
   # ############################################################################
