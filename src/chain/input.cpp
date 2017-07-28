@@ -52,15 +52,15 @@ void chain_input_destruct(input_t input) {
 }
 
 int /*bool*/ chain_input_is_valid(input_t input) {
-    return chain_input_const_cpp(input).is_valid();
+    return static_cast<int>(chain_input_const_cpp(input).is_valid());
 }
 
 int /*bool*/ chain_input_is_final(input_t input) {
-    return chain_input_const_cpp(input).is_final();
+    return static_cast<int>(chain_input_const_cpp(input).is_final());
 }
 
 uint64_t /*size_t*/ chain_input_serialized_size(input_t input, int /*bool*/ wire /* = true*/) {
-    return chain_input_const_cpp(input).serialized_size(wire);
+    return chain_input_const_cpp(input).serialized_size(wire != 0);
 }
 
 uint32_t chain_input_sequence(input_t input) {
@@ -68,7 +68,7 @@ uint32_t chain_input_sequence(input_t input) {
 }
 
 uint64_t /*size_t*/ chain_input_signature_operations(input_t input, int /*bool*/ bip16_active) {
-    return chain_input_const_cpp(input).signature_operations(bip16_active);
+    return chain_input_const_cpp(input).signature_operations(bip16_active != 0);
 }
 
 script_t chain_input_script(input_t input) {

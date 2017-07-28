@@ -43,16 +43,16 @@ public:
     virtual bool parse(boost::filesystem::path config_path, std::ostream& error);
 
     /// Load configuration file settings.
-    virtual libbitcoin::options_metadata load_settings();
+    libbitcoin::options_metadata load_settings() override;
 
 
 
     /// Load command line options (named).
-    virtual libbitcoin::options_metadata load_options();
+    libbitcoin::options_metadata load_options() override;
     /// Load command line arguments (positional).
-    virtual libbitcoin::arguments_metadata load_arguments();
+    libbitcoin::arguments_metadata load_arguments() override;
     /// Load environment variable settings.
-    virtual libbitcoin::options_metadata load_environment();
+    libbitcoin::options_metadata load_environment() override;
 
 
     //virtual bool load_configuration_variables(variables_map& variables, std::string const& option_name);

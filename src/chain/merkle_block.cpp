@@ -59,7 +59,7 @@ header_t chain_merkle_block_header(merkle_block_t block) {
 }
 
 int /*bool*/ chain_merkle_block_is_valid(merkle_block_t block) {
-    return chain_merkle_block_const_cpp(block).is_valid();
+    return static_cast<int>(chain_merkle_block_const_cpp(block).is_valid());
 }
 
 uint64_t /*size_t*/ chain_merkle_block_hash_count(merkle_block_t block) {

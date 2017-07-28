@@ -92,7 +92,7 @@ void chain_get_headers_set_stop_hash(get_headers_t get_b, hash_t value) {
 
 //bool is_valid() const;
 int /*bool*/ chain_get_headers_is_valid(get_headers_t get_b) {
-    return chain_get_headers_cpp(get_b).is_valid();
+    return static_cast<int>(chain_get_headers_cpp(get_b).is_valid());
 }
 
 //void reset();

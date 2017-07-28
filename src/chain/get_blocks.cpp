@@ -92,7 +92,7 @@ void chain_get_blocks_set_stop_hash(get_blocks_t get_b, hash_t value) {
 
 //bool is_valid() const;
 int /*bool*/ chain_get_blocks_is_valid(get_blocks_t get_b) {
-    return chain_get_blocks_cpp(get_b).is_valid();
+    return static_cast<int>(chain_get_blocks_cpp(get_b).is_valid());
 }
 
 //void reset();

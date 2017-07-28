@@ -90,7 +90,7 @@ void chain_header_destruct(header_t header) {
 }
 
 int chain_header_is_valid(header_t header) {
-    return chain_header_const_cpp(header).is_valid();
+    return static_cast<int>(chain_header_const_cpp(header).is_valid());
 }
 
 uint32_t chain_header_version(header_t header) {

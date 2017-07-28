@@ -67,7 +67,7 @@ int char2int(char input) {
 
 inline
 void hex2bin(const char* src, uint8_t* target) {
-    while (*src && src[1]) {
+    while ((*src != 0) && (src[1] != 0)) {
         *(target++) = char2int(*src) * 16 + char2int(src[1]);
         src += 2;
     }
@@ -320,7 +320,7 @@ void chain_fetch_transaction(chain_t chain, void* ctx, hash_t hash, int require_
 //    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::transaction::ptr transaction, size_t h, size_t i) {
+    safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed != 0, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::transaction::ptr transaction, size_t h, size_t i) {
         auto new_transaction = new libbitcoin::message::transaction(*transaction.get());
         handler(chain, ctx, ec.value(), new_transaction, h, i);
     });
@@ -334,7 +334,7 @@ int chain_get_transaction(chain_t chain, hash_t hash, int require_confirmed, tra
 //    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed, [&](std::error_code const& ec, libbitcoin::message::transaction::ptr transaction, size_t h, size_t i) {
+    safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed != 0, [&](std::error_code const& ec, libbitcoin::message::transaction::ptr transaction, size_t h, size_t i) {
         *out_transaction = new libbitcoin::message::transaction(*transaction.get());
         *out_height = h;
         *out_index = i;
@@ -355,7 +355,7 @@ void chain_fetch_output(chain_t chain, void* ctx, hash_t hash, uint32_t index, i
 
     libbitcoin::chain::output_point point(hash_cpp, index);
 
-    safe_chain(chain).fetch_output(point, require_confirmed, [chain, ctx, handler](std::error_code const& ec, libbitcoin::chain::output const& output) {
+    safe_chain(chain).fetch_output(point, require_confirmed != 0, [chain, ctx, handler](std::error_code const& ec, libbitcoin::chain::output const& output) {
         //It is the user's responsibility to release this memory
         auto new_output = new libbitcoin::chain::output(output);
         handler(chain, ctx, ec.value(), new_output);
@@ -372,7 +372,7 @@ int chain_get_output(chain_t chain, hash_t hash, uint32_t index, int require_con
 
     libbitcoin::chain::output_point point(hash_cpp, index);
 
-    safe_chain(chain).fetch_output(point, require_confirmed, [&](std::error_code const& ec, libbitcoin::chain::output const& output) {
+    safe_chain(chain).fetch_output(point, require_confirmed != 0, [&](std::error_code const& ec, libbitcoin::chain::output const& output) {
         *out_output = new libbitcoin::chain::output(output);
 
         res = ec.value();
@@ -445,7 +445,7 @@ void chain_fetch_transaction_position(chain_t chain, void* ctx, hash_t hash, int
 //    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction_position(hash_cpp, require_confirmed, [chain, ctx, handler](std::error_code const& ec, size_t position, size_t height) {
+    safe_chain(chain).fetch_transaction_position(hash_cpp, require_confirmed != 0, [chain, ctx, handler](std::error_code const& ec, size_t position, size_t height) {
         handler(chain, ctx, ec.value(), position, height);
     });
 }
@@ -458,7 +458,7 @@ int chain_get_transaction_position(chain_t chain, hash_t hash, int require_confi
 //    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction_position(hash_cpp, require_confirmed, [&](std::error_code const& ec, size_t position, size_t height) {
+    safe_chain(chain).fetch_transaction_position(hash_cpp, require_confirmed != 0, [&](std::error_code const& ec, size_t position, size_t height) {
         *out_height = height;
         *out_position = position;
         res = ec.value();

@@ -49,11 +49,11 @@ void chain_output_destruct(output_t output) {
 }
 
 int chain_output_is_valid(output_t output) {
-    return chain_output_const_cpp(output).is_valid();
+    return static_cast<int>(chain_output_const_cpp(output).is_valid());
 }
 
 uint64_t /*size_t*/ chain_output_serialized_size(output_t output, int /* bool */ wire /* = true */) {
-    return chain_output_const_cpp(output).serialized_size(wire);
+    return chain_output_const_cpp(output).serialized_size(wire != 0);
 }
 
 uint64_t chain_output_value(output_t output) {

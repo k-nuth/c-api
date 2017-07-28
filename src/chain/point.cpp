@@ -45,7 +45,7 @@ hash_t point_get_hash(point_t point) {
 }
 
 int /*bool*/ point_is_valid(point_t point) {
-    return point_const_cpp(point).is_valid();
+    return static_cast<int>(point_const_cpp(point).is_valid());
 }
 
 uint32_t point_get_index(point_t point) {

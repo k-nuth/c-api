@@ -38,11 +38,11 @@ void script_destruct(script_t script) {
 }
 
 int script_is_valid(script_t script) {
-    return static_cast<libbitcoin::chain::script const*>(script)->is_valid();
+    return static_cast<int>(static_cast<libbitcoin::chain::script const*>(script)->is_valid());
 }
 
 int script_is_valid_operations(script_t script) {
-    return static_cast<libbitcoin::chain::script const*>(script)->is_valid_operations();
+    return static_cast<int>(static_cast<libbitcoin::chain::script const*>(script)->is_valid_operations());
 }
 
 uint64_t /*size_t*/ script_satoshi_content_size(script_t script) {
@@ -50,13 +50,13 @@ uint64_t /*size_t*/ script_satoshi_content_size(script_t script) {
 }
 
 uint64_t /*size_t*/ script_serialized_size(script_t script, /*bool*/ int prefix) {
-    return static_cast<libbitcoin::chain::script const*>(script)->serialized_size(prefix);
+    return static_cast<libbitcoin::chain::script const*>(script)->serialized_size(prefix != 0);
 }
 
 //Note: user of the function has to release the resource (memory) manually
 char const* script_to_string(script_t script, uint32_t active_forks) {
     auto str = static_cast<libbitcoin::chain::script const*>(script)->to_string(active_forks);
-    char* ret = (char*)malloc((str.size() + 1) * sizeof(char));
+    auto* ret = (char*)malloc((str.size() + 1) * sizeof(char));
     std::strcpy(ret, str.c_str());
     return ret;
 }
@@ -65,7 +65,7 @@ char const* script_to_string(script_t script, uint32_t active_forks) {
 
 
 uint64_t /*size_t*/ script_sigops(script_t script, /*bool*/ int embedded) {
-    return static_cast<libbitcoin::chain::script const*>(script)->sigops(embedded);
+    return static_cast<libbitcoin::chain::script const*>(script)->sigops(embedded != 0);
 }
 
 uint64_t /*size_t*/ script_embedded_sigops(script_t script, script_t prevout_script) {

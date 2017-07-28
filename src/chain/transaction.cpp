@@ -54,7 +54,7 @@ void chain_transaction_destruct(transaction_t transaction) {
 }
 
 int /*bool*/ chain_transaction_is_valid(transaction_t transaction) {
-    return chain_transaction_const_cpp(transaction).is_valid();
+    return static_cast<int>(chain_transaction_const_cpp(transaction).is_valid());
 }
 
 uint32_t chain_transaction_version(transaction_t transaction) {
@@ -102,7 +102,7 @@ uint64_t /*size_t*/ chain_transaction_signature_operations(transaction_t transac
 }
 
 uint64_t /*size_t*/ chain_transaction_signature_operations_bip16_active(transaction_t transaction, int /*bool*/ bip16_active) {
-    return chain_transaction_const_cpp(transaction).signature_operations(bip16_active);
+    return chain_transaction_const_cpp(transaction).signature_operations(bip16_active != 0);
 }
 
 uint64_t chain_transaction_total_input_value(transaction_t transaction) {
@@ -114,39 +114,39 @@ uint64_t chain_transaction_total_output_value(transaction_t transaction) {
 }
 
 int /*bool*/ chain_transaction_is_coinbase(transaction_t transaction) {
-    return chain_transaction_const_cpp(transaction).is_coinbase();
+    return static_cast<int>(chain_transaction_const_cpp(transaction).is_coinbase());
 }
 
 int /*bool*/ chain_transaction_is_null_non_coinbase(transaction_t transaction) {
-    return chain_transaction_const_cpp(transaction).is_null_non_coinbase();
+    return static_cast<int>(chain_transaction_const_cpp(transaction).is_null_non_coinbase());
 }
 
 int /*bool*/ chain_transaction_is_oversized_coinbase(transaction_t transaction) {
-    return chain_transaction_const_cpp(transaction).is_oversized_coinbase();
+    return static_cast<int>(chain_transaction_const_cpp(transaction).is_oversized_coinbase());
 }
 
 int /*bool*/ chain_transaction_is_immature(transaction_t transaction, uint64_t /*size_t*/ target_height) {
-    return chain_transaction_const_cpp(transaction).is_immature(target_height);
+    return static_cast<int>(chain_transaction_const_cpp(transaction).is_immature(target_height));
 }
 
 int /*bool*/ chain_transaction_is_overspent(transaction_t transaction) {
-    return chain_transaction_const_cpp(transaction).is_overspent();
+    return static_cast<int>(chain_transaction_const_cpp(transaction).is_overspent());
 }
 
 int /*bool*/ chain_transaction_is_double_spend(transaction_t transaction, int /*bool*/ include_unconfirmed) {
-    return chain_transaction_const_cpp(transaction).is_double_spend(include_unconfirmed);
+    return static_cast<int>(chain_transaction_const_cpp(transaction).is_double_spend(include_unconfirmed != 0));
 }
 
 int /*bool*/ chain_transaction_is_missing_previous_outputs(transaction_t transaction) {
-    return chain_transaction_const_cpp(transaction).is_missing_previous_outputs();
+    return static_cast<int>(chain_transaction_const_cpp(transaction).is_missing_previous_outputs());
 }
 
 int /*bool*/ chain_transaction_is_final(transaction_t transaction, uint64_t /*size_t*/ block_height, uint32_t block_time) {
-    return chain_transaction_const_cpp(transaction).is_final(block_height, block_time);
+    return static_cast<int>(chain_transaction_const_cpp(transaction).is_final(block_height, block_time));
 }
 
 int /*bool*/ chain_transaction_is_locktime_conflict(transaction_t transaction) {
-    return chain_transaction_const_cpp(transaction).is_locktime_conflict();
+    return static_cast<int>(chain_transaction_const_cpp(transaction).is_locktime_conflict());
 }
 
 output_list_t chain_transaction_outputs(transaction_t transaction) {

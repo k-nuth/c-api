@@ -58,7 +58,7 @@ void chain_block_destruct(block_t block) {
 }
 
 int /*bool*/ chain_block_is_valid(block_t block) {
-    return chain_block_const_cpp(block).is_valid();
+    return static_cast<int>(chain_block_const_cpp(block).is_valid());
 }
 
 header_t chain_block_header(block_t block) {
@@ -152,39 +152,39 @@ uint64_t /*size_t*/ chain_block_signature_operations(block_t block) {
 }
 
 uint64_t /*size_t*/ chain_block_signature_operations_bip16_active(block_t block, int /*bool*/ bip16_active) {
-    return chain_block_const_cpp(block).signature_operations(bip16_active);
+    return chain_block_const_cpp(block).signature_operations(bip16_active != 0);
 }
 
-uint64_t /*size_t*/ chain_block_total_inputs(block_t block, int /*bool*/ with_coinbase=true) {
-    return chain_block_const_cpp(block).total_inputs(with_coinbase);
+uint64_t /*size_t*/ chain_block_total_inputs(block_t block, int /*bool*/ with_coinbase=1) {
+    return chain_block_const_cpp(block).total_inputs(with_coinbase != 0);
 }
 
 int /*bool*/ chain_block_is_extra_coinbases(block_t block) {
-    return chain_block_const_cpp(block).is_extra_coinbases();
+    return static_cast<int>(chain_block_const_cpp(block).is_extra_coinbases());
 }
 
 int /*bool*/ chain_block_is_final(block_t block, uint64_t /*size_t*/ height) {
-    return chain_block_const_cpp(block).is_final(height);
+    return static_cast<int>(chain_block_const_cpp(block).is_final(height));
 }
 
 int /*bool*/ chain_block_is_distinct_transaction_set(block_t block) {
-    return chain_block_const_cpp(block).is_distinct_transaction_set();
+    return static_cast<int>(chain_block_const_cpp(block).is_distinct_transaction_set());
 }
 
 int /*bool*/ chain_block_is_valid_coinbase_claim(block_t block, uint64_t /*size_t*/ height) {
-    return chain_block_const_cpp(block).is_valid_coinbase_claim(height);
+    return static_cast<int>(chain_block_const_cpp(block).is_valid_coinbase_claim(height));
 }
 
 int /*bool*/ chain_block_is_valid_coinbase_script(block_t block, uint64_t /*size_t*/ height) {
-    return chain_block_const_cpp(block).is_valid_coinbase_script(height);
+    return static_cast<int>(chain_block_const_cpp(block).is_valid_coinbase_script(height));
 }
 
 int /*bool*/ chain_block_is_internal_double_spend(block_t block) {
-    return chain_block_const_cpp(block).is_internal_double_spend();
+    return static_cast<int>(chain_block_const_cpp(block).is_internal_double_spend());
 }
 
 int /*bool*/ chain_block_is_valid_merkle_root(block_t block) {
-    return chain_block_const_cpp(block).is_valid_merkle_root();
+    return static_cast<int>(chain_block_const_cpp(block).is_valid_merkle_root());
 }
 
 

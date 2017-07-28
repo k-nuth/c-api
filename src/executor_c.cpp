@@ -142,7 +142,7 @@ void executor_destruct(executor_t exec) {
 int executor_initchain(executor_t exec) {
     //TODO: return error_t to inform error in detail
     try {
-        return exec->actual.do_initchain();
+        return static_cast<int>(exec->actual.do_initchain());
 //    } catch (const std::exception& e) {
 //        return 0;
     } catch (...) {

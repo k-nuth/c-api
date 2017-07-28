@@ -39,7 +39,7 @@ header_t compact_block_header(compact_block_t block) {
 }
 
 int /*bool*/ compact_block_is_valid(compact_block_t block) {
-    return compact_block_const_cpp(block).is_valid();
+    return static_cast<int>(compact_block_const_cpp(block).is_valid());
 }
 
 uint64_t /*size_t*/ compact_block_serialized_size(compact_block_t block, uint32_t version) {

@@ -33,7 +33,7 @@ extern "C" {
 //User is responsible for releasing return value memory
 char const* payment_address_encoded(payment_address_t payment_address) {
     std::string encoded_string = payment_address_const_cpp(payment_address).encoded();
-    char* ret = (char*)malloc((encoded_string.size() + 1) * sizeof(char));
+    auto* ret = (char*)malloc((encoded_string.size() + 1) * sizeof(char));
     std::strcpy(ret, encoded_string.c_str());
     return ret;
 }

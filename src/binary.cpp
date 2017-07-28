@@ -48,15 +48,14 @@ binary_t binary_construct_blocks(size_t bits_size, uint8_t* blocks, size_t n) {
 }
 
 uint8_t* binary_blocks(binary_t binary) {
-    uint8_t* ret = (uint8_t*)malloc(binary_const_cpp(binary).blocks().size() * sizeof(uint8_t));
+    auto* ret = (uint8_t*)malloc(binary_const_cpp(binary).blocks().size() * sizeof(uint8_t));
     std::copy_n(std::begin(binary_const_cpp(binary).blocks()), binary_const_cpp(binary).blocks().size(), ret);
     return ret;
 }
 
-char*  binary_encoded(binary_t binary)
-{
+char* binary_encoded(binary_t binary) {
     std::string str = binary_const_cpp(binary).encoded();
-    char* ret = (char*)malloc((str.size() + 1) * sizeof(char));
+    auto* ret = (char*)malloc((str.size() + 1) * sizeof(char));
     std::strcpy(ret, str.c_str());
     return ret;
 }

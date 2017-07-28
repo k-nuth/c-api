@@ -17,13 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
+#include <chrono>
+#include <cstdio>
+#include <iostream>
+#include <thread>
 
 #include <bitprim/nodecint/executor_c.h>
+#include <bitprim/nodecint/helpers.hpp>
 #include <bitprim/nodecint/chain/payment_address.h>
 #include <bitprim/nodecint/chain/history_compact_list.h>
 #include <bitprim/nodecint/chain/history_compact.h>
-
 #include <bitprim/nodecint/chain/transaction.h>
 #include <bitprim/nodecint/chain/input_list.h>
 #include <bitprim/nodecint/chain/input.h>
@@ -33,15 +36,6 @@
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/bitcoin/utility/binary.hpp>
 
-#include <bitprim/nodecint/helpers.hpp>
-
-
-#include <iostream>
-#include <chrono>
-#include <thread>
-
-
-
 bool waiting = true;
 
 libbitcoin::message::transaction const& tx_const_cpp2(transaction_t transaction) {
@@ -49,179 +43,57 @@ libbitcoin::message::transaction const& tx_const_cpp2(transaction_t transaction)
 
 }
 
-//binary(const std::string& bit_string);
 
 
-using pepe = std::array<uint8_t, 5>;
+int main(int /*argc*/, char* /*argv*/[]) {
+    using namespace std::chrono_literals;
 
+    executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+    //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
-typedef struct pepe_t {
-    uint8_t hash[5];
-} pepe_t;
+    int res1 = executor_initchain(exec);
 
-
-struct xxx {
-    pepe get_pepe() const {
-        return pepe_;
+    if (res1 == 0) {
+        printf("Error initializing files\n");
+        executor_destruct(exec);
+        return -1;
     }
 
-    pepe pepe_;
-};
+    int res2 = executor_run_wait(exec);
 
-pepe return_pepe(xxx const& x) {
-//    pepe p {1, 2, 3, 4, 5};
-//    return p;
-    return x.get_pepe();
+    if (res2 != 0) {
+        printf("Error initializing files\n");
+        executor_destruct(exec);
+        return -1;
+    }
+
+
+    auto inputs = chain_input_list_construct_default();
+
+    auto input0 = chain_input_construct_default();
+    auto input1 = chain_input_construct_default();
+    auto input2 = chain_input_construct_default();
+    chain_input_list_push_back(inputs, input0);
+    chain_input_list_push_back(inputs, input1);
+    chain_input_list_push_back(inputs, input2);
+
+
+    auto outputs = chain_output_list_construct_default();
+    auto output0 = chain_output_construct_default();
+    auto output1 = chain_output_construct_default();
+    auto output2 = chain_output_construct_default();
+    chain_output_list_push_back(outputs, output0);
+    chain_output_list_push_back(outputs, output1);
+    chain_output_list_push_back(outputs, output2);
+
+
+    auto tr = chain_transaction_construct(1, 1, inputs, outputs);
+
+
+    executor_destruct(exec);
+
+    return 0;
 }
-
-uint8_t const* return_pepe_data(xxx const& x) {
-    auto const& pepe = return_pepe(x);
-    return pepe.data();
-}
-
-
-namespace detail {
-
-template <std::size_t... I>
-constexpr
-pepe_t to_pepe_impl(pepe const& a, std::index_sequence<I...>) {
-    return { {a[I]...} };
-}
-
-}
-
-constexpr
-pepe_t to_pepe(pepe const& a) {
-    return detail::to_pepe_impl(a, std::make_index_sequence<5>{});
-}
-
-
-int main(int argc, char* argv[]) {
-    pepe xxx = {1, 2, 3, 4, 5};
-
-    pepe_t yyy = {1, 2, 3, 4, 5};
-
-    xxx = bitprim::to_array(yyy.hash);
-
-    yyy = {1, 2, 3, 4, 6};
-
-    printf("yyy[0]:     %d\n", yyy.hash[0]);
-    printf("yyy[1]:     %d\n", yyy.hash[1]);
-    printf("yyy[2]:     %d\n", yyy.hash[2]);
-    printf("yyy[3]:     %d\n", yyy.hash[3]);
-    printf("yyy[4]:     %d\n", yyy.hash[4]);
-
-    xxx = {7, 6, 5, 4, 3};
-    yyy = to_pepe(xxx);
-
-    printf("yyy[0]:     %d\n", yyy.hash[0]);
-    printf("yyy[1]:     %d\n", yyy.hash[1]);
-    printf("yyy[2]:     %d\n", yyy.hash[2]);
-    printf("yyy[3]:     %d\n", yyy.hash[3]);
-    printf("yyy[4]:     %d\n", yyy.hash[4]);
-
-    xxx = {11, 12, 13, 14, 15};
-    yyy = bitprim::to_c_array<pepe_t>(xxx);
-
-    printf("yyy[0]:     %d\n", yyy.hash[0]);
-    printf("yyy[1]:     %d\n", yyy.hash[1]);
-    printf("yyy[2]:     %d\n", yyy.hash[2]);
-    printf("yyy[3]:     %d\n", yyy.hash[3]);
-    printf("yyy[4]:     %d\n", yyy.hash[4]);
-
-
-}
-
-//int main(int argc, char* argv[]) {
-//    xxx x;
-//    x.pepe_ = {1, 2, 3, 4, 5};
-//
-//    printf("&x.pepe_:       %p\n", &x.pepe_);
-//    printf("x.pepe_.data(): %p\n", x.pepe_.data());
-//
-//    printf("x.pepe_[0]:     %d\n", x.pepe_[0]);
-//    printf("x.pepe_[4]:     %d\n", x.pepe_[4]);
-//
-//    auto const& pepe2 = x.get_pepe();
-//    printf("&pepe2:       %p\n", &pepe2);
-//    printf("pepe2.data(): %p\n", pepe2.data());
-//
-//    printf("pepe2[0]:     %d\n", pepe2[0]);
-//    printf("pepe2[4]:     %d\n", pepe2[4]);
-//
-//
-//    auto const& pepe3 = return_pepe(x);
-//    printf("&pepe3:       %p\n", &pepe3);
-//    printf("pepe3.data(): %p\n", pepe3.data());
-//
-//    printf("pepe3[0]:     %d\n", pepe3[0]);
-//    printf("pepe3[4]:     %d\n", pepe3[4]);
-//
-//    auto const* pepe4 = return_pepe_data(x);
-//    printf("pepe4:        %p\n", pepe4);
-//
-//    printf("pepe4[0]:     %d\n", pepe4[0]);
-//    printf("pepe4[4]:     %d\n", pepe4[4]);
-//
-//
-//    x.pepe_ = {6, 7, 8, 9, 10};
-//
-//    printf("x.pepe_[0]:     %d\n", x.pepe_[0]);
-//    printf("x.pepe_[4]:     %d\n", x.pepe_[4]);
-//    printf("pepe4[0]:     %d\n", pepe4[0]);
-//    printf("pepe4[4]:     %d\n", pepe4[4]);
-//
-//}
-
-//int main(int argc, char* argv[]) {
-//    using namespace std::chrono_literals;
-//
-//    executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//    //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
-//
-//    int res1 = executor_initchain(exec);
-//
-//    if (res1 == 0) {
-//        printf("Error initializing files\n");
-//        executor_destruct(exec);
-//        return -1;
-//    }
-//
-//    int res2 = executor_run_wait(exec);
-//
-//    if (res2 != 0) {
-//        printf("Error initializing files\n");
-//        executor_destruct(exec);
-//        return -1;
-//    }
-//
-//
-//    auto inputs = chain_input_list_construct_default();
-//
-//    auto input0 = chain_input_construct_default();
-//    auto input1 = chain_input_construct_default();
-//    auto input2 = chain_input_construct_default();
-//    chain_input_list_push_back(inputs, input0);
-//    chain_input_list_push_back(inputs, input1);
-//    chain_input_list_push_back(inputs, input2);
-//
-//
-//    auto outputs = chain_output_list_construct_default();
-//    auto output0 = chain_output_construct_default();
-//    auto output1 = chain_output_construct_default();
-//    auto output2 = chain_output_construct_default();
-//    chain_output_list_push_back(outputs, output0);
-//    chain_output_list_push_back(outputs, output1);
-//    chain_output_list_push_back(outputs, output2);
-//
-//
-//    auto tr = chain_transaction_construct(1, 1, inputs, outputs);
-//
-//
-//    executor_destruct(exec);
-//
-//    return 0;
-//}
 
 // ------------------------------------------
 
