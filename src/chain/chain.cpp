@@ -54,27 +54,27 @@ libbitcoin::message::block::const_ptr block_shared(block_t block) {
     return libbitcoin::message::block::const_ptr(block_new);
 }
 
-inline
-int char2int(char input) {
-    if (input >= '0' && input <= '9') {
-        return input - '0';
-    }
-    if (input >= 'A' && input <= 'F') {
-        return input - 'A' + 10;
-    }
-    if (input >= 'a' && input <= 'f') {
-        return input - 'a' + 10;
-    }
-    throw std::invalid_argument("Invalid input string");
-}
+//inline
+//int char2int(char input) {
+//    if (input >= '0' && input <= '9') {
+//        return input - '0';
+//    }
+//    if (input >= 'A' && input <= 'F') {
+//        return input - 'A' + 10;
+//    }
+//    if (input >= 'a' && input <= 'f') {
+//        return input - 'a' + 10;
+//    }
+//    throw std::invalid_argument("Invalid input string");
+//}
 
-inline
-void hex2bin(const char* src, uint8_t* target) {
-    while ((*src != 0) && (src[1] != 0)) {
-        *(target++) = char2int(*src) * 16 + char2int(src[1]);
-        src += 2;
-    }
-}
+//inline
+//void hex2bin(const char* src, uint8_t* target) {
+//    while ((*src != 0) && (src[1] != 0)) {
+//        *(target++) = char2int(*src) * 16 + char2int(src[1]);
+//        src += 2;
+//    }
+//}
 
 } /* end of anonymous namespace */
 
@@ -679,29 +679,29 @@ int chain_organize_transaction_sync(chain_t chain, transaction_t transaction) {
 //-------------------------------------------------------------------------
 
 
-//It is the user's responsibility to release the transaction returned
-transaction_t chain_hex_to_tx(char const* tx_hex) {
-
-    static auto const version = libbitcoin::message::version::level::canonical;
-
-//    auto const tx = std::make_shared<libbitcoin::message::transaction>();
-    auto* tx = new libbitcoin::message::transaction;
-
-    std::string tx_hex_cpp(tx_hex);
-    std::vector<uint8_t> data(tx_hex_cpp.size() / 2); // (tx_hex_cpp.begin(), tx_hex_cpp.end());
-    //data.reserve(tx_hex_cpp.size() / 2);
-
-    hex2bin(tx_hex_cpp.c_str(), data.data());
-
-    if (!tx->from_data(version, data)) {
-        return nullptr;
-    }
-
-    // Simulate organization into our chain.
-    tx->validation.simulate = true;
-
-    return tx;
-}
+////It is the user's responsibility to release the transaction returned
+//transaction_t chain_hex_to_tx(char const* tx_hex) {
+//
+//    static auto const version = libbitcoin::message::version::level::canonical;
+//
+////    auto const tx = std::make_shared<libbitcoin::message::transaction>();
+//    auto* tx = new libbitcoin::message::transaction;
+//
+//    std::string tx_hex_cpp(tx_hex);
+//    std::vector<uint8_t> data(tx_hex_cpp.size() / 2); // (tx_hex_cpp.begin(), tx_hex_cpp.end());
+//    //data.reserve(tx_hex_cpp.size() / 2);
+//
+//    hex2bin(tx_hex_cpp.c_str(), data.data());
+//
+//    if (!tx->from_data(version, data)) {
+//        return nullptr;
+//    }
+//
+//    // Simulate organization into our chain.
+//    tx->validation.simulate = true;
+//
+//    return tx;
+//}
 
 void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
 

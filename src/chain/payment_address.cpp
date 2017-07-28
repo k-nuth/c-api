@@ -20,36 +20,38 @@
 #include <bitprim/nodecint/chain/payment_address.h>
 #include <bitcoin/bitcoin/wallet/payment_address.hpp>
 
-libbitcoin::wallet::payment_address const& payment_address_const_cpp(payment_address_t payment_address) {
+libbitcoin::wallet::payment_address const& chain_payment_address_const_cpp(payment_address_t payment_address) {
     return *static_cast<libbitcoin::wallet::payment_address const*>(payment_address);
 }
 
-libbitcoin::wallet::payment_address& payment_address_cpp(payment_address_t payment_address) {
+libbitcoin::wallet::payment_address& chain_payment_address_cpp(payment_address_t payment_address) {
     return *static_cast<libbitcoin::wallet::payment_address*>(payment_address);
 }
 
 extern "C" {
 
 //User is responsible for releasing return value memory
-char const* payment_address_encoded(payment_address_t payment_address) {
-    std::string encoded_string = payment_address_const_cpp(payment_address).encoded();
-    auto* ret = (char*)malloc((encoded_string.size() + 1) * sizeof(char));
-    std::strcpy(ret, encoded_string.c_str());
+char const* chain_payment_address_encoded(payment_address_t payment_address) {
+    std::string str = chain_payment_address_const_cpp(payment_address).encoded();
+    auto* ret = (char*)malloc((str.size() + 1) * sizeof(char));
+
+//    std::strcpy(ret, str.c_str());
+    std::copy_n(str.begin(), str.size() + 1, ret);
+
     return ret;
 }
 
-payment_address_t payment_address_construct_from_string(char const* address) {
+payment_address_t chain_payment_address_construct_from_string(char const* address) {
     std::string addr_cpp(address);
-//    std::cout << "addr_cpp: " << addr_cpp << std::endl;
     return std::make_unique<libbitcoin::wallet::payment_address>(addr_cpp).release();
 }
 
-uint8_t version(payment_address_t payment_address) {
-    return payment_address_cpp(payment_address).version();
+uint8_t chain_payment_address_version(payment_address_t payment_address) {
+    return chain_payment_address_cpp(payment_address).version();
 }
 
-void payment_address_destruct(payment_address_t payment_address) {
-    delete &payment_address_cpp(payment_address);
+void chain_payment_address_destruct(payment_address_t payment_address) {
+    delete &chain_payment_address_cpp(payment_address);
 }
 
 } /* extern "C" */

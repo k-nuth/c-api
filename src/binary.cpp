@@ -19,9 +19,8 @@
 
 #include <bitprim/nodecint/binary.h>
 #include <bitcoin/bitcoin/utility/binary.hpp>
-//#include <string>
-#include <vector>
-#include <iostream>
+//#include <vector>
+//#include <iostream>
 
 
 libbitcoin::binary const& binary_const_cpp(binary_t binary) {
@@ -54,15 +53,18 @@ binary_t binary_construct_blocks(size_t bits_size, uint8_t* blocks, size_t n) {
 //}
 
 
-uint8_t const* binary_blocks(binary_t binary, uint64_t /*size_t*/ out_n) {
-    out_n = binary_const_cpp(binary).blocks().size();
+uint8_t const* binary_blocks(binary_t binary, uint64_t* /*size_t*/ out_n) {
+    *out_n = binary_const_cpp(binary).blocks().size();
     return binary_cpp(binary).blocks().data();
 }
 
 char* binary_encoded(binary_t binary) {
     std::string str = binary_const_cpp(binary).encoded();
     auto* ret = (char*)malloc((str.size() + 1) * sizeof(char));
-    std::strcpy(ret, str.c_str());
+
+//    std::strcpy(ret, str.c_str());
+    std::copy_n(str.begin(), str.size() + 1, ret);
+
     return ret;
 }
 
