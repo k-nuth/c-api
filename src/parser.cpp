@@ -31,7 +31,7 @@
 
 //BC_DECLARE_CONFIG_DEFAULT_PATH("libbitcoin" / "bn.cfg")
 
-// TODO(fernando): localize descriptions.
+// TODO(libbitcoin): localize descriptions.
 
 namespace bitprim { namespace nodecint {
 
@@ -515,7 +515,7 @@ bool parser::load_configuration_variables(variables_map& variables, boost::files
 }
 
 // bool parser::parse(int argc, char const* argv[], std::ostream& error) {
-bool parser::parse(boost::filesystem::path config_path, std::ostream& error) {
+bool parser::parse(boost::filesystem::path const& config_path, std::ostream& error) {
     try {
         variables_map variables;
 

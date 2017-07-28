@@ -41,7 +41,7 @@ void word_list_destruct(word_list_t word_list) {
 }
 
 void word_list_add_word(word_list_t word_list, char const* word) {
-    word_list_cpp(word_list).push_back(std::string(word));
+    word_list_cpp(word_list).emplace_back(std::string(word));
 
 //    for (auto const& x : word_list_cpp(word_list)) {
 //        std::cout << x << std::endl;

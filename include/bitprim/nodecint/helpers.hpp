@@ -71,6 +71,17 @@ long_hash_t to_long_hash_t(libbitcoin::long_hash const& x) {
     return to_c_array<long_hash_t>(x);
 }
 
+
+inline
+libbitcoin::hash_digest hash_to_cpp(uint8_t* x) {
+    libbitcoin::hash_digest ret;
+    std::copy_n(x, ret.size(), std::begin(ret));
+    return ret;
+}
+
+
+
+
 } /* namespace bitprim */
 
 #endif /* BITPRIM_NODECINT_HELPERS_HPP_ */

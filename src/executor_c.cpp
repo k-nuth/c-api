@@ -49,18 +49,18 @@ inline
 int fileno_or_devnull(FILE* f) {
     if (f == nullptr) {
         return devnull_fileno();
-    } else {
-        return fileno(f);
     }
+
+    return fileno(f);
 }
 
 inline
 int fileno_or_devnull(int fd) {
     if (fd < 0) {
         return devnull_fileno();
-    } else {
-        return fd;
     }
+
+    return fd;
 }
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
@@ -180,9 +180,9 @@ int executor_run_wait(executor_t exec) {
     if (run_res) {
         latch.count_down_and_wait();
         return res;
-    } else {
-        return 1; // TODO(fernando): return error_t to inform errors in detail
     }
+
+    return 1; // TODO(fernando): return error_t to inform errors in detail
 }
 
 void executor_stop(executor_t exec) {

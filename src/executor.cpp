@@ -34,13 +34,20 @@
 namespace bitprim { namespace nodecint {
 
 using boost::format;
-using namespace boost;
-using namespace boost::system;
-using namespace bc::chain;
-using namespace bc::config;
-using namespace bc::database;
-using namespace bc::network;
-using namespace std::placeholders;
+using boost::null_deleter;
+using boost::system::error_code;
+
+using bc::chain::block;
+using bc::database::data_base;
+
+using std::placeholders::_1;
+//using namespace boost;
+//using namespace boost::system;
+//using namespace bc::chain;
+//using namespace bc::config;
+//using namespace bc::database;
+//using namespace bc::network;
+//using namespace std::placeholders;
 
 static constexpr int initialize_stop = 0;
 static constexpr int directory_exists = 0;
@@ -50,12 +57,14 @@ std::promise<libbitcoin::code> executor::stopping_;
 
 
 
-executor::executor(libbitcoin::node::configuration config, std::ostream& output, std::ostream& error)
+executor::executor(libbitcoin::node::configuration const& config, std::ostream& output, std::ostream& error)
     : config_(config), output_(output), error_(error)
 {
 	
     parser metadata(libbitcoin::config::settings::mainnet);
     auto res = metadata.parse(config_.file, std::cerr);
+    (void)res;
+
 //    if (!metadata.parse(cerr))
 //        return console_result::failure;
 
@@ -144,7 +153,7 @@ libbitcoin::node::full_node& executor::node() {
 
 bool executor::run(libbitcoin::handle0 handler) {
 
-    run_handler_ = handler;
+    run_handler_ = std::move(handler);
 
     initialize_output();
 
@@ -171,7 +180,7 @@ bool executor::run(libbitcoin::handle0 handler) {
 
 bool executor::run_wait(libbitcoin::handle0 handler) {
 
-    run(handler);
+    run(std::move(handler));
 
     // Wait for stop.
     stopping_.get_future().wait();

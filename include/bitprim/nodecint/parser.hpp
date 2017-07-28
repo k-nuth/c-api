@@ -35,12 +35,15 @@ class BCN_API parser
   : public libbitcoin::config::parser
 {
 public:
+    explicit
     parser(libbitcoin::config::settings const& context);
+
+    explicit
     parser(libbitcoin::node::configuration const& defaults);
 
     /// Parse all configuration into member settings.
 //    virtual bool parse(int argc, char const* argv[], std::ostream& error);
-    virtual bool parse(boost::filesystem::path config_path, std::ostream& error);
+    virtual bool parse(boost::filesystem::path const& config_path, std::ostream& error);
 
     /// Load configuration file settings.
     libbitcoin::options_metadata load_settings() override;

@@ -76,11 +76,14 @@ header_t chain_header_construct(uint32_t version, uint8_t* previous_block_hash, 
     //precondition: [previous_block_hash, 32) is a valid range
     //              && [merkle, 32) is a valid range
 
-    libbitcoin::hash_digest previous_block_hash_cpp;
-    std::copy_n(previous_block_hash, previous_block_hash_cpp.size(), std::begin(previous_block_hash_cpp));
+//    libbitcoin::hash_digest previous_block_hash_cpp;
+//    std::copy_n(previous_block_hash, previous_block_hash_cpp.size(), std::begin(previous_block_hash_cpp));
+//
+//    libbitcoin::hash_digest merkle_cpp;
+//    std::copy_n(merkle, merkle_cpp.size(), std::begin(merkle_cpp));
 
-    libbitcoin::hash_digest merkle_cpp;
-    std::copy_n(merkle, merkle_cpp.size(), std::begin(merkle_cpp));
+    auto previous_block_hash_cpp = bitprim::hash_to_cpp(previous_block_hash);
+    auto merkle_cpp = bitprim::hash_to_cpp(merkle);
 
     return new libbitcoin::message::header(version, previous_block_hash_cpp, merkle_cpp, timestamp, bits, nonce);
 }

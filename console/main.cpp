@@ -46,7 +46,7 @@ libbitcoin::message::transaction const& tx_const_cpp2(transaction_t transaction)
 
 
 int main(int /*argc*/, char* /*argv*/[]) {
-    using namespace std::chrono_literals;
+//    using namespace std::chrono_literals;
 
     executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
     //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
@@ -88,7 +88,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 
     auto tr = chain_transaction_construct(1, 1, inputs, outputs);
-
+    chain_transaction_destruct(tr);
 
     executor_destruct(exec);
 
