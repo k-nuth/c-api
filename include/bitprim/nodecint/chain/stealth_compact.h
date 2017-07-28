@@ -27,8 +27,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_STEALTH_COMPACT_H
-#define BITPRIM_NODE_CINT_STEALTH_COMPACT_H
+#ifndef BITPRIM_NODECINT_CHAIN_STEALTH_COMPACT_H_
+#define BITPRIM_NODECINT_CHAIN_STEALTH_COMPACT_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -64,7 +64,7 @@ short_hash_t stealth_compact_get_public_key_hash(stealth_compact_t stealth);
 } // extern "C"
 #endif
 
-#endif //BITPRIM_NODE_CINT_STEALTH_COMPACT_H
+#endif // BITPRIM_NODECINT_CHAIN_STEALTH_COMPACT_H_
 
 
 

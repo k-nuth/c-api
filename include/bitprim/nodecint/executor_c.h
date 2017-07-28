@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_EXECUTOR_H_
-#define BITPRIM_NODECINT_EXECUTOR_H_
+#ifndef BITPRIM_NODECINT_EXECUTOR_C_H
+#define BITPRIM_NODECINT_EXECUTOR_C_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -76,4 +76,4 @@ p2p_t executor_get_p2p(executor_t exec);
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_EXECUTOR_H_ */
+#endif // BITPRIM_NODECINT_EXECUTOR_C_H

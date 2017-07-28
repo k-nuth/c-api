@@ -63,6 +63,7 @@ public:
     libbitcoin::node::configuration configured;
 };
 
-}} // namespace bitprim::nodecint
+} // namespace nodecint
+} // namespace bitprim
 
 #endif /* BITPRIM_NODECINT_PARSER_HPP_ */

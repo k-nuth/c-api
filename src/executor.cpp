@@ -309,4 +309,5 @@ bool executor::verify_directory() {
 
 #endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
-}} // namespace bitprim::nodecint
+} // namespace nodecint
+} // namespace bitprim

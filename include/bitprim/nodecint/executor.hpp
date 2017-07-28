@@ -136,6 +136,7 @@ private:
     "================= startup %1% =================="
 
 
-}} // namespace bitprim::nodecint
+} // namespace nodecint
+} // namespace bitprim
 
 #endif /* BITPRIM_NODECINT_EXECUTOR_HPP_ */

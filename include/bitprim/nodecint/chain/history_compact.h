@@ -46,4 +46,4 @@ uint64_t chain_history_compact_get_value_or_previous_checksum(history_compact_t 
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_CHAIN_HISTORY_COMPACT_H_ */
+#endif // BITPRIM_NODECINT_CHAIN_HISTORY_COMPACT_H

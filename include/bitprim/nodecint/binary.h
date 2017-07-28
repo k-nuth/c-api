@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODE_CINT_BINARY_H
-#define BITPRIM_NODE_CINT_BINARY_H
+#ifndef BITPRIM_NODECINT_BINARY_H
+#define BITPRIM_NODECINT_BINARY_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -55,4 +55,4 @@ char* binary_encoded(binary_t binary);
 } // extern "C"
 #endif
 
-#endif //BITPRIM_NODE_CINT_BINARY_H
+#endif // BITPRIM_NODECINT_BINARY_H

@@ -32,13 +32,13 @@ namespace detail {
 template <typename T, std::size_t N, std::size_t... I>
 constexpr
 std::array<std::remove_cv_t<T>, N>
-to_array_impl(T (&x)[N], std::index_sequence<I...>) {
+to_array_impl(T (&x)[N], std::index_sequence<I...> /*unused*/) {
     return { {x[I]...} };
 }
 
 template <typename R, typename T, std::size_t N, std::size_t... I>
 constexpr
-R to_c_array_impl(std::array<T, N> const& x, std::index_sequence<I...>) {
+R to_c_array_impl(std::array<T, N> const& x, std::index_sequence<I...> /*unused*/) {
     return { {x[I]...} };
 }
 

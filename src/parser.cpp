@@ -542,4 +542,5 @@ bool parser::parse(boost::filesystem::path config_path, std::ostream& error) {
     return true;
 }
 
-}} // namespace bitprim::nodecint
+} // namespace nodecint
+} // namespace bitprim
