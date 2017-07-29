@@ -305,6 +305,7 @@ before_script:
   # Build this repo
   ############################################################################
   - cd ${TRAVIS_BUILD_DIR}
+  - pwd
   # - mkdir build
   # - cd build
   # - cmake .. -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" ${BOOST_OPTS}
@@ -315,8 +316,15 @@ script:
   ############################################################################
   # Check for common formatting errors.
   ############################################################################
+
   - echo ${CMAKE_OPTIONS}
   - pwd
+
+  - cd ${TRAVIS_BUILD_DIR}
+  - cd build
+  - pwd
+
+  - ls -ltra
   - find ../ -name "compile_commands.json"
   - export PATH=$PATH:/usr/local/opt/llvm/bin/
   - clang-tidy --version
