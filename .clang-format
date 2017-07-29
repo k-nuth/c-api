@@ -44,8 +44,8 @@ BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Attach
 BreakBeforeTernaryOperators: true
 
-# BreakConstructorInitializersBeforeComma: true #false
-BreakConstructorInitializers: BeforeComma
+BreakConstructorInitializersBeforeComma: true #false
+#BreakConstructorInitializers: BeforeComma
 
 BreakStringLiterals: true
 

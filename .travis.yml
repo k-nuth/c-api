@@ -330,6 +330,7 @@ script:
       # find ../ -name "compile_commands.json"
       export PATH=$PATH:/usr/local/opt/llvm/bin/
       clang-tidy --version
+      clang-tidy --help
       # sudo find / -name "run-clang-tidy.py"
       # ls -ltra /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py
       #/usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -header-filter='.*' -checks='-*,modernize-use-override'
