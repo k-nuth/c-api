@@ -316,26 +316,39 @@ script:
   ############################################################################
   # Check for common formatting errors.
   ############################################################################
+  - |
+    if [[ "${CHECK_FORMATTING}" == "true" ]]; then
 
-  # - echo ${CMAKE_OPTIONS}
-  # - pwd
+      # echo ${CMAKE_OPTIONS}
+      # pwd
 
-  - cd ${TRAVIS_BUILD_DIR}
-  - cd build
-  # - pwd
+      cd ${TRAVIS_BUILD_DIR}
+      cd build
+      # pwd
 
-  # - ls -ltra
-  # - find ../ -name "compile_commands.json"
-  - export PATH=$PATH:/usr/local/opt/llvm/bin/
-  - clang-tidy --version
-  # - sudo find / -name "run-clang-tidy.py"
-  # - ls -ltra /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py
-  #- /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -header-filter='.*' -checks='-*,modernize-use-override'
-  - /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include/.+hpp 
-  - /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order,-modernize-deprecated-headers' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include/.+h 
+      # ls -ltra
+      # find ../ -name "compile_commands.json"
+      export PATH=$PATH:/usr/local/opt/llvm/bin/
+      clang-tidy --version
+      # sudo find / -name "run-clang-tidy.py"
+      # ls -ltra /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py
+      #/usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -header-filter='.*' -checks='-*,modernize-use-override'
+      /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include/.+hpp 
+      /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order,-modernize-deprecated-headers' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include/.+h 
 
-  - cd ${TRAVIS_BUILD_DIR}
-  - diff -u <(cat src/*) <(clang-format src/*)
+      cd ${TRAVIS_BUILD_DIR}
+      # diff -u <(cat src/*) <(clang-format src/*)
+      diff -u <(cat src/*.cpp) <(clang-format src/*.cpp)
+      diff -u <(cat src/chain/*.cpp) <(clang-format src/chain/*.cpp)
+      diff -u <(cat src/p2p/*.cpp) <(clang-format src/p2p/*.cpp)
+      diff -u <(cat src/wallet/*.cpp) <(clang-format src/wallet/*.cpp)
+
+      diff -u <(cat include/bitprim/*.h*) <(clang-format include/bitprim/*.h*)
+      diff -u <(cat include/bitprim/nodecint/*.h*) <(clang-format include/bitprim/nodecint/*.h*)
+      diff -u <(cat include/bitprim/nodecint/chain/*.h*) <(clang-format include/bitprim/nodecint/chain/*.h*)
+      diff -u <(cat include/bitprim/nodecint/p2p/*.h*) <(clang-format include/bitprim/nodecint/p2p/*.h*)
+      diff -u <(cat include/bitprim/nodecint/wallet/*.h*) <(clang-format include/bitprim/nodecint/wallet/*.h*)
+    fi
 
 
   # - |
