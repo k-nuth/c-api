@@ -330,7 +330,14 @@ script:
   - clang-tidy --version
   # - sudo find / -name "run-clang-tidy.py"
   - ls -ltra /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py
-  - /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -header-filter='.*' -checks='-*,modernize-use-override'
+  #- /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -header-filter='.*' -checks='-*,modernize-use-override'
+  - /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order' -header-filter=/Users/fernando/dev/bitprim/bitprim-node-cint/include/.+hpp 
+  - /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order,-modernize-deprecated-headers' -header-filter=/Users/fernando/dev/bitprim/bitprim-node-cint/include/
+
+
+  - cd ${TRAVIS_BUILD_DIR}
+  - diff -u <(cat src/*) <(clang-format src/*)
+
 
   # - |
   #   if [[ "${CHECK_FORMATTING}" == "true" ]]; then
