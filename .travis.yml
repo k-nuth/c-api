@@ -317,6 +317,7 @@ script:
   ############################################################################
   - echo ${CMAKE_OPTIONS}
   - pwd
+  - find ../ -name "compile_commands.json"
   - export PATH=$PATH:/usr/local/opt/llvm/bin/
   - clang-tidy --version
   # - sudo find / -name "run-clang-tidy.py"
