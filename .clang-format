@@ -4,7 +4,7 @@
 Language:        Cpp
 # BasedOnStyle:  LLVM
 AccessModifierOffset: -2
-AlignAfterOpenBracket: Align
+AlignAfterOpenBracket: DontAlign #Align
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 AlignEscapedNewlinesLeft: false
@@ -43,10 +43,13 @@ BraceWrapping:
 BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Attach
 BreakBeforeTernaryOperators: true
-BreakConstructorInitializersBeforeComma: false
+
+# BreakConstructorInitializersBeforeComma: true #false
+BreakConstructorInitializers: BeforeComma
+
 BreakStringLiterals: true
 
-ColumnLimit:     80
+ColumnLimit:     0 #80
 CommentPragmas:  '^ IWYU pragma:'
 
 # CompactNamespaces: true  #fer

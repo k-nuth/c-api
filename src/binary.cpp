@@ -19,9 +19,6 @@
 
 #include <bitprim/nodecint/binary.h>
 #include <bitcoin/bitcoin/utility/binary.hpp>
-//#include <vector>
-//#include <iostream>
-
 
 libbitcoin::binary const& binary_const_cpp(binary_t binary) {
     return *static_cast<libbitcoin::binary const*>(binary);
@@ -42,7 +39,7 @@ binary_t binary_construct_string(const char* string) {
 }
 
 binary_t binary_construct_blocks(size_t bits_size, uint8_t* blocks, size_t n) {   
-    libbitcoin::data_slice blocks_cpp(blocks, blocks + n);      // NOLINT
+    libbitcoin::data_slice blocks_cpp(blocks, blocks + n); // NOLINT
     return new libbitcoin::binary(bits_size, blocks_cpp);
 }
 
@@ -52,7 +49,6 @@ binary_t binary_construct_blocks(size_t bits_size, uint8_t* blocks, size_t n) {
 //    return ret;
 //}
 
-
 uint8_t const* binary_blocks(binary_t binary, uint64_t* /*size_t*/ out_n) {
     *out_n = binary_const_cpp(binary).blocks().size();
     return binary_cpp(binary).blocks().data();
@@ -60,7 +56,7 @@ uint8_t const* binary_blocks(binary_t binary, uint64_t* /*size_t*/ out_n) {
 
 char* binary_encoded(binary_t binary) {
     std::string str = binary_const_cpp(binary).encoded();
-    auto* ret = (char*)malloc((str.size() + 1) * sizeof(char));
+    auto* ret = (char*)malloc((str.size() + 1) * sizeof(char)); // NOLINT
 
 //    std::strcpy(ret, str.c_str());
     std::copy_n(str.begin(), str.size() + 1, ret);

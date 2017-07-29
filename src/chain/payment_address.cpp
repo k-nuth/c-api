@@ -33,7 +33,7 @@ extern "C" {
 //User is responsible for releasing return value memory
 char const* chain_payment_address_encoded(payment_address_t payment_address) {
     std::string str = chain_payment_address_const_cpp(payment_address).encoded();
-    auto* ret = (char*)malloc((str.size() + 1) * sizeof(char));
+    auto* ret = (char*)malloc((str.size() + 1) * sizeof(char)); // NOLINT
 
 //    std::strcpy(ret, str.c_str());
     std::copy_n(str.begin(), str.size() + 1, ret);
