@@ -3,7 +3,7 @@ env:
    global:
      - CONAN_REFERENCE: "bitprim-node-cint/0.1"
      - CONAN_USERNAME: "bitprim"
-     - CONAN_LOGIN_USERNAME: "bitprim"
+     - CONAN_LOGIN_USERNAME: "dario-ramos"
      - CONAN_CHANNEL: "stable"
      - CONAN_UPLOAD: "https://api.bintray.com/conan/bitprim/bitprim-node-cint"
 
