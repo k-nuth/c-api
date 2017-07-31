@@ -1,50 +1,35 @@
-# Bitprim
-#
-# Copyright (c) 2017 Bitprim developers (see AUTHORS)
-# Distributed under the Boost Software License, Version 1.0. (See accompanying
-# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-language: cpp
-git:
-  submodules: false
+env:
+   global:
+     - CONAN_REFERENCE: "bitprim-node-cint/0.1"
+     - CONAN_USERNAME: "bitprim"
+     - CONAN_LOGIN_USERNAME: "bitprim"
+     - CONAN_CHANNEL: "stable"
+     - CONAN_UPLOAD: "https://api.bintray.com/conan/bitprim/bitprim-node-cint"
 
+linux: &linux
+   os: linux
+   sudo: required
+   language: python
+   python: "3.6"
+   services:
+     - docker
+osx: &osx
+   os: osx
+   language: generic
 matrix:
-  include:
-    - env: GCC_VERSION=6 CXX_FLAGS="-std=c++11" BUILD_TYPE=Release
-      os: linux
-      sudo: required
-      dist: trusty
-      group: edge
-      addons: &gcc6
-        apt:
-          packages:
-            - g++-6
-            - libc6
-          sources:
-            - ubuntu-toolchain-r-test
+   include:
 
-    - env: GCC_VERSION=6 CXX_FLAGS="-std=c++11" BUILD_TYPE=Debug
-      os: linux
-      sudo: required
-      dist: trusty
-      group: edge
-      addons: &gcc6d
-        apt:
-          packages:
-            - g++-6
-            - libc6
-          sources:
-            - ubuntu-toolchain-r-test
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=lasote/conangcc49
 
-branches:
-  only:
-    - master
-    - conan-build
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=5.4 CONAN_DOCKER_IMAGE=lasote/conangcc54
+
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=6.3 CONAN_DOCKER_IMAGE=lasote/conangcc63
 
 before_install:
-
-  # Update submodules
-  - git submodule update --init --recursive
 
   - if [ -n "$GCC_VERSION" ]; then export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"; fi
   - if [ -n "$CLANG_VERSION" ]; then export CXX="clang++-${CLANG_VERSION}" CC="clang-${CLANG_VERSION}"; fi
@@ -76,6 +61,10 @@ install:
   - export BOOST_OPTS="-DBOOST_ROOT=/home/travis/deps/boost_1_64_0 -DBOOST_INCLUDEDIR=/home/travis/deps/boost_1_64_0 -DBOOST_LIBRARYDIR=/home/travis/deps/boost_1_64_0/lib"
   - sudo ldconfig
   - echo 'Boost 1.64.0 installed';
+
+  - cd ${TRAVIS_BUILD_DIR}
+  - chmod +x .travis/install.sh
+  - ./.travis/install.sh
 
 before_script:
   ############################################################################
@@ -130,10 +119,6 @@ before_script:
 script:
   - make -j2
   - sudo make install
-
-notifications:
-  email: false
-  webhooks:
-    urls: https://webhooks.gitter.im/e/a19dd2b03bf676d2b622
-    on_success: change
-    on_failure: always
+  - cd ${TRAVIS_BUILD_DIR}
+  - chmod +x .travis/run.sh
+  - ./.travis/run.sh
