@@ -331,11 +331,18 @@ script:
       export PATH=$PATH:/usr/local/opt/llvm/bin/
       clang-tidy --version
       clang-tidy --help
-      # sudo find / -name "run-clang-tidy.py"
-      # ls -ltra /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py
-      #/usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -header-filter='.*' -checks='-*,modernize-use-override'
-      /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include/.+hpp 
-      /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order,-modernize-deprecated-headers' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include/.+h 
+
+      # # sudo find / -name "run-clang-tidy.py"
+      # # ls -ltra /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py
+      # #/usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -header-filter='.*' -checks='-*,modernize-use-override'
+      # /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include/.+hpp 
+      # /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order,-modernize-deprecated-headers' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include/.+h 
+
+      curl https://raw.githubusercontent.com/Sarcasm/irony-mode/master/server/run-clang-tidy.py --output ./run-clang-tidy.py
+      sudo chmod a+x run-clang-tidy.py
+      ./run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include/.+hpp 
+      ./run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order,-modernize-deprecated-headers' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include/.+h 
+
 
       cd ${TRAVIS_BUILD_DIR}
       # diff -u <(cat src/*) <(clang-format src/*)
