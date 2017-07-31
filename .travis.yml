@@ -340,8 +340,19 @@ script:
 
       curl https://raw.githubusercontent.com/Sarcasm/irony-mode/master/server/run-clang-tidy.py --output ./run-clang-tidy.py
       sudo chmod a+x run-clang-tidy.py
-      ./run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include/.+hpp 
-      ./run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order,-modernize-deprecated-headers,-modernize-use-using' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include/.+h 
+      
+      ./run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order' -warnings-as-errors='*' -header-filter='.*\.\(hpp\|hpp\)'
+
+      # -header-filter=${TRAVIS_BUILD_DIR}/include/.+hpp 
+      # -header-filter='.*\.\(hpp\|hpp\)'
+
+      # '^include/cpp_utils'
+      # '.*\.\(hpp\|hpp\)'
+
+      ./run-clang-tidy.py -checks='*,-google-runtime-references,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-llvm-include-order,-modernize-deprecated-headers,-modernize-use-using' -warnings-as-errors='*' -header-filter='.*\.\(h\|h\)'
+
+      # -header-filter=${TRAVIS_BUILD_DIR}/include/.+h 
+      # -header-filter='.*\.\(h\|h\)'
 
 
       cd ${TRAVIS_BUILD_DIR}
