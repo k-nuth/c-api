@@ -37,7 +37,7 @@ BITPRIM_EXPORT
 payment_address_t payment_address_construct_from_string(char const* address);
 
 BITPRIM_EXPORT
-uint8_t version(payment_address_t payment_address);
+uint8_t payment_address_version(payment_address_t payment_address);
 
 BITPRIM_EXPORT
 void payment_address_destruct(payment_address_t payment_address);
