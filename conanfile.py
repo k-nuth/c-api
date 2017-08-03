@@ -1,26 +1,35 @@
 from conans import ConanFile, CMake
+# import os
 
-
-class BitprimnodecintConan(ConanFile):
+class BitprimNodeCIntConan(ConanFile):
     name = "bitprim-node-cint"
     version = "0.1"
     license = "http://www.boost.org/users/license.html"
-    url = "https://github.com/bitprim/bitprim-node-cint/tree/conan-build/conanfile.py"
+    url = "https://github.com/bitprim/bitprim-node-cint"
     description = "Bitcoin Full Node Library with C interface"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
-    default_options = "shared=False"
+    default_options = "shared=True"
     generators = "cmake"
-    exports_sources = "src/*"
+    exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "bitprim-node-cintConfig.cmake.in", "include/*"
     package_files = "build/lbitprim-node-cint.so"
+    build_policy = "missing"
 
-#    def build(self):
-#        cmake = CMake(self)
-#        self.run('cmake %s/src %s' % (self.source_folder, cmake.command_line))
-#        self.run("cmake --build . %s" % cmake.build_config)
+    requires = (("bitprim-conan-boost/1.64.0@bitprim/stable"),
+                ("bitprim-node/0.1@bitprim/stable"))
+
+    def build(self):
+        cmake = CMake(self)
+        cmake.configure(source_dir=self.conanfile_directory)
+        cmake.build()
+
+    def imports(self):
+        self.copy("*.h", "", "include")
 
     def package(self):
-        self.copy("*.h", dst="include", src="src")
+        self.copy("*.h", dst="include", src="include")
+        self.copy("*.hpp", dst="include", src="include")
+        self.copy("*.ipp", dst="include", src="include")
         self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.dylib*", dst="lib", keep_path=False)
@@ -28,4 +37,5 @@ class BitprimnodecintConan(ConanFile):
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
+        self.cpp_info.includedirs = ['include']
         self.cpp_info.libs = ["bitprim-node-cint"]

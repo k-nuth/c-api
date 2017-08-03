@@ -5,6 +5,10 @@ cmake_minimum_required(VERSION 3.4)
 project(bitprim-node-cint
         VERSION 3.0.0
         LANGUAGES CXX C)
+
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Check for baseline language coverage in the compiler for the C++14 standard.
@@ -102,15 +106,15 @@ set(WITH_CONSOLE_NODE_CINT ON)
 
 #------------------------------------------------------------------------------
 
-if (MSVC)
-  find_package(
-          Boost 1.56.0 REQUIRED
-          COMPONENTS log log_setup unit_test_framework)
-else()
-  find_package(
-          Boost 1.56.0 REQUIRED
-          COMPONENTS unit_test_framework)
-endif()
+#if (MSVC)
+#  find_package(
+#          Boost 1.56.0 REQUIRED
+#          COMPONENTS log log_setup unit_test_framework)
+#else()
+#  find_package(
+#          Boost 1.56.0 REQUIRED
+#          COMPONENTS unit_test_framework)
+#endif()
 
 if (UNIX)
   set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/lib/cmake")
@@ -118,13 +122,13 @@ elseif (WIN32)
   set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "cmake")
 endif()
 
-# Require bitprim-consensus of at least version 2.0.0 and output ${bitprim_consensus_CPPFLAGS/LIBS/PKG}.
-#------------------------------------------------------------------------------
-if (WITH_CONSENSUS)
-  if (NOT TARGET bitprim-consensus)
-    find_package(bitprim-consensus 2.0.0 REQUIRED)
-  endif()
-endif()
+## Require bitprim-consensus of at least version 2.0.0 and output ${bitprim_consensus_CPPFLAGS/LIBS/PKG}.
+##------------------------------------------------------------------------------
+#if (WITH_CONSENSUS)
+#  if (NOT TARGET bitprim-consensus)
+#    find_package(bitprim-consensus 2.0.0 REQUIRED)
+#  endif()
+#endif()
 
 # Implement --with-litecoin.
 #------------------------------------------------------------------------------
@@ -134,11 +138,11 @@ if (WITH_LITECOIN)
 endif()
 
 
-# Require bitprim-node of at least version 3.0.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
-#------------------------------------------------------------------------------
-if (NOT TARGET bitprim-node)
-  find_package(bitprim-node 3.0.0 REQUIRED)
-endif()
+## Require bitprim-node of at least version 3.0.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
+##------------------------------------------------------------------------------
+#if (NOT TARGET bitprim-node)
+#  find_package(bitprim-node 3.0.0 REQUIRED)
+#endif()
 
 
 
@@ -292,7 +296,8 @@ if (NOT MSVC)
 endif()
 
 
-target_link_libraries(bitprim-node-cint PUBLIC bitprim-node)
+#target_link_libraries(bitprim-node-cint PUBLIC bitprim-node)
+target_link_libraries(bitprim-node-cint PUBLIC ${CONAN_LIBS})
 
 # if (MSVC)
 #   target_link_libraries(bitprim-node-cint PUBLIC ${Boost_LOG_LIBRARY} ${Boost_LOG_SETUP_LIBRARY})

@@ -1,138 +1,186 @@
-# Bitprim
 #
 # Copyright (c) 2017 Bitprim developers (see AUTHORS)
+#
+# This file is part of Bitprim.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 
-shallow_clone: true
+build: false
 
-os:
-  - Visual Studio 2017
+environment:
+    PYTHON: "C:\\Python27"
+    PYTHON_VERSION: "2.7.8"
+    PYTHON_ARCH: "32"
 
-build:
-  verbosity: detailed
+    CONAN_REFERENCE: "bitprim-node-cint/0.1"
+    CONAN_USERNAME: "bitprim"
+    CONAN_LOGIN_USERNAME: "dario-ramos"
+    CONAN_CHANNEL: "stable"
+    VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
+    CONAN_UPLOAD: "https://api.bintray.com/conan/bitprim/bitprim"
 
-configuration:
-  - Release
-
-branches:
-  only:
-    - master
+    matrix:
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+          CONAN_VISUAL_VERSIONS: 12
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+          CONAN_VISUAL_VERSIONS: 14
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+          CONAN_VISUAL_VERSIONS: 15
 
 install:
-  ############################################################################
-  # All external dependencies are installed in C:\projects\deps
-  ############################################################################
-  - mkdir C:\projects\deps
-  - cd C:\projects\deps
+  - set PATH=%PATH%;%PYTHON%/Scripts/
+  - pip.exe install conan --upgrade
+  - pip.exe install conan_package_tools
+  - conan user # It creates the conan data directory
 
-  ############################################################################
-  # Install Ninja
-  ############################################################################
-  - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.6.0/ninja-win.zip"
-  - appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
-  - 7z x ninja.zip -oC:\projects\deps\ninja > nul
-  - set PATH=C:\projects\deps\ninja;%PATH%
-  - ninja --version
-
-  ############################################################################
-  # Install a recent CMake
-  ############################################################################
-  #- set CMAKE_URL="https://cmake.org/files/v3.8/cmake-3.8.0-win64-x64.zip"
-  - set CMAKE_URL="https://cmake.org/files/v3.9/cmake-3.9.0-rc6-win64-x64.zip"
-  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
-  - 7z x cmake.zip -oC:\projects\deps > nul
-  - move C:\projects\deps\cmake-* C:\projects\deps\cmake # Move to a version-agnostic directory
-  - set PATH=C:\projects\deps\cmake\bin;%PATH%
-  - cmake --version
-  
-  ############################################################################
-  # Install boost with fpic
-  ############################################################################
-  - mkdir C:\projects\deps\boost
-  - mkdir C:\projects\deps\boost\stage
-  - mkdir C:\projects\deps\boost\boost
-  # LIB
-  - set BOOST_LIB_URL="http://repo.bitprim.org/packages/binary/boost_msvc_141_fpic.7z"
-  - appveyor DownloadFile %BOOST_LIB_URL% -FileName boost_lib.7z
-  - 7z x boost_lib.7z -oC:\projects\deps\boost\stage > nul
-  - cd C:\projects\deps\boost\stage
-  - rename boost_msvc_141_fpic lib
-  - cd C:\projects\deps\boost\stage\lib
-  
-  # HEADERS
-  - set BOOST_H_URL="http://repo.bitprim.org/packages/binary/boost_1_64_include.7z"
-  - appveyor DownloadFile %BOOST_H_URL% -FileName boost_h.7z
-  - 7z x boost_h.7z -oC:\projects\deps\boost > nul
-  - cd C:\projects\deps\boost\boost
-
-  ############################################################################
-  # Setup the path to Clang-cl
-  ############################################################################
-  - set PATH="C:\Program Files\LLVM\bin";%PATH%
-  - clang-cl -v
+test_script:
+  - python build.py
 
 
-before_build:
-  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat" amd64
-
-  - cd C:\projects\deps
-  - git clone https://github.com/bitprim/secp256k1 -b c-api
-  - cd secp256k1
-  - mkdir build
-  - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF 
-  - cmake --build .
-
-  - cd C:\projects\deps
-  - git clone https://github.com/bitprim/bitprim-core -b c-api
-  - cd bitprim-core
-  - mkdir build
-  - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
-  - cmake --build .
-
-  - cd C:\projects\deps
-  - git clone https://github.com/bitprim/bitprim-consensus -b c-api
-  - cd bitprim-consensus
-  - mkdir build
-  - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
-  - cmake --build .  
-  
-  - cd C:\projects\deps
-  - git clone https://github.com/bitprim/bitprim-database -b c-api
-  - cd bitprim-database
-  - mkdir build
-  - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
-  - cmake --build .
-  
-  - cd C:\projects\deps
-  - git clone https://github.com/bitprim/bitprim-network -b c-api
-  - cd bitprim-network
-  - mkdir build
-  - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
-  - cmake --build .
-  
-  - cd C:\projects\deps
-  - git clone https://github.com/bitprim/bitprim-blockchain -b c-api
-  - cd bitprim-blockchain
-  - mkdir build
-  - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
-  - cmake --build .
-
-  - cd C:\projects\deps
-  - git clone https://github.com/bitprim/bitprim-node -b c-api
-  - cd bitprim-node
-  - mkdir build
-  - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
-  - cmake --build .
-
-build_script:
-  - cd C:\projects\bitprim-node-cint
-  - mkdir build
-  - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
-  - cmake --build .
+#
+#shallow_clone: true
+#
+#os:
+#  - Visual Studio 2017
+#
+#build:
+#  verbosity: detailed
+#
+#configuration:
+#  - Release
+#
+#branches:
+#  only:
+#    - master
+#
+#install:
+#  ############################################################################
+#  # All external dependencies are installed in C:\projects\deps
+#  ############################################################################
+#  - mkdir C:\projects\deps
+#  - cd C:\projects\deps
+#
+#  ############################################################################
+#  # Install Ninja
+#  ############################################################################
+#  - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.6.0/ninja-win.zip"
+#  - appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
+#  - 7z x ninja.zip -oC:\projects\deps\ninja > nul
+#  - set PATH=C:\projects\deps\ninja;%PATH%
+#  - ninja --version
+#
+#  ############################################################################
+#  # Install a recent CMake
+#  ############################################################################
+#  #- set CMAKE_URL="https://cmake.org/files/v3.8/cmake-3.8.0-win64-x64.zip"
+#  - set CMAKE_URL="https://cmake.org/files/v3.9/cmake-3.9.0-rc6-win64-x64.zip"
+#  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
+#  - 7z x cmake.zip -oC:\projects\deps > nul
+#  - move C:\projects\deps\cmake-* C:\projects\deps\cmake # Move to a version-agnostic directory
+#  - set PATH=C:\projects\deps\cmake\bin;%PATH%
+#  - cmake --version
+#
+#  ############################################################################
+#  # Install boost with fpic
+#  ############################################################################
+#  - mkdir C:\projects\deps\boost
+#  - mkdir C:\projects\deps\boost\stage
+#  - mkdir C:\projects\deps\boost\boost
+#  # LIB
+#  - set BOOST_LIB_URL="http://repo.bitprim.org/packages/binary/boost_msvc_141_fpic.7z"
+#  - appveyor DownloadFile %BOOST_LIB_URL% -FileName boost_lib.7z
+#  - 7z x boost_lib.7z -oC:\projects\deps\boost\stage > nul
+#  - cd C:\projects\deps\boost\stage
+#  - rename boost_msvc_141_fpic lib
+#  - cd C:\projects\deps\boost\stage\lib
+#
+#  # HEADERS
+#  - set BOOST_H_URL="http://repo.bitprim.org/packages/binary/boost_1_64_include.7z"
+#  - appveyor DownloadFile %BOOST_H_URL% -FileName boost_h.7z
+#  - 7z x boost_h.7z -oC:\projects\deps\boost > nul
+#  - cd C:\projects\deps\boost\boost
+#
+#  ############################################################################
+#  # Setup the path to Clang-cl
+#  ############################################################################
+#  - set PATH="C:\Program Files\LLVM\bin";%PATH%
+#  - clang-cl -v
+#
+#
+#before_build:
+#  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat" amd64
+#
+#  - cd C:\projects\deps
+#  - git clone https://github.com/bitprim/secp256k1 -b c-api
+#  - cd secp256k1
+#  - mkdir build
+#  - cd build
+#  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF
+#  - cmake --build .
+#
+#  - cd C:\projects\deps
+#  - git clone https://github.com/bitprim/bitprim-core -b c-api
+#  - cd bitprim-core
+#  - mkdir build
+#  - cd build
+#  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
+#  - cmake --build .
+#
+#  - cd C:\projects\deps
+#  - git clone https://github.com/bitprim/bitprim-consensus -b c-api
+#  - cd bitprim-consensus
+#  - mkdir build
+#  - cd build
+#  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
+#  - cmake --build .
+#
+#  - cd C:\projects\deps
+#  - git clone https://github.com/bitprim/bitprim-database -b c-api
+#  - cd bitprim-database
+#  - mkdir build
+#  - cd build
+#  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
+#  - cmake --build .
+#
+#  - cd C:\projects\deps
+#  - git clone https://github.com/bitprim/bitprim-network -b c-api
+#  - cd bitprim-network
+#  - mkdir build
+#  - cd build
+#  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
+#  - cmake --build .
+#
+#  - cd C:\projects\deps
+#  - git clone https://github.com/bitprim/bitprim-blockchain -b c-api
+#  - cd bitprim-blockchain
+#  - mkdir build
+#  - cd build
+#  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
+#  - cmake --build .
+#
+#  - cd C:\projects\deps
+#  - git clone https://github.com/bitprim/bitprim-node -b c-api
+#  - cd bitprim-node
+#  - mkdir build
+#  - cd build
+#  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
+#  - cmake --build .
+#
+#build_script:
+#  - cd C:\projects\bitprim-node-cint
+#  - mkdir build
+#  - cd build
+#  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_REMOTE_DATABASE=OFF -DWITH_REMOTE_BLOCKCHAIN=OFF -DWITH_LITECOIN=OFF -DWITH_TESTS=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DBOOST_ROOT=C:\projects\deps\boost
+#  - cmake --build .
