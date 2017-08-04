@@ -31,13 +31,13 @@
 
 //BC_DECLARE_CONFIG_DEFAULT_PATH("libbitcoin" / "bn.cfg")
 
-// TODO: localize descriptions.
+// TODO(libbitcoin): localize descriptions.
 
 namespace bitprim { namespace nodecint {
 
-using namespace boost::filesystem;
-using namespace boost::program_options;
-using namespace bc::config;
+using boost::filesystem::path;
+using boost::program_options::value;
+using boost::program_options::reading_file;
 
 // Initialize configuration by copying the given instance.
 parser::parser(libbitcoin::node::configuration const& defaults)
@@ -72,72 +72,11 @@ parser::parser(libbitcoin::config::settings const& context)
 libbitcoin::options_metadata parser::load_options() {
     return libbitcoin::options_metadata("options");
 }
-//libbitcoin::options_metadata parser::load_options() {
-//    libbitcoin::options_metadata description("options");
-//    description.add_options()
-//    (
-//        BN_CONFIG_VARIABLE ",c",
-//        value<path>(&configured.file),
-//        "Specify path to a configuration settings file."
-//    )
-//    (
-//        BN_HELP_VARIABLE ",h",
-//        value<bool>(&configured.help)->
-//            default_value(false)->zero_tokens(),
-//        "Display command line options."
-//    )
-//
-//#if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
-//    (
-//        "initchain,i",
-//        value<bool>(&configured.initchain)->
-//            default_value(false)->zero_tokens(),
-//        "Initialize blockchain in the configured directory."
-//    )
-// #endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
-//
-//    (
-//        BN_SETTINGS_VARIABLE ",s",
-//        value<bool>(&configured.settings)->
-//            default_value(false)->zero_tokens(),
-//        "Display all configuration settings."
-//    )
-//    (
-//        BN_VERSION_VARIABLE ",v",
-//        value<bool>(&configured.version)->
-//            default_value(false)->zero_tokens(),
-//        "Display version information."
-//    );
-//
-//    return description;
-//}
-
-//libbitcoin::arguments_metadata parser::load_arguments() {
-//    libbitcoin::arguments_metadata description;
-//    return description.add(BN_CONFIG_VARIABLE, 1);
-//}
 
 libbitcoin::arguments_metadata parser::load_arguments() {
     libbitcoin::arguments_metadata description;
     return description;
 }
-
-
-//libbitcoin::options_metadata parser::load_environment() {
-//    libbitcoin::options_metadata description("environment");
-//    description.add_options()
-//    (
-//        // For some reason po requires this to be a lower case name.
-//        // The case must match the other declarations for it to compose.
-//        // This composes with the cmdline options and inits to system path.
-//        BN_CONFIG_VARIABLE,
-//        value<path>(&configured.file)->composing()
-//            ->default_value(config_default_path()),
-//        "The path to the configuration settings file."
-//    );
-//
-//    return description;
-//}
 
 libbitcoin::options_metadata parser::load_environment() {
     libbitcoin::options_metadata description("environment");
@@ -470,7 +409,7 @@ libbitcoin::options_metadata parser::load_settings() {
         value<bool>(&configured.node.refresh_transactions),
         "Request transactions on each channel start, defaults to true."
     )
-    //TODO: ver como implementamos esto para diferenciar server y node
+    // TODO(fernando): ver como implementamos esto para diferenciar server y node
     (
         /* Internally this database, but it applies to server.*/
         "node.index_start_height",
@@ -482,45 +421,40 @@ libbitcoin::options_metadata parser::load_settings() {
     return description;
 }
 
-
 // bool parser::load_configuration_variables(variables_map& variables, std::string const& option_name) {
 bool parser::load_configuration_variables(variables_map& variables, boost::filesystem::path const& config_path) {
 
-
     auto const config_settings = load_settings();
-    //const auto config_path = get_config_option(variables, option_name);
+    //auto const config_path = get_config_option(variables, option_name);
 
     // If the existence test errors out we pretend there's no file :/.
     boost::system::error_code code;
-    if (!config_path.empty() && exists(config_path, code))
+    if ( ! config_path.empty() && exists(config_path, code))
     {
-        const auto& path = config_path.string();
+        auto const& path = config_path.string();
         bc::ifstream file(path);
 
-        if (!file.good())
+        if ( ! file.good())
         {
             BOOST_THROW_EXCEPTION(reading_file(path.c_str()));
         }
 
-        const auto config = parse_config_file(file, config_settings);
+        auto const config = parse_config_file(file, config_settings);
         store(config, variables);
         return true;
     }
 
     // Loading from an empty stream causes the defaults to populate.
     std::stringstream stream;
-    const auto config = parse_config_file(stream, config_settings);
+    auto const config = parse_config_file(stream, config_settings);
     store(config, variables);
     return false;
 }
 
 // bool parser::parse(int argc, char const* argv[], std::ostream& error) {
-bool parser::parse(boost::filesystem::path config_path, std::ostream& error) {
+bool parser::parse(boost::filesystem::path const& config_path, std::ostream& error) {
     try {
         variables_map variables;
-
-  //      //boost::filesystem::path config_path("/home/fernando/exec/btc-mainnet.cfg");
-		//boost::filesystem::path config_path("/home/PEPE/exec/btc-mainnet.cfg");
 
         configured.file = config_path;
         auto file = load_configuration_variables(variables, config_path);
@@ -529,11 +463,11 @@ bool parser::parse(boost::filesystem::path config_path, std::ostream& error) {
         notify(variables);
 
         // Clear the config file path if it wasn't used.
-        if (!file) {
+        if ( ! file) {
             configured.file.clear();
         }
 
-    } catch (const boost::program_options::error& e) {
+    } catch (boost::program_options::error const& e) {
         // This is obtained from boost, which circumvents our localization.
         error << format_invalid_parameter(e.what()) << std::endl;
         return false;
@@ -542,4 +476,5 @@ bool parser::parse(boost::filesystem::path config_path, std::ostream& error) {
     return true;
 }
 
-}} // namespace bitprim::nodecint
+} // namespace nodecint
+} // namespace bitprim

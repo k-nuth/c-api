@@ -31,30 +31,29 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-void script_destruct(script_t script);
+void chain_script_destruct(script_t script);
 
 BITPRIM_EXPORT
-int script_is_valid(script_t script);
+int /*bool*/ chain_script_is_valid(script_t script);
 
 BITPRIM_EXPORT
-int script_is_valid_operations(script_t script);
+int /*bool*/ chain_script_is_valid_operations(script_t script);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ script_satoshi_content_size(script_t script);
+uint64_t /*size_t*/ chain_script_satoshi_content_size(script_t script);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ script_serialized_size(script_t script, /*bool*/ int prefix);
+uint64_t /*size_t*/ chain_script_serialized_size(script_t script, int /*bool*/ prefix);
 
 //Note: user of the function has to release the resource (memory) manually
 BITPRIM_EXPORT
-char const* script_to_string(script_t script, uint32_t active_forks);
+char const* chain_script_to_string(script_t script, uint32_t active_forks);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ script_sigops(script_t script, /*bool*/ int embedded);
+uint64_t /*size_t*/ chain_script_sigops(script_t script, int /*bool*/ embedded);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ script_embedded_sigops(script_t script, script_t prevout_script);
-
+uint64_t /*size_t*/ chain_script_embedded_sigops(script_t script, script_t prevout_script);
 
 #ifdef __cplusplus
 } // extern "C"

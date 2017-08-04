@@ -37,6 +37,7 @@ option(WITH_CONSOLE "Compile console application." ON)
 
 # Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
 #------------------------------------------------------------------------------
+
 option(ENABLE_SHARED "" ON)
 option(ENABLE_SHARED_NODE_CINT "" ON)
 
@@ -87,7 +88,6 @@ option(WITH_CONSOLE_NODE_CINT "" ON)
 set(WITH_CONSOLE_NODE_CINT ON)
 
 #------------------------------------------------------------------------------
-
 
 # Check dependencies.
 #==============================================================================
@@ -227,26 +227,37 @@ else()
     set(MODE STATIC)
 endif()
 
-
 set(_bitprim_sources
         src/executor.cpp
         src/executor_c.cpp
+
         src/parser.cpp
+        src/binary.cpp
         src/chain/block.cpp
+        src/chain/block_indexes.cpp
+        src/chain/block_list.cpp
         src/chain/chain.cpp
         src/chain/compact_block.cpp
+        src/chain/get_blocks.cpp
+        src/chain/get_headers.cpp
+        src/chain/hash_list.cpp
         src/chain/header.cpp
         src/chain/history_compact.cpp
         src/chain/history_compact_list.cpp
+        src/chain/stealth_compact.cpp
+        src/chain/stealth_compact_list.cpp
         src/chain/input.cpp
+        src/chain/input_list.cpp
         src/chain/merkle_block.cpp
         src/chain/output.cpp
+        src/chain/output_list.cpp
         src/chain/output_point.cpp
         src/chain/payment_address.cpp
         src/chain/point.cpp
         src/chain/point_list.cpp
         src/chain/script.cpp
         src/chain/transaction.cpp
+        src/chain/transaction_list.cpp
 
         src/p2p/p2p.cpp
 
@@ -259,30 +270,9 @@ add_library(bitprim-node-cint ${MODE}
         ${_bitprim_sources}
         )
 
-#add_library(bitprim-node-cint ${MODE}
-#        src/executor.cpp
-#        src/executor_c.cpp
-#        src/parser.cpp
-#        src/chain/block.cpp
-#        src/chain/chain.cpp
-#        src/chain/compact_block.cpp
-#        src/chain/header.cpp
-#        src/chain/history_compact.cpp
-#        src/chain/history_compact_list.cpp
-#        src/chain/input.cpp
-#        src/chain/merkle_block.cpp
-#        src/chain/output.cpp
-#        src/chain/output_point.cpp
-#        src/chain/payment_address.cpp
-#        src/chain/point.cpp
-#        src/chain/point_list.cpp
-#        src/chain/script.cpp
-#        src/chain/transaction.cpp
-#        src/wallet/wallet.cpp
-#        src/wallet/word_list.cpp
-#)
 
 # set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
+#set_target_properties(bitprim-node-cint PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
 target_compile_definitions(bitprim-node-cint PUBLIC -Dbitprim_EXPORTS)
 
@@ -387,30 +377,44 @@ install(TARGETS bitprim-node-cint
 
 
 set(_bitprim_headers
+        bitprim/nodecint/convertions.hpp
+        bitprim/nodecint/helpers.hpp
         bitprim/nodecint/executor_c.h
         bitprim/nodecint/primitives.h
         bitprim/nodecint/version.h
         bitprim/nodecint/visibility.h
         bitprim/nodecint/chain/block.h
+        bitprim/nodecint/chain/block_indexes.h
+        bitprim/nodecint/chain/block_list.h
         bitprim/nodecint/chain/chain.h
         bitprim/nodecint/chain/compact_block.h
+        bitprim/nodecint/chain/get_blocks.h
+        bitprim/nodecint/chain/get_headers.h
+        bitprim/nodecint/chain/hash_list.h
         bitprim/nodecint/chain/header.h
         bitprim/nodecint/chain/history_compact.h
         bitprim/nodecint/chain/history_compact_list.h
+        bitprim/nodecint/chain/stealth_compact.h
+        bitprim/nodecint/chain/stealth_compact_list.h
         bitprim/nodecint/chain/input.h
+        bitprim/nodecint/chain/input_list.h
+
         bitprim/nodecint/chain/merkle_block.h
         bitprim/nodecint/chain/output.h
+        bitprim/nodecint/chain/output_list.h
         bitprim/nodecint/chain/output_point.h
         bitprim/nodecint/chain/payment_address.h
         bitprim/nodecint/chain/point.h
         bitprim/nodecint/chain/point_list.h
         bitprim/nodecint/chain/script.h
         bitprim/nodecint/chain/transaction.h
+        bitprim/nodecint/chain/transaction_list.h
 
         bitprim/nodecint/p2p/p2p.h
 
         bitprim/nodecint/wallet/wallet.h
         bitprim/nodecint/wallet/word_list.h
+        bitprim/nodecint/binary.h
 )
 
 foreach (_header ${_bitprim_headers})

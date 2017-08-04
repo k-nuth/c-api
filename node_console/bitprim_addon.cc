@@ -334,7 +334,7 @@ void bitprim_validate_tx(FunctionCallbackInfo<Value> const& args) {
 //    scope.Close(num);
 //}
 //
-//void callback(int event, void* context ) {
+//void callback(int event, void* ctx ) {
 //    HandleScope scope;
 //    Local<Value> args[] = { Local<Value>::New(Number::New(event)) };
 //    Persistent<Function> *func = static_cast<Persistent<Function> *>(context);

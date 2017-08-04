@@ -17,62 +17,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
+#include <chrono>
+#include <cstdio>
+#include <iostream>
+#include <thread>
 
 #include <bitprim/nodecint/executor_c.h>
+#include <bitprim/nodecint/helpers.hpp>
 #include <bitprim/nodecint/chain/payment_address.h>
 #include <bitprim/nodecint/chain/history_compact_list.h>
 #include <bitprim/nodecint/chain/history_compact.h>
+#include <bitprim/nodecint/chain/transaction.h>
+#include <bitprim/nodecint/chain/input_list.h>
+#include <bitprim/nodecint/chain/input.h>
+#include <bitprim/nodecint/chain/output_list.h>
+#include <bitprim/nodecint/chain/output.h>
+
 #include <bitcoin/bitcoin/message/transaction.hpp>
-
-
-#include <iostream>
-#include <chrono>
-#include <thread>
-
-void history_fetch_handler(int error, history_compact_list_t history_list) {
-     printf("C callback (history_fetch_handler) called\n");
-
-	 auto count = history_compact_list_count(history_list);
-	 printf("history_fetch_handler count: %llu\n", count);
-
-	 history_compact_list_destruct(history_list);
-}
-
-void last_height_fetch_handler(int error, size_t h) {
-	printf("last_height_fetch_handler h: %zu\n", h);
-
-	//if (h >= 1000) {
-
-	//}
-}
+#include <bitcoin/bitcoin/utility/binary.hpp>
 
 bool waiting = true;
 
-
 libbitcoin::message::transaction const& tx_const_cpp2(transaction_t transaction) {
 	return *static_cast<libbitcoin::message::transaction const*>(transaction);
+
 }
 
-int char2int(char input) {
-	if (input >= '0' && input <= '9')
-		return input - '0';
-	if (input >= 'A' && input <= 'F')
-		return input - 'A' + 10;
-	if (input >= 'a' && input <= 'f')
-		return input - 'a' + 10;
-	throw std::invalid_argument("Invalid input string");
-}
 
-void hex2bin(const char* src, uint8_t* target) {
-	while (*src && src[1]) {
-		*(target++) = char2int(*src) * 16 + char2int(src[1]);
-		src += 2;
-	}
-}
 
-int main(int argc, char* argv[]) {
-    using namespace std::chrono_literals;
+int main(int /*argc*/, char* /*argv*/[]) {
+//    using namespace std::chrono_literals;
 
     executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
     //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
@@ -94,11 +68,34 @@ int main(int argc, char* argv[]) {
     }
 
 
+    auto inputs = chain_input_list_construct_default();
+
+    auto input0 = chain_input_construct_default();
+    auto input1 = chain_input_construct_default();
+    auto input2 = chain_input_construct_default();
+    chain_input_list_push_back(inputs, input0);
+    chain_input_list_push_back(inputs, input1);
+    chain_input_list_push_back(inputs, input2);
+
+
+    auto outputs = chain_output_list_construct_default();
+    auto output0 = chain_output_construct_default();
+    auto output1 = chain_output_construct_default();
+    auto output2 = chain_output_construct_default();
+    chain_output_list_push_back(outputs, output0);
+    chain_output_list_push_back(outputs, output1);
+    chain_output_list_push_back(outputs, output2);
+
+
+    auto tr = chain_transaction_construct(1, 1, inputs, outputs);
+    chain_transaction_destruct(tr);
+
     executor_destruct(exec);
 
     return 0;
 }
 
+// ------------------------------------------
 
 //int main(int argc, char* argv[]) {
 //	using namespace std::chrono_literals;

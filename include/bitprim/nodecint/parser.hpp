@@ -27,7 +27,7 @@
 
 namespace bitprim { namespace nodecint {
 
-typedef boost::program_options::variables_map variables_map;
+using variables_map = boost::program_options::variables_map;
 
 /// Parse configurable values from environment variables, settings file, and
 /// command line positional and non-positional options.
@@ -35,24 +35,27 @@ class BCN_API parser
   : public libbitcoin::config::parser
 {
 public:
+    explicit
     parser(libbitcoin::config::settings const& context);
+
+    explicit
     parser(libbitcoin::node::configuration const& defaults);
 
     /// Parse all configuration into member settings.
 //    virtual bool parse(int argc, char const* argv[], std::ostream& error);
-    virtual bool parse(boost::filesystem::path config_path, std::ostream& error);
+    virtual bool parse(boost::filesystem::path const& config_path, std::ostream& error);
 
     /// Load configuration file settings.
-    virtual libbitcoin::options_metadata load_settings();
+    libbitcoin::options_metadata load_settings() override;
 
 
 
     /// Load command line options (named).
-    virtual libbitcoin::options_metadata load_options();
+    libbitcoin::options_metadata load_options() override;
     /// Load command line arguments (positional).
-    virtual libbitcoin::arguments_metadata load_arguments();
+    libbitcoin::arguments_metadata load_arguments() override;
     /// Load environment variable settings.
-    virtual libbitcoin::options_metadata load_environment();
+    libbitcoin::options_metadata load_environment() override;
 
 
     //virtual bool load_configuration_variables(variables_map& variables, std::string const& option_name);
@@ -63,6 +66,7 @@ public:
     libbitcoin::node::configuration configured;
 };
 
-}} // namespace bitprim::nodecint
+} // namespace nodecint
+} // namespace bitprim
 
 #endif /* BITPRIM_NODECINT_PARSER_HPP_ */

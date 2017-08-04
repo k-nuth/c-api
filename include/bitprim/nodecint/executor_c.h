@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_EXECUTOR_H_
-#define BITPRIM_NODECINT_EXECUTOR_H_
+#ifndef BITPRIM_NODECINT_EXECUTOR_C_H
+#define BITPRIM_NODECINT_EXECUTOR_C_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -51,7 +51,7 @@ BITPRIM_EXPORT
 void executor_destruct(executor_t exec);
 
 BITPRIM_EXPORT
-void executor_run(executor_t exec, void* context, run_handler_t handler);
+void executor_run(executor_t exec, void* ctx, run_handler_t handler);
 
 BITPRIM_EXPORT
 int executor_run_wait(executor_t exec);
@@ -71,8 +71,9 @@ chain_t executor_get_chain(executor_t exec);
 BITPRIM_EXPORT
 p2p_t executor_get_p2p(executor_t exec);
 
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_EXECUTOR_H_ */
+#endif // BITPRIM_NODECINT_EXECUTOR_C_H

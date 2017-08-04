@@ -31,7 +31,7 @@ namespace bitprim { namespace nodecint {
 class executor
 {
 public:
-    executor(libbitcoin::node::configuration config, std::ostream& output, std::ostream& error);
+    executor(libbitcoin::node::configuration const& config, std::ostream& output, std::ostream& error);
 
     executor(executor const&) = delete;
     void operator=(executor const&) = delete;
@@ -136,6 +136,7 @@ private:
     "================= startup %1% =================="
 
 
-}} // namespace bitprim::nodecint
+} // namespace nodecint
+} // namespace bitprim
 
 #endif /* BITPRIM_NODECINT_EXECUTOR_HPP_ */

@@ -20,28 +20,28 @@
 #include <bitprim/nodecint/chain/history_compact.h>
 #include <bitcoin/bitcoin/chain/history.hpp>
 
-libbitcoin::chain::history_compact const& history_compact_const_cpp(history_compact_t history) {
+libbitcoin::chain::history_compact const& chain_history_compact_const_cpp(history_compact_t history) {
     return *static_cast<libbitcoin::chain::history_compact const*>(history);
 }
 
-libbitcoin::chain::history_compact& history_compact_cpp(history_compact_t history) {
+libbitcoin::chain::history_compact& chain_history_compact_cpp(history_compact_t history) {
     return *static_cast<libbitcoin::chain::history_compact*>(history);
 }
 
-point_kind_t history_compact_get_point_kind(history_compact_t history){
-    return static_cast<point_kind_t>(history_compact_const_cpp(history).kind);
+point_kind_t chain_history_compact_get_point_kind(history_compact_t history) {
+    return static_cast<point_kind_t>(chain_history_compact_const_cpp(history).kind);
 }
 
-point_t history_compact_get_point(history_compact_t history){
-    return &history_compact_cpp(history).point;
+point_t chain_history_compact_get_point(history_compact_t history) {
+    return &chain_history_compact_cpp(history).point;
 }
 
-uint32_t history_compact_get_height(history_compact_t history){
-    return history_compact_const_cpp(history).height;
+uint32_t chain_history_compact_get_height(history_compact_t history) {
+    return chain_history_compact_const_cpp(history).height;
 }
 
-uint64_t history_compact_get_value_or_previous_checksum(history_compact_t history){
-    auto const& history_const_cpp = history_compact_const_cpp(history);
+uint64_t chain_history_compact_get_value_or_previous_checksum(history_compact_t history) {
+    auto const& history_const_cpp = chain_history_compact_const_cpp(history);
     return history_const_cpp.value;
 }
 

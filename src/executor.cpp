@@ -34,28 +34,26 @@
 namespace bitprim { namespace nodecint {
 
 using boost::format;
-using namespace boost;
-using namespace boost::system;
-using namespace bc::chain;
-using namespace bc::config;
-using namespace bc::database;
-using namespace bc::network;
-using namespace std::placeholders;
+using boost::null_deleter;
+using boost::system::error_code;
+using bc::chain::block;
+using bc::database::data_base;
+using std::placeholders::_1;
 
 static constexpr int initialize_stop = 0;
 static constexpr int directory_exists = 0;
 static constexpr int directory_not_found = 2;
 
-std::promise<libbitcoin::code> executor::stopping_;
+std::promise<libbitcoin::code> executor::stopping_; // NOLINT
 
-
-
-executor::executor(libbitcoin::node::configuration config, std::ostream& output, std::ostream& error)
+executor::executor(libbitcoin::node::configuration const& config, std::ostream& output, std::ostream& error)
     : config_(config), output_(output), error_(error)
 {
 	
     parser metadata(libbitcoin::config::settings::mainnet);
     auto res = metadata.parse(config_.file, std::cerr);
+    (void)res;
+
 //    if (!metadata.parse(cerr))
 //        return console_result::failure;
 
@@ -96,9 +94,7 @@ executor::executor(libbitcoin::node::configuration config, std::ostream& output,
 
 // Emit to the log.
 bool executor::do_initchain() {
-//    printf("executor::do_initchain() - 1\n");
     initialize_output();
-//    printf("executor::do_initchain() - 2\n");
 
     error_code ec;
     auto const& directory = config_.database.directory;
@@ -106,7 +102,7 @@ bool executor::do_initchain() {
     if (create_directories(directory, ec)) {
         LOG_INFO(LOG_NODE) << format(BN_INITIALIZING_CHAIN) % directory;
 
-        //TODO: BITPRIM: hardcoded identifiers
+        // TODO(fernando): BITPRIM: hardcoded identifiers
         // Unfortunately we are limited to a choice of hardcoded chains.
 #ifdef LITECOIN
         auto const testnet = (config_.network.identifier == 4056470269u); //Litecoin
@@ -144,7 +140,7 @@ libbitcoin::node::full_node& executor::node() {
 
 bool executor::run(libbitcoin::handle0 handler) {
 
-    run_handler_ = handler;
+    run_handler_ = std::move(handler);
 
     initialize_output();
 
@@ -152,8 +148,9 @@ bool executor::run(libbitcoin::handle0 handler) {
     LOG_INFO(LOG_NODE) << BN_NODE_STARTING;
 
 #if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
-    if (!verify_directory())
+    if (!verify_directory()) {
         return false;
+    }
 #endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
     // Now that the directory is verified we can create the node for it.
@@ -170,7 +167,7 @@ bool executor::run(libbitcoin::handle0 handler) {
 
 bool executor::run_wait(libbitcoin::handle0 handler) {
 
-    run(handler);
+    run(std::move(handler));
 
     // Wait for stop.
     stopping_.get_future().wait();
@@ -178,10 +175,11 @@ bool executor::run_wait(libbitcoin::handle0 handler) {
     LOG_INFO(LOG_NODE) << BN_NODE_STOPPING;
 
     // Close must be called from main thread.
-    if (node_->close())
+    if (node_->close()) {
         LOG_INFO(LOG_NODE) << BN_NODE_STOPPED;
-    else
+    } else {
         LOG_INFO(LOG_NODE) << BN_NODE_STOP_FAIL;
+    }
 
     return true;
 }
@@ -244,8 +242,9 @@ void executor::handle_stop(int code) {
     //std::signal(SIGINT, handle_stop);
     //std::signal(SIGTERM, handle_stop);
 
-    if (code == initialize_stop)
+    if (code == initialize_stop) {
         return;
+    }
 
     LOG_INFO(LOG_NODE) << format(BN_NODE_SIGNALED) % code;
     stop(libbitcoin::error::success);
@@ -266,14 +265,9 @@ void executor::stop() {
 
 // Set up logging.
 void executor::initialize_output() {
-//    printf("executor::initialize_output() - 1\n");
-
     auto const header = format(BN_LOG_HEADER) % libbitcoin::local_time();
-//    printf("executor::initialize_output() - 2\n");
 
     LOG_DEBUG(LOG_NODE) << header;
-//    printf("executor::initialize_output() - 3\n");
-
     LOG_INFO(LOG_NODE) << header;
     LOG_WARNING(LOG_NODE) << header;
     LOG_ERROR(LOG_NODE) << header;
@@ -281,10 +275,11 @@ void executor::initialize_output() {
 
     auto const& file = config_.file;
 
-    if (file.empty())
+    if (file.empty()) {
         LOG_INFO(LOG_NODE) << BN_USING_DEFAULT_CONFIG;
-    else
+    } else {
         LOG_INFO(LOG_NODE) << format(BN_USING_CONFIG_FILE) % file;
+    }
 }
 
 #if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
@@ -294,8 +289,9 @@ bool executor::verify_directory() {
     error_code ec;
     auto const& directory = config_.database.directory;
 
-    if (exists(directory, ec))
+    if (exists(directory, ec)) {
         return true;
+    }
 
     if (ec.value() == directory_not_found) {
         LOG_ERROR(LOG_NODE) << format(BN_UNINITIALIZED_CHAIN) % directory;
@@ -309,4 +305,5 @@ bool executor::verify_directory() {
 
 #endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
-}} // namespace bitprim::nodecint
+} // namespace nodecint
+} // namespace bitprim

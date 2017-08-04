@@ -32,12 +32,16 @@
 #include <bitprim/nodecint/version.h>
 #include <bitprim/nodecint/executor_c.h>
 
+#include <bitprim/nodecint/binary.h>
+
 #include <bitprim/nodecint/chain/block.h>
 #include <bitprim/nodecint/chain/chain.h>
 #include <bitprim/nodecint/chain/compact_block.h>
 #include <bitprim/nodecint/chain/header.h>
 #include <bitprim/nodecint/chain/history_compact.h>
 #include <bitprim/nodecint/chain/history_compact_list.h>
+#include <bitprim/nodecint/chain/stealth_compact.h>
+#include <bitprim/nodecint/chain/stealth_compact_list.h>
 #include <bitprim/nodecint/chain/input.h>
 #include <bitprim/nodecint/chain/merkle_block.h>
 #include <bitprim/nodecint/chain/output.h>

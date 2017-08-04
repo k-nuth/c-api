@@ -23,10 +23,7 @@
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/thread/latch.hpp>
 #include <bitprim/nodecint/executor.hpp>
-//#include <bitprim/nodecint/output_point.h>
 #include <bitcoin/bitcoin/wallet/mnemonic.hpp>
-//#include <inttypes.h>   //TODO: Remove, it is for the printf (printing pointer addresses)
-//#include <cinttypes>   //TODO: Remove, it is for the printf (printing pointer addresses)
 
 libbitcoin::node::configuration make_config(char const* path) {
     libbitcoin::node::configuration config(libbitcoin::config::settings::mainnet);
@@ -52,18 +49,18 @@ inline
 int fileno_or_devnull(FILE* f) {
     if (f == nullptr) {
         return devnull_fileno();
-    } else {
-        return fileno(f);
     }
+
+    return fileno(f);
 }
 
 inline
 int fileno_or_devnull(int fd) {
     if (fd < 0) {
         return devnull_fileno();
-    } else {
-        return fd;
     }
+
+    return fd;
 }
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
@@ -143,9 +140,9 @@ void executor_destruct(executor_t exec) {
 }
 
 int executor_initchain(executor_t exec) {
-    //TODO: return error_t to inform error in detail
+    // TODO(fernando): return error_t to inform error in detail
     try {
-        return exec->actual.do_initchain();
+        return static_cast<int>(exec->actual.do_initchain());
 //    } catch (const std::exception& e) {
 //        return 0;
     } catch (...) {
@@ -161,7 +158,7 @@ void executor_run(executor_t exec, void* ctx, run_handler_t handler) {
             }
         });
     } catch (...) {
-        handler(exec, ctx, 1); //TODO: return error_t to inform errors in detail
+        handler(exec, ctx, 1); // TODO(fernando): return error_t to inform errors in detail
     }
 }
 
@@ -183,9 +180,9 @@ int executor_run_wait(executor_t exec) {
     if (run_res) {
         latch.count_down_and_wait();
         return res;
-    } else {
-        return 1; //TODO: return error_t to inform errors in detail
     }
+
+    return 1; // TODO(fernando): return error_t to inform errors in detail
 }
 
 void executor_stop(executor_t exec) {
@@ -193,7 +190,8 @@ void executor_stop(executor_t exec) {
 }
 
 chain_t executor_get_chain(executor_t exec) {
-    return &exec->actual.node().chain();
+    return &(exec->actual.node().chain());
+
 }
 
 p2p_t executor_get_p2p(executor_t exec) {
