@@ -11,7 +11,7 @@ class BitprimNodeCIntConan(ConanFile):
     options = {"shared": [True, False]}
     default_options = "shared=True"
     generators = "cmake"
-    exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "bitprim-node-cintConfig.cmake.in", "include/*", "test/*"
+    exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "bitprim-node-cintConfig.cmake.in", "include/*", "test/*", "console/*"
     package_files = "build/lbitprim-node-cint.so"
     build_policy = "missing"
 
@@ -20,6 +20,7 @@ class BitprimNodeCIntConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
+        cmake.definitions["CMAKE_VERBOSE_MAKEFILE"] = "ON"
         cmake.configure(source_dir=self.conanfile_directory)
         cmake.build()
 
