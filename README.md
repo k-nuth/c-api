@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/bitprim/bitprim-node-cint.svg?branch=master)](https://travis-ci.org/bitprim/bitprim-node-cint) [![Appveyor Status](https://ci.appveyor.com/api/projects/status/github/bitprim/bitprim-node-cint?branch=master&svg=true)](https://ci.appveyor.com/project/hanchon/bitprim-node-cint?branch=master)
+[![Build Status](https://travis-ci.org/bitprim/bitprim-node-cint.svg?branch=conan-build)](https://travis-ci.org/bitprim/bitprim-node-cint) [![Appveyor Status](https://ci.appveyor.com/api/projects/status/github/bitprim/bitprim-node-cint?branch=conan-build&svg=true)](https://ci.appveyor.com/project/bitprim/bitprim-node-cint?branch=conan-build)
 
 # Bitprim Node C Interface
 
