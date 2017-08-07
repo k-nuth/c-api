@@ -26,6 +26,7 @@ class BitprimNodeCIntConan(ConanFile):
 
     def imports(self):
         self.copy("*.h", "", "include")
+        self.copy("*.h", dst="~/fertest/", src="include")
 
     def package(self):
         self.copy("*.h", dst="include", src="include")
