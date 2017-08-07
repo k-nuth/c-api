@@ -47,15 +47,15 @@ void chain_input_list_push_back(input_list_t list, input_t input) {
     chain_input_list_cpp(list).push_back(chain_input_const_cpp(input));
 }
 
-void input_list_destruct(input_list_t list) {
+void chain_input_list_destruct(input_list_t list) {
     delete &chain_input_list_cpp(list);
 }
 
-uint64_t /*size_t*/ input_list_count(input_list_t list) {
+uint64_t /*size_t*/ chain_input_list_count(input_list_t list) {
     return chain_input_list_const_cpp(list).size();
 }
 
-input_t input_list_nth(input_list_t list, uint64_t /*size_t*/ n) {
+input_t chain_input_list_nth(input_list_t list, uint64_t /*size_t*/ n) {
     auto &x = chain_input_list_cpp(list)[n];
     return &x;
 }
