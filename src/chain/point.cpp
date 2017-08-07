@@ -23,7 +23,7 @@
 #include <bitcoin/bitcoin/chain/point.hpp>
 
 
-libbitcoin::chain::point const& point_const_cpp(point_t point) {
+libbitcoin::chain::point const& chain_point_const_cpp(point_t point) {
     return *static_cast<libbitcoin::chain::point const*>(point);
 }
 
@@ -34,26 +34,21 @@ libbitcoin::chain::point const& point_const_cpp(point_t point) {
 
 extern "C" {
 
-//hash_t point_get_hash(point_t point) {
-//    auto const& hash_cpp = point_const_cpp(point).hash();
-//    return hash_cpp.data();
-//}
-
-hash_t point_get_hash(point_t point) {
-    auto const& hash_cpp = point_const_cpp(point).hash();
+hash_t chain_point_get_hash(point_t point) {
+    auto const& hash_cpp = chain_point_const_cpp(point).hash();
     return bitprim::to_hash_t(hash_cpp);
 }
 
-int /*bool*/ point_is_valid(point_t point) {
-    return static_cast<int>(point_const_cpp(point).is_valid());
+int /*bool*/ chain_point_is_valid(point_t point) {
+    return static_cast<int>(chain_point_const_cpp(point).is_valid());
 }
 
-uint32_t point_get_index(point_t point) {
-    return point_const_cpp(point).index();
+uint32_t chain_point_get_index(point_t point) {
+    return chain_point_const_cpp(point).index();
 }
 
-uint64_t point_get_checksum(point_t point) {
-    return point_const_cpp(point).checksum();
+uint64_t chain_point_get_checksum(point_t point) {
+    return chain_point_const_cpp(point).checksum();
 }
 
 } /* extern "C" */

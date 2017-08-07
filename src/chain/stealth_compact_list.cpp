@@ -32,11 +32,11 @@ void stealth_compact_list_destruct(stealth_compact_list_t list) {
     delete &stealth_compact_list_cpp(list);
 }
 
-size_t stealth_compact_list_count(stealth_compact_list_t list) {
+uint64_t /*size_t*/ stealth_compact_list_count(stealth_compact_list_t list) {
     return stealth_compact_list_const_cpp(list).size();
 }
 
-stealth_compact_t stealth_compact_list_nth(stealth_compact_list_t list, size_t n) {
+stealth_compact_t stealth_compact_list_nth(stealth_compact_list_t list, uint64_t /*size_t*/ n) {
     auto& x = stealth_compact_list_cpp(list)[n];
     return &x;
 }

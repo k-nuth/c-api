@@ -34,10 +34,10 @@ BITPRIM_EXPORT
 binary_t binary_construct();
 
 BITPRIM_EXPORT
-binary_t binary_construct_string(const char* string);
+binary_t binary_construct_string(char const* string);
 
 BITPRIM_EXPORT
-binary_t binary_construct_blocks(size_t bits_size, uint8_t* blocks, size_t n);
+binary_t binary_construct_blocks(uint64_t /*size_t*/ bits_size, uint8_t* blocks, uint64_t /*size_t*/ n);
 
 BITPRIM_EXPORT
 //uint8_t* binary_blocks(binary_t binary);
@@ -47,7 +47,7 @@ BITPRIM_EXPORT
 char* binary_encoded(binary_t binary);
 
 //BITPRIM_EXPORT
-//void word_list_add_word(word_list_t word_list, const char* word);
+//void word_list_add_word(word_list_t word_list, char const* word);
 
 //BITPRIM_EXPORT
 //void word_list_destruct(word_list_t word_list);
