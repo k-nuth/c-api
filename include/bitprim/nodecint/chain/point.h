@@ -31,16 +31,16 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-hash_t point_get_hash(point_t point);
+hash_t chain_point_get_hash(point_t point);
 
 BITPRIM_EXPORT
-int /*bool*/ point_is_valid(point_t point);
+int /*bool*/ chain_point_is_valid(point_t point);
 
 BITPRIM_EXPORT
-uint32_t point_get_index(point_t point);
+uint32_t chain_point_get_index(point_t point);
 
 BITPRIM_EXPORT
-uint64_t point_get_checksum(point_t point);
+uint64_t chain_point_get_checksum(point_t point);
 
 #ifdef __cplusplus
 } // extern "C"
