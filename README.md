@@ -1,4 +1,4 @@
-# Bitprim Node C Interface
+# Bitprim Node C Interface <a target="_blank" href="https://gitter.im/bitprim/Lobby">![Gitter Chat][badge.Gitter]</a>
 
 *Bitcoin full node based on bitprim-node with a C Interface*
 
@@ -21,3 +21,5 @@ $ sudo make install
 bitprim-node-cint is now installed in `/usr/local/`.
 
 In version2 the `bitcoin-node` console app is for demonstration purposes only. See [bitprim-server](https://github.com/bitprim/bitprim-server) for release quality full node functionality. -->
+
+[badge.Gitter]: https://img.shields.io/badge/gitter-join%20chat-blue.svg
