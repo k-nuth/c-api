@@ -31,18 +31,25 @@
 extern "C" {
 #endif
 
-get_blocks_t chain_get_blocks_construct_default();
+BITPRIM_EXPORT
+get_blocks_t chain_get_blocks_construct_default(void);
 
+BITPRIM_EXPORT
 get_blocks_t chain_get_blocks_construct(hash_list_t start, hash_t stop);
 
+BITPRIM_EXPORT
 void chain_get_blocks_destruct(get_blocks_t get_b);
 
+BITPRIM_EXPORT
 hash_list_t chain_get_blocks_start_hashes(get_blocks_t get_b);
 
+BITPRIM_EXPORT
 void chain_get_blocks_set_start_hashes(get_blocks_t get_b, hash_list_t value);
 
+BITPRIM_EXPORT
 hash_t chain_get_blocks_stop_hash(get_blocks_t get_b);
 
+BITPRIM_EXPORT
 void chain_get_blocks_set_stop_hash(get_blocks_t get_b, hash_t value);
 
 //virtual bool from_data(uint32_t version, const data_chunk& data);
@@ -52,10 +59,13 @@ void chain_get_blocks_set_stop_hash(get_blocks_t get_b, hash_t value);
 //void to_data(uint32_t version, std::ostream& stream) const;
 //void to_data(uint32_t version, writer& sink) const;
 
+BITPRIM_EXPORT
 int /*bool*/ chain_get_blocks_is_valid(get_blocks_t get_b);
 
+BITPRIM_EXPORT
 void chain_get_blocks_reset(get_blocks_t get_b);
 
+BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_get_blocks_serialized_size(get_blocks_t get_b, uint32_t version);
 
 

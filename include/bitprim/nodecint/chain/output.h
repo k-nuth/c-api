@@ -31,7 +31,7 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-output_t chain_output_construct_default();
+output_t chain_output_construct_default(void);
 
 //output(uint64_t value, chain::script&& script);
 //output(uint64_t value, const chain::script& script);

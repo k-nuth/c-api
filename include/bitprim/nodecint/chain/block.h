@@ -32,9 +32,9 @@ extern "C" {
 #endif
 
 
-//block();
+//block(void);
 BITPRIM_EXPORT
-block_t chain_block_construct_default();
+block_t chain_block_construct_default(void);
 
 //block(chain::header&& header, chain::transaction::list&& transactions);
 //block(const chain::header& header, const chain::transaction::list& transactions);

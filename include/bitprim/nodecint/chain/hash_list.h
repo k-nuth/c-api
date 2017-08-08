@@ -32,7 +32,7 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-hash_list_t chain_hash_list_construct_default();
+hash_list_t chain_hash_list_construct_default(void);
 
 BITPRIM_EXPORT
 void chain_hash_list_push_back(hash_list_t list, hash_t hash);

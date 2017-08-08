@@ -32,7 +32,7 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-transaction_list_t chain_transaction_list_construct_default();
+transaction_list_t chain_transaction_list_construct_default(void);
 
 BITPRIM_EXPORT
 void chain_transaction_list_push_back(transaction_list_t list, transaction_t transaction);

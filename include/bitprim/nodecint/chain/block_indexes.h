@@ -32,7 +32,7 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-block_indexes_t chain_block_indexes_construct_default();
+block_indexes_t chain_block_indexes_construct_default(void);
 
 BITPRIM_EXPORT
 void chain_block_indexes_push_back(block_indexes_t list, uint64_t /*size_t*/ index);

@@ -40,7 +40,7 @@ header_t chain_header_factory_from_data(uint32_t version, uint8_t* data, uint64_
 BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_header_satoshi_fixed_size(uint32_t version);
 
-//void reset();
+//void reset(void);
 BITPRIM_EXPORT
 void chain_header_reset(header_t header);
 
@@ -52,9 +52,9 @@ uint64_t /*size_t*/ chain_header_serialized_size(header_t header, uint32_t versi
 BITPRIM_EXPORT
 uint8_t* chain_header_to_data(header_t header, uint32_t version);
 
-//header();
+//header(void);
 BITPRIM_EXPORT
-header_t chain_header_construct_default();
+header_t chain_header_construct_default(void);
 
 //header(uint32_t version, const hash_digest& previous_block_hash, const hash_digest& merkle, uint32_t timestamp, uint32_t bits, uint32_t nonce);
 BITPRIM_EXPORT

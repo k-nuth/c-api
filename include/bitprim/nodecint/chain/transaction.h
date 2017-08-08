@@ -31,9 +31,9 @@
 extern "C" {
 #endif
 
-//transaction();
+//transaction(void);
 BITPRIM_EXPORT
-transaction_t chain_transaction_construct_default();
+transaction_t chain_transaction_construct_default(void);
 
 //transaction(uint32_t version, uint32_t locktime, chain::input::list&& inputs, chain::output::list&& outputs);
 //transaction(uint32_t version, uint32_t locktime, const chain::input::list& inputs, const chain::output::list& outputs);

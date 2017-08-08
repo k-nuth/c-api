@@ -31,9 +31,9 @@
 extern "C" {
 #endif
 
-//input();
+//input(void);
 BITPRIM_EXPORT
-input_t chain_input_construct_default();
+input_t chain_input_construct_default(void);
 
 //input(output_point&& previous_output, chain::script&& script, uint32_t sequence);
 //input(const output_point& previous_output, const chain::script& script, uint32_t sequence);

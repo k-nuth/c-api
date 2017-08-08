@@ -31,7 +31,7 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-word_list_t word_list_construct();
+word_list_t word_list_construct(void);
 
 BITPRIM_EXPORT
 void word_list_add_word(word_list_t word_list, const char* word);

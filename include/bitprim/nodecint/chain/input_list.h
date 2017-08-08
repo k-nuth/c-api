@@ -32,7 +32,7 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-input_list_t chain_input_list_construct_default();
+input_list_t chain_input_list_construct_default(void);
 
 BITPRIM_EXPORT
 void chain_input_list_push_back(input_list_t list, input_t input);

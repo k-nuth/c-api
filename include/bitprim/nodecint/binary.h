@@ -31,7 +31,7 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-binary_t binary_construct();
+binary_t binary_construct(void);
 
 BITPRIM_EXPORT
 binary_t binary_construct_string(char const* string);

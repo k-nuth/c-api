@@ -9,6 +9,8 @@ build2/
 test_console.dir/
 x64/
 
+conanfile.pyc
+
 python_console/blockchain/
 python_console/debug.log
 python_console/error.log
