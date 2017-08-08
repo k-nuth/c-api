@@ -24,12 +24,12 @@ class BitprimNodeCIntConan(ConanFile):
         cmake.configure(source_dir=self.conanfile_directory)
         cmake.build()
 
-    def imports(self):
-        print('def imports')
-        self.copy("*.h", "", "include")
-        self.copy("*.h", dst="/Users/fernando/fertest", src="include")
-        self.copy("*.hpp", dst="/Users/fernando/fertest", src="include")
-        self.copy("*.a", dst="/Users/fernando/fertest", src="include")
+    # def imports(self):
+        # print('def imports')
+        # self.copy("*.h", "", "include")
+        # self.copy("*.h", dst="/Users/fernando/fertest", src="include")
+        # self.copy("*.hpp", dst="/Users/fernando/fertest", src="include")
+        # self.copy("*.a", dst="/Users/fernando/fertest", src="include")
 
     def package(self):
         print('def package')
