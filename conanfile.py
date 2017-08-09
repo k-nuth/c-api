@@ -42,7 +42,7 @@ class BitprimNodeCIntConan(ConanFile):
         # self.copy("*.a", dst="/Users/fernando/fertest", src="include")
 
     def package(self):
-        print('def package')
+        # print('def package')
         self.copy("*.h", dst="include", src="include")
         self.copy("*.hpp", dst="include", src="include")
         self.copy("*.ipp", dst="include", src="include")
