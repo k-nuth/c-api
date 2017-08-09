@@ -36,8 +36,15 @@ output_point_t output_point_construct() {
     return std::make_unique<libbitcoin::chain::output_point>().release();
 }
 
-void output_point_destruct(output_point_t op) {
-    delete &output_point_cpp(op);
+
+output_point_t output_point_construct_from_hash_index(hash_t hash, uint32_t index) {
+    auto hash_cpp = bitprim::to_array(hash.hash);
+    auto ret = new libbitcoin::chain::output_point(hash_cpp, index);
+    return ret;
+}
+
+void output_point_destruct(output_point_t outpoint) {
+    delete &output_point_cpp(outpoint);
 }
 
 //hash_t output_point_get_hash(output_point_t op) {

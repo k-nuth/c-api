@@ -50,7 +50,7 @@ uint64_t /*size_t*/ compact_block_transaction_count(compact_block_t block) {
     return compact_block_const_cpp(block).transactions().size();
 }
 
-transaction_t compact_block_hash_nth(compact_block_t block, uint64_t /*size_t*/ n) {
+transaction_t compact_block_transaction_nth(compact_block_t block, uint64_t /*size_t*/ n) {
     //precondition: n >=0 && n < transactions().size()
 
     auto* blk = &compact_block_cpp(block);

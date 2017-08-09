@@ -49,15 +49,15 @@ void chain_block_list_push_back(block_list_t list, block_t block) {
     chain_block_list_cpp(list).push_back(chain_block_const_cpp(block));
 }
 
-void block_list_destruct(block_list_t list) {
+void chain_block_list_destruct(block_list_t list) {
     delete &chain_block_list_cpp(list);
 }
 
-uint64_t /*size_t*/ block_list_count(block_list_t list) {
+uint64_t /*size_t*/ chain_block_list_count(block_list_t list) {
     return chain_block_list_const_cpp(list).size();
 }
 
-block_t block_list_nth(block_list_t list, uint64_t /*size_t*/ n) {
+block_t chain_block_list_nth(block_list_t list, uint64_t /*size_t*/ n) {
     auto &x = chain_block_list_cpp(list)[n];
     return &x;
 }
