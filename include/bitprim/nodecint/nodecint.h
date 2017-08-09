@@ -43,8 +43,10 @@
 #include <bitprim/nodecint/chain/stealth_compact.h>
 #include <bitprim/nodecint/chain/stealth_compact_list.h>
 #include <bitprim/nodecint/chain/input.h>
+#include <bitprim/nodecint/chain/input_list.h>
 #include <bitprim/nodecint/chain/merkle_block.h>
 #include <bitprim/nodecint/chain/output.h>
+#include <bitprim/nodecint/chain/output_list.h>
 #include <bitprim/nodecint/chain/output_point.h>
 #include <bitprim/nodecint/chain/payment_address.h>
 #include <bitprim/nodecint/chain/point.h>
