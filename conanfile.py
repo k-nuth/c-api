@@ -21,6 +21,16 @@ class BitprimNodeCIntConan(ConanFile):
     def build(self):
         cmake = CMake(self)
         # cmake.definitions["CMAKE_VERBOSE_MAKEFILE"] = "ON"
+
+        print(self.options)
+
+        if self.options.shared:
+            cmake.definitions["ENABLE_SHARED"]="ON"
+            cmake.definitions["ENABLE_SHARED_NODE_CINT"]="ON"
+        else:
+            cmake.definitions["ENABLE_SHARED"]="OFF"
+            cmake.definitions["ENABLE_SHARED_NODE_CINT"]="OFF"
+
         cmake.configure(source_dir=self.conanfile_directory)
         cmake.build()
 
