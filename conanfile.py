@@ -9,7 +9,7 @@ class BitprimNodeCIntConan(ConanFile):
     description = "Bitcoin Full Node Library with C interface"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
-    default_options = "shared=True"
+    default_options = "shared=False"
     generators = "cmake"
     exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "bitprim-node-cintConfig.cmake.in", "include/*", "test/*", "console/*"
     package_files = "build/lbitprim-node-cint.so"
