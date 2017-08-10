@@ -54,6 +54,7 @@
 #include <bitprim/nodecint/chain/point_list.h>
 #include <bitprim/nodecint/chain/script.h>
 #include <bitprim/nodecint/chain/transaction.h>
+#include <bitprim/nodecint/chain/transaction_list.h>
 
 #include <bitprim/nodecint/p2p/p2p.h>
 
