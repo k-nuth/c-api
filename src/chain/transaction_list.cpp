@@ -50,15 +50,15 @@ void chain_transaction_list_push_back(transaction_list_t list, transaction_t tra
     chain_transaction_list_cpp(list).push_back(chain_transaction_const_cpp(transaction));
 }
 
-void transaction_list_destruct(transaction_list_t list) {
+void chain_transaction_list_destruct(transaction_list_t list) {
     delete &chain_transaction_list_cpp(list);
 }
 
-uint64_t /*size_t*/ transaction_list_count(transaction_list_t list) {
+uint64_t /*size_t*/ chain_transaction_list_count(transaction_list_t list) {
     return chain_transaction_list_const_cpp(list).size();
 }
 
-transaction_t transaction_list_nth(transaction_list_t list, uint64_t /*size_t*/ n) {
+transaction_t chain_transaction_list_nth(transaction_list_t list, uint64_t /*size_t*/ n) {
     auto &x = chain_transaction_list_cpp(list)[n];
     return &x;
 }
