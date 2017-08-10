@@ -20,7 +20,7 @@ class BitprimNodeCIntConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
-        # cmake.definitions["CMAKE_VERBOSE_MAKEFILE"] = "ON"
+        cmake.definitions["CMAKE_VERBOSE_MAKEFILE"] = "ON"
 
         print(self.options)
 
