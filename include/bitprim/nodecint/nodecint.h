@@ -35,6 +35,7 @@
 #include <bitprim/nodecint/binary.h>
 
 #include <bitprim/nodecint/chain/block.h>
+#include <bitprim/nodecint/chain/block_list.h>
 #include <bitprim/nodecint/chain/chain.h>
 #include <bitprim/nodecint/chain/compact_block.h>
 #include <bitprim/nodecint/chain/header.h>
