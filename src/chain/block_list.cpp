@@ -39,7 +39,9 @@ block_list_t chain_block_list_construct_from_cpp(std::vector<libbitcoin::message
     return &list;
 }
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 
 block_list_t chain_block_list_construct_default() {
     return new std::vector<libbitcoin::message::block>();

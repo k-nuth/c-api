@@ -79,7 +79,9 @@ libbitcoin::message::block::const_ptr block_shared(block_t block) {
 } /* end of anonymous namespace */
 
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 
 void chain_fetch_last_height(chain_t chain, void* ctx, last_height_fetch_handler_t handler) {
     safe_chain(chain).fetch_last_height([chain, ctx, handler](std::error_code const& ec, size_t h) {
