@@ -16,7 +16,7 @@ class BitprimNodeCIntConan(ConanFile):
     build_policy = "missing"
 
     requires = (("bitprim-conan-boost/1.64.0@bitprim/stable"),
-                ("bitprim-node/0.1@bitprim/stable"))
+                ("bitprim-node/0.1@bitprim/testing"))
 
     def build(self):
         cmake = CMake(self)
