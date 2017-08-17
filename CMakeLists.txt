@@ -18,6 +18,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Process options.
 #==============================================================================
+
+# Implement --use-conan
+#------------------------------------------------------------------------------
+option(USE_CONAN "Use Conan Build Tool." OFF)
+
+# Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
+#------------------------------------------------------------------------------
+option(ENABLE_SHARED "" ON)
+option(ENABLE_SHARED_NODE_CINT "" ON)
+
+# Implement POSITION_INDEPENDENT_CODE
+#------------------------------------------------------------------------------
+option(ENABLE_POSITION_INDEPENDENT_CODE "Enable POSITION_INDEPENDENT_CODE property" ON)
+
 # Implement --with-remote-blockchain and declare WITH_REMOTE_BLOCKCHAIN.
 #------------------------------------------------------------------------------
 option(WITH_REMOTE_BLOCKCHAIN "Compile with remote bitprim-blockchain (aka. bitprim-blockchain-requester)." OFF)
@@ -26,7 +40,6 @@ option(WITH_REMOTE_BLOCKCHAIN "Compile with remote bitprim-blockchain (aka. bitp
 #------------------------------------------------------------------------------
 option(WITH_REMOTE_DATABASE "Compile with remote bitprim-database (aka. bitprim-database-requester)." OFF)
 
-
 # Implement --with-tests and declare WITH_TESTS.
 #------------------------------------------------------------------------------
 option(WITH_TESTS "Compile with unit tests." ON)
@@ -34,77 +47,38 @@ option(WITH_TESTS "Compile with unit tests." ON)
 # Implement --with-console and declare WITH_CONSOLE.
 #------------------------------------------------------------------------------
 option(WITH_CONSOLE "Compile console application." ON)
+option(WITH_CONSOLE_NODE_CINT "Compile console application." ON)
 
-# Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
+# Implement --with-litecoin.
 #------------------------------------------------------------------------------
+option(WITH_LITECOIN "Compile with Litecoin support." OFF)
 
-option(ENABLE_SHARED "" ON)
-option(ENABLE_SHARED_NODE_CINT "" ON)
+
 
 if (ENABLE_SHARED_NODE_CINT)
   set(ENABLE_SHARED ON)
 endif()
 
-# set(ENABLE_SHARED ON)
-
-# IF(APPLE)
-#   SET(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
-# ENDIF(APPLE)
-
-# message(${CMAKE_SHARED_MODULE_CREATE_C_FLAGS})
-# message(${CMAKE_SHARED_MODULE_CREATE_CXX_FLAGS})
-# set(CMAKE_SHARED_MODULE_CREATE_C_FLAGS "-fer -Wl,-headerpad_max_install_names")
-# set(CMAKE_SHARED_MODULE_CREATE_CXX_FLAGS "-bundle -Wl,-headerpad_max_install_names")
-# message(${CMAKE_SHARED_MODULE_CREATE_C_FLAGS})
-# message(${CMAKE_SHARED_MODULE_CREATE_CXX_FLAGS})
-
-
-#  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${_Flag}" )
-#  set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} ${_Flag}" )
-
-# message(${CMAKE_SHARED_LINKER_FLAGS})
-# message(${CMAKE_STATIC_LINKER_FLAGS})
-
-# _add_link_flag(-fstack-protector _has_stack_protector_flag)
-
-# set(CMAKE_SHARED_LINKER_FLAGS "-bundle -Wl,-headerpad_max_install_names")
-# set(CMAKE_STATIC_LINKER_FLAGS "-bundle -Wl,-headerpad_max_install_names")
-
-# message(${CMAKE_SHARED_LINKER_FLAGS})
-# message(${CMAKE_STATIC_LINKER_FLAGS})
-
-# message(${CMAKE_C_LINK_FLAGS})
-# message(${CMAKE_CXX_LINK_FLAGS})
-
-# SET(CMAKE_C_LINK_FLAGS "-bundle -Wl,-headerpad_max_install_names")
-# SET(CMAKE_CXX_LINK_FLAGS "-bundle -Wl,-headerpad_max_install_names")
-
-# message(${CMAKE_C_LINK_FLAGS})
-# message(${CMAKE_CXX_LINK_FLAGS})
-
-#------------------------------------------------------------------------------
-
-option(WITH_CONSOLE_NODE_CINT "" ON)
 set(WITH_CONSOLE_NODE_CINT ON)
+
+if (WITH_LITECOIN)
+  add_definitions(-DLITECOIN)
+endif()
+
 
 #------------------------------------------------------------------------------
 
 # Check dependencies.
 #==============================================================================
-# Require Boost of at least version 1.56.0 and output ${boost_CPPFLAGS/LDFLAGS}.
-#------------------------------------------------------------------------------
+
+# # Require Boost of at least version 1.56.0 and output ${boost_CPPFLAGS/LDFLAGS}.
+# #------------------------------------------------------------------------------
 # if (NOT ENABLE_SHARED)
-  set(Boost_USE_STATIC_LIBS ON)
+#   set(Boost_USE_STATIC_LIBS ON)   #TODO(fernando): eliminar todos estos mientras estemos compilando Boost con Conan
 # endif()
 
 
 
-#------------------------------------------------------------------------------
-
-#set(CMAKE_C_STANDARD_LIBRARIES "${CMAKE_C_STANDARD_LIBRARIES} -lwsock32" )
-#set(CMAKE_C_STANDARD_LIBRARIES "${CMAKE_C_STANDARD_LIBRARIES} -lws2_32" )
-
-#------------------------------------------------------------------------------
 
 #if (MSVC)
 #  find_package(
@@ -116,36 +90,29 @@ set(WITH_CONSOLE_NODE_CINT ON)
 #          COMPONENTS unit_test_framework)
 #endif()
 
-if (UNIX)
-  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/lib/cmake")
-elseif (WIN32)
-  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "cmake")
-endif()
 
-## Require bitprim-consensus of at least version 2.0.0 and output ${bitprim_consensus_CPPFLAGS/LIBS/PKG}.
-##------------------------------------------------------------------------------
-#if (WITH_CONSENSUS)
-#  if (NOT TARGET bitprim-consensus)
-#    find_package(bitprim-consensus 2.0.0 REQUIRED)
-#  endif()
-#endif()
+if (NOT USE_CONAN)
+  ## Require bitprim-consensus of at least version 2.0.0 and output ${bitprim_consensus_CPPFLAGS/LIBS/PKG}.
+  ##------------------------------------------------------------------------------
+  #if (WITH_CONSENSUS)
+  #  if (NOT TARGET bitprim-consensus)
+  #    find_package(bitprim-consensus 2.0.0 REQUIRED)
+  #  endif()
+  #endif()
 
-# Implement --with-litecoin.
-#------------------------------------------------------------------------------
-option(WITH_LITECOIN "Compile with Litecoin support." OFF)
-if (WITH_LITECOIN)
-  add_definitions(-DLITECOIN)
+  # Require bitprim-node of at least version 3.0.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
+  #------------------------------------------------------------------------------
+  if (NOT TARGET bitprim-node)
+    find_package(bitprim-node 3.0.0 REQUIRED)
+  endif()
 endif()
 
 
-## Require bitprim-node of at least version 3.0.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
-##------------------------------------------------------------------------------
-#if (NOT TARGET bitprim-node)
-#  find_package(bitprim-node 3.0.0 REQUIRED)
-#endif()
-
-
-
+# if (UNIX)
+#   set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/lib/cmake")
+# elseif (WIN32)
+#   set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "cmake")
+# endif()
 
 # Set flags.
 #==============================================================================
@@ -286,13 +253,16 @@ if (NOT MSVC)
 endif()
 
 
-#target_link_libraries(bitprim-node-cint PUBLIC bitprim-node)
+
+if (NOT USE_CONAN)
+  target_link_libraries(bitprim-node-cint PUBLIC bitprim-node)
+endif()
 target_link_libraries(bitprim-node-cint PUBLIC ${CONAN_LIBS})
+
 
 # if (MSVC)
 #   target_link_libraries(bitprim-node-cint PUBLIC ${Boost_LOG_LIBRARY} ${Boost_LOG_SETUP_LIBRARY})
 # endif()
-
 #if (MINGW)
 #  target_link_libraries(bitprim-node-cint PUBLIC bitprim-node wsock32)
 #else()

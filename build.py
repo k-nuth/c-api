@@ -6,7 +6,7 @@ if __name__ == "__main__":
                                  remotes="https://api.bintray.com/conan/bitprim/bitprim")
 
     builder.add_common_builds(shared_option_name="bitprim-node-cint:shared")
-    builder.password = os.getenv("CONAN_PASSWORD")
+    # builder.password = os.getenv("CONAN_PASSWORD")
 
     filtered_builds = []
     for settings, options, env_vars, build_requires in builder.builds:
