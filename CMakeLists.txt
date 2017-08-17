@@ -6,8 +6,13 @@ project(bitprim-node-cint
         VERSION 3.0.0
         LANGUAGES CXX C)
 
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
+if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup()
+else()
+    message(WARNING "The file conanbuildinfo.cmake doesn't exist, you have to run conan install first")
+endif()
+
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -247,7 +252,12 @@ target_include_directories(bitprim-node-cint PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>)
 
-target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC)
+# target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC)
+if (NOT ENABLE_SHARED)
+  target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
+endif()
+
+
 if (NOT MSVC)
   target_compile_definitions(bitprim-node-cint PUBLIC -DSYSCONFDIR=\"${SYSCONFDIR}\")
 endif()
