@@ -243,7 +243,12 @@ add_library(bitprim-node-cint ${MODE}
         )
 
 
-# set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
+
+
+if (ENABLE_POSITION_INDEPENDENT_CODE) 
+  set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
+endif(ENABLE_POSITION_INDEPENDENT_CODE)
+
 #set_target_properties(bitprim-node-cint PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
 target_compile_definitions(bitprim-node-cint PUBLIC -Dbitprim_EXPORTS)
