@@ -61,11 +61,6 @@ option(WITH_CONSOLE_NODE_CINT "Compile console application." ON)
 option(WITH_LITECOIN "Compile with Litecoin support." OFF)
 
 
-<<<<<<< HEAD
-option(ENABLE_SHARED "" OFF)
-option(ENABLE_SHARED_NODE_CINT "" OFF)
-=======
->>>>>>> conan-build-win
 
 if (ENABLE_SHARED_NODE_CINT)
   set(ENABLE_SHARED ON)
