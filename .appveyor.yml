@@ -32,7 +32,8 @@ environment:
     CONAN_UPLOAD: "https://api.bintray.com/conan/bitprim/bitprim"
 
     matrix:
-        - MINGW_CONFIGURATIONS: "4.9@x86_64@seh@posix" #4.9@x86_64@sjlj@posix
+        # - MINGW_CONFIGURATIONS: "4.9@x86_64@seh@posix" #4.9@x86_64@sjlj@posix
+        - MINGW_CONFIGURATIONS: "5.4@x86_64@seh@posix" #5.4@x86_64@sjlj@posix
         - MINGW_CONFIGURATIONS: "7.1@x86_64@seh@posix" #7.1@x86_64@sjlj@posix
         
         #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
