@@ -278,7 +278,7 @@ target_link_libraries(bitprim-node-cint PUBLIC ${CONAN_LIBS})
 
 if (USE_CONAN)
   if (MINGW)
-    target_link_libraries(bitprim-node PUBLIC ws2_32 wsock32) #TODO(fernando): manage with Conan
+    target_link_libraries(bitprim-node-cint PUBLIC ws2_32 wsock32) #TODO(fernando): manage with Conan
   endif()
 endif()
 
