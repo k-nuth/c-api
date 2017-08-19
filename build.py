@@ -11,7 +11,7 @@ if __name__ == "__main__":
     for settings, options, env_vars, build_requires in builder.builds:
         if settings["build_type"] == "Release" \
                 and not options["bitprim-node-cint:shared"] \
-                and not ("compiler.runtime" in settings and settings["compiler.runtime"] == "MD"):
+                and (not "compiler.runtime" in settings or not settings["compiler.runtime"] == "MT"):
             filtered_builds.append([settings, options, env_vars, build_requires])
 
     builder.builds = filtered_builds
