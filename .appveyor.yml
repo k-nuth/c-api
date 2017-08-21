@@ -26,7 +26,7 @@ environment:
 
     CONAN_REFERENCE: "bitprim-node-cint/0.1"
     CONAN_USERNAME: "bitprim"
-    CONAN_LOGIN_USERNAME: "bitprim@bitprim"
+    CONAN_LOGIN_USERNAME: "bitprim-bintray"
     CONAN_CHANNEL: "stable"
     VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
     CONAN_UPLOAD: "https://api.bintray.com/conan/bitprim/bitprim"
