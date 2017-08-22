@@ -62,6 +62,7 @@ class BitprimNodeCIntConan(ConanFile):
         cmake = CMake(self)
 
         cmake.definitions["USE_CONAN"] = "ON"
+        cmake.definitions["NO_CONAN_AT_ALL"] = "OFF"
         cmake.definitions["CMAKE_VERBOSE_MAKEFILE"] = "ON"
         cmake.definitions["ENABLE_SHARED"] = option_on_off(self.options.shared)
         cmake.definitions["ENABLE_SHARED_NODE_CINT"] = option_on_off(self.options.shared)
