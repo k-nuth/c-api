@@ -6,7 +6,11 @@ project(bitprim-node-cint
         VERSION 3.0.0
         LANGUAGES CXX C)
 
-add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1) #TODO(fernando): temporary workaround
+if(USE_CPP11_ABI)
+  add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
+else()
+  add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
