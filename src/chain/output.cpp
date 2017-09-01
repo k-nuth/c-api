@@ -45,7 +45,7 @@ output_t chain_output_construct(uint64_t value, script_t script) {
 }
 
 void chain_output_destruct(output_t output) {
-    delete &chain_output_const_cpp(output);
+    delete &chain_output_cpp(output);
 }
 
 int chain_output_is_valid(output_t output) {
