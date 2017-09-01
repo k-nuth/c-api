@@ -40,6 +40,7 @@ class BitprimNodeCIntConan(ConanFile):
                "with_tests": [True, False],
                "with_console": [True, False],
                "with_litecoin": [True, False],
+               "use_cpp11_abi": [True, False]
     }
 
     default_options = "shared=False", \
@@ -48,7 +49,8 @@ class BitprimNodeCIntConan(ConanFile):
         "with_remote_database=False", \
         "with_tests=True", \
         "with_console=False", \
-        "with_litecoin=False"
+        "with_litecoin=False", \
+        "use_cpp11_abi=True"
 
     generators = "cmake"
     exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "bitprim-node-cintConfig.cmake.in", "include/*", "test/*", "console/*"
@@ -62,10 +64,12 @@ class BitprimNodeCIntConan(ConanFile):
         cmake = CMake(self)
 
         cmake.definitions["USE_CONAN"] = "ON"
+        cmake.definitions["NO_CONAN_AT_ALL"] = "OFF"
         cmake.definitions["CMAKE_VERBOSE_MAKEFILE"] = "ON"
         cmake.definitions["ENABLE_SHARED"] = option_on_off(self.options.shared)
         cmake.definitions["ENABLE_SHARED_NODE_CINT"] = option_on_off(self.options.shared)
         cmake.definitions["ENABLE_POSITION_INDEPENDENT_CODE"] = option_on_off(self.options.fPIC)
+        cmake.definitions["USE_CPP11_ABI"] = option_on_off(self.options.use_cpp11_abi)
         cmake.definitions["WITH_REMOTE_BLOCKCHAIN"] = option_on_off(self.options.with_remote_blockchain)
         cmake.definitions["WITH_REMOTE_DATABASE"] = option_on_off(self.options.with_remote_database)
         cmake.definitions["WITH_TESTS"] = option_on_off(self.options.with_tests)

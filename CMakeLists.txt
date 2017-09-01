@@ -6,15 +6,11 @@ project(bitprim-node-cint
         VERSION 3.0.0
         LANGUAGES CXX C)
 
-add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1) #TODO(fernando): temporary workaround
-
-if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup()
+if(USE_CPP11_ABI)
+  add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
 else()
-    message(WARNING "The file conanbuildinfo.cmake doesn't exist, you have to run conan install first")
+  add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
 endif()
-
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -29,6 +25,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Implement --use-conan
 #------------------------------------------------------------------------------
 option(USE_CONAN "Use Conan Build Tool." OFF)
+option(NO_CONAN_AT_ALL "Conan totally disabled." OFF)
+
+if (NO_CONAN_AT_ALL)
+  set(USE_CONAN OFF)
+endif()
 
 # Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
 #------------------------------------------------------------------------------
@@ -72,30 +73,42 @@ if (WITH_LITECOIN)
   add_definitions(-DLITECOIN)
 endif()
 
+# Conan infrastructure.
+#==============================================================================
+# Only if enabled
+#------------------------------------------------------------------------------
+if (NOT NO_CONAN_AT_ALL)
+  if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+      include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+      conan_basic_setup()
+  else()
+      message(WARNING "The file conanbuildinfo.cmake doesn't exist, you have to run conan install first")
+  endif()
+endif()
+
 
 #------------------------------------------------------------------------------
-
 # Check dependencies.
 #==============================================================================
+if (NO_CONAN_AT_ALL)
+  # Require Boost of at least version 1.56.0 and output ${boost_CPPFLAGS/LDFLAGS}.
+  #------------------------------------------------------------------------------
+  if (NOT ENABLE_SHARED)
+    set(Boost_USE_STATIC_LIBS ON)
+  endif()
 
-# # Require Boost of at least version 1.56.0 and output ${boost_CPPFLAGS/LDFLAGS}.
-# #------------------------------------------------------------------------------
-# if (NOT ENABLE_SHARED)
-#   set(Boost_USE_STATIC_LIBS ON)   #TODO(fernando): eliminar todos estos mientras estemos compilando Boost con Conan
-# endif()
-
-
-
-
-#if (MSVC)
-#  find_package(
-#          Boost 1.56.0 REQUIRED
-#          COMPONENTS log log_setup unit_test_framework)
-#else()
-#  find_package(
-#          Boost 1.56.0 REQUIRED
-#          COMPONENTS unit_test_framework)
-#endif()
+  if (MSVC)
+    find_package(
+      Boost 1.56.0 REQUIRED
+      COMPONENTS atomic chrono date_time filesystem iostreams locale log log_setup program_options regex system thread unit_test_framework
+    )
+  else()
+    find_package(
+      Boost 1.56.0 REQUIRED
+      COMPONENTS chrono date_time filesystem iostreams locale log program_options regex system thread unit_test_framework
+    )
+  endif()
+endif()
 
 
 if (NOT USE_CONAN)
@@ -270,12 +283,12 @@ if (NOT MSVC)
   target_compile_definitions(bitprim-node-cint PUBLIC -DSYSCONFDIR=\"${SYSCONFDIR}\")
 endif()
 
-
-
-if (NOT USE_CONAN)
+if (NOT NO_CONAN_AT_ALL)
+  target_link_libraries(bitprim-node-cint PUBLIC ${CONAN_LIBS})
+else()
   target_link_libraries(bitprim-node-cint PUBLIC bitprim-node)
 endif()
-target_link_libraries(bitprim-node-cint PUBLIC ${CONAN_LIBS})
+
 
 if (USE_CONAN)
   if (MINGW)
