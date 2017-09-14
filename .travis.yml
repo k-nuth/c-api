@@ -22,7 +22,7 @@ env:
      - CONAN_REFERENCE: "bitprim-node-cint/0.1"
      - CONAN_USERNAME: "bitprim"
      - CONAN_LOGIN_USERNAME: "bitprim-bintray"
-     - CONAN_CHANNEL: "stable"
+     - CONAN_CHANNEL: "testing"
      - CONAN_UPLOAD: "https://api.bintray.com/conan/bitprim/bitprim"
 
 linux: &linux

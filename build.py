@@ -1,7 +1,7 @@
 from conan.packager import ConanMultiPackager
 
 if __name__ == "__main__":
-    builder = ConanMultiPackager(username="bitprim", channel="stable",
+    builder = ConanMultiPackager(username="bitprim", channel="testing",
                                  remotes="https://api.bintray.com/conan/bitprim/bitprim",
                                  archs=["x86_64"])
 
