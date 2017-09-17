@@ -1,6 +1,6 @@
-# Bitprim Node C Interface <a target="_blank" href="https://gitter.im/bitprim/Lobby">![Gitter Chat][badge.Gitter]</a>
+# Bitprim C-API Library <a target="_blank" href="https://gitter.im/bitprim/Lobby">![Gitter Chat][badge.Gitter]</a>
 
-*Bitcoin full node based on bitprim-node with a C Interface*
+*Bitcoin, Bitcoin Cash and Litecoin full node C-API library*
 
 | **master(linux/osx)** | **dev(linux/osx)**   | **master(windows)**   | **dev(windows)** |
 |:------:|:-:|:-:|:-:|
