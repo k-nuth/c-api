@@ -283,10 +283,12 @@ if (NOT MSVC)
   target_compile_definitions(bitprim-node-cint PUBLIC -DSYSCONFDIR=\"${SYSCONFDIR}\")
 endif()
 
+if (NOT USE_CONAN)
+  target_link_libraries(bitprim-node-cint PUBLIC bitprim-node)
+endif()
+
 if (NOT NO_CONAN_AT_ALL)
   target_link_libraries(bitprim-node-cint PUBLIC ${CONAN_LIBS})
-else()
-  target_link_libraries(bitprim-node-cint PUBLIC bitprim-node)
 endif()
 
 
