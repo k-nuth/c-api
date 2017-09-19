@@ -76,12 +76,12 @@ hash_t chain_block_hash(block_t block) {
     return bitprim::to_hash_t(hash_cpp);
 }
 
-//Warning: breaking change
+// Warning: breaking change
 uint64_t /*size_t*/ chain_block_transaction_count(block_t block) {
     return chain_block_const_cpp(block).transactions().size();
 }
 
-//Warning: breaking change
+// Warning: breaking change
 transaction_t chain_block_transaction_nth(block_t block, uint64_t /*size_t*/ n) {
     //precondition: n >=0 && n < transactions().size()
 
@@ -90,11 +90,11 @@ transaction_t chain_block_transaction_nth(block_t block, uint64_t /*size_t*/ n) 
     return &tx_n;
 }
 
-//Warning: breaking change
-//transaction_list_t chain_block_transactions(block_t block) {
-//    auto& block_cpp = chain_block_cpp(block);
-//    return chain_transaction_list_construct_from_cpp(block_cpp.transactions()); // TODO(fernando): block::transactions() is deprecated... check how to do it better...
-//}
+// // Warning: breaking change
+// transaction_list_t chain_block_transactions(block_t block) {
+//     auto& block_cpp = chain_block_cpp(block);
+//     return chain_transaction_list_construct_from_cpp(block_cpp.transactions()); // TODO(fernando): block::transactions() is deprecated... check how to do it better...
+// }
 
 // -----------------------
 
