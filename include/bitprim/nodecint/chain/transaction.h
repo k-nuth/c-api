@@ -89,7 +89,7 @@ BITPRIM_EXPORT
 int /*bool*/ chain_transaction_is_oversized_coinbase(transaction_t transaction);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_transaction_is_immature(transaction_t transaction, uint64_t /*size_t*/ target_height);
+int /*bool*/ chain_transaction_is_mature(transaction_t transaction, uint64_t /*size_t*/ target_height);
 
 BITPRIM_EXPORT
 int /*bool*/ chain_transaction_is_overspent(transaction_t transaction);

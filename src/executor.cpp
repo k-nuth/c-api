@@ -63,6 +63,7 @@ executor::executor(libbitcoin::node::configuration const& config, std::ostream& 
 
 
     auto const& network = config_.network;
+    const auto verbose = network.verbose;
 
     libbitcoin::log::rotable_file const debug_file {
                     network.debug_file,
@@ -85,7 +86,8 @@ executor::executor(libbitcoin::node::configuration const& config, std::ostream& 
     libbitcoin::log::stream console_out(&output_, null_deleter());
     libbitcoin::log::stream console_err(&error_, null_deleter());
 
-    libbitcoin::log::initialize(debug_file, error_file, console_out, console_err);
+    // libbitcoin::log::initialize(debug_file, error_file, console_out, console_err);
+    libbitcoin::log::initialize(debug_file, error_file, console_out, console_err, verbose);
     handle_stop(initialize_stop);
 }
 

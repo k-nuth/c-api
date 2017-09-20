@@ -158,8 +158,8 @@ int /*bool*/ chain_block_is_extra_coinbases(block_t block) {
     return static_cast<int>(chain_block_const_cpp(block).is_extra_coinbases());
 }
 
-int /*bool*/ chain_block_is_final(block_t block, uint64_t /*size_t*/ height) {
-    return static_cast<int>(chain_block_const_cpp(block).is_final(height));
+int /*bool*/ chain_block_is_final(block_t block, uint64_t /*size_t*/ height, uint32_t block_time) {
+    return static_cast<int>(chain_block_const_cpp(block).is_final(height, block_time));
 }
 
 int /*bool*/ chain_block_is_distinct_transaction_set(block_t block) {
