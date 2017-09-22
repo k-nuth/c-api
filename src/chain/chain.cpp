@@ -325,9 +325,9 @@ void chain_fetch_transaction(chain_t chain, void* ctx, hash_t hash, int require_
 //    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed != 0, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t h, size_t i) {
+    safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed != 0, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t i, size_t h) {
         auto new_transaction = new libbitcoin::message::transaction(*transaction);
-        handler(chain, ctx, ec.value(), new_transaction, h, i);
+        handler(chain, ctx, ec.value(), new_transaction, i, h);
     });
 }
 
@@ -339,7 +339,7 @@ int chain_get_transaction(chain_t chain, hash_t hash, int require_confirmed, tra
 //    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed != 0, [&](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t h, size_t i) {
+    safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed != 0, [&](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t i, size_t h) {
         *out_transaction = new libbitcoin::message::transaction(*transaction);
         *out_height = h;
         *out_index = i;
