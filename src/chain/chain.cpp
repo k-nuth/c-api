@@ -94,13 +94,13 @@ int chain_get_last_height(chain_t chain, uint64_t /*size_t*/* height) {
 
     int res;
     safe_chain(chain).fetch_last_height([&](std::error_code const& ec, size_t h) {
-        *height = h;
-        res = ec.value();
-        latch.count_down();
+       *height = h;
+       res = ec.value();
+       latch.count_down();
     });
 
     latch.count_down_and_wait();
-    return res;
+	return res;
 }
 
 //void chain_fetch_block_height(chain_t chain, void* ctx, hash_t hash, block_height_fetch_handler_t handler) {
