@@ -194,6 +194,13 @@ chain_t executor_get_chain(executor_t exec) {
 
 }
 
+void executor_get_raw_transaction(executor_t exec) {
+    std::cout << "-----------Coinbase tx-----------" << std::endl;
+    exec->actual.node().getrawtransaction("9b0fc92260312ce44e74ef369f5c66bbb85848f2eddd5a7a1cde251e54ccfdd5", false);
+    std::cout << "-------- NO Coinbase tx----------" << std::endl;
+    exec->actual.node().getrawtransaction("f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16", false);
+}
+
 p2p_t executor_get_p2p(executor_t exec) {
     return &static_cast<libbitcoin::network::p2p&>(exec->actual.node());
 }

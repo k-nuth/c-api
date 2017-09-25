@@ -96,6 +96,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // fetch_last_height(exec, last_height_fetch_handler);
     wait_until_block(chain, 170);
 
+    executor_get_raw_transaction(exec);
+
     executor_destruct(exec);
     return 0;
 }
