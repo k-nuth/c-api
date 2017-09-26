@@ -212,6 +212,12 @@ void executor_getaddresstxids(executor_t exec){
     exec->actual.node().getaddresstxids(address, 0, 190);
 }
 
+void executor_getaddressdeltas(executor_t exec){
+    std::cout << "-----------executor_getaddressdeltas-----------" << std::endl;
+    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
+    exec->actual.node().getaddressdeltas(address, 0, 190, false);
+}
+
 
 p2p_t executor_get_p2p(executor_t exec) {
     return &static_cast<libbitcoin::network::p2p&>(exec->actual.node());

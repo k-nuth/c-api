@@ -99,7 +99,9 @@ int main(int /*argc*/, char* /*argv*/[]) {
     executor_get_raw_transaction(exec);
     executor_getspentinfo(exec);
     executor_getaddresstxids(exec);
-    
+
+    executor_getaddressdeltas(exec);
+
     executor_destruct(exec);
     return 0;
 }
