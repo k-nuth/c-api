@@ -201,6 +201,18 @@ void executor_get_raw_transaction(executor_t exec) {
     exec->actual.node().getrawtransaction("f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16", false);
 }
 
+void executor_getspentinfo(executor_t exec){
+    std::cout << "-----------executor_getspentinfo-----------" << std::endl;
+    exec->actual.node().getspentinfo("0437cd7f8525ceed2324359c2d0ba26006d92d856a9c20fa0241106ee5a597c9", 0);
+}
+
+void executor_getaddresstxids(executor_t exec){
+    std::cout << "-----------executor_getaddresstxids-----------" << std::endl;
+    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
+    exec->actual.node().getaddresstxids(address, 0, 190);
+}
+
+
 p2p_t executor_get_p2p(executor_t exec) {
     return &static_cast<libbitcoin::network::p2p&>(exec->actual.node());
 }

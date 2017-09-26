@@ -97,7 +97,9 @@ int main(int /*argc*/, char* /*argv*/[]) {
     wait_until_block(chain, 170);
 
     executor_get_raw_transaction(exec);
-
+    executor_getspentinfo(exec);
+    executor_getaddresstxids(exec);
+    
     executor_destruct(exec);
     return 0;
 }
