@@ -218,6 +218,11 @@ void executor_getaddressdeltas(executor_t exec){
     exec->actual.node().getaddressdeltas(address, 0, 190, false);
 }
 
+void executor_getblockhashes(executor_t exec){
+    std::cout << "-----------executor_getblockhashes-----------" << std::endl;
+    exec->actual.node().getblockhashes(1231564974, 1231470173, false, false);
+}
+
 
 p2p_t executor_get_p2p(executor_t exec) {
     return &static_cast<libbitcoin::network::p2p&>(exec->actual.node());
