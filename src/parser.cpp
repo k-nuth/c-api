@@ -49,7 +49,7 @@ parser::parser(libbitcoin::config::settings const& context)
   : configured(context)
 {
     // A node doesn't require history, and history is expensive.
-//    configured.database.index_start_height = libbitcoin::max_uint32;
+    configured.database.index_start_height = 0;
 
 #if WITH_NODE_REQUESTER
     // Default endpoint for blockchain replier.
