@@ -24,6 +24,8 @@
 
 #include <bitprim/nodecint/executor_c.h>
 #include <bitprim/nodecint/helpers.hpp>
+
+#include <bitprim/nodecint/chain/chain.h>
 #include <bitprim/nodecint/chain/payment_address.h>
 #include <bitprim/nodecint/chain/history_compact_list.h>
 #include <bitprim/nodecint/chain/history_compact.h>
@@ -36,14 +38,36 @@
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/bitcoin/utility/binary.hpp>
 
+
+using namespace std::chrono_literals;
+
 bool waiting = true;
 
-libbitcoin::message::transaction const& tx_const_cpp2(transaction_t transaction) {
-	return *static_cast<libbitcoin::message::transaction const*>(transaction);
 
+// chain_get_last_height()
+// int chain_get_last_height(chain_t chain, uint64_t /*size_t*/* height) {
+
+void wait_until_block(chain_t chain, size_t desired_height) {
+    printf("wait_until_block - 1\n");
+
+    uint64_t height;
+    int error = chain_get_last_height(chain, &height);
+    printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
+    
+    while (error == 0 && height < desired_height) {
+        error = chain_get_last_height(chain, &height);
+        printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
+        
+        if (height < desired_height) {
+            printf("wait_until_block - 2\n");
+            // time.sleep(1)
+            std::this_thread::sleep_for(10s);
+            printf("wait_until_block - 3\n");
+        }
+    }
+
+    printf("wait_until_block - 4\n");
 }
-
-
 
 int main(int /*argc*/, char* /*argv*/[]) {
 //    using namespace std::chrono_literals;
@@ -67,33 +91,83 @@ int main(int /*argc*/, char* /*argv*/[]) {
         return -1;
     }
 
-
-    auto inputs = chain_input_list_construct_default();
-
-    auto input0 = chain_input_construct_default();
-    auto input1 = chain_input_construct_default();
-    auto input2 = chain_input_construct_default();
-    chain_input_list_push_back(inputs, input0);
-    chain_input_list_push_back(inputs, input1);
-    chain_input_list_push_back(inputs, input2);
-
-
-    auto outputs = chain_output_list_construct_default();
-    auto output0 = chain_output_construct_default();
-    auto output1 = chain_output_construct_default();
-    auto output2 = chain_output_construct_default();
-    chain_output_list_push_back(outputs, output0);
-    chain_output_list_push_back(outputs, output1);
-    chain_output_list_push_back(outputs, output2);
-
-
-    auto tr = chain_transaction_construct(1, 1, inputs, outputs);
-    chain_transaction_destruct(tr);
+    chain_t chain = executor_get_chain(exec);
+        
+    // fetch_last_height(exec, last_height_fetch_handler);
+    wait_until_block(chain, 170);
 
     executor_destruct(exec);
-
     return 0;
 }
+
+
+
+
+// ------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+// libbitcoin::message::transaction const& tx_const_cpp2(transaction_t transaction) {
+// 	return *static_cast<libbitcoin::message::transaction const*>(transaction);
+// }
+
+// int main(int /*argc*/, char* /*argv*/[]) {
+// //    using namespace std::chrono_literals;
+
+//     executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//     //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+
+//     int res1 = executor_initchain(exec);
+
+//     if (res1 == 0) {
+//         printf("Error initializing files\n");
+//         executor_destruct(exec);
+//         return -1;
+//     }
+
+//     int res2 = executor_run_wait(exec);
+
+//     if (res2 != 0) {
+//         printf("Error initializing files\n");
+//         executor_destruct(exec);
+//         return -1;
+//     }
+
+
+//     auto inputs = chain_input_list_construct_default();
+
+//     auto input0 = chain_input_construct_default();
+//     auto input1 = chain_input_construct_default();
+//     auto input2 = chain_input_construct_default();
+//     chain_input_list_push_back(inputs, input0);
+//     chain_input_list_push_back(inputs, input1);
+//     chain_input_list_push_back(inputs, input2);
+
+
+//     auto outputs = chain_output_list_construct_default();
+//     auto output0 = chain_output_construct_default();
+//     auto output1 = chain_output_construct_default();
+//     auto output2 = chain_output_construct_default();
+//     chain_output_list_push_back(outputs, output0);
+//     chain_output_list_push_back(outputs, output1);
+//     chain_output_list_push_back(outputs, output2);
+
+
+//     auto tr = chain_transaction_construct(1, 1, inputs, outputs);
+//     chain_transaction_destruct(tr);
+
+//     executor_destruct(exec);
+
+//     return 0;
+// }
 
 // ------------------------------------------
 

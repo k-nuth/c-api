@@ -171,12 +171,12 @@ int chain_get_block_locator(chain_t chain, block_indexes_t heights, get_headers_
 // Subscribers.
 //-------------------------------------------------------------------------
 
-//virtual void subscribe_reorganize(reorganize_handler&& handler) = 0;
+//virtual void subscribe_blockchain(reorganize_handler&& handler) = 0;
 //virtual void subscribe_transaction(transaction_handler&& handler) = 0;
 
 
 BITPRIM_EXPORT
-void chain_subscribe_reorganize(chain_t chain, void* ctx, reorganize_handler_t handler);
+void chain_subscribe_blockchain(chain_t chain, void* ctx, reorganize_handler_t handler);
 
 
 BITPRIM_EXPORT

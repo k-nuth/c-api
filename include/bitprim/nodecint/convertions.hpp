@@ -76,8 +76,7 @@ std::vector<libbitcoin::message::transaction> const& chain_transaction_list_cons
 std::vector<libbitcoin::message::transaction>& chain_transaction_list_cpp(transaction_list_t list);
 
 //Note: transaction_list_t created with this function has not have to destruct it...
-transaction_list_t chain_transaction_list_construct_from_cpp(libbitcoin::message::transaction::list& list);
-
+transaction_list_t chain_transaction_list_construct_from_cpp(libbitcoin::chain::transaction::list& list);
 
 std::vector<libbitcoin::hash_digest> const& chain_hash_list_const_cpp(hash_list_t list);
 std::vector<libbitcoin::hash_digest>& chain_hash_list_cpp(hash_list_t list);

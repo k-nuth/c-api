@@ -125,8 +125,8 @@ int /*bool*/ chain_transaction_is_oversized_coinbase(transaction_t transaction) 
     return static_cast<int>(chain_transaction_const_cpp(transaction).is_oversized_coinbase());
 }
 
-int /*bool*/ chain_transaction_is_immature(transaction_t transaction, uint64_t /*size_t*/ target_height) {
-    return static_cast<int>(chain_transaction_const_cpp(transaction).is_immature(target_height));
+int /*bool*/ chain_transaction_is_mature(transaction_t transaction, uint64_t /*size_t*/ target_height) {
+    return static_cast<int>(chain_transaction_const_cpp(transaction).is_mature(target_height));
 }
 
 int /*bool*/ chain_transaction_is_overspent(transaction_t transaction) {

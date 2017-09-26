@@ -98,7 +98,7 @@ BITPRIM_EXPORT
 int /*bool*/ chain_block_is_extra_coinbases(block_t block);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_block_is_final(block_t block, uint64_t /*size_t*/ height);
+int /*bool*/ chain_block_is_final(block_t block, uint64_t /*size_t*/ height, uint32_t block_time);
 
 BITPRIM_EXPORT
 int /*bool*/ chain_block_is_distinct_transaction_set(block_t block);

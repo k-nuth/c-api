@@ -36,7 +36,7 @@ std::vector<libbitcoin::message::transaction>& chain_transaction_list_cpp(transa
 //} /* end of anonymous namespace */
 
 
-transaction_list_t chain_transaction_list_construct_from_cpp(std::vector<libbitcoin::message::transaction>& list) {
+transaction_list_t chain_transaction_list_construct_from_cpp(std::vector<libbitcoin::chain::transaction>& list) {
     return &list;
 }
 
