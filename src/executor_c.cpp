@@ -223,6 +223,18 @@ void executor_getblockhashes(executor_t exec, uint32_t timestamp_high, uint32_t 
     exec->actual.node().getblockhashes(timestamp_high, timestamp_low, false, false);
 }
 
+void executor_getaddressbalance(executor_t exec){
+    std::cout << "-----------executor_getaddressbalance-----------" << std::endl;
+    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
+    exec->actual.node().getaddressbalance(address);
+}
+
+void executor_getaddressutxos(executor_t exec){
+    std::cout << "-----------executor_getaddressutxo-----------" << std::endl;
+    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
+    exec->actual.node().getaddressutxos(address, true);
+}
+
 
 p2p_t executor_get_p2p(executor_t exec) {
     return &static_cast<libbitcoin::network::p2p&>(exec->actual.node());
