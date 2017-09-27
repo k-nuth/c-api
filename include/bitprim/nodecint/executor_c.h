@@ -81,6 +81,12 @@ BITPRIM_EXPORT
 void executor_getaddressdeltas(executor_t exec);
 
 BITPRIM_EXPORT
+void executor_getaddressbalance(executor_t exec);
+
+BITPRIM_EXPORT
+void executor_getaddressutxos(executor_t exec);
+
+BITPRIM_EXPORT
 void executor_getblockhashes(executor_t exec);
 
 BITPRIM_EXPORT

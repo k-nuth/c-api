@@ -101,6 +101,9 @@ int main(int /*argc*/, char* /*argv*/[]) {
     executor_getaddresstxids(exec);
 
     executor_getaddressdeltas(exec);
+    executor_getaddressbalance(exec);
+    executor_getaddressutxos(exec);
+
     executor_getblockhashes(exec);
     executor_destruct(exec);
 

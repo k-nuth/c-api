@@ -218,6 +218,19 @@ void executor_getaddressdeltas(executor_t exec){
     exec->actual.node().getaddressdeltas(address, 0, 190, false);
 }
 
+void executor_getaddressbalance(executor_t exec){
+    std::cout << "-----------executor_getaddressbalance-----------" << std::endl;
+    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
+    exec->actual.node().getaddressbalance(address);
+}
+
+void executor_getaddressutxos(executor_t exec){
+    std::cout << "-----------executor_getaddressutxo-----------" << std::endl;
+    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
+    exec->actual.node().getaddressutxos(address, true);
+}
+
+
 void executor_getblockhashes(executor_t exec){
     std::cout << "-----------executor_getblockhashes-----------" << std::endl;
     exec->actual.node().getblockhashes(1231564974, 1231470173, false, false);
