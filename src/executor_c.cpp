@@ -218,9 +218,9 @@ void executor_getaddressdeltas(executor_t exec){
     exec->actual.node().getaddressdeltas(address, 0, 190, false);
 }
 
-void executor_getblockhashes(executor_t exec){
+void executor_getblockhashes(executor_t exec, uint32_t timestamp_high, uint32_t timestamp_low){
     std::cout << "-----------executor_getblockhashes-----------" << std::endl;
-    exec->actual.node().getblockhashes(1231564974, 1231470173, false, false);
+    exec->actual.node().getblockhashes(timestamp_high, timestamp_low, false, false);
 }
 
 

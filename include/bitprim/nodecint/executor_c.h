@@ -81,7 +81,7 @@ BITPRIM_EXPORT
 void executor_getaddressdeltas(executor_t exec);
 
 BITPRIM_EXPORT
-void executor_getblockhashes(executor_t exec);
+void executor_getblockhashes(executor_t exec, uint32_t timestamp_high, uint32_t timestamp_low);
 
 BITPRIM_EXPORT
 p2p_t executor_get_p2p(executor_t exec);
