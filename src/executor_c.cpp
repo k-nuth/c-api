@@ -235,6 +235,9 @@ void executor_getaddressutxos(executor_t exec){
     exec->actual.node().getaddressutxos(address, true);
 }
 
+void executor_getinfo(executor_t exec){
+    exec->actual.node().getinfo();
+}
 
 p2p_t executor_get_p2p(executor_t exec) {
     return &static_cast<libbitcoin::network::p2p&>(exec->actual.node());
