@@ -27,50 +27,69 @@
 #include <bitcoin/bitcoin/math/hash.hpp>
 
 namespace bitprim {
-namespace detail {
 
-template <typename T, std::size_t N, std::size_t... I>
-constexpr
-std::array<std::remove_cv_t<T>, N>
-to_array_impl(T (&x)[N], std::index_sequence<I...> /*unused*/) {
-    return { {x[I]...} };
-}
+// namespace detail {
 
-template <typename R, typename T, std::size_t N, std::size_t... I>
-constexpr
-R to_c_array_impl(std::array<T, N> const& x, std::index_sequence<I...> /*unused*/) {
-    return { {x[I]...} };
-}
+// template <typename T>
+// using remove_cv_t = typename std::remove_cv<T>::type;
 
-} /* namespace detail */
+// template <typename T, std::size_t N, std::size_t... I>
+// constexpr
+// std::array<remove_cv_t<T>, N>
+// to_array_impl(T (&x)[N], std::index_sequence<I...> /*unused*/) {
+//     return { {x[I]...} };
+// }
 
-template <typename T, std::size_t N>
-constexpr
-std::array<std::remove_cv_t<T>, N> to_array(T (&x)[N]) {
-    return detail::to_array_impl(x, std::make_index_sequence<N>{});
-}
+// template <typename R, typename T, std::size_t N, std::size_t... I>
+// constexpr
+// R to_c_array_impl(std::array<T, N> const& x, std::index_sequence<I...> /*unused*/) {
+//     return { {x[I]...} };
+// }
 
-template <typename R, typename T, std::size_t N>
-constexpr
-R to_c_array(std::array<T, N> const& x) {
-    return detail::to_c_array_impl<R>(x, std::make_index_sequence<N>{});
-}
+// } /* namespace detail */
+
+// template <typename T, std::size_t N>
+// constexpr
+// std::array<remove_cv_t<T>, N> to_array(T (&x)[N]) {
+//     return detail::to_array_impl(x, std::make_index_sequence<N>{});
+// }
+
+// template <typename R, typename T, std::size_t N>
+// constexpr
+// R to_c_array(std::array<T, N> const& x) {
+//     return detail::to_c_array_impl<R>(x, std::make_index_sequence<N>{});
+// }
 
 inline
 hash_t to_hash_t(libbitcoin::hash_digest const& x) {
-    return to_c_array<hash_t>(x);
+    // return to_c_array<hash_t>(x);
+    return { {x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
+              x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15],
+              x[16], x[17], x[18], x[19], x[20], x[21], x[22], x[23],
+              x[24], x[25], x[26], x[27], x[28], x[29], x[30], x[31]} };
 }
 
 inline
 short_hash_t to_short_hash_t(libbitcoin::short_hash const& x) {
-    return to_c_array<short_hash_t>(x);
+    // return to_c_array<short_hash_t>(x);
+    return { {x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
+              x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15]} };
 }
 
 inline
 long_hash_t to_long_hash_t(libbitcoin::long_hash const& x) {
-    return to_c_array<long_hash_t>(x);
-}
+    // return to_c_array<long_hash_t>(x);
 
+    return { {x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
+              x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15],
+              x[16], x[17], x[18], x[19], x[20], x[21], x[22], x[23],
+              x[24], x[25], x[26], x[27], x[28], x[29], x[30], x[31],
+              x[32], x[33], x[34], x[35], x[36], x[37], x[38], x[39],
+              x[40], x[41], x[42], x[43], x[44], x[45], x[46], x[47],
+              x[48], x[49], x[50], x[51], x[52], x[53], x[54], x[55],
+              x[56], x[57], x[58], x[59], x[60], x[61], x[62], x[63]} };              
+
+}
 
 inline
 libbitcoin::hash_digest hash_to_cpp(uint8_t* x) {
@@ -78,9 +97,6 @@ libbitcoin::hash_digest hash_to_cpp(uint8_t* x) {
     std::copy_n(x, ret.size(), std::begin(ret));
     return ret;
 }
-
-
-
 
 } /* namespace bitprim */
 
