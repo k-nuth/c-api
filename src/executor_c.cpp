@@ -130,7 +130,7 @@ executor_t executor_construct_fd(char const* path, int sout_fd, int serr_fd) {
 
 executor_t executor_construct_handles(char const* path, void* sout, void* serr) {
     // return std::make_unique<executor>(path, sout_fd, serr_fd).release();
-    return new executor(path, sout_fd, serr_fd);
+    return new executor(path, sout, serr);
 }
 
 #endif /* BOOST_IOSTREAMS_WINDOWS */
