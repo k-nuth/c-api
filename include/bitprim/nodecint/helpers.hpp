@@ -27,11 +27,10 @@
 #include <bitcoin/bitcoin/math/hash.hpp>
 
 namespace bitprim {
+namespace detail {
 
-// namespace detail {
-
-// template <typename T>
-// using remove_cv_t = typename std::remove_cv<T>::type;
+template <typename T>
+using remove_cv_t = typename std::remove_cv<T>::type;
 
 // template <typename T, std::size_t N, std::size_t... I>
 // constexpr
@@ -46,7 +45,7 @@ namespace bitprim {
 //     return { {x[I]...} };
 // }
 
-// } /* namespace detail */
+} /* namespace detail */
 
 // template <typename T, std::size_t N>
 // constexpr
@@ -59,6 +58,19 @@ namespace bitprim {
 // R to_c_array(std::array<T, N> const& x) {
 //     return detail::to_c_array_impl<R>(x, std::make_index_sequence<N>{});
 // }
+
+template <typename T>
+constexpr
+std::array<detail::remove_cv_t<T>, 32> to_array(T (&x)[32]) {
+    // return detail::to_array_impl(x, std::make_index_sequence<N>{});
+    // return std::array<detail::remove_cv_t<T>, 32> {{
+        
+    return {{
+        x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
+        x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15],
+        x[16], x[17], x[18], x[19], x[20], x[21], x[22], x[23],
+        x[24], x[25], x[26], x[27], x[28], x[29], x[30], x[31]}};
+}
 
 inline
 hash_t to_hash_t(libbitcoin::hash_digest const& x) {
