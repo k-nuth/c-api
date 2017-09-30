@@ -118,7 +118,7 @@ struct executor {
 
 executor_t executor_construct(char const* path, FILE* sout, FILE* serr) {
     // return std::make_unique<executor>(path, sout, serr).release();
-    return new executor>path, sout, serr);
+    return new executor(path, sout, serr);
 }
 
 executor_t executor_construct_fd(char const* path, int sout_fd, int serr_fd) {
