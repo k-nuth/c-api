@@ -33,7 +33,8 @@ libbitcoin::chain::output_point& output_point_cpp(output_point_t op) {
 extern "C" {
 
 output_point_t output_point_construct() {
-    return std::make_unique<libbitcoin::chain::output_point>().release();
+    // return std::make_unique<libbitcoin::chain::output_point>().release();
+    return new libbitcoin::chain::output_point;
 }
 
 

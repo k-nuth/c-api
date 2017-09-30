@@ -90,17 +90,28 @@ void chain_fetch_last_height(chain_t chain, void* ctx, last_height_fetch_handler
 }
 
 int chain_get_last_height(chain_t chain, uint64_t /*size_t*/* height) {
+    printf("chain_get_last_height - 1\n");
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
 
+    printf("chain_get_last_height - 2\n");
     int res;
     safe_chain(chain).fetch_last_height([&](std::error_code const& ec, size_t h) {
+        printf("chain_get_last_height - 3\n");
+        
        *height = h;
        res = ec.value();
+       printf("chain_get_last_height - 4\n");
+       
        latch.count_down();
+       printf("chain_get_last_height - 5\n");
+       
     });
 
+    printf("chain_get_last_height - 6\n");
     latch.count_down_and_wait();
-	return res;
+    printf("chain_get_last_height - 7\n");
+    
+    return res;
 }
 
 //void chain_fetch_block_height(chain_t chain, void* ctx, hash_t hash, block_height_fetch_handler_t handler) {

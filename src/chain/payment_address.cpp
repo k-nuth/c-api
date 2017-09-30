@@ -43,7 +43,8 @@ char const* chain_payment_address_encoded(payment_address_t payment_address) {
 
 payment_address_t chain_payment_address_construct_from_string(char const* address) {
     std::string addr_cpp(address);
-    return std::make_unique<libbitcoin::wallet::payment_address>(addr_cpp).release();
+    // return std::make_unique<libbitcoin::wallet::payment_address>(addr_cpp).release();
+    return new libbitcoin::wallet::payment_address(addr_cpp);
 }
 
 uint8_t chain_payment_address_version(payment_address_t payment_address) {
