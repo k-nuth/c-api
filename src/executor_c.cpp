@@ -117,17 +117,20 @@ struct executor {
 };
 
 executor_t executor_construct(char const* path, FILE* sout, FILE* serr) {
-    return std::make_unique<executor>(path, sout, serr).release();
+    // return std::make_unique<executor>(path, sout, serr).release();
+    return new executor>path, sout, serr);
 }
 
 executor_t executor_construct_fd(char const* path, int sout_fd, int serr_fd) {
-    return std::make_unique<executor>(path, sout_fd, serr_fd).release();
+    // return std::make_unique<executor>(path, sout_fd, serr_fd).release();
+    return new executor(path, sout_fd, serr_fd);
 }
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
 
 executor_t executor_construct_handles(char const* path, void* sout, void* serr) {
-    return std::make_unique<executor>(path, sout, serr).release();
+    // return std::make_unique<executor>(path, sout_fd, serr_fd).release();
+    return new executor(path, sout_fd, serr_fd);
 }
 
 #endif /* BOOST_IOSTREAMS_WINDOWS */
