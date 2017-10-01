@@ -3,14 +3,24 @@ cmake_minimum_required(VERSION 3.4)
 # bitprim-node-cint
 #==============================================================================
 project(bitprim-node-cint
-        VERSION 3.0.0
+        VERSION 0.3.0
         LANGUAGES CXX C)
 
-if(USE_CPP11_ABI)
-  add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
-else()
-  add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+# if(USE_CPP11_ABI)
+#   add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
+# else()
+#   add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+# endif()
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  if (NOT NOT_USE_CPP11_ABI)
+    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
+  else()
+    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+  endif()
+  # set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-macro-redefined")
 endif()
+
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -120,10 +130,10 @@ if (NOT USE_CONAN)
   #  endif()
   #endif()
 
-  # Require bitprim-node of at least version 3.0.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
+  # Require bitprim-node of at least version 0.3.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
   #------------------------------------------------------------------------------
   if (NOT TARGET bitprim-node)
-    find_package(bitprim-node 3.0.0 REQUIRED)
+    find_package(bitprim-node 0.3.0 REQUIRED)
   endif()
 endif()
 

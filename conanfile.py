@@ -30,18 +30,15 @@ class BitprimNodeCIntConan(ConanFile):
     description = "Bitcoin Full Node Library with C interface"
     settings = "os", "compiler", "build_type", "arch"
 
-    # options = {"shared": [True, False]}
-    # default_options = "shared=True"
-    
     options = {"shared": [True, False],
                "fPIC": [True, False],
                "with_remote_blockchain": [True, False],
                "with_remote_database": [True, False],
                "with_litecoin": [True, False],
-               "use_cpp11_abi": [True, False]
     }
     # "with_tests": [True, False],
     # "with_console": [True, False],
+    # "use_cpp11_abi": [True, False]
 
     with_tests = False
     with_console = False
@@ -50,11 +47,11 @@ class BitprimNodeCIntConan(ConanFile):
         "fPIC=True", \
         "with_remote_blockchain=False", \
         "with_remote_database=False", \
-        "with_litecoin=False", \
-        "use_cpp11_abi=True"
+        "with_litecoin=False"
 
     # "with_tests=True", \
     # "with_console=False", \
+    # "use_cpp11_abi=True"
 
     generators = "cmake"
     exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "bitprim-node-cintConfig.cmake.in", "include/*", "test/*", "console/*"
@@ -67,13 +64,12 @@ class BitprimNodeCIntConan(ConanFile):
     def build(self):
         cmake = CMake(self)
 
-        cmake.definitions["USE_CONAN"] = "ON"
-        cmake.definitions["NO_CONAN_AT_ALL"] = "OFF"
-        cmake.definitions["CMAKE_VERBOSE_MAKEFILE"] = "ON"
+        cmake.definitions["USE_CONAN"] = option_on_off(True)
+        cmake.definitions["NO_CONAN_AT_ALL"] = option_on_off(False)
+        cmake.definitions["CMAKE_VERBOSE_MAKEFILE"] = option_on_off(False)
         cmake.definitions["ENABLE_SHARED"] = option_on_off(self.options.shared)
         cmake.definitions["ENABLE_SHARED_NODE_CINT"] = option_on_off(self.options.shared)
         cmake.definitions["ENABLE_POSITION_INDEPENDENT_CODE"] = option_on_off(self.options.fPIC)
-        cmake.definitions["USE_CPP11_ABI"] = option_on_off(self.options.use_cpp11_abi)
         cmake.definitions["WITH_REMOTE_BLOCKCHAIN"] = option_on_off(self.options.with_remote_blockchain)
         cmake.definitions["WITH_REMOTE_DATABASE"] = option_on_off(self.options.with_remote_database)
 
@@ -85,6 +81,14 @@ class BitprimNodeCIntConan(ConanFile):
         cmake.definitions["WITH_CONSOLE_NODE_CINT"] = option_on_off(self.with_console)
 
         cmake.definitions["WITH_LITECOIN"] = option_on_off(self.options.with_litecoin)
+
+
+        # cmake.definitions["USE_CPP11_ABI"] = option_on_off(self.options.use_cpp11_abi)
+        if self.settings.compiler == "gcc":
+            if float(str(self.settings.compiler.version)) >= 5:
+                cmake.definitions["NOT_USE_CPP11_ABI"] = option_on_off(False)
+            else:
+                cmake.definitions["NOT_USE_CPP11_ABI"] = option_on_off(True)
 
         cmake.configure(source_dir=self.conanfile_directory)
         cmake.build()
