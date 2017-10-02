@@ -194,46 +194,48 @@ chain_t executor_get_chain(executor_t exec) {
 
 }
 
-void executor_get_raw_transaction(executor_t exec) {
-    std::cout << "-----------Coinbase tx-----------" << std::endl;
-    exec->actual.node().getrawtransaction("9b0fc92260312ce44e74ef369f5c66bbb85848f2eddd5a7a1cde251e54ccfdd5", false);
-    std::cout << "-------- NO Coinbase tx----------" << std::endl;
-    exec->actual.node().getrawtransaction("f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16", false);
-}
-
-void executor_getspentinfo(executor_t exec){
-    std::cout << "-----------executor_getspentinfo-----------" << std::endl;
-    exec->actual.node().getspentinfo("0437cd7f8525ceed2324359c2d0ba26006d92d856a9c20fa0241106ee5a597c9", 0);
-}
-
-void executor_getaddresstxids(executor_t exec){
-    std::cout << "-----------executor_getaddresstxids-----------" << std::endl;
-    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
-    exec->actual.node().getaddresstxids(address, 0, 190);
-}
-
-void executor_getaddressdeltas(executor_t exec){
-    std::cout << "-----------executor_getaddressdeltas-----------" << std::endl;
-    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
-    exec->actual.node().getaddressdeltas(address, 0, 190, false);
-}
-
-void executor_getblockhashes(executor_t exec, uint32_t timestamp_high, uint32_t timestamp_low){
-    std::cout << "-----------executor_getblockhashes-----------" << std::endl;
-    exec->actual.node().getblockhashes(timestamp_high, timestamp_low, false, false);
-}
-
-void executor_getaddressbalance(executor_t exec){
-    std::cout << "-----------executor_getaddressbalance-----------" << std::endl;
-    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
-    exec->actual.node().getaddressbalance(address);
-}
-
-void executor_getaddressutxos(executor_t exec){
-    std::cout << "-----------executor_getaddressutxo-----------" << std::endl;
-    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
-    exec->actual.node().getaddressutxos(address, true);
-}
+//void executor_get_raw_transaction(executor_t exec) {
+//    std::cout << "-----------Coinbase tx-----------" << std::endl;
+//    exec->actual.node().getrawtransaction("9b0fc92260312ce44e74ef369f5c66bbb85848f2eddd5a7a1cde251e54ccfdd5", true);
+//    std::cout << "-------- NO Coinbase tx----------" << std::endl;
+//    exec->actual.node().getrawtransaction("f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16", true);
+//}
+//
+//void executor_getspentinfo(executor_t exec){
+//    std::cout << "-----------executor_getspentinfo-----------" << std::endl;
+//    exec->actual.node().getspentinfo("0437cd7f8525ceed2324359c2d0ba26006d92d856a9c20fa0241106ee5a597c9", 0);
+//}
+//
+//void executor_getaddresstxids(executor_t exec){
+//    std::cout << "-----------executor_getaddresstxids-----------" << std::endl;
+//    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
+//    exec->actual.node().getaddresstxids(address, 0, 190);
+//}
+//
+//void executor_getaddressdeltas(executor_t exec){
+//    std::cout << "-----------executor_getaddressdeltas-----------" << std::endl;
+//    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
+//    exec->actual.node().getaddressdeltas(address, 0, 190, false);
+//}
+//
+//void executor_getblockhashes(executor_t exec, uint32_t timestamp_high, uint32_t timestamp_low){
+//    std::cout << "-----------executor_getblockhashes_NTS-----------" << std::endl;
+//    exec->actual.node().getblockhashes(timestamp_high, timestamp_low, false, false);
+//    std::cout << "-----------executor_getblockhashes_TS------------" << std::endl;
+//    exec->actual.node().getblockhashes(timestamp_high, timestamp_low, false, true);
+//}
+//
+//void executor_getaddressbalance(executor_t exec){
+//    std::cout << "-----------executor_getaddressbalance-----------" << std::endl;
+//    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
+//    exec->actual.node().getaddressbalance(address);
+//}
+//
+//void executor_getaddressutxos(executor_t exec){
+//    std::cout << "-----------executor_getaddressutxo-----------" << std::endl;
+//    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
+//    exec->actual.node().getaddressutxos(address, true);
+//}
 
 
 p2p_t executor_get_p2p(executor_t exec) {

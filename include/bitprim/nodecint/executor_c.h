@@ -67,27 +67,27 @@ void executor_stop(executor_t exec);
 
 BITPRIM_EXPORT
 chain_t executor_get_chain(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_get_raw_transaction(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_getspentinfo(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_getaddresstxids(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_getaddressdeltas(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_getaddressbalance(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_getaddressutxos(executor_t exec);
-
-BITPRIM_EXPORT
-void executor_getblockhashes(executor_t exec, uint32_t timestamp_high, uint32_t timestamp_low);
+//
+//BITPRIM_EXPORT
+//void executor_get_raw_transaction(executor_t exec);
+//
+//BITPRIM_EXPORT
+//void executor_getspentinfo(executor_t exec);
+//
+//BITPRIM_EXPORT
+//void executor_getaddresstxids(executor_t exec);
+//
+//BITPRIM_EXPORT
+//void executor_getaddressdeltas(executor_t exec);
+//
+//BITPRIM_EXPORT
+//void executor_getaddressbalance(executor_t exec);
+//
+//BITPRIM_EXPORT
+//void executor_getaddressutxos(executor_t exec);
+//
+//BITPRIM_EXPORT
+//void executor_getblockhashes(executor_t exec, uint32_t timestamp_high, uint32_t timestamp_low);
 
 BITPRIM_EXPORT
 p2p_t executor_get_p2p(executor_t exec);

@@ -94,18 +94,18 @@ int main(int /*argc*/, char* /*argv*/[]) {
     chain_t chain = executor_get_chain(exec);
         
     // fetch_last_height(exec, last_height_fetch_handler);
-    wait_until_block(chain, 170);
+    wait_until_block(chain, 2000);
 
-    executor_get_raw_transaction(exec);
-    executor_getspentinfo(exec);
-    executor_getaddresstxids(exec);
-
-    executor_getaddressdeltas(exec);
-
-    executor_getblockhashes(exec, 1232768195, 1232758195);
-
-    executor_getaddressbalance(exec);
-    executor_getaddressutxos(exec);
+//    executor_get_raw_transaction(exec);
+//    executor_getspentinfo(exec);
+//    executor_getaddresstxids(exec);
+//
+//    executor_getaddressdeltas(exec);
+//
+//    executor_getblockhashes(exec, 1232768195, 1232758195);
+//
+//    executor_getaddressbalance(exec);
+//    executor_getaddressutxos(exec);
 
     executor_destruct(exec);
 
