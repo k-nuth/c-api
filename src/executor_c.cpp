@@ -236,10 +236,10 @@ chain_t executor_get_chain(executor_t exec) {
 //    libbitcoin::wallet::payment_address address("12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S");
 //    exec->actual.node().getaddressutxos(address, true);
 //}
-
-void executor_getinfo(executor_t exec){
-    exec->actual.node().getinfo();
-}
+//
+//void executor_getinfo(executor_t exec){
+//    exec->actual.node().getinfo();
+//}
 
 p2p_t executor_get_p2p(executor_t exec) {
     return &static_cast<libbitcoin::network::p2p&>(exec->actual.node());

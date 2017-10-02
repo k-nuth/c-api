@@ -106,8 +106,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //
 //    executor_getaddressbalance(exec);
 //    executor_getaddressutxos(exec);
-
-    executor_getinfo(exec);
+//
+//    executor_getinfo(exec);
 
     executor_destruct(exec);
 
