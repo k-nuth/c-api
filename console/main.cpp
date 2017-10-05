@@ -39,7 +39,7 @@
 #include <bitcoin/bitcoin/utility/binary.hpp>
 
 
-using namespace std::chrono_literals;
+// using namespace std::chrono_literals;
 
 bool waiting = true;
 
@@ -61,7 +61,10 @@ void wait_until_block(chain_t chain, size_t desired_height) {
         if (height < desired_height) {
             printf("wait_until_block - 2\n");
             // time.sleep(1)
-            std::this_thread::sleep_for(10s);
+            
+            // std::this_thread::sleep_for(10s);
+            std::this_thread::sleep_for(std::chrono::seconds(10));
+
             printf("wait_until_block - 3\n");
         }
     }
