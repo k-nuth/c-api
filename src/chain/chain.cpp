@@ -127,7 +127,8 @@ int chain_get_last_height(chain_t chain, uint64_t /*size_t*/* height) {
 void chain_fetch_block_height(chain_t chain, void* ctx, hash_t hash, block_height_fetch_handler_t handler) {
 
     auto hash_cpp = bitprim::to_array(hash.hash);
-
+    // std::cout << "hash_cpp: " << libbitcoin::encode_hash(hash_cpp) << std::endl;
+    
     safe_chain(chain).fetch_block_height(hash_cpp, [chain, ctx, handler](std::error_code const& ec, size_t h) {
         handler(chain, ctx, ec.value(), h);
     });

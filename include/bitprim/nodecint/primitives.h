@@ -122,7 +122,7 @@ typedef void (*last_height_fetch_handler_t)(chain_t, void*, int, uint64_t /*size
 typedef void (*merkle_block_fetch_handler_t)(chain_t, void*, int, merkle_block_t block, uint64_t /*size_t*/ h);
 typedef void (*output_fetch_handler_t)(chain_t, void*, int, output_t output);
 typedef void (*spend_fetch_handler_t)(chain_t, void*, int, input_point_t input_point);
-typedef void (*transaction_fetch_handler_t)(chain_t, void*, int, transaction_t transaction, uint64_t /*size_t*/ h, uint64_t /*size_t*/ i);
+typedef void (*transaction_fetch_handler_t)(chain_t, void*, int, transaction_t transaction, uint64_t /*size_t*/ i, uint64_t /*size_t*/ h);
 typedef void (*transaction_index_fetch_handler_t)(chain_t, void*, int, uint64_t /*size_t*/ position, uint64_t /*size_t*/ height);
 typedef void (*validate_tx_handler_t)(chain_t, void*, int, char const* message);
 

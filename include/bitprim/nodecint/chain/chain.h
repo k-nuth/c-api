@@ -114,11 +114,12 @@ int chain_get_transaction_position(chain_t chain, hash_t hash, int require_confi
 
 
 // Output  ---------------------------------------------------------------------
-BITPRIM_EXPORT
-void chain_fetch_output(chain_t chain, void* ctx, hash_t hash, uint32_t index, int require_confirmed, output_fetch_handler_t handler);
+//Note: Removed on 3.3.0
+// BITPRIM_EXPORT
+// void chain_fetch_output(chain_t chain, void* ctx, hash_t hash, uint32_t index, int require_confirmed, output_fetch_handler_t handler);
 
-BITPRIM_EXPORT
-int chain_get_output(chain_t chain, hash_t hash, uint32_t index, int require_confirmed, output_t* out_output);
+// BITPRIM_EXPORT
+// int chain_get_output(chain_t chain, hash_t hash, uint32_t index, int require_confirmed, output_t* out_output);
 
 // Spend ---------------------------------------------------------------------
 BITPRIM_EXPORT

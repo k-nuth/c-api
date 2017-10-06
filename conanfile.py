@@ -41,7 +41,7 @@ class BitprimNodeCIntConan(ConanFile):
     # "use_cpp11_abi": [True, False]
 
     with_tests = False
-    with_console = False
+    with_console = True
 
     default_options = "shared=False", \
         "fPIC=True", \
