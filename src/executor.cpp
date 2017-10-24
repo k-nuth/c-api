@@ -262,6 +262,10 @@ void executor::stop() {
     stop(libbitcoin::error::success);
 }
 
+bool executor::stopped() const {
+    return node_->stopped();
+}
+
 // Utilities.
 // ----------------------------------------------------------------------------
 

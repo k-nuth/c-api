@@ -192,9 +192,12 @@ void executor_stop(executor_t exec) {
     exec->actual.stop();
 }
 
+int executor_stopped(executor_t exec) {
+    return static_cast<int>(exec->actual.stopped());
+}
+
 chain_t executor_get_chain(executor_t exec) {
     return &(exec->actual.node().chain());
-
 }
 
 p2p_t executor_get_p2p(executor_t exec) {

@@ -66,6 +66,9 @@ BITPRIM_EXPORT
 void executor_stop(executor_t exec);
 
 BITPRIM_EXPORT
+int executor_stopped(executor_t exec);
+
+BITPRIM_EXPORT
 chain_t executor_get_chain(executor_t exec);
 
 BITPRIM_EXPORT
