@@ -642,6 +642,10 @@ void chain_subscribe_transaction(chain_t chain, void* ctx, transaction_handler_t
     });
 }
 
+void chain_unsubscribe(chain_t chain) {
+    safe_chain(chain).unsubscribe();
+}
+
 
 
 // Organizers.
