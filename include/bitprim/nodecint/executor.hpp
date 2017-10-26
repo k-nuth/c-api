@@ -51,6 +51,8 @@ public:
 
     libbitcoin::node::full_node& node();
 
+    bool stopped() const;
+
 private:
 //    static void stop(libbitcoin::code const& ec);
     static void handle_stop(int code);

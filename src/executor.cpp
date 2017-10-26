@@ -142,6 +142,8 @@ libbitcoin::node::full_node& executor::node() {
 
 bool executor::run(libbitcoin::handle0 handler) {
 
+    std::cout << "executor::run() -- std::this_thread::get_id(): " << std::this_thread::get_id() << std::endl;
+
     run_handler_ = std::move(handler);
 
     initialize_output();
@@ -167,24 +169,24 @@ bool executor::run(libbitcoin::handle0 handler) {
     return true;
 }
 
-bool executor::run_wait(libbitcoin::handle0 handler) {
+// bool executor::run_wait(libbitcoin::handle0 handler) {
 
-    run(std::move(handler));
+//     run(std::move(handler));
 
-    // Wait for stop.
-    stopping_.get_future().wait();
+//     // Wait for stop.
+//     stopping_.get_future().wait();
 
-    LOG_INFO(LOG_NODE) << BN_NODE_STOPPING;
+//     LOG_INFO(LOG_NODE) << BN_NODE_STOPPING;
 
-    // Close must be called from main thread.
-    if (node_->close()) {
-        LOG_INFO(LOG_NODE) << BN_NODE_STOPPED;
-    } else {
-        LOG_INFO(LOG_NODE) << BN_NODE_STOP_FAIL;
-    }
+//     // Close must be called from main thread.
+//     if (node_->close()) {
+//         LOG_INFO(LOG_NODE) << BN_NODE_STOPPED;
+//     } else {
+//         LOG_INFO(LOG_NODE) << BN_NODE_STOP_FAIL;
+//     }
 
-    return true;
-}
+//     return true;
+// }
 
 // Handle the completion of the start sequence and begin the run sequence.
 void executor::handle_started(libbitcoin::code const& ec) {
@@ -205,8 +207,6 @@ void executor::handle_started(libbitcoin::code const& ec) {
 
     // This is the beginning of the run sequence.
     node_->run(std::bind(&executor::handle_running, this, _1));
-
-
 }
 
 // This is the end of the run sequence.
@@ -260,6 +260,10 @@ void executor::stop(libbitcoin::code const& ec) {
 
 void executor::stop() {
     stop(libbitcoin::error::success);
+}
+
+bool executor::stopped() const {
+    return node_->stopped();
 }
 
 // Utilities.
