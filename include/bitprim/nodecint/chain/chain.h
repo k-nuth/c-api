@@ -141,11 +141,11 @@ void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t fro
 
 
 
-BITPRIM_EXPORT
-void chain_fetch_block_locator(chain_t chain, void* ctx, block_indexes_t heights, block_locator_fetch_handler_t handler);
+// BITPRIM_EXPORT
+// void chain_fetch_block_locator(chain_t chain, void* ctx, block_indexes_t heights, block_locator_fetch_handler_t handler);
 
-BITPRIM_EXPORT
-int chain_get_block_locator(chain_t chain, block_indexes_t heights, get_headers_ptr_t* out_headers);
+// BITPRIM_EXPORT
+// int chain_get_block_locator(chain_t chain, block_indexes_t heights, get_headers_ptr_t* out_headers);
 
 
 // ------------------------------------------------------------------
