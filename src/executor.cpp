@@ -268,7 +268,10 @@ void executor::handle_stopped(libbitcoin::code const& ec) {
 //}
 
 bool executor::stop() {
-    return node_->stop();
+    std::cout << "executor::stop() - 1\n";
+    bool res = node_->stop();
+    std::cout << "executor::stop() - 2\n";
+    return res;
 }
 
 bool executor::stopped() const {
