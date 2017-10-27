@@ -617,19 +617,23 @@ int chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_
 
 void chain_subscribe_blockchain(chain_t chain, void* ctx, reorganize_handler_t handler) {
     safe_chain(chain).subscribe_blockchain([chain, ctx, handler](std::error_code const& ec, size_t fork_height, libbitcoin::block_const_ptr_list_const_ptr incoming, libbitcoin::block_const_ptr_list_const_ptr replaced_blocks) {
-//        auto new_history = new libbitcoin::chain::history_compact::list(history);
-
-        auto* incoming_cpp = chain_block_list_construct_default();
-        for (auto&& x : *incoming) {
-            auto new_block = new libbitcoin::message::block(*x);
-            chain_block_list_push_back(incoming_cpp, new_block);
+		block_list_t incoming_cpp = nullptr;
+        if (incoming) {
+            incoming_cpp = chain_block_list_construct_default();
+            for (auto&& x : *incoming) {
+                auto new_block = new libbitcoin::message::block(*x);
+                chain_block_list_push_back(incoming_cpp, new_block);
+            }
         }
 
-        auto* replaced_blocks_cpp = chain_block_list_construct_default();
-        for (auto&& x : *replaced_blocks) {
-            auto new_block = new libbitcoin::message::block(*x);
-            chain_block_list_push_back(replaced_blocks_cpp, new_block);
-        }
+		block_list_t replaced_blocks_cpp = nullptr;
+		if (replaced_blocks) {
+			replaced_blocks_cpp = chain_block_list_construct_default();
+			for (auto&& x : *replaced_blocks) {
+				auto new_block = new libbitcoin::message::block(*x);
+				chain_block_list_push_back(replaced_blocks_cpp, new_block);
+			}
+		}
 
         return handler(chain, ctx, ec.value(), fork_height, incoming_cpp, replaced_blocks_cpp);
     });

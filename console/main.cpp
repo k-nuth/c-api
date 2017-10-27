@@ -81,12 +81,39 @@ bool stopped = false;
 void handle_stop(int signal) {
     std::cout << "handle_stop()\n";
     // stop(libbitcoin::error::success);
+    //executor_stop(exec);
+    //chain_t chain = executor_get_chain(exec);
+    //chain_unsubscribe(chain);
+    //stopped = true;
     executor_stop(exec);
-    stopped = true;
 }
 
+int xxx = 0;
+
 int chain_subscribe_blockchain_handler(chain_t chain, void* ctx, int error, uint64_t fork_height, block_list_t blocks_incoming, block_list_t blocks_replaced) {
-    printf("chain_subscribe_blockchain_handler error: %d\n", error);
+    //printf("chain_subscribe_blockchain_handler error: %d\n", error);
+
+    if (executor_stopped(exec) == 1 || error == 1) {
+        printf("chain_subscribe_blockchain_handler -- stopping -- error: %d\n", error);
+        return 0;
+    }
+
+    //++xxx;
+
+    //if (xxx >= 3000) {
+    //    int s = executor_stopped(exec);
+    //    std::cout << s << std::endl;
+
+    //    //executor_stop(exec);
+    //    //executor_close(exec);
+
+    //    s = executor_stopped(exec);
+    //    std::cout << s << std::endl;
+    //    chain_unsubscribe(chain);
+    //}
+
+
+	return 1;
 }
     
 int main(int /*argc*/, char* /*argv*/[]) {
@@ -136,12 +163,25 @@ int main(int /*argc*/, char* /*argv*/[]) {
     printf("**-- 5\n");
     
     // while ( ! executor_stopped(exec) ) {
-    while ( ! stopped ) {
+    //while ( ! stopped ) {
+    while (executor_stopped(exec) == 0) {
         printf("**-- 6\n");
         
         uint64_t height;
         int error = chain_get_last_height(chain, &height);
         printf("error: %d, height: %zd\n", error, height);
+
+        if (height >= 3000) {
+            int s = executor_stopped(exec);
+            std::cout << s << std::endl;
+
+            executor_stop(exec);
+            //executor_close(exec);
+
+            s = executor_stopped(exec);
+            std::cout << s << std::endl;
+        }
+
         std::this_thread::sleep_for(std::chrono::seconds(10));
     }
 
