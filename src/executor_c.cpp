@@ -188,9 +188,18 @@ int executor_run_wait(executor_t exec) {
     return 1; // TODO(fernando): return error_t to inform errors in detail
 }
 
-void executor_stop(executor_t exec) {
-    exec->actual.stop();
+//void executor_stop(executor_t exec) {
+//    exec->actual.stop();
+//}
+
+
+int executor_stop(executor_t exec) {
+    return exec->actual.stop();
 }
+
+//int executor_close(executor_t exec) {
+//    return exec->actual.node().close();
+//}
 
 int executor_stopped(executor_t exec) {
     return static_cast<int>(exec->actual.stopped());
