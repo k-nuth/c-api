@@ -134,8 +134,8 @@ typedef void (*block_locator_fetch_handler_t)(chain_t, void*, int, get_headers_p
 
 typedef void (*result_handler_t)(chain_t, void*, int);
 
-typedef int (*reorganize_handler_t)(chain_t, void*, int, uint64_t /*size_t*/, block_list_t, block_list_t);
-typedef int (*transaction_handler_t)(chain_t, void*, int, transaction_t);
+typedef int (*subscribe_blockchain_handler_t)(executor_t exec, chain_t, void*, int, uint64_t /*size_t*/, block_list_t, block_list_t);
+typedef int (*subscribe_transaction_handler_t)(executor_t exec, chain_t, void*, int, transaction_t);
 
 
 

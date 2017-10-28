@@ -615,8 +615,18 @@ int chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_
 //virtual void subscribe_blockchain(reorganize_handler&& handler) = 0;
 //virtual void subscribe_transaction(transaction_handler&& handler) = 0;
 
-void chain_subscribe_blockchain(chain_t chain, void* ctx, reorganize_handler_t handler) {
-    safe_chain(chain).subscribe_blockchain([chain, ctx, handler](std::error_code const& ec, size_t fork_height, libbitcoin::block_const_ptr_list_const_ptr incoming, libbitcoin::block_const_ptr_list_const_ptr replaced_blocks) {
+void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subscribe_blockchain_handler_t handler) {
+    safe_chain(chain).subscribe_blockchain([exec, chain, ctx, handler](std::error_code const& ec, size_t fork_height, libbitcoin::block_const_ptr_list_const_ptr incoming, libbitcoin::block_const_ptr_list_const_ptr replaced_blocks) {
+
+        // std::cout << "chain_subscribe_blockchain--HANDLER-- 1\n";
+        // std::cout << "chain_subscribe_blockchain--HANDLER-- ec.value(): " << ec.value() << std::endl;
+
+        if (exec->actual.stopped() || ec == libbitcoin::error::service_stopped) {
+            // std::cout << "chain_subscribe_blockchain--HANDLER - 11BB\n";
+            // std::cout << "ec: " << ec << std::endl;
+            return false;
+        }
+
 		block_list_t incoming_cpp = nullptr;
         if (incoming) {
             incoming_cpp = chain_block_list_construct_default();
@@ -634,15 +644,24 @@ void chain_subscribe_blockchain(chain_t chain, void* ctx, reorganize_handler_t h
 				chain_block_list_push_back(replaced_blocks_cpp, new_block);
 			}
 		}
+        
+        auto res = handler(exec, chain, ctx, ec.value(), fork_height, incoming_cpp, replaced_blocks_cpp);
 
-        return handler(chain, ctx, ec.value(), fork_height, incoming_cpp, replaced_blocks_cpp);
+        return res;
     });
 }
 
-void chain_subscribe_transaction(chain_t chain, void* ctx, transaction_handler_t handler) {
-    safe_chain(chain).subscribe_transaction([chain, ctx, handler](std::error_code const& ec, libbitcoin::transaction_const_ptr tx) {
+void chain_subscribe_transaction(executor_t exec, chain_t chain, void* ctx, subscribe_transaction_handler_t handler) {
+    safe_chain(chain).subscribe_transaction([exec, chain, ctx, handler](std::error_code const& ec, libbitcoin::transaction_const_ptr tx) {
+
+        if (exec->actual.stopped() || ec == libbitcoin::error::service_stopped) {
+            // std::cout << "chain_subscribe_blockchain--HANDLER - 11BB\n";
+            // std::cout << "ec: " << ec << std::endl;
+            return false;
+        }
+        
         auto new_tx = new libbitcoin::message::transaction(*tx);
-        return handler(chain, ctx, ec.value(), new_tx);
+        return handler(exec, chain, ctx, ec.value(), new_tx);
     });
 }
 
