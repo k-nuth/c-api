@@ -176,10 +176,8 @@ int chain_get_block_locator(chain_t chain, block_indexes_t heights, get_headers_
 //virtual void subscribe_transaction(transaction_handler&& handler) = 0;
 
 
-// void chain_subscribe_blockchain(chain_t chain, void* ctx, subscribe_blockchain_handler_t handler);
 BITPRIM_EXPORT
 void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subscribe_blockchain_handler_t handler);
-    
 
 BITPRIM_EXPORT
 void chain_subscribe_transaction(executor_t exec, chain_t chain, void* ctx, subscribe_transaction_handler_t handler);
