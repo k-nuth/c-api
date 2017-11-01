@@ -194,9 +194,9 @@ int executor_run_wait(executor_t exec) {
 
 
 int executor_stop(executor_t exec) {
-    std::cout << "executor_stop() - 1\n";
+    // std::cout << "executor_stop() - 1\n";
     int res = exec->actual.stop();
-    std::cout << "executor_stop() - 2\n";
+    // std::cout << "executor_stop() - 2\n";
     return res;
 }
 

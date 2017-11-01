@@ -141,8 +141,7 @@ libbitcoin::node::full_node& executor::node() {
 }
 
 bool executor::run(libbitcoin::handle0 handler) {
-
-    std::cout << "executor::run() -- std::this_thread::get_id(): " << std::this_thread::get_id() << std::endl;
+    // std::cout << "executor::run() -- std::this_thread::get_id(): " << std::this_thread::get_id() << std::endl;
 
     run_handler_ = std::move(handler);
 
@@ -268,9 +267,9 @@ void executor::handle_stopped(libbitcoin::code const& ec) {
 //}
 
 bool executor::stop() {
-    std::cout << "executor::stop() - 1\n";
+    // std::cout << "executor::stop() - 1\n";
     bool res = node_->stop();
-    std::cout << "executor::stop() - 2\n";
+    // std::cout << "executor::stop() - 2\n";
     return res;
 }
 
