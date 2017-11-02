@@ -72,6 +72,10 @@ option(WITH_CONSOLE_NODE_CINT "Compile console application." ON)
 option(WITH_LITECOIN "Compile with Litecoin support." OFF)
 
 
+set(BITPRIM_BUILD_NUMBER "-" CACHE STRING "Specify the Bitprim Build Number.")
+# message(${BITPRIM_BUILD_NUMBER})
+
+
 
 if (ENABLE_SHARED_NODE_CINT)
   set(ENABLE_SHARED ON)
@@ -276,6 +280,7 @@ endif(ENABLE_POSITION_INDEPENDENT_CODE)
 
 #set_target_properties(bitprim-node-cint PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
+target_compile_definitions(bitprim-node-cint PUBLIC -DBITPRIM_BUILD_NUMBER="\\"${BITPRIM_BUILD_NUMBER}\\"")
 target_compile_definitions(bitprim-node-cint PUBLIC -Dbitprim_EXPORTS)
 
 target_include_directories(bitprim-node-cint PUBLIC

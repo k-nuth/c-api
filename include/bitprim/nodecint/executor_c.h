@@ -77,6 +77,8 @@ chain_t executor_get_chain(executor_t exec);
 BITPRIM_EXPORT
 p2p_t executor_get_p2p(executor_t exec);
 
+BITPRIM_EXPORT
+char const* executor_version();
 
 #ifdef __cplusplus
 } // extern "C"

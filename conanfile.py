@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
 from conans import ConanFile, CMake
 
 def option_on_off(option):
@@ -91,6 +92,7 @@ class BitprimNodeCIntConan(ConanFile):
             else:
                 cmake.definitions["NOT_USE_CPP11_ABI"] = option_on_off(True)
 
+        cmake.definitions["BITPRIM_BUILD_NUMBER"] = os.getenv('BITPRIM_BUILD_NUMBER', '-')
         cmake.configure(source_dir=self.conanfile_directory)
         cmake.build()
 

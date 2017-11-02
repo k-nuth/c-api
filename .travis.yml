@@ -46,6 +46,9 @@ osx: &osx
 matrix:
    include:
       - <<: *linux
+        env: PUSH_TO_REPOS=true
+   
+      - <<: *linux
         env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=lasote/conangcc49
 
       - <<: *linux
@@ -74,13 +77,27 @@ matrix:
 
 install:
   - cd ${TRAVIS_BUILD_DIR}
-  - chmod +x .travis/install.sh
-  - ./.travis/install.sh
+
+  - |
+    if [[ "${PUSH_TO_REPOS}" != "true" ]]; then
+      chmod +x .travis/install.sh
+      ./.travis/install.sh
+    fi    
 
 script:
-  - cd ${TRAVIS_BUILD_DIR}
-  - chmod +x .travis/run.sh
-  - ./.travis/run.sh
+  - git fetch --unshallow
+  - export BITPRIM_BUILD_NUMBER="$(git describe)"
+  - echo "${BITPRIM_BUILD_NUMBER}"
+
+  - |
+    if [[ "${PUSH_TO_REPOS}" == "true" ]]; then
+      chmod +x .travis/push_other_repo.sh
+      ./.travis/push_other_repo.sh
+    else
+      cd ${TRAVIS_BUILD_DIR}
+      chmod +x .travis/run.sh
+      ./.travis/run.sh
+    fi  
 
 notifications:
   email: false
