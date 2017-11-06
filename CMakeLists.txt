@@ -290,8 +290,15 @@ target_include_directories(bitprim-node-cint PUBLIC
 # target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC)
 if (NOT ENABLE_SHARED)
   target_compile_definitions(bitprim-node-cint PUBLIC -DBITPRIM_LIB_STATIC)
-  target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
+  # target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
+# else()
+  # target_compile_definitions(bitprim-node-cint PUBLIC -DBC_DLL)
 endif()
+
+#Note: Bitprim modules are Static, NodeCint Shared
+target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
+
+
 
 
 if (NOT MSVC)
