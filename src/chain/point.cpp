@@ -39,6 +39,11 @@ hash_t chain_point_get_hash(point_t point) {
     return bitprim::to_hash_t(hash_cpp);
 }
 
+void chain_point_get_hash_out(point_t point, hash_t* out_hash) {
+    auto const& hash_cpp = chain_point_const_cpp(point).hash();
+    std::memcpy(out_hash->hash, hash_cpp.data(), bitcoin_hash_size);
+}
+
 int /*bool*/ chain_point_is_valid(point_t point) {
     return static_cast<int>(chain_point_const_cpp(point).is_valid());
 }

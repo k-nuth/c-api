@@ -54,6 +54,14 @@ hash_t chain_merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) 
     return bitprim::to_hash_t(hash_n);
 }
 
+void chain_merkle_block_hash_nth_out(merkle_block_t block, uint64_t /*size_t*/ n, hash_t* out_hash) {
+    //precondition: n >=0 && n < hashes().size()
+
+    auto* blk = &chain_merkle_block_cpp(block);
+    auto& hash_n = blk->hashes()[n];
+    std::memcpy(out_hash->hash, hash_n.data(), bitcoin_hash_size);
+}
+
 header_t chain_merkle_block_header(merkle_block_t block) {
     return &chain_merkle_block_cpp(block).header();
 }

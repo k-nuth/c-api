@@ -75,6 +75,11 @@ hash_t chain_get_blocks_stop_hash(get_blocks_t get_b) {
     return bitprim::to_hash_t(stop);
 }
 
+void chain_get_blocks_stop_hash_out(get_blocks_t get_b, hash_t* out_stop_hash) {
+    auto& stop = chain_get_blocks_cpp(get_b).stop_hash();
+    std::memcpy(out_stop_hash->hash, stop.data(), bitcoin_hash_size);
+}
+
 //void set_stop_hash(const hash_digest& value);
 //void set_stop_hash(hash_digest&& value);
 void chain_get_blocks_set_stop_hash(get_blocks_t get_b, hash_t value) {
@@ -104,6 +109,5 @@ void chain_get_blocks_reset(get_blocks_t get_b) {
 uint64_t /*size_t*/ chain_get_blocks_serialized_size(get_blocks_t get_b, uint32_t version) {
     return chain_get_blocks_cpp(get_b).serialized_size(version);
 }
-
 
 } /* extern "C" */

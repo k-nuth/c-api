@@ -76,6 +76,11 @@ hash_t chain_block_hash(block_t block) {
     return bitprim::to_hash_t(hash_cpp);
 }
 
+void chain_block_hash_out(block_t block, hash_t* out_hash) {
+    auto const& hash_cpp = chain_block_const_cpp(block).hash();
+    std::memcpy(out_hash->hash, hash_cpp.data(), bitcoin_hash_size);
+}
+
 // Warning: breaking change
 uint64_t /*size_t*/ chain_block_transaction_count(block_t block) {
     return chain_block_const_cpp(block).transactions().size();
@@ -142,6 +147,11 @@ hash_t chain_block_generate_merkle_root(block_t block) {
     return bitprim::to_hash_t(hash_cpp);
 }
 
+void chain_block_generate_merkle_root_out(block_t block, hash_t* out_merkle) {
+    auto hash_cpp = chain_block_const_cpp(block).generate_merkle_root();
+    std::memcpy(out_merkle->hash, hash_cpp.data(), bitcoin_hash_size);
+}
+
 uint64_t /*size_t*/ chain_block_signature_operations(block_t block) {
     return chain_block_const_cpp(block).signature_operations();
 }
@@ -181,8 +191,6 @@ int /*bool*/ chain_block_is_internal_double_spend(block_t block) {
 int /*bool*/ chain_block_is_valid_merkle_root(block_t block) {
     return static_cast<int>(chain_block_const_cpp(block).is_valid_merkle_root());
 }
-
-
 
 //
 //bool from_data(const data_chunk& data);

@@ -29,6 +29,10 @@
 extern "C" {
 #endif
 
+constexpr size_t bitcoin_short_hash_size = 20;
+constexpr size_t bitcoin_hash_size = 32;
+constexpr size_t bitcoin_long_hash_size = 64;
+
 typedef enum point_kind {output = 0, spend = 1} point_kind_t;
 
 typedef struct executor* executor_t;
@@ -91,17 +95,17 @@ typedef void* hash_list_t;
 //typedef uint8_t* long_hash_t;
 typedef struct short_hash_t {
 //    uint8_t hash[libbitcoin::hash_size];
-    uint8_t hash[20];
+    uint8_t hash[bitcoin_short_hash_size];
 } short_hash_t;
 
 typedef struct hash_t {
 //    uint8_t hash[libbitcoin::hash_size];
-    uint8_t hash[32];
+    uint8_t hash[bitcoin_hash_size];
 } hash_t;
 
 typedef struct long_hash_t {
 //    uint8_t hash[libbitcoin::long_hash_size];
-    uint8_t hash[64];
+    uint8_t hash[bitcoin_long_hash_size];
 } long_hash_t;
 
 //typedef char const* zstring_t;
