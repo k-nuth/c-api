@@ -3,5 +3,5 @@ bitprim-core: v0.3.0-4-g62e7f98e
 bitprim-consensus: v0.3.0-2-g21d41f94
 bitprim-database: v0.3.0-5-gfbeeb68
 bitprim-blockchain: v0.3.0-3-g3aebb72
-bitprim-network: v0.3.0-5-gdb58e899
+bitprim-network: v0.3.0-7-gaf0385ce
 bitprim-node: v0.3.0-3-g34b568e
