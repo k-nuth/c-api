@@ -34,6 +34,9 @@ BITPRIM_EXPORT
 hash_t chain_merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n);
 
 BITPRIM_EXPORT
+void chain_merkle_block_hash_nth_out(merkle_block_t block, uint64_t /*size_t*/ n, hash_t* out_hash);
+
+BITPRIM_EXPORT
 header_t chain_merkle_block_header(merkle_block_t block);
 
 BITPRIM_EXPORT

@@ -18,12 +18,15 @@
  */
 
 #include <bitprim/nodecint/executor_c.h>
+
 #include <cstdio>
 #include <memory>
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/thread/latch.hpp>
 #include <bitprim/nodecint/executor.hpp>
+#include <bitprim/nodecint/version.h>
 #include <bitcoin/bitcoin/wallet/mnemonic.hpp>
+
 
 libbitcoin::node::configuration make_config(char const* path) {
     libbitcoin::node::configuration config(libbitcoin::config::settings::mainnet);
@@ -188,17 +191,37 @@ int executor_run_wait(executor_t exec) {
     return 1; // TODO(fernando): return error_t to inform errors in detail
 }
 
-void executor_stop(executor_t exec) {
-    exec->actual.stop();
+//void executor_stop(executor_t exec) {
+//    exec->actual.stop();
+//}
+
+
+int executor_stop(executor_t exec) {
+    // std::cout << "executor_stop() - 1\n";
+    int res = exec->actual.stop();
+    // std::cout << "executor_stop() - 2\n";
+    return res;
+}
+
+//int executor_close(executor_t exec) {
+//    return exec->actual.node().close();
+//}
+
+int executor_stopped(executor_t exec) {
+    return static_cast<int>(exec->actual.stopped());
 }
 
 chain_t executor_get_chain(executor_t exec) {
     return &(exec->actual.node().chain());
-
 }
 
 p2p_t executor_get_p2p(executor_t exec) {
     return &static_cast<libbitcoin::network::p2p&>(exec->actual.node());
 }
+
+char const* executor_version() {
+    return BITPRIM_NODECINT_VERSION;
+}
+
 
 } /* extern "C" */

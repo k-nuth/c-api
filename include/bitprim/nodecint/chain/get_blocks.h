@@ -50,6 +50,9 @@ BITPRIM_EXPORT
 hash_t chain_get_blocks_stop_hash(get_blocks_t get_b);
 
 BITPRIM_EXPORT
+void chain_get_blocks_stop_hash_out(get_blocks_t get_b, hash_t* out_stop_hash);
+
+BITPRIM_EXPORT
 void chain_get_blocks_set_stop_hash(get_blocks_t get_b, hash_t value);
 
 //virtual bool from_data(uint32_t version, const data_chunk& data);
@@ -67,7 +70,6 @@ void chain_get_blocks_reset(get_blocks_t get_b);
 
 BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_get_blocks_serialized_size(get_blocks_t get_b, uint32_t version);
-
 
 #ifdef __cplusplus
 } // extern "C"

@@ -94,10 +94,19 @@ BITPRIM_EXPORT
 hash_t chain_header_previous_block_hash(header_t header);
 
 BITPRIM_EXPORT
+void chain_header_previous_block_hash_out(header_t header, hash_t* out_previous_block_hash);
+
+BITPRIM_EXPORT
 hash_t chain_header_merkle(header_t header);
 
 BITPRIM_EXPORT
+void chain_header_merkle_out(header_t header, hash_t* out_merkle);
+
+BITPRIM_EXPORT
 hash_t chain_header_hash(header_t header);
+
+BITPRIM_EXPORT
+void chain_header_hash_out(header_t header, hash_t* out_hash);
 
 #ifdef __cplusplus
 } // extern "C"

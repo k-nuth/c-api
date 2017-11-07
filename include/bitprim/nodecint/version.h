@@ -55,10 +55,22 @@
 //! @note
 //! The major, minor and patch versions of the library are also available
 //! individually with the `BITPRIM_NODECINT_{MAJOR,MINOR,PATCH}_VERSION` macros.
-#define BITPRIM_NODECINT_VERSION                                                  \
+
+#define BITPRIM_NODECINT_VERSION_NUMBER                                          \
     BITPRIM_NODECINT_CONFIG_VERSION(BITPRIM_NODECINT_MAJOR_VERSION,              \
-                              BITPRIM_NODECINT_MINOR_VERSION,                     \
-                              BITPRIM_NODECINT_PATCH_VERSION)                     \
-/**/
+                              BITPRIM_NODECINT_MINOR_VERSION,                    \
+                              BITPRIM_NODECINT_PATCH_VERSION)                    \
+
+#define STR_HELPER(x) #x
+#define STR(x) STR_HELPER(x)
+#define BITPRIM_NODECINT_VERSION_STR STR(BITPRIM_NODECINT_MAJOR_VERSION) "." STR(BITPRIM_NODECINT_MINOR_VERSION) "." STR(BITPRIM_NODECINT_PATCH_VERSION)
+#undef STR
+#undef STR_HELPER
+
+#ifdef BITPRIM_BUILD_NUMBER
+#define BITPRIM_NODECINT_VERSION BITPRIM_BUILD_NUMBER
+#else
+#define BITPRIM_NODECINT_VERSION "v0.0.0"
+#endif
 
 #endif //BITPRIM_NODECINT_VERSION_H_

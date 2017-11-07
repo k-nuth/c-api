@@ -29,7 +29,7 @@ environment:
     PYTHON_VERSION: "2.7.8"
     PYTHON_ARCH: "32"
 
-    CONAN_REFERENCE: "bitprim-node-cint/0.2"
+    CONAN_REFERENCE: "bitprim-node-cint/0.3"
     CONAN_USERNAME: "bitprim"
     CONAN_LOGIN_USERNAME: "bitprim-bintray"
     CONAN_CHANNEL: "stable"
@@ -55,4 +55,9 @@ install:
   - conan user # It creates the conan data directory
 
 test_script:
+  # - git fetch --unshallow
+  # - export BITPRIM_BUILD_NUMBER="$(git describe)"
+  - for /f %%i in ('git describe') do set BITPRIM_BUILD_NUMBER=%%i
+  - echo %BITPRIM_BUILD_NUMBER%
+
   - python build.py
