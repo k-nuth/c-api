@@ -36,6 +36,9 @@ BITPRIM_EXPORT
 hash_t output_point_get_hash(output_point_t op);
 
 BITPRIM_EXPORT
+void output_point_get_hash_out(output_point_t op, hash_t* out_hash);
+
+BITPRIM_EXPORT
 output_point_t output_point_construct(void);
 
 BITPRIM_EXPORT

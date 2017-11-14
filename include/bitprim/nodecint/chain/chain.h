@@ -114,11 +114,12 @@ int chain_get_transaction_position(chain_t chain, hash_t hash, int require_confi
 
 
 // Output  ---------------------------------------------------------------------
-BITPRIM_EXPORT
-void chain_fetch_output(chain_t chain, void* ctx, hash_t hash, uint32_t index, int require_confirmed, output_fetch_handler_t handler);
+//Note: Removed on 3.3.0
+// BITPRIM_EXPORT
+// void chain_fetch_output(chain_t chain, void* ctx, hash_t hash, uint32_t index, int require_confirmed, output_fetch_handler_t handler);
 
-BITPRIM_EXPORT
-int chain_get_output(chain_t chain, hash_t hash, uint32_t index, int require_confirmed, output_t* out_output);
+// BITPRIM_EXPORT
+// int chain_get_output(chain_t chain, hash_t hash, uint32_t index, int require_confirmed, output_t* out_output);
 
 // Spend ---------------------------------------------------------------------
 BITPRIM_EXPORT
@@ -176,13 +177,14 @@ int chain_get_block_locator(chain_t chain, block_indexes_t heights, get_headers_
 
 
 BITPRIM_EXPORT
-void chain_subscribe_blockchain(chain_t chain, void* ctx, reorganize_handler_t handler);
-
+void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subscribe_blockchain_handler_t handler);
 
 BITPRIM_EXPORT
-void chain_subscribe_transaction(chain_t chain, void* ctx, transaction_handler_t handler);
+void chain_subscribe_transaction(executor_t exec, chain_t chain, void* ctx, subscribe_transaction_handler_t handler);
 
-
+BITPRIM_EXPORT
+void chain_unsubscribe(chain_t chain);
+    
 // Organizers.
 //-------------------------------------------------------------------------
 

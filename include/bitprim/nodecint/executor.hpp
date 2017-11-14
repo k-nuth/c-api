@@ -46,14 +46,17 @@ public:
     bool run_wait(libbitcoin::handle0 handler);
 
 
-    static void stop(libbitcoin::code const& ec);
-    static void stop();
+    //static void stop(libbitcoin::code const& ec);
+    //static void stop();
+    bool stop();
 
     libbitcoin::node::full_node& node();
 
+    bool stopped() const;
+
 private:
 //    static void stop(libbitcoin::code const& ec);
-    static void handle_stop(int code);
+    //static void handle_stop(int code);
 
     void handle_started(libbitcoin::code const& ec);
     void handle_running(libbitcoin::code const& ec);
@@ -127,11 +130,13 @@ private:
     "Using config file: %1%"
 #define BN_USING_DEFAULT_CONFIG \
     "Using default configuration settings."
-#define BN_VERSION_MESSAGE \
-    "\nVersion Information:\n\n" \
-    "bitprim-node:       %1%\n" \
-    "bitprim-blockchain: %2%\n" \
-    "bitprim:            %3%"
+
+// #define BN_VERSION_MESSAGE \
+//     "\nVersion Information:\n\n" \
+//     "bitprim-node:       %1%\n" \
+//     "bitprim-blockchain: %2%\n" \
+//     "bitprim:            %3%"
+
 #define BN_LOG_HEADER \
     "================= startup %1% =================="
 

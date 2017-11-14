@@ -29,6 +29,15 @@
 extern "C" {
 #endif
 
+// constexpr size_t bitcoin_short_hash_size = 20;
+// constexpr size_t bitcoin_hash_size = 32;
+// constexpr size_t bitcoin_long_hash_size = 64;
+
+#define BITCOIN_SHORT_HASH_SIZE 20
+#define BITCOIN_HASH_SIZE 32
+#define BITCOIN_LONG_HASH_SIZE 64
+
+
 typedef enum point_kind {output = 0, spend = 1} point_kind_t;
 
 typedef struct executor* executor_t;
@@ -91,17 +100,17 @@ typedef void* hash_list_t;
 //typedef uint8_t* long_hash_t;
 typedef struct short_hash_t {
 //    uint8_t hash[libbitcoin::hash_size];
-    uint8_t hash[20];
+    uint8_t hash[BITCOIN_SHORT_HASH_SIZE];
 } short_hash_t;
 
 typedef struct hash_t {
 //    uint8_t hash[libbitcoin::hash_size];
-    uint8_t hash[32];
+    uint8_t hash[BITCOIN_HASH_SIZE];
 } hash_t;
 
 typedef struct long_hash_t {
 //    uint8_t hash[libbitcoin::long_hash_size];
-    uint8_t hash[64];
+    uint8_t hash[BITCOIN_LONG_HASH_SIZE];
 } long_hash_t;
 
 //typedef char const* zstring_t;
@@ -122,7 +131,7 @@ typedef void (*last_height_fetch_handler_t)(chain_t, void*, int, uint64_t /*size
 typedef void (*merkle_block_fetch_handler_t)(chain_t, void*, int, merkle_block_t block, uint64_t /*size_t*/ h);
 typedef void (*output_fetch_handler_t)(chain_t, void*, int, output_t output);
 typedef void (*spend_fetch_handler_t)(chain_t, void*, int, input_point_t input_point);
-typedef void (*transaction_fetch_handler_t)(chain_t, void*, int, transaction_t transaction, uint64_t /*size_t*/ h, uint64_t /*size_t*/ i);
+typedef void (*transaction_fetch_handler_t)(chain_t, void*, int, transaction_t transaction, uint64_t /*size_t*/ i, uint64_t /*size_t*/ h);
 typedef void (*transaction_index_fetch_handler_t)(chain_t, void*, int, uint64_t /*size_t*/ position, uint64_t /*size_t*/ height);
 typedef void (*validate_tx_handler_t)(chain_t, void*, int, char const* message);
 
@@ -134,8 +143,8 @@ typedef void (*block_locator_fetch_handler_t)(chain_t, void*, int, get_headers_p
 
 typedef void (*result_handler_t)(chain_t, void*, int);
 
-typedef int (*reorganize_handler_t)(chain_t, void*, int, uint64_t /*size_t*/, block_list_t, block_list_t);
-typedef int (*transaction_handler_t)(chain_t, void*, int, transaction_t);
+typedef int (*subscribe_blockchain_handler_t)(executor_t exec, chain_t, void*, int, uint64_t /*size_t*/, block_list_t, block_list_t);
+typedef int (*subscribe_transaction_handler_t)(executor_t exec, chain_t, void*, int, transaction_t);
 
 
 

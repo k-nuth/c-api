@@ -20,10 +20,13 @@
 #include <chrono>
 #include <cstdio>
 #include <iostream>
+#include <csignal>
 #include <thread>
 
 #include <bitprim/nodecint/executor_c.h>
 #include <bitprim/nodecint/helpers.hpp>
+
+#include <bitprim/nodecint/chain/chain.h>
 #include <bitprim/nodecint/chain/payment_address.h>
 #include <bitprim/nodecint/chain/history_compact_list.h>
 #include <bitprim/nodecint/chain/history_compact.h>
@@ -36,21 +39,96 @@
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/bitcoin/utility/binary.hpp>
 
+
+// using namespace std::chrono_literals;
+
 bool waiting = true;
 
-libbitcoin::message::transaction const& tx_const_cpp2(transaction_t transaction) {
-	return *static_cast<libbitcoin::message::transaction const*>(transaction);
 
+// chain_get_last_height()
+// int chain_get_last_height(chain_t chain, uint64_t /*size_t*/* height) {
+
+void wait_until_block(chain_t chain, size_t desired_height) {
+    printf("wait_until_block - 1\n");
+
+    uint64_t height;
+    int error = chain_get_last_height(chain, &height);
+    printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
+    
+    while (error == 0 && height < desired_height) {
+        error = chain_get_last_height(chain, &height);
+        printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
+        
+        if (height < desired_height) {
+            printf("wait_until_block - 2\n");
+            // time.sleep(1)
+            
+            // std::this_thread::sleep_for(10s);
+            std::this_thread::sleep_for(std::chrono::seconds(10));
+
+            printf("wait_until_block - 3\n");
+        }
+    }
+
+    printf("wait_until_block - 4\n");
 }
 
 
 
+executor_t exec;
+bool stopped = false;
+
+void handle_stop(int signal) {
+    std::cout << "handle_stop()\n";
+    // stop(libbitcoin::error::success);
+    //executor_stop(exec);
+    //chain_t chain = executor_get_chain(exec);
+    //chain_unsubscribe(chain);
+    //stopped = true;
+    executor_stop(exec);
+}
+
+int xxx = 0;
+
+int chain_subscribe_blockchain_handler(executor_t exec, chain_t chain, void* ctx, int error, uint64_t fork_height, block_list_t blocks_incoming, block_list_t blocks_replaced) {
+    //printf("chain_subscribe_blockchain_handler error: %d\n", error);
+
+    if (executor_stopped(exec) == 1 || error == 1) {
+        printf("chain_subscribe_blockchain_handler -- stopping -- error: %d\n", error);
+        return 0;
+    }
+
+    //++xxx;
+
+    //if (xxx >= 3000) {
+    //    int s = executor_stopped(exec);
+    //    std::cout << s << std::endl;
+
+    //    //executor_stop(exec);
+    //    //executor_close(exec);
+
+    //    s = executor_stopped(exec);
+    //    std::cout << s << std::endl;
+    //    chain_unsubscribe(chain);
+    //}
+
+
+	return 1;
+}
+    
 int main(int /*argc*/, char* /*argv*/[]) {
 //    using namespace std::chrono_literals;
 
-    executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+    std::signal(SIGINT, handle_stop);
+    std::signal(SIGTERM, handle_stop);
+
+
+    exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+    // executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
     //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
+
+    printf("**-- 1\n");
     int res1 = executor_initchain(exec);
 
     if (res1 == 0) {
@@ -59,6 +137,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
         return -1;
     }
 
+    printf("**-- 2\n");
+    
     int res2 = executor_run_wait(exec);
 
     if (res2 != 0) {
@@ -66,34 +146,122 @@ int main(int /*argc*/, char* /*argv*/[]) {
         executor_destruct(exec);
         return -1;
     }
+    std::this_thread::sleep_for(std::chrono::seconds(10));
+
+    printf("**-- 3\n");
+
+    chain_t chain = executor_get_chain(exec);
+        
+    // fetch_last_height(exec, last_height_fetch_handler);
+    // wait_until_block(chain, 170);
 
 
-    auto inputs = chain_input_list_construct_default();
+    printf("**-- 4\n");
+    
+    chain_subscribe_blockchain(exec, chain, nullptr, chain_subscribe_blockchain_handler);
 
-    auto input0 = chain_input_construct_default();
-    auto input1 = chain_input_construct_default();
-    auto input2 = chain_input_construct_default();
-    chain_input_list_push_back(inputs, input0);
-    chain_input_list_push_back(inputs, input1);
-    chain_input_list_push_back(inputs, input2);
+    printf("**-- 5\n");
+    
+    // while ( ! executor_stopped(exec) ) {
+    //while ( ! stopped ) {
+    while (executor_stopped(exec) == 0) {
+        printf("**-- 6\n");
+        
+        uint64_t height;
+        int error = chain_get_last_height(chain, &height);
+        printf("error: %d, height: %zd\n", error, height);
 
+        if (height >= 3000) {
+            int s = executor_stopped(exec);
+            std::cout << s << std::endl;
 
-    auto outputs = chain_output_list_construct_default();
-    auto output0 = chain_output_construct_default();
-    auto output1 = chain_output_construct_default();
-    auto output2 = chain_output_construct_default();
-    chain_output_list_push_back(outputs, output0);
-    chain_output_list_push_back(outputs, output1);
-    chain_output_list_push_back(outputs, output2);
+            executor_stop(exec);
+            //executor_close(exec);
 
+            s = executor_stopped(exec);
+            std::cout << s << std::endl;
+        }
 
-    auto tr = chain_transaction_construct(1, 1, inputs, outputs);
-    chain_transaction_destruct(tr);
+        std::this_thread::sleep_for(std::chrono::seconds(10));
+    }
+
+    printf("**-- 7\n");
 
     executor_destruct(exec);
 
+    printf("**-- 8\n");
+    
     return 0;
 }
+
+
+
+
+// ------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+// libbitcoin::message::transaction const& tx_const_cpp2(transaction_t transaction) {
+// 	return *static_cast<libbitcoin::message::transaction const*>(transaction);
+// }
+
+// int main(int /*argc*/, char* /*argv*/[]) {
+// //    using namespace std::chrono_literals;
+
+//     executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//     //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+
+//     int res1 = executor_initchain(exec);
+
+//     if (res1 == 0) {
+//         printf("Error initializing files\n");
+//         executor_destruct(exec);
+//         return -1;
+//     }
+
+//     int res2 = executor_run_wait(exec);
+
+//     if (res2 != 0) {
+//         printf("Error initializing files\n");
+//         executor_destruct(exec);
+//         return -1;
+//     }
+
+
+//     auto inputs = chain_input_list_construct_default();
+
+//     auto input0 = chain_input_construct_default();
+//     auto input1 = chain_input_construct_default();
+//     auto input2 = chain_input_construct_default();
+//     chain_input_list_push_back(inputs, input0);
+//     chain_input_list_push_back(inputs, input1);
+//     chain_input_list_push_back(inputs, input2);
+
+
+//     auto outputs = chain_output_list_construct_default();
+//     auto output0 = chain_output_construct_default();
+//     auto output1 = chain_output_construct_default();
+//     auto output2 = chain_output_construct_default();
+//     chain_output_list_push_back(outputs, output0);
+//     chain_output_list_push_back(outputs, output1);
+//     chain_output_list_push_back(outputs, output2);
+
+
+//     auto tr = chain_transaction_construct(1, 1, inputs, outputs);
+//     chain_transaction_destruct(tr);
+
+//     executor_destruct(exec);
+
+//     return 0;
+// }
 
 // ------------------------------------------
 

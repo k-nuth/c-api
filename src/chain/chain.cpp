@@ -94,9 +94,9 @@ int chain_get_last_height(chain_t chain, uint64_t /*size_t*/* height) {
 
     int res;
     safe_chain(chain).fetch_last_height([&](std::error_code const& ec, size_t h) {
-        *height = h;
-        res = ec.value();
-        latch.count_down();
+       *height = h;
+       res = ec.value();
+       latch.count_down();
     });
 
     latch.count_down_and_wait();
@@ -116,7 +116,8 @@ int chain_get_last_height(chain_t chain, uint64_t /*size_t*/* height) {
 void chain_fetch_block_height(chain_t chain, void* ctx, hash_t hash, block_height_fetch_handler_t handler) {
 
     auto hash_cpp = bitprim::to_array(hash.hash);
-
+    // std::cout << "hash_cpp: " << libbitcoin::encode_hash(hash_cpp) << std::endl;
+    
     safe_chain(chain).fetch_block_height(hash_cpp, [chain, ctx, handler](std::error_code const& ec, size_t h) {
         handler(chain, ctx, ec.value(), h);
     });
@@ -325,9 +326,9 @@ void chain_fetch_transaction(chain_t chain, void* ctx, hash_t hash, int require_
 //    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed != 0, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t h, size_t i) {
+    safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed != 0, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t i, size_t h) {
         auto new_transaction = new libbitcoin::message::transaction(*transaction);
-        handler(chain, ctx, ec.value(), new_transaction, h, i);
+        handler(chain, ctx, ec.value(), new_transaction, i, h);
     });
 }
 
@@ -339,7 +340,7 @@ int chain_get_transaction(chain_t chain, hash_t hash, int require_confirmed, tra
 //    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed != 0, [&](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t h, size_t i) {
+    safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed != 0, [&](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t i, size_t h) {
         *out_transaction = new libbitcoin::message::transaction(*transaction);
         *out_height = h;
         *out_index = i;
@@ -603,34 +604,42 @@ int chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_
 //virtual void subscribe_blockchain(reorganize_handler&& handler) = 0;
 //virtual void subscribe_transaction(transaction_handler&& handler) = 0;
 
-void chain_subscribe_blockchain(chain_t chain, void* ctx, reorganize_handler_t handler) {
-    safe_chain(chain).subscribe_blockchain([chain, ctx, handler](std::error_code const& ec, size_t fork_height, libbitcoin::block_const_ptr_list_const_ptr incoming, libbitcoin::block_const_ptr_list_const_ptr replaced_blocks) {
-//        auto new_history = new libbitcoin::chain::history_compact::list(history);
+void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subscribe_blockchain_handler_t handler) {
+    safe_chain(chain).subscribe_blockchain([exec, chain, ctx, handler](std::error_code const& ec, size_t fork_height, libbitcoin::block_const_ptr_list_const_ptr incoming, libbitcoin::block_const_ptr_list_const_ptr replaced_blocks) {
 
-        auto* incoming_cpp = chain_block_list_construct_default();
-        for (auto&& x : *incoming) {
-            auto new_block = new libbitcoin::message::block(*x);
-            chain_block_list_push_back(incoming_cpp, new_block);
+        block_list_t incoming_cpp = nullptr;
+        if (incoming) {
+            incoming_cpp = chain_block_list_construct_default();
+            for (auto&& x : *incoming) {
+                auto new_block = new libbitcoin::message::block(*x);
+                chain_block_list_push_back(incoming_cpp, new_block);
+            }
         }
 
-        auto* replaced_blocks_cpp = chain_block_list_construct_default();
-        for (auto&& x : *replaced_blocks) {
-            auto new_block = new libbitcoin::message::block(*x);
-            chain_block_list_push_back(replaced_blocks_cpp, new_block);
+        block_list_t replaced_blocks_cpp = nullptr;
+        if (replaced_blocks) {
+            replaced_blocks_cpp = chain_block_list_construct_default();
+            for (auto&& x : *replaced_blocks) {
+                auto new_block = new libbitcoin::message::block(*x);
+                chain_block_list_push_back(replaced_blocks_cpp, new_block);
+            }
         }
-
-        return handler(chain, ctx, ec.value(), fork_height, incoming_cpp, replaced_blocks_cpp);
+        
+        auto res = handler(exec, chain, ctx, ec.value(), fork_height, incoming_cpp, replaced_blocks_cpp);
+        return res;
     });
 }
 
-void chain_subscribe_transaction(chain_t chain, void* ctx, transaction_handler_t handler) {
-    safe_chain(chain).subscribe_transaction([chain, ctx, handler](std::error_code const& ec, libbitcoin::transaction_const_ptr tx) {
+void chain_subscribe_transaction(executor_t exec, chain_t chain, void* ctx, subscribe_transaction_handler_t handler) {
+    safe_chain(chain).subscribe_transaction([exec, chain, ctx, handler](std::error_code const& ec, libbitcoin::transaction_const_ptr tx) {
         auto new_tx = new libbitcoin::message::transaction(*tx);
-        return handler(chain, ctx, ec.value(), new_tx);
+        return handler(exec, chain, ctx, ec.value(), new_tx);
     });
 }
 
-
+void chain_unsubscribe(chain_t chain) {
+    safe_chain(chain).unsubscribe();
+}
 
 // Organizers.
 //-------------------------------------------------------------------------
@@ -676,11 +685,7 @@ int chain_organize_transaction_sync(chain_t chain, transaction_t transaction) {
     return res;
 }
 
-
-
-
 //-------------------------------------------------------------------------
-
 
 ////It is the user's responsibility to release the transaction returned
 //transaction_t chain_hex_to_tx(char const* tx_hex) {
@@ -720,7 +725,6 @@ void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_h
     });
 }
 
-
 void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t from_height, stealth_fetch_handler_t handler){
 	auto* filter_cpp_ptr = static_cast<const libbitcoin::binary*>(filter);
 	libbitcoin::binary const& filter_cpp  = *filter_cpp_ptr;
@@ -730,6 +734,5 @@ void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t fro
         handler(chain, ctx, ec.value(), new_stealth);
     });
 } 
-
 
 } /* extern "C" */

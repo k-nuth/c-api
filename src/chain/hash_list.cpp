@@ -45,17 +45,22 @@ void chain_hash_list_push_back(hash_list_t list, hash_t hash) {
     chain_hash_list_cpp(list).push_back(hash_cpp);
 }
 
-void hash_list_destruct(hash_list_t list) {
+void chain_hash_list_destruct(hash_list_t list) {
     delete &chain_hash_list_cpp(list);
 }
 
-uint64_t /*size_t*/ hash_list_count(hash_list_t list) {
+uint64_t /*size_t*/ chain_hash_list_count(hash_list_t list) {
     return chain_hash_list_const_cpp(list).size();
 }
 
-hash_t hash_list_nth(hash_list_t list, uint64_t /*size_t*/ n) {
+hash_t chain_hash_list_nth(hash_list_t list, uint64_t /*size_t*/ n) {
     auto const& x = chain_hash_list_cpp(list)[n];
     return bitprim::to_hash_t(x);
+}
+
+void chain_hash_list_nth_out(hash_list_t list, uint64_t /*size_t*/ n, hash_t* out_hash) {
+    auto const& x = chain_hash_list_cpp(list)[n];
+    std::memcpy(out_hash->hash, x.data(), BITCOIN_HASH_SIZE);
 }
 
 } /* extern "C" */

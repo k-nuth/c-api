@@ -3,20 +3,30 @@ cmake_minimum_required(VERSION 3.4)
 # bitprim-node-cint
 #==============================================================================
 project(bitprim-node-cint
-        VERSION 3.0.0
+        VERSION 0.3.0
         LANGUAGES CXX C)
 
-if(USE_CPP11_ABI)
-  add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
-else()
-  add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+# if(USE_CPP11_ABI)
+#   add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
+# else()
+#   add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+# endif()
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  if (NOT NOT_USE_CPP11_ABI)
+    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
+  else()
+    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+  endif()
+  # set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-macro-redefined")
 endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Check for baseline language coverage in the compiler for the C++14 standard.
 #------------------------------------------------------------------------------
-set(CMAKE_CXX_STANDARD 14)
+# set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Process options.
@@ -62,12 +72,16 @@ option(WITH_CONSOLE_NODE_CINT "Compile console application." ON)
 option(WITH_LITECOIN "Compile with Litecoin support." OFF)
 
 
+set(BITPRIM_BUILD_NUMBER "-" CACHE STRING "Specify the Bitprim Build Number.")
+# message(${BITPRIM_BUILD_NUMBER})
+
+
 
 if (ENABLE_SHARED_NODE_CINT)
   set(ENABLE_SHARED ON)
 endif()
 
-set(WITH_CONSOLE_NODE_CINT ON)
+# set(WITH_CONSOLE_NODE_CINT ON)
 
 if (WITH_LITECOIN)
   add_definitions(-DLITECOIN)
@@ -120,10 +134,10 @@ if (NOT USE_CONAN)
   #  endif()
   #endif()
 
-  # Require bitprim-node of at least version 3.0.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
+  # Require bitprim-node of at least version 0.3.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
   #------------------------------------------------------------------------------
   if (NOT TARGET bitprim-node)
-    find_package(bitprim-node 3.0.0 REQUIRED)
+    find_package(bitprim-node 0.3.0 REQUIRED)
   endif()
 endif()
 
@@ -266,6 +280,7 @@ endif(ENABLE_POSITION_INDEPENDENT_CODE)
 
 #set_target_properties(bitprim-node-cint PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
+target_compile_definitions(bitprim-node-cint PUBLIC -DBITPRIM_BUILD_NUMBER="\\"${BITPRIM_BUILD_NUMBER}\\"")
 target_compile_definitions(bitprim-node-cint PUBLIC -Dbitprim_EXPORTS)
 
 target_include_directories(bitprim-node-cint PUBLIC
@@ -275,8 +290,15 @@ target_include_directories(bitprim-node-cint PUBLIC
 # target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC)
 if (NOT ENABLE_SHARED)
   target_compile_definitions(bitprim-node-cint PUBLIC -DBITPRIM_LIB_STATIC)
-  target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
+  # target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
+# else()
+  # target_compile_definitions(bitprim-node-cint PUBLIC -DBC_DLL)
 endif()
+
+#Note: Bitprim modules are Static, NodeCint Shared
+target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
+
+
 
 
 if (NOT MSVC)
