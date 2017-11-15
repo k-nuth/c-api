@@ -8,9 +8,6 @@ if __name__ == "__main__":
 
     builder.add_common_builds(shared_option_name="bitprim-node-cint:shared")
     
-    print("Unfiltered builds: ")
-    dir(builder.builds) #TODO DBG
-
     filtered_builds = []
     for settings, options, env_vars, build_requires in builder.builds:
         if settings["build_type"] == "Release" \
