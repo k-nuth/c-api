@@ -177,10 +177,10 @@ void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t fro
 
 
 BITPRIM_EXPORT
-void chain_subscribe_blockchain(chain_t chain, void* ctx, reorganize_handler_t handler);
+void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subscribe_blockchain_handler_t handler);
 
 BITPRIM_EXPORT
-void chain_subscribe_transaction(chain_t chain, void* ctx, transaction_handler_t handler);
+void chain_subscribe_transaction(executor_t exec, chain_t chain, void* ctx, subscribe_transaction_handler_t handler);
 
 BITPRIM_EXPORT
 void chain_unsubscribe(chain_t chain);

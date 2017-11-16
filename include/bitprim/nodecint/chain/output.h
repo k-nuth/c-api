@@ -56,9 +56,6 @@ uint64_t /*size_t*/ chain_output_signature_operations(output_t output);
 BITPRIM_EXPORT
 script_t chain_output_script(output_t output);
 
-BITPRIM_EXPORT
-hash_t chain_output_get_hash(output_t output);
-
 //BITPRIM_EXPORT
 //uint32_t chain_output_get_index(output_t output);
 

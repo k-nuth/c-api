@@ -56,7 +56,13 @@ BITPRIM_EXPORT
 hash_t chain_transaction_hash(transaction_t transaction);
 
 BITPRIM_EXPORT
+void chain_transaction_hash_out(transaction_t transaction, hash_t* out_hash);
+
+BITPRIM_EXPORT
 hash_t chain_transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type);
+
+BITPRIM_EXPORT
+void chain_transaction_hash_sighash_type_out(transaction_t transaction, uint32_t sighash_type, hash_t* out_hash);
 
 BITPRIM_EXPORT
 uint32_t chain_transaction_locktime(transaction_t transaction);

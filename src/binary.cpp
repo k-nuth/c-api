@@ -49,6 +49,10 @@ binary_t binary_construct_blocks(uint64_t /*size_t*/ bits_size, uint8_t* blocks,
 //    return ret;
 //}
 
+void binary_destruct(binary_t binary) {
+    delete binary;
+}
+
 uint8_t const* binary_blocks(binary_t binary, uint64_t* /*size_t*/ out_n) {
     *out_n = binary_const_cpp(binary).blocks().size();
     return binary_cpp(binary).blocks().data();

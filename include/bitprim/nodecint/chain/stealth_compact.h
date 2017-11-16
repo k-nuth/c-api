@@ -47,10 +47,19 @@ BITPRIM_EXPORT
 hash_t stealth_compact_get_ephemeral_public_key_hash(stealth_compact_t stealth);
 
 BITPRIM_EXPORT
+void stealth_compact_get_ephemeral_public_key_hash_out(stealth_compact_t stealth, hash_t* out_epk_hash);
+
+BITPRIM_EXPORT
 hash_t stealth_compact_get_transaction_hash(stealth_compact_t stealth);
 
 BITPRIM_EXPORT
+void stealth_compact_get_transaction_hash_out(stealth_compact_t stealth, hash_t* out_tx_hash);
+
+BITPRIM_EXPORT
 short_hash_t stealth_compact_get_public_key_hash(stealth_compact_t stealth);
+
+BITPRIM_EXPORT
+void stealth_compact_get_public_key_hash_out(stealth_compact_t stealth, short_hash_t* out_pk_hash);
 
 /*
     typedef std::vector<stealth_compact> list;

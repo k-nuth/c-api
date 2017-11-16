@@ -64,6 +64,11 @@ public:
 
     /// The populated configuration settings values.
     libbitcoin::node::configuration configured;
+
+private:
+    libbitcoin::config::checkpoint::list default_checkpoints();
+    void fix_checkpoints();
+
 };
 
 } // namespace nodecint

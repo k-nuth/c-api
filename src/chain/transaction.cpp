@@ -80,9 +80,19 @@ hash_t chain_transaction_hash(transaction_t transaction) {
     return bitprim::to_hash_t(hash_cpp);
 }
 
+void chain_transaction_hash_out(transaction_t transaction, hash_t* out_hash) {
+    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash();
+    std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
+}
+
 hash_t chain_transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type);
     return bitprim::to_hash_t(hash_cpp);
+}
+
+void chain_transaction_hash_sighash_type_out(transaction_t transaction, uint32_t sighash_type, hash_t* out_hash) {
+    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type);
+    std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
 uint32_t chain_transaction_locktime(transaction_t transaction) {
@@ -158,10 +168,6 @@ input_list_t chain_transaction_inputs(transaction_t transaction) {
     auto& tx = chain_transaction_cpp(transaction);
     return chain_input_list_construct_from_cpp(tx.inputs()); // TODO(fernando): transaction::inputs() is deprecated... check how to do it better...
 }
-
-
-
-
 
 //
 //// Serialization.

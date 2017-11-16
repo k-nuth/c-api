@@ -46,6 +46,9 @@ uint64_t /*size_t*/ chain_hash_list_count(hash_list_t list);
 BITPRIM_EXPORT
 hash_t chain_hash_list_nth(hash_list_t list, uint64_t /*size_t*/ n);
 
+BITPRIM_EXPORT
+void chain_hash_list_nth_out(hash_list_t list, uint64_t /*size_t*/ n, hash_t* out_hash);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

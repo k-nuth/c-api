@@ -130,11 +130,13 @@ private:
     "Using config file: %1%"
 #define BN_USING_DEFAULT_CONFIG \
     "Using default configuration settings."
-#define BN_VERSION_MESSAGE \
-    "\nVersion Information:\n\n" \
-    "bitprim-node:       %1%\n" \
-    "bitprim-blockchain: %2%\n" \
-    "bitprim:            %3%"
+
+// #define BN_VERSION_MESSAGE \
+//     "\nVersion Information:\n\n" \
+//     "bitprim-node:       %1%\n" \
+//     "bitprim-blockchain: %2%\n" \
+//     "bitprim:            %3%"
+
 #define BN_LOG_HEADER \
     "================= startup %1% =================="
 

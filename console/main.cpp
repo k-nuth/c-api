@@ -90,7 +90,7 @@ void handle_stop(int signal) {
 
 int xxx = 0;
 
-int chain_subscribe_blockchain_handler(chain_t chain, void* ctx, int error, uint64_t fork_height, block_list_t blocks_incoming, block_list_t blocks_replaced) {
+int chain_subscribe_blockchain_handler(executor_t exec, chain_t chain, void* ctx, int error, uint64_t fork_height, block_list_t blocks_incoming, block_list_t blocks_replaced) {
     //printf("chain_subscribe_blockchain_handler error: %d\n", error);
 
     if (executor_stopped(exec) == 1 || error == 1) {
@@ -158,7 +158,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     printf("**-- 4\n");
     
-    chain_subscribe_blockchain(chain, nullptr, chain_subscribe_blockchain_handler);
+    chain_subscribe_blockchain(exec, chain, nullptr, chain_subscribe_blockchain_handler);
 
     printf("**-- 5\n");
     

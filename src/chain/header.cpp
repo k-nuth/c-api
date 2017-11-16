@@ -150,9 +150,19 @@ hash_t chain_header_previous_block_hash(header_t header) {
     return bitprim::to_hash_t(hash_cpp);
 }
 
+void chain_header_previous_block_hash_out(header_t header, hash_t* out_previous_block_hash) {
+    auto const& previous_block_hash_cpp = chain_header_const_cpp(header).previous_block_hash();
+    std::memcpy(out_previous_block_hash->hash, previous_block_hash_cpp.data(), BITCOIN_HASH_SIZE);
+}
+
 hash_t chain_header_merkle(header_t header) {
     auto const& hash_cpp = chain_header_const_cpp(header).merkle();
     return bitprim::to_hash_t(hash_cpp);
+}
+
+void chain_header_merkle_out(header_t header, hash_t* out_merkle) {
+    auto const& merkle_hash_cpp = chain_header_const_cpp(header).merkle();
+    std::memcpy(out_merkle->hash, merkle_hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
 hash_t chain_header_hash(header_t header) {
@@ -160,12 +170,13 @@ hash_t chain_header_hash(header_t header) {
     return bitprim::to_hash_t(hash_cpp);
 }
 
+void chain_header_hash_out(header_t header, hash_t* out_hash){
+    auto const& hash_cpp = chain_header_const_cpp(header).hash();
+    std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
+}
+
 //const hash_digest& () const;
 //void set_previous_block_hash(const hash_digest& value);
-
-
-
-
 
 //// Serialization.
 ////-----------------------------------------------------------------------------
