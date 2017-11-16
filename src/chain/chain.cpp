@@ -601,8 +601,9 @@ int chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_
 // Subscribers.
 //-------------------------------------------------------------------------
 
-//virtual void subscribe_blockchain(reorganize_handler&& handler) = 0;
-//virtual void subscribe_transaction(transaction_handler&& handler) = 0;
+block_t cast_block(libbitcoin::message::block const& x) {
+    return const_cast<libbitcoin::message::block*>(&x);    
+}
 
 void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subscribe_blockchain_handler_t handler) {
     safe_chain(chain).subscribe_blockchain([exec, chain, ctx, handler](std::error_code const& ec, size_t fork_height, libbitcoin::block_const_ptr_list_const_ptr incoming, libbitcoin::block_const_ptr_list_const_ptr replaced_blocks) {
@@ -611,8 +612,9 @@ void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subsc
         if (incoming) {
             incoming_cpp = chain_block_list_construct_default();
             for (auto&& x : *incoming) {
-                auto new_block = new libbitcoin::message::block(*x);
-                chain_block_list_push_back(incoming_cpp, new_block);
+                // auto new_block = new libbitcoin::message::block(*x);
+                // chain_block_list_push_back(incoming_cpp, new_block);
+                chain_block_list_push_back(incoming_cpp, cast_block(*x));
             }
         }
 
@@ -620,8 +622,10 @@ void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subsc
         if (replaced_blocks) {
             replaced_blocks_cpp = chain_block_list_construct_default();
             for (auto&& x : *replaced_blocks) {
-                auto new_block = new libbitcoin::message::block(*x);
-                chain_block_list_push_back(replaced_blocks_cpp, new_block);
+                // auto new_block = new libbitcoin::message::block(*x);
+                // chain_block_list_push_back(replaced_blocks_cpp, new_block);
+                // chain_block_list_push_back_const(replaced_blocks_cpp, x.get());
+                chain_block_list_push_back(replaced_blocks_cpp, cast_block(*x));
             }
         }
         
