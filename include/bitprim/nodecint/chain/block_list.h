@@ -31,11 +31,15 @@
 extern "C" {
 #endif
 
+
 BITPRIM_EXPORT
 block_list_t chain_block_list_construct_default(void);
 
 BITPRIM_EXPORT
 void chain_block_list_push_back(block_list_t list, block_t block);
+
+// BITPRIM_EXPORT
+// void chain_block_list_push_back_const(block_list_t list, const block_t block);
 
 BITPRIM_EXPORT
 void chain_block_list_destruct(block_list_t list);

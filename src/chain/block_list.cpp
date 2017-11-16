@@ -51,6 +51,10 @@ void chain_block_list_push_back(block_list_t list, block_t block) {
     chain_block_list_cpp(list).push_back(chain_block_const_cpp(block));
 }
 
+// void chain_block_list_push_back_const(block_list_t list, const block_t block) {
+//     chain_block_list_cpp(list).push_back(chain_block_const_cpp(block));
+// }
+
 void chain_block_list_destruct(block_list_t list) {
     delete &chain_block_list_cpp(list);
 }
