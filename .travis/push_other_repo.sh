@@ -78,7 +78,7 @@ cd bitprim-js-native
 echo "Travis branch: ${TRAVIS_BRANCH}"
 git checkout ${TRAVIS_BRANCH}
 
-npm version patch
+# npm version patch
 replace_versions bitprim-node-cint $BITPRIM_BUILD_NUMBER
 # increment_py_version
 
@@ -87,8 +87,11 @@ cat versions.txt
 
 git add . versions.txt
 # git add . version.py
-git commit --message "Travis bitprim-node-cint build: $BITPRIM_BUILD_NUMBER, $TRAVIS_BUILD_NUMBER" || true
+git commit --message "Travis bitprim-node-cint build: $BITPRIM_BUILD_NUMBER, $TRAVIS_BUILD_NUMBER [skip ci]" || true
 git remote add origin-commit https://${GH_TOKEN}@github.com/bitprim/bitprim-py-native.git > /dev/null 2>&1
+git push --quiet --set-upstream origin-commit ${TRAVIS_BRANCH}  || true
+
+npm version patch
 git push --quiet --set-upstream origin-commit ${TRAVIS_BRANCH}  || true
 
 cd ..
