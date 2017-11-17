@@ -1,16 +1,7 @@
 secp256k1: v0.3.0-6-g52a836f
-<<<<<<< HEAD
 bitprim-core: v0.3.0-13-g72d4a663
 bitprim-consensus: v0.3.0-8-g7653768b
 bitprim-database: v0.3.0-11-g0896132
 bitprim-blockchain: v0.3.0-6-g45a538a
 bitprim-network: v0.3.0-11-gb05a9433
 bitprim-node: v0.3.0-16-g33349d1
-=======
-bitprim-core: v0.3.0-7-g38aa821d
-bitprim-consensus: v0.3.0-2-g21d41f94
-bitprim-database: v0.3.0-6-g238d1c6
-bitprim-blockchain: v0.3.0-3-g3aebb72
-bitprim-network: v0.3.0-7-gaf0385ce
-bitprim-node: v0.3.0-9-g3f474f9
->>>>>>> dev
