@@ -6,6 +6,7 @@ function replace_versions {
     if [ ! -f versions.txt ]; then
         echo "$1: $2" >> versions.txt
     else
+        cat versions.txt
         while read p; do
             if [[ $p == *"$1:"* ]]; then
                 echo "$1: $2" >> versions.txt.t
@@ -13,6 +14,10 @@ function replace_versions {
                 echo $p >> versions.txt.t
             fi
         done <versions.txt
+
+        cat versions.txt
+        cat versions.txt.t
+
         mv versions.txt{.t,}
     fi
 }  
@@ -69,6 +74,7 @@ git push --quiet --set-upstream origin-commit ${TRAVIS_BRANCH}  || true
 
 cd ..
 
+
 # --------------------------------------------------------------------------------------------------------------------
 # bitprim-js-native
 # --------------------------------------------------------------------------------------------------------------------
@@ -90,6 +96,26 @@ git remote add origin-commit https://${GH_TOKEN}@github.com/bitprim/bitprim-js-n
 git push --quiet --set-upstream origin-commit ${TRAVIS_BRANCH}  || true
 
 npm version patch
+git push --quiet --set-upstream origin-commit ${TRAVIS_BRANCH}  || true
+
+cd ..
+
+
+# --------------------------------------------------------------------------------------------------------------------
+# bitprim-cs
+# --------------------------------------------------------------------------------------------------------------------
+git clone https://github.com/bitprim/bitprim-cs.git
+cd bitprim-cs
+echo "Travis branch: ${TRAVIS_BRANCH}"
+git checkout ${TRAVIS_BRANCH}
+
+replace_versions bitprim-node-cint $BITPRIM_BUILD_NUMBER
+
+cat versions.txt
+
+git add . versions.txt
+git commit --message "Travis bitprim-node-cint build: $BITPRIM_BUILD_NUMBER, $TRAVIS_BUILD_NUMBER" || true
+git remote add origin-commit https://${GH_TOKEN}@github.com/bitprim/bitprim-cs.git > /dev/null 2>&1
 git push --quiet --set-upstream origin-commit ${TRAVIS_BRANCH}  || true
 
 cd ..
