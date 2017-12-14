@@ -8,7 +8,7 @@ version = "0.4"
 
 class BitprimnodecintTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    requires = "bitprim-node-cint/%s@%s/%s" % (username, channel)
+    requires = "bitprim-node-cint/%s@%s/%s" % (username, channel, version)
     generators = "cmake"
 
     def build(self):
