@@ -83,7 +83,7 @@ cat versions.txt
 
 git add . versions.txt
 git commit --message "Travis bitprim-node-cint build: $BITPRIM_BUILD_NUMBER, $TRAVIS_BUILD_NUMBER" || true
-git remote add origin-commit https://${GH_TOKEN}@github.com/bitprim/bitprim-py-native.git > /dev/null 2>&1
+git remote add origin-commit https://${GH_TOKEN}@github.com/bitprim/bitprim-cs.git > /dev/null 2>&1
 git push --quiet --set-upstream origin-commit ${TRAVIS_BRANCH}  || true
 
 cd ..
