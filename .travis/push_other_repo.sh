@@ -6,6 +6,7 @@ function replace_versions {
     if [ ! -f versions.txt ]; then
         echo "$1: $2" >> versions.txt
     else
+        cat versions.txt
         while read p; do
             if [[ $p == *"$1:"* ]]; then
                 echo "$1: $2" >> versions.txt.t
@@ -13,6 +14,10 @@ function replace_versions {
                 echo $p >> versions.txt.t
             fi
         done <versions.txt
+
+        cat versions.txt
+        cat versions.txt.t
+
         mv versions.txt{.t,}
     fi
 }  
