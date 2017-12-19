@@ -4,11 +4,11 @@ import os
 
 channel = os.getenv("CONAN_CHANNEL", "testing")
 username = os.getenv("CONAN_USERNAME", "bitprim")
-
+version = "0.4"
 
 class BitprimnodecintTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    requires = "bitprim-node-cint/0.3@%s/%s" % (username, channel)
+    requires = "bitprim-node-cint/%s@%s/%s" % (version, username, channel)
     generators = "cmake"
 
     def build(self):
