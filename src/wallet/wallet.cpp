@@ -144,14 +144,26 @@ hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 7606
 //     output << private_key << std::endl;
 //     return console_result::okay;
 
+    printf("C++ wallet_hd_new - 1\n");
     if (n < BITCOIN_MINIMUM_SEED_SIZE) return nullptr;
+
+    printf("C++ wallet_hd_new - 2\n");
 
     libbitcoin::data_chunk seed_cpp(seed, std::next(seed, n));
 
+    printf("C++ wallet_hd_new - 3\n");
+
     // We require the private version, but public is unused here.
     auto const prefixes = libbitcoin::wallet::hd_private::to_prefixes(version, 0);
+
+    printf("C++ wallet_hd_new - 4\n");
+
     // libbitcoin::wallet::hd_private const private_key(seed_cpp, prefixes);
-    return new libbitcoin::wallet::hd_private(seed_cpp, prefixes);
+    auto* res = new libbitcoin::wallet::hd_private(seed_cpp, prefixes);
+
+    printf("C++ wallet_hd_new - 5\n");
+
+    return res
 }
 
 
