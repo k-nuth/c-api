@@ -36,168 +36,255 @@
 #include <bitprim/nodecint/chain/output_list.h>
 #include <bitprim/nodecint/chain/output.h>
 
+#include <bitprim/nodecint/wallet/word_list.h>
+#include <bitprim/nodecint/wallet/wallet.h>
+
+
+
+
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/bitcoin/utility/binary.hpp>
 
 
-// using namespace std::chrono_literals;
+int main(int argc, char* argv[]) {
+    auto wl = word_list_construct();
 
-bool waiting = true;
+    // ------------------------------------------------------------------------------------------------------
+    // Copay Fernando
+    // genre salon chuckle oval finish loan crystal delay mixed erupt clown horn
+    // c8e30a6df5fb13257d5044e0c2a9546681f20c7318c676e5cb616c98df20f4d83f119fd03ef2061511008e022c8c28450ff1fa2d3a83df04818313a7b9996023
+    // 15LdCdQoXio4tYAtPd8v2cvdrzrtoHYyaW
+
+    word_list_add_word(wl, "genre");
+    word_list_add_word(wl, "salon");
+    word_list_add_word(wl, "chuckle");
+    word_list_add_word(wl, "oval");
+    word_list_add_word(wl, "finish");
+    word_list_add_word(wl, "loan");
+    word_list_add_word(wl, "crystal");
+    word_list_add_word(wl, "delay");
+    word_list_add_word(wl, "mixed");
+    word_list_add_word(wl, "erupt");
+    word_list_add_word(wl, "clown");
+    word_list_add_word(wl, "horn");
 
 
-// chain_get_last_height()
-// int chain_get_last_height(chain_t chain, uint64_t /*size_t*/* height) {
+    // ------------------------------------------------------------------------------------------------------
+    // car slab tail dirt wife custom front shield diet pear skull vapor gorilla token yard
+    // https://iancoleman.io/bip39/
+    // e0b6ebf43ebcaa428f59a1f9241019ba4c083a1c05d988677c8bf28ec6505ae07286515a9bb0bf98d836f582a94f29fc92bbe9a0a5805ce6dc4756a439ebd1d9
 
-void wait_until_block(chain_t chain, size_t desired_height) {
-    printf("wait_until_block - 1\n");
+    // word_list_add_word(wl, "car");
+    // word_list_add_word(wl, "slab");
+    // word_list_add_word(wl, "tail");
+    // word_list_add_word(wl, "dirt");
+    // word_list_add_word(wl, "wife");
+    // word_list_add_word(wl, "custom");
+    // word_list_add_word(wl, "front");
+    // word_list_add_word(wl, "shield");
+    // word_list_add_word(wl, "diet");
+    // word_list_add_word(wl, "pear");
+    // word_list_add_word(wl, "skull");
+    // word_list_add_word(wl, "vapor");
+    // word_list_add_word(wl, "gorilla");
+    // word_list_add_word(wl, "token");
+    // word_list_add_word(wl, "yard");
+    // ------------------------------------------------------------------------------------------------------
 
-    uint64_t height;
-    int error = chain_get_last_height(chain, &height);
-    printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
+
+    auto seed = wallet_mnemonics_to_seed(wl);
+
+    // ec_priv = wallet_ec_new(seed)
+
+    auto hd_priv = wallet_hd_new(seed.hash, 64, 76066276);
+    // auto ec_priv = wallet_hd_private_to_ec(hd_priv);
+
+
+    // pubk = bn.wallet_ec_to_public(ec_priv, 1)
+    // addr = bn.wallet_ec_to_address(pubk, 0)
+    // addr_str = bn.payment_address_encoded(addr)
+
+    // // seed_hex = seed[::-1].encode('hex')
+    // seed_hex = seed.encode('hex')
+
+    // print(seed_hex)
+
+    // // print(len(seed))
+
+    // // for x in seed:
+    // //     print(int(x))
+
+    // // print(pubk)
+    // // print(addr)
+    // print(addr_str)
+
+
+    word_list_destruct(wl);
+
+
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------
+
+// // using namespace std::chrono_literals;
+
+// bool waiting = true;
+
+
+// // chain_get_last_height()
+// // int chain_get_last_height(chain_t chain, uint64_t /*size_t*/* height) {
+
+// void wait_until_block(chain_t chain, size_t desired_height) {
+//     printf("wait_until_block - 1\n");
+
+//     uint64_t height;
+//     int error = chain_get_last_height(chain, &height);
+//     printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
     
-    while (error == 0 && height < desired_height) {
-        error = chain_get_last_height(chain, &height);
-        printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
+//     while (error == 0 && height < desired_height) {
+//         error = chain_get_last_height(chain, &height);
+//         printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
         
-        if (height < desired_height) {
-            printf("wait_until_block - 2\n");
-            // time.sleep(1)
+//         if (height < desired_height) {
+//             printf("wait_until_block - 2\n");
+//             // time.sleep(1)
             
-            // std::this_thread::sleep_for(10s);
-            std::this_thread::sleep_for(std::chrono::seconds(10));
+//             // std::this_thread::sleep_for(10s);
+//             std::this_thread::sleep_for(std::chrono::seconds(10));
 
-            printf("wait_until_block - 3\n");
-        }
-    }
+//             printf("wait_until_block - 3\n");
+//         }
+//     }
 
-    printf("wait_until_block - 4\n");
-}
-
-
-
-executor_t exec;
-bool stopped = false;
-
-void handle_stop(int signal) {
-    std::cout << "handle_stop()\n";
-    // stop(libbitcoin::error::success);
-    //executor_stop(exec);
-    //chain_t chain = executor_get_chain(exec);
-    //chain_unsubscribe(chain);
-    //stopped = true;
-    executor_stop(exec);
-}
-
-int xxx = 0;
-
-int chain_subscribe_blockchain_handler(executor_t exec, chain_t chain, void* ctx, int error, uint64_t fork_height, block_list_t blocks_incoming, block_list_t blocks_replaced) {
-    //printf("chain_subscribe_blockchain_handler error: %d\n", error);
-
-    if (executor_stopped(exec) == 1 || error == 1) {
-        printf("chain_subscribe_blockchain_handler -- stopping -- error: %d\n", error);
-        return 0;
-    }
-
-    //++xxx;
-
-    //if (xxx >= 3000) {
-    //    int s = executor_stopped(exec);
-    //    std::cout << s << std::endl;
-
-    //    //executor_stop(exec);
-    //    //executor_close(exec);
-
-    //    s = executor_stopped(exec);
-    //    std::cout << s << std::endl;
-    //    chain_unsubscribe(chain);
-    //}
+//     printf("wait_until_block - 4\n");
+// }
 
 
-	return 1;
-}
+
+// executor_t exec;
+// bool stopped = false;
+
+// void handle_stop(int signal) {
+//     std::cout << "handle_stop()\n";
+//     // stop(libbitcoin::error::success);
+//     //executor_stop(exec);
+//     //chain_t chain = executor_get_chain(exec);
+//     //chain_unsubscribe(chain);
+//     //stopped = true;
+//     executor_stop(exec);
+// }
+
+// int xxx = 0;
+
+// int chain_subscribe_blockchain_handler(executor_t exec, chain_t chain, void* ctx, int error, uint64_t fork_height, block_list_t blocks_incoming, block_list_t blocks_replaced) {
+//     //printf("chain_subscribe_blockchain_handler error: %d\n", error);
+
+//     if (executor_stopped(exec) == 1 || error == 1) {
+//         printf("chain_subscribe_blockchain_handler -- stopping -- error: %d\n", error);
+//         return 0;
+//     }
+
+//     //++xxx;
+
+//     //if (xxx >= 3000) {
+//     //    int s = executor_stopped(exec);
+//     //    std::cout << s << std::endl;
+
+//     //    //executor_stop(exec);
+//     //    //executor_close(exec);
+
+//     //    s = executor_stopped(exec);
+//     //    std::cout << s << std::endl;
+//     //    chain_unsubscribe(chain);
+//     //}
+
+
+// 	return 1;
+// }
     
-int main(int /*argc*/, char* /*argv*/[]) {
-//    using namespace std::chrono_literals;
+// int main(int /*argc*/, char* /*argv*/[]) {
+// //    using namespace std::chrono_literals;
 
-    std::signal(SIGINT, handle_stop);
-    std::signal(SIGTERM, handle_stop);
-
-
-    exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-    // executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-    //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+//     std::signal(SIGINT, handle_stop);
+//     std::signal(SIGTERM, handle_stop);
 
 
-    printf("**-- 1\n");
-    int res1 = executor_initchain(exec);
+//     exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//     // executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//     //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
-    if (res1 == 0) {
-        printf("Error initializing files\n");
-        executor_destruct(exec);
-        return -1;
-    }
 
-    printf("**-- 2\n");
+//     printf("**-- 1\n");
+//     int res1 = executor_initchain(exec);
+
+//     if (res1 == 0) {
+//         printf("Error initializing files\n");
+//         executor_destruct(exec);
+//         return -1;
+//     }
+
+//     printf("**-- 2\n");
     
-    int res2 = executor_run_wait(exec);
+//     int res2 = executor_run_wait(exec);
 
-    if (res2 != 0) {
-        printf("Error initializing files\n");
-        executor_destruct(exec);
-        return -1;
-    }
-    std::this_thread::sleep_for(std::chrono::seconds(10));
+//     if (res2 != 0) {
+//         printf("Error initializing files\n");
+//         executor_destruct(exec);
+//         return -1;
+//     }
+//     std::this_thread::sleep_for(std::chrono::seconds(10));
 
-    printf("**-- 3\n");
+//     printf("**-- 3\n");
 
-    chain_t chain = executor_get_chain(exec);
+//     chain_t chain = executor_get_chain(exec);
         
-    // fetch_last_height(exec, last_height_fetch_handler);
-    // wait_until_block(chain, 170);
+//     // fetch_last_height(exec, last_height_fetch_handler);
+//     // wait_until_block(chain, 170);
 
 
-    printf("**-- 4\n");
+//     printf("**-- 4\n");
     
-    chain_subscribe_blockchain(exec, chain, nullptr, chain_subscribe_blockchain_handler);
+//     chain_subscribe_blockchain(exec, chain, nullptr, chain_subscribe_blockchain_handler);
 
-    printf("**-- 5\n");
+//     printf("**-- 5\n");
     
-    // while ( ! executor_stopped(exec) ) {
-    //while ( ! stopped ) {
-    while (executor_stopped(exec) == 0) {
-        printf("**-- 6\n");
+//     // while ( ! executor_stopped(exec) ) {
+//     //while ( ! stopped ) {
+//     while (executor_stopped(exec) == 0) {
+//         printf("**-- 6\n");
         
-        uint64_t height;
-        int error = chain_get_last_height(chain, &height);
-        printf("error: %d, height: %zd\n", error, height);
+//         uint64_t height;
+//         int error = chain_get_last_height(chain, &height);
+//         printf("error: %d, height: %zd\n", error, height);
 
-        if (height >= 3000) {
-            int s = executor_stopped(exec);
-            std::cout << s << std::endl;
+//         if (height >= 3000) {
+//             int s = executor_stopped(exec);
+//             std::cout << s << std::endl;
 
-            executor_stop(exec);
-            //executor_close(exec);
+//             executor_stop(exec);
+//             //executor_close(exec);
 
-            s = executor_stopped(exec);
-            std::cout << s << std::endl;
-        }
+//             s = executor_stopped(exec);
+//             std::cout << s << std::endl;
+//         }
 
-        std::this_thread::sleep_for(std::chrono::seconds(10));
-    }
+//         std::this_thread::sleep_for(std::chrono::seconds(10));
+//     }
 
-    printf("**-- 7\n");
+//     printf("**-- 7\n");
 
-    executor_destruct(exec);
+//     executor_destruct(exec);
 
-    printf("**-- 8\n");
+//     printf("**-- 8\n");
     
-    return 0;
-}
+//     return 0;
+// }
 
 
 
 
-// ------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 

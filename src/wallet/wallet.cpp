@@ -163,7 +163,7 @@ hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 7606
 
     printf("C++ wallet_hd_new - 5\n");
 
-    return res
+    return res;
 }
 
 
