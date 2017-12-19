@@ -53,41 +53,6 @@ long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
     return bitprim::to_long_hash_t(hash_cpp);
 }
 
-
-// console_result ec_new::invoke(std::ostream& output, std::ostream& error)
-// {
-//     // Bound parameters.
-//     const data_chunk& seed = get_seed_argument();
-
-//     if (seed.size() < minimum_seed_size)
-//     {
-//         error << BX_EC_NEW_SHORT_SEED << std::endl;
-//         return console_result::failure;
-//     }
-
-//     ec_secret secret(new_key(seed));
-//     if (secret == null_hash)
-//     {
-//         error << BX_EC_NEW_INVALID_KEY << std::endl;
-//         return console_result::failure;
-//     }
-
-//     // We don't use bc::ec_private serialization (WIF) here.
-//     output << config::ec_private(secret) << std::endl;
-//     return console_result::okay;
-// }
-
-
-// //static header factory_from_data(const uint32_t version, const data_chunk& data);
-// header_t chain_header_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
-
-// //    libbitcoin::data_chunk data_cpp(data, data + n);
-//     libbitcoin::data_chunk data_cpp(data, std::next(data, n));
-//     auto header = libbitcoin::message::header::factory_from_data(version, data_cpp);
-//     return new libbitcoin::message::header(std::move(header)); // TODO(fernando): revisar todos los "new"'s que hay por todos lados para ver si podemos hacer un move de los recursos...
-// }
-
-
 //TODO(fernando): return error code and use output parameters
 ec_secret_t wallet_ec_new(uint8_t* seed, uint64_t n) {
 
@@ -114,22 +79,6 @@ ec_secret_t wallet_ec_new(uint8_t* seed, uint64_t n) {
 
 }
 
-
-
-// // In the case of failure this produces ec_compressed_null.
-// console_result ec_to_public::invoke(std::ostream& output, std::ostream& error)
-// {
-//     const auto& secret = get_ec_private_key_argument();
-//     const auto& uncompressed = get_uncompressed_option();
-
-//     ec_compressed point;
-//     secret_to_public(point, secret);
-
-//     // Serialize to the original compression state.
-//     output << ec_public(point, !uncompressed) << std::endl;
-//     return console_result::okay;
-// }
-
 ec_public_t wallet_ec_to_public(ec_secret_t secret, int /*bool*/ uncompressed) {
     
     auto secret_cpp = bitprim::to_array(secret.data);
@@ -140,23 +89,122 @@ ec_public_t wallet_ec_to_public(ec_secret_t secret, int /*bool*/ uncompressed) {
     return new libbitcoin::wallet::ec_public(point, !uncompressed_cpp);
 }
 
-
-// console_result ec_to_address::invoke(std::ostream& output, std::ostream& error)
-// {
-//     // Bound parameters.
-//     const auto& point = get_ec_public_key_argument();
-//     const auto version = get_version_option();
-
-//     output << payment_address(point, version) << std::endl;
-//     return console_result::okay;
-// }
-
 payment_address_t wallet_ec_to_address(ec_public_t point, uint32_t version) {
     libbitcoin::wallet::ec_public const& point_cpp = *static_cast<libbitcoin::wallet::ec_public const*>(point);
     return new libbitcoin::wallet::payment_address(point_cpp, version);
 }
 
-// ec-to-wif
+//TODO(fernando): implement ec-to-wif
+
+// console_result hd_new::invoke(std::ostream& output, std::ostream& error)
+// {
+//     // Bound parameters.
+//     const auto version = get_version_option();
+//     const data_chunk& seed = get_seed_argument();
+
+//     if (seed.size() < minimum_seed_size)
+//     {
+//         error << BX_HD_NEW_SHORT_SEED << std::endl;
+//         return console_result::failure;
+//     }
+
+//     // We require the private version, but public is unused here.
+//     const auto prefixes = bc::wallet::hd_private::to_prefixes(version, 0);
+//     const bc::wallet::hd_private private_key(seed, prefixes);
+
+//     if (!private_key)
+//     {
+//         error << BX_HD_NEW_INVALID_KEY << std::endl;
+//         return console_result::failure;
+//     }
+
+//     output << private_key << std::endl;
+//     return console_result::okay;
+// }
+
+//TODO(fernando): return error code and use output parameters
+hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 76066276*/) {
+
+//     if (seed.size() < minimum_seed_size)
+//     {
+//         error << BX_HD_NEW_SHORT_SEED << std::endl;
+//         return console_result::failure;
+//     }
+
+//     // We require the private version, but public is unused here.
+//     const auto prefixes = bc::wallet::hd_private::to_prefixes(version, 0);
+//     const bc::wallet::hd_private private_key(seed, prefixes);
+
+//     if (!private_key)
+//     {
+//         error << BX_HD_NEW_INVALID_KEY << std::endl;
+//         return console_result::failure;
+//     }
+
+//     output << private_key << std::endl;
+//     return console_result::okay;
+
+    if (n < BITCOIN_MINIMUM_SEED_SIZE) return nullptr;
+
+    libbitcoin::data_chunk seed_cpp(seed, std::next(seed, n));
+
+    // We require the private version, but public is unused here.
+    auto const prefixes = libbitcoin::wallet::hd_private::to_prefixes(version, 0);
+    // libbitcoin::wallet::hd_private const private_key(seed_cpp, prefixes);
+    return new libbitcoin::wallet::hd_private(seed_cpp, prefixes);
+}
+
+
+// console_result hd_to_ec::invoke(std::ostream& output, std::ostream& error)
+// {
+//     // Bound parameters.
+//     const auto& key = get_hd_key_argument();
+//     const auto private_version = get_secret_version_option();
+//     const auto public_version = get_public_version_option();
+
+//     const auto key_version = key.version();
+//     if (key_version != private_version && key_version != public_version)
+//     {
+//         output << "ERROR_VERSION" << std::endl;
+//         return console_result::failure;
+//     }
+
+//     if (key.version() == private_version)
+//     {
+//         const auto prefixes = bc::wallet::hd_private::to_prefixes(
+//             key.version(), public_version);
+
+//         // Create the private key from hd_key and the public version.
+//         const auto private_key = bc::wallet::hd_private(key, prefixes);
+//         if (private_key)
+//         {
+//             output << encode_base16(private_key.secret()) << std::endl;
+//             return console_result::okay;
+//         }
+//     }
+//     else
+//     {
+//         // Create the public key from hd_key and the public version.
+//         const auto public_key = bc::wallet::hd_public(key, public_version);
+//         if (public_key)
+//         {
+//             output << bc::wallet::ec_public(public_key) << std::endl;
+//             return console_result::okay;
+//         }
+//     }
+
+//     output << "ERROR_VKEY" << std::endl;
+//     return console_result::failure;
+// }
+
+
+//TODO(fernando): return error code and use output parameters
+ec_secret_t wallet_hd_private_to_ec(hd_private_t key) {
+    auto const& key_cpp = *static_cast<libbitcoin::wallet::hd_private const*>(key);
+    libbitcoin::ec_secret secret = key_cpp.secret();
+    return bitprim::to_ec_secret_t(secret);
+}
+
 
 //void long_hash_destroy(long_hash_t ptr) {
 //    free(ptr);

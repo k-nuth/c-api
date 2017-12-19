@@ -127,6 +127,10 @@ typedef struct ec_secret_t {
 
 typedef void* ec_public_t;
 
+typedef void* hd_private_t;
+
+
+
 typedef void* word_list_t;
 
 // Wallet ------------------------------------------------------------
