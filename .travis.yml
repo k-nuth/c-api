@@ -22,6 +22,8 @@ branches:
   only:
   - master
   - dev
+  - /^v\d+\.\d+\.\d+$/
+
 
 env:
    global:

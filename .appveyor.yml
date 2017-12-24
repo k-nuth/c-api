@@ -21,6 +21,7 @@ branches:
   only:
     - master
     - dev
+    - /^v\d+\.\d+\.\d+$/
 
 build: false
 
