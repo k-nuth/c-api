@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.4)
 # bitprim-node-cint
 #==============================================================================
 project(bitprim-node-cint
-        VERSION 0.4.0
+        VERSION 0.5.0
         LANGUAGES CXX C)
 
 # if(USE_CPP11_ABI)
@@ -134,10 +134,10 @@ if (NOT USE_CONAN)
   #  endif()
   #endif()
 
-  # Require bitprim-node of at least version 0.4.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
+  # Require bitprim-node of at least version 0.5.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
   #------------------------------------------------------------------------------
   if (NOT TARGET bitprim-node)
-    find_package(bitprim-node 0.4.0 REQUIRED)
+    find_package(bitprim-node 0.5.0 REQUIRED)
   endif()
 endif()
 
