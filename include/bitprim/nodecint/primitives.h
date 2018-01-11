@@ -37,6 +37,12 @@ extern "C" {
 #define BITCOIN_HASH_SIZE 32
 #define BITCOIN_LONG_HASH_SIZE 64
 
+#define BITCOIN_EC_SECRET_SIZE 32
+
+#define BITCOIN_MINIMUM_SEED_BITS 128
+#define BITCOIN_BYTE_BITS 8
+#define BITCOIN_MINIMUM_SEED_SIZE BITCOIN_MINIMUM_SEED_BITS / BITCOIN_BYTE_BITS
+
 
 typedef enum point_kind {output = 0, spend = 1} point_kind_t;
 
@@ -113,9 +119,23 @@ typedef struct long_hash_t {
     uint8_t hash[BITCOIN_LONG_HASH_SIZE];
 } long_hash_t;
 
-//typedef char const* zstring_t;
+
+// Wallet ------------------------------------------------------------
+typedef struct ec_secret_t {
+    uint8_t data[BITCOIN_EC_SECRET_SIZE];
+} ec_secret_t;
+
+typedef void* ec_public_t;
+
+typedef void* hd_private_t;
+
+
+
 typedef void* word_list_t;
 
+// Wallet ------------------------------------------------------------
+
+//typedef char const* zstring_t;
 
 
 typedef void (*run_handler_t)(executor_t exec, void* ctx, int error);

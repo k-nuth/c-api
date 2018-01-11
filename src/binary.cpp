@@ -50,7 +50,8 @@ binary_t binary_construct_blocks(uint64_t /*size_t*/ bits_size, uint8_t* blocks,
 //}
 
 void binary_destruct(binary_t binary) {
-    delete binary;
+    // delete binary;
+    delete &binary_cpp(binary);
 }
 
 uint8_t const* binary_blocks(binary_t binary, uint64_t* /*size_t*/ out_n) {

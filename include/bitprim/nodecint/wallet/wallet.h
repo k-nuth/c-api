@@ -30,6 +30,22 @@ extern "C" {
 BITPRIM_EXPORT
 long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics);
 
+BITPRIM_EXPORT
+ec_secret_t wallet_ec_new(uint8_t* seed, uint64_t n);
+
+BITPRIM_EXPORT
+ec_public_t wallet_ec_to_public(ec_secret_t secret, int /*bool*/ uncompressed);
+
+BITPRIM_EXPORT
+payment_address_t wallet_ec_to_address(ec_public_t point, uint32_t version);
+
+
+BITPRIM_EXPORT
+hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 76066276*/);
+
+BITPRIM_EXPORT
+ec_secret_t wallet_hd_private_to_ec(hd_private_t key);
+
 //BITPRIM_EXPORT
 //void long_hash_destroy(long_hash_t ptr);
 
