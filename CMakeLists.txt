@@ -264,7 +264,7 @@ set(_bitprim_sources
 
         src/wallet/wallet.cpp
         src/wallet/word_list.cpp
-)
+        src/platform.cpp)
 
 
 add_library(bitprim-node-cint ${MODE}
@@ -446,6 +446,7 @@ set(_bitprim_headers
         bitprim/nodecint/wallet/wallet.h
         bitprim/nodecint/wallet/word_list.h
         bitprim/nodecint/binary.h
+        bitprim/nodecint/platform.h
 )
 
 foreach (_header ${_bitprim_headers})
