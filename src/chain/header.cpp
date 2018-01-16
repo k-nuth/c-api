@@ -42,7 +42,7 @@ uint64_t /*size_t*/ chain_header_satoshi_fixed_size(uint32_t version) {
     return libbitcoin::message::header::satoshi_fixed_size(version);
 }
 
-uint8_t const* chain_header_to_data(header_t header, uint32_t version, uint64_t /*size_t*/ out_size) {
+uint8_t const* chain_header_to_data(header_t header, uint32_t version, uint64_t* /*size_t*/ out_size) {
     auto const& header_cpp = chain_header_const_cpp(header);
     auto data = header_cpp.to_data(version);
 

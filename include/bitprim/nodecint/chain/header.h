@@ -44,7 +44,7 @@ BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_header_serialized_size(header_t header, uint32_t version);
 
 BITPRIM_EXPORT
-uint8_t const* chain_header_to_data(header_t header, uint32_t version, uint64_t /*size_t*/ out_size);
+uint8_t const* chain_header_to_data(header_t header, uint32_t version, uint64_t* /*size_t*/ out_size);
 
 BITPRIM_EXPORT
 header_t chain_header_construct_default(void);
