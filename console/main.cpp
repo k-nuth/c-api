@@ -44,7 +44,7 @@
 
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/bitcoin/utility/binary.hpp>
-
+#include <bitcoin/bitcoin/wallet/hd_private.hpp>
 
 int main(int argc, char* argv[]) {
     auto wl = word_list_construct();
@@ -97,6 +97,8 @@ int main(int argc, char* argv[]) {
     // ec_priv = wallet_ec_new(seed)
 
     auto hd_priv = wallet_hd_new(seed.hash, 64, 76066276);
+    std::cout << *static_cast<libbitcoin::wallet::hd_private const*>(hd_priv) << std::endl;
+
     // auto ec_priv = wallet_hd_private_to_ec(hd_priv);
 
 

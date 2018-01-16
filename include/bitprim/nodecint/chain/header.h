@@ -27,36 +27,29 @@
 #include <bitprim/nodecint/primitives.h>
 
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-//static header factory_from_data(const uint32_t version, const data_chunk& data);
 BITPRIM_EXPORT
 header_t chain_header_factory_from_data(uint32_t version, uint8_t* data, uint64_t n);
 
-//static size_t satoshi_fixed_size(const uint32_t version);
 BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_header_satoshi_fixed_size(uint32_t version);
 
-//void reset(void);
 BITPRIM_EXPORT
 void chain_header_reset(header_t header);
 
-//size_t serialized_size(const uint32_t version) const;
 BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_header_serialized_size(header_t header, uint32_t version);
 
-//data_chunk to_data(const uint32_t version) const;
 BITPRIM_EXPORT
-uint8_t* chain_header_to_data(header_t header, uint32_t version);
+uint8_t const* chain_header_to_data(header_t header, uint32_t version, uint64_t /*size_t*/ out_size);
+// uint8_t* chain_header_to_data(header_t header, uint32_t version);
 
-//header(void);
 BITPRIM_EXPORT
 header_t chain_header_construct_default(void);
 
-//header(uint32_t version, const hash_digest& previous_block_hash, const hash_digest& merkle, uint32_t timestamp, uint32_t bits, uint32_t nonce);
 BITPRIM_EXPORT
 header_t chain_header_construct(uint32_t version, uint8_t* previous_block_hash, uint8_t* merkle, uint32_t timestamp, uint32_t bits, uint32_t nonce);
 

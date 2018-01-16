@@ -49,13 +49,14 @@ uint64_t /*size_t*/ chain_header_satoshi_fixed_size(uint32_t version) {
 //data_chunk to_data(const uint32_t version) const;
 //void to_data(const uint32_t version, std::ostream& stream) const;
 //void to_data(const uint32_t version, writer& sink) const;
-uint8_t* chain_header_to_data(header_t header, uint32_t version) {
+uint8_t const* chain_header_to_data(header_t header, uint32_t version, uint64_t /*size_t*/ out_size) {
     auto const& header_cpp = chain_header_const_cpp(header);
     auto data = header_cpp.to_data(version);
 
+    *out_size = data.size();
     //Note: It is the responsability of the user to release/destruct the object
     auto* ret = new libbitcoin::data_chunk(std::move(data));
-    return ret->data();
+    return ret->data(); //TODO(fernando): Memory leak!
 }
 
 //void reset();
