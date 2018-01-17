@@ -68,6 +68,11 @@ script_t chain_output_script(output_t output) {
     return &(chain_output_cpp(output).script());
 }
 
+payment_address_t chain_output_payment_address(output_t output, int /*bool*/ use_testnet_rules){
+    auto payment_address = chain_output_cpp(output).address(use_testnet_rules != 0);
+    return new libbitcoin::wallet::payment_address(payment_address);
+}
+
 //const chain::script& script() const;
 
 //// Serialization.
