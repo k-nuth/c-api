@@ -143,7 +143,7 @@ void print_hex(char const* data, size_t n) {
 
 
 // // chain_get_last_height()
-// // int chain_get_last_height(chain_t chain, uint64_t /*size_t*/* height) {
+// // int chain_get_last_height(chain_t chain, uint64_t* /*size_t*/ height) {
 
  void wait_until_block(chain_t chain, size_t desired_height) {
      printf("wait_until_block - 1\n");

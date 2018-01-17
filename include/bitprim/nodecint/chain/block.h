@@ -66,7 +66,7 @@ BITPRIM_EXPORT
 transaction_t chain_block_transaction_nth(block_t block, uint64_t /*size_t*/ n);
 
 //BITPRIM_EXPORT
-//transaction_t chain_block_transactions(block_t block, uint64_t /*size_t*/* n);
+//transaction_t chain_block_transactions(block_t block, uint64_t* /*size_t*/ n);
 //
 //BITPRIM_EXPORT
 //transaction_t chain_block_transaction_next(transaction_t transaction);
