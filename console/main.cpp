@@ -56,7 +56,6 @@ void print_hex(char const* data, size_t n) {
     printf("\n");
 }
 
-
 //int main(int argc, char* argv[]) {
 //    auto wl = word_list_construct();
 //

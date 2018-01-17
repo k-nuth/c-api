@@ -56,6 +56,9 @@ uint64_t /*size_t*/ chain_output_signature_operations(output_t output);
 BITPRIM_EXPORT
 script_t chain_output_script(output_t output);
 
+BITPRIM_EXPORT
+payment_address_t chain_output_payment_address(output_t output, int /*bool*/ use_testnet_rules);
+
 //BITPRIM_EXPORT
 //uint32_t chain_output_get_index(output_t output);
 
