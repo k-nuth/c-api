@@ -35,6 +35,7 @@
 #include <bitprim/nodecint/chain/input.h>
 #include <bitprim/nodecint/chain/output_list.h>
 #include <bitprim/nodecint/chain/output.h>
+#include <bitprim/nodecint/chain/script.h>
 
 #include <bitprim/nodecint/wallet/word_list.h>
 #include <bitprim/nodecint/wallet/wallet.h>
@@ -44,85 +45,94 @@
 
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/bitcoin/utility/binary.hpp>
+#include <bitcoin/bitcoin/wallet/hd_private.hpp>
 
-
-int main(int argc, char* argv[]) {
-    auto wl = word_list_construct();
-
-    // ------------------------------------------------------------------------------------------------------
-    // Copay Fernando
-    // genre salon chuckle oval finish loan crystal delay mixed erupt clown horn
-    // c8e30a6df5fb13257d5044e0c2a9546681f20c7318c676e5cb616c98df20f4d83f119fd03ef2061511008e022c8c28450ff1fa2d3a83df04818313a7b9996023
-    // 15LdCdQoXio4tYAtPd8v2cvdrzrtoHYyaW
-
-    word_list_add_word(wl, "genre");
-    word_list_add_word(wl, "salon");
-    word_list_add_word(wl, "chuckle");
-    word_list_add_word(wl, "oval");
-    word_list_add_word(wl, "finish");
-    word_list_add_word(wl, "loan");
-    word_list_add_word(wl, "crystal");
-    word_list_add_word(wl, "delay");
-    word_list_add_word(wl, "mixed");
-    word_list_add_word(wl, "erupt");
-    word_list_add_word(wl, "clown");
-    word_list_add_word(wl, "horn");
-
-
-    // ------------------------------------------------------------------------------------------------------
-    // car slab tail dirt wife custom front shield diet pear skull vapor gorilla token yard
-    // https://iancoleman.io/bip39/
-    // e0b6ebf43ebcaa428f59a1f9241019ba4c083a1c05d988677c8bf28ec6505ae07286515a9bb0bf98d836f582a94f29fc92bbe9a0a5805ce6dc4756a439ebd1d9
-
-    // word_list_add_word(wl, "car");
-    // word_list_add_word(wl, "slab");
-    // word_list_add_word(wl, "tail");
-    // word_list_add_word(wl, "dirt");
-    // word_list_add_word(wl, "wife");
-    // word_list_add_word(wl, "custom");
-    // word_list_add_word(wl, "front");
-    // word_list_add_word(wl, "shield");
-    // word_list_add_word(wl, "diet");
-    // word_list_add_word(wl, "pear");
-    // word_list_add_word(wl, "skull");
-    // word_list_add_word(wl, "vapor");
-    // word_list_add_word(wl, "gorilla");
-    // word_list_add_word(wl, "token");
-    // word_list_add_word(wl, "yard");
-    // ------------------------------------------------------------------------------------------------------
-
-
-    auto seed = wallet_mnemonics_to_seed(wl);
-
-    // ec_priv = wallet_ec_new(seed)
-
-    auto hd_priv = wallet_hd_new(seed.hash, 64, 76066276);
-    // auto ec_priv = wallet_hd_private_to_ec(hd_priv);
-
-
-    // pubk = bn.wallet_ec_to_public(ec_priv, 1)
-    // addr = bn.wallet_ec_to_address(pubk, 0)
-    // addr_str = bn.payment_address_encoded(addr)
-
-    // // seed_hex = seed[::-1].encode('hex')
-    // seed_hex = seed.encode('hex')
-
-    // print(seed_hex)
-
-    // // print(len(seed))
-
-    // // for x in seed:
-    // //     print(int(x))
-
-    // // print(pubk)
-    // // print(addr)
-    // print(addr_str)
-
-
-    word_list_destruct(wl);
-
-
+void print_hex(char const* data, size_t n) {
+    while (n != 0) {
+        printf("%2x", *data);
+        ++data;
+        --n;
+    }
+    printf("\n");
 }
+
+//int main(int argc, char* argv[]) {
+//    auto wl = word_list_construct();
+//
+//    // ------------------------------------------------------------------------------------------------------
+//    // Copay Fernando
+//    // genre salon chuckle oval finish loan crystal delay mixed erupt clown horn
+//    // c8e30a6df5fb13257d5044e0c2a9546681f20c7318c676e5cb616c98df20f4d83f119fd03ef2061511008e022c8c28450ff1fa2d3a83df04818313a7b9996023
+//    // 15LdCdQoXio4tYAtPd8v2cvdrzrtoHYyaW
+//
+//    word_list_add_word(wl, "genre");
+//    word_list_add_word(wl, "salon");
+//    word_list_add_word(wl, "chuckle");
+//    word_list_add_word(wl, "oval");
+//    word_list_add_word(wl, "finish");
+//    word_list_add_word(wl, "loan");
+//    word_list_add_word(wl, "crystal");
+//    word_list_add_word(wl, "delay");
+//    word_list_add_word(wl, "mixed");
+//    word_list_add_word(wl, "erupt");
+//    word_list_add_word(wl, "clown");
+//    word_list_add_word(wl, "horn");
+//
+//
+//    // ------------------------------------------------------------------------------------------------------
+//    // car slab tail dirt wife custom front shield diet pear skull vapor gorilla token yard
+//    // https://iancoleman.io/bip39/
+//    // e0b6ebf43ebcaa428f59a1f9241019ba4c083a1c05d988677c8bf28ec6505ae07286515a9bb0bf98d836f582a94f29fc92bbe9a0a5805ce6dc4756a439ebd1d9
+//
+//    // word_list_add_word(wl, "car");
+//    // word_list_add_word(wl, "slab");
+//    // word_list_add_word(wl, "tail");
+//    // word_list_add_word(wl, "dirt");
+//    // word_list_add_word(wl, "wife");
+//    // word_list_add_word(wl, "custom");
+//    // word_list_add_word(wl, "front");
+//    // word_list_add_word(wl, "shield");
+//    // word_list_add_word(wl, "diet");
+//    // word_list_add_word(wl, "pear");
+//    // word_list_add_word(wl, "skull");
+//    // word_list_add_word(wl, "vapor");
+//    // word_list_add_word(wl, "gorilla");
+//    // word_list_add_word(wl, "token");
+//    // word_list_add_word(wl, "yard");
+//    // ------------------------------------------------------------------------------------------------------
+//
+//
+//    auto seed = wallet_mnemonics_to_seed(wl);
+//
+//    // ec_priv = wallet_ec_new(seed)
+//
+//    auto hd_priv = wallet_hd_new(seed.hash, 64, 76066276);
+//    // auto ec_priv = wallet_hd_private_to_ec(hd_priv);
+//
+//
+//    // pubk = bn.wallet_ec_to_public(ec_priv, 1)
+//    // addr = bn.wallet_ec_to_address(pubk, 0)
+//    // addr_str = bn.payment_address_encoded(addr)
+//
+//    // // seed_hex = seed[::-1].encode('hex')
+//    // seed_hex = seed.encode('hex')
+//
+//    // print(seed_hex)
+//
+//    // // print(len(seed))
+//
+//    // // for x in seed:
+//    // //     print(int(x))
+//
+//    // // print(pubk)
+//    // // print(addr)
+//    // print(addr_str)
+//
+//
+//    word_list_destruct(wl);
+//
+//
+//}
 
 // ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -132,32 +142,32 @@ int main(int argc, char* argv[]) {
 
 
 // // chain_get_last_height()
-// // int chain_get_last_height(chain_t chain, uint64_t /*size_t*/* height) {
+// // int chain_get_last_height(chain_t chain, uint64_t* /*size_t*/ height) {
 
-// void wait_until_block(chain_t chain, size_t desired_height) {
-//     printf("wait_until_block - 1\n");
+ void wait_until_block(chain_t chain, size_t desired_height) {
+     printf("wait_until_block - 1\n");
 
-//     uint64_t height;
-//     int error = chain_get_last_height(chain, &height);
-//     printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
+     uint64_t height;
+     int error = chain_get_last_height(chain, &height);
+     //printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
     
-//     while (error == 0 && height < desired_height) {
-//         error = chain_get_last_height(chain, &height);
-//         printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
+     while (error == 0 && height < desired_height) {
+         error = chain_get_last_height(chain, &height);
+         //printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
         
-//         if (height < desired_height) {
-//             printf("wait_until_block - 2\n");
-//             // time.sleep(1)
+         if (height < desired_height) {
+             //printf("wait_until_block - 2\n");
+             // time.sleep(1)
             
-//             // std::this_thread::sleep_for(10s);
-//             std::this_thread::sleep_for(std::chrono::seconds(10));
+             // std::this_thread::sleep_for(10s);
+             std::this_thread::sleep_for(std::chrono::seconds(10));
 
-//             printf("wait_until_block - 3\n");
-//         }
-//     }
+             //printf("wait_until_block - 3\n");
+         }
+     }
 
-//     printf("wait_until_block - 4\n");
-// }
+     //printf("wait_until_block - 4\n");
+ }
 
 
 
@@ -424,3 +434,74 @@ int main(int argc, char* argv[]) {
 //
 //    return 0;
 //}
+
+
+
+// ------------------------------------------
+
+inline
+int char2int(char input) {
+    if (input >= '0' && input <= '9') {
+        return input - '0';
+    }
+    if (input >= 'A' && input <= 'F') {
+        return input - 'A' + 10;
+    }
+    if (input >= 'a' && input <= 'f') {
+        return input - 'a' + 10;
+    }
+    throw std::invalid_argument("Invalid input string");
+}
+
+inline
+void hex2bin(const char* src, uint8_t* target) {
+    while ((*src != 0) && (src[1] != 0)) {
+        *(target++) = char2int(*src) * 16 + char2int(src[1]);
+        src += 2;
+    }
+}
+
+int main(int argc, char* argv[]) {
+
+    printf("hola -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
+
+    executor_t exec = executor_construct("", stdout, stderr);
+
+    int res1 = executor_initchain(exec);
+
+	int res2 = executor_run_wait(exec);
+    chain_t chain = executor_get_chain(exec);
+
+    wait_until_block(chain, 170);
+
+    size_t height;
+
+
+	std::string hash = "0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098";
+	libbitcoin::hash_digest hash_bytes;
+	hex2bin(hash.c_str(), hash_bytes.data());
+	std::reverse(hash_bytes.begin(), hash_bytes.end());
+	transaction_t tx;
+
+	size_t index;
+    hash_t tx_hash;
+    std::memcpy(tx_hash.hash, hash_bytes.data(), 32);
+
+	auto err = chain_get_transaction(chain, tx_hash, false, &tx, &height, &index);
+
+    auto input_list = chain_transaction_inputs(tx);
+    auto input_count = chain_input_list_count(input_list);
+    auto input_0 = chain_input_list_nth(input_list, 0);
+
+    auto input_0_script = chain_input_script(input_0);
+
+    size_t script_size = 0;
+    auto* script_data = chain_script_to_data(input_0_script, 0, &script_size);
+
+    auto script_len = strlen((const char*)script_data);
+
+    print_hex((const char*)script_data, script_len);
+    executor_destruct(exec);
+
+    return 0;
+}

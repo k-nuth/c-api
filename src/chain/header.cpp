@@ -32,11 +32,7 @@ libbitcoin::message::header& chain_header_cpp(header_t header) {
 
 extern "C" {
 
-
-//static header factory_from_data(const uint32_t version, const data_chunk& data);
 header_t chain_header_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
-
-//    libbitcoin::data_chunk data_cpp(data, data + n);
     libbitcoin::data_chunk data_cpp(data, std::next(data, n));
     auto header = libbitcoin::message::header::factory_from_data(version, data_cpp);
     return new libbitcoin::message::header(std::move(header)); // TODO(fernando): revisar todos los "new"'s que hay por todos lados para ver si podemos hacer un move de los recursos...
@@ -46,34 +42,29 @@ uint64_t /*size_t*/ chain_header_satoshi_fixed_size(uint32_t version) {
     return libbitcoin::message::header::satoshi_fixed_size(version);
 }
 
-//data_chunk to_data(const uint32_t version) const;
-//void to_data(const uint32_t version, std::ostream& stream) const;
-//void to_data(const uint32_t version, writer& sink) const;
-uint8_t* chain_header_to_data(header_t header, uint32_t version) {
+uint8_t const* chain_header_to_data(header_t header, uint32_t version, uint64_t* /*size_t*/ out_size) {
     auto const& header_cpp = chain_header_const_cpp(header);
     auto data = header_cpp.to_data(version);
 
-    //Note: It is the responsability of the user to release/destruct the object
-    auto* ret = new libbitcoin::data_chunk(std::move(data));
-    return ret->data();
+    //Note: It is the responsability of the user to release/destruct the array
+    auto* ret = (uint8_t*)malloc((data.size()) * sizeof(uint8_t)); // NOLINT
+    std::copy_n(data.begin(), data.size(), ret);
+    *out_size = data.size();
+    return ret;
 }
 
-//void reset();
 void chain_header_reset(header_t header) {
     return chain_header_cpp(header).reset();
 }
 
-//size_t serialized_size(const uint32_t version) const;
 uint64_t /*size_t*/ chain_header_serialized_size(header_t header, uint32_t version) {
     return chain_header_const_cpp(header).serialized_size(version);
 }
 
-//header();
 header_t chain_header_construct_default() {
     return new libbitcoin::message::header();
 }
 
-//header(uint32_t version, const hash_digest& previous_block_hash, const hash_digest& merkle, uint32_t timestamp, uint32_t bits, uint32_t nonce);
 header_t chain_header_construct(uint32_t version, uint8_t* previous_block_hash, uint8_t* merkle, uint32_t timestamp, uint32_t bits, uint32_t nonce) {
     //precondition: [previous_block_hash, 32) is a valid range
     //              && [merkle, 32) is a valid range

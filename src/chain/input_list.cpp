@@ -56,7 +56,7 @@ uint64_t /*size_t*/ chain_input_list_count(input_list_t list) {
 }
 
 input_t chain_input_list_nth(input_list_t list, uint64_t /*size_t*/ n) {
-    auto &x = chain_input_list_cpp(list)[n];
+    auto& x = chain_input_list_cpp(list)[n];
     return &x;
 }
 

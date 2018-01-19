@@ -49,6 +49,14 @@ uint64_t /*size_t*/ chain_script_serialized_size(script_t script, int /*bool*/ p
 BITPRIM_EXPORT
 char const* chain_script_to_string(script_t script, uint32_t active_forks);
 
+//Note: user of the function has to release the resource (memory) manually
+BITPRIM_EXPORT
+char const* chain_script_type(script_t script);
+
+//Note: user of the function has to release the resource (memory) manually
+BITPRIM_EXPORT
+uint8_t const* chain_script_to_data(script_t script, int /*bool*/ prefix, uint64_t* /*size_t*/ out_size);
+
 BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_script_sigops(script_t script, int /*bool*/ embedded);
 

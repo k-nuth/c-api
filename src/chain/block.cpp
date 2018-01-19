@@ -81,6 +81,13 @@ void chain_block_hash_out(block_t block, hash_t* out_hash) {
     std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
+char const* chain_block_proof(block_t block){
+    auto proof_str = chain_block_const_cpp(block).proof().str();
+    auto* proof_c_str = (char*)malloc((proof_str.size() + 1) * sizeof(char)); // NOLINT
+    std::copy_n(proof_str.begin(), proof_str.size() + 1, proof_c_str);
+    return proof_c_str;
+}
+
 // Warning: breaking change
 uint64_t /*size_t*/ chain_block_transaction_count(block_t block) {
     return chain_block_const_cpp(block).transactions().size();

@@ -24,14 +24,12 @@
 #include <stdint.h>
 
 #include <bitprim/nodecint/visibility.h>
+#include <bitprim/nodecint/error.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-// constexpr size_t bitcoin_short_hash_size = 20;
-// constexpr size_t bitcoin_hash_size = 32;
-// constexpr size_t bitcoin_long_hash_size = 64;
 
 #define BITCOIN_SHORT_HASH_SIZE 20
 #define BITCOIN_HASH_SIZE 32
@@ -87,36 +85,24 @@ typedef void* get_blocks_ptr_t;
 typedef void* get_headers_t;
 typedef void* get_headers_ptr_t;
 
-
 typedef void* payment_address_t;
 typedef void* binary_t;
 typedef void* stealth_compact_t;
 typedef void* stealth_compact_list_t;
 
-
 typedef void* hash_list_t;
 
 
-
-//typedef uint8_t const* hash_t;
-//typedef uint8_t* long_hash_t;
-//typedef uint8_t* short_hash_t;
-
-//typedef uint8_t const* hash_t;
-//typedef uint8_t* long_hash_t;
 typedef struct short_hash_t {
-//    uint8_t hash[libbitcoin::hash_size];
-    uint8_t hash[BITCOIN_SHORT_HASH_SIZE];
+    uint8_t hash[BITCOIN_SHORT_HASH_SIZE];  //libbitcoin::hash_size
 } short_hash_t;
 
 typedef struct hash_t {
-//    uint8_t hash[libbitcoin::hash_size];
-    uint8_t hash[BITCOIN_HASH_SIZE];
+    uint8_t hash[BITCOIN_HASH_SIZE];        //libbitcoin::hash_size
 } hash_t;
 
 typedef struct long_hash_t {
-//    uint8_t hash[libbitcoin::long_hash_size];
-    uint8_t hash[BITCOIN_LONG_HASH_SIZE];
+    uint8_t hash[BITCOIN_LONG_HASH_SIZE];   //libbitcoin::long_hash_size
 } long_hash_t;
 
 
@@ -126,45 +112,30 @@ typedef struct ec_secret_t {
 } ec_secret_t;
 
 typedef void* ec_public_t;
-
 typedef void* hd_private_t;
-
-
-
 typedef void* word_list_t;
 
-// Wallet ------------------------------------------------------------
-
-//typedef char const* zstring_t;
+// Wallet (end) -------------------------------------------------------
 
 
-typedef void (*run_handler_t)(executor_t exec, void* ctx, int error);
-
-
-typedef void (*stealth_fetch_handler_t)(chain_t chain, void*, int, stealth_compact_list_t stealth);
-typedef void (*block_fetch_handler_t)(chain_t, void*, int, block_t block, uint64_t /*size_t*/ h);
-typedef void (*block_height_fetch_handler_t)(chain_t, void*, int, uint64_t /*size_t*/ h);
-typedef void (*block_header_fetch_handler_t)(chain_t, void*, int, header_t header, uint64_t /*size_t*/ h);
-typedef void (*compact_block_fetch_handler_t)(chain_t, void*, int, compact_block_t block, uint64_t /*size_t*/ h);
-typedef void (*history_fetch_handler_t)(chain_t, void*, int, history_compact_list_t history);
-typedef void (*last_height_fetch_handler_t)(chain_t, void*, int, uint64_t /*size_t*/ h);
-typedef void (*merkle_block_fetch_handler_t)(chain_t, void*, int, merkle_block_t block, uint64_t /*size_t*/ h);
-typedef void (*output_fetch_handler_t)(chain_t, void*, int, output_t output);
-typedef void (*spend_fetch_handler_t)(chain_t, void*, int, input_point_t input_point);
-typedef void (*transaction_fetch_handler_t)(chain_t, void*, int, transaction_t transaction, uint64_t /*size_t*/ i, uint64_t /*size_t*/ h);
-typedef void (*transaction_index_fetch_handler_t)(chain_t, void*, int, uint64_t /*size_t*/ position, uint64_t /*size_t*/ height);
-typedef void (*validate_tx_handler_t)(chain_t, void*, int, char const* message);
-
-//typedef std::function<void(const code&, get_headers_ptr)> block_locator_fetch_handler;
-typedef void (*block_locator_fetch_handler_t)(chain_t, void*, int, get_headers_ptr_t);
-
-//typedef std::function<void(const code&, inventory_ptr)> inventory_fetch_handler;
-
-
-typedef void (*result_handler_t)(chain_t, void*, int);
-
-typedef int (*subscribe_blockchain_handler_t)(executor_t exec, chain_t, void*, int, uint64_t /*size_t*/, block_list_t, block_list_t);
-typedef int (*subscribe_transaction_handler_t)(executor_t exec, chain_t, void*, int, transaction_t);
+typedef void (*run_handler_t)(executor_t, void*, int);
+typedef void (*stealth_fetch_handler_t)(chain_t, void*, error_code_t, stealth_compact_list_t);
+typedef void (*block_fetch_handler_t)(chain_t, void*, error_code_t, block_t, uint64_t /*size_t*/);
+typedef void (*block_height_fetch_handler_t)(chain_t, void*, error_code_t, uint64_t /*size_t*/);
+typedef void (*block_header_fetch_handler_t)(chain_t, void*, error_code_t, header_t, uint64_t /*size_t*/);
+typedef void (*compact_block_fetch_handler_t)(chain_t, void*, error_code_t, compact_block_t, uint64_t /*size_t*/);
+typedef void (*history_fetch_handler_t)(chain_t, void*, error_code_t, history_compact_list_t);
+typedef void (*last_height_fetch_handler_t)(chain_t, void*, error_code_t, uint64_t /*size_t*/);
+typedef void (*merkle_block_fetch_handler_t)(chain_t, void*, error_code_t, merkle_block_t, uint64_t /*size_t*/);
+typedef void (*output_fetch_handler_t)(chain_t, void*, error_code_t, output_t output);
+typedef void (*spend_fetch_handler_t)(chain_t, void*, error_code_t, input_point_t);
+typedef void (*transaction_fetch_handler_t)(chain_t, void*, error_code_t, transaction_t, uint64_t /*size_t*/, uint64_t /*size_t*/);
+typedef void (*transaction_index_fetch_handler_t)(chain_t, void*, error_code_t, uint64_t /*size_t*/, uint64_t /*size_t*/);
+typedef void (*validate_tx_handler_t)(chain_t, void*, error_code_t, char const*);
+typedef void (*block_locator_fetch_handler_t)(chain_t, void*, error_code_t, get_headers_ptr_t);
+typedef void (*result_handler_t)(chain_t, void*, error_code_t);
+typedef int /*bool*/ (*subscribe_blockchain_handler_t)(executor_t, chain_t, void*, error_code_t, uint64_t /*size_t*/, block_list_t, block_list_t);
+typedef int /*bool*/ (*subscribe_transaction_handler_t)(executor_t, chain_t, void*, error_code_t, transaction_t);
 
 
 
