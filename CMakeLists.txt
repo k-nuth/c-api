@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.4)
 # bitprim-node-cint
 #==============================================================================
 project(bitprim-node-cint
-        VERSION 0.6.0
+        VERSION 0.7.0
         LANGUAGES CXX C)
 
 # if(USE_CPP11_ABI)
@@ -134,10 +134,10 @@ if (NOT USE_CONAN)
   #  endif()
   #endif()
 
-  # Require bitprim-node of at least version 0.6.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
+  # Require bitprim-node of at least version 0.7.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
   #------------------------------------------------------------------------------
   if (NOT TARGET bitprim-node)
-    find_package(bitprim-node 0.6.0 REQUIRED)
+    find_package(bitprim-node 0.7.0 REQUIRED)
   endif()
 endif()
 
@@ -260,11 +260,15 @@ set(_bitprim_sources
         src/chain/transaction.cpp
         src/chain/transaction_list.cpp
 
+        src/node/settings.cpp
+
         src/p2p/p2p.cpp
 
         src/wallet/wallet.cpp
         src/wallet/word_list.cpp
-        src/platform.cpp)
+        src/platform.cpp
+        
+        )
 
 
 add_library(bitprim-node-cint ${MODE}
@@ -441,12 +445,17 @@ set(_bitprim_headers
         bitprim/nodecint/chain/transaction.h
         bitprim/nodecint/chain/transaction_list.h
 
+        bitprim/nodecint/node/settings.h
+
         bitprim/nodecint/p2p/p2p.h
 
         bitprim/nodecint/wallet/wallet.h
         bitprim/nodecint/wallet/word_list.h
+
         bitprim/nodecint/binary.h
         bitprim/nodecint/platform.h
+
+        
 )
 
 foreach (_header ${_bitprim_headers})

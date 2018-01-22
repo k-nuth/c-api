@@ -757,4 +757,18 @@ void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_h
 }
 
 
+// Properties.
+//-------------------------------------------------------------------------
+
+/// True if the blockchain is stale based on configured age limit.
+int /*bool*/ chain_is_stale(chain_t chain) {
+    return static_cast<int>(safe_chain(chain).is_stale());
+}
+
+
+/// Get a reference to the blockchain configuration settings.
+// const settings& chain_settings() const;
+
+
+
 } /* extern "C" */

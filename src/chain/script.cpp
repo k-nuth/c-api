@@ -59,8 +59,6 @@ char const* chain_script_to_string(script_t script, uint32_t active_forks) {
 
 //    std::strcpy(ret, str.c_str());
     std::copy_n(str.begin(), str.size() + 1, ret);
-
-
     return ret;
 }
 
