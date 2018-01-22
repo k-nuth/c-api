@@ -199,6 +199,14 @@ int /*bool*/ chain_block_is_valid_merkle_root(block_t block) {
     return static_cast<int>(chain_block_const_cpp(block).is_valid_merkle_root());
 }
 
+uint8_t const* chain_block_to_data(block_t block, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
+    auto block_data = chain_block_const_cpp(block).to_data(wire);
+    auto* ret = (uint8_t*)malloc((block_data.size()) * sizeof(uint8_t)); // NOLINT
+    std::copy_n(block_data.begin(), block_data.size(), ret);
+    *out_size = block_data.size();
+    return ret;
+}
+
 //
 //bool from_data(const data_chunk& data);
 //bool from_data(std::istream& stream);
