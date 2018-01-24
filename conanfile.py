@@ -59,7 +59,7 @@ class BitprimNodeCIntConan(ConanFile):
     package_files = "build/lbitprim-node-cint.so"
     build_policy = "missing"
 
-    requires = (("bitprim-conan-boost/1.64.0@bitprim/stable"),
+    requires = (("bitprim-conan-boost/1.66.0@bitprim/stable"),
                 ("bitprim-node/0.7@bitprim/testing"))
 
 
