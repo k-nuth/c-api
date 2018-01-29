@@ -189,7 +189,7 @@ void chain_header_hash_out(header_t header, hash_t* out_hash){
 //
 
 //
-//#ifdef LITECOIN
+//#ifdef BITPRIM_LITECOIN
 //hash_digest litecoin_proof_of_work_hash() const;
 //#endif
 //

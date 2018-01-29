@@ -106,11 +106,11 @@ bool executor::do_initchain() {
 
         // TODO(fernando): BITPRIM: hardcoded identifiers
         // Unfortunately we are limited to a choice of hardcoded chains.
-#ifdef LITECOIN
+#ifdef BITPRIM_LITECOIN
         auto const testnet = (config_.network.identifier == 4056470269u); //Litecoin
 #else
         auto const testnet = (config_.network.identifier == 118034699u);  //Bitcoin
-#endif //LITECOIN
+#endif //BITPRIM_LITECOIN
 
         auto const genesis = testnet ? block::genesis_testnet() : block::genesis_mainnet();
 

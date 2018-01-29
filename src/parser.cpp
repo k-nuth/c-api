@@ -58,12 +58,17 @@ parser::parser(libbitcoin::config::settings const& context)
 
     // A node allows 8 inbound connections by default.
     configured.network.inbound_connections = 8;
+    // Logs will slow things if not rotated.
+    configured.network.rotation_size = 10000000;
+
+    // With block-first sync the count should be low until complete.
+    configured.network.outbound_connections = 2;
 
     // A node allows 1000 host names by default.
     configured.network.host_pool_capacity = 1000;
 
     // A node requests transaction relay by default.
-    configured.network.relay_transactions = true;
+    // configured.network.relay_transactions = true;
 
     // A node exposes full node (1) network services by default.
     configured.network.services = libbitcoin::message::version::service::node_network;
@@ -105,7 +110,7 @@ libbitcoin::options_metadata parser::load_settings() {
     (
         "log.rotation_size",
         value<size_t>(&configured.network.rotation_size),
-        "The size at which a log is archived, defaults to 0 (disabled)."
+        "The size at which a log is archived, defaults to 10000000 (0 disables)."
     )
     (
         "log.minimum_free_space",
@@ -154,6 +159,11 @@ libbitcoin::options_metadata parser::load_settings() {
         "The services exposed by network connections, defaults to 1 (full node)."
     )
     (
+        "network.invalid_services",
+        value<uint64_t>(&configured.network.invalid_services),
+        "The advertised services that cause a peer to be dropped, defaults to 0 (none)."
+    )
+    (
         "network.validate_checksum",
         value<bool>(&configured.network.validate_checksum),
         "Validate the checksum of network messages, defaults to false."
@@ -171,12 +181,12 @@ libbitcoin::options_metadata parser::load_settings() {
     (
         "network.inbound_connections",
         value<uint32_t>(&configured.network.inbound_connections),
-        "The target number of incoming network connections, defaults to 8."
+        "The target number of incoming network connections, defaults to 0."
     )
     (
         "network.outbound_connections",
         value<uint32_t>(&configured.network.outbound_connections),
-        "The target number of outgoing network connections, defaults to 8."
+        "The target number of outgoing network connections, defaults to 2."
     )
     (
         "network.manual_attempt_limit",
@@ -211,7 +221,7 @@ libbitcoin::options_metadata parser::load_settings() {
     (
         "network.channel_expiration_minutes",
         value<uint32_t>(&configured.network.channel_expiration_minutes),
-        "The age limit for any connection, defaults to 1440."
+        "The age limit for any connection, defaults to 60."
     )
     (
         "network.channel_germination_seconds",
@@ -248,6 +258,12 @@ libbitcoin::options_metadata parser::load_settings() {
         value<libbitcoin::config::endpoint::list>(&configured.network.seeds),
         "A seed node for initializing the host pool, multiple entries allowed."
     )
+    (
+        "network.bitcoin_cash",
+        value<bool>(&configured.network.bitcoin_cash),
+        "Use Bitcoin Cash (true) or Bitcoin Legacy (false), defaults to false."
+    )
+
 
     /* [database] */
     (
@@ -283,7 +299,7 @@ libbitcoin::options_metadata parser::load_settings() {
     (
         "database.cache_capacity",
         value<uint32_t>(&configured.database.cache_capacity),
-        "The maximum number of entries in the unspent outputs cache, defaults to 0."
+        "The maximum number of entries in the unspent outputs cache, defaults to 10000."
     )
 #if defined(WITH_REMOTE_DATABASE)    
     (
@@ -446,11 +462,11 @@ libbitcoin::options_metadata parser::load_settings() {
 libbitcoin::config::checkpoint::list parser::default_checkpoints() {
     //case config::settings::mainnet:
 
-#ifdef LITECOIN
+#ifdef BITPRIM_LITECOIN
     auto const testnet = (configured.network.identifier == 4056470269u); //Litecoin
 #else
     auto const testnet = (configured.network.identifier == 118034699u);  //Bitcoin
-#endif //LITECOIN
+#endif //BITPRIM_LITECOIN
 
     libbitcoin::config::checkpoint::list checkpoints;
 
@@ -577,43 +593,82 @@ void parser::fix_checkpoints() {
 }
 
 
-// bool parser::load_configuration_variables(variables_map& variables, std::string const& option_name) {
-bool parser::load_configuration_variables(variables_map& variables, boost::filesystem::path const& config_path) {
+// // bool parser::load_configuration_variables(variables_map& variables, std::string const& option_name) {
+// bool parser::load_configuration_variables(variables_map& variables, boost::filesystem::path const& config_path) {
+
+//     auto const config_settings = load_settings();
+//     //auto const config_path = get_config_option(variables, option_name);
+
+//     // If the existence test errors out we pretend there's no file :/.
+//     boost::system::error_code code;
+//     if ( ! config_path.empty() && exists(config_path, code))
+//     {
+//         auto const& path = config_path.string();
+//         bc::ifstream file(path);
+
+//         if ( ! file.good())
+//         {
+//             BOOST_THROW_EXCEPTION(reading_file(path.c_str()));
+//         }
+
+//         auto const config = parse_config_file(file, config_settings);
+//         store(config, variables);
+//         return true;
+//     }
+
+//     // Loading from an empty stream causes the defaults to populate.
+//     std::stringstream stream;
+//     auto const config = parse_config_file(stream, config_settings);
+//     store(config, variables);
+//     return false;
+// }
+
+//TODO(fernando): replace int return type with an appropriate enum or "try_bool" or something
+//1 success, 0 default, -1 non-existing file
+int parser::load_configuration_variables(variables_map& variables, boost::filesystem::path const& config_path) {
 
     auto const config_settings = load_settings();
     //auto const config_path = get_config_option(variables, option_name);
 
     // If the existence test errors out we pretend there's no file :/.
     boost::system::error_code code;
-    if ( ! config_path.empty() && exists(config_path, code))
-    {
-        auto const& path = config_path.string();
-        bc::ifstream file(path);
+    if ( ! config_path.empty()) {
+        if (exists(config_path, code)) {
+            auto const& path = config_path.string();
+            bc::ifstream file(path);
 
-        if ( ! file.good())
-        {
-            BOOST_THROW_EXCEPTION(reading_file(path.c_str()));
+            if ( ! file.good()) {
+                BOOST_THROW_EXCEPTION(reading_file(path.c_str()));
+            }
+
+            auto const config = parse_config_file(file, config_settings);
+            store(config, variables);
+            return 1;
+        } else {
+            return -1;
         }
-
-        auto const config = parse_config_file(file, config_settings);
-        store(config, variables);
-        return true;
     }
 
     // Loading from an empty stream causes the defaults to populate.
     std::stringstream stream;
     auto const config = parse_config_file(stream, config_settings);
     store(config, variables);
-    return false;
+    return 0;
 }
 
 // bool parser::parse(int argc, char const* argv[], std::ostream& error) {
-bool parser::parse(boost::filesystem::path const& config_path, std::ostream& error) {
+bool parser::parse(boost::filesystem::path const& config_path, std::ostream& error) 
+{
     try {
         variables_map variables;
 
         configured.file = config_path;
         auto file = load_configuration_variables(variables, config_path);
+
+        if (file == -1) {
+            LOG_ERROR(LOG_NODE) << "Config file provided does not exists.";
+            return false;
+        }
 
         // Update bound variables in metadata.settings.
         notify(variables);

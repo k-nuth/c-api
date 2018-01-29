@@ -84,7 +84,7 @@ endif()
 # set(WITH_CONSOLE_NODE_CINT ON)
 
 if (WITH_LITECOIN)
-  add_definitions(-DLITECOIN)
+  add_definitions(-DBITPRIM_LITECOIN)
 endif()
 
 # Conan infrastructure.
