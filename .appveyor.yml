@@ -33,7 +33,6 @@ environment:
     CONAN_USERNAME: "bitprim"
     CONAN_LOGIN_USERNAME: "bitprim-bintray"
     CONAN_CHANNEL: "testing"
-    VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
     CONAN_UPLOAD: "https://api.bintray.com/conan/bitprim/bitprim"
 
     matrix:
@@ -43,10 +42,13 @@ environment:
           CONAN_VISUAL_VERSIONS: 14
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
           CONAN_VISUAL_VERSIONS: 15
+          VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
 
-        # - MINGW_CONFIGURATIONS: "4.9@x86_64@seh@posix" #4.9@x86_64@sjlj@posix
-        - MINGW_CONFIGURATIONS: "5.4@x86_64@seh@posix" #5.4@x86_64@sjlj@posix
-        - MINGW_CONFIGURATIONS: "7.2@x86_64@seh@posix" #7.2@x86_64@sjlj@posix
+        # # - MINGW_CONFIGURATIONS: "4.9@x86_64@seh@posix" #4.9@x86_64@sjlj@posix
+        # - MINGW_CONFIGURATIONS: "5.4@x86_64@seh@posix" #5.4@x86_64@sjlj@posix
+        # - MINGW_CONFIGURATIONS: "7.2@x86_64@seh@posix" #7.2@x86_64@sjlj@posix
+
+        - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix, 6@x86_64@seh@posix, 5@x86_64@seh@posix, 4.9@x86_64@seh@posix"
 
 install:
   - set PATH=%PATH%;%PYTHON%/Scripts/
