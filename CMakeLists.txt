@@ -1,3 +1,22 @@
+#
+# Copyright (c) 2017 Bitprim developers (see AUTHORS)
+#
+# This file is part of Bitprim.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 cmake_minimum_required(VERSION 3.4)
 
 # bitprim-node-cint
@@ -6,24 +25,9 @@ project(bitprim-node-cint
         VERSION 0.7.0
         LANGUAGES CXX C)
 
-# if(USE_CPP11_ABI)
-#   add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
-# else()
-#   add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
-# endif()
-
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  if (NOT NOT_USE_CPP11_ABI)
-    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
-  else()
-    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
-  endif()
-  # set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-macro-redefined")
-endif()
-
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-# Check for baseline language coverage in the compiler for the C++14 standard.
+# Check for baseline language coverage in the compiler for the C++11 standard.
 #------------------------------------------------------------------------------
 # set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD 11)
@@ -87,17 +91,12 @@ if (WITH_LITECOIN)
   add_definitions(-DBITPRIM_LITECOIN)
 endif()
 
-# Conan infrastructure.
+# Conan infrastructure
 #==============================================================================
-# Only if enabled
-#------------------------------------------------------------------------------
-if (NOT NO_CONAN_AT_ALL)
-  if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-      include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-      conan_basic_setup()
-  else()
-      message(WARNING "The file conanbuildinfo.cmake doesn't exist, you have to run conan install first")
-  endif()
+if (EXISTS ${CMAKE_SOURCE_DIR}/bitprimbuildinfo.cmake)
+    include(${CMAKE_SOURCE_DIR}/bitprimbuildinfo.cmake)
+else()
+    message( STATUS "bitprimbuildinfo doent exists")
 endif()
 
 

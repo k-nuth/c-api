@@ -36,65 +36,111 @@ class BitprimNodeCIntConan(ConanFile):
                "with_remote_blockchain": [True, False],
                "with_remote_database": [True, False],
                "with_litecoin": [True, False],
+               "with_tests": [True, False],
+               "with_console": [True, False],
     }
-    # "with_tests": [True, False],
-    # "with_console": [True, False],
-    # "use_cpp11_abi": [True, False]
-
-    with_tests = False
-    with_console = True
 
     default_options = "shared=False", \
         "fPIC=True", \
         "with_remote_blockchain=False", \
         "with_remote_database=False", \
-        "with_litecoin=False"
-
-    # "with_tests=True", \
-    # "with_console=False", \
-    # "use_cpp11_abi=True"
+        "with_litecoin=False", \
+        "with_tests=False", \
+        "with_console=False"
 
     generators = "cmake"
-    exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "bitprim-node-cintConfig.cmake.in", "include/*", "test/*", "console/*"
+    exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "bitprim-node-cintConfig.cmake.in", "bitprimbuildinfo.cmake","include/*", "test/*", "console/*"
     package_files = "build/lbitprim-node-cint.so"
     build_policy = "missing"
 
-    requires = (("bitprim-conan-boost/1.66.0@bitprim/stable"),
+    requires = (("boost/1.66.0@bitprim/stable"),
                 ("bitprim-node/0.7@bitprim/testing"))
 
+    @property
+    def msvc_mt_build(self):
+        return "MT" in str(self.settings.compiler.runtime)
+
+    @property
+    def fPIC_enabled(self):
+        if self.settings.compiler == "Visual Studio":
+            return False
+        else:
+            return self.options.fPIC
+
+    @property
+    def is_shared(self):
+        if self.options.shared and self.msvc_mt_build:
+            return False
+        else:
+            return self.options.shared
+
+
+    def config_options(self):
+        self.output.info('def config_options(self):')
+        if self.settings.compiler == "Visual Studio":
+            self.options.remove("fPIC")
+
+            if self.options.shared and self.msvc_mt_build:
+                self.options.remove("shared")
+
+    def package_id(self):
+        self.info.options.with_tests = "ANY"
+
+        #For Bitprim Packages libstdc++ and libstdc++11 are the same
+        if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
+            if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
+                self.info.settings.compiler.libcxx = "ANY"
 
     def build(self):
         cmake = CMake(self)
 
         cmake.definitions["USE_CONAN"] = option_on_off(True)
         cmake.definitions["NO_CONAN_AT_ALL"] = option_on_off(False)
-        cmake.definitions["CMAKE_VERBOSE_MAKEFILE"] = option_on_off(False)
-        cmake.definitions["ENABLE_SHARED"] = option_on_off(self.options.shared)
-        cmake.definitions["ENABLE_SHARED_NODE_CINT"] = option_on_off(self.options.shared)
-        cmake.definitions["ENABLE_POSITION_INDEPENDENT_CODE"] = option_on_off(self.options.fPIC)
+
+        # cmake.definitions["CMAKE_VERBOSE_MAKEFILE"] = option_on_off(False)
+        cmake.verbose = False
+
+        # cmake.definitions["ENABLE_SHARED"] = option_on_off(self.options.shared)
+        # cmake.definitions["ENABLE_SHARED_NODE_CINT"] = option_on_off(self.options.shared)
+        # cmake.definitions["ENABLE_POSITION_INDEPENDENT_CODE"] = option_on_off(self.options.fPIC)
+
+        cmake.definitions["ENABLE_SHARED"] = option_on_off(self.is_shared)
+        cmake.definitions["ENABLE_SHARED_NODE_CINT"] = option_on_off(self.is_shared)
+        cmake.definitions["ENABLE_POSITION_INDEPENDENT_CODE"] = option_on_off(self.fPIC_enabled)
+
         cmake.definitions["WITH_REMOTE_BLOCKCHAIN"] = option_on_off(self.options.with_remote_blockchain)
         cmake.definitions["WITH_REMOTE_DATABASE"] = option_on_off(self.options.with_remote_database)
 
-        # cmake.definitions["WITH_TESTS"] = option_on_off(self.options.with_tests)
-        # cmake.definitions["WITH_CONSOLE"] = option_on_off(self.options.with_console)
-        # cmake.definitions["WITH_CONSOLE_NODE_CINT"] = option_on_off(self.options.with_console)
-        cmake.definitions["WITH_TESTS"] = option_on_off(self.with_tests)
-        cmake.definitions["WITH_CONSOLE"] = option_on_off(self.with_console)
-        cmake.definitions["WITH_CONSOLE_NODE_CINT"] = option_on_off(self.with_console)
+        cmake.definitions["WITH_TESTS"] = option_on_off(self.options.with_tests)
+        cmake.definitions["WITH_CONSOLE"] = option_on_off(self.options.with_console)
+        cmake.definitions["WITH_CONSOLE_NODE_CINT"] = option_on_off(self.options.with_console)
 
         cmake.definitions["WITH_LITECOIN"] = option_on_off(self.options.with_litecoin)
 
-	# TODO(bitprim): check if we need the following lines:
-        # cmake.definitions["USE_CPP11_ABI"] = option_on_off(self.options.use_cpp11_abi)
+
+        if self.settings.compiler != "Visual Studio":
+            # cmake.definitions["CONAN_CXX_FLAGS"] += " -Wno-deprecated-declarations"
+            cmake.definitions["CONAN_CXX_FLAGS"] = cmake.definitions.get("CONAN_CXX_FLAGS", "") + " -Wno-deprecated-declarations"
+
+        if self.settings.compiler == "Visual Studio":
+            cmake.definitions["CONAN_CXX_FLAGS"] = cmake.definitions.get("CONAN_CXX_FLAGS", "") + " /DBOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE"
+
         if self.settings.compiler == "gcc":
             if float(str(self.settings.compiler.version)) >= 5:
                 cmake.definitions["NOT_USE_CPP11_ABI"] = option_on_off(False)
             else:
                 cmake.definitions["NOT_USE_CPP11_ABI"] = option_on_off(True)
+        elif self.settings.compiler == "clang":
+            if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
+                cmake.definitions["NOT_USE_CPP11_ABI"] = option_on_off(False)
+
 
         cmake.definitions["BITPRIM_BUILD_NUMBER"] = os.getenv('BITPRIM_BUILD_NUMBER', '-')
         cmake.configure(source_dir=self.source_folder)
         cmake.build()
+
+        if self.options.with_tests:
+            cmake.test()
 
     # def imports(self):
         # print('def imports')

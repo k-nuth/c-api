@@ -14,6 +14,9 @@ if __name__ == "__main__":
 
             env_vars["BITPRIM_BUILD_NUMBER"] = os.getenv('BITPRIM_BUILD_NUMBER', '-')
                 
+            if os.getenv('BITPRIM_RUN_TESTS', 'false') == 'true':
+                options["bitprim-node-cint:with_tests"] = "True"
+
             filtered_builds.append([settings, options, env_vars, build_requires])
 
     builder.builds = filtered_builds

@@ -6,7 +6,7 @@ function replace_versions {
     if [ ! -f versions.txt ]; then
         echo "$1: $2" >> versions.txt
     else
-        cat versions.txt
+        #cat versions.txt
         while read p; do
             if [[ $p == *"$1:"* ]]; then
                 echo "$1: $2" >> versions.txt.t
@@ -15,8 +15,8 @@ function replace_versions {
             fi
         done <versions.txt
 
-        cat versions.txt
-        cat versions.txt.t
+        #cat versions.txt
+        #cat versions.txt.t
 
         mv versions.txt{.t,}
     fi
@@ -38,7 +38,6 @@ function increment_py_version {
 
 # --------------------------------------------------------------------------------------------------------------------
 
-
 set -e
 set -x
 
@@ -50,6 +49,15 @@ cd temp
 
 # --------------------------------------------------------------------------------------------------------------------
 
+echo "Travis branch: ${TRAVIS_BRANCH}"
+echo "Travis tag: ${TRAVIS_TAG}"
+
+if [[ ${TRAVIS_BRANCH} == ${TRAVIS_TAG} ]]; then
+    export BITPRIM_BRANCH=master
+else
+    export BITPRIM_BRANCH=${TRAVIS_BRANCH}
+fi
+echo "Bitprim branch: ${BITPRIM_BRANCH}"
 
 # --------------------------------------------------------------------------------------------------------------------
 # bitprim-py-native
@@ -57,8 +65,7 @@ cd temp
 git clone https://github.com/bitprim/bitprim-py-native.git
 
 cd bitprim-py-native
-echo "Travis branch: ${TRAVIS_BRANCH}"
-git checkout ${TRAVIS_BRANCH}
+git checkout ${BITPRIM_BRANCH}
 
 replace_versions bitprim-node-cint $BITPRIM_BUILD_NUMBER
 increment_py_version
@@ -70,7 +77,7 @@ git add . versions.txt
 git add . version.py
 git commit --message "Travis bitprim-node-cint build: $BITPRIM_BUILD_NUMBER, $TRAVIS_BUILD_NUMBER" || true
 git remote add origin-commit https://${GH_TOKEN}@github.com/bitprim/bitprim-py-native.git > /dev/null 2>&1
-git push --quiet --set-upstream origin-commit ${TRAVIS_BRANCH}  || true
+git push --quiet --set-upstream origin-commit ${BITPRIM_BRANCH}  || true
 
 cd ..
 
@@ -79,8 +86,7 @@ cd ..
 # --------------------------------------------------------------------------------------------------------------------
 git clone https://github.com/bitprim/bitprim-cs.git
 cd bitprim-cs
-echo "Travis branch: ${TRAVIS_BRANCH}"
-git checkout ${TRAVIS_BRANCH}
+git checkout ${BITPRIM_BRANCH}
 
 replace_versions bitprim-node-cint $BITPRIM_BUILD_NUMBER
 
@@ -89,8 +95,9 @@ cat versions.txt
 git add . versions.txt
 git commit --message "Travis bitprim-node-cint build: $BITPRIM_BUILD_NUMBER, $TRAVIS_BUILD_NUMBER" || true
 git remote add origin-commit https://${GH_TOKEN}@github.com/bitprim/bitprim-cs.git > /dev/null 2>&1
-git push --quiet --set-upstream origin-commit ${TRAVIS_BRANCH}  || true
+git push --quiet --set-upstream origin-commit ${BITPRIM_BRANCH}  || true
 
 cd ..
+
 
 # --------------------------------------------------------------------------------------------------------------------
