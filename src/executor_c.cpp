@@ -45,7 +45,11 @@ FILE* devnull_file() {
 
 inline
 int devnull_fileno() {
+#ifdef BOOST_IOSTREAMS_WINDOWS
     return _fileno(devnull_file());
+#else
+    return fileno(devnull_file());
+#endif
 }
 
 inline
@@ -54,7 +58,11 @@ int fileno_or_devnull(FILE* f) {
         return devnull_fileno();
     }
 
+#ifdef BOOST_IOSTREAMS_WINDOWS
     return _fileno(f);
+#else
+    return fileno(f);
+#endif
 }
 
 inline
