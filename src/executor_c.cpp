@@ -45,7 +45,7 @@ FILE* devnull_file() {
 
 inline
 int devnull_fileno() {
-    return fileno(devnull_file());
+    return _fileno(devnull_file());
 }
 
 inline
@@ -54,7 +54,7 @@ int fileno_or_devnull(FILE* f) {
         return devnull_fileno();
     }
 
-    return fileno(f);
+    return _fileno(f);
 }
 
 inline
