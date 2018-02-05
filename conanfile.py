@@ -19,9 +19,34 @@
 
 import os
 from conans import ConanFile, CMake
+import importlib
+
 
 def option_on_off(option):
     return "ON" if option else "OFF"
+
+
+microarchitecture_default = 'x86_64'
+
+def get_cpuid():
+    try:
+        print("*** cpuid OK")
+        cpuid = importlib.import_module('cpuid')
+        return cpuid
+    except ImportError:
+        print("*** cpuid could not be imported")
+        return None
+
+def get_cpu_microarchitecture_or_default(default):
+    cpuid = get_cpuid()
+    if cpuid != None:
+        # return '%s%s' % cpuid.cpu_microarchitecture()
+        return '%s' % (''.join(cpuid.cpu_microarchitecture()))
+    else:
+        return default
+
+def get_cpu_microarchitecture():
+    return get_cpu_microarchitecture_or_default(microarchitecture_default)
 
 class BitprimNodeCIntConan(ConanFile):
     name = "bitprim-node-cint"
@@ -33,28 +58,34 @@ class BitprimNodeCIntConan(ConanFile):
 
     options = {"shared": [True, False],
                "fPIC": [True, False],
-               "with_remote_blockchain": [True, False],
-               "with_remote_database": [True, False],
                "with_litecoin": [True, False],
                "with_tests": [True, False],
                "with_console": [True, False],
+               "microarchitecture": "ANY", #["x86_64", "haswell", "ivybridge", "sandybridge", "bulldozer", ...]
+               "no_compilation": [True, False],
     }
+
+#    "with_remote_blockchain": [True, False],
+#    "with_remote_database": [True, False],
 
     default_options = "shared=False", \
         "fPIC=True", \
-        "with_remote_blockchain=False", \
-        "with_remote_database=False", \
         "with_litecoin=False", \
         "with_tests=False", \
-        "with_console=False"
+        "with_console=False",  \
+        "microarchitecture=_DUMMY_",  \
+        "no_compilation=False"
+
+        # "with_remote_blockchain=False", \
+        # "with_remote_database=False", \
 
     generators = "cmake"
     exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "bitprim-node-cintConfig.cmake.in", "bitprimbuildinfo.cmake","include/*", "test/*", "console/*"
     package_files = "build/lbitprim-node-cint.so"
     build_policy = "missing"
 
-    requires = (("boost/1.66.0@bitprim/stable"),
-                ("bitprim-node/0.7@bitprim/testing"))
+    # requires = (("boost/1.66.0@bitprim/stable"),
+    #             ("bitprim-node/0.7@bitprim/testing"))
 
     @property
     def msvc_mt_build(self):
@@ -76,16 +107,52 @@ class BitprimNodeCIntConan(ConanFile):
             return self.options.shared
 
 
+    def requirements(self):
+        self.output.info('*-*-*-*-*-* def requirements(self):')
+        if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
+            self.requires("boost/1.66.0@bitprim/stable")
+            self.requires("bitprim-node/0.7@bitprim/testing")
+
     def config_options(self):
-        self.output.info('def config_options(self):')
+        self.output.info('*-*-*-*-*-* def config_options(self):')
         if self.settings.compiler == "Visual Studio":
             self.options.remove("fPIC")
 
             if self.options.shared and self.msvc_mt_build:
                 self.options.remove("shared")
 
+    def configure(self):
+        self.output.info('*-*-*-*-*-* def configure(self):')
+        if self.options.no_compilation or (self.settings.compiler == None and self.settings.arch == 'x86_64' and self.settings.os in ('Linux', 'Windows', 'Macos')):
+            self.settings.remove("compiler")
+            self.settings.remove("build_type")
+
+        if self.options.microarchitecture == "_DUMMY_":
+            self.options.microarchitecture = get_cpu_microarchitecture()
+
+            if get_cpuid() == None:
+                march_from = 'default'
+            else:
+                march_from = 'taken from cpuid'
+
+        else:
+            march_from = 'user defined'
+        
+        self.options["*"].microarchitecture = self.options.microarchitecture
+        self.output.info("Compiling for microarchitecture (%s): %s" % (march_from, self.options.microarchitecture))
+
+
     def package_id(self):
+        self.output.info('*-*-*-*-*-* def package_id(self):')
+
         self.info.options.with_tests = "ANY"
+        self.info.options.with_console = "ANY"
+        self.info.options.no_compilation = "ANY"
+
+
+        self.info.requires.clear()
+        self.info.settings.compiler = "ANY"
+        self.info.settings.build_type = "ANY"
 
         #For Bitprim Packages libstdc++ and libstdc++11 are the same
         if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
@@ -109,8 +176,10 @@ class BitprimNodeCIntConan(ConanFile):
         cmake.definitions["ENABLE_SHARED_NODE_CINT"] = option_on_off(self.is_shared)
         cmake.definitions["ENABLE_POSITION_INDEPENDENT_CODE"] = option_on_off(self.fPIC_enabled)
 
-        cmake.definitions["WITH_REMOTE_BLOCKCHAIN"] = option_on_off(self.options.with_remote_blockchain)
-        cmake.definitions["WITH_REMOTE_DATABASE"] = option_on_off(self.options.with_remote_database)
+        # cmake.definitions["WITH_REMOTE_BLOCKCHAIN"] = option_on_off(self.options.with_remote_blockchain)
+        # cmake.definitions["WITH_REMOTE_DATABASE"] = option_on_off(self.options.with_remote_database)
+        cmake.definitions["WITH_REMOTE_BLOCKCHAIN"] = option_on_off(False)
+        cmake.definitions["WITH_REMOTE_DATABASE"] = option_on_off(False)
 
         cmake.definitions["WITH_TESTS"] = option_on_off(self.options.with_tests)
         cmake.definitions["WITH_CONSOLE"] = option_on_off(self.options.with_console)
