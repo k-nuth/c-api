@@ -30,7 +30,7 @@ if __name__ == "__main__":
         #         and (not "compiler.runtime" in settings or not settings["compiler.runtime"] == "MT"):
 
         if settings["build_type"] == "Release" \
-                and (not "compiler.runtime" in settings or xor(options["shared"] == True, settings["compiler.runtime"] == "MT")):
+                and (not "compiler.runtime" in settings or xor(options["bitprim-node-cint:shared"] == True, settings["compiler.runtime"] == "MT")):
 
             env_vars["BITPRIM_BUILD_NUMBER"] = os.getenv('BITPRIM_BUILD_NUMBER', '-')
                 
