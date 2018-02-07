@@ -100,11 +100,11 @@ class BitprimNodeCIntConan(ConanFile):
 
     @property
     def is_shared(self):
-        # if self.options.shared and self.msvc_mt_build:
-        if self.settings.compiler == "Visual Studio" and self.msvc_mt_build:
-            return False
-        else:
-            return self.options.shared
+        # if self.settings.compiler == "Visual Studio" and self.msvc_mt_build:
+        #     return False
+        # else:
+        #     return self.options.shared
+        return self.options.shared
 
 
     def requirements(self):
@@ -118,8 +118,9 @@ class BitprimNodeCIntConan(ConanFile):
         if self.settings.compiler == "Visual Studio":
             self.options.remove("fPIC")
 
-            if self.options.shared and self.msvc_mt_build:
-                self.options.remove("shared")
+            #Note(fernando): too restrictive for the final user
+            # if self.options.shared and self.msvc_mt_build:
+            #     self.options.remove("shared")
 
     def configure(self):
         self.output.info('*-*-*-*-*-* def configure(self):')
