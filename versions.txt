@@ -1,5 +1,5 @@
 secp256k1: v0.3.0-6-g52a836f
-bitprim-core: v0.3.0-89-gc0945664
+bitprim-core: v0.3.0-98-g20c8059d
 bitprim-consensus: v0.3.0-2-g21d41f94
 bitprim-database: v0.3.0-6-g238d1c6
 bitprim-blockchain: v0.3.0-3-g3aebb72
