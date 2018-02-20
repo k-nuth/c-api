@@ -62,7 +62,7 @@ class BitprimNodeCIntConan(ConanFile):
                "with_tests": [True, False],
                "with_console": [True, False],
                "microarchitecture": "ANY", #["x86_64", "haswell", "ivybridge", "sandybridge", "bulldozer", ...]
-               "no_compilation": [True, False],
+            #    "no_compilation": [True, False],
     }
 
 #    "with_remote_blockchain": [True, False],
@@ -73,8 +73,8 @@ class BitprimNodeCIntConan(ConanFile):
         "with_litecoin=False", \
         "with_tests=False", \
         "with_console=False",  \
-        "microarchitecture=_DUMMY_",  \
-        "no_compilation=False"
+        "microarchitecture=_DUMMY_"
+        # "no_compilation=False"
 
         # "with_remote_blockchain=False", \
         # "with_remote_database=False", \
@@ -109,9 +109,12 @@ class BitprimNodeCIntConan(ConanFile):
 
     def requirements(self):
         self.output.info('*-*-*-*-*-* def requirements(self):')
-        if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
-            self.requires("boost/1.66.0@bitprim/stable")
-            self.requires("bitprim-node/0.7@bitprim/testing")
+        
+        # if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
+        #     self.requires("boost/1.66.0@bitprim/stable")
+        #     self.requires("bitprim-node/0.7@bitprim/testing")
+        self.requires("boost/1.66.0@bitprim/stable")
+        self.requires("bitprim-node/0.7@bitprim/testing")
 
     def config_options(self):
         self.output.info('*-*-*-*-*-* def config_options(self):')
@@ -124,9 +127,9 @@ class BitprimNodeCIntConan(ConanFile):
 
     def configure(self):
         self.output.info('*-*-*-*-*-* def configure(self):')
-        if self.options.no_compilation or (self.settings.compiler == None and self.settings.arch == 'x86_64' and self.settings.os in ('Linux', 'Windows', 'Macos')):
-            self.settings.remove("compiler")
-            self.settings.remove("build_type")
+        # if self.options.no_compilation or (self.settings.compiler == None and self.settings.arch == 'x86_64' and self.settings.os in ('Linux', 'Windows', 'Macos')):
+        #     self.settings.remove("compiler")
+        #     self.settings.remove("build_type")
 
         if self.options.microarchitecture == "_DUMMY_":
             self.options.microarchitecture = get_cpu_microarchitecture()
@@ -148,12 +151,12 @@ class BitprimNodeCIntConan(ConanFile):
 
         self.info.options.with_tests = "ANY"
         self.info.options.with_console = "ANY"
-        self.info.options.no_compilation = "ANY"
+        # self.info.options.no_compilation = "ANY"
 
 
-        self.info.requires.clear()
-        self.info.settings.compiler = "ANY"
-        self.info.settings.build_type = "ANY"
+        # self.info.requires.clear()
+        # self.info.settings.compiler = "ANY"
+        # self.info.settings.build_type = "ANY"
 
         #For Bitprim Packages libstdc++ and libstdc++11 are the same
         if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
