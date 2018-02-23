@@ -24,6 +24,7 @@
 #include <string>
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
+#include <bitcoin/bitcoin/multi_crypto_support.hpp>
 #include <bitcoin/blockchain.hpp>
 #include <bitcoin/network.hpp>
 #include <bitcoin/node/full_node.hpp>
@@ -462,11 +463,12 @@ libbitcoin::options_metadata parser::load_settings() {
 libbitcoin::config::checkpoint::list parser::default_checkpoints() {
     //case config::settings::mainnet:
 
-#ifdef BITPRIM_LITECOIN
-    auto const testnet = (configured.network.identifier == 4056470269u); //Litecoin
-#else
-    auto const testnet = (configured.network.identifier == 118034699u);  //Bitcoin
-#endif //BITPRIM_LITECOIN
+// #ifdef BITPRIM_LITECOIN
+//     auto const testnet = (configured.network.identifier == 4056470269u); //Litecoin
+// #else
+//     auto const testnet = (configured.network.identifier == 118034699u);  //Bitcoin
+// #endif //BITPRIM_LITECOIN
+    bool const testnet = libbitcoin::is_testnet(configured.network.identifier, configured.network.bitcoin_cash);
 
     libbitcoin::config::checkpoint::list checkpoints;
 

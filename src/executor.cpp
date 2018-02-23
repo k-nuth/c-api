@@ -28,7 +28,7 @@
 
 #include <boost/core/null_deleter.hpp>
 #include <bitcoin/node.hpp>
-
+#include <bitcoin/bitcoin/multi_crypto_support.hpp>
 #include <bitprim/nodecint/parser.hpp>
 
 namespace bitprim { namespace nodecint {
@@ -106,12 +106,12 @@ bool executor::do_initchain() {
 
         // TODO(fernando): BITPRIM: hardcoded identifiers
         // Unfortunately we are limited to a choice of hardcoded chains.
-#ifdef BITPRIM_LITECOIN
-        auto const testnet = (config_.network.identifier == 4056470269u); //Litecoin
-#else
-        auto const testnet = (config_.network.identifier == 118034699u);  //Bitcoin
-#endif //BITPRIM_LITECOIN
-
+// #ifdef BITPRIM_LITECOIN
+//         auto const testnet = (config_.network.identifier == 4056470269u); //Litecoin
+// #else
+//         auto const testnet = (config_.network.identifier == 118034699u);  //Bitcoin
+// #endif //BITPRIM_LITECOIN
+        bool const testnet = libbitcoin::is_testnet(config_.network.identifier, config_.network.bitcoin_cash);
         auto const genesis = testnet ? block::genesis_testnet() : block::genesis_mainnet();
 
         auto const& settings = config_.database;
