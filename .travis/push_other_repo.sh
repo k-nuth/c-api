@@ -6,7 +6,7 @@ function replace_versions {
     if [ ! -f versions.txt ]; then
         echo "$1: $2" >> versions.txt
     else
-        cat versions.txt
+        #cat versions.txt
         while read p; do
             if [[ $p == *"$1:"* ]]; then
                 echo "$1: $2" >> versions.txt.t
@@ -15,8 +15,8 @@ function replace_versions {
             fi
         done <versions.txt
 
-        cat versions.txt
-        cat versions.txt.t
+        #cat versions.txt
+        #cat versions.txt.t
 
         mv versions.txt{.t,}
     fi
@@ -38,7 +38,6 @@ function increment_py_version {
 
 # --------------------------------------------------------------------------------------------------------------------
 
-
 set -e
 set -x
 
@@ -50,6 +49,15 @@ cd temp
 
 # --------------------------------------------------------------------------------------------------------------------
 
+echo "Travis branch: ${TRAVIS_BRANCH}"
+echo "Travis tag: ${TRAVIS_TAG}"
+
+if [[ ${TRAVIS_BRANCH} == ${TRAVIS_TAG} ]]; then
+    export BITPRIM_BRANCH=master
+else
+    export BITPRIM_BRANCH=${TRAVIS_BRANCH}
+fi
+echo "Bitprim branch: ${BITPRIM_BRANCH}"
 
 echo "Travis branch: ${TRAVIS_BRANCH}"
 echo "Travis tag: ${TRAVIS_TAG}"

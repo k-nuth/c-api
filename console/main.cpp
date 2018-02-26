@@ -474,7 +474,7 @@ int main(int argc, char* argv[]) {
 
     wait_until_block(chain, 170);
 
-    size_t height;
+    uint64_t height;
 
 
 	std::string hash = "0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098";
@@ -483,11 +483,11 @@ int main(int argc, char* argv[]) {
 	std::reverse(hash_bytes.begin(), hash_bytes.end());
 	transaction_t tx;
 
-	size_t index;
+	uint64_t index;
     hash_t tx_hash;
     std::memcpy(tx_hash.hash, hash_bytes.data(), 32);
 
-	auto err = chain_get_transaction(chain, tx_hash, false, &tx, &height, &index);
+	auto err = chain_get_transaction(chain, tx_hash, 0, &tx, &height, &index);
 
     auto input_list = chain_transaction_inputs(tx);
     auto input_count = chain_input_list_count(input_list);
@@ -495,7 +495,7 @@ int main(int argc, char* argv[]) {
 
     auto input_0_script = chain_input_script(input_0);
 
-    size_t script_size = 0;
+    uint64_t script_size = 0;
     auto* script_data = chain_script_to_data(input_0_script, 0, &script_size);
 
     auto script_len = strlen((const char*)script_data);

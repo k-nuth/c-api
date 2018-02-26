@@ -17,17 +17,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-
 branches:
   only:
   - master
   - dev
   - /^v\d+\.\d+\.\d+$/
-
+  
 
 env:
    global:
-     - CONAN_REFERENCE: "bitprim-node-cint/0.6"
+     - CONAN_REFERENCE: "bitprim-node-cint/0.7"
      - CONAN_USERNAME: "bitprim"
      - CONAN_LOGIN_USERNAME: "bitprim-bintray"
      - CONAN_CHANNEL: "stable"
@@ -45,6 +44,7 @@ osx: &osx
    os: osx
    language: generic
 
+
 matrix:
    include:
       - <<: *linux
@@ -54,13 +54,14 @@ matrix:
         env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=lasote/conangcc49
 
       - <<: *linux
-        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc54
+        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc5
 
       - <<: *linux
         env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=lasote/conangcc63
 
       - <<: *linux
-        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc72
+        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7
+             BITPRIM_RUN_TESTS=true
 
       - <<: *linux
         env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=lasote/conanclang39
@@ -68,17 +69,23 @@ matrix:
       - <<: *linux
         env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=lasote/conanclang40
 
+      - <<: *linux
+        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=lasote/conanclang50
+
       - <<: *osx
         osx_image: xcode7.3
         env: CONAN_APPLE_CLANG_VERSIONS=7.3
 
-      # - <<: *osx
-      #   osx_image: xcode8.2
-      #   env: CONAN_APPLE_CLANG_VERSIONS=8.0
-
       - <<: *osx
         osx_image: xcode8.3
         env: CONAN_APPLE_CLANG_VERSIONS=8.1
+
+      - <<: *osx
+        osx_image: xcode9
+        env: CONAN_APPLE_CLANG_VERSIONS=9.0
+             BITPRIM_RUN_TESTS=true
+
+
 
 install:
   - cd ${TRAVIS_BUILD_DIR}
@@ -90,7 +97,7 @@ install:
     fi    
 
 script:
-  - git fetch --unshallow
+  - git fetch --unshallow || true
   - export BITPRIM_BUILD_NUMBER="$(git describe)"
   - echo "${BITPRIM_BUILD_NUMBER}"
 
@@ -110,3 +117,4 @@ notifications:
     urls: https://webhooks.gitter.im/e/a19dd2b03bf676d2b622
     on_success: change
     on_failure: always
+

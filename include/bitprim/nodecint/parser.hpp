@@ -59,7 +59,8 @@ public:
 
 
     //virtual bool load_configuration_variables(variables_map& variables, std::string const& option_name);
-    bool load_configuration_variables(variables_map& variables, boost::filesystem::path const& config_path);
+    // bool load_configuration_variables(variables_map& variables, boost::filesystem::path const& config_path);
+    int load_configuration_variables(variables_map& variables, boost::filesystem::path const& config_path);
 
 
     /// The populated configuration settings values.

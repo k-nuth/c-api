@@ -17,36 +17,60 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_CHAIN_PAYMENT_ADDRESS_H_
-#define BITPRIM_NODECINT_CHAIN_PAYMENT_ADDRESS_H_
+#ifndef BITPRIM_NODECINT_NODE_SETTINGS_H_
+#define BITPRIM_NODECINT_NODE_SETTINGS_H_
 
-#include <stdio.h>
 #include <stdint.h>
 
 #include <bitprim/nodecint/visibility.h>
-#include <bitprim/nodecint/primitives.h>
+// #include <bitprim/nodecint/primitives.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-BITPRIM_EXPORT
-char const* chain_payment_address_encoded(payment_address_t payment_address);
+// enum class currency {
+//     none,
+//     bitcoin,
+//     bitcoin_cash,
+//     litecoin
+// };
+
+// enum class settings
+// {
+//     none,
+//     mainnet,
+//     testnet,
+//     regtest
+// };
+
+typedef enum currency {
+    bitprim_currency_none,
+    bitprim_currency_bitcoin,
+    bitprim_currency_bitcoin_cash,
+    bitprim_currency_litecoin
+} currency_t;
+
+// settings
+typedef enum network {
+    bitprim_network_none,
+    bitprim_network_mainnet,
+    bitprim_network_testnet,
+    bitprim_network_regtest
+} network_t;
 
 BITPRIM_EXPORT
-payment_address_t chain_payment_address_construct_from_string(char const* address);
+currency_t node_settings_get_currency();
 
 BITPRIM_EXPORT
-uint8_t chain_payment_address_version(payment_address_t payment_address);
+network_t node_settings_get_network();
 
 BITPRIM_EXPORT
-int /*bool*/ chain_payment_address_is_valid(payment_address_t payment_address);
+char const* node_settings_cashaddr_prefix();
 
-BITPRIM_EXPORT
-void chain_payment_address_destruct(payment_address_t payment_address);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_CHAIN_PAYMENT_ADDRESS_H_ */
+#endif /* BITPRIM_NODECINT_NODE_SETTINGS_H_ */

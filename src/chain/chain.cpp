@@ -203,11 +203,14 @@ error_code_t chain_get_block_header_by_hash(chain_t chain, hash_t hash, header_t
 }
 
 void chain_fetch_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_fetch_handler_t handler) {
-    // safe_chain(chain).fetch_block(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::block::ptr block, size_t h) {
     safe_chain(chain).fetch_block(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
-        auto new_block = new libbitcoin::message::block(*block);
-        //Note: It is the responsability of the user to release/destruct the object
-        handler(chain, ctx, static_cast<error_code_t>(ec.value()), new_block, h);
+        if (ec == libbitcoin::error::success) {
+            auto new_block = new libbitcoin::message::block(*block);
+            //Note: It is the responsability of the user to release/destruct the object
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), new_block, h);
+        } else {
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), nullptr, h);
+        }
     });
 }
 
@@ -216,8 +219,12 @@ error_code_t chain_get_block_by_height(chain_t chain, uint64_t /*size_t*/ height
     error_code_t res;
 
     safe_chain(chain).fetch_block(height, [&](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
-        *out_block = new libbitcoin::message::block(*block);
-        //Note: It is the responsability of the user to release/destruct the object
+        if (ec == libbitcoin::error::success) {
+            //Note: It is the responsability of the user to release/destruct the object
+            *out_block = new libbitcoin::message::block(*block);
+        } else {
+            *out_block = nullptr;
+        }
 
         *out_height = h;
         res = static_cast<error_code_t>(ec.value());
@@ -235,9 +242,13 @@ void chain_fetch_block_by_hash(chain_t chain, void* ctx, hash_t hash, block_fetc
     auto hash_cpp = bitprim::to_array(hash.hash);
 
     safe_chain(chain).fetch_block(hash_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
-        //Note: It is the responsability of the user to release/destruct the object
-        auto new_block = new libbitcoin::message::block(*block);
-        handler(chain, ctx, static_cast<error_code_t>(ec.value()), new_block, h);
+        if (ec == libbitcoin::error::success) {
+            //Note: It is the responsability of the user to release/destruct the object
+            auto new_block = new libbitcoin::message::block(*block);
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), new_block, h);
+        } else {
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), nullptr, h);
+        }
     });
 }
 
@@ -250,8 +261,13 @@ error_code_t chain_get_block_by_hash(chain_t chain, hash_t hash, block_t* out_bl
     auto hash_cpp = bitprim::to_array(hash.hash);
 
     safe_chain(chain).fetch_block(hash_cpp, [&](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
-        //Note: It is the responsability of the user to release/destruct the object
-        *out_block = new libbitcoin::message::block(*block);
+        if (ec == libbitcoin::error::success) {
+            //Note: It is the responsability of the user to release/destruct the object
+            *out_block = new libbitcoin::message::block(*block);
+        } else {
+            *out_block = nullptr;
+        }
+
         *out_height = h;
         res = static_cast<error_code_t>(ec.value());
         latch.count_down();
@@ -322,13 +338,15 @@ error_code_t chain_get_merkle_block_by_hash(chain_t chain, hash_t hash, merkle_b
 void chain_fetch_transaction(chain_t chain, void* ctx, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler) {
     //precondition:  [hash, 32] is a valid range
 
-//    libbitcoin::hash_digest hash_cpp;
-//    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
     auto hash_cpp = bitprim::to_array(hash.hash);
 
     safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed != 0, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t i, size_t h) {
-        auto new_transaction = new libbitcoin::message::transaction(*transaction);
-        handler(chain, ctx, static_cast<error_code_t>(ec.value()), new_transaction, i, h);
+        if (ec == libbitcoin::error::success) {
+            auto new_transaction = new libbitcoin::message::transaction(*transaction);
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), new_transaction, i, h);
+        } else {
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), nullptr, i, h);
+        }
     });
 }
 
@@ -341,7 +359,12 @@ error_code_t chain_get_transaction(chain_t chain, hash_t hash, int require_confi
     auto hash_cpp = bitprim::to_array(hash.hash);
 
     safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed != 0, [&](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t i, size_t h) {
-        *out_transaction = new libbitcoin::message::transaction(*transaction);
+        if (ec == libbitcoin::error::success) {
+            *out_transaction = new libbitcoin::message::transaction(*transaction);
+        } else {
+            *out_transaction = nullptr;
+        }
+
         *out_height = h;
         *out_index = i;
         res = static_cast<error_code_t>(ec.value());
@@ -755,6 +778,20 @@ void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_h
         }
     });
 }
+
+
+// Properties.
+//-------------------------------------------------------------------------
+
+/// True if the blockchain is stale based on configured age limit.
+int /*bool*/ chain_is_stale(chain_t chain) {
+    return static_cast<int>(safe_chain(chain).is_stale());
+}
+
+
+/// Get a reference to the blockchain configuration settings.
+// const settings& chain_settings() const;
+
 
 
 } /* extern "C" */

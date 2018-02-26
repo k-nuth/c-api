@@ -124,6 +124,9 @@ int /*bool*/ chain_block_is_internal_double_spend(block_t block);
 BITPRIM_EXPORT
 int /*bool*/ chain_block_is_valid_merkle_root(block_t block);
 
+BITPRIM_EXPORT
+uint8_t const* chain_block_to_data(block_t block, int /*bool*/ wire, uint64_t* /*size_t*/ out_size);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
