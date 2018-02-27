@@ -686,8 +686,12 @@ void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subsc
 
 void chain_subscribe_transaction(executor_t exec, chain_t chain, void* ctx, subscribe_transaction_handler_t handler) {
     safe_chain(chain).subscribe_transaction([exec, chain, ctx, handler](std::error_code const& ec, libbitcoin::transaction_const_ptr tx) {
-        auto new_tx = new libbitcoin::message::transaction(*tx);
-        return handler(exec, chain, ctx, static_cast<error_code_t>(ec.value()), new_tx);
+        transaction_t new_tx = nullptr;
+        if (tx) {
+            new_tx = new libbitcoin::message::transaction(*tx);
+        }
+        auto res = handler(exec, chain, ctx, static_cast<error_code_t>(ec.value()), new_tx);
+        return res;
     });
 }
 
