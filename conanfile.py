@@ -50,7 +50,7 @@ def get_cpu_microarchitecture():
 
 class BitprimNodeCIntConan(ConanFile):
     name = "bitprim-node-cint"
-    version = "0.7"
+    version = "0.8"
     license = "http://www.boost.org/users/license.html"
     url = "https://github.com/bitprim/bitprim-node-cint"
     description = "Bitcoin Full Node Library with C interface"
@@ -114,7 +114,7 @@ class BitprimNodeCIntConan(ConanFile):
         #     self.requires("boost/1.66.0@bitprim/stable")
         #     self.requires("bitprim-node/0.7@bitprim/testing")
         self.requires("boost/1.66.0@bitprim/stable")
-        self.requires("bitprim-node/0.7@bitprim/testing")
+        self.requires("bitprim-node/0.8@bitprim/testing")
 
     def config_options(self):
         self.output.info('*-*-*-*-*-* def config_options(self):')
