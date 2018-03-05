@@ -30,7 +30,7 @@ environment:
     PYTHON_VERSION: "2.7.8"
     PYTHON_ARCH: "32"
 
-    CONAN_REFERENCE: "bitprim-node-cint/0.7"
+    CONAN_REFERENCE: "bitprim-node-cint/0.8"
     CONAN_USERNAME: "bitprim"
     CONAN_LOGIN_USERNAME: "bitprim-bintray"
     CONAN_CHANNEL: "testing"
