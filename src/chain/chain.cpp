@@ -235,6 +235,16 @@ error_code_t chain_get_block_by_height(chain_t chain, uint64_t /*size_t*/ height
     return res;
 }
 
+error_code_t chain_fetch_block_by_height_timestamp(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_hash_timestamp_fetch_handler_t handler) {
+    safe_chain(chain).fetch_block_hash_timestamp(height, [chain, ctx, handler](std::error_code const& ec, const libbitcoin::hash_digest& hash, uint32_t timestamp, size_t h) {
+        if (ec == libbitcoin::error::success) {
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), bitprim::to_hash_t(hash), timestamp, h);
+        } else {
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), bitprim::to_hash_t(libbitcoin::null_hash), 0, h);
+        }
+    });
+}
+
 void chain_fetch_block_by_hash(chain_t chain, void* ctx, hash_t hash, block_fetch_handler_t handler) {
 
 //    libbitcoin::hash_digest hash_cpp;
@@ -275,6 +285,25 @@ error_code_t chain_get_block_by_hash(chain_t chain, hash_t hash, block_t* out_bl
 
     latch.count_down_and_wait();
     return res;
+}
+
+void chain_fetch_block_by_hash_txs_size(chain_t chain, void* ctx, hash_t hash, block_txs_size_fetch_handler_t handler) {
+
+//    libbitcoin::hash_digest hash_cpp;
+//    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
+    auto hash_cpp = bitprim::to_array(hash.hash);
+
+    safe_chain(chain).fetch_block_txs_size(hash_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t tx_count, const libbitcoin::hash_list& tx_hashes, uint64_t h) {
+        if (ec == libbitcoin::error::success) {
+            //Note: It is the user's responsability of the user to release/destruct the object
+            auto new_block = new libbitcoin::message::block(*block);
+            //Note: It is the user's responsability of the user to release/destruct the object
+            auto new_tx_hashes = new libbitcoin::hash_list(tx_hashes);
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), new_block, tx_count, new_tx_hashes, h);
+        } else {
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), nullptr, 0, nullptr, 0);
+        }
+    });
 }
 
 void chain_fetch_merkle_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, merkle_block_fetch_handler_t handler) {
