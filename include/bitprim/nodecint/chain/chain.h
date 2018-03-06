@@ -69,7 +69,7 @@ BITPRIM_EXPORT
 void chain_fetch_block_by_height_timestamp(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_hash_timestamp_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-error_code_t chain_get_block_by_height_timestamp(chain_t chain, void* ctx, uint64_t /*size_t*/ height, hash_t* out_hash, uint32_t* out_timestamp, uint64_t* out_height);
+error_code_t chain_get_block_by_height_timestamp(chain_t chain, uint64_t /*size_t*/ height, hash_t* out_hash, uint32_t* out_timestamp, uint64_t* out_height);
 
 BITPRIM_EXPORT
 void chain_fetch_block_by_hash(chain_t chain, void* ctx, hash_t hash, block_fetch_handler_t handler);
@@ -81,7 +81,7 @@ BITPRIM_EXPORT
 void chain_fetch_block_by_hash_txs_size(chain_t chain, void* ctx, hash_t hash, block_txs_size_fetch_handler_t handler);
 
 BITPRIM_EXPORT
-error_code_t chain_get_block_by_hash_txs_size(chain_t chain, void* ctx, hash_t hash, block_t* out_block, uint64_t* out_block_height, hash_list_t* out_tx_hashes, uint64_t* out_serialized_size);
+error_code_t chain_get_block_by_hash_txs_size(chain_t chain, hash_t hash, block_t* out_block, uint64_t* out_block_height, hash_list_t* out_tx_hashes, uint64_t* out_serialized_size);
 
 
 // Merkle Block ---------------------------------------------------------------------
