@@ -245,7 +245,7 @@ void chain_fetch_block_by_height_timestamp(chain_t chain, void* ctx, uint64_t /*
     });
 }
 
-error_code_t chain_get_block_by_height_timestamp(chain_t chain, void* ctx, uint64_t /*size_t*/ height, hash_t* out_hash, uint32_t* out_timestamp, uint64_t* out_height) {
+error_code_t chain_get_block_by_height_timestamp(chain_t chain, uint64_t /*size_t*/ height, hash_t* out_hash, uint32_t* out_timestamp, uint64_t* out_height) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
@@ -330,7 +330,7 @@ void chain_fetch_block_by_hash_txs_size(chain_t chain, void* ctx, hash_t hash, b
     });
 }
 
-error_code_t chain_get_block_by_hash_txs_size(chain_t chain, void* ctx, hash_t hash, block_t* out_block, uint64_t* out_block_height, hash_list_t* out_tx_hashes, uint64_t* out_serialized_size) {
+error_code_t chain_get_block_by_hash_txs_size(chain_t chain, hash_t hash, block_t* out_block, uint64_t* out_block_height, hash_list_t* out_tx_hashes, uint64_t* out_serialized_size) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
@@ -357,6 +357,16 @@ error_code_t chain_get_block_by_hash_txs_size(chain_t chain, void* ctx, hash_t h
 
     latch.count_down_and_wait();
     return res;
+}
+
+error_code_t chain_get_block_hash(chain_t chain, uint64_t height, hash_t* out_hash) {
+    libbitcoin::hash_digest block_hash;
+    bool found_block = safe_chain(chain).get_block_hash(block_hash, height);
+    if( ! found_block ) {
+        return bitprim_ec_not_found;
+    }
+    std::memcpy(out_hash->hash, block_hash.data(), BITCOIN_HASH_SIZE);
+    return bitprim_ec_success;
 }
 
 void chain_fetch_merkle_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, merkle_block_fetch_handler_t handler) {
