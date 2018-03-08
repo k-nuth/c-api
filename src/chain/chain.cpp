@@ -357,6 +357,16 @@ error_code_t chain_get_block_by_hash_txs_size(chain_t chain, hash_t hash, block_
     return res;
 }
 
+error_code_t chain_get_block_hash(chain_t chain, uint64_t height, hash_t* out_hash) {
+    libbitcoin::hash_digest block_hash;
+    bool found_block = safe_chain(chain).get_block_hash(block_hash, height);
+    if( ! found_block ) {
+        return bitprim_ec_not_found;
+    }
+    std::memcpy(out_hash->hash, block_hash.data(), BITCOIN_HASH_SIZE);
+    return bitprim_ec_success;
+}
+
 void chain_fetch_merkle_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, merkle_block_fetch_handler_t handler) {
 
     safe_chain(chain).fetch_merkle_block(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::merkle_block::const_ptr block, size_t h) {
