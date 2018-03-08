@@ -26,7 +26,7 @@ branches:
 
 env:
    global:
-     - CONAN_REFERENCE: "bitprim-node-cint/0.7"
+     - CONAN_REFERENCE: "bitprim-node-cint/0.8"
      - CONAN_USERNAME: "bitprim"
      - CONAN_LOGIN_USERNAME: "bitprim-bintray"
      - CONAN_CHANNEL: "testing"

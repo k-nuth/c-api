@@ -245,7 +245,7 @@ void chain_fetch_block_by_height_timestamp(chain_t chain, void* ctx, uint64_t /*
     });
 }
 
-error_code_t chain_get_block_by_height_timestamp(chain_t chain, uint64_t /*size_t*/ height, hash_t* out_hash, uint32_t* out_timestamp, uint64_t* out_height) {
+error_code_t chain_get_block_by_height_timestamp(chain_t chain, uint64_t /*size_t*/ height, hash_t* out_hash, uint32_t* out_timestamp) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
@@ -254,11 +254,9 @@ error_code_t chain_get_block_by_height_timestamp(chain_t chain, uint64_t /*size_
             //handler(chain, ctx, static_cast<error_code_t>(ec.value()), bitprim::to_hash_t(hash), timestamp, h);
             std::memcpy(out_hash->hash, hash.data(), BITCOIN_HASH_SIZE);
             *out_timestamp = timestamp;
-            *out_height = h;
         } else {
             std::memcpy(out_hash->hash, libbitcoin::null_hash.data(), BITCOIN_HASH_SIZE);
             *out_timestamp = 0;
-            *out_height = 0;
         }
 
         res = static_cast<error_code_t>(ec.value());
