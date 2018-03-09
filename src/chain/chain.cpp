@@ -315,12 +315,12 @@ void chain_fetch_header_by_hash_txs_size(chain_t chain, void* ctx, hash_t hash, 
 //    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_header_txs_size(hash_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::header::const_ptr header, size_t block_height, const libbitcoin::hash_list& tx_hashes, uint64_t block_serialized_size) {
+    safe_chain(chain).fetch_header_txs_size(hash_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::header::const_ptr header, size_t block_height, const std::shared_ptr<libbitcoin::hash_list> tx_hashes, uint64_t block_serialized_size) {
         if (ec == libbitcoin::error::success) {
             //Note: It is the user's responsability of the user to release/destruct the object
             auto new_header = new libbitcoin::message::header(*header);
             //Note: It is the user's responsability of the user to release/destruct the object
-            auto new_tx_hashes = new libbitcoin::hash_list(tx_hashes);
+            auto new_tx_hashes = new libbitcoin::hash_list(*tx_hashes);
             handler(chain, ctx, static_cast<error_code_t>(ec.value()), new_header, block_height, new_tx_hashes, block_serialized_size);
         } else {
             handler(chain, ctx, static_cast<error_code_t>(ec.value()), nullptr, 0, nullptr, 0);
@@ -334,13 +334,13 @@ error_code_t chain_get_header_by_hash_txs_size(chain_t chain, hash_t hash, block
 
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_header_txs_size(hash_cpp, [&](std::error_code const& ec, libbitcoin::message::header::const_ptr header, size_t block_height, const libbitcoin::hash_list& tx_hashes, uint64_t block_serialized_size) {
+    safe_chain(chain).fetch_header_txs_size(hash_cpp, [&](std::error_code const& ec, libbitcoin::message::header::const_ptr header, size_t block_height, const std::shared_ptr<libbitcoin::hash_list> tx_hashes, uint64_t block_serialized_size) {
         if (ec == libbitcoin::error::success) {
             //Note: It is the user's responsability of the user to release/destruct the object
             *out_block = new libbitcoin::message::header(*header);
             *out_block_height = block_height;
             //Note: It is the user's responsability of the user to release/destruct the object
-            *out_tx_hashes = new libbitcoin::hash_list(tx_hashes);
+            *out_tx_hashes = new libbitcoin::hash_list(*tx_hashes);
             *out_serialized_size = block_serialized_size;
         } else {
             *out_block = nullptr;
