@@ -309,13 +309,13 @@ error_code_t chain_get_block_by_hash(chain_t chain, hash_t hash, block_t* out_bl
     return res;
 }
 
-void chain_fetch_header_by_hash_txs_size(chain_t chain, void* ctx, hash_t hash, header_txs_size_fetch_handler_t handler) {
+void chain_fetch_block_header_by_hash_txs_size(chain_t chain, void* ctx, hash_t hash, block_header_txs_size_fetch_handler_t handler) {
 
 //    libbitcoin::hash_digest hash_cpp;
 //    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_header_txs_size(hash_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::header::const_ptr header, size_t block_height, const std::shared_ptr<libbitcoin::hash_list> tx_hashes, uint64_t block_serialized_size) {
+    safe_chain(chain).fetch_block_header_txs_size(hash_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::header::const_ptr header, size_t block_height, const std::shared_ptr<libbitcoin::hash_list> tx_hashes, uint64_t block_serialized_size) {
         if (ec == libbitcoin::error::success) {
             //Note: It is the user's responsability of the user to release/destruct the object
             auto new_header = new libbitcoin::message::header(*header);
@@ -328,13 +328,13 @@ void chain_fetch_header_by_hash_txs_size(chain_t chain, void* ctx, hash_t hash, 
     });
 }
 
-error_code_t chain_get_header_by_hash_txs_size(chain_t chain, hash_t hash, header_t* out_header, uint64_t* out_block_height, hash_list_t* out_tx_hashes, uint64_t* out_serialized_size) {
+error_code_t chain_get_block_header_by_hash_txs_size(chain_t chain, hash_t hash, header_t* out_header, uint64_t* out_block_height, hash_list_t* out_tx_hashes, uint64_t* out_serialized_size) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_header_txs_size(hash_cpp, [&](std::error_code const& ec, libbitcoin::message::header::const_ptr header, size_t block_height, const std::shared_ptr<libbitcoin::hash_list> tx_hashes, uint64_t block_serialized_size) {
+    safe_chain(chain).fetch_block_header_txs_size(hash_cpp, [&](std::error_code const& ec, libbitcoin::message::header::const_ptr header, size_t block_height, const std::shared_ptr<libbitcoin::hash_list> tx_hashes, uint64_t block_serialized_size) {
         if (ec == libbitcoin::error::success) {
             //Note: It is the user's responsability of the user to release/destruct the object
             *out_header = new libbitcoin::message::header(*header);

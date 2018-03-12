@@ -121,7 +121,7 @@ typedef void* word_list_t;
 typedef void (*run_handler_t)(executor_t, void*, int);
 typedef void (*stealth_fetch_handler_t)(chain_t, void*, error_code_t, stealth_compact_list_t);
 typedef void (*block_fetch_handler_t)(chain_t, void*, error_code_t, block_t, uint64_t /*size_t*/);
-typedef void (*header_txs_size_fetch_handler_t)(chain_t, void*, error_code_t, header_t, uint64_t /*size_t*/, hash_list_t, uint64_t);
+typedef void (*block_header_txs_size_fetch_handler_t)(chain_t, void*, error_code_t, header_t, uint64_t /*size_t*/, hash_list_t, uint64_t);
 typedef void (*block_hash_timestamp_fetch_handler_t)(chain_t, void*, error_code_t, hash_t, uint32_t, uint64_t /*size_t*/);
 typedef void (*block_height_fetch_handler_t)(chain_t, void*, error_code_t, uint64_t /*size_t*/);
 typedef void (*block_header_fetch_handler_t)(chain_t, void*, error_code_t, header_t, uint64_t /*size_t*/);
