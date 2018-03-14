@@ -73,11 +73,23 @@ option(WITH_CONSOLE_NODE_CINT "Compile console application." ON)
 
 # Implement --with-litecoin.
 #------------------------------------------------------------------------------
-option(WITH_LITECOIN "Compile with Litecoin support." OFF)
+# option(WITH_LITECOIN "Compile with Litecoin support." OFF)
 
 
 set(BITPRIM_BUILD_NUMBER "-" CACHE STRING "Specify the Bitprim Build Number.")
 # message(${BITPRIM_BUILD_NUMBER})
+
+set(CURRENCY "BCH" CACHE STRING "Specify the Cryptocurrency (BCH|BTC|LTC).")
+
+if (${CURRENCY} STREQUAL "BCH")
+  add_definitions(-DBITPRIM_CURRENCY_BCH)
+elseif (${CURRENCY} STREQUAL "BTC")
+  add_definitions(-DBITPRIM_CURRENCY_BTC)
+elseif (${CURRENCY} STREQUAL "LTC")
+  add_definitions(-DBITPRIM_CURRENCY_LTC)
+else()
+  message(FATAL_ERROR "Invalid Cryptocurrency: ${CURRENCY}")
+endif()
 
 
 
@@ -87,9 +99,9 @@ endif()
 
 # set(WITH_CONSOLE_NODE_CINT ON)
 
-if (WITH_LITECOIN)
-  add_definitions(-DBITPRIM_LITECOIN)
-endif()
+# if (WITH_LITECOIN)
+#   add_definitions(-DBITPRIM_LITECOIN)
+# endif()
 
 # Conan infrastructure
 #==============================================================================
