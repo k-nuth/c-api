@@ -24,7 +24,7 @@
 #include <string>
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
-#include <bitcoin/bitcoin/multi_crypto_support.hpp>
+
 #include <bitcoin/blockchain.hpp>
 #include <bitcoin/network.hpp>
 #include <bitcoin/node/full_node.hpp>
@@ -322,11 +322,11 @@ libbitcoin::options_metadata parser::load_settings() {
         value<bool>(&configured.chain.priority),
         "Use high thread priority for block validation, defaults to true."
     )
-    (
-        "blockchain.use_libconsensus",
-        value<bool>(&configured.chain.use_libconsensus),
-        "Use libconsensus for script validation if integrated, defaults to false."
-    )
+    //(
+    //    "blockchain.use_libconsensus",
+    //    value<bool>(&configured.chain.use_libconsensus),
+    //    "Use libconsensus for script validation if integrated, defaults to false."
+    //)
     (
         "blockchain.reorganization_limit",
         value<uint32_t>(&configured.chain.reorganization_limit),
@@ -466,9 +466,11 @@ libbitcoin::config::checkpoint::list parser::default_checkpoints() {
 
     libbitcoin::config::checkpoint::list checkpoints;
 
+//TODO(fernando): Set Litecoin checkpoints
 #if defined(BITPRIM_CURRENCY_BCH)
     if (libbitcoin::get_network(configured.network.identifier) == libbitcoin::config::settings::testnet) {
-        checkpoints.reserve(15);
+        // BCH Testnet
+        checkpoints.reserve(17);
         checkpoints.emplace_back("000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943", 0);
         checkpoints.emplace_back("00000000009e2958c15ff9290d571bf9459e93b19765c6801ddeccadbb160a1e", 100000);
         checkpoints.emplace_back("0000000000287bffd321963ef05feab753ebe274e1d78b2fd4e2bfe9ad3aa6f2", 200000);
@@ -480,11 +482,21 @@ libbitcoin::config::checkpoint::list parser::default_checkpoints() {
         checkpoints.emplace_back("0000000000209b091d6519187be7c2ee205293f25f9f503f90027e25abf8b503", 800000);
         checkpoints.emplace_back("0000000000356f8d8924556e765b7a94aaebc6b5c8685dcfa2b1ee8b41acd89b", 900000);
         checkpoints.emplace_back("0000000000478e259a3eda2fafbeeb0106626f946347955e99278fe6cc848414", 1000000);
-        checkpoints.emplace_back("00000000f17c850672894b9a75b63a1e72830bbd5f4c8889b5c1a80e7faef138", 1155875);
-        checkpoints.emplace_back("00000000000e38fef93ed9582a7df43815d5c2ba9fd37ef70c9a0ea4a285b8f5", 1155876);
+
+        checkpoints.emplace_back("00000000001c2fb9880485b1f3d7b0ffa9fabdfd0cf16e29b122bb6275c73db0", 1100000);
+
+        //2017-Aug Hardfork - Cash     
+        checkpoints.emplace_back("00000000f17c850672894b9a75b63a1e72830bbd5f4c8889b5c1a80e7faef138", 1155875); //time: 1501595915 - Aug 01, 2017 01:58:35 PM
+        checkpoints.emplace_back("00000000000e38fef93ed9582a7df43815d5c2ba9fd37ef70c9a0ea4a285b8f5", 1155876); //time: 1501609304 - Aug 01, 2017 05:41:44 PM
+
+        //2017-Nov Hardfork - DAA - (1510600000)
+        checkpoints.emplace_back("00000000001149a812d6ecb71aea7f298fd1b29aefb773fe380c1f3649c24b84", 1188696); //time: 1510603643 - Nov 13, 2017 07:07:23 PM
+        checkpoints.emplace_back("0000000000170ed0918077bde7b4d36cc4c91be69fa09211f748240dabe047fb", 1188697); //time: 1510603645 - Nov 13, 2017 07:07:25 PM
+
+        checkpoints.emplace_back("00000000d91bdbb5394bcf457c0f0b7a7e43eb978e2d881b6c2a4c2756abc558", 1200000);
     } else {
-        // Cash Mainnet
-        checkpoints.reserve(30);
+        // BCH Mainnet
+        checkpoints.reserve(32);
         checkpoints.emplace_back("000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f", 0);
         checkpoints.emplace_back("0000000069e244f73d78e8fd29ba2fd2ed618bd6fa2ee92559f542fdb26e7c1d", 11111);
         checkpoints.emplace_back("000000002dd5588a74784eaa7ab0507a18ad16a236e7b1ce69f00d7ddfb5d0a6", 33333);
@@ -511,11 +523,22 @@ libbitcoin::config::checkpoint::list parser::default_checkpoints() {
         checkpoints.emplace_back("00000000000000000142adfebcb9a0aa75f0c4980dd5c7dd17062bf7de77c16d", 425000);
         checkpoints.emplace_back("0000000000000000014083723ed311a461c648068af8cef8a19dcd620c07a20b", 450000);
         checkpoints.emplace_back("0000000000000000017c42fd88e78ab02c5f5c684f8344e1f5c9e4cebecde71c", 475000);
-        checkpoints.emplace_back("0000000000000000011865af4122fe3b144e2cbeea86142e8ff2fb4107352d43", 478558);
-        checkpoints.emplace_back("000000000000000000651ef99cb9fcbe0dadde1d424bd9f15ff20136191a5eec", 478559);
+
+        //2017-Aug Hardfork - Cash     
+        checkpoints.emplace_back("0000000000000000011865af4122fe3b144e2cbeea86142e8ff2fb4107352d43", 478558);   //time: 1501593374 - Aug 01, 2017 01:16:14 PM
+        checkpoints.emplace_back("000000000000000000651ef99cb9fcbe0dadde1d424bd9f15ff20136191a5eec", 478559);   //time: 1501611161 - Aug 01, 2017 06:12:41 PM
+
+        checkpoints.emplace_back("000000000000000005e14d3f9fdfb70745308706615cfa9edca4f4558332b201", 500000);
+
+        //2017-Nov Hardfork - DAA - (1510600000)
+        checkpoints.emplace_back("0000000000000000008088d63f48da98b7352ad7c4c85f3d90b657cf50ff1ede", 504030);  //time: 1510603980 - Nov 13, 2017 07:13:00 PM
+        checkpoints.emplace_back("0000000000000000011ebf65b60d0a3de80b8175be709d653b4c1a1beeb6ab9c", 504031);  //time: 1510606688 - Nov 13, 2017 07:58:08 PM
+
+        checkpoints.emplace_back("0000000000000000001b09302aa6a8dc65b7542dd195866907dd4e4ccba30d58", 515000);
     }
 #elif defined(BITPRIM_CURRENCY_BTC)
     if (libbitcoin::get_network(configured.network.identifier) == libbitcoin::config::settings::testnet) {
+        // BTC Testnet
         checkpoints.reserve(15);
         checkpoints.emplace_back("000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943", 0);
         checkpoints.emplace_back("00000000009e2958c15ff9290d571bf9459e93b19765c6801ddeccadbb160a1e", 100000);
@@ -528,8 +551,13 @@ libbitcoin::config::checkpoint::list parser::default_checkpoints() {
         checkpoints.emplace_back("0000000000209b091d6519187be7c2ee205293f25f9f503f90027e25abf8b503", 800000);
         checkpoints.emplace_back("0000000000356f8d8924556e765b7a94aaebc6b5c8685dcfa2b1ee8b41acd89b", 900000);
         checkpoints.emplace_back("0000000000478e259a3eda2fafbeeb0106626f946347955e99278fe6cc848414", 1000000);
+        checkpoints.emplace_back("00000000001c2fb9880485b1f3d7b0ffa9fabdfd0cf16e29b122bb6275c73db0", 1100000);
+
+        //2017-Aug Hardfork - Cash     
         checkpoints.emplace_back("00000000f17c850672894b9a75b63a1e72830bbd5f4c8889b5c1a80e7faef138", 1155875);
         checkpoints.emplace_back("0000000093b3cdf2b50a05fa1527810f52d6826781916ef129098e06ee03fb18", 1155876);
+
+        checkpoints.emplace_back("00000000000025c23a19cc91ad8d3e33c2630ce1df594e1ae0bf0eabe30a9176", 1200000);
     } else {
         // BTC Mainnet
         checkpoints.reserve(30);
@@ -559,17 +587,19 @@ libbitcoin::config::checkpoint::list parser::default_checkpoints() {
         checkpoints.emplace_back("00000000000000000142adfebcb9a0aa75f0c4980dd5c7dd17062bf7de77c16d", 425000);
         checkpoints.emplace_back("0000000000000000014083723ed311a461c648068af8cef8a19dcd620c07a20b", 450000);
         checkpoints.emplace_back("0000000000000000017c42fd88e78ab02c5f5c684f8344e1f5c9e4cebecde71c", 475000);
+
+        //2017-Aug Hardfork - Cash     
         checkpoints.emplace_back("0000000000000000011865af4122fe3b144e2cbeea86142e8ff2fb4107352d43", 478558);
         checkpoints.emplace_back("00000000000000000019f112ec0a9982926f1258cdcc558dd7c3b7e5dc7fa148", 478559);
+
+        checkpoints.emplace_back("00000000000000000024fb37364cbf81fd49cc2d51c09c75c35433c3a1945d04", 500000);
     }
 #endif //defined(BITPRIM_CURRENCY_BCH)
-
 
     return checkpoints;
 }
 
 void parser::fix_checkpoints() {
-
     auto const checkpoints = default_checkpoints();
 
     auto const it = std::max_element(checkpoints.begin(), checkpoints.end(), [](libbitcoin::config::checkpoint const& x, libbitcoin::config::checkpoint const& y) {
@@ -586,37 +616,6 @@ void parser::fix_checkpoints() {
         configured.chain.checkpoints.insert(configured.chain.checkpoints.begin(), checkpoints.begin(), checkpoints.end());
     }
 }
-
-
-// // bool parser::load_configuration_variables(variables_map& variables, std::string const& option_name) {
-// bool parser::load_configuration_variables(variables_map& variables, boost::filesystem::path const& config_path) {
-
-//     auto const config_settings = load_settings();
-//     //auto const config_path = get_config_option(variables, option_name);
-
-//     // If the existence test errors out we pretend there's no file :/.
-//     boost::system::error_code code;
-//     if ( ! config_path.empty() && exists(config_path, code))
-//     {
-//         auto const& path = config_path.string();
-//         bc::ifstream file(path);
-
-//         if ( ! file.good())
-//         {
-//             BOOST_THROW_EXCEPTION(reading_file(path.c_str()));
-//         }
-
-//         auto const config = parse_config_file(file, config_settings);
-//         store(config, variables);
-//         return true;
-//     }
-
-//     // Loading from an empty stream causes the defaults to populate.
-//     std::stringstream stream;
-//     auto const config = parse_config_file(stream, config_settings);
-//     store(config, variables);
-//     return false;
-// }
 
 //TODO(fernando): replace int return type with an appropriate enum or "try_bool" or something
 //1 success, 0 default, -1 non-existing file
