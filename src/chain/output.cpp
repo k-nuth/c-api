@@ -81,7 +81,17 @@ payment_address_t chain_output_payment_address(output_t output, int /*bool*/ use
 //data_chunk to_data(bool wire=true) const;
 //void to_data(std::ostream& stream, bool wire=true) const;
 //void to_data(writer& sink, bool wire=true) const;
-//
+
+
+uint8_t const* chain_output_to_data(output_t output, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
+    auto output_data = chain_output_const_cpp(output).to_data(wire);
+    auto* ret = (uint8_t*)malloc((output_data.size()) * sizeof(uint8_t)); // NOLINT
+    std::copy_n(output_data.begin(), output_data.size(), ret);
+    *out_size = output_data.size();
+    return ret;
+}
+
+
 //// Properties (size, accessors, cache).
 ////-----------------------------------------------------------------------------
 //

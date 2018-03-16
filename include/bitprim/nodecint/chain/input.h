@@ -64,6 +64,9 @@ script_t chain_input_script(input_t input);
 BITPRIM_EXPORT
 output_point_t chain_input_previous_output(input_t input);
 
+BITPRIM_EXPORT
+uint8_t const* chain_input_to_data(input_t input, int /*bool*/ wire, uint64_t* /*size_t*/ out_size);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

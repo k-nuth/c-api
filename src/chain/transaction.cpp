@@ -35,6 +35,12 @@ libbitcoin::message::transaction& chain_transaction_cpp(transaction_t transactio
 
 extern "C" {
 
+transaction_t chain_transaction_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
+    libbitcoin::data_chunk data_cpp(data, std::next(data, n));
+    auto tx = libbitcoin::message::transaction::factory_from_data(version, data_cpp);
+    return new libbitcoin::message::transaction(std::move(tx));
+}
+
 //transaction();
 transaction_t chain_transaction_construct_default() {
     return new libbitcoin::message::transaction();
