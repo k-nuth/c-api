@@ -54,6 +54,8 @@ libbitcoin::message::block::const_ptr block_shared(block_t block) {
     return libbitcoin::message::block::const_ptr(block_new);
 }
 
+
+
 //inline
 //int char2int(char input) {
 //    if (input >= '0' && input <= '9') {
@@ -82,6 +84,7 @@ libbitcoin::message::block::const_ptr block_shared(block_t block) {
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 
 void chain_fetch_last_height(chain_t chain, void* ctx, last_height_fetch_handler_t handler) {
     safe_chain(chain).fetch_last_height([chain, ctx, handler](std::error_code const& ec, size_t h) {
@@ -747,6 +750,10 @@ block_t cast_block(libbitcoin::message::block const& x) {
 
 void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subscribe_blockchain_handler_t handler) {
     safe_chain(chain).subscribe_blockchain([exec, chain, ctx, handler](std::error_code const& ec, size_t fork_height, libbitcoin::block_const_ptr_list_const_ptr incoming, libbitcoin::block_const_ptr_list_const_ptr replaced_blocks) {
+        
+        if (safe_chain(chain).is_stale()) {
+            return 1;
+        }
 
         block_list_t incoming_cpp = nullptr;
         if (incoming) {
@@ -768,8 +775,9 @@ void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subsc
                 chain_block_list_push_back(replaced_blocks_cpp, cast_block(*x));
             }
         }
-        
+       
         auto res = handler(exec, chain, ctx, static_cast<error_code_t>(ec.value()), fork_height, incoming_cpp, replaced_blocks_cpp);
+        
         return res;
     });
 }
