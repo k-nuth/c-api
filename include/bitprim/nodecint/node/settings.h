@@ -23,7 +23,7 @@
 #include <stdint.h>
 
 #include <bitprim/nodecint/visibility.h>
-// #include <bitprim/nodecint/primitives.h>
+#include <bitprim/nodecint/primitives.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -63,7 +63,7 @@ BITPRIM_EXPORT
 currency_t node_settings_get_currency();
 
 BITPRIM_EXPORT
-network_t node_settings_get_network();
+network_t node_settings_get_network(executor_t exec);
 
 BITPRIM_EXPORT
 char const* node_settings_cashaddr_prefix();

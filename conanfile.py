@@ -19,11 +19,30 @@
 
 import os
 from conans import ConanFile, CMake
+from conans import __version__ as conan_version
+from conans.model.version import Version
 import importlib
 
 
 def option_on_off(option):
     return "ON" if option else "OFF"
+
+def get_content(file_name):
+    # print(os.path.dirname(os.path.abspath(__file__)))
+    # print(os.getcwd())
+    # print(file_name)
+    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), file_name)
+    with open(file_path, 'r') as f:
+        return f.read()
+
+def get_version():
+    return get_content('conan_version')
+
+def get_channel():
+    return get_content('conan_channel')
+
+def get_conan_req_version():
+    return get_content('conan_req_version')
 
 
 microarchitecture_default = 'x86_64'
@@ -50,36 +69,45 @@ def get_cpu_microarchitecture():
 
 class BitprimNodeCIntConan(ConanFile):
     name = "bitprim-node-cint"
-    version = "0.7"
+    version = get_version()
     license = "http://www.boost.org/users/license.html"
     url = "https://github.com/bitprim/bitprim-node-cint"
     description = "Bitcoin Full Node Library with C interface"
     settings = "os", "compiler", "build_type", "arch"
 
+    if conan_version < Version(get_conan_req_version()):
+        raise Exception ("Conan version should be greater or equal than %s" % (get_conan_req_version(), ))
+
     options = {"shared": [True, False],
                "fPIC": [True, False],
-               "with_litecoin": [True, False],
                "with_tests": [True, False],
                "with_console": [True, False],
                "microarchitecture": "ANY", #["x86_64", "haswell", "ivybridge", "sandybridge", "bulldozer", ...]
-            #    "no_compilation": [True, False],
+               "no_compilation": [True, False],
+               "currency": ['BCH', 'BTC', 'LTC'],
+               "verbose": [True, False],
     }
+    # "with_litecoin": [True, False],
 
 #    "with_remote_blockchain": [True, False],
 #    "with_remote_database": [True, False],
 
     default_options = "shared=False", \
         "fPIC=True", \
-        "with_litecoin=False", \
         "with_tests=False", \
         "with_console=False",  \
-        "microarchitecture=_DUMMY_"
-        # "no_compilation=False"
+        "microarchitecture=_DUMMY_",  \
+        "no_compilation=False", \
+        "currency=BCH", \
+        "verbose=False"
+        
 
+        # "with_litecoin=False", \
         # "with_remote_blockchain=False", \
         # "with_remote_database=False", \
 
     generators = "cmake"
+    exports = "conan_channel", "conan_version", "conan_req_version"
     exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "bitprim-node-cintConfig.cmake.in", "bitprimbuildinfo.cmake","include/*", "test/*", "console/*"
     package_files = "build/lbitprim-node-cint.so"
     build_policy = "missing"
@@ -108,16 +136,12 @@ class BitprimNodeCIntConan(ConanFile):
 
 
     def requirements(self):
-        self.output.info('*-*-*-*-*-* def requirements(self):')
-        
-        # if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
-        #     self.requires("boost/1.66.0@bitprim/stable")
-        #     self.requires("bitprim-node/0.7@bitprim/testing")
-        self.requires("boost/1.66.0@bitprim/stable")
-        self.requires("bitprim-node/0.7@bitprim/stable")
+        if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
+            self.requires("boost/1.66.0@bitprim/stable")
+            self.requires("bitprim-node/0.8@bitprim/%s" % get_channel())
 
     def config_options(self):
-        self.output.info('*-*-*-*-*-* def config_options(self):')
+        # self.output.info('*-*-*-*-*-* def config_options(self):')
         if self.settings.compiler == "Visual Studio":
             self.options.remove("fPIC")
 
@@ -126,10 +150,9 @@ class BitprimNodeCIntConan(ConanFile):
             #     self.options.remove("shared")
 
     def configure(self):
-        self.output.info('*-*-*-*-*-* def configure(self):')
-        # if self.options.no_compilation or (self.settings.compiler == None and self.settings.arch == 'x86_64' and self.settings.os in ('Linux', 'Windows', 'Macos')):
-        #     self.settings.remove("compiler")
-        #     self.settings.remove("build_type")
+        if self.options.no_compilation or (self.settings.compiler == None and self.settings.arch == 'x86_64' and self.settings.os in ('Linux', 'Windows', 'Macos')):
+            self.settings.remove("compiler")
+            self.settings.remove("build_type")
 
         if self.options.microarchitecture == "_DUMMY_":
             self.options.microarchitecture = get_cpu_microarchitecture()
@@ -145,13 +168,17 @@ class BitprimNodeCIntConan(ConanFile):
         self.options["*"].microarchitecture = self.options.microarchitecture
         self.output.info("Compiling for microarchitecture (%s): %s" % (march_from, self.options.microarchitecture))
 
+        self.options["*"].currency = self.options.currency
+        self.output.info("Compiling for currency: %s" % (self.options.currency,))
+
 
     def package_id(self):
-        self.output.info('*-*-*-*-*-* def package_id(self):')
+        # self.output.info('*-*-*-*-*-* def package_id(self):')
 
         self.info.options.with_tests = "ANY"
         self.info.options.with_console = "ANY"
-        # self.info.options.no_compilation = "ANY"
+        self.info.options.no_compilation = "ANY"
+        self.info.options.verbose = "ANY"
 
 
         # self.info.requires.clear()
@@ -170,7 +197,8 @@ class BitprimNodeCIntConan(ConanFile):
         cmake.definitions["NO_CONAN_AT_ALL"] = option_on_off(False)
 
         # cmake.definitions["CMAKE_VERBOSE_MAKEFILE"] = option_on_off(False)
-        cmake.verbose = False
+        # cmake.verbose = False
+        cmake.verbose = self.options.verbose
 
         # cmake.definitions["ENABLE_SHARED"] = option_on_off(self.options.shared)
         # cmake.definitions["ENABLE_SHARED_NODE_CINT"] = option_on_off(self.options.shared)
@@ -189,7 +217,8 @@ class BitprimNodeCIntConan(ConanFile):
         cmake.definitions["WITH_CONSOLE"] = option_on_off(self.options.with_console)
         cmake.definitions["WITH_CONSOLE_NODE_CINT"] = option_on_off(self.options.with_console)
 
-        cmake.definitions["WITH_LITECOIN"] = option_on_off(self.options.with_litecoin)
+        # cmake.definitions["WITH_LITECOIN"] = option_on_off(self.options.with_litecoin)
+        cmake.definitions["CURRENCY"] = self.options.currency
 
 
         if self.settings.compiler != "Visual Studio":

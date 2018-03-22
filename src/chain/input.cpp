@@ -85,7 +85,17 @@ output_point_t chain_input_previous_output(input_t input) {
 //data_chunk to_data(bool wire=true) const;
 //void to_data(std::ostream& stream, bool wire=true) const;
 //void to_data(writer& sink, bool wire=true) const;
-//
+
+
+uint8_t const* chain_input_to_data(input_t input, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
+    auto input_data = chain_input_const_cpp(input).to_data(wire);
+    auto* ret = (uint8_t*)malloc((input_data.size()) * sizeof(uint8_t)); // NOLINT
+    std::copy_n(input_data.begin(), input_data.size(), ret);
+    *out_size = input_data.size();
+    return ret;
+}
+
+
 //// Properties (size, accessors, cache).
 ////-----------------------------------------------------------------------------
 //

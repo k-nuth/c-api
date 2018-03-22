@@ -31,6 +31,9 @@
 extern "C" {
 #endif
 
+BITPRIM_EXPORT
+transaction_t chain_transaction_factory_from_data(uint32_t version, uint8_t* data, uint64_t n);
+
 //transaction(void);
 BITPRIM_EXPORT
 transaction_t chain_transaction_construct_default(void);

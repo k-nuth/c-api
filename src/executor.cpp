@@ -104,16 +104,8 @@ bool executor::do_initchain() {
     if (create_directories(directory, ec)) {
         LOG_INFO(LOG_NODE) << format(BN_INITIALIZING_CHAIN) % directory;
 
-        // TODO(fernando): BITPRIM: hardcoded identifiers
-        // Unfortunately we are limited to a choice of hardcoded chains.
-// #ifdef BITPRIM_LITECOIN
-//         auto const testnet = (config_.network.identifier == 4056470269u); //Litecoin
-// #else
-//         auto const testnet = (config_.network.identifier == 118034699u);  //Bitcoin
-// #endif //BITPRIM_LITECOIN
-        bool const testnet = libbitcoin::is_testnet(config_.network.identifier, config_.network.bitcoin_cash);
+        bool const testnet = libbitcoin::get_network(config_.network.identifier) == libbitcoin::config::settings::testnet;
         auto const genesis = testnet ? block::genesis_testnet() : block::genesis_mainnet();
-
         auto const& settings = config_.database;
         auto const result = data_base(settings).create(genesis);
 

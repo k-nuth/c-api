@@ -23,7 +23,10 @@
 #include <cstdlib>
 #include <string>
 
+#include <bitprim/nodecint/executor_c.h>
+
 #include <bitcoin/bitcoin/multi_crypto_support.hpp>
+#include <bitcoin/network/p2p.hpp>
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,32 +36,29 @@ currency_t node_settings_get_currency() {
     return static_cast<currency_t>(static_cast<int>(libbitcoin::get_currency()));
 }
 
-network_t node_settings_get_network() {
-    return static_cast<network_t>(static_cast<int>(libbitcoin::get_network()));
+network_t node_settings_get_network(executor_t exec) {
+
+    p2p_t p2p_node = executor_get_p2p(exec);
+    auto const& node = *static_cast<libbitcoin::network::p2p*>(p2p_node);
+
+    // auto const& node = exec->actual.node();
+    auto const& sett = node.network_settings();
+    auto id = sett.identifier;
+
+    return static_cast<network_t>(static_cast<int>(libbitcoin::get_network(id)));
+
+    // return static_cast<network_t>(static_cast<int>(libbitcoin::get_network(exec->actual.node().network_settings().identifier)));
 }
 
 char const* node_settings_cashaddr_prefix() {
+#if defined(BITPRIM_CURRENCY_BCH)
     auto str = libbitcoin::cashaddr_prefix();
+#else
+    std::string str; //Note: to avoid checking compilation-time feature at other languages
+#endif
     auto* ret = (char*)malloc((str.size() + 1) * sizeof(char)); // NOLINT
     std::copy_n(str.begin(), str.size() + 1, ret);
     return ret;
 }
-
-// void node_settings_set_network(network_t x) {
-//     libbitcoin::set_network(x);
-// }
-
-// void node_settings_set_network_with_identifier(uint32_t identifier, bool bitcoin_cash) {
-//     libbitcoin::set_network(identifier, bitcoin_cash);
-// }
-
-// void node_settings_set_currency(currency_t x) {
-//     libbitcoin::set_currency(x);
-// }
-
-// bool is_bitcoin_cash();
-// void set_bitcoin_cash(bool value);
-// void set_cashaddr_prefix(std::string const& x);
-// bool is_testnet(uint32_t identifier, bool bitcoin_cash);
 
 } /* extern "C" */
