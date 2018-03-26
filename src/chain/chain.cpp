@@ -793,7 +793,7 @@ void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subsc
 
 void chain_subscribe_transaction(executor_t exec, chain_t chain, void* ctx, subscribe_transaction_handler_t handler) {
     static std::mutex callback_mutex;
-    const auto throttling_interval = std::chrono::seconds(1);
+    static const auto throttling_interval = std::chrono::seconds(1);
 
     safe_chain(chain).subscribe_transaction([exec, chain, ctx, handler](std::error_code const& ec, libbitcoin::transaction_const_ptr tx) {
         std::lock_guard<std::mutex> mutex_guard(callback_mutex);
