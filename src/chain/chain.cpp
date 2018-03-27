@@ -32,7 +32,6 @@
 #include <bitcoin/bitcoin/message/merkle_block.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/blockchain/interface/safe_chain.hpp>
-#include <chrono>
 
 namespace {
 
@@ -54,7 +53,6 @@ libbitcoin::message::block::const_ptr block_shared(block_t block) {
     auto* block_new = new libbitcoin::message::block(block_ref);
     return libbitcoin::message::block::const_ptr(block_new);
 }
-
 
 
 //inline
@@ -750,19 +748,12 @@ block_t cast_block(libbitcoin::message::block const& x) {
 }
 
 void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subscribe_blockchain_handler_t handler) {
-    static const auto throttling_interval = std::chrono::seconds(10);
-    static auto last_callback_time = std::chrono::steady_clock::now();
 
     safe_chain(chain).subscribe_blockchain([exec, chain, ctx, handler](std::error_code const& ec, size_t fork_height, libbitcoin::block_const_ptr_list_const_ptr incoming, libbitcoin::block_const_ptr_list_const_ptr replaced_blocks) {
 
         if (safe_chain(chain).is_stale()) {
             return 1;
         }
-
-        if(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - last_callback_time) < throttling_interval) {
-            return 1;
-        }
-        last_callback_time = std::chrono::steady_clock::now();
 
         block_list_t incoming_cpp = nullptr;
         if (incoming) {
@@ -792,17 +783,13 @@ void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subsc
 }
 
 void chain_subscribe_transaction(executor_t exec, chain_t chain, void* ctx, subscribe_transaction_handler_t handler) {
-    static std::mutex callback_mutex;
-    static const auto throttling_interval = std::chrono::seconds(1);
 
     safe_chain(chain).subscribe_transaction([exec, chain, ctx, handler](std::error_code const& ec, libbitcoin::transaction_const_ptr tx) {
-        std::lock_guard<std::mutex> mutex_guard(callback_mutex);
         transaction_t new_tx = nullptr;
         if (tx) {
             new_tx = new libbitcoin::message::transaction(*tx);
         }
         auto res = handler(exec, chain, ctx, static_cast<error_code_t>(ec.value()), new_tx);
-        std::this_thread::sleep_for(throttling_interval);
         return res;
     });
 }
