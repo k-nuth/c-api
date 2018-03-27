@@ -751,7 +751,7 @@ void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subsc
 
     safe_chain(chain).subscribe_blockchain([exec, chain, ctx, handler](std::error_code const& ec, size_t fork_height, libbitcoin::block_const_ptr_list_const_ptr incoming, libbitcoin::block_const_ptr_list_const_ptr replaced_blocks) {
 
-        if (safe_chain(chain).is_stale()) {
+        if (safe_chain(chain).is_stale()) { //TODO Move somewhere else (there should be no logic here)
             return 1;
         }
 
