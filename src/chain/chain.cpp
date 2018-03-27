@@ -772,6 +772,7 @@ void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subsc
                 chain_block_list_push_back(replaced_blocks_cpp, cast_block(*x));
             }
         }
+
         auto res = handler(exec, chain, ctx, static_cast<error_code_t>(ec.value()), fork_height, incoming_cpp, replaced_blocks_cpp);
         return res;
     });
