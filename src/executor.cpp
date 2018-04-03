@@ -30,6 +30,7 @@
 #include <bitcoin/node.hpp>
 #include <bitcoin/bitcoin/multi_crypto_support.hpp>
 #include <bitprim/nodecint/parser.hpp>
+#include <bitprim/nodecint/version.h>
 
 namespace bitprim { namespace nodecint {
 
@@ -133,7 +134,6 @@ libbitcoin::node::full_node& executor::node() {
 }
 
 bool executor::run(libbitcoin::handle0 handler) {
-    // std::cout << "executor::run() -- std::this_thread::get_id(): " << std::this_thread::get_id() << std::endl;
 
     run_handler_ = std::move(handler);
 
@@ -289,10 +289,16 @@ void executor::initialize_output() {
     } else {
         LOG_INFO(LOG_NODE) << format(BN_USING_CONFIG_FILE) % file;
     }
+
+    LOG_INFO(LOG_NODE) << format(BN_VERSION_MESSAGE_INIT) % BITPRIM_NODECINT_VERSION;
+    LOG_INFO(LOG_NODE) << format(BN_CRYPTOCURRENCY_INIT) % BITPRIM_CURRENCY_SYMBOL_STR % BITPRIM_CURRENCY_STR;
+    LOG_INFO(LOG_NODE) << format(BN_MICROARCHITECTURE_INIT) % BITPRIM_MICROARCHITECTURE_STR;
+    LOG_INFO(LOG_NODE) << format(BN_NETWORK_INIT) % 
+            (libbitcoin::get_network(config_.network.identifier) == libbitcoin::config::settings::testnet ? "Testnet" : "Mainnet") %
+            config_.network.identifier;
 }
 
 #if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
-
 // Use missing directory as a sentinel indicating lack of initialization.
 bool executor::verify_directory() {
     error_code ec;
@@ -311,7 +317,6 @@ bool executor::verify_directory() {
     LOG_ERROR(LOG_NODE) << format(BN_INITCHAIN_TRY) % directory % message;
     return false;
 }
-
 #endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
 } // namespace nodecint
