@@ -75,7 +75,6 @@ option(WITH_CONSOLE_NODE_CINT "Compile console application." ON)
 #------------------------------------------------------------------------------
 # option(WITH_LITECOIN "Compile with Litecoin support." OFF)
 
-
 set(BITPRIM_BUILD_NUMBER "-" CACHE STRING "Specify the Bitprim Build Number.")
 # message(${BITPRIM_BUILD_NUMBER})
 
@@ -83,15 +82,26 @@ set(CURRENCY "BCH" CACHE STRING "Specify the Cryptocurrency (BCH|BTC|LTC).")
 
 if (${CURRENCY} STREQUAL "BCH")
   add_definitions(-DBITPRIM_CURRENCY_BCH)
+  add_definitions(-DBITPRIM_CURRENCY_SYMBOL_STR="BCH")
+  add_definitions(-DBITPRIM_CURRENCY_STR="Bitcoin Cash")
 elseif (${CURRENCY} STREQUAL "BTC")
   add_definitions(-DBITPRIM_CURRENCY_BTC)
+  add_definitions(-DBITPRIM_CURRENCY_SYMBOL_STR="BTC")
+  add_definitions(-DBITPRIM_CURRENCY_STR="Bitcoin Legacy")
 elseif (${CURRENCY} STREQUAL "LTC")
   add_definitions(-DBITPRIM_CURRENCY_LTC)
+  add_definitions(-DBITPRIM_CURRENCY_SYMBOL_STR="LTC")
+  add_definitions(-DBITPRIM_CURRENCY_STR="Litecoin")
 else()
   message(FATAL_ERROR "Invalid Cryptocurrency: ${CURRENCY}")
 endif()
 
+message(STATUS "Bitprim: Cryptocurrency: ${CURRENCY}")
 
+set(MICROARCHITECTURE "x86_64" CACHE STRING "Specify the Cryptocurrency (x86_64|...).")
+message( STATUS "Bitprim: Compiling for ${MICROARCHITECTURE}")
+add_definitions(-DBITPRIM_MICROARCHITECTURE=${MICROARCHITECTURE})
+add_definitions(-DBITPRIM_MICROARCHITECTURE_STR="${MICROARCHITECTURE}")
 
 if (ENABLE_SHARED_NODE_CINT)
   set(ENABLE_SHARED ON)

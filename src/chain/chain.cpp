@@ -748,6 +748,10 @@ block_t cast_block(libbitcoin::message::block const& x) {
 void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subscribe_blockchain_handler_t handler) {
     safe_chain(chain).subscribe_blockchain([exec, chain, ctx, handler](std::error_code const& ec, size_t fork_height, libbitcoin::block_const_ptr_list_const_ptr incoming, libbitcoin::block_const_ptr_list_const_ptr replaced_blocks) {
 
+        if (safe_chain(chain).is_stale()) { //TODO Move somewhere else (there should be no logic here)
+            return 1;
+        }
+
         block_list_t incoming_cpp = nullptr;
         if (incoming) {
             incoming_cpp = chain_block_list_construct_default();
@@ -768,7 +772,7 @@ void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subsc
                 chain_block_list_push_back(replaced_blocks_cpp, cast_block(*x));
             }
         }
-        
+
         auto res = handler(exec, chain, ctx, static_cast<error_code_t>(ec.value()), fork_height, incoming_cpp, replaced_blocks_cpp);
         return res;
     });
