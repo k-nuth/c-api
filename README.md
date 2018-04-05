@@ -154,9 +154,7 @@ This is the _C Programming Language_, there is no automatic handling of resource
 
 ### Build and run:
 
-_Note: Here we are building the code using the GNU Compiler Collection (GCC) on Linux._  
-_      You can use other compilers and operating systems as well._  
-_      If you have any questions, you can [contact us here](https://gitter.im/bitprim/contact)._
+_Note: Here we are building the code using the GNU Compiler Collection (GCC) on Linux. You can use other compilers and operating systems as well. If you have any questions, you can [contact us here](https://gitter.im/bitprim/contact)._
 
 To build and run the code example, first you have to create a tool file called `conanfile.txt` in orded to manage the dependencies of the code:
 
