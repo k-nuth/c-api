@@ -2,7 +2,7 @@
 
 > Multi-Cryptocurrency _C Programming Language_ API.
 
-*Bitprim C-API* is a library written in the _C Programming Language_ that exposes an API that allows you to access programmatically to all of the *Bitprim* node features:
+*Bitprim C-API* is a library written in the _C Programming Language_ which exposes an API that allows you to programmatically access all of the *Bitprim* node features:
   * Wallet
   * Mining
   * Full blockchain
@@ -41,7 +41,7 @@ conan install bitprim-node-cint/0.8@bitprim/stable -o currency=LTC
 
 ## Building from source Requirements
 
-In the case we don't have pre-built binaries for your plarform, it is necessary to build from the source code, so you need to add the following requirements to the previous ones:
+In case there are no pre-built binaries for your platform, it is necessary to build from source code. In such a scenario, the following requirements must be added to the previous ones:
 
 - C++11 Conforming Compiler.
 - [CMake](https://cmake.org/) building tool, version 3.4 or newer.
@@ -104,9 +104,9 @@ Needed to use the Bitprim C-API features.
 ```c
 executor_t exec = executor_construct("my_config_file", stdout, stderr);
 ```
-Construct a Bitprim _Executor_ object, it is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.  
+Construct a Bitprim _Executor_ object, which is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.  
 
-`"my_config_file"` is the path to the configuration file, in the [bitprim-config](https://github.com/bitprim/bitprim-config) repository you can find some example files.  
+`"my_config_file"` is the path to the configuration file; in the [bitprim-config](https://github.com/bitprim/bitprim-config) repository you can find some example files.  
 If you pass an empty string (`""`), default configuration will be used.
 
 `stdout` and `stderr` are pointers to the standard output and standard error streams. These are used to tell the Bitprim node where to print the logs.   
@@ -118,7 +118,7 @@ executor_initchain(exec);
 ```
 
 Initialize the filesystem database where the Blockchain will be stored.  
-You have to have enough disk space to store the full Blockchain.
+You need to have enough disk space to store the full Blockchain.
 
 This is equivalent to executing: `bn -i -c my_config_file`.
 
@@ -127,7 +127,7 @@ executor_run_wait(exec);
 ```
 
 Run the node.  
-Here the connections and handshake with the peers will be established, the initial process of downloading blocks will start and when this has finished it will begin to receive transactions and blocks through the P2P network.
+In this step, the connections and handshake with the peers will be established, and the initial process of downloading blocks will start. Once this stage has finished, the node will begin to receive transactions and blocks through the P2P network.
 
 This is equivalent to executing: `bn -c my_config_file`.
 ```c
