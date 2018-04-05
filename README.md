@@ -2,8 +2,6 @@
 
 > Multi-Cryptocurrency _C Programming Language_ API.
 
-[Bitcoin](https://bitcoin.org/)/[Bitcoin Cash](https://www.bitcoincash.org/)/[Litecoin](https://litecoin.org/) node
-
 *Bitprim C-API* is a library written in the _C Programming Language_ that exposes an API that allows you to access programmatically to all of the *Bitprim* node features:
   * Wallet
   * Mining
@@ -79,10 +77,16 @@ int main() {
 ### Explanation:
 
 ```c
+#include <inttypes.h>
+```
+
+Includes C standard library format conversion specifier to output an unsigned decimal integer value of type `uint64_t`.
+
+```c
 #include <stdint.h>
 ```
 
-This is to include C standard library fixed width integer types: `uint64_t`.
+Includes C standard library fixed width integer types: `uint64_t`.
 
 
 ```c
@@ -100,7 +104,7 @@ Needed to use the Bitprim C-API features.
 ```c
 executor_t exec = executor_construct("my_config_file", stdout, stderr);
 ```
-Construct an Bitprim _Executor_ object, it is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.  
+Construct a Bitprim _Executor_ object, it is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.  
 
 `"my_config_file"` is the path to the configuration file, in the [bitprim-config](https://github.com/bitprim/bitprim-config) repository you can find some example files.  
 If you pass an empty string (`""`), default configuration will be used.
@@ -136,7 +140,7 @@ Get access to the Blockchain query interface (commands and queries).
 uint64_t height;
 chain_get_last_height(chain, &height);
 
-printf(height);
+printf("%" PRIu64 "\n", height);
 ```
 
 Ask the Blockchain what is the height of the last downloaded block and print it in the standard output.
@@ -146,9 +150,13 @@ executor_destruct(exec);
 ```
 
 Destroy the Executor object created earlier.  
-This is the _C Programming Language_, there is no automatic administration of resources here, you have to do it manually.
+This is the _C Programming Language_, there is no automatic handling of resources here, you have to do it manually.
 
 ### Build and run:
+
+_Note: Here we are building the code using the GNU Compiler Collection (GCC) on Linux._  
+_      You can use other compilers and operating systems as well._  
+_      If you have any questions, you can [contact us here](https://gitter.im/bitprim/contact)._
 
 To build and run the code example, first you have to create a tool file called `conanfile.txt` in orded to manage the dependencies of the code:
 
@@ -169,7 +177,7 @@ gcc -Iinclude -c hello_blockchain.c
 gcc -Llib -o hello_blockchain hello_blockchain.o -lbitprim-node-cint
 ```
 
-...run it:
+...run it and enjoy the Bitprim programmable APIs:
 
 ```sh
 ./hello_blockchain
