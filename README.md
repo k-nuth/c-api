@@ -7,6 +7,8 @@
   * Mining
   * Full blockchain
   * Routing
+  
+  The main purpose of this API is to serve as a building block for higher level APIs, because most high level languages can interface most easily with C. Therefore, this C API is functional, but we encourage using the others built on top of it (such as bitprim-py, bitprim-cs and bitprim-go).
 
 ## Installation Requirements
 
