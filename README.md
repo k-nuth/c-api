@@ -15,7 +15,7 @@
 
 ## Installation Procedure
 
-The *Bitprim* executables can be installed on Linux, macOS, FreeBSD, Windows and others. These binaries are pre-built for the most usual operating system/compiler combinations and hosted in an online repository. If there are no pre-built binaries for your platform, a build from source will be attempted.
+The *Bitprim* libraries can be installed on Linux, macOS, FreeBSD, Windows and others. These binaries are pre-built for the most usual operating system/compiler combinations and hosted in an online repository. If there are no pre-built binaries for your platform, a build from source will be attempted.
 
 So, for any platform, an installation can be performed in 2 simple steps:
 
@@ -24,7 +24,7 @@ So, for any platform, an installation can be performed in 2 simple steps:
 conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim
 ```
 
-2. Install the appropriate executable
+2. Install the appropriate library
 
 ```
 # For Bitcoin Cash
