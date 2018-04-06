@@ -7,6 +7,11 @@
   * Mining
   * Full blockchain
   * Routing
+
+Bitprim C-API supports the following cryptocurrencies:
+  * [Bitcoin Cash](https://www.bitcoincash.org/)
+  * [Bitcoin](https://bitcoin.org/)
+  * [Litecoin](https://litecoin.org/)
   
   The main purpose of this API is to serve as a building block for higher level APIs, because most high level languages can interface most easily with C. Therefore, this C API is functional, but we encourage using the others built on top of it (such as bitprim-py, bitprim-cs and bitprim-go).
 
