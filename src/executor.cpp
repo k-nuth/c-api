@@ -29,7 +29,10 @@
 #include <boost/core/null_deleter.hpp>
 #include <bitcoin/node.hpp>
 #include <bitcoin/bitcoin/multi_crypto_support.hpp>
-#include <bitprim/nodecint/parser.hpp>
+
+// #include <bitprim/nodecint/parser.hpp>
+#include <bitcoin/node/parser.hpp>
+
 #include <bitprim/nodecint/version.h>
 
 namespace bitprim { namespace nodecint {
@@ -51,8 +54,8 @@ executor::executor(libbitcoin::node::configuration const& config, std::ostream& 
     : config_(config), output_(output), error_(error)
 {
 	
-    parser metadata(libbitcoin::config::settings::mainnet);
-    auto res = metadata.parse(config_.file, std::cerr);
+    libbitcoin::node::parser metadata(libbitcoin::config::settings::mainnet);
+    auto res = metadata.parse_from_file(config_.file, std::cerr);
     (void)res;
 
 //    if (!metadata.parse(cerr))
