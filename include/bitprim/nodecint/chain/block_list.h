@@ -36,6 +36,9 @@ BITPRIM_EXPORT
 block_list_t chain_block_list_construct_default(void);
 
 BITPRIM_EXPORT
+block_list_t chain_block_list_construct_reserve(uint64_t /*size_t*/ n);
+
+BITPRIM_EXPORT
 void chain_block_list_push_back(block_list_t list, block_t block);
 
 // BITPRIM_EXPORT
