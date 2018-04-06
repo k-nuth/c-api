@@ -24,18 +24,20 @@
 
 //namespace {
 
-std::vector<libbitcoin::message::block> const& chain_block_list_const_cpp(block_list_t list) {
-    return *static_cast<std::vector<libbitcoin::message::block> const*>(list);
+using block_vector = std::vector<libbitcoin::message::block>;
+
+block_vector const& chain_block_list_const_cpp(block_list_t list) {
+    return *static_cast<block_vector const*>(list);
 }
 
-std::vector<libbitcoin::message::block>& chain_block_list_cpp(block_list_t list) {
-    return *static_cast<std::vector<libbitcoin::message::block>*>(list);
+block_vector& chain_block_list_cpp(block_list_t list) {
+    return *static_cast<block_vector*>(list);
 }
 
 //} /* end of anonymous namespace */
 
 
-block_list_t chain_block_list_construct_from_cpp(std::vector<libbitcoin::message::block>& list) {
+block_list_t chain_block_list_construct_from_cpp(block_vector& list) {
     return &list;
 }
 
@@ -44,7 +46,13 @@ extern "C" {
 #endif
 
 block_list_t chain_block_list_construct_default() {
-    return new std::vector<libbitcoin::message::block>();
+    return new block_vector();
+}
+
+block_list_t chain_block_list_construct_reserve(uint64_t /*size_t*/ n) {
+    auto ptr = new block_vector();
+    ptr->reserve(n);
+    return ptr;
 }
 
 void chain_block_list_push_back(block_list_t list, block_t block) {
@@ -64,7 +72,7 @@ uint64_t /*size_t*/ chain_block_list_count(block_list_t list) {
 }
 
 block_t chain_block_list_nth(block_list_t list, uint64_t /*size_t*/ n) {
-    auto &x = chain_block_list_cpp(list)[n];
+    auto& x = chain_block_list_cpp(list)[n];
     return &x;
 }
 

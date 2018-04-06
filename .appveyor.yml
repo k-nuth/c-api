@@ -22,7 +22,7 @@ branches:
     - master
     - dev
     - /^v\d+\.\d+\.\d+$/
-    - feature_compile_time_currencies
+    - feature_2018_may_hardfork
 
 build: false
 

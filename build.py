@@ -17,16 +17,6 @@ def get_channel():
     return get_content('conan_channel')
 
 def get_conan_vars():
-    # CONAN_REFERENCE: "bitprim-core/0.7"
-    # CONAN_USERNAME: "bitprim"
-    # CONAN_LOGIN_USERNAME: "bitprim-bintray"
-    # CONAN_CHANNEL: "experimental"
-    # CONAN_UPLOAD: "https://api.bintray.com/conan/bitprim/bitprim"
-
-    # username = os.getenv("CONAN_USERNAME", get_username_from_ci() or "bitprim")
-    # channel = os.getenv("CONAN_CHANNEL", get_channel_from_ci())
-    # version = os.getenv("CONAN_VERSION", get_version())
-    
     login_username = os.getenv("CONAN_LOGIN_USERNAME", "bitprim-bintray")
     username = os.getenv("CONAN_USERNAME", "bitprim")
     channel = os.getenv("CONAN_CHANNEL", get_channel())

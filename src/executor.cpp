@@ -51,8 +51,8 @@ executor::executor(libbitcoin::node::configuration const& config, std::ostream& 
     : config_(config), output_(output), error_(error)
 {
 	
-    parser metadata(libbitcoin::config::settings::mainnet);
-    auto res = metadata.parse(config_.file, std::cerr);
+    libbitcoin::node::parser metadata(libbitcoin::config::settings::mainnet);
+    auto res = metadata.parse_from_file(config_.file, std::cerr);
     (void)res;
 
 //    if (!metadata.parse(cerr))
