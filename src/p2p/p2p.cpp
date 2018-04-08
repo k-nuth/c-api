@@ -46,10 +46,8 @@ void p2p_close(p2p_t p2p) {
     p2p_cast(p2p).close();
 }
 
-//virtual bool stopped() const;
-bool p2p_stopped(p2p_t p2p) {
-    return p2p_cast(p2p).stopped();
+int /*bool*/ p2p_stopped(p2p_t p2p) {
+    return static_cast<int>(p2p_cast(p2p).stopped());
 }
-
 
 } /* extern "C" */
