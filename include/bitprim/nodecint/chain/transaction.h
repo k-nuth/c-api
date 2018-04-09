@@ -122,7 +122,7 @@ BITPRIM_EXPORT
 input_list_t chain_transaction_inputs(transaction_t transaction);
 
 BITPRIM_EXPORT
-uint8_t const* chain_transaction_to_data(script_t script, int /*bool*/ wire, uint64_t* /*size_t*/ out_size);
+uint8_t const* chain_transaction_to_data(transaction_t script, int /*bool*/ wire, uint64_t* /*size_t*/ out_size);
 
 #ifdef __cplusplus
 } // extern "C"
