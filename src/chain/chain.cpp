@@ -863,19 +863,30 @@ int chain_organize_transaction_sync(chain_t chain, transaction_t transaction) {
 //    return tx;
 //}
 
-void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
-    safe_chain(chain).organize(tx_shared(tx), [chain, ctx, handler](std::error_code const& ec) {
-//        auto is_error = (bool)ec;
-        if (handler != nullptr) {
-            if (ec) {
-                auto* msg_str = new std::string(ec.message());
-                handler(chain, ctx, static_cast<error_code_t>(ec.value()), msg_str->c_str());
-            } else {
-                handler(chain, ctx, static_cast<error_code_t>(ec.value()), nullptr);
-            }
+void chain_transaction_validate(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
+    
+    if (handler == nullptr) return;
+
+    auto tx_cpp = tx_shared(tx);
+    tx_cpp->validation.simulate = true;
+
+    safe_chain(chain).organize(tx_cpp, [chain, ctx, handler](std::error_code const& ec) {
+        if (ec) {
+            auto* msg_str = new std::string(ec.message());
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), msg_str->c_str());
+        } else {
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), nullptr);
         }
     });
 }
+
+//Note: deprecated name
+void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
+    chain_transaction_validate(chain, ctx, tx, handler);
+}
+
+
+
 
 
 // Properties.
