@@ -20,9 +20,6 @@
 #ifndef BITPRIM_NODECINT_P2P_P2P_H_
 #define BITPRIM_NODECINT_P2P_P2P_H_
 
-//#include <stdio.h>
-//#include <stdint.h>
-
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
 
@@ -32,6 +29,15 @@ extern "C" {
 
 BITPRIM_EXPORT
 uint64_t /*size_t*/ p2p_address_count(p2p_t p2p);
+
+BITPRIM_EXPORT
+void p2p_stop(p2p_t p2p);
+
+BITPRIM_EXPORT
+void p2p_close(p2p_t p2p);
+
+BITPRIM_EXPORT
+int /*bool*/ p2p_stopped(p2p_t p2p);
 
 #ifdef __cplusplus
 } // extern "C"
