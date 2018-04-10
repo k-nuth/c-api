@@ -226,15 +226,23 @@ int chain_organize_transaction_sync(chain_t chain, transaction_t transaction);
 
 // ------------------------------------------------
 
-BITPRIM_EXPORT
-transaction_t hex_to_tx(char const* tx_hex);
+// BITPRIM_EXPORT
+// transaction_t hex_to_tx(char const* tx_hex);
 
+// ------------------------------------------------
 
 BITPRIM_EXPORT
 void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler);
 
 BITPRIM_EXPORT
+void chain_transaction_validate(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler);
+
+// ------------------------------------------------
+
+BITPRIM_EXPORT
 int /*bool*/ chain_is_stale(chain_t chain);
+
+// ------------------------------------------------
 
 #ifdef __cplusplus
 } // extern "C"
