@@ -59,6 +59,16 @@ else
 fi
 echo "Bitprim branch: ${BITPRIM_BRANCH}"
 
+echo "Travis branch: ${TRAVIS_BRANCH}"
+echo "Travis tag: ${TRAVIS_TAG}"
+
+if [[ ${TRAVIS_BRANCH} == ${TRAVIS_TAG} ]]; then
+    export BITPRIM_BRANCH=master
+else
+    export BITPRIM_BRANCH=${TRAVIS_BRANCH}
+fi
+echo "Bitprim branch: ${BITPRIM_BRANCH}"
+
 # --------------------------------------------------------------------------------------------------------------------
 # bitprim-py-native
 # --------------------------------------------------------------------------------------------------------------------
@@ -81,6 +91,33 @@ git push --quiet --set-upstream origin-commit ${BITPRIM_BRANCH}  || true
 
 cd ..
 
+
+
+# --------------------------------------------------------------------------------------------------------------------
+# bitprim-js-native
+# --------------------------------------------------------------------------------------------------------------------
+git clone https://github.com/bitprim/bitprim-js-native.git
+
+cd bitprim-js-native
+git checkout ${BITPRIM_BRANCH}
+git pull
+
+# npm version patch
+replace_versions bitprim-node-cint $BITPRIM_BUILD_NUMBER
+
+cat versions.txt
+
+git add . versions.txt
+git commit --message "Travis bitprim-node-cint build: $BITPRIM_BUILD_NUMBER, $TRAVIS_BUILD_NUMBER [skip ci]" || true
+git remote add origin-commit https://${GH_TOKEN}@github.com/bitprim/bitprim-js-native.git > /dev/null 2>&1
+git push --quiet --set-upstream origin-commit ${BITPRIM_BRANCH}  || true
+
+npm version patch
+git push --quiet --set-upstream origin-commit ${BITPRIM_BRANCH}  || true
+
+cd ..
+
+
 # --------------------------------------------------------------------------------------------------------------------
 # bitprim-cs
 # --------------------------------------------------------------------------------------------------------------------
@@ -98,6 +135,5 @@ git remote add origin-commit https://${GH_TOKEN}@github.com/bitprim/bitprim-cs.g
 git push --quiet --set-upstream origin-commit ${BITPRIM_BRANCH}  || true
 
 cd ..
-
 
 # --------------------------------------------------------------------------------------------------------------------

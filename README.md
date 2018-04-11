@@ -2,11 +2,18 @@
 
 > Multi-Cryptocurrency _C Programming Language_ API.
 
-*Bitprim C-API* is a library written in the _C Programming Language_ which exposes an API that allows you to programatically access all of the *Bitprim* node features:
+*Bitprim C-API* is a library written in the _C Programming Language_ which exposes an API that allows you to programmatically access all of the *Bitprim* node features:
   * Wallet
   * Mining
   * Full blockchain
   * Routing
+
+Bitprim C-API supports the following cryptocurrencies:
+  * [Bitcoin Cash](https://www.bitcoincash.org/)
+  * [Bitcoin](https://bitcoin.org/)
+  * [Litecoin](https://litecoin.org/)
+  
+  The main purpose of this API is to serve as a building block for higher level APIs, because most high level languages can interface most easily with C. Therefore, this C API is functional, but we encourage using the others built on top of it (such as bitprim-py, bitprim-cs and bitprim-go).
 
 ## Installation Requirements
 
@@ -15,7 +22,7 @@
 
 ## Installation Procedure
 
-The *Bitprim* executables can be installed on Linux, macOS, FreeBSD, Windows and others. These binaries are pre-built for the most usual operating system/compiler combinations and hosted in an online repository. If there are no pre-built binaries for your platform, a build from source will be attempted.
+The *Bitprim* libraries can be installed on Linux, macOS, FreeBSD, Windows and others. These binaries are pre-built for the most usual operating system/compiler combinations and hosted in an online repository. If there are no pre-built binaries for your platform, a build from source will be attempted.
 
 So, for any platform, an installation can be performed in 2 simple steps:
 
@@ -24,7 +31,7 @@ So, for any platform, an installation can be performed in 2 simple steps:
 conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim
 ```
 
-2. Install the appropriate executable
+2. Install the appropriate library
 
 ```
 # For Bitcoin Cash
@@ -104,12 +111,12 @@ Needed to use the Bitprim C-API features.
 ```c
 executor_t exec = executor_construct("my_config_file", stdout, stderr);
 ```
-Construct a Bitprim _Executor_ object, which is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.
+Construct a Bitprim _Executor_ object, which is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.  
 
 `"my_config_file"` is the path to the configuration file; in the [bitprim-config](https://github.com/bitprim/bitprim-config) repository you can find some example files.  
 If you pass an empty string (`""`), default configuration will be used.
 
-`stdout` and `stderr` are pointers to the standard output and standard error streams. These are used to tell the Bitprim node where to print the logs.
+`stdout` and `stderr` are pointers to the standard output and standard error streams. These are used to tell the Bitprim node where to print the logs.   
 You can use any object of type `FILE*`. For example, you can make the Bitprim node redirect the logs to a file.  
 If you pass null pointers (`NULL` or `0`), there will be no logging information.
 

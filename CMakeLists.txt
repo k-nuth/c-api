@@ -325,7 +325,6 @@ target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -D
 
 
 
-
 if (NOT MSVC)
   target_compile_definitions(bitprim-node-cint PUBLIC -DSYSCONFDIR=\"${SYSCONFDIR}\")
 endif()
