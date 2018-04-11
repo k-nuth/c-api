@@ -216,7 +216,7 @@ class BitprimNodeCIntConan(ConanFile):
 
         # cmake.definitions["WITH_LITECOIN"] = option_on_off(self.options.with_litecoin)
         cmake.definitions["CURRENCY"] = self.options.currency
-
+        cmake.definitions["MICROARCHITECTURE"] = self.options.microarchitecture
 
         if self.settings.compiler != "Visual Studio":
             # cmake.definitions["CONAN_CXX_FLAGS"] += " -Wno-deprecated-declarations"
