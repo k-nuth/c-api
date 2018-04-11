@@ -237,6 +237,10 @@ void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_h
 BITPRIM_EXPORT
 void chain_transaction_validate(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler);
 
+BITPRIM_EXPORT
+void chain_transaction_validate_sequential(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler);
+ 
+
 // ------------------------------------------------
 
 BITPRIM_EXPORT
