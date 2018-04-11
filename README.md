@@ -172,7 +172,7 @@ printf "[requires]\nbitprim-node-cint/0.8@bitprim/stable\n[options]\nbitprim-nod
 Then, run the following command to bring the dependencies to the local directory:
 
 ```sh
-conan install ..
+conan install .
 ```
 
 Now, you can build our code example:
