@@ -139,6 +139,9 @@ private:
 
 #define BN_NETWORK_INIT "Network: %1% (%2%)"
 
+#define BN_CORES_INIT "Configured to use %1% cores"
+
+
 #define BN_LOG_HEADER \
     "================= startup %1% =================="
 

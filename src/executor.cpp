@@ -298,6 +298,7 @@ void executor::initialize_output() {
     LOG_INFO(LOG_NODE) << format(BN_NETWORK_INIT) % 
             (libbitcoin::get_network(config_.network.identifier) == libbitcoin::config::settings::testnet ? "Testnet" : "Mainnet") %
             config_.network.identifier;
+    LOG_INFO(LOG_NODE) << format(BN_CORES_INIT) % libbitcoin::thread_ceiling(config_.chain.cores);
 }
 
 #if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
