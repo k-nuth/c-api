@@ -109,6 +109,14 @@ uint32_t chain_header_bits(header_t header) {
     return chain_header_const_cpp(header).bits();
 }
 
+//Note: user of the function has to release the resource (memory) manually
+char const* chain_header_proof(header_t header) {
+    std::string proof_str = chain_header_const_cpp(header).proof().str();
+    auto* ret = (char*)malloc((proof_str.size() + 1) * sizeof(char)); // NOLINT
+    std::copy_n(proof_str.begin(), proof_str.size() + 1, ret);
+    return ret;
+}
+
 void chain_header_set_bits(header_t header, uint32_t bits) {
     return chain_header_cpp(header).set_bits(bits);
 }

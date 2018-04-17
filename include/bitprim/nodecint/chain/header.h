@@ -74,6 +74,9 @@ BITPRIM_EXPORT
 uint32_t chain_header_bits(header_t header);
 
 BITPRIM_EXPORT
+char const* chain_header_proof(header_t header);
+
+BITPRIM_EXPORT
 void chain_header_set_bits(header_t header, uint32_t bits);
 
 BITPRIM_EXPORT
