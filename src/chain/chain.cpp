@@ -48,6 +48,14 @@ libbitcoin::message::transaction::const_ptr tx_shared(transaction_t tx) {
 }
 
 inline
+libbitcoin::chainv2::transaction::const_ptr txv2_shared(transactionv2_t tx) {
+    auto const& tx_ref = *static_cast<libbitcoin::chainv2::transaction const*>(tx);
+    auto* tx_new = new libbitcoin::chainv2::transaction(tx_ref);
+    return libbitcoin::chainv2::transaction::const_ptr(tx_new);
+}
+
+
+inline
 libbitcoin::message::block::const_ptr block_shared(block_t block) {
     auto const& block_ref = *static_cast<libbitcoin::message::block const*>(block);
     auto* block_new = new libbitcoin::message::block(block_ref);
@@ -899,8 +907,29 @@ void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_h
     chain_transaction_validate(chain, ctx, tx, handler);
 }
 
+void chain_transaction_validate_v2(chain_t chain, void* ctx, transactionv2_t tx, validate_tx_handler_t handler) {
+    if (handler == nullptr) return;
 
+    safe_chain(chain).transaction_validate_v2(txv2_shared(tx), [chain, ctx, handler](std::error_code const& ec) {
+        if (ec) {
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), ec.message().c_str());
+        } else {
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), nullptr);
+        }
+    });
+}
 
+void chain_transaction_validate_v2_no_signature(chain_t chain, void* ctx, transactionv2_t tx, validate_tx_handler_t handler) {
+    if (handler == nullptr) return;
+
+    safe_chain(chain).transaction_validate_v2_no_signature(txv2_shared(tx), [chain, ctx, handler](std::error_code const& ec) {
+        if (ec) {
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), ec.message().c_str());
+        } else {
+            handler(chain, ctx, static_cast<error_code_t>(ec.value()), nullptr);
+        }
+    });
+}
 
 
 // Properties.
