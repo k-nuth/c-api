@@ -33,22 +33,22 @@ extern "C" {
 
 
 BITPRIM_EXPORT
-hash_t output_point_get_hash(output_point_t op);
+hash_t output_pointv2_get_hash(output_pointv2_t op);
 
 BITPRIM_EXPORT
-void output_point_get_hash_out(output_point_t op, hash_t* out_hash);
+void output_pointv2_get_hash_out(output_pointv2_t op, hash_t* out_hash);
 
 BITPRIM_EXPORT
-output_point_t output_point_construct(void);
+output_pointv2_t output_pointv2_construct(void);
 
 BITPRIM_EXPORT
-output_point_t output_point_construct_from_hash_index(hash_t hash, uint32_t index);
+output_pointv2_t output_pointv2_construct_from_hash_index(hash_t hash, uint32_t index);
 
 BITPRIM_EXPORT
-uint32_t output_point_get_index(output_point_t output);
+uint32_t output_pointv2_get_index(output_pointv2_t output);
 
 BITPRIM_EXPORT
-void output_point_destruct(output_point_t op);
+void output_pointv2_destruct(output_pointv2_t op);
 
 #ifdef __cplusplus
 } // extern "C"

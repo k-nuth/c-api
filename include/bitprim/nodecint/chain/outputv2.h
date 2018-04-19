@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_CHAIN_OUTPUT_H_
-#define BITPRIM_NODECINT_CHAIN_OUTPUT_H_
+#ifndef BITPRIM_NODECINT_CHAIN_OUTPUTV2_H_
+#define BITPRIM_NODECINT_CHAIN_OUTPUTV2_H_
 
 #include <stdio.h>
 #include <stdint.h>
@@ -31,43 +31,43 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-output_t chain_output_construct_default(void);
+outputv2_t chain_outputv2_construct_default(void);
 
 //output(uint64_t value, chain::script&& script);
 //output(uint64_t value, const chain::script& script);
 BITPRIM_EXPORT
-output_t chain_output_construct(uint64_t value, script_t script);
+outputv2_t chain_outputv2_construct(uint64_t value, script_t script);
 
 BITPRIM_EXPORT
-void chain_output_destruct(output_t output);
+void chain_outputv2_destruct(outputv2_t output);
 
 BITPRIM_EXPORT
-int chain_output_is_valid(output_t output);
+int chain_outputv2_is_valid(outputv2_t output);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_output_serialized_size(output_t output, int /*bool*/ wire /*= true*/);
+uint64_t /*size_t*/ chain_outputv2_serialized_size(outputv2_t output, int /*bool*/ wire /*= true*/);
 
 BITPRIM_EXPORT
-uint64_t chain_output_value(output_t output);
+uint64_t chain_outputv2_value(outputv2_t output);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_output_signature_operations(output_t output);
+uint64_t /*size_t*/ chain_outputv2_signature_operations(outputv2_t output);
 
 BITPRIM_EXPORT
-script_t chain_output_script(output_t output);
+script_t chain_outputv2_script(outputv2_t output);
 
 BITPRIM_EXPORT
-payment_address_t chain_output_payment_address(output_t output, int /*bool*/ use_testnet_rules);
+payment_address_t chain_outputv2_payment_address(outputv2_t output, int /*bool*/ use_testnet_rules);
 
 BITPRIM_EXPORT
-uint8_t const* chain_output_to_data(output_t output, int /*bool*/ wire, uint64_t* /*size_t*/ out_size);
+uint8_t const* chain_outputv2_to_data(outputv2_t output, int /*bool*/ wire, uint64_t* /*size_t*/ out_size);
 
 //BITPRIM_EXPORT
-//uint32_t chain_output_get_index(output_t output);
+//uint32_t chain_outputv2_get_index(outputv2_t output);
 
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_CHAIN_OUTPUT_H_ */
+#endif /* BITPRIM_NODECINT_CHAIN_OUTPUTV2_H_ */

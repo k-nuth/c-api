@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_CHAIN_OUTPUT_LIST_H_
-#define BITPRIM_NODECINT_CHAIN_OUTPUT_LIST_H_
+#ifndef BITPRIM_NODECINT_CHAIN_OUTPUTV2_LIST_H_
+#define BITPRIM_NODECINT_CHAIN_OUTPUTV2_LIST_H_
 
 #include <stdint.h>
 
@@ -32,22 +32,22 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-output_list_t chain_output_list_construct_default(void);
+outputv2_list_t chain_outputv2_list_construct_default(void);
 
 BITPRIM_EXPORT
-void chain_output_list_push_back(output_list_t list, output_t output);
+void chain_outputv2_list_push_back(output_list_t list, outputv2_t output);
 
 BITPRIM_EXPORT
-void chain_output_list_destruct(output_list_t list);
+void chain_outputv2_list_destruct(outputv2_list_t list);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_output_list_count(output_list_t list);
+uint64_t /*size_t*/ chain_outputv2_list_count(outputv2_list_t list);
 
 BITPRIM_EXPORT
-output_t chain_output_list_nth(output_list_t list, uint64_t /*size_t*/ n);
+outputv2_t chain_outputv2_list_nth(outputv2_list_t list, uint64_t /*size_t*/ n);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
-#endif /* BITPRIM_NODECINT_CHAIN_OUTPUT_LIST_H_ */
+#endif /* BITPRIM_NODECINT_CHAIN_OUTPUTV2_LIST_H_ */
