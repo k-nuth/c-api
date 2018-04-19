@@ -281,6 +281,14 @@ set(_bitprim_sources
         src/chain/transaction.cpp
         src/chain/transaction_list.cpp
 
+        src/chain/scriptv2.cpp
+        src/chain/outputv2.cpp
+        src/chain/outputv2_list.cpp
+        src/chain/output_pointv2.cpp
+        src/chain/inputv2.cpp
+        src/chain/inputv2_list.cpp
+        src/chain/transactionv2.cpp
+
         src/node/settings.cpp
 
         src/p2p/p2p.cpp

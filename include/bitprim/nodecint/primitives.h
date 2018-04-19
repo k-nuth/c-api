@@ -75,6 +75,7 @@ typedef void* output_t;
 typedef void* output_list_t;
 typedef void* output_point_t;
 
+
 typedef void* point_t;
 typedef void* point_list_t;
 typedef void* transaction_t;
@@ -91,6 +92,16 @@ typedef void* stealth_compact_t;
 typedef void* stealth_compact_list_t;
 
 typedef void* hash_list_t;
+
+
+typedef void* scriptv2_t;
+typedef void* outputv2_t;
+typedef void* outputv2_list_t;
+typedef void* output_pointv2_t;
+typedef void* inputv2_t;
+typedef void* inputv2_list_t;
+typedef void* input_pointv2_t;
+typedef void* transactionv2_t;
 
 
 typedef struct short_hash_t {

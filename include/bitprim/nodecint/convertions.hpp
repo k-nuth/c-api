@@ -30,6 +30,12 @@
 #include <bitcoin/bitcoin/message/header.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
 
+#include <bitcoin/bitcoin/chainv2/input.hpp>
+#include <bitcoin/bitcoin/chainv2/output.hpp>
+#include <bitcoin/bitcoin/chainv2/output_point.hpp>
+#include <bitcoin/bitcoin/chainv2/script.hpp>
+#include <bitcoin/bitcoin/chainv2/transaction.hpp>
+
 libbitcoin::message::block const& chain_block_const_cpp(block_t block);
 libbitcoin::message::block& chain_block_cpp(block_t block);
 
@@ -58,19 +64,14 @@ std::vector<libbitcoin::chain::output>& chain_output_list_cpp(output_list_t list
 //Note: output_list_t created with this function has not have to destruct it...
 output_list_t chain_output_list_construct_from_cpp(libbitcoin::chain::output::list& list);
 
-
 libbitcoin::chain::output_point const& output_point_const_cpp(output_point_t op);
 libbitcoin::chain::output_point& output_point_cpp(output_point_t op);
-
-
 
 libbitcoin::chain::script const& chain_script_const_cpp(script_t s);
 libbitcoin::chain::script& chain_script_cpp(script_t s);
 
 libbitcoin::message::transaction const& chain_transaction_const_cpp(transaction_t transaction);
 libbitcoin::message::transaction& chain_transaction_cpp(transaction_t transaction);
-
-
 
 std::vector<libbitcoin::message::transaction> const& chain_transaction_list_const_cpp(transaction_list_t list);
 std::vector<libbitcoin::message::transaction>& chain_transaction_list_cpp(transaction_list_t list);
@@ -82,9 +83,7 @@ std::vector<libbitcoin::hash_digest> const& chain_hash_list_const_cpp(hash_list_
 std::vector<libbitcoin::hash_digest>& chain_hash_list_cpp(hash_list_t list);
 hash_list_t chain_hash_list_construct_from_cpp(std::vector<libbitcoin::hash_digest>& list);
 
-
 std::vector<uint64_t /*size_t*/> const& chain_block_indexes_const_cpp(block_indexes_t list);
 std::vector<uint64_t /*size_t*/>& chain_block_indexes_cpp(block_indexes_t list);
-
 
 #endif /* BITPRIM_NODECINT_CONVERTIONS_HPP_ */
