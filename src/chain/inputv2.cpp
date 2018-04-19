@@ -32,20 +32,15 @@ libbitcoin::chainv2::input& chain_inputv2_cpp(inputv2_t input) {
     return *static_cast<libbitcoin::chainv2::input*>(input);
 }
 
-
 extern "C" {
 
-//input();
 inputv2_t chain_inputv2_construct_default() {
     return new libbitcoin::chainv2::input();
 }
 
-//input(output_point&& previous_output, chainv2::script&& script, uint32_t sequence);
-//input(const output_point& previous_output, const chainv2::script& script, uint32_t sequence);
-inputv2_t chain_inputv2_construct(output_point_t previous_output, script_t script, uint32_t sequence) {
-    return new libbitcoin::chainv2::input(output_point_const_cpp(previous_output), chain_script_const_cpp(script), sequence);
+inputv2_t chain_inputv2_construct(output_pointv2_t previous_output, scriptv2_t script, uint32_t sequence) {
+    return new libbitcoin::chainv2::input(output_pointv2_const_cpp(previous_output), chain_scriptv2_const_cpp(script), sequence);
 }
-
 
 void chain_inputv2_destruct(inputv2_t input) {
     delete &chain_inputv2_cpp(input);
@@ -71,11 +66,11 @@ uint64_t /*size_t*/ chain_inputv2_signature_operations(inputv2_t input, int /*bo
     return chain_inputv2_const_cpp(input).signature_operations(bip16_active != 0);
 }
 
-script_t chain_inputv2_script(inputv2_t input) {
+scriptv2_t chain_inputv2_script(inputv2_t input) {
     return &(chain_inputv2_cpp(input).script());
 }
 
-output_point_t chain_inputv2_previous_output(inputv2_t input) {
+output_pointv2_t chain_inputv2_previous_output(inputv2_t input) {
     return &(chain_inputv2_cpp(input).previous_output());
 }
 

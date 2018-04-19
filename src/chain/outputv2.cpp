@@ -40,8 +40,8 @@ outputv2_t chain_outputv2_construct_default() {
 
 //output(uint64_t value, chainv2::script&& script);
 //output(uint64_t value, const chainv2::script& script);
-outputv2_t chain_outputv2_construct(uint64_t value, script_t script) {
-    return new libbitcoin::chainv2::output(value, chain_script_const_cpp(script));
+outputv2_t chain_outputv2_construct(uint64_t value, scriptv2_t script) {
+    return new libbitcoin::chainv2::output(value, chain_scriptv2_const_cpp(script));
 }
 
 void chain_outputv2_destruct(outputv2_t output) {
@@ -64,7 +64,7 @@ uint64_t /*size_t*/ chain_outputv2_signature_operations(outputv2_t output) {
     return chain_outputv2_const_cpp(output).signature_operations();
 }
 
-script_t chain_outputv2_script(outputv2_t output) {
+scriptv2_t chain_outputv2_script(outputv2_t output) {
     return &(chain_outputv2_cpp(output).script());
 }
 

@@ -47,35 +47,27 @@ std::vector<libbitcoin::message::block>& chain_block_list_cpp(block_list_t list)
 libbitcoin::message::header const& chain_header_const_cpp(header_t header);
 libbitcoin::message::header& chain_header_cpp(header_t header);
 
-libbitcoin::chain::input const& chain_input_const_cpp(input_t input);
-libbitcoin::chain::input& chain_input_cpp(input_t input);
 
-std::vector<libbitcoin::chain::input> const& chain_input_list_const_cpp(input_list_t list);
-std::vector<libbitcoin::chain::input>& chain_input_list_cpp(input_list_t list);
-//Note: input_list_t created with this function has not have to destruct it...
-input_list_t chain_input_list_construct_from_cpp(libbitcoin::chain::input::list& list);
-
+libbitcoin::chain::script const& chain_script_const_cpp(script_t s);
+libbitcoin::chain::script& chain_script_cpp(script_t s);
 libbitcoin::chain::output const& chain_output_const_cpp(output_t output);
 libbitcoin::chain::output& chain_output_cpp(output_t output);
-
-
 std::vector<libbitcoin::chain::output> const& chain_output_list_const_cpp(output_list_t list);
 std::vector<libbitcoin::chain::output>& chain_output_list_cpp(output_list_t list);
 //Note: output_list_t created with this function has not have to destruct it...
 output_list_t chain_output_list_construct_from_cpp(libbitcoin::chain::output::list& list);
-
 libbitcoin::chain::output_point const& output_point_const_cpp(output_point_t op);
 libbitcoin::chain::output_point& output_point_cpp(output_point_t op);
-
-libbitcoin::chain::script const& chain_script_const_cpp(script_t s);
-libbitcoin::chain::script& chain_script_cpp(script_t s);
-
+libbitcoin::chain::input const& chain_input_const_cpp(input_t input);
+libbitcoin::chain::input& chain_input_cpp(input_t input);
+std::vector<libbitcoin::chain::input> const& chain_input_list_const_cpp(input_list_t list);
+std::vector<libbitcoin::chain::input>& chain_input_list_cpp(input_list_t list);
+//Note: input_list_t created with this function has not have to destruct it...
+input_list_t chain_input_list_construct_from_cpp(libbitcoin::chain::input::list& list);
 libbitcoin::message::transaction const& chain_transaction_const_cpp(transaction_t transaction);
 libbitcoin::message::transaction& chain_transaction_cpp(transaction_t transaction);
-
 std::vector<libbitcoin::message::transaction> const& chain_transaction_list_const_cpp(transaction_list_t list);
 std::vector<libbitcoin::message::transaction>& chain_transaction_list_cpp(transaction_list_t list);
-
 //Note: transaction_list_t created with this function has not have to destruct it...
 transaction_list_t chain_transaction_list_construct_from_cpp(libbitcoin::chain::transaction::list& list);
 
@@ -85,5 +77,30 @@ hash_list_t chain_hash_list_construct_from_cpp(std::vector<libbitcoin::hash_dige
 
 std::vector<uint64_t /*size_t*/> const& chain_block_indexes_const_cpp(block_indexes_t list);
 std::vector<uint64_t /*size_t*/>& chain_block_indexes_cpp(block_indexes_t list);
+
+
+
+//--------------------------------------------------------------------------------
+// Chain V2
+//--------------------------------------------------------------------------------
+libbitcoin::chainv2::script const& chain_scriptv2_const_cpp(scriptv2_t s);
+libbitcoin::chainv2::script& chain_scriptv2_cpp(scriptv2_t s);
+libbitcoin::chainv2::output const& chain_outputv2_const_cpp(output_t output);
+libbitcoin::chainv2::output& chain_outputv2_cpp(output_t output);
+std::vector<libbitcoin::chainv2::output> const& chain_outputv2_list_const_cpp(output_list_t list);
+std::vector<libbitcoin::chainv2::output>& chain_outputv2_list_cpp(output_list_t list);
+//Note: output_list_t created with this function has not have to destruct it...
+output_list_t chain_outputv2_list_construct_from_cpp(libbitcoin::chainv2::output::list& list);
+libbitcoin::chainv2::output_point const& output_pointv2_const_cpp(output_pointv2_t op);
+libbitcoin::chainv2::output_point& output_pointv2_cpp(output_pointv2_t op);
+libbitcoin::chainv2::input const& chain_inputv2_const_cpp(inputv2_t input);
+libbitcoin::chainv2::input& chain_inputv2_cpp(inputv2_t input);
+std::vector<libbitcoin::chainv2::input> const& chain_inputv2_list_const_cpp(inputv2_list_t list);
+std::vector<libbitcoin::chainv2::input>& chain_inputv2_list_cpp(inputv2_list_t list);
+//Note: inputv2_list_t created with this function has not have to destruct it...
+inputv2_list_t chain_inputv2_list_construct_from_cpp(libbitcoin::chainv2::input::list& list);
+libbitcoin::chainv2::transaction const& chain_transactionv2_const_cpp(transactionv2_t transaction);
+libbitcoin::chainv2::transaction& chain_transactionv2_cpp(transactionv2_t transaction);
+//--------------------------------------------------------------------------------
 
 #endif /* BITPRIM_NODECINT_CONVERTIONS_HPP_ */

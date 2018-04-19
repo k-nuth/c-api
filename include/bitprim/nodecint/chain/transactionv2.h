@@ -76,8 +76,8 @@ uint64_t /*size_t*/ chain_transactionv2_serialized_size(transactionv2_t transact
 BITPRIM_EXPORT
 uint64_t chain_transactionv2_fees(transactionv2_t transaction);
 
-BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_transactionv2_signature_operations(transactionv2_t transaction);
+// BITPRIM_EXPORT
+// uint64_t /*size_t*/ chain_transactionv2_signature_operations(transactionv2_t transaction);
 
 BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_transactionv2_signature_operations_bip16_active(transactionv2_t transaction, int /*bool*/ bip16_active);

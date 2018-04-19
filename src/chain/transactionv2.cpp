@@ -37,7 +37,8 @@ extern "C" {
 
 transactionv2_t chain_transactionv2_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
     libbitcoin::data_chunk data_cpp(data, std::next(data, n));
-    auto tx = libbitcoin::chainv2::transaction::factory_from_data(version, data_cpp);
+    // auto tx = libbitcoin::chainv2::transaction::factory_from_data(version, data_cpp);
+    auto tx = libbitcoin::chainv2::transaction::factory_from_data(data_cpp, true);
     return new libbitcoin::chainv2::transaction(std::move(tx));
 }
 
@@ -46,10 +47,10 @@ transactionv2_t chain_transactionv2_construct_default() {
     return new libbitcoin::chainv2::transaction();
 }
 
-transactionv2_t chain_transactionv2_construct(uint32_t version, uint32_t locktime, input_list_t inputs, output_list_t outputs) {
+transactionv2_t chain_transactionv2_construct(uint32_t version, uint32_t locktime, inputv2_list_t inputs, outputv2_list_t outputs) {
     return new libbitcoin::chainv2::transaction(version, locktime,
-                                                chain_input_list_const_cpp(inputs),
-                                                chain_output_list_const_cpp(outputs));
+                                                chain_inputv2_list_const_cpp(inputs),
+                                                chain_outputv2_list_const_cpp(outputs));
 }
 
 void chain_transactionv2_destruct(transactionv2_t transaction) {
@@ -111,9 +112,9 @@ uint64_t chain_transactionv2_fees(transactionv2_t transaction) {
     return chain_transactionv2_const_cpp(transaction).fees();
 }
 
-uint64_t /*size_t*/ chain_transactionv2_signature_operations(transactionv2_t transaction) {
-    return chain_transactionv2_const_cpp(transaction).signature_operations();
-}
+// uint64_t /*size_t*/ chain_transactionv2_signature_operations(transactionv2_t transaction) {
+//     return chain_transactionv2_const_cpp(transaction).signature_operations();
+// }
 
 uint64_t /*size_t*/ chain_transactionv2_signature_operations_bip16_active(transactionv2_t transaction, int /*bool*/ bip16_active) {
     return chain_transactionv2_const_cpp(transaction).signature_operations(bip16_active != 0);
@@ -163,14 +164,14 @@ int /*bool*/ chain_transactionv2_is_locktime_conflict(transactionv2_t transactio
     return static_cast<int>(chain_transactionv2_const_cpp(transaction).is_locktime_conflict());
 }
 
-output_list_t chain_transactionv2_outputs(transactionv2_t transaction) {
+outputv2_list_t chain_transactionv2_outputs(transactionv2_t transaction) {
     auto& tx = chain_transactionv2_cpp(transaction);
-    return chain_output_list_construct_from_cpp(tx.outputs()); // TODO(fernando): transaction::outputs() is deprecated... check how to do it better...
+    return chain_outputv2_list_construct_from_cpp(tx.outputs()); // TODO(fernando): transaction::outputs() is deprecated... check how to do it better...
 }
 
-input_list_t chain_transactionv2_inputs(transactionv2_t transaction) {
+inputv2_list_t chain_transactionv2_inputs(transactionv2_t transaction) {
     auto& tx = chain_transactionv2_cpp(transaction);
-    return chain_input_list_construct_from_cpp(tx.inputs()); // TODO(fernando): transaction::inputs() is deprecated... check how to do it better...
+    return chain_inputv2_list_construct_from_cpp(tx.inputs()); // TODO(fernando): transaction::inputs() is deprecated... check how to do it better...
 }
 
 uint8_t const* chain_transactionv2_to_data(transactionv2_t transaction, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
