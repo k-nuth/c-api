@@ -40,8 +40,8 @@ transactionv2_t chain_transactionv2_construct_default(void);
 
 //transaction(uint32_t version, uint32_t locktime, chain::input::list&& inputs, chain::output::list&& outputs);
 //transaction(uint32_t version, uint32_t locktime, const chain::input::list& inputs, const chain::output::list& outputs);
-BITPRIM_EXPORT
-transactionv2_t chain_transactionv2_construct(uint32_t version, uint32_t locktime, input_list_t inputs, output_list_t outputs);
+// BITPRIM_EXPORT
+// transactionv2_t chain_transactionv2_construct(uint32_t version, uint32_t locktime, input_list_t inputs, output_list_t outputs);
 
 BITPRIM_EXPORT
 void chain_transactionv2_destruct(transactionv2_t transaction);

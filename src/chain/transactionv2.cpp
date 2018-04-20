@@ -47,11 +47,11 @@ transactionv2_t chain_transactionv2_construct_default() {
     return new libbitcoin::chainv2::transaction();
 }
 
-transactionv2_t chain_transactionv2_construct(uint32_t version, uint32_t locktime, inputv2_list_t inputs, outputv2_list_t outputs) {
-    return new libbitcoin::chainv2::transaction(version, locktime,
-                                                chain_inputv2_list_const_cpp(inputs),
-                                                chain_outputv2_list_const_cpp(outputs));
-}
+// transactionv2_t chain_transactionv2_construct(uint32_t version, uint32_t locktime, inputv2_list_t inputs, outputv2_list_t outputs) {
+//     return new libbitcoin::chainv2::transaction(version, locktime,
+//                                                 chain_inputv2_list_const_cpp(inputs),
+//                                                 chain_outputv2_list_const_cpp(outputs));
+// }
 
 void chain_transactionv2_destruct(transactionv2_t transaction) {
     auto transaction_cpp = static_cast<libbitcoin::chainv2::transaction*>(transaction);
