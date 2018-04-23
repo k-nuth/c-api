@@ -97,13 +97,10 @@ executor::executor(libbitcoin::node::configuration const& config, std::ostream& 
 
 #if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
-// Emit to the log.
-bool executor::do_initchain() {
-    initialize_output();
-
-    error_code ec;
+bool executor::init_directory(error_code& ec) {
+    
     auto const& directory = config_.database.directory;
-
+  
     if (create_directories(directory, ec)) {
         LOG_INFO(LOG_NODE) << format(BN_INITIALIZING_CHAIN) % directory;
 
@@ -112,9 +109,30 @@ bool executor::do_initchain() {
         auto const& settings = config_.database;
         auto const result = data_base(settings).create(genesis);
 
+        if ( ! result ) {
+            LOG_INFO(LOG_NODE) << BN_INITCHAIN_FAILED;
+            return false;
+        }
+
         LOG_INFO(LOG_NODE) << BN_INITCHAIN_COMPLETE;
-        return result;
+        return true;
     }
+
+    return false;
+}
+
+
+// Emit to the log.
+bool executor::do_initchain() {
+    initialize_output();
+
+    error_code ec;
+    
+    if (init_directory(ec)) {
+        return true;
+    }
+    
+    auto const& directory = config_.database.directory;
 
     if (ec.value() == directory_exists) {
         LOG_ERROR(LOG_NODE) << format(BN_INITCHAIN_EXISTS) % directory;
@@ -174,29 +192,12 @@ bool executor::init_and_run(libbitcoin::handle0 handler) {
 #if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
     
     if ( ! verify_directory() ) {
-        
         error_code ec;
-        auto const& directory = config_.database.directory;
-
-        if (create_directories(directory, ec)) {
-            LOG_INFO(LOG_NODE) << format(BN_INITIALIZING_CHAIN) % directory;
-
-            auto const testnet = libbitcoin::get_network(config_.network.identifier) == libbitcoin::config::settings::testnet;
-            auto const genesis = testnet ? block::genesis_testnet() : block::genesis_mainnet();
-            auto const& settings = config_.database;
-            auto const result = data_base(settings).create(genesis);
-            
-            LOG_INFO(LOG_NODE) << BN_INITCHAIN_COMPLETE;
-
-            if ( ! result ) {
         
-                LOG_INFO(LOG_NODE) << "Error creating database files";
-                return false;
-            }
-        }
-        else
-        {
-            return false;    
+        if ( ! init_directory(ec) ) {
+            auto const& directory = config_.database.directory;
+            LOG_ERROR(LOG_NODE) << format(BN_INITCHAIN_NEW) % directory % ec.message();
+            return false;
         }
     }
 #endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)

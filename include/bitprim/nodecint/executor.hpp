@@ -68,6 +68,8 @@ private:
     void do_version();
     void initialize_output();
 
+    bool init_directory(boost::system::error_code& ec);
+
 #if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 //    bool do_initchain();
     bool verify_directory();
@@ -105,6 +107,8 @@ private:
     "Failed to test directory %1% with error, '%2%'."
 #define BN_INITCHAIN_COMPLETE \
     "Completed initialization."
+#define BN_INITCHAIN_FAILED \
+    "Error creating database files."
 #endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
 #define BN_NODE_INTERRUPT \
