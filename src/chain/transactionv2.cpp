@@ -90,23 +90,23 @@ void chain_transactionv2_hash_out(transactionv2_t transaction, hash_t* out_hash)
     std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
-hash_t chain_transactionv2_hash_sighash_type(transactionv2_t transaction, uint32_t sighash_type) {
-    auto const& hash_cpp = chain_transactionv2_const_cpp(transaction).hash(sighash_type);
-    return bitprim::to_hash_t(hash_cpp);
-}
+// hash_t chain_transactionv2_hash_sighash_type(transactionv2_t transaction, uint32_t sighash_type) {
+//     auto const& hash_cpp = chain_transactionv2_const_cpp(transaction).hash(sighash_type);
+//     return bitprim::to_hash_t(hash_cpp);
+// }
 
-void chain_transactionv2_hash_sighash_type_out(transactionv2_t transaction, uint32_t sighash_type, hash_t* out_hash) {
-    auto const& hash_cpp = chain_transactionv2_const_cpp(transaction).hash(sighash_type);
-    std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
-}
+// void chain_transactionv2_hash_sighash_type_out(transactionv2_t transaction, uint32_t sighash_type, hash_t* out_hash) {
+//     auto const& hash_cpp = chain_transactionv2_const_cpp(transaction).hash(sighash_type);
+//     std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
+// }
 
 uint32_t chain_transactionv2_locktime(transactionv2_t transaction) {
     return chain_transactionv2_const_cpp(transaction).locktime();
 }
 
-uint64_t /*size_t*/ chain_transactionv2_serialized_size(transactionv2_t transaction, int wire /*= true*/) {
-    return chain_transactionv2_const_cpp(transaction).serialized_size(wire);
-}
+// uint64_t /*size_t*/ chain_transactionv2_serialized_size(transactionv2_t transaction, int wire /*= true*/) {
+//     return chain_transactionv2_const_cpp(transaction).serialized_size(wire);
+// }
 
 uint64_t chain_transactionv2_fees(transactionv2_t transaction) {
     return chain_transactionv2_const_cpp(transaction).fees();
@@ -164,23 +164,23 @@ int /*bool*/ chain_transactionv2_is_locktime_conflict(transactionv2_t transactio
     return static_cast<int>(chain_transactionv2_const_cpp(transaction).is_locktime_conflict());
 }
 
-outputv2_list_t chain_transactionv2_outputs(transactionv2_t transaction) {
-    auto& tx = chain_transactionv2_cpp(transaction);
-    return chain_outputv2_list_construct_from_cpp(tx.outputs()); // TODO(fernando): transaction::outputs() is deprecated... check how to do it better...
-}
+// outputv2_list_t chain_transactionv2_outputs(transactionv2_t transaction) {
+//     auto& tx = chain_transactionv2_cpp(transaction);
+//     return chain_outputv2_list_construct_from_cpp(tx.outputs()); // TODO(fernando): transaction::outputs() is deprecated... check how to do it better...
+// }
 
 inputv2_list_t chain_transactionv2_inputs(transactionv2_t transaction) {
     auto& tx = chain_transactionv2_cpp(transaction);
     return chain_inputv2_list_construct_from_cpp(tx.inputs()); // TODO(fernando): transaction::inputs() is deprecated... check how to do it better...
 }
 
-uint8_t const* chain_transactionv2_to_data(transactionv2_t transaction, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
-    auto tx_data = chain_transactionv2_const_cpp(transaction).to_data(wire);
-    auto* ret = (uint8_t*)malloc((tx_data.size()) * sizeof(uint8_t)); // NOLINT
-    std::copy_n(tx_data.begin(), tx_data.size(), ret);
-    *out_size = tx_data.size();
-    return ret;
-}
+// uint8_t const* chain_transactionv2_to_data(transactionv2_t transaction, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
+//     auto tx_data = chain_transactionv2_const_cpp(transaction).to_data(wire);
+//     auto* ret = (uint8_t*)malloc((tx_data.size()) * sizeof(uint8_t)); // NOLINT
+//     std::copy_n(tx_data.begin(), tx_data.size(), ret);
+//     *out_size = tx_data.size();
+//     return ret;
+// }
 
 //
 //// Serialization.

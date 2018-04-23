@@ -61,17 +61,17 @@ hash_t chain_transactionv2_hash(transactionv2_t transaction);
 BITPRIM_EXPORT
 void chain_transactionv2_hash_out(transactionv2_t transaction, hash_t* out_hash);
 
-BITPRIM_EXPORT
-hash_t chain_transactionv2_hash_sighash_type(transactionv2_t transaction, uint32_t sighash_type);
+// BITPRIM_EXPORT
+// hash_t chain_transactionv2_hash_sighash_type(transactionv2_t transaction, uint32_t sighash_type);
 
-BITPRIM_EXPORT
-void chain_transactionv2_hash_sighash_type_out(transactionv2_t transaction, uint32_t sighash_type, hash_t* out_hash);
+// BITPRIM_EXPORT
+// void chain_transactionv2_hash_sighash_type_out(transactionv2_t transaction, uint32_t sighash_type, hash_t* out_hash);
 
 BITPRIM_EXPORT
 uint32_t chain_transactionv2_locktime(transactionv2_t transaction);
 
-BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_transactionv2_serialized_size(transactionv2_t transaction, int wire /*= true*/);
+// BITPRIM_EXPORT
+// uint64_t /*size_t*/ chain_transactionv2_serialized_size(transactionv2_t transaction, int wire /*= true*/);
 
 BITPRIM_EXPORT
 uint64_t chain_transactionv2_fees(transactionv2_t transaction);
@@ -115,14 +115,14 @@ int /*bool*/ chain_transactionv2_is_final(transactionv2_t transaction, uint64_t 
 BITPRIM_EXPORT
 int /*bool*/ chain_transactionv2_is_locktime_conflict(transactionv2_t transaction);
 
-BITPRIM_EXPORT
-output_list_t chain_transactionv2_outputs(transactionv2_t transaction);
+// BITPRIM_EXPORT
+// output_list_t chain_transactionv2_outputs(transactionv2_t transaction);
 
 BITPRIM_EXPORT
 input_list_t chain_transactionv2_inputs(transactionv2_t transaction);
 
-BITPRIM_EXPORT
-uint8_t const* chain_transactionv2_to_data(transactionv2_t script, int /*bool*/ wire, uint64_t* /*size_t*/ out_size);
+// BITPRIM_EXPORT
+// uint8_t const* chain_transactionv2_to_data(transactionv2_t script, int /*bool*/ wire, uint64_t* /*size_t*/ out_size);
 
 #ifdef __cplusplus
 } // extern "C"
