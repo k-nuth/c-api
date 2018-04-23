@@ -51,16 +51,19 @@ BITPRIM_EXPORT
 void executor_destruct(executor_t exec);
 
 BITPRIM_EXPORT
+int executor_initchain(executor_t exec);
+
+BITPRIM_EXPORT
 void executor_run(executor_t exec, void* ctx, run_handler_t handler);
+
+BITPRIM_EXPORT
+void executor_init_run(executor_t exec,void* ctx, run_handler_t handler);
 
 BITPRIM_EXPORT
 int executor_run_wait(executor_t exec);
 
-//BITPRIM_EXPORT
-//int executor_run_wait(executor_t exec, run_handler_t handler);
-
 BITPRIM_EXPORT
-int executor_initchain(executor_t exec);
+int executor_init_run_wait(executor_t exec);
 
 BITPRIM_EXPORT
 int executor_stop(executor_t exec);

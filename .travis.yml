@@ -23,6 +23,7 @@ branches:
   - dev
   - /^v\d+\.\d+\.\d+$/
   - feature_2018_may_hardfork
+  - feature/BIT-79
   
 linux: &linux
    os: linux

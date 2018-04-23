@@ -162,6 +162,57 @@ bool executor::run(libbitcoin::handle0 handler) {
     return true;
 }
 
+bool executor::init_run(libbitcoin::handle0 handler) {
+    
+    run_handler_ = std::move(handler);
+
+    initialize_output();
+
+    LOG_INFO(LOG_NODE) << BN_NODE_INTERRUPT;
+    LOG_INFO(LOG_NODE) << BN_NODE_STARTING;
+
+#if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
+    
+    if ( ! verify_directory() ) {
+        
+        error_code ec;
+        auto const& directory = config_.database.directory;
+
+        if (create_directories(directory, ec)) {
+            LOG_INFO(LOG_NODE) << format(BN_INITIALIZING_CHAIN) % directory;
+
+            auto const testnet = libbitcoin::get_network(config_.network.identifier) == libbitcoin::config::settings::testnet;
+            auto const genesis = testnet ? block::genesis_testnet() : block::genesis_mainnet();
+            auto const& settings = config_.database;
+            auto const result = data_base(settings).create(genesis);
+            
+            LOG_INFO(LOG_NODE) << BN_INITCHAIN_COMPLETE;
+
+            if ( ! result ) {
+        
+                LOG_INFO(LOG_NODE) << "Error creating database files";
+                return false;
+            }
+        }
+        else
+        {
+            return false;    
+        }
+    }
+#endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
+
+    // Now that the directory is verified we can create the node for it.
+    node_ = std::make_shared<libbitcoin::node::full_node>(config_);
+
+    // Initialize broadcast to statistics server if configured.
+    libbitcoin::log::initialize_statsd(node_->thread_pool(), config_.network.statistics_server);
+
+    // The callback may be returned on the same thread.
+    node_->start(std::bind(&executor::handle_started, this, _1));
+
+    return true;
+}
+
 // bool executor::run_wait(libbitcoin::handle0 handler) {
 
 //     run(std::move(handler));

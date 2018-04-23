@@ -176,6 +176,20 @@ void executor_run(executor_t exec, void* ctx, run_handler_t handler) {
     }
 }
 
+void executor_init_run(executor_t exec, void* ctx, run_handler_t handler) {
+    
+    try {
+        exec->actual.init_run([exec, ctx, handler](std::error_code const& ec) {
+            if (handler != nullptr) {
+                handler(exec, ctx, ec.value());
+            }
+        });
+    } catch (...) {
+        handler(exec, ctx, 1); // TODO(fernando): return error_t to inform errors in detail
+    }
+
+}
+
 int executor_run_wait(executor_t exec) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
 
@@ -198,6 +212,33 @@ int executor_run_wait(executor_t exec) {
 
     return 1; // TODO(fernando): return error_t to inform errors in detail
 }
+
+
+int executor_init_run_wait(executor_t exec) {
+    
+    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+
+    int res;
+    bool run_res = false;
+
+    try {
+        run_res = exec->actual.init_run([&](std::error_code const& ec) {
+            res = ec.value();
+            latch.count_down();
+        });
+    } catch (...) {
+        run_res = false;
+    }
+
+    if (run_res) {
+        latch.count_down_and_wait();
+        return res;
+    }
+
+    return 1; // TODO(fernando): return error_t to inform errors in detail
+     
+}
+
 
 //void executor_stop(executor_t exec) {
 //    exec->actual.stop();

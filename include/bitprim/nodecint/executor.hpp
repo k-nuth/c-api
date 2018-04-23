@@ -43,9 +43,10 @@ public:
 #endif
 
     bool run(libbitcoin::handle0 handler);
-    bool run_wait(libbitcoin::handle0 handler);
+    //bool run_wait(libbitcoin::handle0 handler);
 
-
+    bool init_run(libbitcoin::handle0 handler);
+   
     //static void stop(libbitcoin::code const& ec);
     //static void stop();
     bool stop();
