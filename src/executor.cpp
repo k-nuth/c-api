@@ -162,7 +162,7 @@ bool executor::run(libbitcoin::handle0 handler) {
     return true;
 }
 
-bool executor::init_run(libbitcoin::handle0 handler) {
+bool executor::init_and_run(libbitcoin::handle0 handler) {
     
     run_handler_ = std::move(handler);
 
