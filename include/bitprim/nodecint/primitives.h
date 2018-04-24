@@ -102,6 +102,7 @@ typedef void* inputv2_t;
 typedef void* inputv2_list_t;
 typedef void* input_pointv2_t;
 typedef void* transactionv2_t;
+typedef void* outputs_info_t;
 
 
 typedef struct short_hash_t {

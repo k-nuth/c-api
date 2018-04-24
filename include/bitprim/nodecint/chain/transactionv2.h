@@ -40,6 +40,7 @@ transactionv2_t chain_transactionv2_construct_default(void);
 
 //transaction(uint32_t version, uint32_t locktime, chain::input::list&& inputs, chain::output::list&& outputs);
 //transaction(uint32_t version, uint32_t locktime, const chain::input::list& inputs, const chain::output::list& outputs);
+
 // BITPRIM_EXPORT
 // transactionv2_t chain_transactionv2_construct(uint32_t version, uint32_t locktime, input_list_t inputs, output_list_t outputs);
 
@@ -117,6 +118,13 @@ int /*bool*/ chain_transactionv2_is_locktime_conflict(transactionv2_t transactio
 
 // BITPRIM_EXPORT
 // output_list_t chain_transactionv2_outputs(transactionv2_t transaction);
+
+// BITPRIM_EXPORT
+// outputs_info_t chain_transactionv2_outputs_info(transactionv2_t transaction);
+
+BITPRIM_EXPORT
+uint64_t /*size_t*/ chain_transactionv2_output_count(transactionv2_t transaction);
+
 
 BITPRIM_EXPORT
 input_list_t chain_transactionv2_inputs(transactionv2_t transaction);

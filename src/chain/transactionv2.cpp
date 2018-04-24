@@ -169,6 +169,16 @@ int /*bool*/ chain_transactionv2_is_locktime_conflict(transactionv2_t transactio
 //     return chain_outputv2_list_construct_from_cpp(tx.outputs()); // TODO(fernando): transaction::outputs() is deprecated... check how to do it better...
 // }
 
+// outputs_info_t chain_transactionv2_outputs_info(transactionv2_t transaction) {
+//     auto& tx = chain_transactionv2_cpp(transaction);
+//     return const_cast<outputs_info_t>(&tx.outputs_info());
+// }
+
+uint64_t /*size_t*/ chain_transactionv2_output_count(transactionv2_t transaction) {
+    auto& tx = chain_transactionv2_cpp(transaction);
+    return tx.outputs_info().count;
+}
+
 inputv2_list_t chain_transactionv2_inputs(transactionv2_t transaction) {
     auto& tx = chain_transactionv2_cpp(transaction);
     return chain_inputv2_list_construct_from_cpp(tx.inputs()); // TODO(fernando): transaction::inputs() is deprecated... check how to do it better...
