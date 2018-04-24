@@ -932,12 +932,6 @@ void chain_transaction_validate_v2_no_signature(chain_t chain, void* ctx, transa
 }
 
 
-
-
-    // void transaction_check_sequential(transaction_const_ptr tx, result_handler handler) const;
-    // void transaction_accept_sequential(transaction_const_ptr tx, result_handler handler) const;
-    // void transaction_connect_sequential(transaction_const_ptr tx, result_handler handler) const;
-
 void chain_transaction_check_sequential(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
     if (handler == nullptr) return;
 
@@ -949,17 +943,24 @@ void chain_transaction_check_sequential(chain_t chain, void* ctx, transaction_t 
         }
     });
 }
-void chain_transaction_accept_sequential(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
-    if (handler == nullptr) return;
 
-    safe_chain(chain).transaction_accept_sequential(tx_shared(tx), [chain, ctx, handler](std::error_code const& ec) {
-        if (ec) {
-            handler(chain, ctx, static_cast<error_code_t>(ec.value()), ec.message().c_str());
-        } else {
-            handler(chain, ctx, static_cast<error_code_t>(ec.value()), nullptr);
-        }
-    });
+// void chain_transaction_accept_sequential(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
+//     if (handler == nullptr) return;
+
+//     safe_chain(chain).transaction_accept_sequential(tx_shared(tx), [chain, ctx, handler](std::error_code const& ec) {
+//         if (ec) {
+//             handler(chain, ctx, static_cast<error_code_t>(ec.value()), ec.message().c_str());
+//         } else {
+//             handler(chain, ctx, static_cast<error_code_t>(ec.value()), nullptr);
+//         }
+//     });
+// }
+
+error_code_t chain_transaction_accept_sequential(chain_t chain, void* ctx, transaction_t tx) {
+    auto ec = safe_chain(chain).transaction_accept_sequential(tx_shared(tx));
+    return static_cast<error_code_t>(ec.value());
 }
+
 void chain_transaction_connect_sequential(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
     if (handler == nullptr) return;
 

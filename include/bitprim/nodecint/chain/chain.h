@@ -252,7 +252,8 @@ BITPRIM_EXPORT
 void chain_transaction_check_sequential(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler);
 
 BITPRIM_EXPORT
-void chain_transaction_accept_sequential(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler);
+// void chain_transaction_accept_sequential(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler);
+error_code_t chain_transaction_accept_sequential(chain_t chain, void* ctx, transaction_t tx);
 
 BITPRIM_EXPORT
 void chain_transaction_connect_sequential(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler);
