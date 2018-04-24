@@ -32,7 +32,7 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-transactionv2_t chain_transactionv2_factory_from_data(uint32_t version, uint8_t* data, uint64_t n);
+transactionv2_t chain_transactionv2_factory_from_data(uint64_t minimum_output_satoshis, uint8_t* data, uint64_t n);
 
 //transaction(void);
 BITPRIM_EXPORT

@@ -35,10 +35,10 @@ libbitcoin::chainv2::transaction& chain_transactionv2_cpp(transactionv2_t transa
 
 extern "C" {
 
-transactionv2_t chain_transactionv2_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
+
+transactionv2_t chain_transactionv2_factory_from_data(uint64_t minimum_output_satoshis, uint8_t* data, uint64_t n) {
     libbitcoin::data_chunk data_cpp(data, std::next(data, n));
-    // auto tx = libbitcoin::chainv2::transaction::factory_from_data(version, data_cpp);
-    auto tx = libbitcoin::chainv2::transaction::factory_from_data(data_cpp, true);
+    auto tx = libbitcoin::chainv2::transaction::factory_from_data(data_cpp, minimum_output_satoshis);
     return new libbitcoin::chainv2::transaction(std::move(tx));
 }
 
