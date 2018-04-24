@@ -972,13 +972,10 @@ void chain_transaction_connect_sequential(chain_t chain, void* ctx, transaction_
     });
 }
 
-
-
-validate_handle_check_sequential_v2
-void chain_validate_handle_check_sequential(chain_t chain, void* ctx, transactionv2_t tx, validate_tx_handler_t handler) {
+void chain_transaction_check_sequential_v2(chain_t chain, void* ctx, transactionv2_t tx, validate_tx_handler_t handler) {
     if (handler == nullptr) return;
 
-    safe_chain(chain).validate_handle_check_sequential(txv2_shared(tx), [chain, ctx, handler](std::error_code const& ec) {
+    safe_chain(chain).chain_transaction_check_sequential_v2(txv2_shared(tx), [chain, ctx, handler](std::error_code const& ec) {
         if (ec) {
             handler(chain, ctx, static_cast<error_code_t>(ec.value()), ec.message().c_str());
         } else {
