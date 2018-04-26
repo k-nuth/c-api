@@ -130,7 +130,7 @@ replace_versions bitprim-node-cint $BITPRIM_BUILD_NUMBER
 cat versions.txt
 
 git add . versions.txt
-git commit --message "Travis bitprim-node-cint build: $BITPRIM_BUILD_NUMBER, $TRAVIS_BUILD_NUMBER" || true
+git commit --message "Travis bitprim-node-cint build: $BITPRIM_BUILD_NUMBER, $TRAVIS_BUILD_NUMBER [skip nuget]" || true
 git remote add origin-commit https://${GH_TOKEN}@github.com/bitprim/bitprim-cs.git > /dev/null 2>&1
 git push --quiet --set-upstream origin-commit ${BITPRIM_BRANCH}  || true
 
