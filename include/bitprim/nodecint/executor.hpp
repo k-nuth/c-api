@@ -43,9 +43,10 @@ public:
 #endif
 
     bool run(libbitcoin::handle0 handler);
-    bool run_wait(libbitcoin::handle0 handler);
+    //bool run_wait(libbitcoin::handle0 handler);
 
-
+    bool init_and_run(libbitcoin::handle0 handler);
+   
     //static void stop(libbitcoin::code const& ec);
     //static void stop();
     bool stop();
@@ -66,6 +67,8 @@ private:
     void do_settings();
     void do_version();
     void initialize_output();
+
+    bool init_directory(boost::system::error_code& ec);
 
 #if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 //    bool do_initchain();
@@ -104,6 +107,8 @@ private:
     "Failed to test directory %1% with error, '%2%'."
 #define BN_INITCHAIN_COMPLETE \
     "Completed initialization."
+#define BN_INITCHAIN_FAILED \
+    "Error creating database files."
 #endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
 #define BN_NODE_INTERRUPT \
