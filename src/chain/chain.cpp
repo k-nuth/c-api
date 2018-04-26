@@ -871,7 +871,7 @@ int chain_organize_transaction_sync(chain_t chain, transaction_t transaction) {
 //    return tx;
 //}
 
-void chain_transaction_validate_sequential(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
+void chain_transaction_validate_sequential_mutex(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
     if (handler == nullptr) return;
 
     auto tx_cpp = tx_shared(tx);
@@ -932,39 +932,37 @@ void chain_transaction_validate_v2_no_signature(chain_t chain, void* ctx, transa
 }
 
 
-void chain_transaction_check_sequential(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
-    if (handler == nullptr) return;
-
-    safe_chain(chain).transaction_check_sequential(tx_shared(tx), [chain, ctx, handler](std::error_code const& ec) {
-        if (ec) {
-            handler(chain, ctx, static_cast<error_code_t>(ec.value()), ec.message().c_str());
-        } else {
-            handler(chain, ctx, static_cast<error_code_t>(ec.value()), nullptr);
-        }
-    });
+error_code_t chain_transaction_check_sequential(chain_t chain, void* ctx, transaction_t tx) {
+    auto ec = safe_chain(chain).transaction_check_sequential(tx_shared(tx));
+    return static_cast<error_code_t>(ec.value());
 }
-
-// void chain_transaction_accept_sequential(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
-//     if (handler == nullptr) return;
-
-//     safe_chain(chain).transaction_accept_sequential(tx_shared(tx), [chain, ctx, handler](std::error_code const& ec) {
-//         if (ec) {
-//             handler(chain, ctx, static_cast<error_code_t>(ec.value()), ec.message().c_str());
-//         } else {
-//             handler(chain, ctx, static_cast<error_code_t>(ec.value()), nullptr);
-//         }
-//     });
-// }
 
 error_code_t chain_transaction_accept_sequential(chain_t chain, void* ctx, transaction_t tx) {
     auto ec = safe_chain(chain).transaction_accept_sequential(tx_shared(tx));
     return static_cast<error_code_t>(ec.value());
 }
 
-// void chain_transaction_connect_sequential(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler) {
+error_code_t chain_transaction_connect_sequential(chain_t chain, void* ctx, transaction_t tx) {
+    auto ec = safe_chain(chain).transaction_connect_sequential(tx_shared(tx));
+    return static_cast<error_code_t>(ec.value());
+}
+
+error_code_t chain_transaction_validate_sequential(chain_t chain, void* ctx, transaction_t tx) {
+    auto ec = safe_chain(chain).transaction_validate_sequential(tx_shared(tx));
+    return static_cast<error_code_t>(ec.value());
+}
+
+error_code_t chain_transaction_validate_sequential_no_signature(chain_t chain, void* ctx, transaction_t tx) {
+    auto ec = safe_chain(chain).transaction_validate_sequential_no_signature(tx_shared(tx));
+    return static_cast<error_code_t>(ec.value());
+}
+
+
+
+// void chain_transaction_check_sequential_v2(chain_t chain, void* ctx, transactionv2_t tx, validate_tx_handler_t handler) {
 //     if (handler == nullptr) return;
 
-//     safe_chain(chain).transaction_connect_sequential(tx_shared(tx), [chain, ctx, handler](std::error_code const& ec) {
+//     safe_chain(chain).transaction_check_sequential_v2(txv2_shared(tx), [chain, ctx, handler](std::error_code const& ec) {
 //         if (ec) {
 //             handler(chain, ctx, static_cast<error_code_t>(ec.value()), ec.message().c_str());
 //         } else {
@@ -973,22 +971,34 @@ error_code_t chain_transaction_accept_sequential(chain_t chain, void* ctx, trans
 //     });
 // }
 
-error_code_t chain_transaction_connect_sequential(chain_t chain, void* ctx, transaction_t tx) {
-    auto ec = safe_chain(chain).transaction_connect_sequential(tx_shared(tx));
+
+error_code_t chain_transaction_check_v2_sequential(chain_t chain, void* ctx, transactionv2_t tx) {
+    auto ec = safe_chain(chain).transaction_check_v2_sequential(txv2_shared(tx));
     return static_cast<error_code_t>(ec.value());
 }
 
-void chain_transaction_check_sequential_v2(chain_t chain, void* ctx, transactionv2_t tx, validate_tx_handler_t handler) {
-    if (handler == nullptr) return;
-
-    safe_chain(chain).transaction_check_sequential_v2(txv2_shared(tx), [chain, ctx, handler](std::error_code const& ec) {
-        if (ec) {
-            handler(chain, ctx, static_cast<error_code_t>(ec.value()), ec.message().c_str());
-        } else {
-            handler(chain, ctx, static_cast<error_code_t>(ec.value()), nullptr);
-        }
-    });
+error_code_t chain_transaction_accept_v2_sequential(chain_t chain, void* ctx, transactionv2_t tx) {
+    auto ec = safe_chain(chain).transaction_accept_v2_sequential(txv2_shared(tx));
+    return static_cast<error_code_t>(ec.value());
 }
+
+error_code_t chain_transaction_connect_v2_sequential(chain_t chain, void* ctx, transactionv2_t tx) {
+    auto ec = safe_chain(chain).transaction_connect_v2_sequential(txv2_shared(tx));
+    return static_cast<error_code_t>(ec.value());
+}
+
+error_code_t chain_transaction_validate_v2_sequential(chain_t chain, void* ctx, transactionv2_t tx) {
+    auto ec = safe_chain(chain).transaction_validate_v2_sequential(txv2_shared(tx));
+    return static_cast<error_code_t>(ec.value());
+}
+
+error_code_t chain_transaction_validate_v2_sequential_no_signature(chain_t chain, void* ctx, transactionv2_t tx) {
+    auto ec = safe_chain(chain).transaction_validate_v2_sequential_no_signature(txv2_shared(tx));
+    return static_cast<error_code_t>(ec.value());
+}
+
+
+
 // Properties.
 //-------------------------------------------------------------------------
 
