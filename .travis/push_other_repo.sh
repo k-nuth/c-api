@@ -121,19 +121,32 @@ cd ..
 # --------------------------------------------------------------------------------------------------------------------
 # bitprim-cs
 # --------------------------------------------------------------------------------------------------------------------
-git clone https://github.com/bitprim/bitprim-cs.git
-cd bitprim-cs
-git checkout ${BITPRIM_BRANCH}
+#git clone https://github.com/bitprim/bitprim-cs.git
+#cd bitprim-cs
+#git checkout ${BITPRIM_BRANCH}
 
-replace_versions bitprim-node-cint $BITPRIM_BUILD_NUMBER
+#replace_versions bitprim-node-cint $BITPRIM_BUILD_NUMBER
 
-cat versions.txt
+#cat versions.txt
 
-git add . versions.txt
-git commit --message "Travis bitprim-node-cint build: $BITPRIM_BUILD_NUMBER, $TRAVIS_BUILD_NUMBER [skip nuget]" || true
-git remote add origin-commit https://${GH_TOKEN}@github.com/bitprim/bitprim-cs.git > /dev/null 2>&1
-git push --quiet --set-upstream origin-commit ${BITPRIM_BRANCH}  || true
+#git add . versions.txt
+#git commit --message "Travis bitprim-node-cint build: $BITPRIM_BUILD_NUMBER, $TRAVIS_BUILD_NUMBER [skip nuget]" || true
+#git remote add origin-commit https://${GH_TOKEN}@github.com/bitprim/bitprim-cs.git > /dev/null 2>&1
+#git push --quiet --set-upstream origin-commit ${BITPRIM_BRANCH}  || true
 
-cd ..
+#cd ..
+
+body=
+"{
+    \"accountName\": \"bitprim\",
+    \"projectSlug\": \"bitprim-cs\",
+    \"branch\": \"$BITPRIM_BRANCH\",
+    \"environmentVariables\": {
+       \"SKIP_NUGET\": \"true\"
+    }
+}"
+
+curl -s -d "$body" -X POST -H "Authorization: Bearer $APPVEYOR_TOKEN" -H "Content-Type: application/json" https://ci.appveyor.com/api/builds
+
 
 # --------------------------------------------------------------------------------------------------------------------
