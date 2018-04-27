@@ -28,6 +28,7 @@ node_console/node_modules/
 docs/html
 docs/latex
 
+
 .vscode/
 __pycache__/
 mypkg/
