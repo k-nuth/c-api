@@ -135,7 +135,7 @@ class BitprimNodeCIntConan(ConanFile):
     def requirements(self):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
             self.requires("boost/1.66.0@bitprim/stable")
-            self.requires("bitprim-node/0.9.1@bitprim/%s" % get_channel())
+            self.requires("bitprim-node/0.10.0@bitprim/%s" % get_channel())
 
     def config_options(self):
         # self.output.info('*-*-*-*-*-* def config_options(self):')
