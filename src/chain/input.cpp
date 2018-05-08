@@ -67,8 +67,8 @@ uint32_t chain_input_sequence(input_t input) {
     return chain_input_const_cpp(input).sequence();
 }
 
-uint64_t /*size_t*/ chain_input_signature_operations(input_t input, int /*bool*/ bip16_active) {
-    return chain_input_const_cpp(input).signature_operations(bip16_active != 0);
+uint64_t /*size_t*/ chain_input_signature_operations(input_t input, int /*bool*/ bip16_active, int /*bool*/ bip141_active) {
+    return chain_input_const_cpp(input).signature_operations(bip16_active != 0, bip141_active!=0);
 }
 
 script_t chain_input_script(input_t input) {

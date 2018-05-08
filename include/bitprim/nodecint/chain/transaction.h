@@ -80,7 +80,7 @@ BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_transaction_signature_operations(transaction_t transaction);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_transaction_signature_operations_bip16_active(transaction_t transaction, int /*bool*/ bip16_active);
+uint64_t /*size_t*/ chain_transaction_signature_operations_bip16_active(transaction_t transaction, int /*bool*/ bip16_active, int /*bool*/ bip141_active);
 
 BITPRIM_EXPORT
 uint64_t chain_transaction_total_input_value(transaction_t transaction);

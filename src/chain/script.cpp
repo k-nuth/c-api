@@ -44,10 +44,6 @@ int /*bool*/ chain_script_is_valid_operations(script_t script) {
     return static_cast<int>(chain_script_const_cpp(script).is_valid_operations());
 }
 
-uint64_t /*size_t*/ chain_script_satoshi_content_size(script_t script) {
-    return chain_script_const_cpp(script).satoshi_content_size();
-}
-
 uint64_t /*size_t*/ chain_script_serialized_size(script_t script, int /*bool*/ prefix) {
     return chain_script_const_cpp(script).serialized_size(prefix != 0);
 }
@@ -96,10 +92,11 @@ uint64_t /*size_t*/ chain_script_sigops(script_t script, int /*bool*/ embedded) 
     return chain_script_const_cpp(script).sigops(embedded != 0);
 }
 
-uint64_t /*size_t*/ chain_script_embedded_sigops(script_t script, script_t prevout_script) {
-    auto const& prevout_script_cpp = chain_script_const_cpp(prevout_script);
-    return chain_script_const_cpp(script).embedded_sigops(prevout_script_cpp);
-}
+//TODO DELETE
+//uint64_t /*size_t*/ chain_script_embedded_sigops(script_t script, script_t prevout_script) {
+//    auto const& prevout_script_cpp = chain_script_const_cpp(prevout_script);
+//    return chain_script_const_cpp(script).embedded_sigops(prevout_script_cpp);
+//}
 
 //void chain_script_find_and_delete(script_t script, const data_stack& endorsements) {
 //    return chain_script_const_cpp(script).embedded_sigops(find_and_delete);

@@ -98,7 +98,7 @@ BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_block_signature_operations(block_t block);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_block_signature_operations_bip16_active(block_t block, int /*bool*/ bip16_active);
+uint64_t /*size_t*/ chain_block_signature_operations_bip16_active(block_t block, int /*bool*/ bip16_active, int /*bool*/ bip141_active);
 
 BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_block_total_inputs(block_t block, int /*bool*/ with_coinbase /*= true*/);

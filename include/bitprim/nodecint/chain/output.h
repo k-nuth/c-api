@@ -51,10 +51,10 @@ BITPRIM_EXPORT
 uint64_t chain_output_value(output_t output);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_output_signature_operations(output_t output);
+uint64_t /*size_t*/ chain_output_signature_operations(output_t output, int /*bool*/ bip141_active);
 
 BITPRIM_EXPORT
-script_t chain_output_script(output_t output);
+const void* chain_output_script(output_t output);
 
 BITPRIM_EXPORT
 payment_address_t chain_output_payment_address(output_t output, int /*bool*/ use_testnet_rules);

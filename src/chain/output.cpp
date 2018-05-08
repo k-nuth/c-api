@@ -60,11 +60,11 @@ uint64_t chain_output_value(output_t output) {
     return chain_output_const_cpp(output).value();
 }
 
-uint64_t /*size_t*/ chain_output_signature_operations(output_t output) {
-    return chain_output_const_cpp(output).signature_operations();
+uint64_t /*size_t*/ chain_output_signature_operations(output_t output, int /*bool*/ bip141_active) {
+    return chain_output_const_cpp(output).signature_operations(bip141_active!=0);
 }
 
-script_t chain_output_script(output_t output) {
+const void* chain_output_script(output_t output) {
     return &(chain_output_cpp(output).script());
 }
 
