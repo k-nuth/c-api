@@ -67,7 +67,12 @@ uint32_t chain_input_sequence(input_t input) {
     return chain_input_const_cpp(input).sequence();
 }
 
-uint64_t /*size_t*/ chain_input_signature_operations(input_t input, int /*bool*/ bip16_active, int /*bool*/ bip141_active) {
+uint64_t /*size_t*/ chain_input_signature_operations(input_t input, int /*bool*/ bip16_active) {
+#ifdef BITPRIM_CURRENCY_BCH
+    int /*bool*/ bip141_active = 0;
+#else
+    int /*bool*/ bip141_active = 1;
+#endif
     return chain_input_const_cpp(input).signature_operations(bip16_active != 0, bip141_active!=0);
 }
 

@@ -56,7 +56,7 @@ BITPRIM_EXPORT
 uint32_t chain_input_sequence(input_t input);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_input_signature_operations(input_t input, int /*bool*/ bip16_active, int /*bool*/ bip141_active);
+uint64_t /*size_t*/ chain_input_signature_operations(input_t input, int /*bool*/ bip16_active);
 
 BITPRIM_EXPORT
 script_t chain_input_script(input_t input);

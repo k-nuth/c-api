@@ -163,7 +163,12 @@ uint64_t /*size_t*/ chain_block_signature_operations(block_t block) {
     return chain_block_const_cpp(block).signature_operations();
 }
 
-uint64_t /*size_t*/ chain_block_signature_operations_bip16_active(block_t block, int /*bool*/ bip16_active, int /*bool*/ bip141_active) {
+uint64_t /*size_t*/ chain_block_signature_operations_bip16_active(block_t block, int /*bool*/ bip16_active) {
+#ifdef BITPRIM_CURRENCY_BCH
+    int /*bool*/ bip141_active = 0;
+#else
+    int /*bool*/ bip141_active = 1;
+#endif
     return chain_block_const_cpp(block).signature_operations(bip16_active != 0, bip141_active != 0);
 }
 
