@@ -53,6 +53,8 @@ public:
 
     libbitcoin::node::full_node& node();
 
+    bool load_config_valid();
+
     bool stopped() const;
 
 private:
@@ -86,6 +88,7 @@ private:
     std::ostream& error_;
     libbitcoin::node::full_node::ptr node_;
     libbitcoin::handle0 run_handler_;
+    bool parse_config_from_file_result_;
 };
 
 // Localizable messages.

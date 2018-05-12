@@ -54,16 +54,9 @@ executor::executor(libbitcoin::node::configuration const& config, std::ostream& 
 {
 	
     libbitcoin::node::parser metadata(libbitcoin::config::settings::mainnet);
-    auto res = metadata.parse_from_file(config_.file, std::cerr);
-    (void)res;
-
-//    if (!metadata.parse(cerr))
-//        return console_result::failure;
-
+    parse_config_from_file_result_ = metadata.parse_from_file(config_.file, std::cerr);
+  
     config_ = metadata.configured;
-
-//    std::cout << "metadata.configured.network.verbose: " << metadata.configured.network.verbose << std::endl;
-
 
     auto const& network = config_.network;
     const auto verbose = network.verbose;
@@ -89,9 +82,7 @@ executor::executor(libbitcoin::node::configuration const& config, std::ostream& 
     libbitcoin::log::stream console_out(&output_, null_deleter());
     libbitcoin::log::stream console_err(&error_, null_deleter());
 
-    // libbitcoin::log::initialize(debug_file, error_file, console_out, console_err);
     libbitcoin::log::initialize(debug_file, error_file, console_out, console_err, verbose);
-    //handle_stop(initialize_stop);
 }
 
 
@@ -151,6 +142,10 @@ bool executor::do_initchain() {
 
 libbitcoin::node::full_node& executor::node() {
     return *node_;
+}
+
+bool executor::load_config_valid() {
+    return parse_config_from_file_result_;
 }
 
 bool executor::run(libbitcoin::handle0 handler) {
