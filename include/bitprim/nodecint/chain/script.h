@@ -40,9 +40,6 @@ BITPRIM_EXPORT
 int /*bool*/ chain_script_is_valid_operations(script_t script);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_script_satoshi_content_size(script_t script);
-
-BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_script_serialized_size(script_t script, int /*bool*/ prefix);
 
 //Note: user of the function has to release the resource (memory) manually
@@ -60,8 +57,9 @@ uint8_t const* chain_script_to_data(script_t script, int /*bool*/ prefix, uint64
 BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_script_sigops(script_t script, int /*bool*/ embedded);
 
-BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_script_embedded_sigops(script_t script, script_t prevout_script);
+//TODO DELETE
+//BITPRIM_EXPORT
+//uint64_t /*size_t*/ chain_script_embedded_sigops(script_t script, script_t prevout_script);
 
 #ifdef __cplusplus
 } // extern "C"

@@ -61,7 +61,12 @@ uint64_t chain_output_value(output_t output) {
 }
 
 uint64_t /*size_t*/ chain_output_signature_operations(output_t output) {
-    return chain_output_const_cpp(output).signature_operations();
+#ifdef BITPRIM_CURRENCY_BCH
+    int /*bool*/ bip141_active = 0;
+#else
+    int /*bool*/ bip141_active = 1;
+#endif   
+    return chain_output_const_cpp(output).signature_operations(bip141_active!=0);
 }
 
 script_t chain_output_script(output_t output) {
