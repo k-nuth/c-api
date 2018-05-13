@@ -44,6 +44,10 @@ int /*bool*/ chain_script_is_valid_operations(script_t script) {
     return static_cast<int>(chain_script_const_cpp(script).is_valid_operations());
 }
 
+uint64_t /*size_t*/ chain_script_satoshi_content_size(script_t script) {
+    return chain_script_const_cpp(script).serialized_size(false);
+}
+
 uint64_t /*size_t*/ chain_script_serialized_size(script_t script, int /*bool*/ prefix) {
     return chain_script_const_cpp(script).serialized_size(prefix != 0);
 }
