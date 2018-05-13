@@ -40,6 +40,9 @@ BITPRIM_EXPORT
 int /*bool*/ chain_script_is_valid_operations(script_t script);
 
 BITPRIM_EXPORT
+uint64_t /*size_t*/ chain_script_satoshi_content_size(script_t script);
+
+BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_script_serialized_size(script_t script, int /*bool*/ prefix);
 
 //Note: user of the function has to release the resource (memory) manually
