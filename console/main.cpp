@@ -32,6 +32,7 @@
 #include <bitprim/nodecint/chain/history_compact.h>
 #include <bitprim/nodecint/chain/transaction.h>
 #include <bitprim/nodecint/chain/input_list.h>
+#include <bitprim/nodecint/chain/hash_list.h>
 #include <bitprim/nodecint/chain/input.h>
 #include <bitprim/nodecint/chain/output_list.h>
 #include <bitprim/nodecint/chain/output.h>
@@ -462,7 +463,7 @@ void hex2bin(const char* src, uint8_t* target) {
     }
 }
 
-int main(int argc, char* argv[]) {
+/*int main(int argc, char* argv[]) {
 
     printf("hola -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 
@@ -475,7 +476,7 @@ int main(int argc, char* argv[]) {
     executor_destruct(exec);
 
     return 0;
-}
+}*/
 
 /*int main(int argc, char* argv[]) {
 
@@ -509,3 +510,37 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }*/
+
+void fetch_txns_handler(chain_t chain, void* ctx, error_code ec, hash_list_t txs){
+    int txs_count =  chain_hash_list_count(txs);
+    printf("Txs count: %d\n", txs_count);
+    for(int i=0; i<txs_count; i++){
+        hash_t tx_hash = chain_hash_list_nth(txs, i);
+        //print_hex(tx_hash.hash, 32);
+    }
+    chain_hash_list_destruct(txs);
+    printf("Txs list destroyed\n");
+}
+
+int main(int argc, char* argv[]) {
+    printf("fetch_txns test -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
+
+    executor_t exec = executor_construct("", stdout, stderr);
+    int res1 = executor_initchain(exec);
+    int res2 = executor_run_wait(exec);
+
+    chain_t chain = executor_get_chain(exec);
+
+    wait_until_block(chain, 170);
+
+    std::string address_str = "bitcoincash:qqgekzvw96vq5g57zwdfa5q6g609rrn0ycp33uc325";
+    auto address = chain_payment_address_construct_from_string(address_str.c_str());
+    chain_fetch_txns(chain, nullptr, address, INT_MAX, 0, fetch_txns_handler);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+
+    printf("Shutting down node... -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
+    executor_destruct(exec);
+    printf("fetch_txns test EXITED OK -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
+    return 0;
+}
