@@ -518,6 +518,8 @@ void fetch_txns_handler(chain_t chain, void* ctx, error_code ec, hash_list_t txs
         hash_t tx_hash = chain_hash_list_nth(txs, i);
         //print_hex(tx_hash.hash, 32);
     }
+    chain_hash_list_destruct(txs);
+    printf("Txs list destroyed: %d\n", txs_count);
 }
 
 int main(int argc, char* argv[]) {
@@ -535,8 +537,10 @@ int main(int argc, char* argv[]) {
     auto address = chain_payment_address_construct_from_string(address_str.c_str());
     chain_fetch_txns(chain, nullptr, address, INT_MAX, 0, fetch_txns_handler);
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(30000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
 
+    printf("Shutting down node... -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
     executor_destruct(exec);
+    printf("fetch_txns test EXITED OK -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
     return 0;
 }
