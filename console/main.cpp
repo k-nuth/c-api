@@ -519,7 +519,7 @@ void fetch_txns_handler(chain_t chain, void* ctx, error_code ec, hash_list_t txs
         //print_hex(tx_hash.hash, 32);
     }
     chain_hash_list_destruct(txs);
-    printf("Txs list destroyed: %d\n", txs_count);
+    printf("Txs list destroyed\n");
 }
 
 int main(int argc, char* argv[]) {
