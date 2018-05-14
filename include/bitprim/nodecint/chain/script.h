@@ -60,8 +60,9 @@ uint8_t const* chain_script_to_data(script_t script, int /*bool*/ prefix, uint64
 BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_script_sigops(script_t script, int /*bool*/ embedded);
 
-BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_script_embedded_sigops(script_t script, script_t prevout_script);
+//TODO DELETE
+//BITPRIM_EXPORT
+//uint64_t /*size_t*/ chain_script_embedded_sigops(script_t script, script_t prevout_script);
 
 #ifdef __cplusplus
 } // extern "C"
