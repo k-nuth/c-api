@@ -80,6 +80,9 @@ typedef void* point_list_t;
 typedef void* transaction_t;
 typedef void* transaction_list_t;
 
+typedef void* mempool_transaction_t;
+typedef void* mempool_transaction_list_t;
+
 typedef void* get_blocks_t;
 typedef void* get_blocks_ptr_t;
 typedef void* get_headers_t;

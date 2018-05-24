@@ -760,6 +760,19 @@ error_code_t chain_get_stealth(chain_t chain, void* ctx, binary_t filter, uint64
 //virtual void fetch_template(merkle_block_fetch_handler handler) const = 0;
 //virtual void fetch_mempool(size_t count_limit, uint64_t minimum_fee, inventory_fetch_handler handler) const = 0;
 //
+
+void get_mempool_transactions(chain_t chain, payment_address_t address, int /*bool*/ use_testnet_rules, int /*bool*/ witness, mempool_transaction_list_t* out_txs) {
+    libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
+    if (address_cpp) {
+        auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), use_testnet_rules != 0, witness != 0);
+        auto ret_txs = new std::vector<libbitcoin::blockchain::safe_chain::mempool_tx_summary>(txs);
+        *out_txs = ret_txs;
+    } else {
+        auto ret_txs = new std::vector<libbitcoin::blockchain::safe_chain::mempool_tx_summary>();
+        *out_txs = ret_txs;
+    }
+}
+
 //// Filters.
 ////-------------------------------------------------------------------------
 //
