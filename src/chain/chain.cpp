@@ -671,10 +671,10 @@ error_code_t chain_get_history(chain_t chain, payment_address_t address, uint64_
     return res;
 }
 
-void chain_fetch_txns(chain_t chain, void* ctx, payment_address_t address, uint64_t max, uint64_t start_height, transactions_by_addres_fetch_handler_t handler){
+void chain_fetch_confirmed_transactions(chain_t chain, void* ctx, payment_address_t address, uint64_t max, uint64_t start_height, transactions_by_addres_fetch_handler_t handler){
     libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
 
-    safe_chain(chain).fetch_txns(address_cpp, max, start_height, [chain, ctx, handler](std::error_code const& ec, const std::vector<libbitcoin::hash_digest>& txs) {
+    safe_chain(chain).fetch_confirmed_transactions(address_cpp, max, start_height, [chain, ctx, handler](std::error_code const& ec, const std::vector<libbitcoin::hash_digest>& txs) {
         //It is the user's responsibility to release this allocated memory
         auto new_txs = new libbitcoin::hash_list(txs);
         handler(chain, ctx, static_cast<error_code_t>(ec.value()), new_txs);

@@ -535,7 +535,7 @@ int main(int argc, char* argv[]) {
 
     std::string address_str = "bitcoincash:qqgekzvw96vq5g57zwdfa5q6g609rrn0ycp33uc325";
     auto address = chain_payment_address_construct_from_string(address_str.c_str());
-    chain_fetch_txns(chain, nullptr, address, INT_MAX, 0, fetch_txns_handler);
+    chain_fetch_confirmed_transactions(chain, nullptr, address, INT_MAX, 0, fetch_txns_handler);
 
     std::this_thread::sleep_for(std::chrono::milliseconds(10000));
 
