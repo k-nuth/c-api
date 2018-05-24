@@ -24,8 +24,8 @@
 #include <tuple>
 
 
-libbitcoin::blockchain::safe_chain::mempool_tx_summary const& chain_mempool_transaction_const_cpp(mempool_transaction_t tx) {
-    return *static_cast<libbitcoin::blockchain::safe_chain::mempool_tx_summary const*>(tx);
+libbitcoin::blockchain::mempool_transaction_summary const& chain_mempool_transaction_const_cpp(mempool_transaction_t tx) {
+    return *static_cast<libbitcoin::blockchain::mempool_transaction_summary const*>(tx);
 }
 
 //libbitcoin::chain::point& history_compact_cpp(history_compact_t point) {
@@ -36,42 +36,35 @@ libbitcoin::blockchain::safe_chain::mempool_tx_summary const& chain_mempool_tran
 extern "C" {
 
 char const* chain_mempool_transaction_address(mempool_transaction_t tx) {
-    auto tx_cpp = chain_mempool_transaction_const_cpp(tx);
-    std::string tx_address_str = std::get<0>(tx_cpp);
+    auto tx_address_str = chain_mempool_transaction_const_cpp(tx).address();
     return bitprim::create_c_str(tx_address_str);
 }
 
 char const* chain_mempool_transaction_hash(mempool_transaction_t tx) {
-    auto tx_cpp = chain_mempool_transaction_const_cpp(tx);
-    std::string tx_hash_str = std::get<1>(tx_cpp);
+    auto tx_hash_str = chain_mempool_transaction_const_cpp(tx).hash();
     return bitprim::create_c_str(tx_hash_str);
 }
 
 uint64_t chain_mempool_transaction_index(mempool_transaction_t tx) {
-    auto tx_cpp = chain_mempool_transaction_const_cpp(tx);
-    return std::get<2>(tx_cpp);
+    return chain_mempool_transaction_const_cpp(tx).index();
 }
 
 char const* chain_mempool_transaction_satoshis(mempool_transaction_t tx) {
-    auto tx_cpp = chain_mempool_transaction_const_cpp(tx);
-    std::string tx_satoshis_str = std::get<3>(tx_cpp);
+    auto tx_satoshis_str = chain_mempool_transaction_const_cpp(tx).satoshis();
     return bitprim::create_c_str(tx_satoshis_str);
 }
 
 uint64_t chain_mempool_transaction_timestamp(mempool_transaction_t tx) {
-    auto tx_cpp = chain_mempool_transaction_const_cpp(tx);
-    return std::get<4>(tx_cpp);
+    return chain_mempool_transaction_const_cpp(tx).timestamp();
 }
 
 char const* chain_mempool_transaction_prev_output_id(mempool_transaction_t tx) {
-    auto tx_cpp = chain_mempool_transaction_const_cpp(tx);
-    std::string tx_prev_output_id_str = std::get<5>(tx_cpp);
+    auto tx_prev_output_id_str = chain_mempool_transaction_const_cpp(tx).previous_output_hash();
     return bitprim::create_c_str(tx_prev_output_id_str);
 }
 
 char const* chain_mempool_transaction_prev_output_index(mempool_transaction_t tx) {
-    auto tx_cpp = chain_mempool_transaction_const_cpp(tx);
-    std::string tx_prev_output_index_str = std::get<6>(tx_cpp);
+    auto tx_prev_output_index_str = chain_mempool_transaction_const_cpp(tx).previous_output_index();
     return bitprim::create_c_str(tx_prev_output_index_str);
 }
 

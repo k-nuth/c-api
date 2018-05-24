@@ -765,10 +765,10 @@ void chain_get_mempool_transactions(chain_t chain, payment_address_t address, in
     libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
     if (address_cpp) {
         auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), use_testnet_rules != 0, witness != 0);
-        auto ret_txs = new std::vector<libbitcoin::blockchain::safe_chain::mempool_tx_summary>(txs);
+        auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>(txs);
         *out_txs = ret_txs;
     } else {
-        auto ret_txs = new std::vector<libbitcoin::blockchain::safe_chain::mempool_tx_summary>();
+        auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>();
         *out_txs = ret_txs;
     }
 }

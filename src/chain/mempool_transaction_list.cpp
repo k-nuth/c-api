@@ -23,15 +23,15 @@
 #include <bitcoin/blockchain/interface/safe_chain.hpp>
 
 
-std::vector<libbitcoin::blockchain::safe_chain::mempool_tx_summary> const& chain_mempool_transaction_list_const_cpp(mempool_transaction_list_t list) {
-    return *static_cast<std::vector<libbitcoin::blockchain::safe_chain::mempool_tx_summary> const*>(list);
+std::vector<libbitcoin::blockchain::mempool_transaction_summary> const& chain_mempool_transaction_list_const_cpp(mempool_transaction_list_t list) {
+    return *static_cast<std::vector<libbitcoin::blockchain::mempool_transaction_summary> const*>(list);
 }
 
-std::vector<libbitcoin::blockchain::safe_chain::mempool_tx_summary>& chain_mempool_transaction_list_cpp(mempool_transaction_list_t list) {
-    return *static_cast<std::vector<libbitcoin::blockchain::safe_chain::mempool_tx_summary> *>(list);
+std::vector<libbitcoin::blockchain::mempool_transaction_summary>& chain_mempool_transaction_list_cpp(mempool_transaction_list_t list) {
+    return *static_cast<std::vector<libbitcoin::blockchain::mempool_transaction_summary> *>(list);
 }
 
-mempool_transaction_list_t chain_mempool_transaction_list_construct_from_cpp(std::vector<libbitcoin::blockchain::safe_chain::mempool_tx_summary>& list) {
+mempool_transaction_list_t chain_mempool_transaction_list_construct_from_cpp(std::vector<libbitcoin::blockchain::mempool_transaction_summary>& list) {
     return &list;
 }
 
@@ -39,7 +39,7 @@ mempool_transaction_list_t chain_mempool_transaction_list_construct_from_cpp(std
 extern "C" {
 
 mempool_transaction_list_t chain_mempool_transaction_list_construct_default() {
-    return new std::vector<libbitcoin::blockchain::safe_chain::mempool_tx_summary>();
+    return new std::vector<libbitcoin::blockchain::mempool_transaction_summary>();
 }
 
 void chain_mempool_transaction_list_destruct(mempool_transaction_list_t list) {
