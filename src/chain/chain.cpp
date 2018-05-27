@@ -681,6 +681,23 @@ void chain_fetch_confirmed_transactions(chain_t chain, void* ctx, payment_addres
     });
 }
 
+error_code_t chain_get_confirmed_transactions(chain_t chain, payment_address_t address, uint64_t max, uint64_t start_height, hash_list_t* out_tx_hashes){
+    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    error_code_t res;
+
+    libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
+
+    safe_chain(chain).fetch_confirmed_transactions(address_cpp, max, start_height, [&](std::error_code const& ec, const std::vector<libbitcoin::hash_digest>& txs) {
+        //It is the user's responsibility to release this allocated memory
+        *out_tx_hashes = new libbitcoin::hash_list(txs);
+        res = static_cast<error_code_t>(ec.value());
+        latch.count_down();
+    });
+
+    latch.count_down_and_wait();
+    return res;
+}
+
 void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t from_height, stealth_fetch_handler_t handler) {
 	auto* filter_cpp_ptr = static_cast<const libbitcoin::binary*>(filter);
 	libbitcoin::binary const& filter_cpp  = *filter_cpp_ptr;
@@ -761,7 +778,7 @@ error_code_t chain_get_stealth(chain_t chain, void* ctx, binary_t filter, uint64
 //virtual void fetch_mempool(size_t count_limit, uint64_t minimum_fee, inventory_fetch_handler handler) const = 0;
 //
 
-void chain_get_mempool_transactions(chain_t chain, payment_address_t address, int /*bool*/ use_testnet_rules, mempool_transaction_list_t* out_txs) {
+mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment_address_t address, int /*bool*/ use_testnet_rules) {
 #ifdef BITPRIM_CURRENCY_BCH
     int /*bool*/ witness = 0;
 #else
@@ -771,10 +788,10 @@ void chain_get_mempool_transactions(chain_t chain, payment_address_t address, in
     if (address_cpp) {
         auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), use_testnet_rules != 0, witness);
         auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>(txs);
-        *out_txs = ret_txs;
+        return static_cast<mempool_transaction_list_t>(ret_txs);
     } else {
         auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>();
-        *out_txs = ret_txs;
+        return static_cast<mempool_transaction_list_t>(ret_txs);
     }
 }
 
