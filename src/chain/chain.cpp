@@ -207,7 +207,7 @@ void chain_fetch_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ h
     int /*bool*/ witness = 0;
 #else
     int /*bool*/ witness = 1;
-#endif    
+#endif
     safe_chain(chain).fetch_block(height, witness!=0, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
         if (ec == libbitcoin::error::success) {
             auto new_block = new libbitcoin::message::block(*block);
@@ -671,14 +671,31 @@ error_code_t chain_get_history(chain_t chain, payment_address_t address, uint64_
     return res;
 }
 
-void chain_fetch_txns(chain_t chain, void* ctx, payment_address_t address, uint64_t max, uint64_t start_height, transactions_by_addres_fetch_handler_t handler){
+void chain_fetch_confirmed_transactions(chain_t chain, void* ctx, payment_address_t address, uint64_t max, uint64_t start_height, transactions_by_addres_fetch_handler_t handler){
     libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
 
-    safe_chain(chain).fetch_txns(address_cpp, max, start_height, [chain, ctx, handler](std::error_code const& ec, const std::vector<libbitcoin::hash_digest>& txs) {
+    safe_chain(chain).fetch_confirmed_transactions(address_cpp, max, start_height, [chain, ctx, handler](std::error_code const& ec, const std::vector<libbitcoin::hash_digest>& txs) {
         //It is the user's responsibility to release this allocated memory
         auto new_txs = new libbitcoin::hash_list(txs);
         handler(chain, ctx, static_cast<error_code_t>(ec.value()), new_txs);
     });
+}
+
+error_code_t chain_get_confirmed_transactions(chain_t chain, payment_address_t address, uint64_t max, uint64_t start_height, hash_list_t* out_tx_hashes){
+    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    error_code_t res;
+
+    libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
+
+    safe_chain(chain).fetch_confirmed_transactions(address_cpp, max, start_height, [&](std::error_code const& ec, const std::vector<libbitcoin::hash_digest>& txs) {
+        //It is the user's responsibility to release this allocated memory
+        *out_tx_hashes = new libbitcoin::hash_list(txs);
+        res = static_cast<error_code_t>(ec.value());
+        latch.count_down();
+    });
+
+    latch.count_down_and_wait();
+    return res;
 }
 
 void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t from_height, stealth_fetch_handler_t handler) {
@@ -760,6 +777,24 @@ error_code_t chain_get_stealth(chain_t chain, void* ctx, binary_t filter, uint64
 //virtual void fetch_template(merkle_block_fetch_handler handler) const = 0;
 //virtual void fetch_mempool(size_t count_limit, uint64_t minimum_fee, inventory_fetch_handler handler) const = 0;
 //
+
+mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment_address_t address, int /*bool*/ use_testnet_rules) {
+#ifdef BITPRIM_CURRENCY_BCH
+    int /*bool*/ witness = 0;
+#else
+    int /*bool*/ witness = 1;
+#endif
+    libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
+    if (address_cpp) {
+        auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), use_testnet_rules != 0, witness);
+        auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>(txs);
+        return static_cast<mempool_transaction_list_t>(ret_txs);
+    } else {
+        auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>();
+        return static_cast<mempool_transaction_list_t>(ret_txs);
+    }
+}
+
 //// Filters.
 ////-------------------------------------------------------------------------
 //
