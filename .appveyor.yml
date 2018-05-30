@@ -35,30 +35,77 @@ environment:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
           CONAN_VISUAL_VERSIONS: 15
           CONAN_VISUAL_RUNTIMES: MD
+          BITPRIM_CI_CURRENCY: BCH
           VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
           # BITPRIM_RUN_TESTS: true
 
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
           CONAN_VISUAL_VERSIONS: 15
           CONAN_VISUAL_RUNTIMES: MT
+          BITPRIM_CI_CURRENCY: BCH
           VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
           # BITPRIM_RUN_TESTS: true
 
-        #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-        #  CONAN_VISUAL_VERSIONS: 12
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+          CONAN_VISUAL_VERSIONS: 15
+          CONAN_VISUAL_RUNTIMES: MD
+          BITPRIM_CI_CURRENCY: BTC
+          VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
+          # BITPRIM_RUN_TESTS: true
+
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+          CONAN_VISUAL_VERSIONS: 15
+          CONAN_VISUAL_RUNTIMES: MT
+          BITPRIM_CI_CURRENCY: BTC
+          VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
+          # BITPRIM_RUN_TESTS: true
+
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
           CONAN_VISUAL_VERSIONS: 14
           CONAN_VISUAL_RUNTIMES: MD
+          BITPRIM_CI_CURRENCY: BCH
 
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
           CONAN_VISUAL_VERSIONS: 14
           CONAN_VISUAL_RUNTIMES: MT
+          BITPRIM_CI_CURRENCY: BCH
+
+
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+          CONAN_VISUAL_VERSIONS: 14
+          CONAN_VISUAL_RUNTIMES: MD
+          BITPRIM_CI_CURRENCY: BTC
+
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+          CONAN_VISUAL_VERSIONS: 14
+          CONAN_VISUAL_RUNTIMES: MT
+          BITPRIM_CI_CURRENCY: BTC
+
+
+
+        #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+        #  CONAN_VISUAL_VERSIONS: 12
 
         # - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix, 6@x86_64@seh@posix, 5@x86_64@seh@posix, 4.9@x86_64@seh@posix"
         - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
+          BITPRIM_CI_CURRENCY: BCH
+        - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
+          BITPRIM_CI_CURRENCY: BTC
+
         - MINGW_CONFIGURATIONS: "6@x86_64@seh@posix"
+          BITPRIM_CI_CURRENCY: BCH
+        - MINGW_CONFIGURATIONS: "6@x86_64@seh@posix"
+          BITPRIM_CI_CURRENCY: BTC
+
         - MINGW_CONFIGURATIONS: "5@x86_64@seh@posix"
+          BITPRIM_CI_CURRENCY: BCH
+        - MINGW_CONFIGURATIONS: "5@x86_64@seh@posix"
+          BITPRIM_CI_CURRENCY: BTC
+
         - MINGW_CONFIGURATIONS: "4.9@x86_64@seh@posix"
+          BITPRIM_CI_CURRENCY: BCH
+        - MINGW_CONFIGURATIONS: "4.9@x86_64@seh@posix"
+          BITPRIM_CI_CURRENCY: BTC
 
 install:
   - set PATH=%PATH%;%PYTHON%/Scripts/

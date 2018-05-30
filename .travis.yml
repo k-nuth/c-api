@@ -41,7 +41,18 @@ matrix:
    include:
       - <<: *linux
         env: PUSH_TO_REPOS=true
-   
+
+
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7
+             BITPRIM_CI_CURRENCY = BCH
+            #  BITPRIM_RUN_TESTS=true
+
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7
+             BITPRIM_CI_CURRENCY = BTC
+            #  BITPRIM_RUN_TESTS=true
+
       - <<: *linux
         env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=lasote/conangcc49
 
@@ -50,10 +61,6 @@ matrix:
 
       - <<: *linux
         env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=lasote/conangcc63
-
-      - <<: *linux
-        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7
-             BITPRIM_RUN_TESTS=true
 
       - <<: *linux
         env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=lasote/conanclang39
