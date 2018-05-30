@@ -117,7 +117,7 @@ if __name__ == "__main__":
             if os.getenv('BITPRIM_RUN_TESTS', 'false') == 'true':
                 options["%s:with_tests" % name] = "True"
 
-            options["*:currency"] = os.getenv('BITPRIM_CI_CURRENCY', 'BCH')
+            options["*:currency"] = os.getenv('BITPRIM_CI_CURRENCY', '---')
 
             marchs = ["x86_64", ''.join(cpuid.cpu_microarchitecture()), "haswell", "skylake"]
             handle_microarchs("*:microarchitecture", marchs, filtered_builds, settings, options, env_vars, build_requires)
