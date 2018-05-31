@@ -32,6 +32,7 @@
 #include <bitprim/nodecint/chain/history_compact.h>
 #include <bitprim/nodecint/chain/transaction.h>
 #include <bitprim/nodecint/chain/input_list.h>
+#include <bitprim/nodecint/chain/hash_list.h>
 #include <bitprim/nodecint/chain/input.h>
 #include <bitprim/nodecint/chain/output_list.h>
 #include <bitprim/nodecint/chain/output.h>
@@ -46,6 +47,7 @@
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/bitcoin/utility/binary.hpp>
 #include <bitcoin/bitcoin/wallet/hd_private.hpp>
+
 
 void print_hex(char const* data, size_t n) {
     while (n != 0) {
@@ -461,47 +463,84 @@ void hex2bin(const char* src, uint8_t* target) {
     }
 }
 
-int main(int argc, char* argv[]) {
+/*int main(int argc, char* argv[]) {
 
     printf("hola -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 
-    executor_t exec = executor_construct("", stdout, stderr);
+    executor_t exec = executor_construct("c:\\blockchain\\bcc-testnet_insight\\bitprim-node-bcc-testnet.cfg", stdout, stderr);
+
+    int config_valid = executor_load_config_valid(exec);
+
+    printf("config valid result %i",config_valid);
+
+    executor_destruct(exec);
+
+    return 0;
+}*/
+
+/*int main(int argc, char* argv[]) {
+
+    printf("hola -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
+
+    executor_t exec = executor_construct("c:\\blockchain\\bcc-testnet_insight\\bitprim-node-bcc-testnet.cfg", stdout, stderr);
+
 
     int res1 = executor_initchain(exec);
-
-	int res2 = executor_run_wait(exec);
+    int res2 = executor_run_wait(exec);
+    
     chain_t chain = executor_get_chain(exec);
 
     wait_until_block(chain, 170);
 
-    uint64_t height;
 
 
-	std::string hash = "0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098";
-	libbitcoin::hash_digest hash_bytes;
-	hex2bin(hash.c_str(), hash_bytes.data());
-	std::reverse(hash_bytes.begin(), hash_bytes.end());
-	transaction_t tx;
+    std::string raw = "0200000001ffecbd2b832ea847a7da905a40d5abaff8323cc18ff3121532f6fe781ce79f6e000000008b483045022100a26515b4bb5f3eb0259c0cc0806b4d8096f91a801ee9b15ced76f2537f7de94b02205becd631fe0ae232e4453f1b4a8a5375e4caec62e3971dbfe5a6d86b2538dcf64141044636673164f4b636d560cb4192cb07aa62054154f1a7a99a694b235f8fba56950b34e6ab55d58991470a13ca59330bc6339a2f72eb6f9204a64a1a538ddff4fbffffffff0290d00300000000001976a9144913233162944e9239637f998235d76e1601b1cf88ac80d1f008000000001976a914cc1d800e7f83edd96a0340a4e269b2956f636e3f88ac00000000";
+    
+    libbitcoin::data_chunk chunk;
+    libbitcoin::decode_base16(chunk,raw);
 
-	uint64_t index;
-    hash_t tx_hash;
-    std::memcpy(tx_hash.hash, hash_bytes.data(), 32);
+    transaction_t tx = chain_transaction_factory_from_data(1,chunk.data(),chunk.size());
 
-	auto err = chain_get_transaction(chain, tx_hash, 0, &tx, &height, &index);
 
-    auto input_list = chain_transaction_inputs(tx);
-    auto input_count = chain_input_list_count(input_list);
-    auto input_0 = chain_input_list_nth(input_list, 0);
+    auto ret = chain_organize_transaction_sync(chain,tx);
 
-    auto input_0_script = chain_input_script(input_0);
+    printf("organize result %i",ret);
 
-    uint64_t script_size = 0;
-    auto* script_data = chain_script_to_data(input_0_script, 0, &script_size);
-
-    auto script_len = strlen((const char*)script_data);
-
-    print_hex((const char*)script_data, script_len);
     executor_destruct(exec);
 
+    return 0;
+}*/
+
+void fetch_txns_handler(chain_t chain, void* ctx, error_code ec, hash_list_t txs){
+    int txs_count =  chain_hash_list_count(txs);
+    printf("Txs count: %d\n", txs_count);
+    for(int i=0; i<txs_count; i++){
+        hash_t tx_hash = chain_hash_list_nth(txs, i);
+        //print_hex(tx_hash.hash, 32);
+    }
+    chain_hash_list_destruct(txs);
+    printf("Txs list destroyed\n");
+}
+
+int main(int argc, char* argv[]) {
+    printf("fetch_txns test -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
+
+    executor_t exec = executor_construct("", stdout, stderr);
+    int res1 = executor_initchain(exec);
+    int res2 = executor_run_wait(exec);
+
+    chain_t chain = executor_get_chain(exec);
+
+    wait_until_block(chain, 170);
+
+    std::string address_str = "bitcoincash:qqgekzvw96vq5g57zwdfa5q6g609rrn0ycp33uc325";
+    auto address = chain_payment_address_construct_from_string(address_str.c_str());
+    chain_fetch_confirmed_transactions(chain, nullptr, address, INT_MAX, 0, fetch_txns_handler);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+
+    printf("Shutting down node... -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
+    executor_destruct(exec);
+    printf("fetch_txns test EXITED OK -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
     return 0;
 }

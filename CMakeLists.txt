@@ -22,7 +22,7 @@ cmake_minimum_required(VERSION 3.4)
 # bitprim-node-cint
 #==============================================================================
 project(bitprim-node-cint
-        VERSION 0.9.1
+        VERSION 0.10.0
         LANGUAGES CXX C)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -155,10 +155,10 @@ if (NOT USE_CONAN)
   #  endif()
   #endif()
 
-  # Require bitprim-node of at least version 0.9.1 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
+  # Require bitprim-node of at least version 0.10.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
   #------------------------------------------------------------------------------
   if (NOT TARGET bitprim-node)
-    find_package(bitprim-node 0.9.1 REQUIRED)
+    find_package(bitprim-node 0.10.0 REQUIRED)
   endif()
 endif()
 
@@ -270,6 +270,7 @@ set(_bitprim_sources
         src/chain/stealth_compact_list.cpp
         src/chain/input.cpp
         src/chain/input_list.cpp
+        src/chain/mempool_transaction_list.cpp
         src/chain/merkle_block.cpp
         src/chain/output.cpp
         src/chain/output_list.cpp
@@ -279,6 +280,7 @@ set(_bitprim_sources
         src/chain/point_list.cpp
         src/chain/script.cpp
         src/chain/transaction.cpp
+        src/chain/mempool_transaction.cpp
         src/chain/transaction_list.cpp
 
         src/node/settings.cpp
@@ -288,8 +290,7 @@ set(_bitprim_sources
         src/wallet/wallet.cpp
         src/wallet/word_list.cpp
         src/platform.cpp
-        
-        )
+)
 
 
 add_library(bitprim-node-cint ${MODE}
@@ -453,6 +454,7 @@ set(_bitprim_headers
         bitprim/nodecint/chain/stealth_compact_list.h
         bitprim/nodecint/chain/input.h
         bitprim/nodecint/chain/input_list.h
+        bitprim/nodecint/chain/mempool_transaction_list.h
 
         bitprim/nodecint/chain/merkle_block.h
         bitprim/nodecint/chain/output.h
@@ -462,6 +464,7 @@ set(_bitprim_headers
         bitprim/nodecint/chain/point.h
         bitprim/nodecint/chain/point_list.h
         bitprim/nodecint/chain/script.h
+        bitprim/nodecint/chain/mempool_transaction.h
         bitprim/nodecint/chain/transaction.h
         bitprim/nodecint/chain/transaction_list.h
 

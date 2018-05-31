@@ -147,6 +147,12 @@ void chain_fetch_history(chain_t chain, void* ctx, payment_address_t address, ui
 BITPRIM_EXPORT
 error_code_t chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_t*/ limit, uint64_t /*size_t*/ from_height, history_compact_list_t* out_history);
 
+BITPRIM_EXPORT
+void chain_fetch_confirmed_transactions(chain_t chain, void* ctx, payment_address_t address, uint64_t max, uint64_t start_height, transactions_by_addres_fetch_handler_t handler);
+
+BITPRIM_EXPORT
+error_code_t chain_get_confirmed_transactions(chain_t chain, payment_address_t address, uint64_t max, uint64_t start_height, hash_list_t* out_tx_hashes);
+
 
 // Stealth ---------------------------------------------------------------------
 BITPRIM_EXPORT
@@ -178,6 +184,9 @@ error_code_t chain_get_stealth(chain_t chain, void* ctx, binary_t filter, uint64
 //
 //virtual void fetch_template(merkle_block_fetch_handler handler) const = 0;
 //virtual void fetch_mempool(size_t count_limit, uint64_t minimum_fee, inventory_fetch_handler handler) const = 0;
+
+mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment_address_t address, int /*bool*/ use_testnet_rules);
+
 //
 //// Filters.
 ////-------------------------------------------------------------------------

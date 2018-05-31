@@ -124,6 +124,13 @@ libbitcoin::hash_digest hash_to_cpp(uint8_t* x) {
     return ret;
 }
 
+inline
+const char* create_c_str(std::string const& str) {
+    auto* c_str = (char*)malloc((str.size() + 1) * sizeof(char)); // NOLINT
+    std::copy_n(str.begin(), str.size() + 1, c_str);
+    return c_str;
+}
+
 } /* namespace bitprim */
 
 #endif /* BITPRIM_NODECINT_HELPERS_HPP_ */

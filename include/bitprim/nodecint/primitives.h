@@ -80,6 +80,9 @@ typedef void* point_list_t;
 typedef void* transaction_t;
 typedef void* transaction_list_t;
 
+typedef void* mempool_transaction_t;
+typedef void* mempool_transaction_list_t;
+
 typedef void* get_blocks_t;
 typedef void* get_blocks_ptr_t;
 typedef void* get_headers_t;
@@ -138,6 +141,7 @@ typedef void (*block_locator_fetch_handler_t)(chain_t, void*, error_code_t, get_
 typedef void (*result_handler_t)(chain_t, void*, error_code_t);
 typedef int /*bool*/ (*subscribe_blockchain_handler_t)(executor_t, chain_t, void*, error_code_t, uint64_t /*size_t*/, block_list_t, block_list_t);
 typedef int /*bool*/ (*subscribe_transaction_handler_t)(executor_t, chain_t, void*, error_code_t, transaction_t);
+typedef void (*transactions_by_addres_fetch_handler_t)(chain_t, void*, error_code_t, hash_list_t);
 
 
 
