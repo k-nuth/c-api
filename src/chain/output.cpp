@@ -73,7 +73,7 @@ script_t chain_output_script(output_t output) {
     return &(chain_output_cpp(output).script());
 }
 
-payment_address_t chain_output_payment_address(output_t output, int /*bool*/ use_testnet_rules){
+payment_address_t chain_output_payment_address(output_t output, int /*bool*/ use_testnet_rules) {
     auto payment_address = chain_output_cpp(output).address(use_testnet_rules != 0);
     return new libbitcoin::wallet::payment_address(payment_address);
 }
@@ -88,7 +88,7 @@ payment_address_t chain_output_payment_address(output_t output, int /*bool*/ use
 //void to_data(writer& sink, bool wire=true) const;
 
 
-uint8_t const* chain_output_to_data(output_t output, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
+uint8_t* chain_output_to_data(output_t output, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
     auto output_data = chain_output_const_cpp(output).to_data(wire);
     auto* ret = (uint8_t*)malloc((output_data.size()) * sizeof(uint8_t)); // NOLINT
     std::copy_n(output_data.begin(), output_data.size(), ret);

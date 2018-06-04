@@ -169,7 +169,7 @@ hash_t chain_header_hash(header_t header) {
     return bitprim::to_hash_t(hash_cpp);
 }
 
-void chain_header_hash_out(header_t header, hash_t* out_hash){
+void chain_header_hash_out(header_t header, hash_t* out_hash) {
     auto const& hash_cpp = chain_header_const_cpp(header).hash();
     std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
 }

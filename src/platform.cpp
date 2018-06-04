@@ -22,7 +22,7 @@
 
 extern "C" {
 
-void platform_free(void* ptr){
+void platform_free(void* ptr) {
     free(ptr);
 }
 

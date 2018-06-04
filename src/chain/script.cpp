@@ -63,7 +63,7 @@ uint64_t /*size_t*/ chain_script_serialized_size(script_t script, int /*bool*/ p
 }
 
 //Note: user of the function has to release the resource (memory) manually
-char const* chain_script_to_string(script_t script, uint32_t active_forks) {
+char* chain_script_to_string(script_t script, uint32_t active_forks) {
     auto str = chain_script_const_cpp(script).to_string(active_forks);
     auto* ret = (char*)malloc((str.size() + 1) * sizeof(char)); // NOLINT
 
@@ -73,7 +73,7 @@ char const* chain_script_to_string(script_t script, uint32_t active_forks) {
 }
 
 //TODO Move this logic elsewhere (this does not go in a wrapper like node-cint)
-char const* chain_script_type(script_t script){
+char* chain_script_type(script_t script) {
     auto script_pattern = chain_script_const_cpp(script).pattern();
     std::string type = "non_standard";
     switch(script_pattern)
@@ -94,7 +94,7 @@ char const* chain_script_type(script_t script){
     return ret;
 }
 
-uint8_t const* chain_script_to_data(script_t script, int /*bool*/ prefix, uint64_t* /*size_t*/ out_size) {
+uint8_t* chain_script_to_data(script_t script, int /*bool*/ prefix, uint64_t* /*size_t*/ out_size) {
     auto script_data = chain_script_const_cpp(script).to_data(prefix);
     auto* ret = (uint8_t*)malloc((script_data.size()) * sizeof(uint8_t)); // NOLINT
     std::copy_n(script_data.begin(), script_data.size(), ret);

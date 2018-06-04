@@ -30,11 +30,22 @@
 extern "C" {
 #endif
 
+#ifdef BITPRIM_CURRENCY_BCH
 BITPRIM_EXPORT
-char const* chain_payment_address_encoded(payment_address_t payment_address);
+void chain_payment_address_set_cashaddr_prefix(char const* prefix);
+#endif //BITPRIM_CURRENCY_BCH
+
+BITPRIM_EXPORT
+char* chain_payment_address_encoded(payment_address_t payment_address);
+
+BITPRIM_EXPORT
+char* chain_payment_address_encoded_cashaddr(payment_address_t payment_address);
 
 BITPRIM_EXPORT
 payment_address_t chain_payment_address_construct_from_string(char const* address);
+
+BITPRIM_EXPORT
+short_hash_t chain_payment_address_hash(payment_address_t payment_address);
 
 BITPRIM_EXPORT
 uint8_t chain_payment_address_version(payment_address_t payment_address);
