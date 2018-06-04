@@ -37,7 +37,7 @@ script_t chain_script_construct_default() {
 
 // script::script(const data_chunk& encoded, bool prefix)
 script_t chain_script_construct(uint8_t* encoded, uint64_t n, int /*bool*/ prefix) {
-    libbitcoin::data_chunk encoded_cpp(data, std::next(encoded, n));
+    libbitcoin::data_chunk encoded_cpp(encoded, std::next(encoded, n));
     return new libbitcoin::chain::script(encoded_cpp, prefix != 0);
 }
 
