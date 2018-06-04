@@ -30,6 +30,13 @@
 extern "C" {
 #endif
 
+
+BITPRIM_EXPORT
+script_t chain_script_construct_default(void);
+
+BITPRIM_EXPORT
+script_t chain_script_construct(uint8_t* encoded, uint64_t n, int /*bool*/ prefix);
+
 BITPRIM_EXPORT
 void chain_script_destruct(script_t script);
 

@@ -31,6 +31,16 @@ libbitcoin::chain::script& chain_script_cpp(script_t s) {
 
 extern "C" {
 
+script_t chain_script_construct_default() {
+    return new libbitcoin::chain::script();
+}
+
+// script::script(const data_chunk& encoded, bool prefix)
+script_t chain_script_construct(uint8_t* encoded, uint64_t n, int /*bool*/ prefix) {
+    libbitcoin::data_chunk encoded_cpp(data, std::next(encoded, n));
+    return new libbitcoin::chain::script(encoded_cpp, prefix != 0);
+}
+
 void chain_script_destruct(script_t script) {
     auto script_cpp = static_cast<libbitcoin::chain::script*>(script);
     delete script_cpp;
