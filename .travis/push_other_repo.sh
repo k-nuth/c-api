@@ -140,6 +140,11 @@ body="{
 \"branch\":\"$BITPRIM_BRANCH\"
 }}"
 
+body='{
+"request": {
+"branch":"dev"
+}}'
+
 curl -s -X POST \
    -H "Content-Type: application/json" \
    -H "Accept: application/json" \
