@@ -85,16 +85,11 @@ body="{
 curl -s -d "$body" -X POST -H "Authorization: Bearer $APPVEYOR_TOKEN" -H "Content-Type: application/json" https://ci.appveyor.com/api/builds
 
 
-
 body="{
 \"request\": {
 \"branch\":\"$BITPRIM_BRANCH\"
 }}"
 
-body='{
-"request": {
-"branch":"dev"
-}}'
 
 curl -s -X POST \
    -H "Content-Type: application/json" \

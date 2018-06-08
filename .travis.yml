@@ -22,7 +22,6 @@ branches:
   - master
   - dev
   - /^v\d+\.\d+\.\d+$/
-  - feature/BIT-129
   
 linux: &linux
    os: linux
