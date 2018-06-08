@@ -133,4 +133,20 @@ body="{
 
 curl -s -d "$body" -X POST -H "Authorization: Bearer $APPVEYOR_TOKEN" -H "Content-Type: application/json" https://ci.appveyor.com/api/builds
 
+
+
+body="{
+\"request\": {
+\"branch\":\"$BITPRIM_BRANCH\"
+}}"
+
+curl -s -X POST \
+   -H "Content-Type: application/json" \
+   -H "Accept: application/json" \
+   -H "Travis-API-Version: 3" \
+   -H "Authorization: token MKay9Pzmsyb4MCeZj9Fb6g" \
+   -d "$body" \
+   https://api.travis-ci.org/repo/bitprim%2Fbitprim-cs/requests
+
+
 # --------------------------------------------------------------------------------------------------------------------
