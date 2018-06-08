@@ -70,6 +70,41 @@ fi
 echo "Bitprim branch: ${BITPRIM_BRANCH}"
 
 # --------------------------------------------------------------------------------------------------------------------
+# bitprim-cs
+# --------------------------------------------------------------------------------------------------------------------
+
+body="{
+    \"accountName\": \"bitprim\",
+    \"projectSlug\": \"bitprim-cs\",
+    \"branch\": \"$BITPRIM_BRANCH\",
+    \"environmentVariables\": {
+       \"SKIP_NUGET\": \"true\"
+    }
+}"
+
+curl -s -d "$body" -X POST -H "Authorization: Bearer $APPVEYOR_TOKEN" -H "Content-Type: application/json" https://ci.appveyor.com/api/builds
+
+
+body="{
+\"request\": {
+\"branch\":\"$BITPRIM_BRANCH\"
+}}"
+
+
+curl -s -X POST \
+   -H "Content-Type: application/json" \
+   -H "Accept: application/json" \
+   -H "Travis-API-Version: 3" \
+   -H "Authorization: token MKay9Pzmsyb4MCeZj9Fb6g" \
+   -d "$body" \
+   https://api.travis-ci.org/repo/bitprim%2Fbitprim-cs/requests
+
+
+# --------------------------------------------------------------------------------------------------------------------
+
+
+
+# --------------------------------------------------------------------------------------------------------------------
 # bitprim-py-native
 # --------------------------------------------------------------------------------------------------------------------
 git clone https://github.com/bitprim/bitprim-py-native.git
@@ -91,6 +126,7 @@ git push --quiet --set-upstream origin-commit ${BITPRIM_BRANCH}  || true
 
 cd ..
 
+# --------------------------------------------------------------------------------------------------------------------
 
 
 # --------------------------------------------------------------------------------------------------------------------
@@ -117,20 +153,5 @@ git push --quiet --set-upstream origin-commit ${BITPRIM_BRANCH}  || true
 
 cd ..
 
-
-# --------------------------------------------------------------------------------------------------------------------
-# bitprim-cs
 # --------------------------------------------------------------------------------------------------------------------
 
-body="{
-    \"accountName\": \"bitprim\",
-    \"projectSlug\": \"bitprim-cs\",
-    \"branch\": \"$BITPRIM_BRANCH\",
-    \"environmentVariables\": {
-       \"SKIP_NUGET\": \"true\"
-    }
-}"
-
-curl -s -d "$body" -X POST -H "Authorization: Bearer $APPVEYOR_TOKEN" -H "Content-Type: application/json" https://ci.appveyor.com/api/builds
-
-# --------------------------------------------------------------------------------------------------------------------
