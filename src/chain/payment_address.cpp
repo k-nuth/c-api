@@ -54,6 +54,7 @@ char* chain_payment_address_encoded(payment_address_t payment_address) {
     return ret;
 }
 
+#ifdef BITPRIM_CURRENCY_BCH
 //User is responsible for releasing return value memory
 char* chain_payment_address_encoded_cashaddr(payment_address_t payment_address) {
     std::string str = chain_payment_address_const_cpp(payment_address).encoded_cashaddr();
@@ -61,6 +62,7 @@ char* chain_payment_address_encoded_cashaddr(payment_address_t payment_address) 
     std::copy_n(str.begin(), str.size() + 1, ret);
     return ret;
 }
+#endif //BITPRIM_CURRENCY_BCH
 
 short_hash_t chain_payment_address_hash(payment_address_t payment_address) {
     auto const& hash_cpp = chain_payment_address_const_cpp(payment_address).hash();

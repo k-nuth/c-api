@@ -38,8 +38,10 @@ void chain_payment_address_set_cashaddr_prefix(char const* prefix);
 BITPRIM_EXPORT
 char* chain_payment_address_encoded(payment_address_t payment_address);
 
+#ifdef BITPRIM_CURRENCY_BCH
 BITPRIM_EXPORT
 char* chain_payment_address_encoded_cashaddr(payment_address_t payment_address);
+#endif //BITPRIM_CURRENCY_BCH
 
 BITPRIM_EXPORT
 payment_address_t chain_payment_address_construct_from_string(char const* address);
