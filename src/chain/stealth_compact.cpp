@@ -21,43 +21,43 @@
 #include <bitcoin/bitcoin/chain/stealth.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
-libbitcoin::chain::stealth_compact const& stealth_compact_const_cpp(stealth_compact_t stealth){
+libbitcoin::chain::stealth_compact const& stealth_compact_const_cpp(stealth_compact_t stealth) {
 	return *static_cast<libbitcoin::chain::stealth_compact const*>(stealth);
 }
 
-libbitcoin::chain::stealth_compact& stealth_compact_cpp(stealth_compact_t stealth){
+libbitcoin::chain::stealth_compact& stealth_compact_cpp(stealth_compact_t stealth) {
 	return *static_cast<libbitcoin::chain::stealth_compact*>(stealth);
 }
 
-hash_t stealth_compact_get_ephemeral_public_key_hash(stealth_compact_t stealth){
+hash_t stealth_compact_get_ephemeral_public_key_hash(stealth_compact_t stealth) {
     //return &stealth_compact_cpp(stealth).ephemeral_public_key_hash;
 
     auto const& hash_cpp = stealth_compact_cpp(stealth).ephemeral_public_key_hash;
     return bitprim::to_hash_t(hash_cpp); 
 }
 
-void stealth_compact_get_ephemeral_public_key_hash_out(stealth_compact_t stealth, hash_t* out_epk_hash){
+void stealth_compact_get_ephemeral_public_key_hash_out(stealth_compact_t stealth, hash_t* out_epk_hash) {
     //return &stealth_compact_cpp(stealth).ephemeral_public_key_hash;
 
     auto const& hash_cpp = stealth_compact_cpp(stealth).ephemeral_public_key_hash;
     std::memcpy(out_epk_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
-hash_t stealth_compact_get_transaction_hash(stealth_compact_t stealth){
+hash_t stealth_compact_get_transaction_hash(stealth_compact_t stealth) {
     //return &stealth_compact_cpp(stealth).transaction_hash;
 
     auto const& hash_cpp = stealth_compact_cpp(stealth).transaction_hash;
     return bitprim::to_hash_t(hash_cpp);
 }
 
-void stealth_compact_get_transaction_hash_out(stealth_compact_t stealth, hash_t* out_tx_hash){
+void stealth_compact_get_transaction_hash_out(stealth_compact_t stealth, hash_t* out_tx_hash) {
     //return &stealth_compact_cpp(stealth).transaction_hash;
 
     auto const& hash_cpp = stealth_compact_cpp(stealth).transaction_hash;
     std::memcpy(out_tx_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
-short_hash_t stealth_compact_get_public_key_hash(stealth_compact_t stealth){
+short_hash_t stealth_compact_get_public_key_hash(stealth_compact_t stealth) {
 //    return &stealth_compact_cpp(stealth).public_key_hash;
 
     //uint8_t* ret = (uint8_t*)malloc(stealth_compact_cpp(stealth).public_key_hash.size() * sizeof(uint8_t));
@@ -67,7 +67,7 @@ short_hash_t stealth_compact_get_public_key_hash(stealth_compact_t stealth){
     return bitprim::to_short_hash_t(hash_cpp);
 }
 
-void stealth_compact_get_public_key_hash_out(stealth_compact_t stealth, short_hash_t* out_pk_hash){
+void stealth_compact_get_public_key_hash_out(stealth_compact_t stealth, short_hash_t* out_pk_hash) {
     auto const& hash_cpp = stealth_compact_cpp(stealth).public_key_hash;
     std::memcpy(out_pk_hash->hash, hash_cpp.data(), BITCOIN_SHORT_HASH_SIZE);
 }

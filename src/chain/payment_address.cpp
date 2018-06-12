@@ -18,7 +18,10 @@
  */
 
 #include <bitprim/nodecint/chain/payment_address.h>
+#include <bitprim/nodecint/helpers.hpp>
+
 #include <bitcoin/bitcoin/wallet/payment_address.hpp>
+#include <bitcoin/bitcoin/multi_crypto_support.hpp>
 
 libbitcoin::wallet::payment_address const& chain_payment_address_const_cpp(payment_address_t payment_address) {
     return *static_cast<libbitcoin::wallet::payment_address const*>(payment_address);
@@ -30,16 +33,12 @@ libbitcoin::wallet::payment_address& chain_payment_address_cpp(payment_address_t
 
 extern "C" {
 
-//User is responsible for releasing return value memory
-char const* chain_payment_address_encoded(payment_address_t payment_address) {
-    std::string str = chain_payment_address_const_cpp(payment_address).encoded();
-    auto* ret = (char*)malloc((str.size() + 1) * sizeof(char)); // NOLINT
-
-//    std::strcpy(ret, str.c_str());
-    std::copy_n(str.begin(), str.size() + 1, ret);
-
-    return ret;
+#ifdef BITPRIM_CURRENCY_BCH
+void chain_payment_address_set_cashaddr_prefix(char const* prefix) {
+    std::string prefix_cpp(prefix);
+    libbitcoin::set_cashaddr_prefix(prefix_cpp);
 }
+#endif //BITPRIM_CURRENCY_BCH
 
 payment_address_t chain_payment_address_construct_from_string(char const* address) {
     std::string addr_cpp(address);
@@ -47,11 +46,34 @@ payment_address_t chain_payment_address_construct_from_string(char const* addres
     return new libbitcoin::wallet::payment_address(addr_cpp);
 }
 
-uint8_t chain_payment_address_version(payment_address_t payment_address) {
-    return chain_payment_address_cpp(payment_address).version();
+//User is responsible for releasing return value memory
+char* chain_payment_address_encoded(payment_address_t payment_address) {
+    std::string str = chain_payment_address_const_cpp(payment_address).encoded();
+    auto* ret = static_cast<char*>(malloc((str.size() + 1) * sizeof(char))); // NOLINT
+    std::copy_n(str.begin(), str.size() + 1, ret);
+    return ret;
 }
 
-int chain_payment_address_is_valid(payment_address_t payment_address){
+#ifdef BITPRIM_CURRENCY_BCH
+//User is responsible for releasing return value memory
+char* chain_payment_address_encoded_cashaddr(payment_address_t payment_address) {
+    std::string str = chain_payment_address_const_cpp(payment_address).encoded_cashaddr();
+    auto* ret = static_cast<char*>(malloc((str.size() + 1) * sizeof(char))); // NOLINT
+    std::copy_n(str.begin(), str.size() + 1, ret);
+    return ret;
+}
+#endif //BITPRIM_CURRENCY_BCH
+
+short_hash_t chain_payment_address_hash(payment_address_t payment_address) {
+    auto const& hash_cpp = chain_payment_address_const_cpp(payment_address).hash();
+    return bitprim::to_short_hash_t(hash_cpp);
+}
+
+uint8_t chain_payment_address_version(payment_address_t payment_address) {
+    return chain_payment_address_const_cpp(payment_address).version();
+}
+
+int /*bool*/ chain_payment_address_is_valid(payment_address_t payment_address) {
     return static_cast<bool>(chain_payment_address_const_cpp(payment_address));
 }
 

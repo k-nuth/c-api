@@ -22,7 +22,7 @@ cmake_minimum_required(VERSION 3.4)
 # bitprim-node-cint
 #==============================================================================
 project(bitprim-node-cint
-        VERSION 0.10.0
+        VERSION 0.10.1
         LANGUAGES CXX C)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -155,10 +155,10 @@ if (NOT USE_CONAN)
   #  endif()
   #endif()
 
-  # Require bitprim-node of at least version 0.10.0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
+  # Require bitprim-node of at least version 0.10.1 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
   #------------------------------------------------------------------------------
   if (NOT TARGET bitprim-node)
-    find_package(bitprim-node 0.10.0 REQUIRED)
+    find_package(bitprim-node 0.10.1 REQUIRED)
   endif()
 endif()
 
