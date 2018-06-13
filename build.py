@@ -8,7 +8,7 @@ import platform
 
 def get_content(path):
     with open(path, 'r') as f:
-        return f.read()
+        return f.read().replace('\n', '').replace('\r', '')
 
 def get_version():
     return get_content('conan_version')
