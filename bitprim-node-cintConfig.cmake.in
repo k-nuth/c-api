@@ -9,4 +9,4 @@ set(BITPRIM_NODE_CINT_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
 include("${BITPRIM_NODE_CINT_CMAKE_DIR}/bitprim-node-cintTargets.cmake")
 set(BITPRIM_NODE_CINT_LIBRARIES bitprim-node-cint)
 
-find_package(bitprim-node 0.10.2 REQUIRED)
+find_package(bitprim-node 0.11.0 REQUIRED)

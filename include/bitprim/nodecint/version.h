@@ -31,11 +31,11 @@
 
 //! @ingroup group-config
 //! Macro expanding to the major version of the library, i.e. the `x` in `x.y.z`.
-#define BITPRIM_NODECINT_MAJOR_VERSION 1
+#define BITPRIM_NODECINT_MAJOR_VERSION 0
 
 //! @ingroup group-config
 //! Macro expanding to the minor version of the library, i.e. the `y` in `x.y.z`.
-#define BITPRIM_NODECINT_MINOR_VERSION 2
+#define BITPRIM_NODECINT_MINOR_VERSION 11
 
 //! @ingroup group-config
 //! Macro expanding to the patch level of the library, i.e. the `z` in `x.y.z`.

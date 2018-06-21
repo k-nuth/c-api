@@ -42,15 +42,15 @@ matrix:
         env: PUSH_TO_REPOS=true
 
       # Linux, GCC, libstdc++ ------------------------------------------------------
-      # - <<: *linux
-      #   env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=lasote/conangcc8
-      #        BITPRIM_CI_CURRENCY=BCH
-      #        BITPRIM_RUN_TESTS=true
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=lasote/conangcc8
+             BITPRIM_CI_CURRENCY=BCH
+             BITPRIM_RUN_TESTS=true
 
-      # - <<: *linux
-      #   env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=lasote/conangcc8
-      #        BITPRIM_CI_CURRENCY=BTC
-      #        BITPRIM_RUN_TESTS=true
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=lasote/conangcc8
+             BITPRIM_CI_CURRENCY=BTC
+             BITPRIM_RUN_TESTS=true
 
       - <<: *linux
         env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7
@@ -88,13 +88,13 @@ matrix:
 
 
       # Linux, Clang, libstdc++ ----------------------------------------------------
-      # - <<: *linux
-      #   env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=lasote/conanclang60
-      #        BITPRIM_CI_CURRENCY=BCH
+      - <<: *linux
+        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=lasote/conanclang60
+             BITPRIM_CI_CURRENCY=BCH
 
-      # - <<: *linux
-      #   env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=lasote/conanclang60
-      #        BITPRIM_CI_CURRENCY=BTC
+      - <<: *linux
+        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=lasote/conanclang60
+             BITPRIM_CI_CURRENCY=BTC
 
       - <<: *linux
         env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=lasote/conanclang50
@@ -121,15 +121,15 @@ matrix:
              BITPRIM_CI_CURRENCY=BTC
 
       # macOS, apple-Clang, libc++ -------------------------------------------------
-      # - <<: *osx
-      #   osx_image: xcode9.1
-      #   env: CONAN_APPLE_CLANG_VERSIONS=9.1
-      #        BITPRIM_CI_CURRENCY=BCH
+      - <<: *osx
+        osx_image: xcode9.1
+        env: CONAN_APPLE_CLANG_VERSIONS=9.1
+             BITPRIM_CI_CURRENCY=BCH
 
-      # - <<: *osx
-      #   osx_image: xcode9.1
-      #   env: CONAN_APPLE_CLANG_VERSIONS=9.1
-      #        BITPRIM_CI_CURRENCY=BTC
+      - <<: *osx
+        osx_image: xcode9.1
+        env: CONAN_APPLE_CLANG_VERSIONS=9.1
+             BITPRIM_CI_CURRENCY=BTC
 
       - <<: *osx
         osx_image: xcode9
