@@ -185,6 +185,7 @@ error_code_t chain_get_stealth(chain_t chain, void* ctx, binary_t filter, uint64
 //virtual void fetch_template(merkle_block_fetch_handler handler) const = 0;
 //virtual void fetch_mempool(size_t count_limit, uint64_t minimum_fee, inventory_fetch_handler handler) const = 0;
 
+BITPRIM_EXPORT
 mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment_address_t address, int /*bool*/ use_testnet_rules);
 
 //
