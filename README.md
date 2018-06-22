@@ -35,15 +35,15 @@ conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim
 
 ```
 # For Bitcoin Cash
-conan install bitprim-node-cint/0.10.0@bitprim/stable -o currency=BCH 
+conan install bitprim-node-cint/0.10.2@bitprim/stable -o currency=BCH 
 # ... or (BCH is the default crypto)
-conan install bitprim-node-cint/0.10.0@bitprim/stable 
+conan install bitprim-node-cint/0.10.2@bitprim/stable 
 
 # For Bitcoin Legacy
-conan install bitprim-node-cint/0.10.0@bitprim/stable -o currency=BTC
+conan install bitprim-node-cint/0.10.2@bitprim/stable -o currency=BTC
 
 # For Litecoin
-conan install bitprim-node-cint/0.10.0@bitprim/stable -o currency=LTC
+conan install bitprim-node-cint/0.10.2@bitprim/stable -o currency=LTC
 ```
 
 ## Building from source Requirements
@@ -166,7 +166,7 @@ _Note: Here we are building the code using the GNU Compiler Collection (GCC) on 
 To build and run the code example, first you have to create a tool file called `conanfile.txt` in orded to manage the dependencies of the code:
 
 ```sh
-printf "[requires]\nbitprim-node-cint/0.10.0@bitprim/stable\n[options]\nbitprim-node-cint:shared=True\n[imports]\ninclude/bitprim, *.h -> ./include/bitprim\ninclude/bitprim, *.hpp -> ./include/bitprim\nlib, *.so -> ./lib\n" > conanfile.txt
+printf "[requires]\nbitprim-node-cint/0.10.2@bitprim/stable\n[options]\nbitprim-node-cint:shared=True\n[imports]\ninclude/bitprim, *.h -> ./include/bitprim\ninclude/bitprim, *.hpp -> ./include/bitprim\nlib, *.so -> ./lib\n" > conanfile.txt
 ```
 
 Then, run the following command to bring the dependencies to the local directory:
@@ -196,7 +196,7 @@ Specifically, you can choose your computer _microarchitecture_ to download a pre
 
 ```
 # For Haswell microarchitecture and Bitcoin Cash currency
-conan install bitprim-node-cint/0.10.0@bitprim/stable -o currency=BCH -o microarchitecture=haswell 
+conan install bitprim-node-cint/0.10.2@bitprim/stable -o currency=BCH -o microarchitecture=haswell 
 ```
 So, you can manually choose the appropriate microarchitecture, some examples are: _x86_64_, _haswell_, _ivybridge_, _sandybridge_, _bulldozer_, ...  
 By default, if you do not specify any, the building system will select a base microarchitecture corresponding to your _Instruction Set Architecture_ (ISA). For example, for _Intel 80x86_, the x86_64 microarchitecture will be selected.
@@ -207,17 +207,8 @@ Our build system has the ability to automatically detect the microarchitecture o
 
 ```
 pip install cpuid
-conan install bitprim-node-cint/0.10.0@bitprim/stable 
+conan install bitprim-node-cint/0.10.2@bitprim/stable 
 ```
-
-## Changelog
-
-* [0.10.0](https://github.com/bitprim/bitprim/blob/master/doc/release-notes/release-notes.md#version-0100)
-* [0.9.1](https://github.com/bitprim/bitprim/blob/master/doc/release-notes/release-notes.md#version-091)
-* [0.9](https://github.com/bitprim/bitprim/blob/master/doc/release-notes/release-notes.md#version-090)
-* [0.8](https://github.com/bitprim/bitprim/blob/master/doc/release-notes/release-notes.md#version-080)
-* [0.7](https://github.com/bitprim/bitprim/blob/master/doc/release-notes/release-notes.md#version-070)
-* [Older](https://github.com/bitprim/bitprim/blob/master/doc/release-notes/release-notes.md)
 
 
 <!-- Links -->
