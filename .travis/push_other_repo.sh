@@ -86,7 +86,7 @@ curl -s -d "$body" -X POST -H "Authorization: Bearer $APPVEYOR_TOKEN" -H "Conten
 
 
 body="{
-\"request\": {
+\"request\": { \"message\": \"node-cint build request\",
 \"branch\":\"$BITPRIM_BRANCH\"
 }}"
 
@@ -95,7 +95,7 @@ curl -s -X POST \
    -H "Content-Type: application/json" \
    -H "Accept: application/json" \
    -H "Travis-API-Version: 3" \
-   -H "Authorization: token MKay9Pzmsyb4MCeZj9Fb6g" \
+   -H "Authorization: token $TRAVIS_TOKEN" \
    -d "$body" \
    https://api.travis-ci.org/repo/bitprim%2Fbitprim-cs/requests
 
