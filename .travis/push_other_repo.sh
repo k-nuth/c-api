@@ -86,7 +86,7 @@ curl -s -d "$body" -X POST -H "Authorization: Bearer $APPVEYOR_TOKEN" -H "Conten
 
 
 body="{
-\"request\": {
+\"request\": { \"message\": \"node-cint build request\",
 \"branch\":\"$BITPRIM_BRANCH\"
 }}"
 
