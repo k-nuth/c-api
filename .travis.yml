@@ -83,15 +83,14 @@ jobs:
   include:
 
 # Static Checks ------------------------------------------------------
+
     - stage: static checks
-      os: linux
-      sudo: required
-      language: python
-      python: "3.6"
-      services:
-        - docker
-      env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=lasote/conanclang60
-      # if: branch =~ /^(release|hotfix).+$/
+      os: osx
+      language: generic
+      osx_image: xcode9
+      env: CONAN_APPLE_CLANG_VERSIONS=9.0 
+           BITPRIM_RUN_TESTS=true
+           BITPRIM_CI_CURRENCY=BCH
       if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
       # install: skip
       install:
