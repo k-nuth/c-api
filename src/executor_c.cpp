@@ -276,5 +276,4 @@ char const* executor_version() {
     return BITPRIM_NODECINT_VERSION;
 }
 
-
 } /* extern "C" */
