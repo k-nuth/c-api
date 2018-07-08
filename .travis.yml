@@ -103,9 +103,9 @@ jobs:
 
           if [[ "$(uname -s)" == 'Darwin' ]]; then
               # brew update || brew update
-              HOMEBREW_NO_AUTO_UPDATE=1 brew outdated pyenv || HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade pyenv
-              HOMEBREW_NO_AUTO_UPDATE=1 brew install pyenv-virtualenv
-              HOMEBREW_NO_AUTO_UPDATE=1 brew install cmake || true
+              brew outdated pyenv || brew upgrade pyenv
+              brew install pyenv-virtualenv
+              brew install cmake || true
 
               if which pyenv > /dev/null; then
                   eval "$(pyenv init -)"
@@ -124,9 +124,9 @@ jobs:
           conan user
 
           # brew update
-          HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade pcre || HOMEBREW_NO_AUTO_UPDATE=1 brew install pcre || exit 1
-          HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade vera++ || HOMEBREW_NO_AUTO_UPDATE=1 brew install vera++ || exit 1
-          HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade llvm --with-clang --with-clang-extra-tools || HOMEBREW_NO_AUTO_UPDATE=1 brew install llvm --with-clang --with-clang-extra-tools || exit 1
+          brew upgrade pcre || brew install pcre || exit 1
+          brew upgrade vera++ || brew install vera++ || exit 1
+          brew upgrade llvm --with-clang --with-clang-extra-tools || brew install llvm --with-clang --with-clang-extra-tools || exit 1
           ls /usr/local/opt/llvm/bin | grep clang
       script:
         - git fetch --unshallow || true
