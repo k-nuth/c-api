@@ -111,6 +111,7 @@ jobs:
               eval "$(pyenv virtualenv-init -)"
           fi
           pyenv activate conan
+          eval $(python ci_utils/set_envvars_and_files.py)
           conan user
           conan remote add bitprim_temp https://api.bintray.com/conan/bitprim/bitprim
           cd ${TRAVIS_BUILD_DIR}
