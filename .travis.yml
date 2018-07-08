@@ -96,8 +96,33 @@ jobs:
         - pwd
         - ls -ltra
         - |
-          chmod +x ci_utils/.travis/install.sh
-          ./ci_utils/.travis/install.sh
+          # chmod +x ci_utils/.travis/install.sh
+          # ./ci_utils/.travis/install.sh
+          set -e
+          set -x
+
+          if [[ "$(uname -s)" == 'Darwin' ]]; then
+              # brew update || brew update
+              HOMEBREW_NO_AUTO_UPDATE=1 brew outdated pyenv || HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade pyenv
+              HOMEBREW_NO_AUTO_UPDATE=1 brew install pyenv-virtualenv
+              HOMEBREW_NO_AUTO_UPDATE=1 brew install cmake || true
+
+              if which pyenv > /dev/null; then
+                  eval "$(pyenv init -)"
+              fi
+
+              pyenv install 2.7.10
+              pyenv virtualenv 2.7.10 conan
+              pyenv rehash
+              pyenv activate conan
+          fi
+
+          pip install conan --upgrade
+          pip install conan_package_tools
+          pip install cpuid --upgrade
+
+          conan user
+
           # brew update
           HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade pcre || HOMEBREW_NO_AUTO_UPDATE=1 brew install pcre || exit 1
           HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade vera++ || HOMEBREW_NO_AUTO_UPDATE=1 brew install vera++ || exit 1
