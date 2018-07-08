@@ -118,18 +118,16 @@ jobs:
               pyenv activate conan
           fi
 
-          pip install conan --upgrade
-          pip install conan_package_tools
-          # pip install cpuid --upgrade
-
-          conan user
-
-          # pip uninstall cpuid
-          brew update
-          brew upgrade pcre || brew install pcre || exit 1
-          brew upgrade vera++ || brew install vera++ || exit 1
-          brew upgrade llvm --with-clang --with-clang-extra-tools || brew install llvm --with-clang --with-clang-extra-tools || exit 1
-          ls /usr/local/opt/llvm/bin | grep clang
+        - pip install conan --upgrade
+        - pip install conan_package_tools
+        - # pip install cpuid --upgrade
+        - conan user
+        # pip uninstall cpuid
+        - brew update
+        - brew upgrade pcre || brew install pcre || exit 1
+        - brew upgrade vera++ || brew install vera++ || exit 1
+        - brew upgrade llvm --with-clang --with-clang-extra-tools || brew install llvm --with-clang --with-clang-extra-tools || exit 1
+        - ls /usr/local/opt/llvm/bin | grep clang
       script:
         - git fetch --unshallow || true
         - |
