@@ -98,6 +98,7 @@ jobs:
         - |
           chmod +x ci_utils/.travis/install.sh
           ./ci_utils/.travis/install.sh
+          pip uninstall cpuid
           brew update
           brew upgrade pcre || brew install pcre || exit 1
           brew upgrade vera++ || brew install vera++ || exit 1
