@@ -118,14 +118,14 @@ jobs:
           pwd
           ls -ltra
           mkdir build
-          cd build
-          conan install ..
-          # cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" ${BOOST_OPTS}
-          # cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-          # cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON                 -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DUSE_CONAN=ON  -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=Release
-          export PATH=$PATH:/usr/local/opt/llvm/bin/
-          clang-tidy --version
+        - cd build
+        - conan install ..
+        # - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" ${BOOST_OPTS}
+        # - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        # - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON                 -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=Release
+        - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DUSE_CONAN=ON  -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=Release
+        - export PATH=$PATH:/usr/local/opt/llvm/bin/
+        - clang-tidy --version
           # sudo find / -name "run-clang-tidy.py"
           # ls /usr/local/Cellar/llvm/4.0.1/share/clang/run-clang-tidy.py
           # /usr/local/Cellar/llvm/5.0.0/share/clang/run-clang-tidy.py -header-filter='.*' -checks='-*,modernize-use-override'
@@ -133,17 +133,17 @@ jobs:
 
           # /usr/local/Cellar/llvm/6.0.0/share/clang/run-clang-tidy.py -header-filter='.*' -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers'
           # /usr/local/Cellar/llvm/6.0.0/share/clang/run-clang-tidy.py -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -header-filter=/Users/fernando/dev/bitprim/bitprim-node-cint/include/
-          /usr/local/Cellar/llvm/6.0.0/share/clang/run-clang-tidy.py -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -header-filter=${TRAVIS_BUILD_DIR}/include
+        - /usr/local/Cellar/llvm/6.0.0/share/clang/run-clang-tidy.py -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -header-filter=${TRAVIS_BUILD_DIR}/include
 
-          # Find non-ASCII characters in headers
-          hpps=$(find include doc -name \*\.hpp)
-          cpps=$(find test example -name \*\.cpp)
-          pcregrep --color='auto' -n "[\x80-\xFF]" ${hpps} ${cpps}
-          if [[ $? -ne 1 ]]; then exit 1; fi
-          # F001: Source files should not use the '\r' (CR) character
-          # L001: No trailing whitespace at the end of lines
-          # L002: Don't use tab characters
-          find include -name \*\.hpp | vera++ --rule F001 --rule L001 --rule L002 --error
+          # # Find non-ASCII characters in headers
+          # hpps=$(find include doc -name \*\.hpp)
+          # cpps=$(find test example -name \*\.cpp)
+          # pcregrep --color='auto' -n "[\x80-\xFF]" ${hpps} ${cpps}
+          # if [[ $? -ne 1 ]]; then exit 1; fi
+          # # F001: Source files should not use the '\r' (CR) character
+          # # L001: No trailing whitespace at the end of lines
+          # # L002: Don't use tab characters
+          # find include -name \*\.hpp | vera++ --rule F001 --rule L001 --rule L002 --error
 
       # script: echo "Running checks (1)"
         # - cd ${TRAVIS_BUILD_DIR}
