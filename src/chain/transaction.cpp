@@ -92,12 +92,12 @@ void chain_transaction_hash_out(transaction_t transaction, hash_t* out_hash) {
 }
 
 hash_t chain_transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type) {
-    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type);
+    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
     return bitprim::to_hash_t(hash_cpp);
 }
 
 void chain_transaction_hash_sighash_type_out(transaction_t transaction, uint32_t sighash_type, hash_t* out_hash) {
-    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type);
+    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
     std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 

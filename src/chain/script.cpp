@@ -95,7 +95,7 @@ char* chain_script_type(script_t script) {
 }
 
 uint8_t* chain_script_to_data(script_t script, int /*bool*/ prefix, uint64_t* /*size_t*/ out_size) {
-    auto script_data = chain_script_const_cpp(script).to_data(prefix);
+    auto script_data = chain_script_const_cpp(script).to_data(prefix != 0);
     auto* ret = (uint8_t*)malloc((script_data.size()) * sizeof(uint8_t)); // NOLINT
     std::copy_n(script_data.begin(), script_data.size(), ret);
     *out_size = script_data.size();

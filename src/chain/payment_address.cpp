@@ -74,7 +74,7 @@ uint8_t chain_payment_address_version(payment_address_t payment_address) {
 }
 
 int /*bool*/ chain_payment_address_is_valid(payment_address_t payment_address) {
-    return static_cast<bool>(chain_payment_address_const_cpp(payment_address));
+    return static_cast<int>(static_cast<bool>(chain_payment_address_const_cpp(payment_address)));
 }
 
 void chain_payment_address_destruct(payment_address_t payment_address) {
