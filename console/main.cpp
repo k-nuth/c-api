@@ -87,7 +87,7 @@ void hex2bin(const char* src, uint8_t* target) {
 }
 
 
-transaction_t make_P2PKH_transaction(uint32_t version, uint32_t locktime, std::string addr, uint64_t satoshis, uint8_t* sig, size_t sig_n, uint8_t* pubk, size_t pubk_n, hash_t prevout_hash, uint32_t prevout_index, uint32_t sequence) {
+transaction_t make_P2PKH_transaction(uint32_t version, uint32_t locktime, std::string const& addr, uint64_t satoshis, uint8_t* sig, size_t sig_n, uint8_t* pubk, size_t pubk_n, hash_t prevout_hash, uint32_t prevout_index, uint32_t sequence) {
     uint8_t locking_script_data[25];
     locking_script_data[0]  = 0x76;   // DUP opcode
     locking_script_data[1]  = 0xa9;   // HASH160 opcode
