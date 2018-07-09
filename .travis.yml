@@ -159,7 +159,7 @@ jobs:
           # /usr/local/Cellar/llvm/6.0.0/share/clang/run-clang-tidy.py -header-filter='.*' -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers'
           # /usr/local/Cellar/llvm/6.0.0/share/clang/run-clang-tidy.py -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -header-filter=/Users/fernando/dev/bitprim/bitprim-node-cint/include/
         # - /usr/local/Cellar/llvm/6.0.0/share/clang/run-clang-tidy.py -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -header-filter=${TRAVIS_BUILD_DIR}/include
-        - ci_utils/run-clang-tidy.py -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -header-filter=${TRAVIS_BUILD_DIR}/include
+        - python ci_utils/run-clang-tidy.py -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -header-filter=${TRAVIS_BUILD_DIR}/include
 
           # # Find non-ASCII characters in headers
           # hpps=$(find include doc -name \*\.hpp)
