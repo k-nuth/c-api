@@ -19,8 +19,8 @@
 
 #include <bitprim/nodecint/chain/mempool_transaction_list.h>
 
-#include <bitprim/nodecint/convertions.hpp>
 #include <bitcoin/blockchain/interface/safe_chain.hpp>
+#include <bitprim/nodecint/convertions.hpp>
 
 
 std::vector<libbitcoin::blockchain::mempool_transaction_summary> const& chain_mempool_transaction_list_const_cpp(mempool_transaction_list_t list) {

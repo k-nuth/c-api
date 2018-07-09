@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/chain/point_list.h>
 #include <bitcoin/bitcoin/chain/point.hpp>
+#include <bitprim/nodecint/chain/point_list.h>
 
 std::vector<libbitcoin::chain::point> const& point_list_const_cpp(point_list_t point_list) {
     return *static_cast<std::vector<libbitcoin::chain::point> const*>(point_list);

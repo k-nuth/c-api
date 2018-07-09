@@ -19,8 +19,8 @@
 
 #include <bitprim/nodecint/chain/transaction_list.h>
 
-#include <bitprim/nodecint/convertions.hpp>
 #include <bitprim/nodecint/chain/transaction.h>
+#include <bitprim/nodecint/convertions.hpp>
 
 
 //namespace {

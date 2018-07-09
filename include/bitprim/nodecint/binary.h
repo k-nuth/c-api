@@ -20,11 +20,11 @@
 #ifndef BITPRIM_NODECINT_BINARY_H
 #define BITPRIM_NODECINT_BINARY_H
 
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 
-#include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
+#include <bitprim/nodecint/visibility.h>
 
 #ifdef __cplusplus
 extern "C" {

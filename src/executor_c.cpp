@@ -21,11 +21,14 @@
 
 #include <cstdio>
 #include <memory>
+
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/thread/latch.hpp>
-#include <bitprim/nodecint/executor.hpp>
-#include <bitprim/nodecint/version.h>
+
 #include <bitcoin/bitcoin/wallet/mnemonic.hpp>
+#include <bitprim/nodecint/executor.hpp>
+
+#include <bitprim/nodecint/version.h>
 
 
 libbitcoin::node::configuration make_config(char const* path) {

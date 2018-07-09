@@ -19,10 +19,10 @@
 
 #include <bitprim/nodecint/chain/transaction.h>
 
+#include <bitprim/nodecint/chain/input_list.h>
+#include <bitprim/nodecint/chain/output_list.h>
 #include <bitprim/nodecint/convertions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/chain/output_list.h>
-#include <bitprim/nodecint/chain/input_list.h>
 
 libbitcoin::message::transaction const& chain_transaction_const_cpp(transaction_t transaction) {
     return *static_cast<libbitcoin::message::transaction const*>(transaction);

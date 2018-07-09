@@ -19,9 +19,9 @@
 
 #include <bitprim/nodecint/chain/merkle_block.h>
 
-#include <bitprim/nodecint/helpers.hpp>
 #include <bitcoin/bitcoin/message/merkle_block.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
+#include <bitprim/nodecint/helpers.hpp>
 
 libbitcoin::message::merkle_block const& chain_merkle_block_const_cpp(merkle_block_t block) {
     return *static_cast<libbitcoin::message::merkle_block const*>(block);

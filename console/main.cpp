@@ -18,29 +18,27 @@
  */
 
 #include <chrono>
+#include <csignal>
 #include <cstdio>
 #include <iostream>
-#include <csignal>
 #include <thread>
 
 #include <bitprim/nodecint/executor_c.h>
 #include <bitprim/nodecint/helpers.hpp>
-
 #include <bitprim/nodecint/chain/chain.h>
-#include <bitprim/nodecint/chain/payment_address.h>
-#include <bitprim/nodecint/chain/history_compact_list.h>
-#include <bitprim/nodecint/chain/history_compact.h>
-#include <bitprim/nodecint/chain/transaction.h>
-#include <bitprim/nodecint/chain/input_list.h>
 #include <bitprim/nodecint/chain/hash_list.h>
+#include <bitprim/nodecint/chain/history_compact.h>
+#include <bitprim/nodecint/chain/history_compact_list.h>
 #include <bitprim/nodecint/chain/input.h>
-#include <bitprim/nodecint/chain/output_list.h>
+#include <bitprim/nodecint/chain/input_list.h>
 #include <bitprim/nodecint/chain/output.h>
+#include <bitprim/nodecint/chain/output_list.h>
 #include <bitprim/nodecint/chain/output_point.h>
+#include <bitprim/nodecint/chain/payment_address.h>
 #include <bitprim/nodecint/chain/script.h>
-
-#include <bitprim/nodecint/wallet/word_list.h>
+#include <bitprim/nodecint/chain/transaction.h>
 #include <bitprim/nodecint/wallet/wallet.h>
+#include <bitprim/nodecint/wallet/word_list.h>
 
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/bitcoin/utility/binary.hpp>

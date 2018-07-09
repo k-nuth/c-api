@@ -19,9 +19,9 @@
 
 #include <bitprim/nodecint/chain/input.h>
 
-#include <bitprim/nodecint/convertions.hpp>
 #include <bitprim/nodecint/chain/output_point.h>
 #include <bitprim/nodecint/chain/script.h>
+#include <bitprim/nodecint/convertions.hpp>
 
 
 libbitcoin::chain::input const& chain_input_const_cpp(input_t input) {

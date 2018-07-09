@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/chain/stealth_compact.h>
 #include <bitcoin/bitcoin/chain/stealth.hpp>
+#include <bitprim/nodecint/chain/stealth_compact.h>
 #include <bitprim/nodecint/helpers.hpp>
 
 libbitcoin::chain::stealth_compact const& stealth_compact_const_cpp(stealth_compact_t stealth) {

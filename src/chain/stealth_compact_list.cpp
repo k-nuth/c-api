@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/chain/stealth_compact_list.h>
 #include <bitcoin/bitcoin/chain/stealth.hpp>
+#include <bitprim/nodecint/chain/stealth_compact_list.h>
 
 std::vector<libbitcoin::chain::stealth_compact> const& stealth_compact_list_const_cpp(stealth_compact_list_t list) {
     return *static_cast<std::vector<libbitcoin::chain::stealth_compact> const*>(list);

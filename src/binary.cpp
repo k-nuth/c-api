@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/binary.h>
 #include <bitcoin/bitcoin/utility/binary.hpp>
+#include <bitprim/nodecint/binary.h>
 
 libbitcoin::binary const& binary_const_cpp(binary_t binary) {
     return *static_cast<libbitcoin::binary const*>(binary);

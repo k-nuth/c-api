@@ -20,8 +20,8 @@
 #include <bitprim/nodecint/chain/payment_address.h>
 #include <bitprim/nodecint/helpers.hpp>
 
-#include <bitcoin/bitcoin/wallet/payment_address.hpp>
 #include <bitcoin/bitcoin/multi_crypto_support.hpp>
+#include <bitcoin/bitcoin/wallet/payment_address.hpp>
 
 libbitcoin::wallet::payment_address const& chain_payment_address_const_cpp(payment_address_t payment_address) {
     return *static_cast<libbitcoin::wallet::payment_address const*>(payment_address);

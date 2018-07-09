@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/chain/history_compact.h>
 #include <bitcoin/bitcoin/chain/history.hpp>
+#include <bitprim/nodecint/chain/history_compact.h>
 
 libbitcoin::chain::history_compact const& chain_history_compact_const_cpp(history_compact_t history) {
     return *static_cast<libbitcoin::chain::history_compact const*>(history);

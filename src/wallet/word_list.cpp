@@ -18,9 +18,10 @@
  */
 
 #include <bitprim/nodecint/wallet/word_list.h>
+
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
 std::vector<std::string> const& word_list_const_cpp(word_list_t word_list) {
     return *static_cast<std::vector<std::string> const*>(word_list);

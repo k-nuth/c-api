@@ -22,12 +22,12 @@
 
 #include <bitprim/nodecint/primitives.h>
 
-#include <bitprim/nodecint/helpers.hpp>
 #include <bitcoin/bitcoin/math/elliptic_curve.hpp>
-#include <bitcoin/bitcoin/wallet/mnemonic.hpp>
-#include <bitcoin/bitcoin/wallet/hd_private.hpp>
 #include <bitcoin/bitcoin/wallet/ec_public.hpp>
+#include <bitcoin/bitcoin/wallet/hd_private.hpp>
+#include <bitcoin/bitcoin/wallet/mnemonic.hpp>
 #include <bitcoin/bitcoin/wallet/payment_address.hpp>
+#include <bitprim/nodecint/helpers.hpp>
 
 
 libbitcoin::ec_secret new_key(libbitcoin::data_chunk const& seed) {

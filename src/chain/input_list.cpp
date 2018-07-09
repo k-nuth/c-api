@@ -19,9 +19,9 @@
 
 #include <bitprim/nodecint/chain/input_list.h>
 
-#include <bitprim/nodecint/convertions.hpp>
-#include <bitprim/nodecint/chain/input.h>
 #include <bitcoin/bitcoin/chain/input.hpp>
+#include <bitprim/nodecint/chain/input.h>
+#include <bitprim/nodecint/convertions.hpp>
 
 
 std::vector<libbitcoin::chain::input> const& chain_input_list_const_cpp(input_list_t list) {

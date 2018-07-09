@@ -20,10 +20,10 @@
 #ifndef BITPRIM_NODECINT_EXECUTOR_HPP_
 #define BITPRIM_NODECINT_EXECUTOR_HPP_
 
+#include <bitcoin/bitcoin/handlers.hpp>
+#include <bitcoin/node.hpp>
 #include <future>
 #include <iostream>
-#include <bitcoin/node.hpp>
-#include <bitcoin/bitcoin/handlers.hpp>
 
 namespace bitprim { namespace nodecint {
 

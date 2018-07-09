@@ -20,18 +20,19 @@
 #include <bitprim/nodecint/chain/chain.h>
 #include <cstdio>
 #include <memory>
+
 #include <boost/thread/latch.hpp>
-
-#include <bitprim/nodecint/convertions.hpp>
-#include <bitprim/nodecint/helpers.hpp>
-
-#include <bitprim/nodecint/chain/block_list.h>
 
 #include <bitcoin/bitcoin/message/block.hpp>
 #include <bitcoin/bitcoin/message/header.hpp>
 #include <bitcoin/bitcoin/message/merkle_block.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/blockchain/interface/safe_chain.hpp>
+
+#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/helpers.hpp>
+#include <bitprim/nodecint/chain/block_list.h>
+
 
 namespace {
 

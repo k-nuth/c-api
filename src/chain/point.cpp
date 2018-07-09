@@ -19,8 +19,8 @@
 
 #include <bitprim/nodecint/chain/point.h>
 
-#include <bitprim/nodecint/helpers.hpp>
 #include <bitcoin/bitcoin/chain/point.hpp>
+#include <bitprim/nodecint/helpers.hpp>
 
 
 libbitcoin::chain::point const& chain_point_const_cpp(point_t point) {
