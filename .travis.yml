@@ -103,7 +103,7 @@ jobs:
           # set -x
 
           if [[ "$(uname -s)" == 'Darwin' ]]; then
-              brew update || brew update
+              brew update >/dev/null || brew update >/dev/null
               brew outdated pyenv || brew upgrade pyenv
               brew install pyenv-virtualenv
               brew install cmake || true
@@ -123,7 +123,7 @@ jobs:
         # - pip install cpuid --upgrade
         - conan user
         # pip uninstall cpuid
-        - brew update
+        - brew update >/dev/null
         - brew upgrade pcre || brew install pcre || exit 1
         - brew upgrade vera++ || brew install vera++ || exit 1
         - brew upgrade llvm --with-clang --with-clang-extra-tools || brew install llvm --with-clang --with-clang-extra-tools || exit 1
