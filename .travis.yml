@@ -135,14 +135,14 @@ jobs:
               eval "$(pyenv init -)"
               eval "$(pyenv virtualenv-init -)"
           fi
-          pyenv activate conan
-          eval $(python ci_utils/set_envvars_and_files.py)
-          conan user
-          conan remote add bitprim_temp https://api.bintray.com/conan/bitprim/bitprim
-          cd ${TRAVIS_BUILD_DIR}
-          pwd
-          ls -ltra
-          mkdir build
+        - pyenv activate conan
+        - eval $(python ci_utils/set_envvars_and_files.py)
+        - conan user
+        - conan remote add bitprim_temp https://api.bintray.com/conan/bitprim/bitprim
+        - cd ${TRAVIS_BUILD_DIR}
+        - pwd
+        - ls -ltra
+        - mkdir build
         - cd build
         - conan install ..
         # - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" ${BOOST_OPTS}
