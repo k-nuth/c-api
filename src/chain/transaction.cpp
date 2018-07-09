@@ -88,7 +88,7 @@ hash_t chain_transaction_hash(transaction_t transaction) {
 
 void chain_transaction_hash_out(transaction_t transaction, hash_t* out_hash) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash();
-    std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
+    std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
 hash_t chain_transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type) {
@@ -98,7 +98,7 @@ hash_t chain_transaction_hash_sighash_type(transaction_t transaction, uint32_t s
 
 void chain_transaction_hash_sighash_type_out(transaction_t transaction, uint32_t sighash_type, hash_t* out_hash) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type);
-    std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
+    std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
 uint32_t chain_transaction_locktime(transaction_t transaction) {

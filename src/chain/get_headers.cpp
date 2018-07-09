@@ -77,7 +77,7 @@ hash_t chain_get_headers_stop_hash(get_headers_t get_b) {
 
 void chain_get_headers_stop_hash_out(get_headers_t get_b, hash_t* out_stop_hash) {
     auto& stop = chain_get_headers_cpp(get_b).stop_hash();
-    std::memcpy(out_stop_hash->hash, stop.data(), BITCOIN_HASH_SIZE);
+    std::memcpy(static_cast<void*>(out_stop_hash->hash), stop.data(), BITCOIN_HASH_SIZE);
 }
 
 //void set_stop_hash(const hash_digest& value);

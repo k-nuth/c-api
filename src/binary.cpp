@@ -61,7 +61,7 @@ uint8_t const* binary_blocks(binary_t binary, uint64_t* /*size_t*/ out_n) {
 
 char* binary_encoded(binary_t binary) {
     std::string str = binary_const_cpp(binary).encoded();
-    auto* ret = (char*)malloc((str.size() + 1) * sizeof(char)); // NOLINT
+    auto* ret = static_cast<char*>(malloc((str.size() + 1) * sizeof(char)));
 
 //    std::strcpy(ret, str.c_str());
     std::copy_n(str.begin(), str.size() + 1, ret);

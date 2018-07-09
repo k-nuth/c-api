@@ -112,7 +112,7 @@ uint32_t chain_header_bits(header_t header) {
 //Note: user of the function has to release the resource (memory) manually
 char const* chain_header_proof_str(header_t header) {
     std::string proof_str = chain_header_const_cpp(header).proof().str();
-    auto* ret = (char*)malloc((proof_str.size() + 1) * sizeof(char)); // NOLINT
+    auto* ret = static_cast<char*>(malloc((proof_str.size() + 1) * sizeof(char)));
     std::copy_n(proof_str.begin(), proof_str.size() + 1, ret);
     return ret;
 }
@@ -151,7 +151,7 @@ hash_t chain_header_previous_block_hash(header_t header) {
 
 void chain_header_previous_block_hash_out(header_t header, hash_t* out_previous_block_hash) {
     auto const& previous_block_hash_cpp = chain_header_const_cpp(header).previous_block_hash();
-    std::memcpy(out_previous_block_hash->hash, previous_block_hash_cpp.data(), BITCOIN_HASH_SIZE);
+    std::memcpy(static_cast<void*>(out_previous_block_hash->hash), previous_block_hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
 hash_t chain_header_merkle(header_t header) {
@@ -161,7 +161,7 @@ hash_t chain_header_merkle(header_t header) {
 
 void chain_header_merkle_out(header_t header, hash_t* out_merkle) {
     auto const& merkle_hash_cpp = chain_header_const_cpp(header).merkle();
-    std::memcpy(out_merkle->hash, merkle_hash_cpp.data(), BITCOIN_HASH_SIZE);
+    std::memcpy(static_cast<void*>(out_merkle->hash), merkle_hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
 hash_t chain_header_hash(header_t header) {
@@ -171,7 +171,7 @@ hash_t chain_header_hash(header_t header) {
 
 void chain_header_hash_out(header_t header, hash_t* out_hash) {
     auto const& hash_cpp = chain_header_const_cpp(header).hash();
-    std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
+    std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
 //const hash_digest& () const;

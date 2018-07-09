@@ -102,11 +102,11 @@ transaction_t make_P2PKH_transaction(uint32_t version, uint32_t locktime, std::s
     }
 
     short_hash_t addr_hash = chain_payment_address_hash(address);
-    std::copy_n(addr_hash.hash, 20, locking_script_data + 3);
+    std::copy_n(static_cast<uint8_t*>(addr_hash.hash), 20, static_cast<uint8_t*>(locking_script_data) + 3);
     chain_payment_address_destruct(address);
 
     //--------------------------------------------------------------------------------------------------------------
-    script_t locking_script = chain_script_construct(locking_script_data, 25, 0 /*int bool prefix*/);
+    script_t locking_script = chain_script_construct(static_cast<uint8_t*>(locking_script_data), 25, 0 /*int bool prefix*/);
 
     if (chain_script_is_valid(locking_script) == 0) {
         std::cout << "Invalid locking script\n";

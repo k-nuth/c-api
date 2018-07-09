@@ -65,7 +65,7 @@ uint64_t /*size_t*/ chain_script_serialized_size(script_t script, int /*bool*/ p
 //Note: user of the function has to release the resource (memory) manually
 char* chain_script_to_string(script_t script, uint32_t active_forks) {
     auto str = chain_script_const_cpp(script).to_string(active_forks);
-    auto* ret = (char*)malloc((str.size() + 1) * sizeof(char)); // NOLINT
+    auto* ret = static_cast<char*>(malloc((str.size() + 1) * sizeof(char)));
 
 //    std::strcpy(ret, str.c_str());
     std::copy_n(str.begin(), str.size() + 1, ret);
@@ -89,7 +89,7 @@ char* chain_script_type(script_t script) {
         case libbitcoin::machine::script_pattern::sign_script_hash: type = "sign_script_hash"; break;
         default: type = "non_standard"; break;
     }
-    auto* ret = (char*)malloc((type.size() + 1) * sizeof(char)); // NOLINT
+    auto* ret = static_cast<char*>(malloc((type.size() + 1) * sizeof(char)));
     std::copy_n(type.begin(), type.size() + 1, ret);
     return ret;
 }
