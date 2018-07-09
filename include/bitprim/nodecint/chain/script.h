@@ -67,7 +67,7 @@ uint8_t* chain_script_to_data(script_t script, int /*bool*/ prefix, uint64_t* /*
 BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_script_sigops(script_t script, int /*bool*/ embedded);
 
-//TODO DELETE
+// TODO(fernando): DELETE
 //BITPRIM_EXPORT
 //uint64_t /*size_t*/ chain_script_embedded_sigops(script_t script, script_t prevout_script);
 

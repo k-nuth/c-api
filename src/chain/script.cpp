@@ -72,7 +72,7 @@ char* chain_script_to_string(script_t script, uint32_t active_forks) {
     return ret;
 }
 
-//TODO Move this logic elsewhere (this does not go in a wrapper like node-cint)
+// TODO(fernando): Move this logic elsewhere (this does not go in a wrapper like node-cint)
 char* chain_script_type(script_t script) {
     auto script_pattern = chain_script_const_cpp(script).pattern();
     std::string type = "non_standard";
@@ -106,7 +106,7 @@ uint64_t /*size_t*/ chain_script_sigops(script_t script, int /*bool*/ embedded) 
     return chain_script_const_cpp(script).sigops(embedded != 0);
 }
 
-//TODO DELETE
+// TODO(fernando): DELETE
 //uint64_t /*size_t*/ chain_script_embedded_sigops(script_t script, script_t prevout_script) {
 //    auto const& prevout_script_cpp = chain_script_const_cpp(prevout_script);
 //    return chain_script_const_cpp(script).embedded_sigops(prevout_script_cpp);
