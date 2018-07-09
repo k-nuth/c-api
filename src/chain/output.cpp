@@ -90,7 +90,7 @@ payment_address_t chain_output_payment_address(output_t output, int /*bool*/ use
 
 uint8_t* chain_output_to_data(output_t output, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
     auto output_data = chain_output_const_cpp(output).to_data(wire != 0);
-    auto* ret = (uint8_t*)malloc((output_data.size()) * sizeof(uint8_t)); // NOLINT
+    auto* ret = (uint8_t*)malloc((output_data.size()) * sizeof(uint8_t)); //NOLINT 
     std::copy_n(output_data.begin(), output_data.size(), ret);
     *out_size = output_data.size();
     return ret;

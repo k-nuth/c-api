@@ -120,7 +120,7 @@ constexpr ec_secret_t null_ec_secret = {
 
 inline
 libbitcoin::hash_digest hash_to_cpp(uint8_t* x) {
-    libbitcoin::hash_digest ret;        // NOLINT
+    libbitcoin::hash_digest ret;
     std::copy_n(x, ret.size(), std::begin(ret));
     return ret;
 }

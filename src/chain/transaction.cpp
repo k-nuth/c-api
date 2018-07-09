@@ -182,7 +182,7 @@ input_list_t chain_transaction_inputs(transaction_t transaction) {
 
 uint8_t* chain_transaction_to_data(transaction_t transaction, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
     auto tx_data = chain_transaction_const_cpp(transaction).to_data(wire);
-    auto* ret = (uint8_t*)malloc((tx_data.size()) * sizeof(uint8_t)); // NOLINT
+    auto* ret = (uint8_t*)malloc((tx_data.size()) * sizeof(uint8_t));  //NOLINT
     std::copy_n(tx_data.begin(), tx_data.size(), ret);
     *out_size = tx_data.size();
     return ret;

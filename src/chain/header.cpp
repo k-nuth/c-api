@@ -47,7 +47,7 @@ uint8_t const* chain_header_to_data(header_t header, uint32_t version, uint64_t*
     auto data = header_cpp.to_data(version);
 
     //Note: It is the responsability of the user to release/destruct the array
-    auto* ret = (uint8_t*)malloc((data.size()) * sizeof(uint8_t)); // NOLINT
+    auto* ret = (uint8_t*)malloc((data.size()) * sizeof(uint8_t)); // NOLINT 
     std::copy_n(data.begin(), data.size(), ret);
     *out_size = data.size();
     return ret;
