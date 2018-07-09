@@ -29,9 +29,9 @@
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/blockchain/interface/safe_chain.hpp>
 
+#include <bitprim/nodecint/chain/block_list.h>
 #include <bitprim/nodecint/convertions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/chain/block_list.h>
 
 
 namespace {
