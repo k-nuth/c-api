@@ -99,8 +99,8 @@ jobs:
           # chmod +x ci_utils/.travis/install.sh
           # ./ci_utils/.travis/install.sh
 
-          set -e
-          set -x
+          # set -e
+          # set -x
 
           if [[ "$(uname -s)" == 'Darwin' ]]; then
               brew update || brew update
@@ -120,7 +120,7 @@ jobs:
 
         - pip install conan --upgrade
         - pip install conan_package_tools
-        - # pip install cpuid --upgrade
+        # - pip install cpuid --upgrade
         - conan user
         # pip uninstall cpuid
         - brew update
