@@ -47,7 +47,7 @@ BITPRIM_EXPORT
 void output_point_get_hash_out(output_point_t op, hash_t* out_hash);
 
 BITPRIM_EXPORT
-uint32_t output_point_get_index(output_point_t output);
+uint32_t output_point_get_index(output_point_t op);
 
 #ifdef __cplusplus
 } // extern "C"
