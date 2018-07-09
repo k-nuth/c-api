@@ -710,7 +710,7 @@ void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t fro
 } 
 
 
-error_code_t chain_get_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t from_height, stealth_compact_list_t* out_list) {
+error_code_t chain_get_stealth(chain_t chain, void*  /*ctx*/, binary_t filter, uint64_t from_height, stealth_compact_list_t* out_list) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 

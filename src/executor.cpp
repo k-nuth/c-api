@@ -270,7 +270,7 @@ void executor::handle_running(libbitcoin::code const& ec) {
 }
 
 // This is the end of the stop sequence.
-void executor::handle_stopped(libbitcoin::code const& ec) {
+void executor::handle_stopped(libbitcoin::code const&  /*ec*/) {
     //stop(ec);
     
     //stop();

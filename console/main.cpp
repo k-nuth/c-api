@@ -142,7 +142,7 @@ transaction_t make_P2PKH_transaction(uint32_t version, uint32_t locktime, std::s
     return tx;
 }
 
-int main(int argc, char* argv[]) {
+int main(int  /*argc*/, char*  /*argv*/[]) {
 
     //Construye la TX de id: b7749347c9e5b2a38b19fb2ab5a390d04d3368f1113aeb565d5fcf72d0e6391e
 
