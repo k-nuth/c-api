@@ -56,8 +56,12 @@ hash_t chain_block_hash(block_t block);
 BITPRIM_EXPORT
 void chain_block_hash_out(block_t block, hash_t* out_hash);
 
+//deprecated
 BITPRIM_EXPORT
 char const* chain_block_proof(block_t block);
+
+BITPRIM_EXPORT
+char const* chain_block_proof_str(block_t block);
 
 BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_block_transaction_count(block_t block);

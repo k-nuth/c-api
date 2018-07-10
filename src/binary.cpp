@@ -19,6 +19,7 @@
 
 #include <bitcoin/bitcoin/utility/binary.hpp>
 #include <bitprim/nodecint/binary.h>
+#include <bitprim/nodecint/helpers.hpp>
 
 libbitcoin::binary const& binary_const_cpp(binary_t binary) {
     return *static_cast<libbitcoin::binary const*>(binary);
@@ -60,13 +61,8 @@ uint8_t const* binary_blocks(binary_t binary, uint64_t* /*size_t*/ out_n) {
 }
 
 char* binary_encoded(binary_t binary) {
-    std::string str = binary_const_cpp(binary).encoded();
-    auto* ret = static_cast<char*>(malloc((str.size() + 1) * sizeof(char)));
-
-//    std::strcpy(ret, str.c_str());
-    std::copy_n(str.begin(), str.size() + 1, ret);
-
-    return ret;
+    std::string str = binary_const_cpp(binary).encoded();   //TODO(fernando): returns a value or a reference?
+    return bitprim::create_c_str(str);
 }
 
 /*

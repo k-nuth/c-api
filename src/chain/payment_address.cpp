@@ -49,18 +49,14 @@ payment_address_t chain_payment_address_construct_from_string(char const* addres
 //User is responsible for releasing return value memory
 char* chain_payment_address_encoded(payment_address_t payment_address) {
     std::string str = chain_payment_address_const_cpp(payment_address).encoded();
-    auto* ret = static_cast<char*>(malloc((str.size() + 1) * sizeof(char))); 
-    std::copy_n(str.begin(), str.size() + 1, ret);
-    return ret;
+    return bitprim::create_c_str(str);
 }
 
 #ifdef BITPRIM_CURRENCY_BCH
 //User is responsible for releasing return value memory
 char* chain_payment_address_encoded_cashaddr(payment_address_t payment_address) {
     std::string str = chain_payment_address_const_cpp(payment_address).encoded_cashaddr();
-    auto* ret = static_cast<char*>(malloc((str.size() + 1) * sizeof(char))); 
-    std::copy_n(str.begin(), str.size() + 1, ret);
-    return ret;
+    return bitprim::create_c_str(str);
 }
 #endif //BITPRIM_CURRENCY_BCH
 

@@ -58,11 +58,6 @@ void stealth_compact_get_transaction_hash_out(stealth_compact_t stealth, hash_t*
 }
 
 short_hash_t stealth_compact_get_public_key_hash(stealth_compact_t stealth) {
-//    return &stealth_compact_cpp(stealth).public_key_hash;
-
-    //uint8_t* ret = (uint8_t*)malloc(stealth_compact_cpp(stealth).public_key_hash.size() * sizeof(uint8_t));
-    //std::copy_n(std::begin(stealth_compact_cpp(stealth).public_key_hash), stealth_compact_cpp(stealth).public_key_hash.size(), ret);
-    //return ret;
     auto const& hash_cpp = stealth_compact_cpp(stealth).public_key_hash;
     return bitprim::to_short_hash_t(hash_cpp);
 }

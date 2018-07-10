@@ -700,7 +700,7 @@ error_code_t chain_get_confirmed_transactions(chain_t chain, payment_address_t a
 }
 
 void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t from_height, stealth_fetch_handler_t handler) {
-	auto* filter_cpp_ptr = static_cast<const libbitcoin::binary*>(filter);
+	auto* filter_cpp_ptr = static_cast<libbitcoin::binary const*>(filter);
 	libbitcoin::binary const& filter_cpp  = *filter_cpp_ptr;
 
     safe_chain(chain).fetch_stealth(filter_cpp, from_height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::chain::stealth_compact::list stealth) {
@@ -709,12 +709,11 @@ void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t fro
     });
 } 
 
-
-error_code_t chain_get_stealth(chain_t chain, void*  /*ctx*/, binary_t filter, uint64_t from_height, stealth_compact_list_t* out_list) {
+error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_height, stealth_compact_list_t* out_list) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
-	auto* filter_cpp_ptr = static_cast<const libbitcoin::binary*>(filter);
+	auto* filter_cpp_ptr = static_cast<libbitcoin::binary const*>(filter);
 	libbitcoin::binary const& filter_cpp  = *filter_cpp_ptr;
 
     safe_chain(chain).fetch_stealth(filter_cpp, from_height, [&](std::error_code const& ec, libbitcoin::chain::stealth_compact::list stealth) {

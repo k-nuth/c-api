@@ -35,17 +35,7 @@ libbitcoin::ec_secret new_key(libbitcoin::data_chunk const& seed) {
     return key.secret();
 }
 
-
 extern "C" {
-
-//long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
-//    auto const& mnemonics_cpp = *static_cast<const std::vector<std::string>*>(mnemonics);
-//    auto hash_cpp = libbitcoin::wallet::decode_mnemonic(mnemonics_cpp);
-//
-//    uint8_t* ret = (uint8_t*)malloc(hash_cpp.size() * sizeof(uint8_t));
-//    std::copy_n(std::begin(hash_cpp), hash_cpp.size(), ret);
-//    return ret;
-//}
 
 long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
     auto const& mnemonics_cpp = *static_cast<const std::vector<std::string>*>(mnemonics);

@@ -22,8 +22,6 @@
 #include <bitprim/nodecint/convertions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
-//#include <bitprim/nodecint/chain/header.h>
-//#include <bitprim/nodecint/chain/transaction_list.h>
  #include <bitcoin/bitcoin/message/transaction.hpp>
 
 
@@ -65,12 +63,6 @@ header_t chain_block_header(block_t block) {
     return &chain_block_cpp(block).header();
 }
 
-//hash_t chain_block_hash(block_t block) {
-//    auto const& hash_cpp = chain_block_const_cpp(block).hash();
-//    return hash_cpp.data(); //TODO: returning a dangling pointer
-//}
-
-// TODO(fernando): Breaking change.
 hash_t chain_block_hash(block_t block) {
     auto const& hash_cpp = chain_block_const_cpp(block).hash();
     return bitprim::to_hash_t(hash_cpp);
@@ -81,12 +73,17 @@ void chain_block_hash_out(block_t block, hash_t* out_hash) {
     std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
-
+//deprecated
 char const* chain_block_proof(block_t block) {
     auto proof_str = chain_block_const_cpp(block).proof().str();
     auto* proof_c_str = static_cast<char*>(malloc((proof_str.size() + 1) * sizeof(char)));
     std::copy_n(proof_str.begin(), proof_str.size() + 1, proof_c_str);
     return proof_c_str;
+}
+
+char const* chain_block_proof_str(block_t block) {
+    auto proof_str = chain_block_const_cpp(block).proof().str();
+    return bitprim::create_c_str(proof_str);
 }
 
 // Warning: breaking change
@@ -207,10 +204,13 @@ int /*bool*/ chain_block_is_valid_merkle_root(block_t block) {
 
 uint8_t const* chain_block_to_data(block_t block, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
     auto block_data = chain_block_const_cpp(block).to_data(wire);
-    auto* ret = (uint8_t*)malloc((block_data.size()) * sizeof(uint8_t)); //NOLINT
-    std::copy_n(block_data.begin(), block_data.size(), ret);
-    *out_size = block_data.size();
-    return ret;
+
+    // auto* ret = (uint8_t*)malloc((block_data.size()) * sizeof(uint8_t)); //NOLINT
+    // std::copy_n(block_data.begin(), block_data.size(), ret);
+    // *out_size = block_data.size();
+    // return ret;
+
+    return bitprim::create_c_array(block_data, *out_size);
 }
 
 //

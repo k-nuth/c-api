@@ -42,15 +42,17 @@ uint64_t /*size_t*/ chain_header_satoshi_fixed_size(uint32_t version) {
     return libbitcoin::message::header::satoshi_fixed_size(version);
 }
 
+//Note: It is the responsability of the user to release/destruct the array
 uint8_t const* chain_header_to_data(header_t header, uint32_t version, uint64_t* /*size_t*/ out_size) {
     auto const& header_cpp = chain_header_const_cpp(header);
     auto data = header_cpp.to_data(version);
 
-    //Note: It is the responsability of the user to release/destruct the array
-    auto* ret = (uint8_t*)malloc((data.size()) * sizeof(uint8_t)); // NOLINT 
-    std::copy_n(data.begin(), data.size(), ret);
-    *out_size = data.size();
-    return ret;
+    // auto* ret = (uint8_t*)malloc((data.size()) * sizeof(uint8_t)); // NOLINT 
+    // std::copy_n(data.begin(), data.size(), ret);
+    // *out_size = data.size();
+    // return ret;
+
+    return bitprim::create_c_array(data, *out_size);
 }
 
 void chain_header_reset(header_t header) {
@@ -112,9 +114,7 @@ uint32_t chain_header_bits(header_t header) {
 //Note: user of the function has to release the resource (memory) manually
 char const* chain_header_proof_str(header_t header) {
     std::string proof_str = chain_header_const_cpp(header).proof().str();
-    auto* ret = static_cast<char*>(malloc((proof_str.size() + 1) * sizeof(char)));
-    std::copy_n(proof_str.begin(), proof_str.size() + 1, ret);
-    return ret;
+    return bitprim::create_c_str(proof_str);
 }
 
 void chain_header_set_bits(header_t header, uint32_t bits) {

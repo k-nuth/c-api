@@ -24,6 +24,7 @@
 #include <string>
 
 #include <bitprim/nodecint/executor_c.h>
+#include <bitprim/nodecint/helpers.hpp>
 
 #include <bitcoin/bitcoin/multi_crypto_support.hpp>
 #include <bitcoin/network/p2p.hpp>
@@ -56,9 +57,7 @@ char const* node_settings_cashaddr_prefix() {
 #else
     std::string str; //Note: to avoid checking compilation-time feature at other languages
 #endif
-    auto* ret = static_cast<char*>(malloc((str.size() + 1) * sizeof(char)));
-    std::copy_n(str.begin(), str.size() + 1, ret);
-    return ret;
+    return bitprim::create_c_str(str);    
 }
 
 } /* extern "C" */

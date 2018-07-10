@@ -94,10 +94,13 @@ output_point_t chain_input_previous_output(input_t input) {
 
 uint8_t* chain_input_to_data(input_t input, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
     auto input_data = chain_input_const_cpp(input).to_data(wire != 0);
-    auto* ret = (uint8_t*)malloc((input_data.size()) * sizeof(uint8_t));  //NOLINT
-    std::copy_n(input_data.begin(), input_data.size(), ret);
-    *out_size = input_data.size();
-    return ret;
+    
+    // auto* ret = (uint8_t*)malloc((input_data.size()) * sizeof(uint8_t));  //NOLINT
+    // std::copy_n(input_data.begin(), input_data.size(), ret);
+    // *out_size = input_data.size();
+    // return ret;
+
+    return bitprim::create_c_array(input_data, *out_size);
 }
 
 
