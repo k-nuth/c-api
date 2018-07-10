@@ -83,18 +83,90 @@ jobs:
   include:
 
 # Static Checks ------------------------------------------------------
+
     - stage: static checks
-      os: linux
-      sudo: required
-      language: python
-      python: "3.6"
-      services:
-        - docker
-      env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=lasote/conanclang60
-      # if: branch =~ /^(release|hotfix).+$/
+      os: osx
+      language: generic
+      osx_image: xcode9
+      # env: CONAN_APPLE_CLANG_VERSIONS=9.0 
       if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
-      install: skip
-      script: echo "Running checks (1)"
+      # install: skip
+      install:
+        - cd ${TRAVIS_BUILD_DIR}
+        - pwd
+        - ls -ltra
+        - |
+          # chmod +x ci_utils/.travis/install.sh
+          # ./ci_utils/.travis/install.sh
+
+          # set -e
+          # set -x
+
+          if [[ "$(uname -s)" == 'Darwin' ]]; then
+              brew update >/dev/null || brew update >/dev/null
+              brew outdated pyenv || brew upgrade pyenv
+              brew install pyenv-virtualenv
+              brew install cmake || true
+
+              if which pyenv > /dev/null; then
+                  eval "$(pyenv init -)"
+              fi
+
+              pyenv install 2.7.10
+              pyenv virtualenv 2.7.10 conan
+              pyenv rehash
+              pyenv activate conan
+          fi
+
+        - pip install conan --upgrade
+        - pip install conan_package_tools
+        # - pip install cpuid --upgrade
+        - conan user
+        # pip uninstall cpuid
+        - brew update >/dev/null
+        - brew upgrade pcre || brew install pcre || exit 1
+        - brew upgrade vera++ || brew install vera++ || exit 1
+        - brew upgrade llvm --with-clang --with-clang-extra-tools || brew install llvm --with-clang --with-clang-extra-tools || exit 1
+        - ls /usr/local/opt/llvm/bin | grep clang
+      script:
+        - git fetch --unshallow || true
+        - |
+          if which pyenv > /dev/null; then
+              eval "$(pyenv init -)"
+              eval "$(pyenv virtualenv-init -)"
+          fi
+        - pyenv activate conan
+        - eval $(python ci_utils/set_envvars_and_files.py)
+        - conan user
+        - conan remote add bitprim_temp https://api.bintray.com/conan/bitprim/bitprim
+        - cd ${TRAVIS_BUILD_DIR}
+        - pwd
+        - ls -ltra
+        - mkdir build
+        - cd build
+        - conan install ..
+        # - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" ${BOOST_OPTS}
+        # - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        # - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON                 -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=Release
+        - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DUSE_CONAN=ON  -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=Release
+        - export PATH=$PATH:/usr/local/opt/llvm/bin/
+        - clang-tidy --version
+        # - sudo find / -name "run-clang-tidy.py"
+        # - /usr/local/Cellar/llvm/6.0.0/share/clang/run-clang-tidy.py -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -header-filter=${TRAVIS_BUILD_DIR}/include
+        # - python ci_utils/run-clang-tidy.py -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -warnings-as-errors='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -header-filter=${TRAVIS_BUILD_DIR}/include
+        - python ../ci_utils/run-clang-tidy.py -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-owning-memory,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-hicpp-vararg,-hicpp-no-malloc,-fuchsia-default-arguments,-google-runtime-references,-cppcoreguidelines-no-malloc,-hicpp-no-malloc,-llvm-header-guard,-android-cloexec-fopen,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-const-cast,-hicpp-braces-around-statements,-hicpp-special-member-functions,-readability-braces-around-statements,-coreguidelines-special-member-function,-cppcoreguidelines-special-member-functions' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include
+
+          # # Find non-ASCII characters in headers
+          # hpps=$(find include doc -name \*\.hpp)
+          # cpps=$(find test example -name \*\.cpp)
+          # pcregrep --color='auto' -n "[\x80-\xFF]" ${hpps} ${cpps}
+          # if [[ $? -ne 1 ]]; then exit 1; fi
+          # # F001: Source files should not use the '\r' (CR) character
+          # # L001: No trailing whitespace at the end of lines
+          # # L002: Don't use tab characters
+          # find include -name \*\.hpp | vera++ --rule F001 --rule L001 --rule L002 --error
+
+      # script: echo "Running checks (1)"
         # - cd ${TRAVIS_BUILD_DIR}
         # - chmod a+x .travis/check_format.sh
         # - /usr/bin/docker run --rm -ti -v ${TRAVIS_BUILD_DIR}:/home/conan/project \

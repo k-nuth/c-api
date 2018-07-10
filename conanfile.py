@@ -18,14 +18,8 @@
 #
 
 import os
-# import sys
-# from conans import ConanFile, CMake
 from conans import CMake
-# from conans import __version__ as conan_version
-# from conans.model.version import Version
-# from conans.errors import ConanException
 from ci_utils import option_on_off, get_version, get_conan_req_version, march_conan_manip, pass_march_to_compiler
-# from ci_utils import get_channel, get_user
 from ci_utils import BitprimConanFile
 
 class BitprimNodeCIntConan(BitprimConanFile):
@@ -47,7 +41,9 @@ class BitprimNodeCIntConan(BitprimConanFile):
                "no_compilation": [True, False],
                "currency": ['BCH', 'BTC', 'LTC'],
                "fix_march": [True, False],
-               "verbose": [True, False]
+               "verbose": [True, False],
+               "cxxflags": "ANY",
+               "cflags": "ANY",
     }
 
 #    "with_remote_blockchain": [True, False],
@@ -61,7 +57,9 @@ class BitprimNodeCIntConan(BitprimConanFile):
         "no_compilation=False", \
         "currency=BCH", \
         "fix_march=False", \
-        "verbose=True"
+        "verbose=True", \
+        "cxxflags=_DUMMY_", \
+        "cflags=_DUMMY_"
 
         # "with_remote_blockchain=False", \
         # "with_remote_database=False", \
@@ -134,6 +132,8 @@ class BitprimNodeCIntConan(BitprimConanFile):
         self.info.options.no_compilation = "ANY"
         self.info.options.verbose = "ANY"
         self.info.options.fix_march = "ANY"
+        self.info.options.cxxflags = "ANY"
+        self.info.options.cflags = "ANY"
 
         # self.info.requires.clear()
         # self.info.settings.compiler = "ANY"
@@ -167,6 +167,11 @@ class BitprimNodeCIntConan(BitprimConanFile):
 
         if self.settings.compiler == "Visual Studio":
             cmake.definitions["CONAN_CXX_FLAGS"] = cmake.definitions.get("CONAN_CXX_FLAGS", "") + " /DBOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE"
+
+        if self.options.cxxflags != "_DUMMY_":
+            cmake.definitions["CONAN_CXX_FLAGS"] = cmake.definitions.get("CONAN_CXX_FLAGS", "") + " " + str(self.options.cxxflags)
+        if self.options.cflags != "_DUMMY_":
+            cmake.definitions["CONAN_C_FLAGS"] = cmake.definitions.get("CONAN_C_FLAGS", "") + " " + str(self.options.cflags)
 
         cmake.definitions["MICROARCHITECTURE"] = self.options.microarchitecture
         cmake.definitions["BITPRIM_PROJECT_VERSION"] = self.version
