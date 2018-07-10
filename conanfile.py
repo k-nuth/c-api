@@ -70,25 +70,13 @@ class BitprimNodeCIntConan(BitprimConanFile):
     package_files = "build/lbitprim-node-cint.so"
     build_policy = "missing"
 
-    # @property
-    # def msvc_mt_build(self):
-    #     return "MT" in str(self.settings.compiler.runtime)
-
-    # @property
-    # def fPIC_enabled(self):
-    #     if self.settings.compiler == "Visual Studio":
-    #         return False
-    #     else:
-    #         return self.options.fPIC
-
-    # @property
-    # def is_shared(self):
-    #     # if self.settings.compiler == "Visual Studio" and self.msvc_mt_build:
-    #     #     return False
-    #     # else:
-    #     #     return self.options.shared
-    #     return self.options.shared
-
+    @property
+    def is_shared(self):
+        # if self.settings.compiler == "Visual Studio" and self.msvc_mt_build:
+        #     return False
+        # else:
+        #     return self.options.shared
+        return self.options.shared
 
     def requirements(self):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
