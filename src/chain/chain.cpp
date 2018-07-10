@@ -20,18 +20,19 @@
 #include <bitprim/nodecint/chain/chain.h>
 #include <cstdio>
 #include <memory>
+
 #include <boost/thread/latch.hpp>
-
-#include <bitprim/nodecint/convertions.hpp>
-#include <bitprim/nodecint/helpers.hpp>
-
-#include <bitprim/nodecint/chain/block_list.h>
 
 #include <bitcoin/bitcoin/message/block.hpp>
 #include <bitcoin/bitcoin/message/header.hpp>
 #include <bitcoin/bitcoin/message/merkle_block.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/blockchain/interface/safe_chain.hpp>
+
+#include <bitprim/nodecint/chain/block_list.h>
+#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/helpers.hpp>
+
 
 namespace {
 
@@ -262,10 +263,10 @@ error_code_t chain_get_block_by_height_timestamp(chain_t chain, uint64_t /*size_
     safe_chain(chain).fetch_block_hash_timestamp(height, [&](std::error_code const& ec, const libbitcoin::hash_digest& hash, uint32_t timestamp, size_t h) {
         if (ec == libbitcoin::error::success) {
             //handler(chain, ctx, static_cast<error_code_t>(ec.value()), bitprim::to_hash_t(hash), timestamp, h);
-            std::memcpy(out_hash->hash, hash.data(), BITCOIN_HASH_SIZE);
+            std::memcpy(static_cast<void*>(out_hash->hash), hash.data(), BITCOIN_HASH_SIZE);
             *out_timestamp = timestamp;
         } else {
-            std::memcpy(out_hash->hash, libbitcoin::null_hash.data(), BITCOIN_HASH_SIZE);
+            std::memcpy(static_cast<void*>(out_hash->hash), libbitcoin::null_hash.data(), BITCOIN_HASH_SIZE);
             *out_timestamp = 0;
         }
 
@@ -382,7 +383,7 @@ error_code_t chain_get_block_hash(chain_t chain, uint64_t height, hash_t* out_ha
     if( ! found_block ) {
         return bitprim_ec_not_found;
     }
-    std::memcpy(out_hash->hash, block_hash.data(), BITCOIN_HASH_SIZE);
+    std::memcpy(static_cast<void*>(out_hash->hash), block_hash.data(), BITCOIN_HASH_SIZE);
     return bitprim_ec_success;
 }
 
@@ -709,7 +710,7 @@ void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t fro
 } 
 
 
-error_code_t chain_get_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t from_height, stealth_compact_list_t* out_list) {
+error_code_t chain_get_stealth(chain_t chain, void*  /*ctx*/, binary_t filter, uint64_t from_height, stealth_compact_list_t* out_list) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
@@ -786,13 +787,13 @@ mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment
 #endif
     libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
     if (address_cpp) {
-        auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), use_testnet_rules != 0, witness);
+        auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), use_testnet_rules != 0, witness != 0);
         auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>(txs);
         return static_cast<mempool_transaction_list_t>(ret_txs);
-    } else {
+    } 
         auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>();
         return static_cast<mempool_transaction_list_t>(ret_txs);
-    }
+    
 }
 
 //// Filters.
@@ -822,7 +823,7 @@ block_t cast_block(libbitcoin::message::block const& x) {
 void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subscribe_blockchain_handler_t handler) {
     safe_chain(chain).subscribe_blockchain([exec, chain, ctx, handler](std::error_code const& ec, size_t fork_height, libbitcoin::block_const_ptr_list_const_ptr incoming, libbitcoin::block_const_ptr_list_const_ptr replaced_blocks) {
 
-        if (safe_chain(chain).is_stale()) { //TODO Move somewhere else (there should be no logic here)
+        if (safe_chain(chain).is_stale()) { // TODO(fernando): Move somewhere else (there should be no logic here)
             return 1;
         }
 

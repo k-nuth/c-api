@@ -19,9 +19,10 @@
 
 #include <bitprim/nodecint/chain/mempool_transaction.h>
 
-#include <bitprim/nodecint/helpers.hpp>
-#include <bitcoin/blockchain/interface/safe_chain.hpp>
 #include <tuple>
+
+#include <bitcoin/blockchain/interface/safe_chain.hpp>
+#include <bitprim/nodecint/helpers.hpp>
 
 
 libbitcoin::blockchain::mempool_transaction_summary const& chain_mempool_transaction_const_cpp(mempool_transaction_t tx) {

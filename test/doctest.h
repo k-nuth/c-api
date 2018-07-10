@@ -590,14 +590,14 @@ public:
 
     bool isOnStack() const { return (buf[last] & 128) == 0; }
 
-    char operator[](unsigned i) const { return const_cast<String*>(this)->operator[](i); } // NOLINT
+    char operator[](unsigned i) const { return const_cast<String*>(this)->operator[](i); } 
     char& operator[](unsigned i) {
         if(isOnStack())
             return reinterpret_cast<char*>(buf)[i];
         return data.ptr[i];
     }
 
-    const char* c_str() const { return const_cast<String*>(this)->c_str(); } // NOLINT
+    const char* c_str() const { return const_cast<String*>(this)->c_str(); } 
     char*       c_str() {
         if(isOnStack())
             return reinterpret_cast<char*>(buf);
@@ -1746,7 +1746,7 @@ namespace detail
             try {
                 throw;
                 // cppcheck-suppress catchExceptionByValue
-            } catch(T ex) {                    // NOLINT
+            } catch(T ex) {                    
                 res = m_translateFunction(ex); //!OCLINT parameter reassignment
                 return true;
             } catch(...) {} //!OCLINT -  empty catch statement
@@ -1894,7 +1894,7 @@ namespace detail
 
     public:
         // cppcheck-suppress uninitMemberVar
-        DOCTEST_NOINLINE ContextBuilder() // NOLINT
+        DOCTEST_NOINLINE ContextBuilder() 
                 : numCaptures(0)
                 , head(0)
                 , tail(0) {}
@@ -3381,8 +3381,8 @@ namespace detail
                 char asChar[sizeof(int)];
             } u;
 
-            u.asInt = 1;                                            // NOLINT
-            return (u.asChar[sizeof(int) - 1] == 1) ? Big : Little; // NOLINT
+            u.asInt = 1;                                            
+            return (u.asChar[sizeof(int) - 1] == 1) ? Big : Little; 
         }
     };
 
@@ -3404,7 +3404,7 @@ namespace detail
 
     std::ostream* createStream() { return new std::ostringstream(); }
     String getStreamResult(std::ostream* in) {
-        return static_cast<std::ostringstream*>(in)->str().c_str(); // NOLINT
+        return static_cast<std::ostringstream*>(in)->str().c_str(); 
     }
     void freeStream(std::ostream* in) { delete in; }
 
@@ -4488,7 +4488,7 @@ namespace detail
             sigaltstack(&sigStack, &oldSigStack);
             struct sigaction sa = {0};
 
-            sa.sa_handler = handleSignal; // NOLINT
+            sa.sa_handler = handleSignal; 
             sa.sa_flags   = SA_ONSTACK;
             for(std::size_t i = 0; i < sizeof(signalDefs) / sizeof(SignalDefs); ++i) {
                 sigaction(signalDefs[i].id, &sa, &oldSigActions[i]);
@@ -5112,7 +5112,7 @@ namespace detail
             }
         } else {
             // integer
-            int theInt = std::atoi(parsedValue.c_str()); // NOLINT
+            int theInt = std::atoi(parsedValue.c_str()); 
             if(theInt != 0) {
                 res = theInt; //!OCLINT parameter reassignment
                 return true;
@@ -5464,7 +5464,7 @@ int Context::run() {
             // random_shuffle implementation
             const TestCase** first = &testArray[0];
             for(i = testArray.size() - 1; i > 0; --i) {
-                int idxToSwap = std::rand() % (i + 1); // NOLINT
+                int idxToSwap = std::rand() % (i + 1); 
 
                 const TestCase* temp = first[i];
 

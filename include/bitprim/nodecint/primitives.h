@@ -20,11 +20,11 @@
 #ifndef BITPRIM_NODECINT_PRIMITIVES_H_
 #define BITPRIM_NODECINT_PRIMITIVES_H_
 
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 
-#include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/error.h>
+#include <bitprim/nodecint/visibility.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -39,7 +39,7 @@ extern "C" {
 
 #define BITCOIN_MINIMUM_SEED_BITS 128
 #define BITCOIN_BYTE_BITS 8
-#define BITCOIN_MINIMUM_SEED_SIZE BITCOIN_MINIMUM_SEED_BITS / BITCOIN_BYTE_BITS
+#define BITCOIN_MINIMUM_SEED_SIZE (BITCOIN_MINIMUM_SEED_BITS / BITCOIN_BYTE_BITS)
 
 
 typedef enum point_kind {output = 0, spend = 1} point_kind_t;

@@ -19,9 +19,9 @@
 
 #include <bitprim/nodecint/chain/merkle_block.h>
 
-#include <bitprim/nodecint/helpers.hpp>
 #include <bitcoin/bitcoin/message/merkle_block.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
+#include <bitprim/nodecint/helpers.hpp>
 
 libbitcoin::message::merkle_block const& chain_merkle_block_const_cpp(merkle_block_t block) {
     return *static_cast<libbitcoin::message::merkle_block const*>(block);
@@ -59,7 +59,7 @@ void chain_merkle_block_hash_nth_out(merkle_block_t block, uint64_t /*size_t*/ n
 
     auto* blk = &chain_merkle_block_cpp(block);
     auto& hash_n = blk->hashes()[n];
-    std::memcpy(out_hash->hash, hash_n.data(), BITCOIN_HASH_SIZE);
+    std::memcpy(static_cast<void*>(out_hash->hash), hash_n.data(), BITCOIN_HASH_SIZE);
 }
 
 header_t chain_merkle_block_header(merkle_block_t block) {

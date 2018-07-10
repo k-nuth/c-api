@@ -20,8 +20,8 @@
 #include <bitprim/nodecint/chain/payment_address.h>
 #include <bitprim/nodecint/helpers.hpp>
 
-#include <bitcoin/bitcoin/wallet/payment_address.hpp>
 #include <bitcoin/bitcoin/multi_crypto_support.hpp>
+#include <bitcoin/bitcoin/wallet/payment_address.hpp>
 
 libbitcoin::wallet::payment_address const& chain_payment_address_const_cpp(payment_address_t payment_address) {
     return *static_cast<libbitcoin::wallet::payment_address const*>(payment_address);
@@ -49,7 +49,7 @@ payment_address_t chain_payment_address_construct_from_string(char const* addres
 //User is responsible for releasing return value memory
 char* chain_payment_address_encoded(payment_address_t payment_address) {
     std::string str = chain_payment_address_const_cpp(payment_address).encoded();
-    auto* ret = static_cast<char*>(malloc((str.size() + 1) * sizeof(char))); // NOLINT
+    auto* ret = static_cast<char*>(malloc((str.size() + 1) * sizeof(char))); 
     std::copy_n(str.begin(), str.size() + 1, ret);
     return ret;
 }
@@ -58,7 +58,7 @@ char* chain_payment_address_encoded(payment_address_t payment_address) {
 //User is responsible for releasing return value memory
 char* chain_payment_address_encoded_cashaddr(payment_address_t payment_address) {
     std::string str = chain_payment_address_const_cpp(payment_address).encoded_cashaddr();
-    auto* ret = static_cast<char*>(malloc((str.size() + 1) * sizeof(char))); // NOLINT
+    auto* ret = static_cast<char*>(malloc((str.size() + 1) * sizeof(char))); 
     std::copy_n(str.begin(), str.size() + 1, ret);
     return ret;
 }
@@ -74,7 +74,7 @@ uint8_t chain_payment_address_version(payment_address_t payment_address) {
 }
 
 int /*bool*/ chain_payment_address_is_valid(payment_address_t payment_address) {
-    return static_cast<bool>(chain_payment_address_const_cpp(payment_address));
+    return static_cast<int>(static_cast<bool>(chain_payment_address_const_cpp(payment_address)));
 }
 
 void chain_payment_address_destruct(payment_address_t payment_address) {

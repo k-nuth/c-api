@@ -120,14 +120,14 @@ constexpr ec_secret_t null_ec_secret = {
 
 inline
 libbitcoin::hash_digest hash_to_cpp(uint8_t* x) {
-    libbitcoin::hash_digest ret;        // NOLINT
+    libbitcoin::hash_digest ret;
     std::copy_n(x, ret.size(), std::begin(ret));
     return ret;
 }
 
 inline
 const char* create_c_str(std::string const& str) {
-    auto* c_str = (char*)malloc((str.size() + 1) * sizeof(char)); // NOLINT
+    auto* c_str = static_cast<char*>(malloc((str.size() + 1) * sizeof(char)));
     std::copy_n(str.begin(), str.size() + 1, c_str);
     return c_str;
 }

@@ -56,7 +56,7 @@ char const* node_settings_cashaddr_prefix() {
 #else
     std::string str; //Note: to avoid checking compilation-time feature at other languages
 #endif
-    auto* ret = (char*)malloc((str.size() + 1) * sizeof(char)); // NOLINT
+    auto* ret = static_cast<char*>(malloc((str.size() + 1) * sizeof(char)));
     std::copy_n(str.begin(), str.size() + 1, ret);
     return ret;
 }

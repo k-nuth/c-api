@@ -18,29 +18,27 @@
  */
 
 #include <chrono>
+#include <csignal>
 #include <cstdio>
 #include <iostream>
-#include <csignal>
 #include <thread>
 
+#include <bitprim/nodecint/chain/chain.h>
+#include <bitprim/nodecint/chain/hash_list.h>
+#include <bitprim/nodecint/chain/history_compact.h>
+#include <bitprim/nodecint/chain/history_compact_list.h>
+#include <bitprim/nodecint/chain/input.h>
+#include <bitprim/nodecint/chain/input_list.h>
+#include <bitprim/nodecint/chain/output.h>
+#include <bitprim/nodecint/chain/output_list.h>
+#include <bitprim/nodecint/chain/output_point.h>
+#include <bitprim/nodecint/chain/payment_address.h>
+#include <bitprim/nodecint/chain/script.h>
+#include <bitprim/nodecint/chain/transaction.h>
 #include <bitprim/nodecint/executor_c.h>
 #include <bitprim/nodecint/helpers.hpp>
-
-#include <bitprim/nodecint/chain/chain.h>
-#include <bitprim/nodecint/chain/payment_address.h>
-#include <bitprim/nodecint/chain/history_compact_list.h>
-#include <bitprim/nodecint/chain/history_compact.h>
-#include <bitprim/nodecint/chain/transaction.h>
-#include <bitprim/nodecint/chain/input_list.h>
-#include <bitprim/nodecint/chain/hash_list.h>
-#include <bitprim/nodecint/chain/input.h>
-#include <bitprim/nodecint/chain/output_list.h>
-#include <bitprim/nodecint/chain/output.h>
-#include <bitprim/nodecint/chain/output_point.h>
-#include <bitprim/nodecint/chain/script.h>
-
-#include <bitprim/nodecint/wallet/word_list.h>
 #include <bitprim/nodecint/wallet/wallet.h>
+#include <bitprim/nodecint/wallet/word_list.h>
 
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/bitcoin/utility/binary.hpp>
@@ -89,7 +87,7 @@ void hex2bin(const char* src, uint8_t* target) {
 }
 
 
-transaction_t make_P2PKH_transaction(uint32_t version, uint32_t locktime, std::string addr, uint64_t satoshis, uint8_t* sig, size_t sig_n, uint8_t* pubk, size_t pubk_n, hash_t prevout_hash, uint32_t prevout_index, uint32_t sequence) {
+transaction_t make_P2PKH_transaction(uint32_t version, uint32_t locktime, std::string const& addr, uint64_t satoshis, uint8_t* sig, size_t sig_n, uint8_t* pubk, size_t pubk_n, hash_t prevout_hash, uint32_t prevout_index, uint32_t sequence) {
     uint8_t locking_script_data[25];
     locking_script_data[0]  = 0x76;   // DUP opcode
     locking_script_data[1]  = 0xa9;   // HASH160 opcode
@@ -104,11 +102,11 @@ transaction_t make_P2PKH_transaction(uint32_t version, uint32_t locktime, std::s
     }
 
     short_hash_t addr_hash = chain_payment_address_hash(address);
-    std::copy_n(addr_hash.hash, 20, locking_script_data + 3);
+    std::copy_n(static_cast<uint8_t*>(addr_hash.hash), 20, static_cast<uint8_t*>(locking_script_data) + 3);
     chain_payment_address_destruct(address);
 
     //--------------------------------------------------------------------------------------------------------------
-    script_t locking_script = chain_script_construct(locking_script_data, 25, 0 /*int bool prefix*/);
+    script_t locking_script = chain_script_construct(static_cast<uint8_t*>(locking_script_data), 25, 0 /*int bool prefix*/);
 
     if (chain_script_is_valid(locking_script) == 0) {
         std::cout << "Invalid locking script\n";
@@ -144,7 +142,7 @@ transaction_t make_P2PKH_transaction(uint32_t version, uint32_t locktime, std::s
     return tx;
 }
 
-int main(int argc, char* argv[]) {
+int main(int  /*argc*/, char*  /*argv*/[]) {
 
     //Construye la TX de id: b7749347c9e5b2a38b19fb2ab5a390d04d3368f1113aeb565d5fcf72d0e6391e
 

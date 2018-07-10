@@ -27,9 +27,9 @@
 #include <mutex>
 
 #include <boost/core/null_deleter.hpp>
-#include <bitcoin/node.hpp>
-#include <bitcoin/bitcoin/multi_crypto_support.hpp>
 
+#include <bitcoin/bitcoin/multi_crypto_support.hpp>
+#include <bitcoin/node.hpp>
 #include <bitcoin/node/parser.hpp>
 
 #include <bitprim/nodecint/version.h>
@@ -47,7 +47,7 @@ static constexpr int initialize_stop = 0;
 static constexpr int directory_exists = 0;
 static constexpr int directory_not_found = 2;
 
-std::promise<libbitcoin::code> executor::stopping_; // NOLINT
+std::promise<libbitcoin::code> executor::stopping_; //NOLINT
 
 executor::executor(libbitcoin::node::configuration const& config, std::ostream& output, std::ostream& error)
     : config_(config), output_(output), error_(error)
@@ -270,7 +270,7 @@ void executor::handle_running(libbitcoin::code const& ec) {
 }
 
 // This is the end of the stop sequence.
-void executor::handle_stopped(libbitcoin::code const& ec) {
+void executor::handle_stopped(libbitcoin::code const&  /*ec*/) {
     //stop(ec);
     
     //stop();

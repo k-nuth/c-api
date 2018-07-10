@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitprim/nodecint/binary.h>
 #include <bitcoin/bitcoin/utility/binary.hpp>
+#include <bitprim/nodecint/binary.h>
 
 libbitcoin::binary const& binary_const_cpp(binary_t binary) {
     return *static_cast<libbitcoin::binary const*>(binary);
@@ -39,7 +39,7 @@ binary_t binary_construct_string(char const* string) {
 }
 
 binary_t binary_construct_blocks(uint64_t /*size_t*/ bits_size, uint8_t* blocks, uint64_t /*size_t*/ n) {
-    libbitcoin::data_slice blocks_cpp(blocks, blocks + n); // NOLINT
+    libbitcoin::data_slice blocks_cpp(blocks, blocks + n); 
     return new libbitcoin::binary(bits_size, blocks_cpp);
 }
 
@@ -61,7 +61,7 @@ uint8_t const* binary_blocks(binary_t binary, uint64_t* /*size_t*/ out_n) {
 
 char* binary_encoded(binary_t binary) {
     std::string str = binary_const_cpp(binary).encoded();
-    auto* ret = (char*)malloc((str.size() + 1) * sizeof(char)); // NOLINT
+    auto* ret = static_cast<char*>(malloc((str.size() + 1) * sizeof(char)));
 
 //    std::strcpy(ret, str.c_str());
     std::copy_n(str.begin(), str.size() + 1, ret);

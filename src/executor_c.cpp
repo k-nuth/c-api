@@ -21,11 +21,14 @@
 
 #include <cstdio>
 #include <memory>
+
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/thread/latch.hpp>
-#include <bitprim/nodecint/executor.hpp>
-#include <bitprim/nodecint/version.h>
+
 #include <bitcoin/bitcoin/wallet/mnemonic.hpp>
+#include <bitprim/nodecint/executor.hpp>
+
+#include <bitprim/nodecint/version.h>
 
 
 libbitcoin::node::configuration make_config(char const* path) {
@@ -247,7 +250,7 @@ int executor_init_and_run_wait(executor_t exec) {
 
 int executor_stop(executor_t exec) {
     // std::cout << "executor_stop() - 1\n";
-    int res = exec->actual.stop();
+    auto res = static_cast<int>(exec->actual.stop());
     // std::cout << "executor_stop() - 2\n";
     return res;
 }

@@ -19,8 +19,8 @@
 
 #include <bitprim/nodecint/chain/output_list.h>
 
-#include <bitprim/nodecint/convertions.hpp>
 #include <bitprim/nodecint/chain/output.h>
+#include <bitprim/nodecint/convertions.hpp>
 
 
 //namespace {

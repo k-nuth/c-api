@@ -44,8 +44,8 @@ output_point_t output_point_construct_from_hash_index(hash_t hash, uint32_t inde
     return ret;
 }
 
-void output_point_destruct(output_point_t outpoint) {
-    delete &output_point_cpp(outpoint);
+void output_point_destruct(output_point_t op) {
+    delete &output_point_cpp(op);
 }
 
 //hash_t output_point_get_hash(output_point_t op) {
@@ -60,7 +60,7 @@ hash_t output_point_get_hash(output_point_t op) {
 
 void output_point_get_hash_out(output_point_t op, hash_t* out_hash) {
     auto const& hash_cpp = output_point_const_cpp(op).hash();
-    std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
+    std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
 uint32_t output_point_get_index(output_point_t op) {

@@ -19,9 +19,9 @@
 
 #include <bitprim/nodecint/chain/input.h>
 
-#include <bitprim/nodecint/convertions.hpp>
 #include <bitprim/nodecint/chain/output_point.h>
 #include <bitprim/nodecint/chain/script.h>
+#include <bitprim/nodecint/convertions.hpp>
 
 
 libbitcoin::chain::input const& chain_input_const_cpp(input_t input) {
@@ -93,8 +93,8 @@ output_point_t chain_input_previous_output(input_t input) {
 
 
 uint8_t* chain_input_to_data(input_t input, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
-    auto input_data = chain_input_const_cpp(input).to_data(wire);
-    auto* ret = (uint8_t*)malloc((input_data.size()) * sizeof(uint8_t)); // NOLINT
+    auto input_data = chain_input_const_cpp(input).to_data(wire != 0);
+    auto* ret = (uint8_t*)malloc((input_data.size()) * sizeof(uint8_t));  //NOLINT
     std::copy_n(input_data.begin(), input_data.size(), ret);
     *out_size = input_data.size();
     return ret;

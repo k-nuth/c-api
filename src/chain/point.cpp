@@ -19,8 +19,8 @@
 
 #include <bitprim/nodecint/chain/point.h>
 
-#include <bitprim/nodecint/helpers.hpp>
 #include <bitcoin/bitcoin/chain/point.hpp>
+#include <bitprim/nodecint/helpers.hpp>
 
 
 libbitcoin::chain::point const& chain_point_const_cpp(point_t point) {
@@ -41,7 +41,7 @@ hash_t chain_point_get_hash(point_t point) {
 
 void chain_point_get_hash_out(point_t point, hash_t* out_hash) {
     auto const& hash_cpp = chain_point_const_cpp(point).hash();
-    std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
+    std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
 int /*bool*/ chain_point_is_valid(point_t point) {

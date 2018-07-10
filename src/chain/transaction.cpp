@@ -19,10 +19,10 @@
 
 #include <bitprim/nodecint/chain/transaction.h>
 
+#include <bitprim/nodecint/chain/input_list.h>
+#include <bitprim/nodecint/chain/output_list.h>
 #include <bitprim/nodecint/convertions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/chain/output_list.h>
-#include <bitprim/nodecint/chain/input_list.h>
 
 libbitcoin::message::transaction const& chain_transaction_const_cpp(transaction_t transaction) {
     return *static_cast<libbitcoin::message::transaction const*>(transaction);
@@ -88,17 +88,17 @@ hash_t chain_transaction_hash(transaction_t transaction) {
 
 void chain_transaction_hash_out(transaction_t transaction, hash_t* out_hash) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash();
-    std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
+    std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
 hash_t chain_transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type) {
-    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type);
+    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
     return bitprim::to_hash_t(hash_cpp);
 }
 
 void chain_transaction_hash_sighash_type_out(transaction_t transaction, uint32_t sighash_type, hash_t* out_hash) {
-    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type);
-    std::memcpy(out_hash->hash, hash_cpp.data(), BITCOIN_HASH_SIZE);
+    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
+    std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
 }
 
 uint32_t chain_transaction_locktime(transaction_t transaction) {
@@ -182,7 +182,7 @@ input_list_t chain_transaction_inputs(transaction_t transaction) {
 
 uint8_t* chain_transaction_to_data(transaction_t transaction, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
     auto tx_data = chain_transaction_const_cpp(transaction).to_data(wire);
-    auto* ret = (uint8_t*)malloc((tx_data.size()) * sizeof(uint8_t)); // NOLINT
+    auto* ret = (uint8_t*)malloc((tx_data.size()) * sizeof(uint8_t));  //NOLINT
     std::copy_n(tx_data.begin(), tx_data.size(), ret);
     *out_size = tx_data.size();
     return ret;

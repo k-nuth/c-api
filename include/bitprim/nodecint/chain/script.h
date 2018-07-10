@@ -20,11 +20,11 @@
 #ifndef BITPRIM_NODECINT_CHAIN_SCRIPT_H_
 #define BITPRIM_NODECINT_CHAIN_SCRIPT_H_
 
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 
-#include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
+#include <bitprim/nodecint/visibility.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -67,7 +67,7 @@ uint8_t* chain_script_to_data(script_t script, int /*bool*/ prefix, uint64_t* /*
 BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_script_sigops(script_t script, int /*bool*/ embedded);
 
-//TODO DELETE
+// TODO(fernando): DELETE
 //BITPRIM_EXPORT
 //uint64_t /*size_t*/ chain_script_embedded_sigops(script_t script, script_t prevout_script);
 
