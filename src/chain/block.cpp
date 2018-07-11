@@ -33,16 +33,12 @@ libbitcoin::message::block& chain_block_cpp(block_t block) {
     return *static_cast<libbitcoin::message::block*>(block);
 }
 
-
 extern "C" {
 
-//block();
 block_t chain_block_construct_default() {
     return new libbitcoin::message::block();
 }
 
-//block(chain::header&& header, chain::transaction::list&& transactions);
-//block(const chain::header& header, const chain::transaction::list& transactions);
 block_t chain_block_construct(header_t header, transaction_list_t transactions) {
 
     auto const& header_cpp = *static_cast<libbitcoin::chain::header const*>(header);
@@ -70,7 +66,8 @@ hash_t chain_block_hash(block_t block) {
 
 void chain_block_hash_out(block_t block, hash_t* out_hash) {
     auto const& hash_cpp = chain_block_const_cpp(block).hash();
-    std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
+    // std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
+    bitprim::copy_c_hash(hash_cpp, out_hash);
 }
 
 //deprecated
@@ -154,7 +151,8 @@ hash_t chain_block_generate_merkle_root(block_t block) {
 
 void chain_block_generate_merkle_root_out(block_t block, hash_t* out_merkle) {
     auto hash_cpp = chain_block_const_cpp(block).generate_merkle_root();
-    std::memcpy(static_cast<void*>(out_merkle->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
+    // std::memcpy(static_cast<void*>(out_merkle->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
+    bitprim::copy_c_hash(hash_cpp, out_merkle);
 }
 
 uint64_t /*size_t*/ chain_block_signature_operations(block_t block) {

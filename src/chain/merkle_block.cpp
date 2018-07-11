@@ -59,7 +59,8 @@ void chain_merkle_block_hash_nth_out(merkle_block_t block, uint64_t /*size_t*/ n
 
     auto* blk = &chain_merkle_block_cpp(block);
     auto& hash_n = blk->hashes()[n];
-    std::memcpy(static_cast<void*>(out_hash->hash), hash_n.data(), BITCOIN_HASH_SIZE);
+    // std::memcpy(static_cast<void*>(out_hash->hash), hash_n.data(), BITCOIN_HASH_SIZE);
+    bitprim::copy_c_hash(hash_n, out_hash);
 }
 
 header_t chain_merkle_block_header(merkle_block_t block) {

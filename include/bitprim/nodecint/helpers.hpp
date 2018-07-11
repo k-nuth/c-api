@@ -121,7 +121,8 @@ constexpr ec_secret_t null_ec_secret = {
 inline
 libbitcoin::hash_digest hash_to_cpp(uint8_t* x) {
     libbitcoin::hash_digest ret;
-    return std::copy_n(x, ret.size(), std::begin(ret));
+    std::copy_n(x, ret.size(), std::begin(ret));
+    return ret;
 }
 
 template <typename T>
@@ -134,7 +135,8 @@ inline
 // const char* create_c_str(std::string const& str) {
 char* create_c_str(std::string const& str) {
     auto* c_str = mnew<char>(str.size() + 1);
-    return std::copy_n(str.begin(), str.size() + 1, c_str);
+    std::copy_n(str.begin(), str.size() + 1, c_str);
+    return c_str;
 }
 
 template <typename N>
@@ -142,7 +144,21 @@ inline
 uint8_t* create_c_array(libbitcoin::data_chunk const& arr, N& out_size) {
     auto* ret = mnew<uint8_t>(arr.size());
     out_size = arr.size();
-    return std::copy_n(arr.begin(), arr.size(), ret);
+    std::copy_n(arr.begin(), arr.size(), ret);
+    return ret;
+}
+
+inline
+error_code_t to_c_err(std::error_code const& ec) {
+    return static_cast<error_code_t>(ec.value());
+}
+
+template <typename HashCpp, typename HashC>
+inline
+void copy_c_hash(HashCpp const& in, HashC* out) {
+    //precondition: size of out->hash is greater or equal than in.size()
+    // std::memcpy(static_cast<void*>(out->hash), in.data(), BITCOIN_HASH_SIZE);
+    std::copy_n(in.begin(), in.size(), out->hash);
 }
 
 } /* namespace bitprim */
