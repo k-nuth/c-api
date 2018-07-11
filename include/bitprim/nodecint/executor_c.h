@@ -46,7 +46,6 @@ executor_t executor_construct_handles(char const* path, void* sout, void* serr);
 #endif /* defined(_WIN32) */
 
 
-
 BITPRIM_EXPORT
 void executor_destruct(executor_t exec);
 
@@ -57,7 +56,7 @@ BITPRIM_EXPORT
 void executor_run(executor_t exec, void* ctx, run_handler_t handler);
 
 BITPRIM_EXPORT
-void executor_init_and_run(executor_t exec,void* ctx, run_handler_t handler);
+void executor_init_and_run(executor_t exec, void* ctx, run_handler_t handler);
 
 BITPRIM_EXPORT
 int executor_run_wait(executor_t exec);
@@ -85,7 +84,6 @@ char const* executor_version(void);
 
 BITPRIM_EXPORT
 int executor_load_config_valid(executor_t exec);
-
 
 #ifdef __cplusplus
 } // extern "C"

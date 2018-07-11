@@ -158,7 +158,7 @@ inline
 void copy_c_hash(HashCpp const& in, HashC* out) {
     //precondition: size of out->hash is greater or equal than in.size()
     // std::memcpy(static_cast<void*>(out->hash), in.data(), BITCOIN_HASH_SIZE);
-    std::copy_n(in.begin(), in.size(), out->hash);
+    std::copy_n(in.begin(), in.size(), static_cast<uint8_t*>(out->hash));
 }
 
 } /* namespace bitprim */
