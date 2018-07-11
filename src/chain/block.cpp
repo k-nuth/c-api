@@ -22,7 +22,7 @@
 #include <bitprim/nodecint/convertions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
- #include <bitcoin/bitcoin/message/transaction.hpp>
+#include <bitcoin/bitcoin/message/transaction.hpp>
 
 
 libbitcoin::message::block const& chain_block_const_cpp(block_t block) {

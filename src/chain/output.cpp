@@ -21,6 +21,7 @@
 
 #include <bitprim/nodecint/chain/script.h>
 #include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/helpers.hpp>
 
 libbitcoin::chain::output const& chain_output_const_cpp(output_t output) {
     return *static_cast<libbitcoin::chain::output const*>(output);
