@@ -46,12 +46,6 @@ uint64_t /*size_t*/ chain_header_satoshi_fixed_size(uint32_t version) {
 uint8_t const* chain_header_to_data(header_t header, uint32_t version, uint64_t* /*size_t*/ out_size) {
     auto const& header_cpp = chain_header_const_cpp(header);
     auto data = header_cpp.to_data(version);
-
-    // auto* ret = (uint8_t*)malloc((data.size()) * sizeof(uint8_t)); // NOLINT 
-    // std::copy_n(data.begin(), data.size(), ret);
-    // *out_size = data.size();
-    // return ret;
-
     return bitprim::create_c_array(data, *out_size);
 }
 
@@ -71,15 +65,8 @@ header_t chain_header_construct(uint32_t version, uint8_t* previous_block_hash, 
     //precondition: [previous_block_hash, 32) is a valid range
     //              && [merkle, 32) is a valid range
 
-//    libbitcoin::hash_digest previous_block_hash_cpp;
-//    std::copy_n(previous_block_hash, previous_block_hash_cpp.size(), std::begin(previous_block_hash_cpp));
-//
-//    libbitcoin::hash_digest merkle_cpp;
-//    std::copy_n(merkle, merkle_cpp.size(), std::begin(merkle_cpp));
-
     auto previous_block_hash_cpp = bitprim::hash_to_cpp(previous_block_hash);
     auto merkle_cpp = bitprim::hash_to_cpp(merkle);
-
     return new libbitcoin::message::header(version, previous_block_hash_cpp, merkle_cpp, timestamp, bits, nonce);
 }
 
