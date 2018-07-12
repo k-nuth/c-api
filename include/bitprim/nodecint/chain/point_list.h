@@ -21,7 +21,6 @@
 #define BITPRIM_NODECINT_CHAIN_POINT_LIST_H_
 
 #include <stdint.h>
-#include <stdio.h>
 
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>

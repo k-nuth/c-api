@@ -30,6 +30,7 @@ libbitcoin::chain::output_point& output_point_cpp(output_point_t op) {
     return *static_cast<libbitcoin::chain::output_point*>(op);
 }
 
+// ---------------------------------------------------------------------------
 extern "C" {
 
 output_point_t output_point_construct() {
@@ -68,4 +69,4 @@ uint32_t output_point_get_index(output_point_t op) {
     return output_point_const_cpp(op).index();
 }
 
-} /* extern "C" */
+} // extern "C"

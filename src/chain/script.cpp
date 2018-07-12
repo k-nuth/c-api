@@ -31,6 +31,7 @@ libbitcoin::chain::script& chain_script_cpp(script_t s) {
     return *static_cast<libbitcoin::chain::script*>(s);
 }
 
+// ---------------------------------------------------------------------------
 extern "C" {
 
 script_t chain_script_construct_default() {
@@ -99,117 +100,4 @@ uint64_t /*size_t*/ chain_script_sigops(script_t script, int /*bool*/ embedded) 
     return chain_script_const_cpp(script).sigops(embedded != 0);
 }
 
-// TODO(fernando): DELETE
-//uint64_t /*size_t*/ chain_script_embedded_sigops(script_t script, script_t prevout_script) {
-//    auto const& prevout_script_cpp = chain_script_const_cpp(prevout_script);
-//    return chain_script_const_cpp(script).embedded_sigops(prevout_script_cpp);
-//}
-
-//void chain_script_find_and_delete(script_t script, const data_stack& endorsements) {
-//    return chain_script_const_cpp(script).embedded_sigops(find_and_delete);
-//}
-
-
-
-
-
-
-
-//
-//// Serialization.
-////-------------------------------------------------------------------------
-//
-//data_chunk to_data(bool prefix) const;
-//void to_data(std::ostream& stream, bool prefix) const;
-//void to_data(writer& sink, bool prefix) const;
-//
-//std::string to_string(uint32_t active_forks) const;
-//
-//// Iteration.
-////-------------------------------------------------------------------------
-//
-//void clear();
-//bool empty() const;
-//size_t size() const;
-//const operation& front() const;
-//const operation& back() const;
-//operation::iterator begin() const;
-//operation::iterator end() const;
-//const operation& operator[](size_t index) const;
-//
-//// Properties (size, accessors, cache).
-////-------------------------------------------------------------------------
-//
-//const operation::list& operations() const;
-//
-//// Signing.
-////-------------------------------------------------------------------------
-//
-//static hash_digest generate_signature_hash(const transaction& tx,
-//                                           uint32_t input_index, const script& script_code, uint8_t sighash_type);
-//
-//static bool check_signature(const ec_signature& signature,
-//                            uint8_t sighash_type, const data_chunk& public_key,
-//                            const script& script_code, const transaction& tx,
-//                            uint32_t input_index);
-//
-//static bool create_endorsement(endorsement& out, const ec_secret& secret,
-//                               const script& prevout_script, const transaction& tx,
-//                               uint32_t input_index, uint8_t sighash_type);
-//
-//// Utilities (static).
-////-------------------------------------------------------------------------
-//
-///// Determine if the fork is enabled in the active forks set.
-//static bool is_enabled(uint32_t active_forks, machine::rule_fork fork)
-//{
-//    return (fork & active_forks) != 0;
-//}
-//
-///// No-code patterns (consensus).
-//static bool is_push_only(const operation::list& ops);
-//static bool is_relaxed_push(const operation::list& ops);
-//static bool is_coinbase_pattern(const operation::list& ops, size_t height);
-//
-///// Unspendable pattern (standard).
-//static bool is_null_data_pattern(const operation::list& ops);
-//
-///// Payment script patterns (standard, psh is also consensus).
-//static bool is_pay_multisig_pattern(const operation::list& ops);
-//static bool is_pay_public_key_pattern(const operation::list& ops);
-//static bool is_pay_key_hash_pattern(const operation::list& ops);
-//static bool is_pay_script_hash_pattern(const operation::list& ops);
-//
-///// Signature script patterns (standard).
-//static bool is_sign_multisig_pattern(const operation::list& ops);
-//static bool is_sign_public_key_pattern(const operation::list& ops);
-//static bool is_sign_key_hash_pattern(const operation::list& ops);
-//static bool is_sign_script_hash_pattern(const operation::list& ops);
-//
-///// Stack factories (standard).
-//static operation::list to_null_data_pattern(data_slice data);
-//static operation::list to_pay_public_key_pattern(data_slice point);
-//static operation::list to_pay_key_hash_pattern(const short_hash& hash);
-//static operation::list to_pay_script_hash_pattern(const short_hash& hash);
-//static operation::list to_pay_multisig_pattern(uint8_t signatures,
-//                                               const point_list& points);
-//static operation::list to_pay_multisig_pattern(uint8_t signatures,
-//                                               const data_stack& points);
-//
-//// Utilities (non-static).
-////-------------------------------------------------------------------------
-//
-//machine::script_pattern pattern() const;
-//void find_and_delete(const data_stack& endorsements);
-//
-//// Validation.
-////-------------------------------------------------------------------------
-//
-//static code verify(const transaction& tx, uint32_t input, uint32_t forks);
-//
-//// TOD: move back to private.
-//static code verify(const transaction& tx, uint32_t input_index,
-//                   uint32_t forks, const script& input_script,
-//                   const script& prevout_script);
-
-} /* extern "C" */
+} // extern "C"

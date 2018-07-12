@@ -21,7 +21,6 @@
 #define BITPRIM_NODECINT_CHAIN_OUTPUT_H_
 
 #include <stdint.h>
-#include <stdio.h>
 
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
@@ -33,8 +32,6 @@ extern "C" {
 BITPRIM_EXPORT
 output_t chain_output_construct_default(void);
 
-//output(uint64_t value, chain::script&& script);
-//output(uint64_t value, const chain::script& script);
 BITPRIM_EXPORT
 output_t chain_output_construct(uint64_t value, script_t script);
 
@@ -64,7 +61,6 @@ uint8_t* chain_output_to_data(output_t output, int /*bool*/ wire, uint64_t* /*si
 
 //BITPRIM_EXPORT
 //uint32_t chain_output_get_index(output_t output);
-
 
 #ifdef __cplusplus
 } // extern "C"

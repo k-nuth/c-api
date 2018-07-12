@@ -20,10 +20,11 @@
 #include <bitprim/nodecint/platform.h>
 #include <cstdlib>
 
+// ---------------------------------------------------------------------------
 extern "C" {
 
 void platform_free(void* ptr) {
     free(ptr);
 }
 
-}
+} //extern "C"

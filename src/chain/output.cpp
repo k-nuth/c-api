@@ -31,16 +31,13 @@ libbitcoin::chain::output& chain_output_cpp(output_t output) {
     return *static_cast<libbitcoin::chain::output*>(output);
 }
 
+// ---------------------------------------------------------------------------
 extern "C" {
 
-
-//output();
 output_t chain_output_construct_default() {
     return new libbitcoin::chain::output();
 }
 
-//output(uint64_t value, chain::script&& script);
-//output(uint64_t value, const chain::script& script);
 output_t chain_output_construct(uint64_t value, script_t script) {
     return new libbitcoin::chain::output(value, chain_script_const_cpp(script));
 }
@@ -79,35 +76,9 @@ payment_address_t chain_output_payment_address(output_t output, int /*bool*/ use
     return new libbitcoin::wallet::payment_address(payment_address);
 }
 
-//const chain::script& script() const;
-
-//// Serialization.
-////-----------------------------------------------------------------------------
-//
-//data_chunk to_data(bool wire=true) const;
-//void to_data(std::ostream& stream, bool wire=true) const;
-//void to_data(writer& sink, bool wire=true) const;
-
-
 uint8_t* chain_output_to_data(output_t output, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
     auto output_data = chain_output_const_cpp(output).to_data(wire != 0);
     return bitprim::create_c_array(output_data, *out_size);
 }
 
-
-//// Properties (size, accessors, cache).
-////-----------------------------------------------------------------------------
-//
-//
-//void set_value(uint64_t value);
-//
-//const chain::script& script() const;
-//void set_script(const chain::script& value);
-//void set_script(chain::script&& value);
-//
-///// The payment address extracted from this output as a standard script.
-//wallet::payment_address address() const;
-
-
-
-} /* extern "C" */
+} // extern "C"

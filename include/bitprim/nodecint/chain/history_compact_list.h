@@ -20,7 +20,6 @@
 #ifndef BITPRIM_NODECINT_CHAIN_HISTORY_COMPACT_LIST_H_
 #define BITPRIM_NODECINT_CHAIN_HISTORY_COMPACT_LIST_H_
 
-//#include <stdio.h>
 #include <stdint.h>
 
 #include <bitprim/nodecint/primitives.h>

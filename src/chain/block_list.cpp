@@ -34,16 +34,14 @@ block_vector& chain_block_list_cpp(block_list_t list) {
     return *static_cast<block_vector*>(list);
 }
 
-//} /* end of anonymous namespace */
-
-
 block_list_t chain_block_list_construct_from_cpp(block_vector& list) {
     return &list;
 }
 
-#ifdef __cplusplus
+//} /* end of anonymous namespace */
+
+// ---------------------------------------------------------------------------
 extern "C" {
-#endif
 
 block_list_t chain_block_list_construct_default() {
     return new block_vector();
@@ -76,4 +74,4 @@ block_t chain_block_list_nth(block_list_t list, uint64_t /*size_t*/ n) {
     return &x;
 }
 
-} /* extern "C" */
+} // extern "C"

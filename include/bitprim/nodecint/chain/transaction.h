@@ -21,11 +21,9 @@
 #define BITPRIM_NODECINT_CHAIN_TRANSACTION_H_
 
 #include <stdint.h>
-#include <stdio.h>
 
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -34,12 +32,9 @@ extern "C" {
 BITPRIM_EXPORT
 transaction_t chain_transaction_factory_from_data(uint32_t version, uint8_t* data, uint64_t n);
 
-//transaction(void);
 BITPRIM_EXPORT
 transaction_t chain_transaction_construct_default(void);
 
-//transaction(uint32_t version, uint32_t locktime, chain::input::list&& inputs, chain::output::list&& outputs);
-//transaction(uint32_t version, uint32_t locktime, const chain::input::list& inputs, const chain::output::list& outputs);
 BITPRIM_EXPORT
 transaction_t chain_transaction_construct(uint32_t version, uint32_t locktime, input_list_t inputs, output_list_t outputs);
 

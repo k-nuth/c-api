@@ -35,7 +35,7 @@ mempool_transaction_list_t chain_mempool_transaction_list_construct_from_cpp(std
     return &list;
 }
 
-// ----------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 extern "C" {
 
 mempool_transaction_list_t chain_mempool_transaction_list_construct_default() {
@@ -55,5 +55,4 @@ mempool_transaction_t chain_mempool_transaction_list_nth(mempool_transaction_lis
     return &x;
 }
 
-} /* extern "C" */
-// ----------------------------------------------------------------------------------------
+} // extern "C"

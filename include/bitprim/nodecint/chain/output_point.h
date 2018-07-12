@@ -21,11 +21,9 @@
 #define BITPRIM_NODECINT_CHAIN_OUTPUT_POINT_H_
 
 #include <stdint.h>
-#include <stdio.h>
 
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -52,6 +50,5 @@ uint32_t output_point_get_index(output_point_t op);
 #ifdef __cplusplus
 } // extern "C"
 #endif
-
 
 #endif /* BITPRIM_NODECINT_CHAIN_OUTPUT_POINT_H_ */

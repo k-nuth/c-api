@@ -36,7 +36,7 @@ input_list_t chain_input_list_construct_from_cpp(libbitcoin::chain::input::list&
     return &list;
 }
 
-// ----------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 extern "C" {
 
 input_list_t chain_input_list_construct_default() {
@@ -60,5 +60,4 @@ input_t chain_input_list_nth(input_list_t list, uint64_t /*size_t*/ n) {
     return &x;
 }
 
-} /* extern "C" */
-// ----------------------------------------------------------------------------------------
+} // extern "C"

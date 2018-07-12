@@ -92,7 +92,7 @@ using handle_sink = typename boost::iostreams::file_descriptor_sink::handle_type
 
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
-
+// ---------------------------------------------------------------------------
 extern "C" {
 
 struct executor {
@@ -279,4 +279,4 @@ char const* executor_version() {
     return BITPRIM_NODECINT_VERSION;
 }
 
-} /* extern "C" */
+} // extern "C"

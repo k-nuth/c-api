@@ -33,6 +33,7 @@ libbitcoin::message::get_blocks& chain_get_blocks_cpp(get_blocks_t get_b) {
     return *static_cast<libbitcoin::message::get_blocks*>(get_b);
 }
 
+// ---------------------------------------------------------------------------
 extern "C" {
 
 get_blocks_t chain_get_blocks_construct_default() {
@@ -76,26 +77,16 @@ void chain_get_blocks_set_stop_hash(get_blocks_t get_b, hash_t value) {
     chain_get_blocks_cpp(get_b).set_stop_hash(value_cpp);
 }
 
-//virtual bool from_data(uint32_t version, const data_chunk& data);
-//virtual bool from_data(uint32_t version, std::istream& stream);
-//virtual bool from_data(uint32_t version, reader& source);
-//data_chunk to_data(uint32_t version) const;
-//void to_data(uint32_t version, std::ostream& stream) const;
-//void to_data(uint32_t version, writer& sink) const;
-
-//bool is_valid() const;
 int /*bool*/ chain_get_blocks_is_valid(get_blocks_t get_b) {
     return static_cast<int>(chain_get_blocks_cpp(get_b).is_valid());
 }
 
-//void reset();
 void chain_get_blocks_reset(get_blocks_t get_b) {
     chain_get_blocks_cpp(get_b).reset();
 }
 
-//size_t serialized_size(uint32_t version) const;
 uint64_t /*size_t*/ chain_get_blocks_serialized_size(get_blocks_t get_b, uint32_t version) {
     return chain_get_blocks_cpp(get_b).serialized_size(version);
 }
 
-} /* extern "C" */
+} // extern "C"

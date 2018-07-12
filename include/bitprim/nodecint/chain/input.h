@@ -21,22 +21,17 @@
 #define BITPRIM_NODECINT_CHAIN_INPUT_H_
 
 #include <stdint.h>
-#include <stdio.h>
 
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
-
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-//input(void);
 BITPRIM_EXPORT
 input_t chain_input_construct_default(void);
 
-//input(output_point&& previous_output, chain::script&& script, uint32_t sequence);
-//input(const output_point& previous_output, const chain::script& script, uint32_t sequence);
 BITPRIM_EXPORT
 input_t chain_input_construct(output_point_t previous_output, script_t script, uint32_t sequence);
 

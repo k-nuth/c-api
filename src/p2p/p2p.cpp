@@ -31,7 +31,7 @@ libbitcoin::network::p2p& p2p_cast(p2p_t p2p) {
 
 } /* end of anonymous namespace */
 
-
+// ---------------------------------------------------------------------------
 extern "C" {
 
 uint64_t /*size_t*/ p2p_address_count(p2p_t p2p) {
@@ -50,4 +50,4 @@ int /*bool*/ p2p_stopped(p2p_t p2p) {
     return static_cast<int>(p2p_cast(p2p).stopped());
 }
 
-} /* extern "C" */
+} // extern "C"

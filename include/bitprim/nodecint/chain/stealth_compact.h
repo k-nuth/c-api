@@ -31,7 +31,6 @@
 #define BITPRIM_NODECINT_CHAIN_STEALTH_COMPACT_H_
 
 #include <stdint.h>
-#include <stdio.h>
 
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
@@ -39,9 +38,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-//BITPRIM_EXPORT
-//point_kind_t history_compact_get_point_kind(history_compact_t history);
 
 BITPRIM_EXPORT
 hash_t stealth_compact_get_ephemeral_public_key_hash(stealth_compact_t stealth);
@@ -61,19 +57,8 @@ short_hash_t stealth_compact_get_public_key_hash(stealth_compact_t stealth);
 BITPRIM_EXPORT
 void stealth_compact_get_public_key_hash_out(stealth_compact_t stealth, short_hash_t* out_pk_hash);
 
-/*
-    typedef std::vector<stealth_compact> list;
-
-    hash_digest ephemeral_public_key_hash;
-    short_hash public_key_hash;
-    hash_digest transaction_hash;
-*/
-
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
 #endif // BITPRIM_NODECINT_CHAIN_STEALTH_COMPACT_H_
-
-
-

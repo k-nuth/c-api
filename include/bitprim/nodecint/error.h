@@ -20,11 +20,6 @@
 #ifndef BITPRIM_NODECINT_ERROR_H_
 #define BITPRIM_NODECINT_ERROR_H_
 
-// #include <stdio.h>
-// #include <stdint.h>
-
-// #include <bitprim/nodecint/visibility.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

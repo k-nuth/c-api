@@ -31,6 +31,7 @@ libbitcoin::wallet::payment_address& chain_payment_address_cpp(payment_address_t
     return *static_cast<libbitcoin::wallet::payment_address*>(payment_address);
 }
 
+// ---------------------------------------------------------------------------
 extern "C" {
 
 #ifdef BITPRIM_CURRENCY_BCH
@@ -42,7 +43,6 @@ void chain_payment_address_set_cashaddr_prefix(char const* prefix) {
 
 payment_address_t chain_payment_address_construct_from_string(char const* address) {
     std::string addr_cpp(address);
-    // return std::make_unique<libbitcoin::wallet::payment_address>(addr_cpp).release();
     return new libbitcoin::wallet::payment_address(addr_cpp);
 }
 
@@ -77,4 +77,4 @@ void chain_payment_address_destruct(payment_address_t payment_address) {
     delete &chain_payment_address_cpp(payment_address);
 }
 
-} /* extern "C" */
+} // extern "C"

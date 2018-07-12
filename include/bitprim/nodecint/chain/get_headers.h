@@ -20,12 +20,10 @@
 #ifndef BITPRIM_NODECINT_CHAIN_GET_HEADERS_H_
 #define BITPRIM_NODECINT_CHAIN_GET_HEADERS_H_
 
-#include <stdio.h>
 #include <stdint.h>
 
 #include <bitprim/nodecint/visibility.h>
 #include <bitprim/nodecint/primitives.h>
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -54,13 +52,6 @@ void chain_get_headers_stop_hash_out(get_headers_t get_b, hash_t* out_stop_hash)
 
 BITPRIM_EXPORT
 void chain_get_headers_set_stop_hash(get_headers_t get_b, hash_t value);
-
-//virtual bool from_data(uint32_t version, const data_chunk& data);
-//virtual bool from_data(uint32_t version, std::istream& stream);
-//virtual bool from_data(uint32_t version, reader& source);
-//data_chunk to_data(uint32_t version) const;
-//void to_data(uint32_t version, std::ostream& stream) const;
-//void to_data(uint32_t version, writer& sink) const;
 
 BITPRIM_EXPORT
 int /*bool*/ chain_get_headers_is_valid(get_headers_t get_b);

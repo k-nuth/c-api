@@ -25,8 +25,6 @@
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
 
-
-// ----------------------------------------------------------------------------------------
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -49,6 +47,6 @@ input_t chain_input_list_nth(input_list_t list, uint64_t /*size_t*/ n);
 #ifdef __cplusplus
 } // extern "C"
 #endif
-// ----------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 #endif /* BITPRIM_NODECINT_CHAIN_INPUT_LIST_H_ */

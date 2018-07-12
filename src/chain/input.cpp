@@ -33,20 +33,16 @@ libbitcoin::chain::input& chain_input_cpp(input_t input) {
     return *static_cast<libbitcoin::chain::input*>(input);
 }
 
-
+// ---------------------------------------------------------------------------
 extern "C" {
 
-//input();
 input_t chain_input_construct_default() {
     return new libbitcoin::chain::input();
 }
 
-//input(output_point&& previous_output, chain::script&& script, uint32_t sequence);
-//input(const output_point& previous_output, const chain::script& script, uint32_t sequence);
 input_t chain_input_construct(output_point_t previous_output, script_t script, uint32_t sequence) {
     return new libbitcoin::chain::input(output_point_const_cpp(previous_output), chain_script_const_cpp(script), sequence);
 }
-
 
 void chain_input_destruct(input_t input) {
     delete &chain_input_cpp(input);
@@ -85,34 +81,9 @@ output_point_t chain_input_previous_output(input_t input) {
     return &(chain_input_cpp(input).previous_output());
 }
 
-//// Serialization.
-////-----------------------------------------------------------------------------
-//
-//data_chunk to_data(bool wire=true) const;
-//void to_data(std::ostream& stream, bool wire=true) const;
-//void to_data(writer& sink, bool wire=true) const;
-
-
 uint8_t* chain_input_to_data(input_t input, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
     auto input_data = chain_input_const_cpp(input).to_data(wire != 0);
     return bitprim::create_c_array(input_data, *out_size);
 }
 
-
-//// Properties (size, accessors, cache).
-////-----------------------------------------------------------------------------
-//
-//const output_point& previous_output() const;
-//void set_previous_output(const output_point& value);
-//void set_previous_output(output_point&& value);
-//
-//void set_script(const chain::script& value);
-//void set_script(chain::script&& value);
-//
-//void set_sequence(uint32_t value);
-//
-///// The payment address extraxcted from this input as a standard script.
-//wallet::payment_address address() const;
-
-
-} /* extern "C" */
+} // extern "C"

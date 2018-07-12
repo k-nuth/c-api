@@ -31,20 +31,12 @@ libbitcoin::message::merkle_block& chain_merkle_block_cpp(merkle_block_t block) 
     return *static_cast<libbitcoin::message::merkle_block*>(block);
 }
 
+// ---------------------------------------------------------------------------
 extern "C" {
-
 
 void chain_merkle_block_destruct(merkle_block_t block) {
     delete &chain_merkle_block_cpp(block);
 }
-
-//hash_t chain_merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) {
-//    //precondition: n >=0 && n < hashes().size()
-//
-//    auto* blk = &chain_merkle_block_cpp(block);
-//    auto& hash_n = blk->hashes()[n];
-//    return hash_n.data();
-//}
 
 hash_t chain_merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) {
     //precondition: n >=0 && n < hashes().size()
@@ -87,4 +79,4 @@ void chain_merkle_block_reset(merkle_block_t block) {
     chain_merkle_block_cpp(block).reset();
 }
 
-} /* extern "C" */
+} // extern "C"

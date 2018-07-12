@@ -20,7 +20,6 @@
 #ifndef BITPRIM_NODECINT_CHAIN_STEALTH_COMPACT_LIST_H
 #define BITPRIM_NODECINT_CHAIN_STEALTH_COMPACT_LIST_H
 
-//#include <stdio.h>
 #include <stdint.h>
 
 #include <bitprim/nodecint/primitives.h>
