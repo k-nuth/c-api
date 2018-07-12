@@ -25,10 +25,10 @@
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/thread/latch.hpp>
 
-#include <bitcoin/bitcoin/wallet/mnemonic.hpp>
 #include <bitprim/nodecint/executor.hpp>
-
 #include <bitprim/nodecint/version.h>
+
+#include <bitcoin/bitcoin/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 
 
 libbitcoin::node::configuration make_config(char const* path) {
