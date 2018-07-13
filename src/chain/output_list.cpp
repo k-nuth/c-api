@@ -40,6 +40,7 @@ output_list_t chain_output_list_construct_from_cpp(libbitcoin::chain::output::li
     return &list;
 }
 
+// ---------------------------------------------------------------------------
 extern "C" {
 
 output_list_t chain_output_list_construct_default() {
@@ -63,4 +64,4 @@ output_t chain_output_list_nth(output_list_t list, uint64_t /*size_t*/ n) {
     return &x;
 }
 
-} /* extern "C" */
+} // extern "C"

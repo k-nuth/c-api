@@ -357,35 +357,49 @@ jobs:
     - stage: build and upload binaries
       os: osx
       language: generic
-      osx_image: xcode9
-      env: CONAN_APPLE_CLANG_VERSIONS=9.0 
+      osx_image: xcode9.3
+      env: CONAN_APPLE_CLANG_VERSIONS=9.1
            BITPRIM_RUN_TESTS=true
            BITPRIM_CI_CURRENCY=BCH
       if: branch =~ /^(release|hotfix).+$/    #Just releases
     - stage: build and upload binaries
       os: osx
       language: generic
-      osx_image: xcode9
-      env: CONAN_APPLE_CLANG_VERSIONS=9.0 
+      osx_image: xcode9.3
+      env: CONAN_APPLE_CLANG_VERSIONS=9.1
            BITPRIM_RUN_TESTS=true
            BITPRIM_CI_CURRENCY=BTC
       if: branch =~ /^(release|hotfix).+$/    #Just releases
-
     - stage: build and upload binaries
       os: osx
       language: generic
-      osx_image: xcode9
-      env: CONAN_APPLE_CLANG_VERSIONS=9.0 
+      osx_image: xcode9.3
+      env: CONAN_APPLE_CLANG_VERSIONS=9.1
            BITPRIM_CI_CURRENCY=BCH
       if: branch =~ /^(feature|dev).*$/       #Just development
     - stage: build and upload binaries
       os: osx
       language: generic
-      osx_image: xcode9
-      env: CONAN_APPLE_CLANG_VERSIONS=9.0 
+      osx_image: xcode9.3
+      env: CONAN_APPLE_CLANG_VERSIONS=9.1
            BITPRIM_CI_CURRENCY=BTC
       if: branch =~ /^(feature|dev).*$/       #Just development
 
+
+    - stage: build and upload binaries
+      os: osx
+      language: generic
+      osx_image: xcode9
+      env: CONAN_APPLE_CLANG_VERSIONS=9.0
+           BITPRIM_CI_CURRENCY=BCH
+      if: branch =~ /^(release|hotfix).+$/    #Just releases
+    - stage: build and upload binaries
+      os: osx
+      language: generic
+      osx_image: xcode9
+      env: CONAN_APPLE_CLANG_VERSIONS=9
+           BITPRIM_CI_CURRENCY=BTC
+      if: branch =~ /^(release|hotfix).+$/    #Just releases
 
     - stage: build and upload binaries
       os: osx

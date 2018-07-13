@@ -25,12 +25,9 @@
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
 
-
-
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 
 BITPRIM_EXPORT
 block_list_t chain_block_list_construct_default(void);

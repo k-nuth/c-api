@@ -34,6 +34,7 @@ libbitcoin::blockchain::mempool_transaction_summary const& chain_mempool_transac
 //}
 
 
+// ---------------------------------------------------------------------------
 extern "C" {
 
 char const* chain_mempool_transaction_address(mempool_transaction_t tx) {
@@ -69,7 +70,7 @@ char const* chain_mempool_transaction_prev_output_index(mempool_transaction_t tx
     return bitprim::create_c_str(tx_prev_output_index_str);
 }
 
-} /* extern "C" */
+} // extern "C"
 
 
 

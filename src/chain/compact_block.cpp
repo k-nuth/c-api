@@ -32,6 +32,7 @@ libbitcoin::message::compact_block &compact_block_cpp(compact_block_t block) {
 
 } /* end of anonymous namespace */
 
+// ---------------------------------------------------------------------------
 extern "C" {
 
 header_t compact_block_header(compact_block_t block) {
@@ -70,4 +71,4 @@ void compact_block_reset(compact_block_t block) {
     compact_block_cpp(block).reset();
 }
 
-} /* extern "C" */
+} // extern "C"

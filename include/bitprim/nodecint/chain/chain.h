@@ -21,7 +21,6 @@
 #define BITPRIM_NODECINT_CHAIN_CHAIN_H_
 
 #include <stdint.h>
-#include <stdio.h>
 
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
@@ -29,7 +28,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 
 BITPRIM_EXPORT
 void chain_fetch_last_height(chain_t chain, void* ctx, last_height_fetch_handler_t handler);
@@ -127,15 +125,6 @@ void chain_fetch_transaction_position(chain_t chain, void* ctx, hash_t hash, int
 BITPRIM_EXPORT
 error_code_t chain_get_transaction_position(chain_t chain, hash_t hash, int require_confirmed, uint64_t* /*size_t*/ out_position, uint64_t* /*size_t*/ out_height);
 
-
-// Output  ---------------------------------------------------------------------
-//Note: Removed on 3.3.0
-// BITPRIM_EXPORT
-// void chain_fetch_output(chain_t chain, void* ctx, hash_t hash, uint32_t index, int require_confirmed, output_fetch_handler_t handler);
-
-// BITPRIM_EXPORT
-// error_code_t chain_get_output(chain_t chain, hash_t hash, uint32_t index, int require_confirmed, output_t* out_output);
-
 // Spend ---------------------------------------------------------------------
 BITPRIM_EXPORT
 void chain_fetch_spend(chain_t chain, void* ctx, output_point_t op, spend_fetch_handler_t handler);
@@ -153,7 +142,6 @@ void chain_fetch_confirmed_transactions(chain_t chain, void* ctx, payment_addres
 BITPRIM_EXPORT
 error_code_t chain_get_confirmed_transactions(chain_t chain, payment_address_t address, uint64_t max, uint64_t start_height, hash_list_t* out_tx_hashes);
 
-
 // Stealth ---------------------------------------------------------------------
 BITPRIM_EXPORT
 void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t from_height, stealth_fetch_handler_t handler);
@@ -164,8 +152,6 @@ error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_hei
 
 //BITPRIM_EXPORT
 //void chain_fetch_stealth(const binary& filter, uint64_t /*size_t*/ from_height, stealth_fetch_handler handler);
-
-
 
 // BITPRIM_EXPORT
 // void chain_fetch_block_locator(chain_t chain, void* ctx, block_indexes_t heights, block_locator_fetch_handler_t handler);
@@ -217,9 +203,6 @@ void chain_unsubscribe(chain_t chain);
 // Organizers.
 //-------------------------------------------------------------------------
 
-//virtual void organize(block_const_ptr block, result_handler handler) = 0;
-//virtual void organize(transaction_const_ptr tx, result_handler handler) = 0;
-
 BITPRIM_EXPORT
 void chain_organize_block(chain_t chain, void* ctx, block_t block, result_handler_t handler);
 
@@ -233,13 +216,8 @@ BITPRIM_EXPORT
 int chain_organize_transaction_sync(chain_t chain, transaction_t transaction);
 
 
-
-// ------------------------------------------------
-
-// BITPRIM_EXPORT
-// transaction_t hex_to_tx(char const* tx_hex);
-
-// ------------------------------------------------
+// Validation.
+//-------------------------------------------------------------------------
 
 BITPRIM_EXPORT
 void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler);
@@ -251,12 +229,11 @@ BITPRIM_EXPORT
 void chain_transaction_validate_sequential(chain_t chain, void* ctx, transaction_t tx, validate_tx_handler_t handler);
  
 
-// ------------------------------------------------
+// Queries.
+//-------------------------------------------------------------------------
 
 BITPRIM_EXPORT
 int /*bool*/ chain_is_stale(chain_t chain);
-
-// ------------------------------------------------
 
 #ifdef __cplusplus
 } // extern "C"

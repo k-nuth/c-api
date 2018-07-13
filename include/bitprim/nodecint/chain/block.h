@@ -21,23 +21,17 @@
 #define BITPRIM_NODECINT_CHAIN_BLOCK_H_
 
 #include <stdint.h>
-#include <stdio.h>
 
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
-
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
-//block(void);
 BITPRIM_EXPORT
 block_t chain_block_construct_default(void);
 
-//block(chain::header&& header, chain::transaction::list&& transactions);
-//block(const chain::header& header, const chain::transaction::list& transactions);
 BITPRIM_EXPORT
 block_t chain_block_construct(header_t header, transaction_list_t transactions);
 

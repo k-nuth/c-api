@@ -29,21 +29,6 @@
 extern "C" {
 #endif
 
-// enum class currency {
-//     none,
-//     bitcoin,
-//     bitcoin_cash,
-//     litecoin
-// };
-
-// enum class settings
-// {
-//     none,
-//     mainnet,
-//     testnet,
-//     regtest
-// };
-
 typedef enum currency {
     bitprim_currency_none,
     bitprim_currency_bitcoin,
@@ -67,7 +52,6 @@ network_t node_settings_get_network(executor_t exec);
 
 BITPRIM_EXPORT
 char const* node_settings_cashaddr_prefix();
-
 
 #ifdef __cplusplus
 } // extern "C"

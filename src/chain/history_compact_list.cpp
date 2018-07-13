@@ -29,6 +29,8 @@ std::vector<libbitcoin::chain::history_compact>& chain_history_compact_list_cpp(
     return *static_cast<std::vector<libbitcoin::chain::history_compact>*>(list);
 }
 
+extern "C" {
+
 void chain_history_compact_list_destruct(history_compact_list_t list) {
     delete &chain_history_compact_list_cpp(list);
 }
@@ -41,3 +43,5 @@ history_compact_t chain_history_compact_list_nth(history_compact_list_t list, ui
     auto& x = chain_history_compact_list_cpp(list)[n];
     return &x;
 }
+
+} // extern "C"

@@ -35,6 +35,7 @@ libbitcoin::ec_secret new_key(libbitcoin::data_chunk const& seed) {
     return key.secret();
 }
 
+// ---------------------------------------------------------------------------
 extern "C" {
 
 long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
@@ -212,4 +213,4 @@ ec_secret_t wallet_hd_private_to_ec(hd_private_t key) {
 //    free(ptr);
 //}
 
-} /* extern "C" */
+} // extern "C"

@@ -25,8 +25,6 @@
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
 
-
-
 #ifdef __cplusplus
 extern "C" {
 #endif

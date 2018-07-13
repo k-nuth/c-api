@@ -25,8 +25,6 @@
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
 
-
-// ----------------------------------------------------------------------------------------
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -46,6 +44,6 @@ mempool_transaction_t chain_mempool_transaction_list_nth(mempool_transaction_lis
 #ifdef __cplusplus
 } // extern "C"
 #endif
-// ----------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 #endif /* BITPRIM_NODECINT_CHAIN_MEMPOOL_TRANSACTION_LIST_H_ */

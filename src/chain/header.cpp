@@ -116,21 +116,6 @@ void chain_header_set_nonce(header_t header, uint32_t nonce) {
     return chain_header_cpp(header).set_nonce(nonce);
 }
 
-//hash_t chain_header_previous_block_hash(header_t header) {
-//    auto const& hash_cpp = chain_header_const_cpp(header).previous_block_hash();
-//    return hash_cpp.data();
-//}
-
-//hash_t chain_header_merkle(header_t header) {
-//    auto const& hash_cpp = chain_header_const_cpp(header).merkle();
-//    return hash_cpp.data();
-//}
-
-//hash_t chain_header_hash(header_t header) {
-//    auto const& hash_cpp = chain_header_const_cpp(header).hash();
-//    return hash_cpp.data(); //TODO: returning a dangling pointer
-//}
-
 hash_t chain_header_previous_block_hash(header_t header) {
     auto const& hash_cpp = chain_header_const_cpp(header).previous_block_hash();
     return bitprim::to_hash_t(hash_cpp);
@@ -160,45 +145,7 @@ hash_t chain_header_hash(header_t header) {
 
 void chain_header_hash_out(header_t header, hash_t* out_hash) {
     auto const& hash_cpp = chain_header_const_cpp(header).hash();
-    // std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
     bitprim::copy_c_hash(hash_cpp, out_hash);
 }
 
-//const hash_digest& () const;
-//void set_previous_block_hash(const hash_digest& value);
-
-//// Serialization.
-////-----------------------------------------------------------------------------
-//
-//data_chunk to_data() const;
-//void to_data(std::ostream& stream) const;
-//void to_data(writer& sink) const;
-//
-//// Properties (size, accessors, cache).
-////-----------------------------------------------------------------------------
-//
-//
-//void set_previous_block_hash(const hash_digest& value);
-//void set_previous_block_hash(hash_digest&& value);
-//
-//
-//void set_merkle(const hash_digest& value);
-//void set_merkle(hash_digest&& value);
-//
-
-//
-//#ifdef BITPRIM_LITECOIN
-//hash_digest litecoin_proof_of_work_hash() const;
-//#endif
-//
-//// Validation.
-////-----------------------------------------------------------------------------
-//
-//bool is_valid_time_stamp() const;
-//bool is_valid_proof_of_work() const;
-//
-//code check() const;
-//code accept(const chain_state& state) const;
-
-
-} /* extern "C" */
+} // extern "C"

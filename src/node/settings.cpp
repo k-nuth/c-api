@@ -29,9 +29,8 @@
 #include <bitcoin/bitcoin/multi_crypto_support.hpp>
 #include <bitcoin/network/p2p.hpp>
 
-#ifdef __cplusplus
+// ---------------------------------------------------------------------------
 extern "C" {
-#endif
 
 currency_t node_settings_get_currency() {
     return static_cast<currency_t>(static_cast<int>(libbitcoin::get_currency()));
@@ -60,4 +59,4 @@ char const* node_settings_cashaddr_prefix() {
     return bitprim::create_c_str(str);    
 }
 
-} /* extern "C" */
+} // extern "C"

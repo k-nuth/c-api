@@ -33,9 +33,8 @@ block_indexes_t chain_block_indexes_construct_from_cpp(std::vector<uint64_t /*si
     return &list;
 }
 
-#ifdef __cplusplus
+// ---------------------------------------------------------------------------
 extern "C" {
-#endif
 
 block_indexes_t chain_block_indexes_construct_default() {
     return new std::vector<uint64_t /*size_t*/>();
@@ -57,4 +56,4 @@ uint64_t /*size_t*/ block_indexes_nth(block_indexes_t list, uint64_t /*size_t*/ 
     return chain_block_indexes_cpp(list)[n];
 }
 
-} /* extern "C" */
+} // extern "C"

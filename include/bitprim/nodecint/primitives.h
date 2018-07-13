@@ -21,7 +21,6 @@
 #define BITPRIM_NODECINT_PRIMITIVES_H_
 
 #include <stdint.h>
-#include <stdio.h>
 
 #include <bitprim/nodecint/error.h>
 #include <bitprim/nodecint/visibility.h>
@@ -29,7 +28,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 
 #define BITCOIN_SHORT_HASH_SIZE 20
 #define BITCOIN_HASH_SIZE 32
@@ -117,7 +115,6 @@ typedef struct ec_secret_t {
 typedef void* ec_public_t;
 typedef void* hd_private_t;
 typedef void* word_list_t;
-
 // Wallet (end) -------------------------------------------------------
 
 
@@ -143,11 +140,8 @@ typedef int /*bool*/ (*subscribe_blockchain_handler_t)(executor_t, chain_t, void
 typedef int /*bool*/ (*subscribe_transaction_handler_t)(executor_t, chain_t, void*, error_code_t, transaction_t);
 typedef void (*transactions_by_addres_fetch_handler_t)(chain_t, void*, error_code_t, hash_list_t);
 
-
-
 #ifdef __cplusplus
 } // extern "C"
 #endif
-
 
 #endif /* BITPRIM_NODECINT_PRIMITIVES_H_ */

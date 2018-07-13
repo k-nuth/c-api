@@ -17,8 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitcoin/bitcoin/utility/binary.hpp>
 #include <bitprim/nodecint/binary.h>
+
+#include <bitcoin/bitcoin/utility/binary.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
 libbitcoin::binary const& binary_const_cpp(binary_t binary) {
@@ -29,6 +30,7 @@ libbitcoin::binary& binary_cpp(binary_t binary) {
     return *static_cast<libbitcoin::binary*>(binary);
 }
 
+// ---------------------------------------------------------------------------
 extern "C" {
 
 binary_t binary_construct() {
@@ -43,12 +45,6 @@ binary_t binary_construct_blocks(uint64_t /*size_t*/ bits_size, uint8_t* blocks,
     libbitcoin::data_slice blocks_cpp(blocks, blocks + n); 
     return new libbitcoin::binary(bits_size, blocks_cpp);
 }
-
-//uint8_t* binary_blocks(binary_t binary) {
-//    auto* ret = (uint8_t*)malloc(binary_const_cpp(binary).blocks().size() * sizeof(uint8_t));
-//    std::copy_n(std::begin(binary_const_cpp(binary).blocks()), binary_const_cpp(binary).blocks().size(), ret);
-//    return ret;
-//}
 
 void binary_destruct(binary_t binary) {
     // delete binary;
@@ -65,49 +61,4 @@ char* binary_encoded(binary_t binary) {
     return bitprim::create_c_str(str);
 }
 
-/*
-binary::binary(const binary& other)
-  : blocks_(other.blocks_), final_block_excess_(other.final_block_excess_)
-{
-}
-
-binary::binary(const std::string& bit_string)
-  : binary()
-{
-    std::stringstream(bit_string) >> *this;
-}
-
-binary::binary(size_type size, data_slice blocks)
-  : binary()
-{
-    // Copy blocks
-    blocks_.resize(blocks.size());
-
-    if (blocks_.empty())
-        return;
-
-    std::copy_n(blocks.begin(), blocks.size(), blocks_.begin());
-
-    // Pad with 00 for safety.
-    while (blocks_.size() * bits_per_block < size)
-        blocks_.push_back(0x00);
-
-    resize(size);
-}
-*/
-
-
-
-
-//void word_list_destruct(word_list_t word_list) {
-//    delete &word_list_cpp(word_list);
-//}
-
-//void word_list_add_word(word_list_t word_list, char const* word) {
-//    word_list_cpp(word_list).push_back(std::string(word));
-//    for (auto const& x : word_list_cpp(word_list)) {
-//        std::cout << x << std::endl;
-//    }
-//}
-
-} /* extern "C" */
+} // extern "C"

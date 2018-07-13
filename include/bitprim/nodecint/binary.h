@@ -21,7 +21,6 @@
 #define BITPRIM_NODECINT_BINARY_H
 
 #include <stdint.h>
-#include <stdio.h>
 
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
@@ -43,7 +42,6 @@ BITPRIM_EXPORT
 void binary_destruct(binary_t binary);
 
 BITPRIM_EXPORT
-//uint8_t* binary_blocks(binary_t binary);
 uint8_t const* binary_blocks(binary_t binary, uint64_t* /*size_t*/ out_n);
 
 BITPRIM_EXPORT

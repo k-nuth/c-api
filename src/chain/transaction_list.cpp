@@ -40,6 +40,7 @@ transaction_list_t chain_transaction_list_construct_from_cpp(std::vector<libbitc
     return &list;
 }
 
+// ---------------------------------------------------------------------------
 extern "C" {
 
 transaction_list_t chain_transaction_list_construct_default() {
@@ -63,4 +64,4 @@ transaction_t chain_transaction_list_nth(transaction_list_t list, uint64_t /*siz
     return &x;
 }
 
-} /* extern "C" */
+} // extern "C"

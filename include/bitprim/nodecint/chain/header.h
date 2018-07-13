@@ -21,7 +21,6 @@
 #define BITPRIM_NODECINT_CHAIN_HEADER_H_
 
 #include <stdint.h>
-#include <stdio.h>
 
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>

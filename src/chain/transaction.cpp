@@ -33,6 +33,7 @@ libbitcoin::message::transaction& chain_transaction_cpp(transaction_t transactio
 }
 
 
+// ---------------------------------------------------------------------------
 extern "C" {
 
 transaction_t chain_transaction_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
@@ -41,13 +42,10 @@ transaction_t chain_transaction_factory_from_data(uint32_t version, uint8_t* dat
     return new libbitcoin::message::transaction(std::move(tx));
 }
 
-//transaction();
 transaction_t chain_transaction_construct_default() {
     return new libbitcoin::message::transaction();
 }
 
-//transaction(uint32_t version, uint32_t locktime, chain::input::list&& inputs, chain::output::list&& outputs);
-//transaction(uint32_t version, uint32_t locktime, const chain::input::list& inputs, const chain::output::list& outputs);
 transaction_t chain_transaction_construct(uint32_t version, uint32_t locktime, input_list_t inputs, output_list_t outputs) {
     return new libbitcoin::message::transaction(version, locktime,
                                                 chain_input_list_const_cpp(inputs),
@@ -71,16 +69,6 @@ void chain_transaction_set_version(transaction_t transaction, uint32_t version) 
     return static_cast<libbitcoin::message::transaction*>(transaction)->set_version(version);
 }
 
-//hash_t chain_transaction_hash(transaction_t transaction) {
-//    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash();
-//    return hash_cpp.data(); //TODO: returning a dangling pointer
-//}
-//
-//hash_t chain_transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type) {
-//    auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type);
-//    return hash_cpp.data(); //TODO: returning a dangling pointer
-//}
-
 hash_t chain_transaction_hash(transaction_t transaction) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash();
     return bitprim::to_hash_t(hash_cpp);
@@ -88,7 +76,6 @@ hash_t chain_transaction_hash(transaction_t transaction) {
 
 void chain_transaction_hash_out(transaction_t transaction, hash_t* out_hash) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash();
-    // std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
     bitprim::copy_c_hash(hash_cpp, out_hash);
 }
 
@@ -99,7 +86,6 @@ hash_t chain_transaction_hash_sighash_type(transaction_t transaction, uint32_t s
 
 void chain_transaction_hash_sighash_type_out(transaction_t transaction, uint32_t sighash_type, hash_t* out_hash) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
-    // std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
     bitprim::copy_c_hash(hash_cpp, out_hash);
 }
 
@@ -187,42 +173,4 @@ uint8_t* chain_transaction_to_data(transaction_t transaction, int /*bool*/ wire,
     return bitprim::create_c_array(tx_data, *out_size);
 }
 
-//
-//// Serialization.
-////-----------------------------------------------------------------------------
-//
-//data_chunk to_data(bool wire=true) const;
-//void to_data(std::ostream& stream, bool wire=true) const;
-//void to_data(writer& sink, bool wire=true) const;
-//
-//// Properties (size, accessors, cache).
-////-----------------------------------------------------------------------------
-//
-//void set_locktime(uint32_t value);
-//
-//void set_inputs(const ins& value);
-//void set_inputs(ins&& value);
-//
-//void set_outputs(const outs& value);
-//void set_outputs(outs&& value);
-//
-//hash_digest hash(uint32_t sighash_type) const;
-//
-//void recompute_hash();
-//
-//// Validation.
-////-----------------------------------------------------------------------------
-//
-//output_point::list missing_previous_outputs() const;
-//hash_list missing_previous_transactions() const;
-//
-
-//code check(bool transaction_pool=true) const;
-//code accept(bool transaction_pool=true) const;
-//code accept(const chain_state& state, bool transaction_pool=true) const;
-//code connect() const;
-//code connect(const chain_state& state) const;
-//code connect_input(const chain_state& state, size_t input_index) const;
-
-
-} /* extern "C" */
+} // extern "C"
