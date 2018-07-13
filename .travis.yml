@@ -23,11 +23,18 @@ branches:
   # - /^v\d+\.\d+\.\d+$/
   - dev
   - /^release-\d+\.\d+\.\d+$/
+  - /^release_\d+\.\d+\.\d+$/
   - /^hotfix-\d+\.\d+\.\d+$/
+  - /^hotfix_\d+\.\d+\.\d+$/
   - /^feature-ci-.+$/
   - /^feature_ci_.+$/
   - /^feature-travis-.+$/
   - /^feature_travis_.+$/
+
+env:
+   global:
+     - CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
+
 
 linux: &linux
    os: linux
