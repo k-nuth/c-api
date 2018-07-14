@@ -57,7 +57,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
         "no_compilation=False", \
         "currency=BCH", \
         "fix_march=False", \
-        "verbose=True", \
+        "verbose=False", \
         "cxxflags=_DUMMY_", \
         "cflags=_DUMMY_"
 
