@@ -54,18 +54,18 @@ test_script:
   # - git fetch --unshallow
 
   - ps: |
-      If ($env:WAIT_FOR_DEPS != 1) {
+      If ($env:WAIT_FOR_DEPS -ne 1) {
         $a = python ci_utils/set_envvars_and_files.py
         Write-Host $a
         Invoke-Expression $a
       }
   - ps: |
-      If ($env:WAIT_FOR_DEPS == 1) {
+      If ($env:WAIT_FOR_DEPS -eq 1) {
         conan user
         conan remote add bitprim_temp https://api.bintray.com/conan/bitprim/bitprim
         echo "waiting for bitprim-node/0.X@bitprim/prerelease ..."
         conan search bitprim-node/0.X@bitprim/prerelease -r bitprim_temp > /dev/null
-        while($env:lastExitCode == 1) {
+        while($env:lastExitCode -eq 1) {
           Write-Host "."
           Start-Sleep -s 10
           conan search bitprim-node/0.X@bitprim/prerelease -r bitprim_temp > /dev/null
