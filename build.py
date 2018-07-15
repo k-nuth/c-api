@@ -32,7 +32,7 @@ if __name__ == "__main__":
             options["*:currency"] = os.getenv('BITPRIM_CI_CURRENCY', '---')
 
             handle_microarchs("*:microarchitecture", marchs, filtered_builds, settings, options, env_vars, build_requires)
-            filter_marchs_tests(name, filtered_builds, ["%s:with_tests" % name])
+            filter_marchs_tests(name, filtered_builds, ["%s:with_tests" % name], "*:microarchitecture")
 
     builder.builds = filtered_builds
     builder.run()
