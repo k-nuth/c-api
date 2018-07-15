@@ -88,6 +88,28 @@ script:
 
 jobs:
   include:
+# Wait for dependencies ----------------------------------------------
+    - stage: wait for dependencies
+      os: linux
+      sudo: required
+      language: python
+      python: "3.6"
+      services:
+        - docker
+      env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=lasote/conangcc8
+           BITPRIM_CI_CURRENCY=BCH
+      if: branch =~ /^(release|hotfix).+$/    #Just releases
+      script:
+        - |
+          conan user
+          conan remote add bitprim_temp https://api.bintray.com/conan/bitprim/bitprim
+          conan search bitprim-node/0.X@bitprim/prerelease -r bitprim_temp > /dev/null
+          while [ $? == 1 ]
+          do
+            printf "."
+              sleep 10
+            conan search bitprim-node/0.X@bitprim/prerelease -r bitprim_temp > /dev/null
+          done
 
 # Static Checks ------------------------------------------------------
 
