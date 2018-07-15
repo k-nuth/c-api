@@ -103,13 +103,15 @@ jobs:
         - |
           conan user
           conan remote add bitprim_temp https://api.bintray.com/conan/bitprim/bitprim
+          echo "waiting for bitprim-node/0.X@bitprim/prerelease ..."
           conan search bitprim-node/0.X@bitprim/prerelease -r bitprim_temp > /dev/null
           while [ $? == 1 ]
           do
             printf "."
-              sleep 10
+            sleep 10
             conan search bitprim-node/0.X@bitprim/prerelease -r bitprim_temp > /dev/null
           done
+          echo "bitprim-node/0.X@bitprim/prerelease found"
 
 # Static Checks ------------------------------------------------------
 
