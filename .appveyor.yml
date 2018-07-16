@@ -152,10 +152,10 @@ for:
           CONAN_VISUAL_VERSIONS: 14
           CONAN_VISUAL_RUNTIMES: MD
           BITPRIM_CI_CURRENCY: BTC
-        - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
-          BITPRIM_CI_CURRENCY: BCH
-        - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
-          BITPRIM_CI_CURRENCY: BTC
+        # - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
+        #   BITPRIM_CI_CURRENCY: BCH
+        # - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
+        #   BITPRIM_CI_CURRENCY: BTC
         - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
           BITPRIM_CI_CURRENCY: BCH
         - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
