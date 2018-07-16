@@ -440,20 +440,20 @@ jobs:
            BITPRIM_CI_CURRENCY=BTC
       if: branch =~ /^(release|hotfix).+$/    #Just releases
 
-    - stage: build and upload binaries
-      os: osx
-      language: generic
-      osx_image: xcode7.3
-      env: CONAN_APPLE_CLANG_VERSIONS=7.3
-           BITPRIM_CI_CURRENCY=BCH
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
-    - stage: build and upload binaries
-      os: osx
-      language: generic
-      osx_image: xcode7.3
-      env: CONAN_APPLE_CLANG_VERSIONS=7.3
-           BITPRIM_CI_CURRENCY=BTC
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
+    # - stage: build and upload binaries
+    #   os: osx
+    #   language: generic
+    #   osx_image: xcode7.3
+    #   env: CONAN_APPLE_CLANG_VERSIONS=7.3
+    #        BITPRIM_CI_CURRENCY=BCH
+    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
+    # - stage: build and upload binaries
+    #   os: osx
+    #   language: generic
+    #   osx_image: xcode7.3
+    #   env: CONAN_APPLE_CLANG_VERSIONS=7.3
+    #        BITPRIM_CI_CURRENCY=BTC
+    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
 
 # Upload Aliases -----------------------------------------------------
     - stage: upload aliases
