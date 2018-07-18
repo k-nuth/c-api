@@ -52,6 +52,7 @@ test_script:
   # - git submodule update --remote
   - git submodule update
   # - git fetch --unshallow
+  - git fetch origin master:master
 
   - ps: |
       If ($env:WAIT_FOR_DEPS -ne 1) {

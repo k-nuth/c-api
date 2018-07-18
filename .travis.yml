@@ -66,6 +66,7 @@ install:
 
 script:
   - git fetch --unshallow
+  - git fetch origin master:master
 
   # #TODO(fernando): Use lasote/conanclang50 for checking formating and other clang-tools related
   # - |
@@ -467,6 +468,7 @@ jobs:
         - |
           cd ${TRAVIS_BUILD_DIR}
           git fetch --unshallow
+          git fetch origin master:master
           REPO_NAME=$(echo $TRAVIS_REPO_SLUG| cut -d'/' -f 2)
           echo $REPO_NAME
 
