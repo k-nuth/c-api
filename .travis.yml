@@ -162,6 +162,7 @@ jobs:
         - ls /usr/local/opt/llvm/bin | grep clang
       script:
         - git fetch --unshallow || true
+        - git fetch origin master:master
         - |
           if which pyenv > /dev/null; then
               eval "$(pyenv init -)"
