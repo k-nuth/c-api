@@ -39,7 +39,7 @@ namespace bitprim { namespace nodecint {
 using boost::format;
 using boost::null_deleter;
 using boost::system::error_code;
-using bc::chain::block;
+// using bc::chain::block;
 using bc::database::data_base;
 using std::placeholders::_1;
 
@@ -95,8 +95,7 @@ bool executor::init_directory(error_code& ec) {
     if (create_directories(directory, ec)) {
         LOG_INFO(LOG_NODE) << format(BN_INITIALIZING_CHAIN) % directory;
 
-        bool const testnet = libbitcoin::get_network(config_.network.identifier) == libbitcoin::config::settings::testnet;
-        auto const genesis = testnet ? block::genesis_testnet() : block::genesis_mainnet();
+        auto const genesis = libbitcoin::node::full_node::get_genesis_block(config_.chain);
         auto const& settings = config_.database;
         auto const result = data_base(settings).create(genesis);
 

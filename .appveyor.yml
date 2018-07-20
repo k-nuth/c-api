@@ -52,6 +52,7 @@ test_script:
   # - git submodule update --remote
   - git submodule update
   # - git fetch --unshallow
+  - git fetch origin master:master
 
   - ps: |
       If ($env:WAIT_FOR_DEPS -ne 1) {
@@ -136,22 +137,22 @@ for:
           BITPRIM_CI_CURRENCY: BTC
           # BITPRIM_RUN_TESTS: true
           VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-          CONAN_VISUAL_VERSIONS: 14
-          CONAN_VISUAL_RUNTIMES: MT
-          BITPRIM_CI_CURRENCY: BCH
-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-          CONAN_VISUAL_VERSIONS: 14
-          CONAN_VISUAL_RUNTIMES: MT
-          BITPRIM_CI_CURRENCY: BTC
-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-          CONAN_VISUAL_VERSIONS: 14
-          CONAN_VISUAL_RUNTIMES: MD
-          BITPRIM_CI_CURRENCY: BCH
-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-          CONAN_VISUAL_VERSIONS: 14
-          CONAN_VISUAL_RUNTIMES: MD
-          BITPRIM_CI_CURRENCY: BTC
+        # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+        #   CONAN_VISUAL_VERSIONS: 14
+        #   CONAN_VISUAL_RUNTIMES: MT
+        #   BITPRIM_CI_CURRENCY: BCH
+        # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+        #   CONAN_VISUAL_VERSIONS: 14
+        #   CONAN_VISUAL_RUNTIMES: MT
+        #   BITPRIM_CI_CURRENCY: BTC
+        # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+        #   CONAN_VISUAL_VERSIONS: 14
+        #   CONAN_VISUAL_RUNTIMES: MD
+        #   BITPRIM_CI_CURRENCY: BCH
+        # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+        #   CONAN_VISUAL_VERSIONS: 14
+        #   CONAN_VISUAL_RUNTIMES: MD
+        #   BITPRIM_CI_CURRENCY: BTC
         # - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
         #   BITPRIM_CI_CURRENCY: BCH
         # - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"

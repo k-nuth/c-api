@@ -66,6 +66,7 @@ install:
 
 script:
   - git fetch --unshallow
+  - git fetch origin master:master
 
   # #TODO(fernando): Use lasote/conanclang50 for checking formating and other clang-tools related
   # - |
@@ -118,7 +119,7 @@ jobs:
     - stage: static checks
       os: osx
       language: generic
-      osx_image: xcode9
+      osx_image: xcode9.3
       # env: CONAN_APPLE_CLANG_VERSIONS=9.0 
       if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
       # install: skip
@@ -161,6 +162,7 @@ jobs:
         - ls /usr/local/opt/llvm/bin | grep clang
       script:
         - git fetch --unshallow || true
+        - git fetch origin master:master
         - |
           if which pyenv > /dev/null; then
               eval "$(pyenv init -)"
@@ -326,47 +328,47 @@ jobs:
            BITPRIM_CI_CURRENCY=BTC
       if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
 
-    - stage: build and upload binaries
-      os: linux
-      sudo: required
-      language: python
-      python: "3.6"
-      services:
-        - docker
-      env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=lasote/conanclang50
-           BITPRIM_CI_CURRENCY=BCH
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
-    - stage: build and upload binaries
-      os: linux
-      sudo: required
-      language: python
-      python: "3.6"
-      services:
-        - docker
-      env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=lasote/conanclang50
-           BITPRIM_CI_CURRENCY=BTC
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
+    # - stage: build and upload binaries
+    #   os: linux
+    #   sudo: required
+    #   language: python
+    #   python: "3.6"
+    #   services:
+    #     - docker
+    #   env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=lasote/conanclang50
+    #        BITPRIM_CI_CURRENCY=BCH
+    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
+    # - stage: build and upload binaries
+    #   os: linux
+    #   sudo: required
+    #   language: python
+    #   python: "3.6"
+    #   services:
+    #     - docker
+    #   env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=lasote/conanclang50
+    #        BITPRIM_CI_CURRENCY=BTC
+    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
 
-    - stage: build and upload binaries
-      os: linux
-      sudo: required
-      language: python
-      python: "3.6"
-      services:
-        - docker
-      env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=lasote/conanclang40
-           BITPRIM_CI_CURRENCY=BCH
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
-    - stage: build and upload binaries
-      os: linux
-      sudo: required
-      language: python
-      python: "3.6"
-      services:
-        - docker
-      env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=lasote/conanclang40
-           BITPRIM_CI_CURRENCY=BTC
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
+    # - stage: build and upload binaries
+    #   os: linux
+    #   sudo: required
+    #   language: python
+    #   python: "3.6"
+    #   services:
+    #     - docker
+    #   env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=lasote/conanclang40
+    #        BITPRIM_CI_CURRENCY=BCH
+    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
+    # - stage: build and upload binaries
+    #   os: linux
+    #   sudo: required
+    #   language: python
+    #   python: "3.6"
+    #   services:
+    #     - docker
+    #   env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=lasote/conanclang40
+    #        BITPRIM_CI_CURRENCY=BTC
+    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
 
     # - stage: build and upload binaries
     #   os: linux
@@ -410,35 +412,35 @@ jobs:
       if: branch =~ /^(feature|dev).*$/       #Just development
 
 
-    - stage: build and upload binaries
-      os: osx
-      language: generic
-      osx_image: xcode9
-      env: CONAN_APPLE_CLANG_VERSIONS=9.0
-           BITPRIM_CI_CURRENCY=BCH
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
-    - stage: build and upload binaries
-      os: osx
-      language: generic
-      osx_image: xcode9
-      env: CONAN_APPLE_CLANG_VERSIONS=9.0
-           BITPRIM_CI_CURRENCY=BTC
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
+    # - stage: build and upload binaries
+    #   os: osx
+    #   language: generic
+    #   osx_image: xcode9
+    #   env: CONAN_APPLE_CLANG_VERSIONS=9.0
+    #        BITPRIM_CI_CURRENCY=BCH
+    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
+    # - stage: build and upload binaries
+    #   os: osx
+    #   language: generic
+    #   osx_image: xcode9
+    #   env: CONAN_APPLE_CLANG_VERSIONS=9.0
+    #        BITPRIM_CI_CURRENCY=BTC
+    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
 
-    - stage: build and upload binaries
-      os: osx
-      language: generic
-      osx_image: xcode8.3         
-      env: CONAN_APPLE_CLANG_VERSIONS=8.1
-           BITPRIM_CI_CURRENCY=BCH
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
-    - stage: build and upload binaries
-      os: osx
-      language: generic
-      osx_image: xcode8.3         
-      env: CONAN_APPLE_CLANG_VERSIONS=8.1
-           BITPRIM_CI_CURRENCY=BTC
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
+    # - stage: build and upload binaries
+    #   os: osx
+    #   language: generic
+    #   osx_image: xcode8.3         
+    #   env: CONAN_APPLE_CLANG_VERSIONS=8.1
+    #        BITPRIM_CI_CURRENCY=BCH
+    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
+    # - stage: build and upload binaries
+    #   os: osx
+    #   language: generic
+    #   osx_image: xcode8.3         
+    #   env: CONAN_APPLE_CLANG_VERSIONS=8.1
+    #        BITPRIM_CI_CURRENCY=BTC
+    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
 
     # - stage: build and upload binaries
     #   os: osx
@@ -467,6 +469,7 @@ jobs:
         - |
           cd ${TRAVIS_BUILD_DIR}
           git fetch --unshallow
+          git fetch origin master:master
           REPO_NAME=$(echo $TRAVIS_REPO_SLUG| cut -d'/' -f 2)
           echo $REPO_NAME
 
