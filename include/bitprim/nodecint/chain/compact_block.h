@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -32,28 +32,28 @@ extern "C" {
 // TODO(fernando): Dario check how to map compact_block::short_ids()
 
 BITPRIM_EXPORT
-header_t compact_block_header(compact_block_t block);
+header_t chain_compact_block_header(compact_block_t block);
 
 BITPRIM_EXPORT
-int /*bool*/ compact_block_is_valid(compact_block_t block);
+bool_t chain_compact_block_is_valid(compact_block_t block);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ compact_block_serialized_size(compact_block_t block, uint32_t version);
+uint64_t /*size_t*/ chain_compact_block_serialized_size(compact_block_t block, uint32_t version);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ compact_block_transaction_count(compact_block_t block);
+uint64_t /*size_t*/ chain_compact_block_transaction_count(compact_block_t block);
 
 BITPRIM_EXPORT
-transaction_t compact_block_transaction_nth(compact_block_t block, uint64_t /*size_t*/ n);
+transaction_t chain_compact_block_transaction_nth(compact_block_t block, uint64_t /*size_t*/ n);
 
 BITPRIM_EXPORT
-uint64_t compact_block_nonce(compact_block_t block);
+uint64_t chain_compact_block_nonce(compact_block_t block);
 
 BITPRIM_EXPORT
-void compact_block_destruct(compact_block_t block);
+void chain_compact_block_destruct(compact_block_t block);
 
 BITPRIM_EXPORT
-void compact_block_reset(compact_block_t block);
+void chain_compact_block_reset(compact_block_t block);
 
 #ifdef __cplusplus
 } // extern "C"

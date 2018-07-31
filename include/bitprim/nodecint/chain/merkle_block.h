@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -39,7 +39,7 @@ BITPRIM_EXPORT
 header_t chain_merkle_block_header(merkle_block_t block);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_merkle_block_is_valid(merkle_block_t block);
+bool_t chain_merkle_block_is_valid(merkle_block_t block);
 
 BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_merkle_block_hash_count(merkle_block_t block);

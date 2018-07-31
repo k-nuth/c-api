@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -340,6 +340,9 @@ void executor::initialize_output() {
 
     LOG_INFO(LOG_NODE) << format(BN_VERSION_MESSAGE_INIT) % BITPRIM_NODECINT_VERSION;
     LOG_INFO(LOG_NODE) << format(BN_CRYPTOCURRENCY_INIT) % BITPRIM_CURRENCY_SYMBOL_STR % BITPRIM_CURRENCY_STR;
+#ifdef WITH_KEOKEN
+    LOG_INFO(LOG_NODE) << format(BN_KEOKEN_MESSAGE_INIT);
+#endif
     LOG_INFO(LOG_NODE) << format(BN_MICROARCHITECTURE_INIT) % BITPRIM_MICROARCHITECTURE_STR;
     LOG_INFO(LOG_NODE) << format(BN_NETWORK_INIT) % 
             (libbitcoin::get_network(config_.network.identifier) == libbitcoin::config::settings::testnet ? "Testnet" : "Mainnet") %

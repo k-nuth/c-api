@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -39,6 +39,7 @@ extern "C" {
 #define BITCOIN_BYTE_BITS 8
 #define BITCOIN_MINIMUM_SEED_SIZE (BITCOIN_MINIMUM_SEED_BITS / BITCOIN_BYTE_BITS)
 
+typedef int bool_t;
 
 typedef enum point_kind {output = 0, spend = 1} point_kind_t;
 
@@ -93,6 +94,9 @@ typedef void* stealth_compact_list_t;
 
 typedef void* hash_list_t;
 
+typedef void* raw_output_t;
+typedef void* raw_output_list_t;
+
 
 typedef struct short_hash_t {
     uint8_t hash[BITCOIN_SHORT_HASH_SIZE];  //libbitcoin::hash_size
@@ -117,7 +121,26 @@ typedef void* hd_private_t;
 typedef void* word_list_t;
 // Wallet (end) -------------------------------------------------------
 
+// Keoken -------------------------------------------------------------
+#ifdef WITH_KEOKEN
+// Keoken Primitives
+typedef uint32_t keoken_asset_id_t;
+typedef int64_t keoken_amount_t;
 
+typedef void* keoken_manager_t;
+
+// Keoken DTOs
+typedef void* get_assets_by_address_data_t;
+typedef void* get_assets_data_t;
+typedef void* get_all_asset_addresses_data_t;
+typedef void* get_assets_by_address_list_t;
+typedef void* get_assets_list_t;
+typedef void* get_all_asset_addresses_list_t;
+
+#endif //WITH_KEOKEN
+
+
+// Callback signatures ------------------------------------------------
 typedef void (*run_handler_t)(executor_t, void*, int);
 typedef void (*stealth_fetch_handler_t)(chain_t, void*, error_code_t, stealth_compact_list_t);
 typedef void (*block_fetch_handler_t)(chain_t, void*, error_code_t, block_t, uint64_t /*size_t*/);
@@ -136,8 +159,8 @@ typedef void (*transaction_index_fetch_handler_t)(chain_t, void*, error_code_t, 
 typedef void (*validate_tx_handler_t)(chain_t, void*, error_code_t, char const*);
 typedef void (*block_locator_fetch_handler_t)(chain_t, void*, error_code_t, get_headers_ptr_t);
 typedef void (*result_handler_t)(chain_t, void*, error_code_t);
-typedef int /*bool*/ (*subscribe_blockchain_handler_t)(executor_t, chain_t, void*, error_code_t, uint64_t /*size_t*/, block_list_t, block_list_t);
-typedef int /*bool*/ (*subscribe_transaction_handler_t)(executor_t, chain_t, void*, error_code_t, transaction_t);
+typedef bool_t (*subscribe_blockchain_handler_t)(executor_t, chain_t, void*, error_code_t, uint64_t /*size_t*/, block_list_t, block_list_t);
+typedef bool_t (*subscribe_transaction_handler_t)(executor_t, chain_t, void*, error_code_t, transaction_t);
 typedef void (*transactions_by_addres_fetch_handler_t)(chain_t, void*, error_code_t, hash_list_t);
 
 #ifdef __cplusplus

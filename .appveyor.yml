@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2017-2018 Bitprim Inc.
+# Copyright (c) 2016-2018 Bitprim Inc.
 #
 # This file is part of Bitprim.
 #
@@ -41,6 +41,7 @@ environment:
 
 install:
   - set PATH=%PATH%;%PYTHON%/Scripts/
+  - python -m pip install --upgrade pip
   - pip.exe install conan --upgrade > NUL
   # - pip.exe install conan==1.0.0b5   #Fixed Beta version...
   - pip.exe install conan_package_tools > NUL

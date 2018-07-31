@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -25,13 +25,25 @@
 #include <bitcoin/bitcoin/message/transaction.hpp>
 
 
-libbitcoin::message::block const& chain_block_const_cpp(block_t block) {
-    return *static_cast<libbitcoin::message::block const*>(block);
-}
+// libbitcoin::message::block const& chain_block_const_cpp(block_t block) {
+//     return *static_cast<libbitcoin::message::block const*>(block);
+// }
 
-libbitcoin::message::block& chain_block_cpp(block_t block) {
-    return *static_cast<libbitcoin::message::block*>(block);
-}
+// libbitcoin::message::block& chain_block_cpp(block_t block) {
+//     return *static_cast<libbitcoin::message::block*>(block);
+// }
+BITPRIM_CONV_DEFINE(chain, block_t, libbitcoin::message::block, block)
+
+
+// inline                                                         
+// libbitcoin::message::block const& chain_block_const_cpp(block_t o) {       
+//     return *static_cast<libbitcoin::message::block const*>(o);                   
+// }                                                              
+// inline                                                         
+// libbitcoin::message::block& chain_block_cpp(block_t o) {       
+//     return *static_cast<libbitcoin::message::block*>(o);       
+// }
+
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -52,8 +64,8 @@ void chain_block_destruct(block_t block) {
     delete &chain_block_cpp(block);
 }
 
-int /*bool*/ chain_block_is_valid(block_t block) {
-    return static_cast<int>(chain_block_const_cpp(block).is_valid());
+bool_t chain_block_is_valid(block_t block) {
+    return bitprim::bool_to_int(chain_block_const_cpp(block).is_valid());
 }
 
 header_t chain_block_header(block_t block) {
@@ -160,48 +172,49 @@ uint64_t /*size_t*/ chain_block_signature_operations(block_t block) {
     return chain_block_const_cpp(block).signature_operations();
 }
 
-uint64_t /*size_t*/ chain_block_signature_operations_bip16_active(block_t block, int /*bool*/ bip16_active) {
+uint64_t /*size_t*/ chain_block_signature_operations_bip16_active(block_t block, bool_t bip16_active) {
 #ifdef BITPRIM_CURRENCY_BCH
-    int /*bool*/ bip141_active = 0;
+    bool_t bip141_active = 0;
 #else
-    int /*bool*/ bip141_active = 1;
+    bool_t bip141_active = 1;
 #endif
-    return chain_block_const_cpp(block).signature_operations(bip16_active != 0, bip141_active != 0);
+
+    return chain_block_const_cpp(block).signature_operations(bitprim::int_to_bool(bip16_active), bitprim::int_to_bool(bip141_active));
 }
 
-uint64_t /*size_t*/ chain_block_total_inputs(block_t block, int /*bool*/ with_coinbase=1) {
-    return chain_block_const_cpp(block).total_inputs(with_coinbase != 0);
+uint64_t /*size_t*/ chain_block_total_inputs(block_t block, bool_t with_coinbase=1) {
+    return chain_block_const_cpp(block).total_inputs(bitprim::int_to_bool(with_coinbase));
 }
 
-int /*bool*/ chain_block_is_extra_coinbases(block_t block) {
-    return static_cast<int>(chain_block_const_cpp(block).is_extra_coinbases());
+bool_t chain_block_is_extra_coinbases(block_t block) {
+    return bitprim::bool_to_int(chain_block_const_cpp(block).is_extra_coinbases());
 }
 
-int /*bool*/ chain_block_is_final(block_t block, uint64_t /*size_t*/ height, uint32_t block_time) {
-    return static_cast<int>(chain_block_const_cpp(block).is_final(height, block_time));
+bool_t chain_block_is_final(block_t block, uint64_t /*size_t*/ height, uint32_t block_time) {
+    return bitprim::bool_to_int(chain_block_const_cpp(block).is_final(height, block_time));
 }
 
-int /*bool*/ chain_block_is_distinct_transaction_set(block_t block) {
-    return static_cast<int>(chain_block_const_cpp(block).is_distinct_transaction_set());
+bool_t chain_block_is_distinct_transaction_set(block_t block) {
+    return bitprim::bool_to_int(chain_block_const_cpp(block).is_distinct_transaction_set());
 }
 
-int /*bool*/ chain_block_is_valid_coinbase_claim(block_t block, uint64_t /*size_t*/ height) {
-    return static_cast<int>(chain_block_const_cpp(block).is_valid_coinbase_claim(height));
+bool_t chain_block_is_valid_coinbase_claim(block_t block, uint64_t /*size_t*/ height) {
+    return bitprim::bool_to_int(chain_block_const_cpp(block).is_valid_coinbase_claim(height));
 }
 
-int /*bool*/ chain_block_is_valid_coinbase_script(block_t block, uint64_t /*size_t*/ height) {
-    return static_cast<int>(chain_block_const_cpp(block).is_valid_coinbase_script(height));
+bool_t chain_block_is_valid_coinbase_script(block_t block, uint64_t /*size_t*/ height) {
+    return bitprim::bool_to_int(chain_block_const_cpp(block).is_valid_coinbase_script(height));
 }
 
-int /*bool*/ chain_block_is_internal_double_spend(block_t block) {
-    return static_cast<int>(chain_block_const_cpp(block).is_internal_double_spend());
+bool_t chain_block_is_internal_double_spend(block_t block) {
+    return bitprim::bool_to_int(chain_block_const_cpp(block).is_internal_double_spend());
 }
 
-int /*bool*/ chain_block_is_valid_merkle_root(block_t block) {
-    return static_cast<int>(chain_block_const_cpp(block).is_valid_merkle_root());
+bool_t chain_block_is_valid_merkle_root(block_t block) {
+    return bitprim::bool_to_int(chain_block_const_cpp(block).is_valid_merkle_root());
 }
 
-uint8_t const* chain_block_to_data(block_t block, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
+uint8_t const* chain_block_to_data(block_t block, bool_t wire, uint64_t* /*size_t*/ out_size) {
     auto block_data = chain_block_const_cpp(block).to_data(wire);
     return bitprim::create_c_array(block_data, *out_size);
 }

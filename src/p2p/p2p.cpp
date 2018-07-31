@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -20,7 +20,7 @@
 #include <bitprim/nodecint/p2p/p2p.h>
 
 #include <bitcoin/network/p2p.hpp>
-
+#include <bitprim/nodecint/helpers.hpp>
 
 namespace {
 
@@ -46,8 +46,8 @@ void p2p_close(p2p_t p2p) {
     p2p_cast(p2p).close();
 }
 
-int /*bool*/ p2p_stopped(p2p_t p2p) {
-    return static_cast<int>(p2p_cast(p2p).stopped());
+bool_t p2p_stopped(p2p_t p2p) {
+    return bitprim::bool_to_int(p2p_cast(p2p).stopped());
 }
 
 } // extern "C"

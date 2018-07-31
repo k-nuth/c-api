@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -18,18 +18,16 @@
  */
 
 #include <bitprim/nodecint/chain/payment_address.h>
+
 #include <bitprim/nodecint/helpers.hpp>
+#include <bitprim/nodecint/type_convertions.h>
 
 #include <bitcoin/bitcoin/multi_crypto_support.hpp>
 #include <bitcoin/bitcoin/wallet/payment_address.hpp>
 
-libbitcoin::wallet::payment_address const& chain_payment_address_const_cpp(payment_address_t payment_address) {
-    return *static_cast<libbitcoin::wallet::payment_address const*>(payment_address);
-}
+BITPRIM_CONV_DEFINE(chain, payment_address_t, libbitcoin::wallet::payment_address, payment_address)
 
-libbitcoin::wallet::payment_address& chain_payment_address_cpp(payment_address_t payment_address) {
-    return *static_cast<libbitcoin::wallet::payment_address*>(payment_address);
-}
+//TODO(fernando): payment_address has to be in the wallet API
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -42,8 +40,7 @@ void chain_payment_address_set_cashaddr_prefix(char const* prefix) {
 #endif //BITPRIM_CURRENCY_BCH
 
 payment_address_t chain_payment_address_construct_from_string(char const* address) {
-    std::string addr_cpp(address);
-    return new libbitcoin::wallet::payment_address(addr_cpp);
+    return new libbitcoin::wallet::payment_address(std::string(address));
 }
 
 //User is responsible for releasing return value memory
@@ -69,8 +66,8 @@ uint8_t chain_payment_address_version(payment_address_t payment_address) {
     return chain_payment_address_const_cpp(payment_address).version();
 }
 
-int /*bool*/ chain_payment_address_is_valid(payment_address_t payment_address) {
-    return static_cast<int>(static_cast<bool>(chain_payment_address_const_cpp(payment_address)));
+bool_t chain_payment_address_is_valid(payment_address_t payment_address) {
+    return bitprim::bool_to_int(static_cast<bool>(chain_payment_address_const_cpp(payment_address)));
 }
 
 void chain_payment_address_destruct(payment_address_t payment_address) {

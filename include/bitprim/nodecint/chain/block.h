@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -96,34 +96,34 @@ BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_block_signature_operations(block_t block);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_block_signature_operations_bip16_active(block_t block, int /*bool*/ bip16_active);
+uint64_t /*size_t*/ chain_block_signature_operations_bip16_active(block_t block, bool_t bip16_active);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_block_total_inputs(block_t block, int /*bool*/ with_coinbase /*= true*/);
+uint64_t /*size_t*/ chain_block_total_inputs(block_t block, bool_t with_coinbase /*= true*/);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_block_is_extra_coinbases(block_t block);
+bool_t chain_block_is_extra_coinbases(block_t block);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_block_is_final(block_t block, uint64_t /*size_t*/ height, uint32_t block_time);
+bool_t chain_block_is_final(block_t block, uint64_t /*size_t*/ height, uint32_t block_time);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_block_is_distinct_transaction_set(block_t block);
+bool_t chain_block_is_distinct_transaction_set(block_t block);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_block_is_valid_coinbase_claim(block_t block, uint64_t /*size_t*/ height);
+bool_t chain_block_is_valid_coinbase_claim(block_t block, uint64_t /*size_t*/ height);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_block_is_valid_coinbase_script(block_t block, uint64_t /*size_t*/ height);
+bool_t chain_block_is_valid_coinbase_script(block_t block, uint64_t /*size_t*/ height);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_block_is_internal_double_spend(block_t block);
+bool_t chain_block_is_internal_double_spend(block_t block);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_block_is_valid_merkle_root(block_t block);
+bool_t chain_block_is_valid_merkle_root(block_t block);
 
 BITPRIM_EXPORT
-uint8_t const* chain_block_to_data(block_t block, int /*bool*/ wire, uint64_t* /*size_t*/ out_size);
+uint8_t const* chain_block_to_data(block_t block, bool_t wire, uint64_t* /*size_t*/ out_size);
 
 #ifdef __cplusplus
 } // extern "C"

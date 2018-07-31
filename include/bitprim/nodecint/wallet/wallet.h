@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -34,7 +34,7 @@ BITPRIM_EXPORT
 ec_secret_t wallet_ec_new(uint8_t* seed, uint64_t n);
 
 BITPRIM_EXPORT
-ec_public_t wallet_ec_to_public(ec_secret_t secret, int /*bool*/ uncompressed);
+ec_public_t wallet_ec_to_public(ec_secret_t secret, bool_t uncompressed);
 
 BITPRIM_EXPORT
 payment_address_t wallet_ec_to_address(ec_public_t point, uint32_t version);

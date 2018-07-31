@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -23,13 +23,15 @@
 
 #include <bitprim/nodecint/convertions.hpp>
 
-libbitcoin::chain::script const& chain_script_const_cpp(script_t s) {
-    return *static_cast<libbitcoin::chain::script const*>(s);
-}
+// libbitcoin::chain::script const& chain_script_const_cpp(script_t s) {
+//     return *static_cast<libbitcoin::chain::script const*>(s);
+// }
 
-libbitcoin::chain::script& chain_script_cpp(script_t s) {
-    return *static_cast<libbitcoin::chain::script*>(s);
-}
+// libbitcoin::chain::script& chain_script_cpp(script_t s) {
+//     return *static_cast<libbitcoin::chain::script*>(s);
+// }
+BITPRIM_CONV_DEFINE(chain, script_t, libbitcoin::chain::script, script)
+
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -39,9 +41,9 @@ script_t chain_script_construct_default() {
 }
 
 // script::script(const data_chunk& encoded, bool prefix)
-script_t chain_script_construct(uint8_t* encoded, uint64_t n, int /*bool*/ prefix) {
+script_t chain_script_construct(uint8_t* encoded, uint64_t n, bool_t prefix) {
     libbitcoin::data_chunk encoded_cpp(encoded, std::next(encoded, n));
-    return new libbitcoin::chain::script(encoded_cpp, prefix != 0);
+    return new libbitcoin::chain::script(encoded_cpp, bitprim::int_to_bool(prefix));
 }
 
 void chain_script_destruct(script_t script) {
@@ -49,20 +51,20 @@ void chain_script_destruct(script_t script) {
     delete script_cpp;
 }
 
-int /*bool*/ chain_script_is_valid(script_t script) {
-    return static_cast<int>(chain_script_const_cpp(script).is_valid());
+bool_t chain_script_is_valid(script_t script) {
+    return bitprim::bool_to_int(chain_script_const_cpp(script).is_valid());
 }
 
-int /*bool*/ chain_script_is_valid_operations(script_t script) {
-    return static_cast<int>(chain_script_const_cpp(script).is_valid_operations());
+bool_t chain_script_is_valid_operations(script_t script) {
+    return bitprim::bool_to_int(chain_script_const_cpp(script).is_valid_operations());
 }
 
 uint64_t /*size_t*/ chain_script_satoshi_content_size(script_t script) {
     return chain_script_const_cpp(script).serialized_size(false);
 }
 
-uint64_t /*size_t*/ chain_script_serialized_size(script_t script, int /*bool*/ prefix) {
-    return chain_script_const_cpp(script).serialized_size(prefix != 0);
+uint64_t /*size_t*/ chain_script_serialized_size(script_t script, bool_t prefix) {
+    return chain_script_const_cpp(script).serialized_size(bitprim::int_to_bool(prefix));
 }
 
 //Note: user of the function has to release the resource (memory) manually
@@ -91,13 +93,13 @@ char* chain_script_type(script_t script) {
     return bitprim::create_c_str(type);
 }
 
-uint8_t* chain_script_to_data(script_t script, int /*bool*/ prefix, uint64_t* /*size_t*/ out_size) {
-    auto script_data = chain_script_const_cpp(script).to_data(prefix != 0);
+uint8_t* chain_script_to_data(script_t script, bool_t prefix, uint64_t* /*size_t*/ out_size) {
+    auto script_data = chain_script_const_cpp(script).to_data(bitprim::int_to_bool(prefix));
     return bitprim::create_c_array(script_data, *out_size);
 }
 
-uint64_t /*size_t*/ chain_script_sigops(script_t script, int /*bool*/ embedded) {
-    return chain_script_const_cpp(script).sigops(embedded != 0);
+uint64_t /*size_t*/ chain_script_sigops(script_t script, bool_t embedded) {
+    return chain_script_const_cpp(script).sigops(bitprim::int_to_bool(embedded));
 }
 
 } // extern "C"

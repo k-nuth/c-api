@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -22,20 +22,21 @@
 #include <bitprim/nodecint/convertions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
-libbitcoin::message::header const& chain_header_const_cpp(header_t header) {
-    return *static_cast<libbitcoin::message::header const*>(header);
-}
+// libbitcoin::message::header const& chain_header_const_cpp(header_t header) {
+//     return *static_cast<libbitcoin::message::header const*>(header);
+// }
 
-libbitcoin::message::header& chain_header_cpp(header_t header) {
-    return *static_cast<libbitcoin::message::header*>(header);
-}
+// libbitcoin::message::header& chain_header_cpp(header_t header) {
+//     return *static_cast<libbitcoin::message::header*>(header);
+// }
+BITPRIM_CONV_DEFINE(chain, header_t, libbitcoin::message::header, header)
 
 extern "C" {
 
 header_t chain_header_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
     libbitcoin::data_chunk data_cpp(data, std::next(data, n));
     auto header = libbitcoin::message::header::factory_from_data(version, data_cpp);
-    return new libbitcoin::message::header(std::move(header)); // TODO(fernando): revisar todos los "new"'s que hay por todos lados para ver si podemos hacer un move de los recursos...
+    return bitprim::move_or_copy_and_leak(std::move(header));
 }
 
 uint64_t /*size_t*/ chain_header_satoshi_fixed_size(uint32_t version) {
@@ -75,7 +76,7 @@ void chain_header_destruct(header_t header) {
 }
 
 int chain_header_is_valid(header_t header) {
-    return static_cast<int>(chain_header_const_cpp(header).is_valid());
+    return bitprim::bool_to_int(chain_header_const_cpp(header).is_valid());
 }
 
 uint32_t chain_header_version(header_t header) {

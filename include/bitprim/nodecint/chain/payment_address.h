@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -52,7 +52,7 @@ BITPRIM_EXPORT
 uint8_t chain_payment_address_version(payment_address_t payment_address);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_payment_address_is_valid(payment_address_t payment_address);
+bool_t chain_payment_address_is_valid(payment_address_t payment_address);
 
 BITPRIM_EXPORT
 void chain_payment_address_destruct(payment_address_t payment_address);

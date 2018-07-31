@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -42,16 +42,16 @@ BITPRIM_EXPORT
 int chain_input_is_valid(input_t input);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_input_is_final(input_t input);
+bool_t chain_input_is_final(input_t input);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_input_serialized_size(input_t input, int /*bool*/ wire /* = true*/);
+uint64_t /*size_t*/ chain_input_serialized_size(input_t input, bool_t wire /* = true*/);
 
 BITPRIM_EXPORT
 uint32_t chain_input_sequence(input_t input);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_input_signature_operations(input_t input, int /*bool*/ bip16_active);
+uint64_t /*size_t*/ chain_input_signature_operations(input_t input, bool_t bip16_active);
 
 BITPRIM_EXPORT
 script_t chain_input_script(input_t input);
@@ -60,7 +60,7 @@ BITPRIM_EXPORT
 output_point_t chain_input_previous_output(input_t input);
 
 BITPRIM_EXPORT
-uint8_t* chain_input_to_data(input_t input, int /*bool*/ wire, uint64_t* /*size_t*/ out_size);
+uint8_t* chain_input_to_data(input_t input, bool_t wire, uint64_t* /*size_t*/ out_size);
 
 #ifdef __cplusplus
 } // extern "C"

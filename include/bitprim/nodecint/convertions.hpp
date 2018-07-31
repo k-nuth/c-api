@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -22,6 +22,9 @@
 
 #include <vector>
 
+#include <bitprim/nodecint/list_creator.h>
+#include <bitprim/nodecint/type_convertions.h>
+
 #include <bitcoin/bitcoin/chain/input.hpp>
 #include <bitcoin/bitcoin/chain/output.hpp>
 #include <bitcoin/bitcoin/chain/output_point.hpp>
@@ -29,48 +32,42 @@
 #include <bitcoin/bitcoin/message/block.hpp>
 #include <bitcoin/bitcoin/message/header.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
+// #include <bitcoin/bitcoin/wallet/ec_public.hpp>
+#include <bitcoin/bitcoin/wallet/transaction_functions.hpp>
 
-libbitcoin::message::block const& chain_block_const_cpp(block_t block);
-libbitcoin::message::block& chain_block_cpp(block_t block);
+
+BITPRIM_CONV_DECLARE(chain, block_t, libbitcoin::message::block, block)
 
 std::vector<libbitcoin::message::block> const& chain_block_list_const_cpp(block_list_t list);
 std::vector<libbitcoin::message::block>& chain_block_list_cpp(block_list_t list);
 //Note: block_list_t created with this function has not have to destruct it...
 //block_list_t chain_block_list_construct_from_cpp(libbitcoin::message::block::list& list);
 
-libbitcoin::message::header const& chain_header_const_cpp(header_t header);
-libbitcoin::message::header& chain_header_cpp(header_t header);
+BITPRIM_CONV_DECLARE(chain, header_t, libbitcoin::message::header, header)
 
-libbitcoin::chain::input const& chain_input_const_cpp(input_t input);
-libbitcoin::chain::input& chain_input_cpp(input_t input);
+
+BITPRIM_LIST_DECLARE_CONVERTERS(chain, point_list_t, libbitcoin::chain::point, point_list)
+
+BITPRIM_CONV_DECLARE(chain, input_t, libbitcoin::chain::input, input)
 
 std::vector<libbitcoin::chain::input> const& chain_input_list_const_cpp(input_list_t list);
 std::vector<libbitcoin::chain::input>& chain_input_list_cpp(input_list_t list);
 //Note: input_list_t created with this function has not have to destruct it...
 input_list_t chain_input_list_construct_from_cpp(libbitcoin::chain::input::list& list);
 
-libbitcoin::chain::output const& chain_output_const_cpp(output_t output);
-libbitcoin::chain::output& chain_output_cpp(output_t output);
 
+BITPRIM_CONV_DECLARE(chain, output_t, libbitcoin::chain::output, output)
 
 std::vector<libbitcoin::chain::output> const& chain_output_list_const_cpp(output_list_t list);
 std::vector<libbitcoin::chain::output>& chain_output_list_cpp(output_list_t list);
 //Note: output_list_t created with this function has not have to destruct it...
 output_list_t chain_output_list_construct_from_cpp(libbitcoin::chain::output::list& list);
 
+BITPRIM_CONV_DECLARE(chain, output_point_t, libbitcoin::chain::output_point, output_point)
 
-libbitcoin::chain::output_point const& output_point_const_cpp(output_point_t op);
-libbitcoin::chain::output_point& output_point_cpp(output_point_t op);
+BITPRIM_CONV_DECLARE(chain, script_t, libbitcoin::chain::script, script)
 
-
-
-libbitcoin::chain::script const& chain_script_const_cpp(script_t s);
-libbitcoin::chain::script& chain_script_cpp(script_t s);
-
-libbitcoin::message::transaction const& chain_transaction_const_cpp(transaction_t transaction);
-libbitcoin::message::transaction& chain_transaction_cpp(transaction_t transaction);
-
-
+BITPRIM_CONV_DECLARE(chain, transaction_t, libbitcoin::message::transaction, transaction)
 
 std::vector<libbitcoin::message::transaction> const& chain_transaction_list_const_cpp(transaction_list_t list);
 std::vector<libbitcoin::message::transaction>& chain_transaction_list_cpp(transaction_list_t list);
@@ -82,9 +79,17 @@ std::vector<libbitcoin::hash_digest> const& chain_hash_list_const_cpp(hash_list_
 std::vector<libbitcoin::hash_digest>& chain_hash_list_cpp(hash_list_t list);
 hash_list_t chain_hash_list_construct_from_cpp(std::vector<libbitcoin::hash_digest>& list);
 
-
 std::vector<uint64_t /*size_t*/> const& chain_block_indexes_const_cpp(block_indexes_t list);
 std::vector<uint64_t /*size_t*/>& chain_block_indexes_cpp(block_indexes_t list);
+
+
+BITPRIM_CONV_DECLARE(chain, payment_address_t, libbitcoin::wallet::payment_address, payment_address)
+
+// Wallet.
+// ------------------------------------------------------------------------------------
+// BITPRIM_CONV_DECLARE(wallet, ec_public_t, libbitcoin::wallet::ec_public, ec_public)
+BITPRIM_CONV_DECLARE(wallet, raw_output_t, libbitcoin::wallet::raw_output, raw_output)
+BITPRIM_LIST_DECLARE_CONVERTERS(wallet, raw_output_list_t, libbitcoin::wallet::raw_output, raw_output_list)
 
 
 #endif /* BITPRIM_NODECINT_CONVERTIONS_HPP_ */

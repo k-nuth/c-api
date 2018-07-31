@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2017-2018 Bitprim Inc.
+# Copyright (c) 2016-2018 Bitprim Inc.
 #
 # This file is part of Bitprim.
 #
@@ -101,6 +101,15 @@ else()
 endif()
 
 message(STATUS "Bitprim: Cryptocurrency: ${CURRENCY}")
+
+# Implement --with-keoken and declare WITH_KEOKEN.
+#------------------------------------------------------------------------------
+option(WITH_KEOKEN "Keoken enabled." OFF)
+if (WITH_KEOKEN)
+  message(STATUS "Bitprim: Keoken enabled")
+  add_definitions(-DWITH_KEOKEN)
+endif()
+
 
 if (ENABLE_SHARED_NODE_CINT)
   set(ENABLE_SHARED ON)
@@ -276,11 +285,31 @@ set(_bitprim_sources
 
         src/p2p/p2p.cpp
 
+        # src/wallet/ec_public.cpp
+        src/wallet/raw_output.cpp
+        src/wallet/raw_output_list.cpp
+        src/wallet/transaction_functions.cpp
         src/wallet/wallet.cpp
         src/wallet/word_list.cpp
+
         src/platform.cpp
 )
 
+
+
+if (WITH_KEOKEN)
+  set(_bitprim_sources
+    ${_bitprim_sources}
+    src/keoken/get_all_asset_addresses_data.cpp
+    src/keoken/get_all_asset_addresses_list.cpp
+    src/keoken/get_assets_by_address_data.cpp
+    src/keoken/get_assets_by_address_list.cpp
+    src/keoken/get_assets_data.cpp
+    src/keoken/get_assets_list.cpp
+    src/keoken/manager.cpp
+    src/keoken/wallet/create_transactions.cpp
+  )
+endif()
 
 add_library(bitprim-node-cint ${MODE}
         ${_bitprim_sources}
@@ -295,7 +324,7 @@ endif(ENABLE_POSITION_INDEPENDENT_CODE)
 
 #set_target_properties(bitprim-node-cint PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
-target_compile_definitions(bitprim-node-cint PUBLIC -DBITPRIM_PROJECT_VERSION="\\"${BITPRIM_PROJECT_VERSION}\\"") #TODO(fernando): manage with Conan????
+target_compile_definitions(bitprim-node-cint PUBLIC -DBITPRIM_PROJECT_VERSION="${BITPRIM_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
 target_compile_definitions(bitprim-node-cint PUBLIC -Dbitprim_EXPORTS)
 
 target_include_directories(bitprim-node-cint PUBLIC
@@ -467,8 +496,14 @@ set(_bitprim_headers
         bitprim/nodecint/binary.h
         bitprim/nodecint/platform.h
 
-        
 )
+
+if (WITH_KEOKEN)
+  set(_bitprim_headers
+    ${_bitprim_headers}
+    bitprim/nodecint/keoken/manager.h
+  )
+endif()
 
 foreach (_header ${_bitprim_headers})
   get_filename_component(_directory "${_header}" DIRECTORY)

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -75,7 +75,7 @@ BITPRIM_EXPORT
 uint64_t /*size_t*/ chain_transaction_signature_operations(transaction_t transaction);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_transaction_signature_operations_bip16_active(transaction_t transaction, int /*bool*/ bip16_active);
+uint64_t /*size_t*/ chain_transaction_signature_operations_bip16_active(transaction_t transaction, bool_t bip16_active);
 
 BITPRIM_EXPORT
 uint64_t chain_transaction_total_input_value(transaction_t transaction);
@@ -84,31 +84,31 @@ BITPRIM_EXPORT
 uint64_t chain_transaction_total_output_value(transaction_t transaction);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_transaction_is_coinbase(transaction_t transaction);
+bool_t chain_transaction_is_coinbase(transaction_t transaction);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_transaction_is_null_non_coinbase(transaction_t transaction);
+bool_t chain_transaction_is_null_non_coinbase(transaction_t transaction);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_transaction_is_oversized_coinbase(transaction_t transaction);
+bool_t chain_transaction_is_oversized_coinbase(transaction_t transaction);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_transaction_is_mature(transaction_t transaction, uint64_t /*size_t*/ target_height);
+bool_t chain_transaction_is_mature(transaction_t transaction, uint64_t /*size_t*/ target_height);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_transaction_is_overspent(transaction_t transaction);
+bool_t chain_transaction_is_overspent(transaction_t transaction);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_transaction_is_double_spend(transaction_t transaction, int /*bool*/ include_unconfirmed);
+bool_t chain_transaction_is_double_spend(transaction_t transaction, bool_t include_unconfirmed);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_transaction_is_missing_previous_outputs(transaction_t transaction);
+bool_t chain_transaction_is_missing_previous_outputs(transaction_t transaction);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_transaction_is_final(transaction_t transaction, uint64_t /*size_t*/ block_height, uint32_t block_time);
+bool_t chain_transaction_is_final(transaction_t transaction, uint64_t /*size_t*/ block_height, uint32_t block_time);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_transaction_is_locktime_conflict(transaction_t transaction);
+bool_t chain_transaction_is_locktime_conflict(transaction_t transaction);
 
 BITPRIM_EXPORT
 output_list_t chain_transaction_outputs(transaction_t transaction);
@@ -117,7 +117,7 @@ BITPRIM_EXPORT
 input_list_t chain_transaction_inputs(transaction_t transaction);
 
 BITPRIM_EXPORT
-uint8_t* chain_transaction_to_data(transaction_t transaction, int /*bool*/ wire, uint64_t* /*size_t*/ out_size);
+uint8_t* chain_transaction_to_data(transaction_t transaction, bool_t wire, uint64_t* /*size_t*/ out_size);
 
 #ifdef __cplusplus
 } // extern "C"

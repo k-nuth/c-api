@@ -45,8 +45,8 @@ void chain_point_get_hash_out(point_t point, hash_t* out_hash) {
     bitprim::copy_c_hash(hash_cpp, out_hash);
 }
 
-int /*bool*/ chain_point_is_valid(point_t point) {
-    return static_cast<int>(chain_point_const_cpp(point).is_valid());
+bool_t chain_point_is_valid(point_t point) {
+    return bitprim::bool_to_int(chain_point_const_cpp(point).is_valid());
 }
 
 uint32_t chain_point_get_index(point_t point) {

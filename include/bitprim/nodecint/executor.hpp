@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -140,6 +140,8 @@ private:
     "Using default configuration settings."
 
 #define BN_VERSION_MESSAGE_INIT "Node version: %1%"
+
+#define BN_KEOKEN_MESSAGE_INIT "Keoken protocol enabled"
 
 #define BN_CRYPTOCURRENCY_INIT "Currency: %1% - %2%"
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -22,7 +22,10 @@
 
 #include <array>
 #include <cstddef>
+#include <memory>
+#include <type_traits>
 #include <utility>
+
 
 #include <bitcoin/bitcoin/math/hash.hpp>
 
@@ -159,6 +162,24 @@ void copy_c_hash(HashCpp const& in, HashC* out) {
     //precondition: size of out->hash is greater or equal than in.size()
     // std::memcpy(static_cast<void*>(out->hash), in.data(), BITCOIN_HASH_SIZE);
     std::copy_n(in.begin(), in.size(), static_cast<uint8_t*>(out->hash));
+}
+
+template <typename T>
+using home_remove_reference_t = typename std::remove_reference<T>::type;
+
+template <typename T> 
+home_remove_reference_t<T>* move_or_copy_and_leak(T&& x) {
+    return new home_remove_reference_t<T>(std::forward<T>(x));
+}
+
+inline
+int bool_to_int(bool x) {
+    return static_cast<int>(x);
+}
+
+inline
+bool int_to_bool(int x) {
+    return x != 0;
 }
 
 } /* namespace bitprim */

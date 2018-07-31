@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -18,25 +18,34 @@
  */
 
 #include <bitcoin/bitcoin/chain/point.hpp>
+
 #include <bitprim/nodecint/chain/point_list.h>
+#include <bitprim/nodecint/list_creator.h>
 
-std::vector<libbitcoin::chain::point> const& point_list_const_cpp(point_list_t point_list) {
-    return *static_cast<std::vector<libbitcoin::chain::point> const*>(point_list);
-}
+// std::vector<libbitcoin::chain::point> const& point_list_const_cpp(point_list_t point_list) {
+//     return *static_cast<std::vector<libbitcoin::chain::point> const*>(point_list);
+// }
 
-std::vector<libbitcoin::chain::point>& point_list_cpp(point_list_t point_list) {
-    return *static_cast<std::vector<libbitcoin::chain::point>*>(point_list);
-}
+// std::vector<libbitcoin::chain::point>& point_list_cpp(point_list_t point_list) {
+//     return *static_cast<std::vector<libbitcoin::chain::point>*>(point_list);
+// }
+
+BITPRIM_LIST_DEFINE_CONVERTERS(chain, point_list_t, libbitcoin::chain::point, point_list)
+
+// ---------------------------------------------------------------------------
+extern "C" {
 
 point_t point_list_nth(point_list_t point_list, uint64_t /*size_t*/ n) {
-    auto& point_n = point_list_cpp(point_list)[n];
+    auto& point_n = chain_point_list_cpp(point_list)[n];
     return &point_n;
 }
 
 uint64_t /*size_t*/ point_list_count(point_list_t point_list) {
-    return point_list_const_cpp(point_list).size();
+    return chain_point_list_const_cpp(point_list).size();
 }
 
 void point_list_destruct(point_list_t point_list) {
-    delete &point_list_cpp(point_list);
+    delete &chain_point_list_cpp(point_list);
 }
+
+} // extern "C"

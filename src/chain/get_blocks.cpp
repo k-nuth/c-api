@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -77,8 +77,8 @@ void chain_get_blocks_set_stop_hash(get_blocks_t get_b, hash_t value) {
     chain_get_blocks_cpp(get_b).set_stop_hash(value_cpp);
 }
 
-int /*bool*/ chain_get_blocks_is_valid(get_blocks_t get_b) {
-    return static_cast<int>(chain_get_blocks_cpp(get_b).is_valid());
+bool_t chain_get_blocks_is_valid(get_blocks_t get_b) {
+    return bitprim::bool_to_int(chain_get_blocks_cpp(get_b).is_valid());
 }
 
 void chain_get_blocks_reset(get_blocks_t get_b) {

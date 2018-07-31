@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -23,13 +23,14 @@
 #include <bitprim/nodecint/convertions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
-libbitcoin::chain::output const& chain_output_const_cpp(output_t output) {
-    return *static_cast<libbitcoin::chain::output const*>(output);
-}
+// libbitcoin::chain::output const& chain_output_const_cpp(output_t output) {
+//     return *static_cast<libbitcoin::chain::output const*>(output);
+// }
 
-libbitcoin::chain::output& chain_output_cpp(output_t output) {
-    return *static_cast<libbitcoin::chain::output*>(output);
-}
+// libbitcoin::chain::output& chain_output_cpp(output_t output) {
+//     return *static_cast<libbitcoin::chain::output*>(output);
+// }
+BITPRIM_CONV_DEFINE(chain, output_t, libbitcoin::chain::output, output)
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -47,11 +48,11 @@ void chain_output_destruct(output_t output) {
 }
 
 int chain_output_is_valid(output_t output) {
-    return static_cast<int>(chain_output_const_cpp(output).is_valid());
+    return bitprim::bool_to_int(chain_output_const_cpp(output).is_valid());
 }
 
-uint64_t /*size_t*/ chain_output_serialized_size(output_t output, int /* bool */ wire /* = true */) {
-    return chain_output_const_cpp(output).serialized_size(wire != 0);
+uint64_t /*size_t*/ chain_output_serialized_size(output_t output, bool_t wire /* = true */) {
+    return chain_output_const_cpp(output).serialized_size(bitprim::int_to_bool(wire));
 }
 
 uint64_t chain_output_value(output_t output) {
@@ -60,24 +61,24 @@ uint64_t chain_output_value(output_t output) {
 
 uint64_t /*size_t*/ chain_output_signature_operations(output_t output) {
 #ifdef BITPRIM_CURRENCY_BCH
-    int /*bool*/ bip141_active = 0;
+    bool_t bip141_active = 0;
 #else
-    int /*bool*/ bip141_active = 1;
+    bool_t bip141_active = 1;
 #endif   
-    return chain_output_const_cpp(output).signature_operations(bip141_active!=0);
+    return chain_output_const_cpp(output).signature_operations(bitprim::int_to_bool(bip141_active));
 }
 
 script_t chain_output_script(output_t output) {
     return &(chain_output_cpp(output).script());
 }
 
-payment_address_t chain_output_payment_address(output_t output, int /*bool*/ use_testnet_rules) {
-    auto payment_address = chain_output_cpp(output).address(use_testnet_rules != 0);
+payment_address_t chain_output_payment_address(output_t output, bool_t use_testnet_rules) {
+    auto payment_address = chain_output_cpp(output).address(bitprim::int_to_bool(use_testnet_rules));
     return new libbitcoin::wallet::payment_address(payment_address);
 }
 
-uint8_t* chain_output_to_data(output_t output, int /*bool*/ wire, uint64_t* /*size_t*/ out_size) {
-    auto output_data = chain_output_const_cpp(output).to_data(wire != 0);
+uint8_t* chain_output_to_data(output_t output, bool_t wire, uint64_t* /*size_t*/ out_size) {
+    auto output_data = chain_output_const_cpp(output).to_data(bitprim::int_to_bool(wire));
     return bitprim::create_c_array(output_data, *out_size);
 }
 

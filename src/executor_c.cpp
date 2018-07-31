@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -26,6 +26,7 @@
 #include <boost/thread/latch.hpp>
 
 #include <bitprim/nodecint/executor.hpp>
+#include <bitprim/nodecint/helpers.hpp>
 #include <bitprim/nodecint/version.h>
 
 #include <bitcoin/bitcoin/wallet/mnemonic.hpp>  //Warning, put it after boost headers
@@ -159,7 +160,7 @@ void executor_destruct(executor_t exec) {
 int executor_initchain(executor_t exec) {
     // TODO(fernando): return error_t to inform error in detail
     try {
-        return static_cast<int>(exec->actual.do_initchain());
+        return bitprim::bool_to_int(exec->actual.do_initchain());
 //    } catch (const std::exception& e) {
 //        return 0;
     } catch (...) {
@@ -274,6 +275,12 @@ chain_t executor_get_chain(executor_t exec) {
 p2p_t executor_get_p2p(executor_t exec) {
     return &static_cast<libbitcoin::network::p2p&>(exec->actual.node());
 }
+
+#ifdef WITH_KEOKEN
+keoken_manager_t executor_get_keoken_manager(executor_t exec) {
+    return &(exec->actual.node().keoken_manager());
+}
+#endif
 
 char const* executor_version() {
     return BITPRIM_NODECINT_VERSION;

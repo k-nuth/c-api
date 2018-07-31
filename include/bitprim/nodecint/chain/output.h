@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -42,7 +42,7 @@ BITPRIM_EXPORT
 int chain_output_is_valid(output_t output);
 
 BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_output_serialized_size(output_t output, int /*bool*/ wire /*= true*/);
+uint64_t /*size_t*/ chain_output_serialized_size(output_t output, bool_t wire /*= true*/);
 
 BITPRIM_EXPORT
 uint64_t chain_output_value(output_t output);
@@ -54,10 +54,10 @@ BITPRIM_EXPORT
 script_t chain_output_script(output_t output);
 
 BITPRIM_EXPORT
-payment_address_t chain_output_payment_address(output_t output, int /*bool*/ use_testnet_rules);
+payment_address_t chain_output_payment_address(output_t output, bool_t use_testnet_rules);
 
 BITPRIM_EXPORT
-uint8_t* chain_output_to_data(output_t output, int /*bool*/ wire, uint64_t* /*size_t*/ out_size);
+uint8_t* chain_output_to_data(output_t output, bool_t wire, uint64_t* /*size_t*/ out_size);
 
 //BITPRIM_EXPORT
 //uint32_t chain_output_get_index(output_t output);

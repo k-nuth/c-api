@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -70,10 +70,10 @@ ec_secret_t wallet_ec_new(uint8_t* seed, uint64_t n) {
 
 }
 
-ec_public_t wallet_ec_to_public(ec_secret_t secret, int /*bool*/ uncompressed) {
+ec_public_t wallet_ec_to_public(ec_secret_t secret, bool_t uncompressed) {
     
     auto secret_cpp = bitprim::to_array(secret.data);
-    bool uncompressed_cpp = uncompressed != 0;
+    bool uncompressed_cpp = bitprim::int_to_bool(uncompressed);
     
     libbitcoin::ec_compressed point;
     libbitcoin::secret_to_public(point, secret_cpp);

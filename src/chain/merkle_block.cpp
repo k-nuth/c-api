@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -21,15 +21,11 @@
 
 #include <bitcoin/bitcoin/message/merkle_block.hpp>
 #include <bitcoin/bitcoin/message/transaction.hpp>
+
 #include <bitprim/nodecint/helpers.hpp>
+#include <bitprim/nodecint/type_convertions.h>
 
-libbitcoin::message::merkle_block const& chain_merkle_block_const_cpp(merkle_block_t block) {
-    return *static_cast<libbitcoin::message::merkle_block const*>(block);
-}
-
-libbitcoin::message::merkle_block& chain_merkle_block_cpp(merkle_block_t block) {
-    return *static_cast<libbitcoin::message::merkle_block*>(block);
-}
+BITPRIM_CONV_DEFINE(chain, merkle_block_t, libbitcoin::message::merkle_block, merkle_block)
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -59,8 +55,8 @@ header_t chain_merkle_block_header(merkle_block_t block) {
     return &chain_merkle_block_cpp(block).header();
 }
 
-int /*bool*/ chain_merkle_block_is_valid(merkle_block_t block) {
-    return static_cast<int>(chain_merkle_block_const_cpp(block).is_valid());
+bool_t chain_merkle_block_is_valid(merkle_block_t block) {
+    return bitprim::bool_to_int(chain_merkle_block_const_cpp(block).is_valid());
 }
 
 uint64_t /*size_t*/ chain_merkle_block_hash_count(merkle_block_t block) {

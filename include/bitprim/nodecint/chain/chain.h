@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -172,7 +172,7 @@ error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_hei
 //virtual void fetch_mempool(size_t count_limit, uint64_t minimum_fee, inventory_fetch_handler handler) const = 0;
 
 BITPRIM_EXPORT
-mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment_address_t address, int /*bool*/ use_testnet_rules);
+mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment_address_t address, bool_t use_testnet_rules);
 
 //
 //// Filters.
@@ -233,7 +233,7 @@ void chain_transaction_validate_sequential(chain_t chain, void* ctx, transaction
 //-------------------------------------------------------------------------
 
 BITPRIM_EXPORT
-int /*bool*/ chain_is_stale(chain_t chain);
+bool_t chain_is_stale(chain_t chain);
 
 #ifdef __cplusplus
 } // extern "C"

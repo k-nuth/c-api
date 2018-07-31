@@ -18,15 +18,14 @@
  */
 
 #include <bitcoin/bitcoin/chain/history.hpp>
+
 #include <bitprim/nodecint/chain/history_compact.h>
+#include <bitprim/nodecint/type_convertions.h>
 
-libbitcoin::chain::history_compact const& chain_history_compact_const_cpp(history_compact_t history) {
-    return *static_cast<libbitcoin::chain::history_compact const*>(history);
-}
+BITPRIM_CONV_DEFINE(chain, history_compact_t, libbitcoin::chain::history_compact, history_compact)
 
-libbitcoin::chain::history_compact& chain_history_compact_cpp(history_compact_t history) {
-    return *static_cast<libbitcoin::chain::history_compact*>(history);
-}
+// ---------------------------------------------------------------------------
+extern "C" {
 
 point_kind_t chain_history_compact_get_point_kind(history_compact_t history) {
     return static_cast<point_kind_t>(chain_history_compact_const_cpp(history).kind);
@@ -45,3 +44,4 @@ uint64_t chain_history_compact_get_value_or_previous_checksum(history_compact_t 
     return history_const_cpp.value;
 }
 
+} // extern "C"

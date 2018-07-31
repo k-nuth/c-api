@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -54,7 +54,7 @@ BITPRIM_EXPORT
 void chain_get_headers_set_stop_hash(get_headers_t get_b, hash_t value);
 
 BITPRIM_EXPORT
-int /*bool*/ chain_get_headers_is_valid(get_headers_t get_b);
+bool_t chain_get_headers_is_valid(get_headers_t get_b);
 
 BITPRIM_EXPORT
 void chain_get_headers_reset(get_headers_t get_b);

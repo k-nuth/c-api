@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -37,7 +37,7 @@ BITPRIM_EXPORT
 void p2p_close(p2p_t p2p);
 
 BITPRIM_EXPORT
-int /*bool*/ p2p_stopped(p2p_t p2p);
+bool_t p2p_stopped(p2p_t p2p);
 
 #ifdef __cplusplus
 } // extern "C"

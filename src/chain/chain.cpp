@@ -1,5 +1,5 @@
 /**
-* Copyright (c) 2017-2018 Bitprim Inc.
+* Copyright (c) 2016-2018 Bitprim Inc.
 *
 * This file is part of Bitprim.
 *
@@ -175,11 +175,11 @@ error_code_t chain_get_block_header_by_hash(chain_t chain, hash_t hash, header_t
 
 void chain_fetch_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_fetch_handler_t handler) {
 #ifdef BITPRIM_CURRENCY_BCH
-    int /*bool*/ witness = 0;
+    bool_t witness = 0;
 #else
-    int /*bool*/ witness = 1;
+    bool_t witness = 1;
 #endif
-    safe_chain(chain).fetch_block(height, witness!=0, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
+    safe_chain(chain).fetch_block(height, bitprim::int_to_bool(witness), [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
         if (ec == libbitcoin::error::success) {
             auto new_block = new libbitcoin::message::block(*block);
             //Note: It is the responsability of the user to release/destruct the object
@@ -192,14 +192,14 @@ void chain_fetch_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ h
 
 error_code_t chain_get_block_by_height(chain_t chain, uint64_t /*size_t*/ height, block_t* out_block, uint64_t* /*size_t*/ out_height) {
 #ifdef BITPRIM_CURRENCY_BCH
-    int /*bool*/ witness = 0;
+    bool_t witness = 0;
 #else
-    int /*bool*/ witness = 1;
+    bool_t witness = 1;
 #endif    
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
-    safe_chain(chain).fetch_block(height, witness!=0, [&](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
+    safe_chain(chain).fetch_block(height, bitprim::int_to_bool(witness), [&](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
         if (ec == libbitcoin::error::success) {
             //Note: It is the responsability of the user to release/destruct the object
             *out_block = new libbitcoin::message::block(*block);
@@ -251,13 +251,13 @@ error_code_t chain_get_block_by_height_timestamp(chain_t chain, uint64_t /*size_
 
 void chain_fetch_block_by_hash(chain_t chain, void* ctx, hash_t hash, block_fetch_handler_t handler) {
 #ifdef BITPRIM_CURRENCY_BCH
-    int /*bool*/ witness = 0;
+    bool_t witness = 0;
 #else
-    int /*bool*/ witness = 1;
+    bool_t witness = 1;
 #endif
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_block(hash_cpp, witness!=0, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
+    safe_chain(chain).fetch_block(hash_cpp, bitprim::int_to_bool(witness), [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
         if (ec == libbitcoin::error::success) {
             //Note: It is the responsability of the user to release/destruct the object
             auto new_block = new libbitcoin::message::block(*block);
@@ -270,16 +270,16 @@ void chain_fetch_block_by_hash(chain_t chain, void* ctx, hash_t hash, block_fetc
 
 error_code_t chain_get_block_by_hash(chain_t chain, hash_t hash, block_t* out_block, uint64_t* /*size_t*/ out_height) {
 #ifdef BITPRIM_CURRENCY_BCH
-    int /*bool*/ witness = 0;
+    bool_t witness = 0;
 #else
-    int /*bool*/ witness = 1;
+    bool_t witness = 1;
 #endif    
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_block(hash_cpp, witness!=0, [&](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
+    safe_chain(chain).fetch_block(hash_cpp, bitprim::int_to_bool(witness), [&](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
         if (ec == libbitcoin::error::success) {
             //Note: It is the responsability of the user to release/destruct the object
             *out_block = new libbitcoin::message::block(*block);
@@ -407,17 +407,17 @@ error_code_t chain_get_merkle_block_by_hash(chain_t chain, hash_t hash, merkle_b
     return res;
 }
 
-void chain_fetch_transaction(chain_t chain, void* ctx, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler) {
+void chain_fetch_transaction(chain_t chain, void* ctx, hash_t hash, bool_t require_confirmed, transaction_fetch_handler_t handler) {
 #ifdef BITPRIM_CURRENCY_BCH
-    int /*bool*/ witness = 0;
+    bool_t witness = 0;
 #else
-    int /*bool*/ witness = 1;
+    bool_t witness = 1;
 #endif    
     //precondition:  [hash, 32] is a valid range
 
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed != 0, witness!=0, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t i, size_t h) {
+    safe_chain(chain).fetch_transaction(hash_cpp, bitprim::int_to_bool(require_confirmed), bitprim::int_to_bool(witness), [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t i, size_t h) {
         if (ec == libbitcoin::error::success) {
             auto new_transaction = new libbitcoin::message::transaction(*transaction);
             handler(chain, ctx, bitprim::to_c_err(ec), new_transaction, i, h);
@@ -429,16 +429,16 @@ void chain_fetch_transaction(chain_t chain, void* ctx, hash_t hash, int require_
 
 error_code_t chain_get_transaction(chain_t chain, hash_t hash, int require_confirmed, transaction_t* out_transaction, uint64_t* /*size_t*/ out_height, uint64_t* /*size_t*/ out_index) {
 #ifdef BITPRIM_CURRENCY_BCH
-    int /*bool*/ witness = 0;
+    bool_t witness = 0;
 #else
-    int /*bool*/ witness = 1;
+    bool_t witness = 1;
 #endif    
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction(hash_cpp, require_confirmed != 0, witness!=0, [&](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t i, size_t h) {
+    safe_chain(chain).fetch_transaction(hash_cpp, bitprim::int_to_bool(require_confirmed), bitprim::int_to_bool(witness), [&](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t i, size_t h) {
         if (ec == libbitcoin::error::success) {
             *out_transaction = new libbitcoin::message::transaction(*transaction);
         } else {
@@ -549,7 +549,7 @@ error_code_t chain_get_compact_block_by_hash(chain_t chain, hash_t hash, compact
 void chain_fetch_transaction_position(chain_t chain, void* ctx, hash_t hash, int require_confirmed, transaction_index_fetch_handler_t handler) {
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction_position(hash_cpp, require_confirmed != 0, [chain, ctx, handler](std::error_code const& ec, size_t position, size_t height) {
+    safe_chain(chain).fetch_transaction_position(hash_cpp, bitprim::int_to_bool(require_confirmed), [chain, ctx, handler](std::error_code const& ec, size_t position, size_t height) {
         handler(chain, ctx, bitprim::to_c_err(ec), position, height);
     });
 }
@@ -560,7 +560,7 @@ error_code_t chain_get_transaction_position(chain_t chain, hash_t hash, int requ
 
     auto hash_cpp = bitprim::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction_position(hash_cpp, require_confirmed != 0, [&](std::error_code const& ec, size_t position, size_t height) {
+    safe_chain(chain).fetch_transaction_position(hash_cpp, bitprim::int_to_bool(require_confirmed), [&](std::error_code const& ec, size_t position, size_t height) {
         *out_height = height;
         *out_position = position;
         res = bitprim::to_c_err(ec);
@@ -730,15 +730,15 @@ error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_hei
 //virtual void fetch_mempool(size_t count_limit, uint64_t minimum_fee, inventory_fetch_handler handler) const = 0;
 //
 
-mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment_address_t address, int /*bool*/ use_testnet_rules) {
+mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment_address_t address, bool_t use_testnet_rules) {
 #ifdef BITPRIM_CURRENCY_BCH
-    int /*bool*/ witness = 0;
+    bool_t witness = 0;
 #else
-    int /*bool*/ witness = 1;
+    bool_t witness = 1;
 #endif
     libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
     if (address_cpp) {
-        auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), use_testnet_rules != 0, witness != 0);
+        auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), bitprim::int_to_bool(use_testnet_rules), bitprim::int_to_bool(witness));
         auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>(txs);
         return static_cast<mempool_transaction_list_t>(ret_txs);
     } 
@@ -929,8 +929,8 @@ void chain_validate_tx(chain_t chain, void* ctx, transaction_t tx, validate_tx_h
 //-------------------------------------------------------------------------
 
 /// True if the blockchain is stale based on configured age limit.
-int /*bool*/ chain_is_stale(chain_t chain) {
-    return static_cast<int>(safe_chain(chain).is_stale());
+bool_t chain_is_stale(chain_t chain) {
+    return bitprim::bool_to_int(safe_chain(chain).is_stale());
 }
 
 

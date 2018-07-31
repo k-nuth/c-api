@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Bitprim Inc.
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
  * This file is part of Bitprim.
  *
@@ -30,22 +30,22 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-output_point_t output_point_construct(void);
+output_point_t chain_output_point_construct(void);
 
 BITPRIM_EXPORT
-output_point_t output_point_construct_from_hash_index(hash_t hash, uint32_t index);
+output_point_t chain_output_point_construct_from_hash_index(hash_t hash, uint32_t index);
 
 BITPRIM_EXPORT
-void output_point_destruct(output_point_t op);
+void chain_output_point_destruct(output_point_t op);
 
 BITPRIM_EXPORT
-hash_t output_point_get_hash(output_point_t op);
+hash_t chain_output_point_get_hash(output_point_t op);
 
 BITPRIM_EXPORT
-void output_point_get_hash_out(output_point_t op, hash_t* out_hash);
+void chain_output_point_get_hash_out(output_point_t op, hash_t* out_hash);
 
 BITPRIM_EXPORT
-uint32_t output_point_get_index(output_point_t op);
+uint32_t chain_output_point_get_index(output_point_t op);
 
 #ifdef __cplusplus
 } // extern "C"

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2017-2018 Bitprim Inc.
+# Copyright (c) 2016-2018 Bitprim Inc.
 #
 # This file is part of Bitprim.
 #
@@ -17,9 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
 from conans import CMake
-from ci_utils import option_on_off, get_version, get_conan_req_version, march_conan_manip, pass_march_to_compiler
+from ci_utils import option_on_off, march_conan_manip, pass_march_to_compiler
 from ci_utils import BitprimConanFile
 
 class BitprimNodeCIntConan(BitprimConanFile):
@@ -44,10 +43,8 @@ class BitprimNodeCIntConan(BitprimConanFile):
                "verbose": [True, False],
                "cxxflags": "ANY",
                "cflags": "ANY",
+               "keoken": [True, False],
     }
-
-#    "with_remote_blockchain": [True, False],
-#    "with_remote_database": [True, False],
 
     default_options = "shared=False", \
         "fPIC=True", \
@@ -59,10 +56,8 @@ class BitprimNodeCIntConan(BitprimConanFile):
         "fix_march=False", \
         "verbose=False", \
         "cxxflags=_DUMMY_", \
-        "cflags=_DUMMY_"
-
-        # "with_remote_blockchain=False", \
-        # "with_remote_database=False", \
+        "cflags=_DUMMY_", \
+        "keoken=False"
 
     generators = "cmake"
     exports = "conan_*", "ci_utils/*"
@@ -77,6 +72,10 @@ class BitprimNodeCIntConan(BitprimConanFile):
         # else:
         #     return self.options.shared
         return self.options.shared
+
+    @property
+    def is_keoken(self):
+        return self.options.currency == "BCH" and self.options.get_safe("keoken")
 
     def requirements(self):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
@@ -110,6 +109,12 @@ class BitprimNodeCIntConan(BitprimConanFile):
         if self.settings.arch == "x86_64":
             march_conan_manip(self)
             self.options["*"].microarchitecture = self.options.microarchitecture
+
+        if self.options.keoken and self.options.currency != "BCH":
+            self.output.warn("For the moment Keoken is only enabled for BCH. Building without Keoken support...")
+            del self.options.keoken
+        else:
+            self.options["*"].keoken = self.options.keoken
 
         self.options["*"].currency = self.options.currency
         self.output.info("Compiling for currency: %s" % (self.options.currency,))
@@ -146,6 +151,8 @@ class BitprimNodeCIntConan(BitprimConanFile):
         cmake.definitions["WITH_TESTS"] = option_on_off(self.options.with_tests)
         cmake.definitions["WITH_CONSOLE"] = option_on_off(self.options.with_console)
         cmake.definitions["WITH_CONSOLE_NODE_CINT"] = option_on_off(self.options.with_console)
+
+        cmake.definitions["WITH_KEOKEN"] = option_on_off(self.is_keoken)
 
         cmake.definitions["CURRENCY"] = self.options.currency
 
