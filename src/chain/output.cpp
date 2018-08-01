@@ -20,16 +20,9 @@
 #include <bitprim/nodecint/chain/output.h>
 
 #include <bitprim/nodecint/chain/script.h>
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
-// libbitcoin::chain::output const& chain_output_const_cpp(output_t output) {
-//     return *static_cast<libbitcoin::chain::output const*>(output);
-// }
-
-// libbitcoin::chain::output& chain_output_cpp(output_t output) {
-//     return *static_cast<libbitcoin::chain::output*>(output);
-// }
 BITPRIM_CONV_DEFINE(chain, output_t, libbitcoin::chain::output, output)
 
 // ---------------------------------------------------------------------------

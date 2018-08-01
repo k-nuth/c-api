@@ -23,7 +23,7 @@
 #include <bitcoin/bitcoin/message/transaction.hpp>
 
 #include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/type_convertions.h>
+#include <bitprim/nodecint/type_conversions.h>
 
 BITPRIM_CONV_DEFINE(chain, merkle_block_t, libbitcoin::message::merkle_block, merkle_block)
 
@@ -47,7 +47,6 @@ void chain_merkle_block_hash_nth_out(merkle_block_t block, uint64_t /*size_t*/ n
 
     auto* blk = &chain_merkle_block_cpp(block);
     auto& hash_n = blk->hashes()[n];
-    // std::memcpy(static_cast<void*>(out_hash->hash), hash_n.data(), BITCOIN_HASH_SIZE);
     bitprim::copy_c_hash(hash_n, out_hash);
 }
 

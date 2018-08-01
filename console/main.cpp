@@ -24,7 +24,6 @@
 #include <thread>
 
 #include <bitprim/nodecint/chain/chain.h>
-#include <bitprim/nodecint/chain/hash_list.h>
 #include <bitprim/nodecint/chain/history_compact.h>
 #include <bitprim/nodecint/chain/history_compact_list.h>
 #include <bitprim/nodecint/chain/input.h>
@@ -32,11 +31,12 @@
 #include <bitprim/nodecint/chain/output.h>
 #include <bitprim/nodecint/chain/output_list.h>
 #include <bitprim/nodecint/chain/output_point.h>
-#include <bitprim/nodecint/chain/payment_address.h>
 #include <bitprim/nodecint/chain/script.h>
 #include <bitprim/nodecint/chain/transaction.h>
 #include <bitprim/nodecint/executor_c.h>
+#include <bitprim/nodecint/hash_list.h>
 #include <bitprim/nodecint/helpers.hpp>
+#include <bitprim/nodecint/wallet/payment_address.h>
 #include <bitprim/nodecint/wallet/wallet.h>
 #include <bitprim/nodecint/wallet/word_list.h>
 
@@ -95,15 +95,15 @@ transaction_t make_P2PKH_transaction(uint32_t version, uint32_t locktime, std::s
     locking_script_data[23] = 0x88;   // EQUALVERIFY opcode
     locking_script_data[24] = 0xac;   // CHECKSIG opcode
 
-    auto address = chain_payment_address_construct_from_string(addr.c_str());
+    auto address = wallet_payment_address_construct_from_string(addr.c_str());
         
-    if (chain_payment_address_is_valid(address) == 0) {
+    if (wallet_payment_address_is_valid(address) == 0) {
         std::cout << "Invalid payment address: " << addr << std::endl;
     }
 
-    short_hash_t addr_hash = chain_payment_address_hash(address);
+    short_hash_t addr_hash = wallet_payment_address_hash(address);
     std::copy_n(static_cast<uint8_t*>(addr_hash.hash), 20, static_cast<uint8_t*>(locking_script_data) + 3);
-    chain_payment_address_destruct(address);
+    wallet_payment_address_destruct(address);
 
     //--------------------------------------------------------------------------------------------------------------
     script_t locking_script = chain_script_construct(static_cast<uint8_t*>(locking_script_data), 25, 0 /*int bool prefix*/);
@@ -127,7 +127,7 @@ transaction_t make_P2PKH_transaction(uint32_t version, uint32_t locktime, std::s
     }
 
     //--------------------------------------------------------------------------------------------------------------
-    output_point_t previous_output = output_point_construct_from_hash_index(prevout_hash, prevout_index);
+    output_point_t previous_output = chain_output_point_construct_from_hash_index(prevout_hash, prevout_index);
     input_t input = chain_input_construct(previous_output, unlocking_script, sequence);
     auto inputs = chain_input_list_construct_default();
     chain_input_list_push_back(inputs, input);
@@ -146,8 +146,8 @@ int main(int  /*argc*/, char*  /*argv*/[]) {
 
     //Construye la TX de id: b7749347c9e5b2a38b19fb2ab5a390d04d3368f1113aeb565d5fcf72d0e6391e
 
-    chain_payment_address_set_cashaddr_prefix("bitcoincash");   //BCH mainnet
-    // chain_payment_address_set_cashaddr_prefix("bchtest");       //BCH testnet
+    wallet_payment_address_set_cashaddr_prefix("bitcoincash");   //BCH mainnet
+    // wallet_payment_address_set_cashaddr_prefix("bchtest");       //BCH testnet
 
     std::string sig_str = "30440220420e56991b7729105fe427ac474224f2a4152aec97d6b5b1f4d275d4ca7a7a3b022032307c9596ca43a234f89a9f60a01364ad33e3cb62c1d76d212c8969e8593e6341";
     std::vector<uint8_t> sig(sig_str.size() / 2);
@@ -643,7 +643,7 @@ int main(int  /*argc*/, char*  /*argv*/[]) {
 //     wait_until_block(chain, 170);
 
 //     std::string address_str = "bitcoincash:qqgekzvw96vq5g57zwdfa5q6g609rrn0ycp33uc325";
-//     auto address = chain_payment_address_construct_from_string(address_str.c_str());
+//     auto address = wallet_payment_address_construct_from_string(address_str.c_str());
 //     chain_fetch_confirmed_transactions(chain, nullptr, address, INT_MAX, 0, fetch_txns_handler);
 
 //     std::this_thread::sleep_for(std::chrono::milliseconds(10000));

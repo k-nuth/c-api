@@ -178,6 +178,14 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/ci_utils/
 include(BitprimTools)
 
 
+# set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -s")
+# set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -s")
+# set(CMAKE_C_FLAGS_RELEASE " -s ${CMAKE_C_FLAGS_RELEASE}")
+# set(CMAKE_CXX_FLAGS_RELEASE " -s ${CMAKE_CXX_FLAGS_RELEASE}")
+
+# message( STATUS "CMAKE_C_FLAGS_RELEASE:   ${CMAKE_C_FLAGS_RELEASE}")
+# message( STATUS "CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
+
 # Warn on all stuff.
 #------------------------------------------------------------------------------
 if (NOT MSVC)
@@ -250,9 +258,11 @@ endif()
 set(_bitprim_sources
         src/executor.cpp
         src/executor_c.cpp
-
+        src/hash_list.cpp
         # src/parser.cpp
         src/binary.cpp
+        src/platform.cpp
+
         src/chain/block.cpp
         src/chain/block_indexes.cpp
         src/chain/block_list.cpp
@@ -260,7 +270,6 @@ set(_bitprim_sources
         src/chain/compact_block.cpp
         src/chain/get_blocks.cpp
         src/chain/get_headers.cpp
-        src/chain/hash_list.cpp
         src/chain/header.cpp
         src/chain/history_compact.cpp
         src/chain/history_compact_list.cpp
@@ -273,7 +282,6 @@ set(_bitprim_sources
         src/chain/output.cpp
         src/chain/output_list.cpp
         src/chain/output_point.cpp
-        src/chain/payment_address.cpp
         src/chain/point.cpp
         src/chain/point_list.cpp
         src/chain/script.cpp
@@ -285,6 +293,7 @@ set(_bitprim_sources
 
         src/p2p/p2p.cpp
 
+        src/wallet/payment_address.cpp
         # src/wallet/ec_public.cpp
         src/wallet/raw_output.cpp
         src/wallet/raw_output_list.cpp
@@ -292,7 +301,6 @@ set(_bitprim_sources
         src/wallet/wallet.cpp
         src/wallet/word_list.cpp
 
-        src/platform.cpp
 )
 
 
@@ -451,12 +459,16 @@ install(TARGETS bitprim-node-cint
 
 
 set(_bitprim_headers
-        bitprim/nodecint/convertions.hpp
+        bitprim/nodecint/binary.h
+        bitprim/nodecint/conversions.hpp
         bitprim/nodecint/helpers.hpp
         bitprim/nodecint/executor_c.h
+        bitprim/nodecint/hash_list.h
+        bitprim/nodecint/platform.h
         bitprim/nodecint/primitives.h
         bitprim/nodecint/version.h
         bitprim/nodecint/visibility.h
+
         bitprim/nodecint/chain/block.h
         bitprim/nodecint/chain/block_indexes.h
         bitprim/nodecint/chain/block_list.h
@@ -464,7 +476,6 @@ set(_bitprim_headers
         bitprim/nodecint/chain/compact_block.h
         bitprim/nodecint/chain/get_blocks.h
         bitprim/nodecint/chain/get_headers.h
-        bitprim/nodecint/chain/hash_list.h
         bitprim/nodecint/chain/header.h
         bitprim/nodecint/chain/history_compact.h
         bitprim/nodecint/chain/history_compact_list.h
@@ -473,12 +484,10 @@ set(_bitprim_headers
         bitprim/nodecint/chain/input.h
         bitprim/nodecint/chain/input_list.h
         bitprim/nodecint/chain/mempool_transaction_list.h
-
         bitprim/nodecint/chain/merkle_block.h
         bitprim/nodecint/chain/output.h
         bitprim/nodecint/chain/output_list.h
         bitprim/nodecint/chain/output_point.h
-        bitprim/nodecint/chain/payment_address.h
         bitprim/nodecint/chain/point.h
         bitprim/nodecint/chain/point_list.h
         bitprim/nodecint/chain/script.h
@@ -490,12 +499,9 @@ set(_bitprim_headers
 
         bitprim/nodecint/p2p/p2p.h
 
+        bitprim/nodecint/wallet/payment_address.h
         bitprim/nodecint/wallet/wallet.h
         bitprim/nodecint/wallet/word_list.h
-
-        bitprim/nodecint/binary.h
-        bitprim/nodecint/platform.h
-
 )
 
 if (WITH_KEOKEN)
@@ -542,3 +548,5 @@ install(
         "${CMAKE_CURRENT_BINARY_DIR}/bitprim-node-cintConfig.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/bitprim-node-cintConfigVersion.cmake"
         DESTINATION ${_config_package_location})
+
+        

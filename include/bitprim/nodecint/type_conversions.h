@@ -17,38 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_CHAIN_HASH_LIST_H_
-#define BITPRIM_NODECINT_CHAIN_HASH_LIST_H_
+#ifndef BITPRIM_NODECINT_TYPE_CONVERSIONS_H_
+#define BITPRIM_NODECINT_TYPE_CONVERSIONS_H_
 
 #include <stdint.h>
 
-#include <bitprim/nodecint/primitives.h>
+#include <bitprim/nodecint/error.h>
 #include <bitprim/nodecint/visibility.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#define BITPRIM_CONV_DECLARE(api, type_c, type_cpp, obj_name)   \
+type_cpp const& api##_##obj_name##_const_cpp(type_c);           \
+type_cpp& api##_##obj_name##_cpp(type_c);
 
-BITPRIM_EXPORT
-hash_list_t chain_hash_list_construct_default(void);
+#define BITPRIM_CONV_DEFINE(api, type_c, type_cpp, obj_name)    \
+type_cpp const& api##_##obj_name##_const_cpp(type_c o) {        \
+    return *static_cast<type_cpp const*>(o);                    \
+}                                                               \
+type_cpp& api##_##obj_name##_cpp(type_c o) {                    \
+    return *static_cast<type_cpp*>(o);                          \
+}
 
-BITPRIM_EXPORT
-void chain_hash_list_push_back(hash_list_t list, hash_t hash);
-
-BITPRIM_EXPORT
-void chain_hash_list_destruct(hash_list_t list);
-
-BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_hash_list_count(hash_list_t list);
-
-BITPRIM_EXPORT
-hash_t chain_hash_list_nth(hash_list_t list, uint64_t /*size_t*/ n);
-
-BITPRIM_EXPORT
-void chain_hash_list_nth_out(hash_list_t list, uint64_t /*size_t*/ n, hash_t* out_hash);
-
-#ifdef __cplusplus
-} // extern "C"
-#endif
-
-#endif /* BITPRIM_NODECINT_CHAIN_HASH_LIST_H_ */
+#endif /* BITPRIM_NODECINT_TYPE_CONVERSIONS_H_ */

@@ -19,19 +19,12 @@
 
 #include <bitprim/nodecint/chain/block.h>
 
-#include <bitprim/nodecint/convertions.hpp>
-#include <bitprim/nodecint/helpers.hpp>
-
 #include <bitcoin/bitcoin/message/get_blocks.hpp>
 
+#include <bitprim/nodecint/conversions.hpp>
+#include <bitprim/nodecint/helpers.hpp>
 
-libbitcoin::message::get_blocks const& chain_get_blocks_const_cpp(get_blocks_t get_b) {
-    return *static_cast<libbitcoin::message::get_blocks const*>(get_b);
-}
-
-libbitcoin::message::get_blocks& chain_get_blocks_cpp(get_blocks_t get_b) {
-    return *static_cast<libbitcoin::message::get_blocks*>(get_b);
-}
+BITPRIM_CONV_DEFINE(chain, get_blocks_t, libbitcoin::message::get_blocks, get_blocks)
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -41,7 +34,7 @@ get_blocks_t chain_get_blocks_construct_default() {
 }
 
 get_blocks_t chain_get_blocks_construct(hash_list_t start, hash_t stop) {
-    auto const& start_cpp = chain_hash_list_const_cpp(start);
+    auto const& start_cpp = core_hash_list_const_cpp(start);
     auto stop_cpp = bitprim::to_array(stop.hash);
     return new libbitcoin::message::get_blocks(start_cpp, stop_cpp);
 }
@@ -52,11 +45,11 @@ void chain_get_blocks_destruct(get_blocks_t get_b) {
 
 hash_list_t chain_get_blocks_start_hashes(get_blocks_t get_b) {
     auto& list = chain_get_blocks_cpp(get_b).start_hashes();
-    return chain_hash_list_construct_from_cpp(list);
+    return core_hash_list_construct_from_cpp(list);
 }
 
 void chain_get_blocks_set_start_hashes(get_blocks_t get_b, hash_list_t value) {
-    auto const& value_cpp = chain_hash_list_const_cpp(value);
+    auto const& value_cpp = core_hash_list_const_cpp(value);
     chain_get_blocks_cpp(get_b).set_start_hashes(value_cpp);
 }
 
@@ -67,7 +60,6 @@ hash_t chain_get_blocks_stop_hash(get_blocks_t get_b) {
 
 void chain_get_blocks_stop_hash_out(get_blocks_t get_b, hash_t* out_stop_hash) {
     auto& stop = chain_get_blocks_cpp(get_b).stop_hash();
-    // std::memcpy(static_cast<void*>(out_stop_hash->hash), stop.data(), BITCOIN_HASH_SIZE);
     bitprim::copy_c_hash(stop, out_stop_hash);
 }
 

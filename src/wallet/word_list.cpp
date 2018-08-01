@@ -19,31 +19,27 @@
 
 #include <bitprim/nodecint/wallet/word_list.h>
 
-#include <iostream>
+// #include <iostream>
 #include <string>
 #include <vector>
 
-std::vector<std::string> const& word_list_const_cpp(word_list_t word_list) {
-    return *static_cast<std::vector<std::string> const*>(word_list);
-}
+#include <bitprim/nodecint/list_creator.h>
 
-std::vector<std::string>& word_list_cpp(word_list_t world_list) {
-    return *static_cast<std::vector<std::string>*>(world_list);
-}
+BITPRIM_LIST_DEFINE_CONVERTERS(wallet, word_list_t, std::string, word_list)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
-word_list_t word_list_construct() {
+word_list_t wallet_word_list_construct() {
     return new std::vector<std::string>();
 }
 
-void word_list_destruct(word_list_t word_list) {
-    delete &word_list_cpp(word_list);
+void wallet_word_list_destruct(word_list_t word_list) {
+    delete &wallet_word_list_cpp(word_list);
 }
 
-void word_list_add_word(word_list_t word_list, char const* word) {
-    word_list_cpp(word_list).emplace_back(std::string(word));
+void wallet_word_list_add_word(word_list_t word_list, char const* word) {
+    wallet_word_list_cpp(word_list).emplace_back(std::string(word));
 }
 
 } // extern "C"

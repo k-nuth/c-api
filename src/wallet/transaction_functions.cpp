@@ -23,9 +23,9 @@
 #include <bitcoin/bitcoin/wallet/payment_address.hpp>
 #include <bitcoin/bitcoin/wallet/transaction_functions.hpp>
 
-#include <bitprim/nodecint/convertions.hpp>
-#include <bitprim/nodecint/primitives.h>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
+#include <bitprim/nodecint/primitives.h>
 
 // ---------------------------------------------------------------------------
 extern "C" {

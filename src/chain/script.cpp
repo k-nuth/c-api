@@ -19,19 +19,10 @@
 
 #include <bitprim/nodecint/chain/script.h>
 
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
-#include <bitprim/nodecint/convertions.hpp>
-
-// libbitcoin::chain::script const& chain_script_const_cpp(script_t s) {
-//     return *static_cast<libbitcoin::chain::script const*>(s);
-// }
-
-// libbitcoin::chain::script& chain_script_cpp(script_t s) {
-//     return *static_cast<libbitcoin::chain::script*>(s);
-// }
 BITPRIM_CONV_DEFINE(chain, script_t, libbitcoin::chain::script, script)
-
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -47,8 +38,7 @@ script_t chain_script_construct(uint8_t* encoded, uint64_t n, bool_t prefix) {
 }
 
 void chain_script_destruct(script_t script) {
-    auto script_cpp = static_cast<libbitcoin::chain::script*>(script);
-    delete script_cpp;
+    delete &chain_script_cpp(script);
 }
 
 bool_t chain_script_is_valid(script_t script) {

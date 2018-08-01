@@ -20,58 +20,14 @@
 #include <bitprim/nodecint/chain/block_list.h>
 
 #include <bitprim/nodecint/chain/block.h>
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 
-//namespace {
 
-using block_vector = std::vector<libbitcoin::message::block>;
+BITPRIM_LIST_DEFINE_CONVERTERS(chain, block_list_t, libbitcoin::message::block, block_list)
+BITPRIM_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, block_list_t, libbitcoin::message::block, block_list)
 
-block_vector const& chain_block_list_const_cpp(block_list_t list) {
-    return *static_cast<block_vector const*>(list);
-}
-
-block_vector& chain_block_list_cpp(block_list_t list) {
-    return *static_cast<block_vector*>(list);
-}
-
-block_list_t chain_block_list_construct_from_cpp(block_vector& list) {
-    return &list;
-}
-
-//} /* end of anonymous namespace */
-
-// ---------------------------------------------------------------------------
 extern "C" {
 
-block_list_t chain_block_list_construct_default() {
-    return new block_vector();
-}
-
-block_list_t chain_block_list_construct_reserve(uint64_t /*size_t*/ n) {
-    auto ptr = new block_vector();
-    ptr->reserve(n);
-    return ptr;
-}
-
-void chain_block_list_push_back(block_list_t list, block_t block) {
-    chain_block_list_cpp(list).push_back(chain_block_const_cpp(block));
-}
-
-// void chain_block_list_push_back_const(block_list_t list, const block_t block) {
-//     chain_block_list_cpp(list).push_back(chain_block_const_cpp(block));
-// }
-
-void chain_block_list_destruct(block_list_t list) {
-    delete &chain_block_list_cpp(list);
-}
-
-uint64_t /*size_t*/ chain_block_list_count(block_list_t list) {
-    return chain_block_list_const_cpp(list).size();
-}
-
-block_t chain_block_list_nth(block_list_t list, uint64_t /*size_t*/ n) {
-    auto& x = chain_block_list_cpp(list)[n];
-    return &x;
-}
+BITPRIM_LIST_DEFINE(chain, block_list_t, block_t, block_list, libbitcoin::message::block, chain_block_const_cpp)
 
 } // extern "C"

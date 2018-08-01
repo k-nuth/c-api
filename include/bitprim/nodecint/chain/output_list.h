@@ -22,6 +22,7 @@
 
 #include <stdint.h>
 
+#include <bitprim/nodecint/list_creator.h>
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
 
@@ -29,20 +30,7 @@
 extern "C" {
 #endif
 
-BITPRIM_EXPORT
-output_list_t chain_output_list_construct_default(void);
-
-BITPRIM_EXPORT
-void chain_output_list_push_back(output_list_t list, output_t output);
-
-BITPRIM_EXPORT
-void chain_output_list_destruct(output_list_t list);
-
-BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_output_list_count(output_list_t list);
-
-BITPRIM_EXPORT
-output_t chain_output_list_nth(output_list_t list, uint64_t /*size_t*/ n);
+BITPRIM_LIST_DECLARE(chain, output_list_t, output_t, output_list)
 
 #ifdef __cplusplus
 } // extern "C"

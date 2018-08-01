@@ -17,31 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitcoin/bitcoin/chain/history.hpp>
-#include <bitcoin/bitcoin/chain/output_point.hpp>
 #include <bitprim/nodecint/chain/history_compact_list.h>
 
-std::vector<libbitcoin::chain::history_compact> const& chain_history_compact_list_const_cpp(history_compact_list_t list) {
-    return *static_cast<std::vector<libbitcoin::chain::history_compact> const*>(list);
-}
+#include <bitcoin/bitcoin/chain/history.hpp>
+#include <bitcoin/bitcoin/chain/output_point.hpp>
 
-std::vector<libbitcoin::chain::history_compact>& chain_history_compact_list_cpp(history_compact_list_t list) {
-    return *static_cast<std::vector<libbitcoin::chain::history_compact>*>(list);
-}
+#include <bitprim/nodecint/conversions.hpp>
+
+BITPRIM_LIST_DEFINE_CONVERTERS(chain, history_compact_list_t, libbitcoin::chain::history_compact, history_compact_list)
 
 extern "C" {
 
-void chain_history_compact_list_destruct(history_compact_list_t list) {
-    delete &chain_history_compact_list_cpp(list);
-}
-
-uint64_t /*size_t*/ chain_history_compact_list_count(history_compact_list_t list) {
-    return chain_history_compact_list_const_cpp(list).size();
-}
-
-history_compact_t chain_history_compact_list_nth(history_compact_list_t list, uint64_t /*size_t*/ n) {
-    auto& x = chain_history_compact_list_cpp(list)[n];
-    return &x;
-}
+BITPRIM_LIST_DEFINE(chain, history_compact_list_t, history_compact_t, history_compact_list, libbitcoin::chain::history_compact, chain_history_compact_const_cpp)
 
 } // extern "C"

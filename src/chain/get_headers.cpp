@@ -19,19 +19,13 @@
 
 #include <bitprim/nodecint/chain/header.h>
 
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
 #include <bitcoin/bitcoin/message/get_headers.hpp>
 
 
-libbitcoin::message::get_headers const& chain_get_headers_const_cpp(get_headers_t get_b) {
-    return *static_cast<libbitcoin::message::get_headers const*>(get_b);
-}
-
-libbitcoin::message::get_headers& chain_get_headers_cpp(get_headers_t get_b) {
-    return *static_cast<libbitcoin::message::get_headers*>(get_b);
-}
+BITPRIM_CONV_DEFINE(chain, get_headers_t, libbitcoin::message::get_headers, get_headers)
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -41,7 +35,7 @@ get_headers_t chain_get_headers_construct_default() {
 }
 
 get_headers_t chain_get_headers_construct(hash_list_t start, hash_t stop) {
-    auto const& start_cpp = chain_hash_list_const_cpp(start);
+    auto const& start_cpp = core_hash_list_const_cpp(start);
     auto stop_cpp = bitprim::to_array(stop.hash);
 
     return new libbitcoin::message::get_headers(start_cpp, stop_cpp);
@@ -53,11 +47,11 @@ void chain_get_headers_destruct(get_headers_t get_b) {
 
 hash_list_t chain_get_headers_start_hashes(get_headers_t get_b) {
     auto& list = chain_get_headers_cpp(get_b).start_hashes();
-    return chain_hash_list_construct_from_cpp(list);
+    return core_hash_list_construct_from_cpp(list);
 }
 
 void chain_get_headers_set_start_hashes(get_headers_t get_b, hash_list_t value) {
-    auto const& value_cpp = chain_hash_list_const_cpp(value);
+    auto const& value_cpp = core_hash_list_const_cpp(value);
     chain_get_headers_cpp(get_b).set_start_hashes(value_cpp);
 }
 

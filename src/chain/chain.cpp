@@ -30,7 +30,7 @@
 #include <bitcoin/blockchain/interface/safe_chain.hpp>
 
 #include <bitprim/nodecint/chain/block_list.h>
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
 
@@ -232,11 +232,9 @@ error_code_t chain_get_block_by_height_timestamp(chain_t chain, uint64_t /*size_
 
     safe_chain(chain).fetch_block_hash_timestamp(height, [&](std::error_code const& ec, const libbitcoin::hash_digest& hash, uint32_t timestamp, size_t h) {
         if (ec == libbitcoin::error::success) {
-            // std::memcpy(static_cast<void*>(out_hash->hash), hash.data(), BITCOIN_HASH_SIZE);
             bitprim::copy_c_hash(hash, out_hash);
             *out_timestamp = timestamp;
         } else {
-            // std::memcpy(static_cast<void*>(out_hash->hash), libbitcoin::null_hash.data(), BITCOIN_HASH_SIZE);
             bitprim::copy_c_hash(libbitcoin::null_hash, out_hash);
             *out_timestamp = 0;
         }
@@ -348,7 +346,6 @@ error_code_t chain_get_block_hash(chain_t chain, uint64_t height, hash_t* out_ha
     if( ! found_block ) {
         return bitprim_ec_not_found;
     }
-    // std::memcpy(static_cast<void*>(out_hash->hash), block_hash.data(), BITCOIN_HASH_SIZE);
     bitprim::copy_c_hash(block_hash, out_hash);
     return bitprim_ec_success;
 }

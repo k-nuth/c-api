@@ -19,16 +19,9 @@
 
 #include <bitprim/nodecint/chain/output_point.h>
 
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
-// libbitcoin::chain::output_point const& chain_output_point_const_cpp(output_point_t op) {
-//     return *static_cast<libbitcoin::chain::output_point const*>(op);
-// }
-
-// libbitcoin::chain::output_point& chain_output_point_cpp(output_point_t op) {
-//     return *static_cast<libbitcoin::chain::output_point*>(op);
-// }
 BITPRIM_CONV_DEFINE(chain, output_point_t, libbitcoin::chain::output_point, output_point)
 
 // ---------------------------------------------------------------------------
@@ -62,7 +55,6 @@ hash_t chain_output_point_get_hash(output_point_t op) {
 
 void chain_output_point_get_hash_out(output_point_t op, hash_t* out_hash) {
     auto const& hash_cpp = chain_output_point_const_cpp(op).hash();
-    // std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
     bitprim::copy_c_hash(hash_cpp, out_hash);
 }
 

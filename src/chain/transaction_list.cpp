@@ -20,48 +20,14 @@
 #include <bitprim/nodecint/chain/transaction_list.h>
 
 #include <bitprim/nodecint/chain/transaction.h>
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 
 
-//namespace {
+BITPRIM_LIST_DEFINE_CONVERTERS(chain, transaction_list_t, libbitcoin::message::transaction, transaction_list)
+BITPRIM_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, transaction_list_t, libbitcoin::message::transaction, transaction_list)
 
-std::vector<libbitcoin::message::transaction> const& chain_transaction_list_const_cpp(transaction_list_t list) {
-    return *static_cast<std::vector<libbitcoin::message::transaction> const*>(list);
-}
-
-std::vector<libbitcoin::message::transaction>& chain_transaction_list_cpp(transaction_list_t list) {
-    return *static_cast<std::vector<libbitcoin::message::transaction>*>(list);
-}
-
-//} /* end of anonymous namespace */
-
-
-transaction_list_t chain_transaction_list_construct_from_cpp(std::vector<libbitcoin::chain::transaction>& list) {
-    return &list;
-}
-
-// ---------------------------------------------------------------------------
 extern "C" {
 
-transaction_list_t chain_transaction_list_construct_default() {
-    return new std::vector<libbitcoin::message::transaction>();
-}
-
-void chain_transaction_list_push_back(transaction_list_t list, transaction_t transaction) {
-    chain_transaction_list_cpp(list).push_back(chain_transaction_const_cpp(transaction));
-}
-
-void chain_transaction_list_destruct(transaction_list_t list) {
-    delete &chain_transaction_list_cpp(list);
-}
-
-uint64_t /*size_t*/ chain_transaction_list_count(transaction_list_t list) {
-    return chain_transaction_list_const_cpp(list).size();
-}
-
-transaction_t chain_transaction_list_nth(transaction_list_t list, uint64_t /*size_t*/ n) {
-    auto &x = chain_transaction_list_cpp(list)[n];
-    return &x;
-}
+BITPRIM_LIST_DEFINE(chain, transaction_list_t, transaction_t, transaction_list, libbitcoin::message::transaction, chain_transaction_const_cpp)
 
 } // extern "C"

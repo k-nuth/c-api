@@ -21,13 +21,9 @@
 
 #include <bitprim/nodecint/chain/compact_block.h>
 #include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/type_convertions.h>
-
-namespace {
+#include <bitprim/nodecint/type_conversions.h>
 
 BITPRIM_CONV_DEFINE(chain, compact_block_t, libbitcoin::message::compact_block, compact_block)
-
-} /* end of anonymous namespace */
 
 // ---------------------------------------------------------------------------
 extern "C" {

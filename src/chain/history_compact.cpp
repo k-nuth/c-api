@@ -20,7 +20,7 @@
 #include <bitcoin/bitcoin/chain/history.hpp>
 
 #include <bitprim/nodecint/chain/history_compact.h>
-#include <bitprim/nodecint/type_convertions.h>
+#include <bitprim/nodecint/type_conversions.h>
 
 BITPRIM_CONV_DEFINE(chain, history_compact_t, libbitcoin::chain::history_compact, history_compact)
 

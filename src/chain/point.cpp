@@ -20,17 +20,12 @@
 #include <bitprim/nodecint/chain/point.h>
 
 #include <bitcoin/bitcoin/chain/point.hpp>
+
 #include <bitprim/nodecint/helpers.hpp>
+#include <bitprim/nodecint/type_conversions.h>
 
 
-libbitcoin::chain::point const& chain_point_const_cpp(point_t point) {
-    return *static_cast<libbitcoin::chain::point const*>(point);
-}
-
-//libbitcoin::chain::point& history_compact_cpp(history_compact_t point) {
-//    return *static_cast<libbitcoin::chain::point*>(point);
-//}
-
+BITPRIM_CONV_DEFINE(chain, point_t, libbitcoin::chain::point, point)
 
 // ---------------------------------------------------------------------------
 extern "C" {

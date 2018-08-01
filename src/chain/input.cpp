@@ -21,17 +21,10 @@
 
 #include <bitprim/nodecint/chain/output_point.h>
 #include <bitprim/nodecint/chain/script.h>
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
 
-// libbitcoin::chain::input const& chain_input_const_cpp(input_t input) {
-//     return *static_cast<libbitcoin::chain::input const*>(input);
-// }
-
-// libbitcoin::chain::input& chain_input_cpp(input_t input) {
-//     return *static_cast<libbitcoin::chain::input*>(input);
-// }
 BITPRIM_CONV_DEFINE(chain, input_t, libbitcoin::chain::input, input)
 
 // ---------------------------------------------------------------------------

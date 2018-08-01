@@ -19,16 +19,9 @@
 
 #include <bitprim/nodecint/chain/header.h>
 
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
-// libbitcoin::message::header const& chain_header_const_cpp(header_t header) {
-//     return *static_cast<libbitcoin::message::header const*>(header);
-// }
-
-// libbitcoin::message::header& chain_header_cpp(header_t header) {
-//     return *static_cast<libbitcoin::message::header*>(header);
-// }
 BITPRIM_CONV_DEFINE(chain, header_t, libbitcoin::message::header, header)
 
 extern "C" {
@@ -124,7 +117,6 @@ hash_t chain_header_previous_block_hash(header_t header) {
 
 void chain_header_previous_block_hash_out(header_t header, hash_t* out_previous_block_hash) {
     auto const& previous_block_hash_cpp = chain_header_const_cpp(header).previous_block_hash();
-    // std::memcpy(static_cast<void*>(out_previous_block_hash->hash), previous_block_hash_cpp.data(), BITCOIN_HASH_SIZE);
     bitprim::copy_c_hash(previous_block_hash_cpp, out_previous_block_hash);
 }
 
@@ -135,7 +127,6 @@ hash_t chain_header_merkle(header_t header) {
 
 void chain_header_merkle_out(header_t header, hash_t* out_merkle) {
     auto const& merkle_hash_cpp = chain_header_const_cpp(header).merkle();
-    // std::memcpy(static_cast<void*>(out_merkle->hash), merkle_hash_cpp.data(), BITCOIN_HASH_SIZE);
     bitprim::copy_c_hash(merkle_hash_cpp, out_merkle);
 }
 

@@ -160,6 +160,10 @@ class BitprimNodeCIntConan(BitprimConanFile):
             # cmake.definitions["CONAN_CXX_FLAGS"] += " -Wno-deprecated-declarations"
             cmake.definitions["CONAN_CXX_FLAGS"] = cmake.definitions.get("CONAN_CXX_FLAGS", "") + " -Wno-deprecated-declarations"
 
+            # # #strip the resulting binary
+            # cmake.definitions["CMAKE_C_FLAGS_RELEASE"] = cmake.definitions.get("CMAKE_C_FLAGS_RELEASE", "") + " -s"
+            # cmake.definitions["CMAKE_CXX_FLAGS_RELEASE"] = cmake.definitions.get("CMAKE_CXX_FLAGS_RELEASE", "") + " -s"
+
         if self.settings.compiler == "Visual Studio":
             cmake.definitions["CONAN_CXX_FLAGS"] = cmake.definitions.get("CONAN_CXX_FLAGS", "") + " /DBOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE"
 

@@ -22,17 +22,11 @@
 #include <tuple>
 
 #include <bitcoin/blockchain/interface/safe_chain.hpp>
+
 #include <bitprim/nodecint/helpers.hpp>
+#include <bitprim/nodecint/type_conversions.h>
 
-
-libbitcoin::blockchain::mempool_transaction_summary const& chain_mempool_transaction_const_cpp(mempool_transaction_t tx) {
-    return *static_cast<libbitcoin::blockchain::mempool_transaction_summary const*>(tx);
-}
-
-//libbitcoin::chain::point& history_compact_cpp(history_compact_t point) {
-//    return *static_cast<libbitcoin::chain::point*>(point);
-//}
-
+BITPRIM_CONV_DEFINE(chain, mempool_transaction_t, libbitcoin::blockchain::mempool_transaction_summary, mempool_transaction)
 
 // ---------------------------------------------------------------------------
 extern "C" {

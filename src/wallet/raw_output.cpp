@@ -21,9 +21,9 @@
 
 #include <bitcoin/bitcoin/wallet/transaction_functions.hpp>
 
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/type_convertions.h>
+#include <bitprim/nodecint/type_conversions.h>
 
 BITPRIM_CONV_DEFINE(wallet, raw_output_t, libbitcoin::wallet::raw_output, raw_output)
 

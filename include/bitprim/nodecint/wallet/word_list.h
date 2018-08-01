@@ -30,13 +30,13 @@ extern "C" {
 #endif
 
 BITPRIM_EXPORT
-word_list_t word_list_construct(void);
+word_list_t wallet_word_list_construct(void);
 
 BITPRIM_EXPORT
-void word_list_add_word(word_list_t word_list, const char* word);
+void wallet_word_list_add_word(word_list_t word_list, const char* word);
 
 BITPRIM_EXPORT
-void word_list_destruct(word_list_t word_list);
+void wallet_word_list_destruct(word_list_t word_list);
 
 #ifdef __cplusplus
 } // extern "C"

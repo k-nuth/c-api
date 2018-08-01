@@ -19,41 +19,13 @@
 
 #include <bitprim/nodecint/chain/block_indexes.h>
 
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 
-std::vector<uint64_t /*size_t*/> const& chain_block_indexes_const_cpp(block_indexes_t list) {
-    return *static_cast<std::vector<uint64_t /*size_t*/> const*>(list);
-}
+BITPRIM_LIST_DEFINE_CONVERTERS(chain, block_indexes_t, uint64_t, block_indexes)
+BITPRIM_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, block_indexes_t, uint64_t, block_indexes)
 
-std::vector<uint64_t /*size_t*/>& chain_block_indexes_cpp(block_indexes_t list) {
-    return *static_cast<std::vector<uint64_t /*size_t*/>*>(list);
-}
-
-block_indexes_t chain_block_indexes_construct_from_cpp(std::vector<uint64_t /*size_t*/>& list) {
-    return &list;
-}
-
-// ---------------------------------------------------------------------------
 extern "C" {
 
-block_indexes_t chain_block_indexes_construct_default() {
-    return new std::vector<uint64_t /*size_t*/>();
-}
-
-void chain_block_indexes_push_back(block_indexes_t list, uint64_t /*size_t*/ index) {
-    chain_block_indexes_cpp(list).push_back(index);
-}
-
-void block_indexes_destruct(block_indexes_t list) {
-    delete &chain_block_indexes_cpp(list);
-}
-
-uint64_t /*size_t*/ block_indexes_count(block_indexes_t list) {
-    return chain_block_indexes_const_cpp(list).size();
-}
-
-uint64_t /*size_t*/ block_indexes_nth(block_indexes_t list, uint64_t /*size_t*/ n) {
-    return chain_block_indexes_cpp(list)[n];
-}
+BITPRIM_LIST_DEFINE_VALUE(chain, block_indexes_t, uint64_t, block_indexes, uint64_t, uint64_t)
 
 } // extern "C"

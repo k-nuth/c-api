@@ -19,31 +19,13 @@
 
 #include <bitprim/nodecint/chain/block.h>
 
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
 #include <bitcoin/bitcoin/message/transaction.hpp>
 
 
-// libbitcoin::message::block const& chain_block_const_cpp(block_t block) {
-//     return *static_cast<libbitcoin::message::block const*>(block);
-// }
-
-// libbitcoin::message::block& chain_block_cpp(block_t block) {
-//     return *static_cast<libbitcoin::message::block*>(block);
-// }
 BITPRIM_CONV_DEFINE(chain, block_t, libbitcoin::message::block, block)
-
-
-// inline                                                         
-// libbitcoin::message::block const& chain_block_const_cpp(block_t o) {       
-//     return *static_cast<libbitcoin::message::block const*>(o);                   
-// }                                                              
-// inline                                                         
-// libbitcoin::message::block& chain_block_cpp(block_t o) {       
-//     return *static_cast<libbitcoin::message::block*>(o);       
-// }
-
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -54,9 +36,9 @@ block_t chain_block_construct_default() {
 
 block_t chain_block_construct(header_t header, transaction_list_t transactions) {
 
-    auto const& header_cpp = *static_cast<libbitcoin::chain::header const*>(header);
+    auto const& header_cpp = chain_header_const_cpp(header);
     auto const& txs_cpp = *static_cast<libbitcoin::chain::transaction::list const*>(transactions);
-
+    // auto const& txs_cpp = chain_transaction_list_const_cpp(transactions);
     return new libbitcoin::message::block(header_cpp, txs_cpp);
 }
 
@@ -79,7 +61,6 @@ hash_t chain_block_hash(block_t block) {
 
 void chain_block_hash_out(block_t block, hash_t* out_hash) {
     auto const& hash_cpp = chain_block_const_cpp(block).hash();
-    // std::memcpy(static_cast<void*>(out_hash->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
     bitprim::copy_c_hash(hash_cpp, out_hash);
 }
 
@@ -164,7 +145,6 @@ hash_t chain_block_generate_merkle_root(block_t block) {
 
 void chain_block_generate_merkle_root_out(block_t block, hash_t* out_merkle) {
     auto hash_cpp = chain_block_const_cpp(block).generate_merkle_root();
-    // std::memcpy(static_cast<void*>(out_merkle->hash), hash_cpp.data(), BITCOIN_HASH_SIZE);
     bitprim::copy_c_hash(hash_cpp, out_merkle);
 }
 

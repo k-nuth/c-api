@@ -49,7 +49,7 @@
 #include <bitprim/nodecint/chain/output.h>
 #include <bitprim/nodecint/chain/output_list.h>
 #include <bitprim/nodecint/chain/output_point.h>
-#include <bitprim/nodecint/chain/payment_address.h>
+#include <bitprim/nodecint/wallet/payment_address.h>
 #include <bitprim/nodecint/chain/point.h>
 #include <bitprim/nodecint/chain/point_list.h>
 #include <bitprim/nodecint/chain/script.h>

@@ -37,6 +37,9 @@ std::vector<cpp_elem_t>& api##_##list_name##_cpp(list_t l) {                \
     return *static_cast<std::vector<cpp_elem_t>*>(l);                       \
 }
 
+#define BITPRIM_LIST_DECLARE_CONSTRUCT_FROM_CPP(api, list_t, cpp_elem_t, list_name)  \
+list_t api##_##list_name##_construct_from_cpp(std::vector<cpp_elem_t>& l);
+
 #define BITPRIM_LIST_DEFINE_CONSTRUCT_FROM_CPP(api, list_t, cpp_elem_t, list_name)  \
 inline                                                                              \
 list_t api##_##list_name##_construct_from_cpp(std::vector<cpp_elem_t>& l) {         \
@@ -72,5 +75,23 @@ elem_t api##_##list_name##_nth(list_t l, uint64_t /*size_t*/ n) {               
     auto &x = api##_##list_name##_cpp(l)[n];                                                \
     return &x;                                                                              \
 }
+
+#define BITPRIM_LIST_DEFINE_VALUE(api, list_t, elem_t, list_name, cpp_elem_t, value_converter)  \
+list_t api##_##list_name##_construct_default() {                                                \
+    return new std::vector<cpp_elem_t>();                                                       \
+}                                                                                               \
+void api##_##list_name##_push_back(list_t l, elem_t e) {                                        \
+    api##_##list_name##_cpp(l).push_back(value_converter(e));                                   \
+}                                                                                               \
+void api##_##list_name##_destruct(list_t l) {                                                   \
+    delete &api##_##list_name##_cpp(l);                                                         \
+}                                                                                               \
+uint64_t /*size_t*/ api##_##list_name##_count(list_t l) {                                       \
+    return api##_##list_name##_const_cpp(l).size();                                             \
+}                                                                                               \
+elem_t api##_##list_name##_nth(list_t l, uint64_t /*size_t*/ n) {                               \
+    return api##_##list_name##_cpp(l)[n];                                                       \
+}
+
 
 #endif /* BITPRIM_NODECINT_LIST_CREATOR_H_ */

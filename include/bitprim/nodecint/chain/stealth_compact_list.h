@@ -22,6 +22,7 @@
 
 #include <stdint.h>
 
+#include <bitprim/nodecint/list_creator.h>
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
 
@@ -29,14 +30,7 @@
 extern "C" {
 #endif
 
-BITPRIM_EXPORT
-void stealth_compact_list_destruct(stealth_compact_list_t list);
-
-BITPRIM_EXPORT
-uint64_t /*size_t*/ stealth_compact_list_count(stealth_compact_list_t list);
-
-BITPRIM_EXPORT
-stealth_compact_t stealth_compact_list_nth(stealth_compact_list_t list, uint64_t /*size_t*/ n);
+BITPRIM_LIST_DECLARE(chain, stealth_compact_list_t, stealth_compact_t, stealth_compact_list)
 
 #ifdef __cplusplus
 } // extern "C"

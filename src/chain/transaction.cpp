@@ -21,17 +21,11 @@
 
 #include <bitprim/nodecint/chain/input_list.h>
 #include <bitprim/nodecint/chain/output_list.h>
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 
-libbitcoin::message::transaction const& chain_transaction_const_cpp(transaction_t transaction) {
-    return *static_cast<libbitcoin::message::transaction const*>(transaction);
-}
 
-libbitcoin::message::transaction& chain_transaction_cpp(transaction_t transaction) {
-    return *static_cast<libbitcoin::message::transaction*>(transaction);
-}
-
+BITPRIM_CONV_DEFINE(chain, transaction_t, libbitcoin::message::transaction, transaction)
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -39,7 +33,6 @@ extern "C" {
 transaction_t chain_transaction_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
     libbitcoin::data_chunk data_cpp(data, std::next(data, n));
     auto tx = libbitcoin::message::transaction::factory_from_data(version, data_cpp);
-    // return new libbitcoin::message::transaction(std::move(tx));
     return bitprim::move_or_copy_and_leak(std::move(tx));
 }
 
@@ -54,8 +47,7 @@ transaction_t chain_transaction_construct(uint32_t version, uint32_t locktime, i
 }
 
 void chain_transaction_destruct(transaction_t transaction) {
-    auto transaction_cpp = static_cast<libbitcoin::message::transaction*>(transaction);
-    delete transaction_cpp;
+    delete &chain_transaction_cpp(transaction);
 }
 
 bool_t chain_transaction_is_valid(transaction_t transaction) {

@@ -24,9 +24,9 @@
 
 #include <bitprim/keoken/wallet/create_transaction.hpp>
 
-#include <bitprim/nodecint/convertions.hpp>
-#include <bitprim/nodecint/primitives.h>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
+#include <bitprim/nodecint/primitives.h>
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -44,7 +44,7 @@ error_code_t keoken_wallet_tx_encode_create_asset(
 
     auto p = bitprim::keoken::wallet::tx_encode_create_asset(
                 chain_point_list_const_cpp(outputs_to_spend),
-                chain_payment_address_const_cpp(asset_owner),
+                wallet_payment_address_const_cpp(asset_owner),
                 utxo_satoshis,
                 std::string(asset_name),
                 asset_amount,
@@ -77,9 +77,9 @@ error_code_t keoken_wallet_tx_encode_send_tokens(
 
     auto p = bitprim::keoken::wallet::tx_encode_send_token(
                 chain_point_list_const_cpp(outputs_to_spend),
-                chain_payment_address_const_cpp(asset_owner),
+                wallet_payment_address_const_cpp(asset_owner),
                 utxo_satoshis,
-                chain_payment_address_const_cpp(asset_receiver),
+                wallet_payment_address_const_cpp(asset_receiver),
                 dust,
                 asset_id,
                 asset_amount,

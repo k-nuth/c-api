@@ -20,32 +20,14 @@
 #include <bitcoin/bitcoin/chain/point.hpp>
 
 #include <bitprim/nodecint/chain/point_list.h>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/list_creator.h>
-
-// std::vector<libbitcoin::chain::point> const& point_list_const_cpp(point_list_t point_list) {
-//     return *static_cast<std::vector<libbitcoin::chain::point> const*>(point_list);
-// }
-
-// std::vector<libbitcoin::chain::point>& point_list_cpp(point_list_t point_list) {
-//     return *static_cast<std::vector<libbitcoin::chain::point>*>(point_list);
-// }
 
 BITPRIM_LIST_DEFINE_CONVERTERS(chain, point_list_t, libbitcoin::chain::point, point_list)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
-point_t point_list_nth(point_list_t point_list, uint64_t /*size_t*/ n) {
-    auto& point_n = chain_point_list_cpp(point_list)[n];
-    return &point_n;
-}
-
-uint64_t /*size_t*/ point_list_count(point_list_t point_list) {
-    return chain_point_list_const_cpp(point_list).size();
-}
-
-void point_list_destruct(point_list_t point_list) {
-    delete &chain_point_list_cpp(point_list);
-}
+BITPRIM_LIST_DEFINE(chain, point_list_t, point_t, point_list, libbitcoin::chain::point, chain_point_const_cpp)
 
 } // extern "C"

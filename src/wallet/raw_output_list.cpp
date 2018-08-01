@@ -23,13 +23,10 @@
 
 #include <bitcoin/bitcoin/wallet/transaction_functions.hpp>
 
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/list_creator.h>
 
-// namespace {
 BITPRIM_LIST_DEFINE_CONVERTERS(wallet, raw_output_list_t, libbitcoin::wallet::raw_output, raw_output_list)
-// } /* end of anonymous namespace */
-
 BITPRIM_LIST_DEFINE_CONSTRUCT_FROM_CPP(wallet, raw_output_list_t, libbitcoin::wallet::raw_output, raw_output_list)
 
 extern "C" {

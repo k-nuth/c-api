@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_KEOKEN_CONVERTIONS_HPP_
-#define BITPRIM_NODECINT_KEOKEN_CONVERTIONS_HPP_
+#ifndef BITPRIM_NODECINT_KEOKEN_CONVERSIONS_HPP_
+#define BITPRIM_NODECINT_KEOKEN_CONVERSIONS_HPP_
 
 // #include <vector>
 
@@ -33,4 +33,4 @@ bitprim::keoken::get_assets_by_address_data const& keoken_get_assets_by_address_
 bitprim::keoken::get_assets_data& keoken_get_assets_data_cpp(get_assets_data_t obj);
 bitprim::keoken::get_assets_data const& keoken_get_assets_data_const_cpp(get_assets_data_t obj);
 
-#endif /* BITPRIM_NODECINT_KEOKEN_CONVERTIONS_HPP_ */
+#endif /* BITPRIM_NODECINT_KEOKEN_CONVERSIONS_HPP_ */

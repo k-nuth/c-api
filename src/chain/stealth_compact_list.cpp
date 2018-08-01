@@ -18,25 +18,17 @@
  */
 
 #include <bitcoin/bitcoin/chain/stealth.hpp>
+
 #include <bitprim/nodecint/chain/stealth_compact_list.h>
+#include <bitprim/nodecint/conversions.hpp>
+#include <bitprim/nodecint/list_creator.h>
 
-std::vector<libbitcoin::chain::stealth_compact> const& stealth_compact_list_const_cpp(stealth_compact_list_t list) {
-    return *static_cast<std::vector<libbitcoin::chain::stealth_compact> const*>(list);
-}
 
-std::vector<libbitcoin::chain::stealth_compact>& stealth_compact_list_cpp(stealth_compact_list_t list) {
-    return *static_cast<std::vector<libbitcoin::chain::stealth_compact>*>(list);
-}
+BITPRIM_LIST_DEFINE_CONVERTERS(chain, stealth_compact_list_t, libbitcoin::chain::stealth_compact, stealth_compact_list)
 
-void stealth_compact_list_destruct(stealth_compact_list_t list) {
-    delete &stealth_compact_list_cpp(list);
-}
+extern "C" {
 
-uint64_t /*size_t*/ stealth_compact_list_count(stealth_compact_list_t list) {
-    return stealth_compact_list_const_cpp(list).size();
-}
+BITPRIM_LIST_DEFINE(chain, stealth_compact_list_t, stealth_compact_t, stealth_compact_list, libbitcoin::chain::stealth_compact, chain_stealth_compact_cpp)
 
-stealth_compact_t stealth_compact_list_nth(stealth_compact_list_t list, uint64_t /*size_t*/ n) {
-    auto& x = stealth_compact_list_cpp(list)[n];
-    return &x;
-}
+} // extern "C"
+

@@ -22,6 +22,7 @@
 
 #include <stdint.h>
 
+#include <bitprim/nodecint/list_creator.h>
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
 
@@ -29,20 +30,7 @@
 extern "C" {
 #endif
 
-BITPRIM_EXPORT
-transaction_list_t chain_transaction_list_construct_default(void);
-
-BITPRIM_EXPORT
-void chain_transaction_list_push_back(transaction_list_t list, transaction_t transaction);
-
-BITPRIM_EXPORT
-void chain_transaction_list_destruct(transaction_list_t list);
-
-BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_transaction_list_count(transaction_list_t list);
-
-BITPRIM_EXPORT
-transaction_t chain_transaction_list_nth(transaction_list_t list, uint64_t /*size_t*/ n);
+BITPRIM_LIST_DECLARE(chain, transaction_list_t, transaction_t, transaction_list)
 
 #ifdef __cplusplus
 } // extern "C"

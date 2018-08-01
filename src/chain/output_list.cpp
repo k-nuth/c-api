@@ -20,48 +20,13 @@
 #include <bitprim/nodecint/chain/output_list.h>
 
 #include <bitprim/nodecint/chain/output.h>
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 
+BITPRIM_LIST_DEFINE_CONVERTERS(chain, output_list_t, libbitcoin::chain::output, output_list)
+BITPRIM_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, output_list_t, libbitcoin::chain::output, output_list)
 
-//namespace {
-
-std::vector<libbitcoin::chain::output> const& chain_output_list_const_cpp(output_list_t list) {
-    return *static_cast<libbitcoin::chain::output::list const*>(list);
-}
-
-std::vector<libbitcoin::chain::output>& chain_output_list_cpp(output_list_t list) {
-    return *static_cast<libbitcoin::chain::output::list*>(list);
-}
-
-//} /* end of anonymous namespace */
-
-
-output_list_t chain_output_list_construct_from_cpp(libbitcoin::chain::output::list& list) {
-    return &list;
-}
-
-// ---------------------------------------------------------------------------
 extern "C" {
 
-output_list_t chain_output_list_construct_default() {
-    return new libbitcoin::chain::output::list();
-}
-
-void chain_output_list_push_back(output_list_t list, output_t output) {
-    chain_output_list_cpp(list).push_back(chain_output_const_cpp(output));
-}
-
-void chain_output_list_destruct(output_list_t list) {
-    delete &chain_output_list_cpp(list);
-}
-
-uint64_t /*size_t*/ chain_output_list_count(output_list_t list) {
-    return chain_output_list_const_cpp(list).size();
-}
-
-output_t chain_output_list_nth(output_list_t list, uint64_t /*size_t*/ n) {
-    auto &x = chain_output_list_cpp(list)[n];
-    return &x;
-}
+BITPRIM_LIST_DEFINE(chain, output_list_t, output_t, output_list, libbitcoin::chain::output, chain_output_const_cpp)
 
 } // extern "C"

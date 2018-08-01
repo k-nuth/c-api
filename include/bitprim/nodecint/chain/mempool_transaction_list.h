@@ -22,6 +22,7 @@
 
 #include <stdint.h>
 
+#include <bitprim/nodecint/list_creator.h>
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
 
@@ -29,21 +30,10 @@
 extern "C" {
 #endif
 
-BITPRIM_EXPORT
-mempool_transaction_list_t chain_mempool_transaction_list_construct_default(void);
-
-BITPRIM_EXPORT
-void chain_mempool_transaction_list_destruct(mempool_transaction_list_t list);
-
-BITPRIM_EXPORT
-uint64_t /*size_t*/ chain_mempool_transaction_list_count(mempool_transaction_list_t list);
-
-BITPRIM_EXPORT
-mempool_transaction_t chain_mempool_transaction_list_nth(mempool_transaction_list_t list, uint64_t /*size_t*/ n);
+BITPRIM_LIST_DECLARE(chain, mempool_transaction_list_t, mempool_transaction_t, mempool_transaction_list)
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
-// ---------------------------------------------------------------------------
 
 #endif /* BITPRIM_NODECINT_CHAIN_MEMPOOL_TRANSACTION_LIST_H_ */

@@ -17,24 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BITPRIM_NODECINT_TYPE_CONVERTIONS_H_
-#define BITPRIM_NODECINT_TYPE_CONVERTIONS_H_
+#ifndef BITPRIM_NODECINT_HASH_LIST_H_
+#define BITPRIM_NODECINT_HASH_LIST_H_
 
 #include <stdint.h>
 
-#include <bitprim/nodecint/error.h>
+#include <bitprim/nodecint/list_creator.h>
+#include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
 
-#define BITPRIM_CONV_DECLARE(api, type_c, type_cpp, obj_name)   \
-type_cpp const& api##_##obj_name##_const_cpp(type_c);           \
-type_cpp& api##_##obj_name##_cpp(type_c);
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#define BITPRIM_CONV_DEFINE(api, type_c, type_cpp, obj_name)    \
-type_cpp const& api##_##obj_name##_const_cpp(type_c o) {        \
-    return *static_cast<type_cpp const*>(o);                    \
-}                                                               \
-type_cpp& api##_##obj_name##_cpp(type_c o) {                    \
-    return *static_cast<type_cpp*>(o);                          \
-}
+BITPRIM_LIST_DECLARE(core, hash_list_t, hash_t, hash_list)
 
-#endif /* BITPRIM_NODECINT_TYPE_CONVERTIONS_H_ */
+#ifdef __cplusplus
+} // extern "C"
+#endif
+
+#endif /* BITPRIM_NODECINT_HASH_LIST_H_ */

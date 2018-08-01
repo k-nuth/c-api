@@ -22,13 +22,10 @@
 #include <vector>
 
 #include <bitprim/keoken/state_dto.hpp>
-#include <bitprim/nodecint/keoken/convertions.hpp>
+#include <bitprim/nodecint/keoken/conversions.hpp>
 #include <bitprim/nodecint/list_creator.h>
 
-// namespace {
 BITPRIM_LIST_DEFINE_CONVERTERS(keoken, get_assets_list_t, bitprim::keoken::get_assets_data, get_assets_list)
-// } /* end of anonymous namespace */
-
 BITPRIM_LIST_DEFINE_CONSTRUCT_FROM_CPP(keoken, get_assets_list_t, bitprim::keoken::get_assets_data, get_assets_list)
 
 extern "C" {

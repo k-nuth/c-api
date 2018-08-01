@@ -22,7 +22,7 @@
 #include <vector>
 
 #include <bitprim/keoken/state_dto.hpp>
-#include <bitprim/nodecint/keoken/convertions.hpp>
+#include <bitprim/nodecint/keoken/conversions.hpp>
 #include <bitprim/nodecint/list_creator.h>
 
 BITPRIM_LIST_DEFINE_CONVERTERS(keoken, get_all_asset_addresses_list_t, bitprim::keoken::get_all_asset_addresses_data, get_all_asset_addresses_list)

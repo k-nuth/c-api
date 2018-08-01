@@ -20,44 +20,39 @@
 #include <bitprim/nodecint/binary.h>
 
 #include <bitcoin/bitcoin/utility/binary.hpp>
+
 #include <bitprim/nodecint/helpers.hpp>
+#include <bitprim/nodecint/type_conversions.h>
 
-libbitcoin::binary const& binary_const_cpp(binary_t binary) {
-    return *static_cast<libbitcoin::binary const*>(binary);
-}
-
-libbitcoin::binary& binary_cpp(binary_t binary) {
-    return *static_cast<libbitcoin::binary*>(binary);
-}
+BITPRIM_CONV_DEFINE(core, binary_t, libbitcoin::binary, binary)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
-binary_t binary_construct() {
+binary_t core_binary_construct() {
     return new libbitcoin::binary();
 }
 
-binary_t binary_construct_string(char const* string) {
+binary_t core_binary_construct_string(char const* string) {
     return new libbitcoin::binary(string);
 }
 
-binary_t binary_construct_blocks(uint64_t /*size_t*/ bits_size, uint8_t* blocks, uint64_t /*size_t*/ n) {
+binary_t core_binary_construct_blocks(uint64_t /*size_t*/ bits_size, uint8_t* blocks, uint64_t /*size_t*/ n) {
     libbitcoin::data_slice blocks_cpp(blocks, blocks + n); 
     return new libbitcoin::binary(bits_size, blocks_cpp);
 }
 
-void binary_destruct(binary_t binary) {
-    // delete binary;
-    delete &binary_cpp(binary);
+void core_binary_destruct(binary_t binary) {
+    delete &core_binary_cpp(binary);
 }
 
-uint8_t const* binary_blocks(binary_t binary, uint64_t* /*size_t*/ out_n) {
-    *out_n = binary_const_cpp(binary).blocks().size();
-    return binary_cpp(binary).blocks().data();
+uint8_t const* core_binary_blocks(binary_t binary, uint64_t* /*size_t*/ out_n) {
+    *out_n = core_binary_const_cpp(binary).blocks().size();
+    return core_binary_cpp(binary).blocks().data();
 }
 
-char* binary_encoded(binary_t binary) {
-    std::string str = binary_const_cpp(binary).encoded();   //TODO(fernando): returns a value or a reference?
+char* core_binary_encoded(binary_t binary) {
+    std::string str = core_binary_const_cpp(binary).encoded();   //TODO(fernando): returns a value or a reference?
     return bitprim::create_c_str(str);
 }
 

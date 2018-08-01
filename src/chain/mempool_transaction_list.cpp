@@ -20,39 +20,14 @@
 #include <bitprim/nodecint/chain/mempool_transaction_list.h>
 
 #include <bitcoin/blockchain/interface/safe_chain.hpp>
-#include <bitprim/nodecint/convertions.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 
 
-std::vector<libbitcoin::blockchain::mempool_transaction_summary> const& chain_mempool_transaction_list_const_cpp(mempool_transaction_list_t list) {
-    return *static_cast<std::vector<libbitcoin::blockchain::mempool_transaction_summary> const*>(list);
-}
+BITPRIM_LIST_DEFINE_CONVERTERS(chain, mempool_transaction_list_t, libbitcoin::blockchain::mempool_transaction_summary, mempool_transaction_list)
+BITPRIM_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, mempool_transaction_list_t, libbitcoin::blockchain::mempool_transaction_summary, mempool_transaction_list)
 
-std::vector<libbitcoin::blockchain::mempool_transaction_summary>& chain_mempool_transaction_list_cpp(mempool_transaction_list_t list) {
-    return *static_cast<std::vector<libbitcoin::blockchain::mempool_transaction_summary> *>(list);
-}
-
-mempool_transaction_list_t chain_mempool_transaction_list_construct_from_cpp(std::vector<libbitcoin::blockchain::mempool_transaction_summary>& list) {
-    return &list;
-}
-
-// ---------------------------------------------------------------------------
 extern "C" {
 
-mempool_transaction_list_t chain_mempool_transaction_list_construct_default() {
-    return new std::vector<libbitcoin::blockchain::mempool_transaction_summary>();
-}
-
-void chain_mempool_transaction_list_destruct(mempool_transaction_list_t list) {
-    delete &chain_mempool_transaction_list_cpp(list);
-}
-
-uint64_t /*size_t*/ chain_mempool_transaction_list_count(mempool_transaction_list_t list) {
-    return chain_mempool_transaction_list_const_cpp(list).size();
-}
-
-mempool_transaction_t chain_mempool_transaction_list_nth(mempool_transaction_list_t list, uint64_t /*size_t*/ n) {
-    auto& x = chain_mempool_transaction_list_cpp(list)[n];
-    return &x;
-}
+BITPRIM_LIST_DEFINE(chain, mempool_transaction_list_t, mempool_transaction_t, mempool_transaction_list, libbitcoin::blockchain::mempool_transaction_summary, chain_mempool_transaction_const_cpp)
 
 } // extern "C"

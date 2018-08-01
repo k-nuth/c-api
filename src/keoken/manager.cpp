@@ -20,15 +20,14 @@
 #include <bitprim/nodecint/keoken/manager.h>
 
 #include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/type_convertions.h>
+#include <bitprim/nodecint/type_conversions.h>
 
 #include <bitprim/keoken/manager.hpp>
 #include <bitprim/keoken/state.hpp>
 #include <bitprim/keoken/state_dto.hpp>
 
-namespace {
+
 BITPRIM_CONV_DEFINE(keoken, keoken_manager_t, bitprim::keoken::manager, manager)
-} /* end of anonymous namespace */
 
 // ---------------------------------------------------------------------------
 extern "C" {

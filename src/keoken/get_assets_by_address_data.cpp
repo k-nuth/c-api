@@ -21,7 +21,7 @@
 
 #include <bitprim/keoken/state_dto.hpp>
 #include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/type_convertions.h>
+#include <bitprim/nodecint/type_conversions.h>
 
 BITPRIM_CONV_DEFINE(keoken, get_assets_by_address_data_t, bitprim::keoken::get_assets_by_address_data, get_assets_by_address_data)
 
@@ -38,8 +38,7 @@ get_assets_by_address_data_t keoken_get_assets_by_address_data_construct(keoken_
 }
 
 void keoken_get_assets_by_address_data_destruct(get_assets_by_address_data_t obj) {
-    auto obj_cpp = &keoken_get_assets_by_address_data_cpp(obj);
-    delete obj_cpp;
+    delete &keoken_get_assets_by_address_data_cpp(obj);
 }
 
 keoken_asset_id_t keoken_get_assets_by_address_data_asset_id(get_assets_by_address_data_t obj) {
