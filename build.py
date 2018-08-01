@@ -29,9 +29,17 @@ if __name__ == "__main__":
             else:
                 marchs = ["x86-64"]
 
-            options["*:currency"] = os.getenv('BITPRIM_CI_CURRENCY', '---')
+            ci_currency = os.getenv('BITPRIM_CI_CURRENCY', None)
+            if ci_currency is not None:
+                options["*:currency"] = ci_currency
 
-            handle_microarchs("*:microarchitecture", marchs, filtered_builds, settings, options, env_vars, build_requires)
+                if ci_currency == "BCH":
+                    options_keoken = copy.deepcopy(options)
+                    options_keoken["%s:keoken" % name] = True
+                    handle_microarchs("*:microarchitecture", marchs, filtered_builds, settings, options_keoken, env_vars, build_requires)
+
+                handle_microarchs("*:microarchitecture", marchs, filtered_builds, settings, options, env_vars, build_requires)
+
             filter_marchs_tests(name, filtered_builds, ["%s:with_tests" % name], "*:microarchitecture")
 
     builder.builds = filtered_builds

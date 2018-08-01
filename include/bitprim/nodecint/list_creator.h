@@ -41,7 +41,6 @@ std::vector<cpp_elem_t>& api##_##list_name##_cpp(list_t l) {                \
 list_t api##_##list_name##_construct_from_cpp(std::vector<cpp_elem_t>& l);
 
 #define BITPRIM_LIST_DEFINE_CONSTRUCT_FROM_CPP(api, list_t, cpp_elem_t, list_name)  \
-inline                                                                              \
 list_t api##_##list_name##_construct_from_cpp(std::vector<cpp_elem_t>& l) {         \
     return &l;                                                                      \
 }
