@@ -1,7 +1,7 @@
 /**
- * Copyright (c) 2011-2017 libbitcoin developers (see AUTHORS)
+ * Copyright (c) 2016-2018 Bitprim Inc.
  *
- * This file is part of libbitcoin.
+ * This file is part of Bitprim.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
