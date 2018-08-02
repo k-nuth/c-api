@@ -36,6 +36,9 @@ BITPRIM_EXPORT
 block_t chain_block_construct(header_t header, transaction_list_t transactions);
 
 BITPRIM_EXPORT
+block_t chain_block_factory_from_data(uint32_t version, uint8_t* data, uint64_t n);
+
+BITPRIM_EXPORT
 void chain_block_destruct(block_t block);
 
 BITPRIM_EXPORT
