@@ -30,7 +30,7 @@
 extern "C" {
 #endif
 
-BITPRIM_LIST_DECLARE(chain, block_list_t, block_t, block)
+BITPRIM_LIST_DECLARE(chain, history_compact_list_t, history_compact_t, history_compact_list)
 
 #ifdef __cplusplus
 } // extern "C"
