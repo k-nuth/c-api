@@ -25,12 +25,23 @@
 #include <future>
 #include <iostream>
 
-namespace bitprim { namespace nodecint {
+#ifdef WITH_KEOKEN
+#include <bitprim/keoken/manager.hpp>
+#include <bitprim/keoken/state_delegated.hpp>
+#endif
+
+namespace bitprim { 
+
+#ifdef WITH_KEOKEN
+    using keoken_manager_cpp_t = bitprim::keoken::manager<bitprim::keoken::state_delegated>;
+#endif
 
 
-class executor
-{
+namespace nodecint {
+
+class executor {
 public:
+
     executor(libbitcoin::node::configuration const& config, std::ostream& output, std::ostream& error);
 
     executor(executor const&) = delete;
@@ -52,8 +63,14 @@ public:
     bool stop();
 
     libbitcoin::node::full_node& node();
+    libbitcoin::node::full_node const& node() const;
 
-    bool load_config_valid();
+#ifdef WITH_KEOKEN
+    keoken_manager_cpp_t const& keoken_manager() const;
+    keoken_manager_cpp_t& keoken_manager();
+#endif // WITH_KEOKEN
+
+    bool load_config_valid() const;
 
     bool stopped() const;
 
@@ -77,8 +94,6 @@ private:
     bool verify_directory();
 #endif
 
-
-
     // Termination state.
     static std::promise<libbitcoin::code> stopping_;
 
@@ -86,7 +101,12 @@ private:
     libbitcoin::node::configuration config_;
     std::ostream& output_;
     std::ostream& error_;
+    
     libbitcoin::node::full_node::ptr node_;
+#ifdef WITH_KEOKEN
+    std::unique_ptr<keoken_manager_cpp_t> keoken_manager_;
+#endif
+
     libbitcoin::handle0 run_handler_;
     bool parse_config_from_file_result_;
 };

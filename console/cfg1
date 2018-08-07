@@ -1,0 +1,50 @@
+[log]
+archive_directory = temp/log-bch-testnet1/
+debug_file = temp/log-bch-testnet1/debug.log
+error_file = temp/log-bch-testnet1/error.log
+rotation_size = 100000000
+minimum_free_space = 0
+verbose = true
+
+[network]
+protocol_maximum = 70015
+protocol_minimum = 31402
+identifier = 4109624820
+outbound_connections = 0
+inbound_connections = 1
+inbound_port = 18333
+channel_expiration_minutes = 1440
+hosts_file = temp/hosts-bch-testnet1.cache
+self = 0.0.0.0:0
+seed = testnet-seed.bitcoinabc.org:18333
+seed = testnet-seed-abc.bitcoinforks.org:18333
+seed = testnet-seed.bitcoinunlimited.info:18333
+seed = testnet-seed.bitprim.org:18333
+seed = testnet-seed.deadalnix.me:18333
+seed = testnet-seeder.criptolayer.net:18333
+
+[database]
+directory = temp/database-bch-testnet1
+flush_writes = true
+
+[blockchain]
+# Testnet-bch
+checkpoint = 0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206:0
+
+[fork]
+easy_blocks = false
+retarget = false
+bip16 = true
+bip30 = true
+bip34 = true
+bip66 = true
+bip65 = true
+bip90 = true
+
+[node]
+relay_transactions = true
+compact_blocks_high_bandwidth = true
+# RPC-CONFG
+zmq_publisher_port = 5556
+rpc_port = 18332
+keoken_genesis_height = 0

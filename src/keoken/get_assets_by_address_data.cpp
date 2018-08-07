@@ -20,6 +20,7 @@
 #include <bitprim/nodecint/keoken/get_assets_by_address_data.h>
 
 #include <bitprim/keoken/state_dto.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 #include <bitprim/nodecint/type_conversions.h>
 
@@ -33,8 +34,7 @@ extern "C" {
 // }
 
 get_assets_by_address_data_t keoken_get_assets_by_address_data_construct(keoken_asset_id_t asset_id, char const* asset_name, payment_address_t asset_creator, keoken_amount_t amount) {
-    libbitcoin::wallet::payment_address const& asset_creator_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(asset_creator);
-    return new bitprim::keoken::get_assets_by_address_data(asset_id, std::string(asset_name), asset_creator_cpp, amount);
+    return new bitprim::keoken::get_assets_by_address_data(asset_id, std::string(asset_name), wallet_payment_address_const_cpp(asset_creator), amount);
 }
 
 void keoken_get_assets_by_address_data_destruct(get_assets_by_address_data_t obj) {
@@ -51,8 +51,7 @@ char const* keoken_get_assets_by_address_data_asset_name(get_assets_by_address_d
 }
 
 payment_address_t keoken_get_assets_by_address_data_asset_creator(get_assets_by_address_data_t obj) {
-    auto asset_creator = keoken_get_assets_by_address_data_const_cpp(obj).asset_creator;
-    return new libbitcoin::wallet::payment_address(asset_creator);
+    return &keoken_get_assets_by_address_data_cpp(obj).asset_creator;
 }
 
 keoken_amount_t keoken_get_assets_by_address_data_amount(get_assets_by_address_data_t obj) {

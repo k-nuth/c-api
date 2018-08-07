@@ -33,4 +33,9 @@ bitprim::keoken::get_assets_by_address_data const& keoken_get_assets_by_address_
 bitprim::keoken::get_assets_data& keoken_get_assets_data_cpp(get_assets_data_t obj);
 bitprim::keoken::get_assets_data const& keoken_get_assets_data_const_cpp(get_assets_data_t obj);
 
+BITPRIM_LIST_DECLARE_CONVERTERS(keoken, get_all_asset_addresses_list_t, bitprim::keoken::get_all_asset_addresses_data, get_all_asset_addresses_list)
+BITPRIM_LIST_DECLARE_CONVERTERS(keoken, get_assets_by_address_list_t, bitprim::keoken::get_assets_by_address_data, get_assets_by_address_list)
+BITPRIM_LIST_DECLARE_CONVERTERS(keoken, get_assets_list_t, bitprim::keoken::get_assets_data, get_assets_list)
+
+
 #endif /* BITPRIM_NODECINT_KEOKEN_CONVERSIONS_HPP_ */

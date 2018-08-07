@@ -217,7 +217,7 @@ error_code_t chain_get_block_by_height(chain_t chain, uint64_t /*size_t*/ height
 }
 
 void chain_fetch_block_by_height_timestamp(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_hash_timestamp_fetch_handler_t handler) {
-    safe_chain(chain).fetch_block_hash_timestamp(height, [chain, ctx, handler](std::error_code const& ec, const libbitcoin::hash_digest& hash, uint32_t timestamp, size_t h) {
+    safe_chain(chain).fetch_block_hash_timestamp(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::hash_digest const& hash, uint32_t timestamp, size_t h) {
         if (ec == libbitcoin::error::success) {
             handler(chain, ctx, bitprim::to_c_err(ec), bitprim::to_hash_t(hash), timestamp, h);
         } else {
@@ -230,7 +230,7 @@ error_code_t chain_get_block_by_height_timestamp(chain_t chain, uint64_t /*size_
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
-    safe_chain(chain).fetch_block_hash_timestamp(height, [&](std::error_code const& ec, const libbitcoin::hash_digest& hash, uint32_t timestamp, size_t h) {
+    safe_chain(chain).fetch_block_hash_timestamp(height, [&](std::error_code const& ec, libbitcoin::hash_digest const& hash, uint32_t timestamp, size_t h) {
         if (ec == libbitcoin::error::success) {
             bitprim::copy_c_hash(hash, out_hash);
             *out_timestamp = timestamp;
@@ -596,9 +596,9 @@ error_code_t chain_get_spend(chain_t chain, output_point_t op, input_point_t* ou
 
 //It is the user's responsibility to release the history returned in the callback
 void chain_fetch_history(chain_t chain, void* ctx, payment_address_t address, uint64_t /*size_t*/ limit, uint64_t /*size_t*/ from_height, history_fetch_handler_t handler) {
-    libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
+    // auto const& address_cpp = wallet_payment_address_const_cpp(address);
 
-    safe_chain(chain).fetch_history(address_cpp, limit, from_height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::chain::history_compact::list history) {
+    safe_chain(chain).fetch_history(wallet_payment_address_const_cpp(address), limit, from_height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::chain::history_compact::list history) {
         auto new_history = new libbitcoin::chain::history_compact::list(history);
         handler(chain, ctx, bitprim::to_c_err(ec), new_history);
     });
@@ -609,9 +609,9 @@ error_code_t chain_get_history(chain_t chain, payment_address_t address, uint64_
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
-    libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
+    // auto const& address_cpp = wallet_payment_address_const_cpp(address);
 
-    safe_chain(chain).fetch_history(address_cpp, limit, from_height, [&](std::error_code const& ec, libbitcoin::chain::history_compact::list history) {
+    safe_chain(chain).fetch_history(wallet_payment_address_const_cpp(address), limit, from_height, [&](std::error_code const& ec, libbitcoin::chain::history_compact::list history) {
         *out_history = new libbitcoin::chain::history_compact::list(history);
         res = bitprim::to_c_err(ec);
         latch.count_down();
@@ -622,9 +622,9 @@ error_code_t chain_get_history(chain_t chain, payment_address_t address, uint64_
 }
 
 void chain_fetch_confirmed_transactions(chain_t chain, void* ctx, payment_address_t address, uint64_t max, uint64_t start_height, transactions_by_addres_fetch_handler_t handler) {
-    libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
+    // auto const& address_cpp = wallet_payment_address_const_cpp(address);
 
-    safe_chain(chain).fetch_confirmed_transactions(address_cpp, max, start_height, [chain, ctx, handler](std::error_code const& ec, const std::vector<libbitcoin::hash_digest>& txs) {
+    safe_chain(chain).fetch_confirmed_transactions(wallet_payment_address_const_cpp(address), max, start_height, [chain, ctx, handler](std::error_code const& ec, const std::vector<libbitcoin::hash_digest>& txs) {
         //It is the user's responsibility to release this allocated memory
         auto new_txs = new libbitcoin::hash_list(txs);
         handler(chain, ctx, bitprim::to_c_err(ec), new_txs);
@@ -635,9 +635,9 @@ error_code_t chain_get_confirmed_transactions(chain_t chain, payment_address_t a
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
-    libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
+    // auto const& address_cpp = wallet_payment_address_const_cpp(address);
 
-    safe_chain(chain).fetch_confirmed_transactions(address_cpp, max, start_height, [&](std::error_code const& ec, const std::vector<libbitcoin::hash_digest>& txs) {
+    safe_chain(chain).fetch_confirmed_transactions(wallet_payment_address_const_cpp(address), max, start_height, [&](std::error_code const& ec, const std::vector<libbitcoin::hash_digest>& txs) {
         //It is the user's responsibility to release this allocated memory
         *out_tx_hashes = new libbitcoin::hash_list(txs);
         res = bitprim::to_c_err(ec);
@@ -733,14 +733,14 @@ mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment
 #else
     bool_t witness = 1;
 #endif
-    libbitcoin::wallet::payment_address const& address_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(address);
+    auto const& address_cpp = wallet_payment_address_const_cpp(address);
     if (address_cpp) {
         auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), bitprim::int_to_bool(use_testnet_rules), bitprim::int_to_bool(witness));
         auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>(txs);
         return static_cast<mempool_transaction_list_t>(ret_txs);
     } 
-        auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>();
-        return static_cast<mempool_transaction_list_t>(ret_txs);
+    auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>();
+    return static_cast<mempool_transaction_list_t>(ret_txs);
     
 }
 

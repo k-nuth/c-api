@@ -128,6 +128,7 @@ typedef uint32_t keoken_asset_id_t;
 typedef int64_t keoken_amount_t;
 
 typedef void* keoken_manager_t;
+typedef void* keoken_state_t;
 
 // Keoken DTOs
 typedef void* get_assets_by_address_data_t;

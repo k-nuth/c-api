@@ -20,6 +20,7 @@
 #include <bitprim/nodecint/keoken/get_all_asset_addresses_data.h>
 
 #include <bitprim/keoken/state_dto.hpp>
+#include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 #include <bitprim/nodecint/type_conversions.h>
 
@@ -33,9 +34,14 @@ extern "C" {
 // }
 
 get_all_asset_addresses_data_t keoken_get_all_asset_addresses_data_construct(keoken_asset_id_t asset_id, char const* asset_name, payment_address_t asset_creator, keoken_amount_t amount, payment_address_t amount_owner) {
-    libbitcoin::wallet::payment_address const& asset_creator_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(asset_creator);
-    libbitcoin::wallet::payment_address const& amount_owner_cpp = *static_cast<const libbitcoin::wallet::payment_address*>(amount_owner);
-    return new bitprim::keoken::get_all_asset_addresses_data(asset_id, std::string(asset_name), asset_creator_cpp, amount, amount_owner_cpp);
+    auto result = bitprim::keoken::get_all_asset_addresses_data(
+        asset_id, 
+        std::string(asset_name), 
+        wallet_payment_address_const_cpp(asset_creator), 
+        amount, 
+        wallet_payment_address_const_cpp(amount_owner))
+    ;
+    return bitprim::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
 void keoken_get_all_asset_addresses_data_destruct(get_all_asset_addresses_data_t obj) {
@@ -52,8 +58,7 @@ char const* keoken_get_all_asset_addresses_data_asset_name(get_all_asset_address
 }
 
 payment_address_t keoken_get_all_asset_addresses_data_asset_creator(get_all_asset_addresses_data_t obj) {
-    auto asset_creator = keoken_get_all_asset_addresses_data_const_cpp(obj).asset_creator;
-    return new libbitcoin::wallet::payment_address(asset_creator);
+    return &keoken_get_all_asset_addresses_data_cpp(obj).asset_creator;
 }
 
 keoken_amount_t keoken_get_all_asset_addresses_data_amount(get_all_asset_addresses_data_t obj) {
@@ -61,8 +66,7 @@ keoken_amount_t keoken_get_all_asset_addresses_data_amount(get_all_asset_address
 }
 
 payment_address_t keoken_get_all_asset_addresses_data_amount_owner(get_all_asset_addresses_data_t obj) {
-    auto amount_owner = keoken_get_all_asset_addresses_data_const_cpp(obj).amount_owner;
-    return new libbitcoin::wallet::payment_address(amount_owner);
+    return &keoken_get_all_asset_addresses_data_cpp(obj).amount_owner;
 }
 
 } // extern "C"

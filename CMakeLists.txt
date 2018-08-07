@@ -315,6 +315,7 @@ if (WITH_KEOKEN)
     src/keoken/get_assets_data.cpp
     src/keoken/get_assets_list.cpp
     src/keoken/manager.cpp
+    src/keoken/state.cpp
     src/keoken/wallet/create_transactions.cpp
   )
 endif()
@@ -395,7 +396,9 @@ if (WITH_CONSOLE_NODE_CINT)
   #        console/main.c)
 
   add_executable(test_console
-          console/main.cpp)
+        #   console/main.cpp
+          console/state_test.cpp
+    )
 
   target_link_libraries(test_console bitprim-node-cint)
 

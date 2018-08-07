@@ -1,13 +1,3 @@
-/*struct BC_API stealth_compact
-{
-    typedef std::vector<stealth_compact> list;
-
-    hash_digest ephemeral_public_key_hash;
-    short_hash public_key_hash;
-    hash_digest transaction_hash;
-};*/
-
-
 /**
  * Copyright (c) 2016-2018 Bitprim Inc.
  *

@@ -278,7 +278,8 @@ p2p_t executor_get_p2p(executor_t exec) {
 
 #ifdef WITH_KEOKEN
 keoken_manager_t executor_get_keoken_manager(executor_t exec) {
-    return &(exec->actual.node().keoken_manager());
+    // return &(exec->actual.node().keoken_manager());
+    return &(exec->actual.keoken_manager());
 }
 #endif
 

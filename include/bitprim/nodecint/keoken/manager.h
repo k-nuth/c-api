@@ -22,10 +22,23 @@
 
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
+#include <bitprim/nodecint/keoken/state_delegated.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+BITPRIM_EXPORT
+void keoken_manager_configure_state(keoken_manager_t manager
+    , void* ctx
+    , keoken_state_delegated_set_initial_asset_id_t set_initial_asset_id
+    , keoken_state_delegated_create_asset_t create_asset
+    , keoken_state_delegated_create_balance_entry_t create_balance_entry
+    , keoken_state_delegated_asset_id_exists_t asset_id_exists
+    , keoken_state_delegated_get_balance_t get_balance
+    , keoken_state_delegated_get_assets_by_address_t get_assets_by_address
+    , keoken_state_delegated_get_assets_t get_assets
+    , keoken_state_delegated_get_all_asset_addresses_t get_all_asset_addresses);
 
 BITPRIM_EXPORT
 void keoken_manager_initialize_from_blockchain(keoken_manager_t manager);
