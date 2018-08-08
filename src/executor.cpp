@@ -179,8 +179,7 @@ bool executor::run(libbitcoin::handle0 handler) {
 
 
 #ifdef WITH_KEOKEN
-    // LOG_INFO(LOG_NODE) << "config_.node.keoken_genesis_height: " << config_.node.keoken_genesis_height;
-    keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_bitprim(), config_.node.keoken_genesis_height));
+    keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_bitprim(), config_.node.keoken_genesis_height));    //NOLINT
 #endif
 
     // Initialize broadcast to statistics server if configured.

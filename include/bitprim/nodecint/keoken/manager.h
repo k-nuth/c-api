@@ -20,9 +20,9 @@
 #ifndef BITPRIM_NODECINT_KEOKEN_MANAGER_H_
 #define BITPRIM_NODECINT_KEOKEN_MANAGER_H_
 
+#include <bitprim/nodecint/keoken/state_delegated.h>
 #include <bitprim/nodecint/primitives.h>
 #include <bitprim/nodecint/visibility.h>
-#include <bitprim/nodecint/keoken/state_delegated.h>
 
 #ifdef __cplusplus
 extern "C" {
