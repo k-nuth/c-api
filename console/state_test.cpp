@@ -216,10 +216,10 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     get_assets_list_t list = keoken_manager_get_assets(keo_manager);
     auto n = keoken_get_assets_list_count(list);
-    printf("keoken_get_assets_list_count: %lu\n", n);
+    printf("keoken_get_assets_list_count: %llu\n", n);
 
     while (n-- != 0u) {
-        printf("while n: %lu\n", n);
+        printf("while n: %llu\n", n);
         auto elem = keoken_get_assets_list_nth(list, n);
 
 
@@ -229,7 +229,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
         printf("asset_id:   %d\n", asset_id);
         printf("asset_name: %s\n", asset_name);
-        printf("amount:     %ld\n", amount);
+        printf("amount:     %lld\n", amount);
     }    
 
     while (executor_stopped(exec) == 0) {
