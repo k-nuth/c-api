@@ -395,10 +395,17 @@ if (WITH_CONSOLE_NODE_CINT)
   #add_executable(test-console-twos
   #        console/main.c)
 
-  add_executable(test_console
-        #   console/main.cpp
-          console/state_test.cpp
+    if (WITH_KEOKEN)
+    set(_test_console_sources
+        console/state_test.cpp
     )
+    else()
+        set(_test_console_sources
+            console/main.cpp
+        )
+    endif()
+
+  add_executable(test_console ${_test_console_sources})
 
   target_link_libraries(test_console bitprim-node-cint)
 

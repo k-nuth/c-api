@@ -147,6 +147,7 @@ libbitcoin::node::full_node const& executor::node() const {
     return *node_;
 }
 
+#ifdef WITH_KEOKEN
 keoken_manager_cpp_t& executor::keoken_manager() {
     return *keoken_manager_;
 }
@@ -154,6 +155,8 @@ keoken_manager_cpp_t& executor::keoken_manager() {
 keoken_manager_cpp_t const& executor::keoken_manager() const {
     return *keoken_manager_;
 }
+#endif // WITH_KEOKEN
+
 
 bool executor::load_config_valid() const {
     return parse_config_from_file_result_;
