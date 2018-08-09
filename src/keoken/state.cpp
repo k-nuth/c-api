@@ -30,9 +30,12 @@ BITPRIM_CONV_DEFINE(keoken, keoken_state_t, bitprim::keoken::state, state)
 // ---------------------------------------------------------------------------
 extern "C" {
 
-BITPRIM_EXPORT
 keoken_state_t keoken_state_construct_default() {
     return new bitprim::keoken::state();
+}
+
+void keoken_state_destruct(keoken_state_t state) {
+    delete &keoken_state_cpp(state);
 }
 
 void keoken_state_set_initial_asset_id(keoken_state_t state, keoken_asset_id_t asset_id_initial) {

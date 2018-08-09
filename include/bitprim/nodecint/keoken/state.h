@@ -31,6 +31,9 @@ extern "C" {
 BITPRIM_EXPORT
 keoken_state_t keoken_state_construct_default(void);
 
+BITPRIM_EXPORT
+void keoken_state_destruct(keoken_state_t state);
+
 // Commands.
 // ---------------------------------------------------------------------------------
 
