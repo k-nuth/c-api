@@ -219,6 +219,11 @@ bool executor::init_and_run(libbitcoin::handle0 handler) {
     // Now that the directory is verified we can create the node for it.
     node_ = std::make_shared<libbitcoin::node::full_node>(config_);
 
+
+    #ifdef WITH_KEOKEN
+        keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_bitprim(), config_.node.keoken_genesis_height));    //NOLINT
+    #endif
+
     // Initialize broadcast to statistics server if configured.
     libbitcoin::log::initialize_statsd(node_->thread_pool(), config_.network.statistics_server);
 
