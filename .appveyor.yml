@@ -60,19 +60,22 @@ test_script:
         $a = python ci_utils/set_envvars_and_files.py
         Write-Host $a
         Invoke-Expression $a
+        conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim
+        python ci_utils/process_conan_reqs.py
+        conan remote remove bitprim
       }
   - ps: |
       If ($env:WAIT_FOR_DEPS -eq 1) {
         conan user
         conan remote add bitprim_temp https://api.bintray.com/conan/bitprim/bitprim
-        echo "waiting for bitprim-node/0.X@bitprim/prerelease ..."
-        conan search bitprim-node/0.X@bitprim/prerelease -r bitprim_temp > $null
+        echo "waiting for bitprim-node/0.X@bitprim/staging ..."
+        conan search bitprim-node/0.X@bitprim/staging -r bitprim_temp > $null
         while($env:lastExitCode -eq 1) {
           Write-Host "."
           Start-Sleep -s 10
-          conan search bitprim-node/0.X@bitprim/prerelease -r bitprim_temp > $null
+          conan search bitprim-node/0.X@bitprim/staging -r bitprim_temp > $null
         }
-        Write-Host "bitprim-node/0.X@bitprim/prerelease found"
+        Write-Host "bitprim-node/0.X@bitprim/staging found"
       }
       Else {
         python build.py
