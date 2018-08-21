@@ -43,8 +43,6 @@ void keoken_state_set_initial_asset_id(keoken_state_t state, keoken_asset_id_t a
 BITPRIM_EXPORT
 void keoken_state_create_asset(keoken_state_t state, char const* asset_name, keoken_amount_t asset_amount, payment_address_t owner, uint64_t /*size_t*/ block_height, hash_t txid);
 
-//auto stop_cpp = bitprim::to_array(stop.hash);
-
 BITPRIM_EXPORT
 void keoken_state_create_balance_entry(keoken_state_t state, keoken_asset_id_t asset_id, keoken_amount_t asset_amount, payment_address_t source, payment_address_t target,  uint64_t /*size_t*/ block_height, hash_t txid);
 

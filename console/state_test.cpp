@@ -90,6 +90,15 @@ get_all_asset_addresses_list_t my_get_all_asset_addresses(void*  /*ctx*/) {
 
 
 
+
+
+
+
+
+
+
+
+
 void my_set_initial_asset_id_state(void* ctx, keoken_asset_id_t asset_id_initial) {
     printf("my_set_initial_asset_id_state - asset_id_initial: %d\n", asset_id_initial);
     auto st = static_cast<keoken_state_t>(ctx);
