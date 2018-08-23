@@ -473,6 +473,7 @@ jobs:
       osx_image: xcode9.3
       env: CONAN_APPLE_CLANG_VERSIONS=9.1
            BITPRIM_CI_CURRENCY=BCH
+           BITPRIM_WITH_KEOKEN=true
       if: branch =~ /^(feature|dev).*$/       #Just development
     - stage: build and upload binaries
       os: osx

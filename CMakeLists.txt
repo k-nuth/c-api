@@ -301,6 +301,7 @@ set(_bitprim_sources
         src/wallet/wallet.cpp
         src/wallet/word_list.cpp
 
+        src/user_agent.cpp
 )
 
 
