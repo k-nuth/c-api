@@ -301,10 +301,15 @@ set(_bitprim_sources
         src/wallet/wallet.cpp
         src/wallet/word_list.cpp
 
-        src/user_agent.cpp
+        # src/user_agent.cpp
 )
 
-
+if (ENABLE_SHARED)
+  set(_bitprim_sources
+    ${_bitprim_sources}
+    src/user_agent.cpp
+  )
+endif()
 
 if (WITH_KEOKEN)
   set(_bitprim_sources
@@ -321,9 +326,34 @@ if (WITH_KEOKEN)
   )
 endif()
 
+
 add_library(bitprim-node-cint ${MODE}
         ${_bitprim_sources}
-        )
+)
+
+if (NOT ENABLE_SHARED)
+  add_library(bitprim-node-cint-version ${MODE}
+    src/user_agent.cpp
+  )
+
+  if (ENABLE_POSITION_INDEPENDENT_CODE) 
+    set_property(TARGET bitprim-node-cint-version PROPERTY POSITION_INDEPENDENT_CODE ON)
+  endif(ENABLE_POSITION_INDEPENDENT_CODE)
+
+  target_compile_definitions(bitprim-node-cint-version PUBLIC -DBITPRIM_PROJECT_VERSION="${BITPRIM_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
+
+  target_include_directories(bitprim-node-cint-version PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>)
+
+
+  target_link_libraries(bitprim-node-cint-version PUBLIC bitprim-network)
+
+  if (NOT NO_CONAN_AT_ALL)
+    target_link_libraries(bitprim-node-cint-version PUBLIC ${CONAN_LIBS})
+  endif()
+
+endif()
 
 
 
@@ -366,12 +396,16 @@ if (NOT NO_CONAN_AT_ALL)
   target_link_libraries(bitprim-node-cint PUBLIC ${CONAN_LIBS})
 endif()
 
+if (NOT ENABLE_SHARED)
+  target_link_libraries(bitprim-node-cint PUBLIC bitprim-node-cint-version)
+endif()
 
 if (USE_CONAN)
   if (MINGW)
     target_link_libraries(bitprim-node-cint PUBLIC ws2_32 wsock32) #TODO(fernando): manage with Conan
   endif()
 endif()
+
 
 
 # if (MSVC)
@@ -397,13 +431,13 @@ if (WITH_CONSOLE_NODE_CINT)
   #        console/main.c)
 
     if (WITH_KEOKEN)
-    set(_test_console_sources
-        console/state_test.cpp
-    )
+      set(_test_console_sources
+          console/state_test.cpp
+      )
     else()
-        set(_test_console_sources
-            console/main.cpp
-        )
+      set(_test_console_sources
+          console/main.cpp
+      )
     endif()
 
   add_executable(test_console ${_test_console_sources})
@@ -459,6 +493,15 @@ endif()
 #        LIBRARY DESTINATION lib
 #)
 
+if (NOT ENABLE_SHARED)
+  install(TARGETS bitprim-node-cint-version
+          EXPORT bitprim-node-cint-version
+          LIBRARY DESTINATION "lib"
+          ARCHIVE DESTINATION "lib"
+          RUNTIME DESTINATION "lib"
+          COMPONENT library
+          )
+endif()
 
 install(TARGETS bitprim-node-cint
         EXPORT bitprim-node-cint
@@ -531,6 +574,12 @@ endforeach()
 #==============================================================================
 include(CMakePackageConfigHelpers)
 
+if (NOT ENABLE_SHARED)
+  export(EXPORT bitprim-node-cint-version
+          FILE "${CMAKE_CURRENT_BINARY_DIR}/bitprim-node-cint-versionTargets.cmake")
+  export(PACKAGE bitprim-node-cint-version)
+endif()
+
 export(EXPORT bitprim-node-cint
         FILE "${CMAKE_CURRENT_BINARY_DIR}/bitprim-node-cintTargets.cmake")
 export(PACKAGE bitprim-node-cint)
@@ -539,6 +588,13 @@ if (UNIX)
   set(_config_package_location "lib/cmake")
 elseif (WIN32)
   set(_config_package_location "cmake")
+endif()
+
+
+if (NOT ENABLE_SHARED)
+  install(EXPORT bitprim-node-cint-version
+          FILE bitprim-node-cint-versionTargets.cmake
+          DESTINATION ${_config_package_location})
 endif()
 
 install(EXPORT bitprim-node-cint
