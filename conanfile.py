@@ -212,4 +212,9 @@ class BitprimNodeCIntConan(BitprimConanFile):
 
     def package_info(self):
         self.cpp_info.includedirs = ['include']
-        self.cpp_info.libs = ["bitprim-node-cint"]
+
+        if self.is_shared:
+            self.cpp_info.libs = ["bitprim-node-cint"]
+        else:
+            self.cpp_info.libs = ["bitprim-node-cint", "bitprim-node-cint-version"]
+

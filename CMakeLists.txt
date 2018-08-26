@@ -347,11 +347,12 @@ if (NOT ENABLE_SHARED)
     $<INSTALL_INTERFACE:include>)
 
 
-  target_link_libraries(bitprim-node-cint-version PUBLIC bitprim-network)
+  # set(CINT_VERSION_LIBS ${CINT_VERSION_LIBS} "bitprim-network")
+  # target_link_libraries(bitprim-node-cint-version PUBLIC ${CINT_VERSION_LIBS})
 
-  if (NOT NO_CONAN_AT_ALL)
-    target_link_libraries(bitprim-node-cint-version PUBLIC ${CONAN_LIBS})
-  endif()
+  # if (NOT NO_CONAN_AT_ALL)
+  #   target_link_libraries(bitprim-node-cint-version PUBLIC ${CONAN_LIBS})
+  # endif()
 
 endif()
 
@@ -392,13 +393,18 @@ if (NOT USE_CONAN)
   target_link_libraries(bitprim-node-cint PUBLIC bitprim-node)
 endif()
 
+# lib/libbitprim-node-cint-version
+
+
 if (NOT NO_CONAN_AT_ALL)
+  # message(${CONAN_LIBS})
+  set(CONAN_LIBS ${CONAN_LIBS} "bitprim-node-cint-version")
   target_link_libraries(bitprim-node-cint PUBLIC ${CONAN_LIBS})
 endif()
 
-if (NOT ENABLE_SHARED)
-  target_link_libraries(bitprim-node-cint PUBLIC bitprim-node-cint-version)
-endif()
+# if (NOT ENABLE_SHARED)
+#   target_link_libraries(bitprim-node-cint PUBLIC bitprim-node-cint-version)
+# endif()
 
 if (USE_CONAN)
   if (MINGW)
@@ -456,15 +462,15 @@ endif()
 
 #==============================================================================
 
-# # Tests
-# #==============================================================================
-#
+# Tests
+#==============================================================================
+
 # if (WITH_TESTS)
 #   enable_testing()
 # endif()
-# 
-# # local: test/bitprim_node_cint_test
-# #------------------------------------------------------------------------------
+
+  # local: test/bitprim_node_cint_test
+  #------------------------------------------------------------------------------
  if (WITH_TESTS)
    add_executable(queries
            test/queries.cpp)
