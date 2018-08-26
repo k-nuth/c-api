@@ -357,8 +357,6 @@ if (NOT ENABLE_SHARED)
 endif()
 
 
-
-
 if (ENABLE_POSITION_INDEPENDENT_CODE) 
   set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif(ENABLE_POSITION_INDEPENDENT_CODE)
@@ -390,15 +388,21 @@ if (NOT MSVC)
 endif()
 
 if (NOT USE_CONAN)
-  target_link_libraries(bitprim-node-cint PUBLIC bitprim-node)
+  set(DEP_LIBS ${DEP_LIBS} "bitprim-node")
+  if (NOT ENABLE_SHARED)
+    set(DEP_LIBS ${DEP_LIBS} "bitprim-node-cint-version")
+  endif()
+
+  target_link_libraries(bitprim-node-cint PUBLIC ${DEP_LIBS})
 endif()
 
 # lib/libbitprim-node-cint-version
 
 
 if (NOT NO_CONAN_AT_ALL)
-  # message(${CONAN_LIBS})
-  set(CONAN_LIBS ${CONAN_LIBS} "bitprim-node-cint-version")
+  if (NOT ENABLE_SHARED)
+    set(CONAN_LIBS ${CONAN_LIBS} "bitprim-node-cint-version")
+  endif()
   target_link_libraries(bitprim-node-cint PUBLIC ${CONAN_LIBS})
 endif()
 
