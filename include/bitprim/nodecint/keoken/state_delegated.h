@@ -31,6 +31,13 @@ typedef void (*keoken_state_delegated_set_initial_asset_id_t)
                 (void* /*ctx*/, 
                 keoken_asset_id_t /*asset_id_initial*/);
 
+typedef void (*keoken_state_delegated_reset_t)
+                (void* /*ctx*/);
+
+typedef void (*keoken_state_delegated_rollback_to_t)
+                (void* /*ctx*/, 
+                uint64_t /*size_t*/ /*height*/);
+
 typedef void (*keoken_state_delegated_create_asset_t)
                 (void* /*ctx*/,
                 char const* /*asset_name*/, 

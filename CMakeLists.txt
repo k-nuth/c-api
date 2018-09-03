@@ -329,7 +329,7 @@ if (WITH_KEOKEN)
     src/keoken/get_assets_data.cpp
     src/keoken/get_assets_list.cpp
     src/keoken/manager.cpp
-    src/keoken/state.cpp
+    src/keoken/memory_state.cpp
     src/keoken/wallet/create_transactions.cpp
   )
 endif()

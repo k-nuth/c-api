@@ -26,7 +26,7 @@
 
 #include <bitprim/keoken/manager.hpp>
 #include <bitprim/keoken/primitives.hpp>
-#include <bitprim/keoken/state.hpp>
+#include <bitprim/keoken/memory_state.hpp>
 #include <bitprim/keoken/state_delegated.hpp>
 #include <bitprim/keoken/state_dto.hpp>
 
@@ -45,6 +45,8 @@ extern "C" {
 void keoken_manager_configure_state(keoken_manager_t manager
     , void* ctx
     , keoken_state_delegated_set_initial_asset_id_t set_initial_asset_id
+    , keoken_state_delegated_reset_t reset
+    , keoken_state_delegated_rollback_to_t rollback_to
     , keoken_state_delegated_create_asset_t create_asset
     , keoken_state_delegated_create_balance_entry_t create_balance_entry
     , keoken_state_delegated_asset_id_exists_t asset_id_exists
@@ -60,6 +62,14 @@ void keoken_manager_configure_state(keoken_manager_t manager
         [set_initial_asset_id, ctx](bitprim::keoken::asset_id_t asset_id_initial) {
             set_initial_asset_id(ctx, asset_id_initial);
         },
+
+        [reset, ctx]() {
+            reset(ctx);
+        },
+        [rollback_to, ctx](size_t block_height) {
+            rollback_to(ctx, block_height);
+        },
+
         [create_asset, ctx](std::string asset_name, amount_t asset_amount, bc::wallet::payment_address const& owner, size_t block_height, libbitcoin::hash_digest const& txid) {
             create_asset(ctx, asset_name.c_str(), asset_amount, obj_to_c(owner), block_height, bitprim::to_hash_t(txid));
         },
