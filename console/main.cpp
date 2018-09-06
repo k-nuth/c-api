@@ -45,6 +45,31 @@
 #include <bitcoin/bitcoin/wallet/hd_private.hpp>
 
 
+ void wait_until_block(chain_t chain, size_t desired_height) {
+     printf("wait_until_block - 1\n");
+
+     uint64_t height;
+     int error = chain_get_last_height(chain, &height);
+     //printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
+    
+     while (error == 0 && height < desired_height) {
+         error = chain_get_last_height(chain, &height);
+         //printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
+        
+         if (height < desired_height) {
+             //printf("wait_until_block - 2\n");
+             // time.sleep(1)
+            
+             // std::this_thread::sleep_for(10s);
+             std::this_thread::sleep_for(std::chrono::seconds(10));
+
+             //printf("wait_until_block - 3\n");
+         }
+     }
+
+     //printf("wait_until_block - 4\n");
+ }
+
 void print_hex(char const* data, size_t n) {
     while (n != 0) {
         printf("%2x", *data);
@@ -87,105 +112,168 @@ void hex2bin(const char* src, uint8_t* target) {
 }
 
 
-transaction_t make_P2PKH_transaction(uint32_t version, uint32_t locktime, std::string const& addr, uint64_t satoshis, uint8_t* sig, size_t sig_n, uint8_t* pubk, size_t pubk_n, hash_t prevout_hash, uint32_t prevout_index, uint32_t sequence) {
-    uint8_t locking_script_data[25];
-    locking_script_data[0]  = 0x76;   // DUP opcode
-    locking_script_data[1]  = 0xa9;   // HASH160 opcode
-    locking_script_data[2]  = 0x14;   // PubKHash size, 14 (base16) = 20 (base10)
-    locking_script_data[23] = 0x88;   // EQUALVERIFY opcode
-    locking_script_data[24] = 0xac;   // CHECKSIG opcode
+int main(int /*argc*/, char* /*argv*/[]) {
+//    using namespace std::chrono_literals;
 
-    auto address = wallet_payment_address_construct_from_string(addr.c_str());
-        
-    if (wallet_payment_address_is_valid(address) == 0) {
-        std::cout << "Invalid payment address: " << addr << std::endl;
+    // std::signal(SIGINT, handle_stop);
+    // std::signal(SIGTERM, handle_stop);
+
+
+    auto exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+    // executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+    //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+
+
+    printf("**-- 1\n");
+    int res1 = executor_initchain(exec);
+
+    if (res1 == 0) {
+        printf("Error initializing files\n");
+        executor_destruct(exec);
+        return -1;
     }
 
-    short_hash_t addr_hash = wallet_payment_address_hash(address);
-    std::copy_n(static_cast<uint8_t*>(addr_hash.hash), 20, static_cast<uint8_t*>(locking_script_data) + 3);
-    wallet_payment_address_destruct(address);
-
-    //--------------------------------------------------------------------------------------------------------------
-    script_t locking_script = chain_script_construct(static_cast<uint8_t*>(locking_script_data), 25, 0 /*int bool prefix*/);
-
-    if (chain_script_is_valid(locking_script) == 0) {
-        std::cout << "Invalid locking script\n";
-    }
-
-    //--------------------------------------------------------------------------------------------------------------
-    std::vector<uint8_t> unlocking_script_data(sig_n + pubk_n + 2);
-    unlocking_script_data[0] = sig_n;
-    std::copy_n(sig, sig_n, begin(unlocking_script_data) + 1);
-
-    unlocking_script_data[sig_n + 1] = pubk_n;
-    std::copy_n(pubk, pubk_n, begin(unlocking_script_data) + (sig_n + 2));
+    printf("**-- 2\n");
     
-    script_t unlocking_script = chain_script_construct(unlocking_script_data.data(), unlocking_script_data.size(), 0 /*int bool prefix*/);
+    int res2 = executor_run_wait(exec);
 
-    if (chain_script_is_valid(unlocking_script) == 0) {
-        std::cout << "Invalid unlocking script\n";
+    if (res2 != 0) {
+        printf("Error initializing files\n");
+        executor_destruct(exec);
+        return -1;
     }
+    std::this_thread::sleep_for(std::chrono::seconds(10));
 
-    //--------------------------------------------------------------------------------------------------------------
-    output_point_t previous_output = chain_output_point_construct_from_hash_index(prevout_hash, prevout_index);
-    input_t input = chain_input_construct(previous_output, unlocking_script, sequence);
-    auto inputs = chain_input_list_construct_default();
-    chain_input_list_push_back(inputs, input);
 
-    //--------------------------------------------------------------------------------------------------------------
-    auto outputs = chain_output_list_construct_default();
-    output_t output = chain_output_construct(satoshis, locking_script);
-    chain_output_list_push_back(outputs, output);
-    //--------------------------------------------------------------------------------------------------------------
+    chain_t chain = executor_get_chain(exec);
+        
+    wait_until_block(chain, 170);
 
-    auto tx = chain_transaction_construct(version, locktime, inputs, outputs);
-    return tx;
-}
-
-int main(int  /*argc*/, char*  /*argv*/[]) {
-
-    //Construye la TX de id: b7749347c9e5b2a38b19fb2ab5a390d04d3368f1113aeb565d5fcf72d0e6391e
-
-    wallet_payment_address_set_cashaddr_prefix("bitcoincash");   //BCH mainnet
-    // wallet_payment_address_set_cashaddr_prefix("bchtest");       //BCH testnet
-
-    std::string sig_str = "30440220420e56991b7729105fe427ac474224f2a4152aec97d6b5b1f4d275d4ca7a7a3b022032307c9596ca43a234f89a9f60a01364ad33e3cb62c1d76d212c8969e8593e6341";
-    std::vector<uint8_t> sig(sig_str.size() / 2);
-	hex2bin(sig_str.c_str(), sig.data());
-
-    std::string pubk_str = "02c6511ed2576d789ddc8ae2c02515585773311b9f49b523a1a2f227e16d5a798a";
-    std::vector<uint8_t> pubk(pubk_str.size() / 2);
-	hex2bin(pubk_str.c_str(), pubk.data());
-
-    std::string prevout_hash_str = "98a2c7b069d6aa414dc4138a45dcc9c804928338599a4df67d73d8e21e00622b";
+    
+	std::string hash = "0000000071966c2b1d065fd446b1e485b2c9d9594acd2007ccbd5441cfc89444";
 	libbitcoin::hash_digest hash_bytes;
-	hex2bin(prevout_hash_str.c_str(), hash_bytes.data());
+	hex2bin(hash.c_str(), hash_bytes.data());
 	std::reverse(hash_bytes.begin(), hash_bytes.end());
     auto prevout_hash = bitprim::to_hash_t(hash_bytes);
 
+    uint64_t out_h;
+    auto res = chain_get_block_height(chain, prevout_hash, &out_h);
+    printf("res: %d", res);
+    printf("out_h: %d", out_h);
 
-    // bitcoincash:qprzrw2lsj85qdnw9qwrc6cjg7ypgcs7fq40e4v5wn
-    auto tx = make_P2PKH_transaction(
-                    1,
-                    533204,
-                    "bitcoincash:qp8etlc40l747y74my8teujlfr6frx644yxze0g8wh", 
-                    229973000,
-                    sig.data(), sig.size(), 
-                    pubk.data(), pubk.size(),
-                    prevout_hash, 0,
-                    0xfffffffe
-                    );
 
-    uint64_t tx_data_n;
-    uint8_t* tx_data = chain_transaction_to_data(tx, 1 /*int bool wire*/, &tx_data_n);
-    std::cout << "-----------------------------------------------------------------------------\n";
-    print_hex(tx_data, tx_data_n);
-    std::cout << "-----------------------------------------------------------------------------\n";
-    free(tx_data);
+    printf("**-- 7\n");
 
-    chain_transaction_destruct(tx);
+    executor_destruct(exec);
+
+    printf("**-- 8\n");
+    
     return 0;
 }
+
+
+
+
+
+// transaction_t make_P2PKH_transaction(uint32_t version, uint32_t locktime, std::string const& addr, uint64_t satoshis, uint8_t* sig, size_t sig_n, uint8_t* pubk, size_t pubk_n, hash_t prevout_hash, uint32_t prevout_index, uint32_t sequence) {
+//     uint8_t locking_script_data[25];
+//     locking_script_data[0]  = 0x76;   // DUP opcode
+//     locking_script_data[1]  = 0xa9;   // HASH160 opcode
+//     locking_script_data[2]  = 0x14;   // PubKHash size, 14 (base16) = 20 (base10)
+//     locking_script_data[23] = 0x88;   // EQUALVERIFY opcode
+//     locking_script_data[24] = 0xac;   // CHECKSIG opcode
+
+//     auto address = wallet_payment_address_construct_from_string(addr.c_str());
+        
+//     if (wallet_payment_address_is_valid(address) == 0) {
+//         std::cout << "Invalid payment address: " << addr << std::endl;
+//     }
+
+//     short_hash_t addr_hash = wallet_payment_address_hash(address);
+//     std::copy_n(static_cast<uint8_t*>(addr_hash.hash), 20, static_cast<uint8_t*>(locking_script_data) + 3);
+//     wallet_payment_address_destruct(address);
+
+//     //--------------------------------------------------------------------------------------------------------------
+//     script_t locking_script = chain_script_construct(static_cast<uint8_t*>(locking_script_data), 25, 0 /*int bool prefix*/);
+
+//     if (chain_script_is_valid(locking_script) == 0) {
+//         std::cout << "Invalid locking script\n";
+//     }
+
+//     //--------------------------------------------------------------------------------------------------------------
+//     std::vector<uint8_t> unlocking_script_data(sig_n + pubk_n + 2);
+//     unlocking_script_data[0] = sig_n;
+//     std::copy_n(sig, sig_n, begin(unlocking_script_data) + 1);
+
+//     unlocking_script_data[sig_n + 1] = pubk_n;
+//     std::copy_n(pubk, pubk_n, begin(unlocking_script_data) + (sig_n + 2));
+    
+//     script_t unlocking_script = chain_script_construct(unlocking_script_data.data(), unlocking_script_data.size(), 0 /*int bool prefix*/);
+
+//     if (chain_script_is_valid(unlocking_script) == 0) {
+//         std::cout << "Invalid unlocking script\n";
+//     }
+
+//     //--------------------------------------------------------------------------------------------------------------
+//     output_point_t previous_output = chain_output_point_construct_from_hash_index(prevout_hash, prevout_index);
+//     input_t input = chain_input_construct(previous_output, unlocking_script, sequence);
+//     auto inputs = chain_input_list_construct_default();
+//     chain_input_list_push_back(inputs, input);
+
+//     //--------------------------------------------------------------------------------------------------------------
+//     auto outputs = chain_output_list_construct_default();
+//     output_t output = chain_output_construct(satoshis, locking_script);
+//     chain_output_list_push_back(outputs, output);
+//     //--------------------------------------------------------------------------------------------------------------
+
+//     auto tx = chain_transaction_construct(version, locktime, inputs, outputs);
+//     return tx;
+// }
+
+// int main(int  /*argc*/, char*  /*argv*/[]) {
+
+//     //Construye la TX de id: b7749347c9e5b2a38b19fb2ab5a390d04d3368f1113aeb565d5fcf72d0e6391e
+
+//     wallet_payment_address_set_cashaddr_prefix("bitcoincash");   //BCH mainnet
+//     // wallet_payment_address_set_cashaddr_prefix("bchtest");       //BCH testnet
+
+//     std::string sig_str = "30440220420e56991b7729105fe427ac474224f2a4152aec97d6b5b1f4d275d4ca7a7a3b022032307c9596ca43a234f89a9f60a01364ad33e3cb62c1d76d212c8969e8593e6341";
+//     std::vector<uint8_t> sig(sig_str.size() / 2);
+// 	hex2bin(sig_str.c_str(), sig.data());
+
+//     std::string pubk_str = "02c6511ed2576d789ddc8ae2c02515585773311b9f49b523a1a2f227e16d5a798a";
+//     std::vector<uint8_t> pubk(pubk_str.size() / 2);
+// 	hex2bin(pubk_str.c_str(), pubk.data());
+
+//     std::string prevout_hash_str = "98a2c7b069d6aa414dc4138a45dcc9c804928338599a4df67d73d8e21e00622b";
+// 	libbitcoin::hash_digest hash_bytes;
+// 	hex2bin(prevout_hash_str.c_str(), hash_bytes.data());
+// 	std::reverse(hash_bytes.begin(), hash_bytes.end());
+//     auto prevout_hash = bitprim::to_hash_t(hash_bytes);
+
+
+//     // bitcoincash:qprzrw2lsj85qdnw9qwrc6cjg7ypgcs7fq40e4v5wn
+//     auto tx = make_P2PKH_transaction(
+//                     1,
+//                     533204,
+//                     "bitcoincash:qp8etlc40l747y74my8teujlfr6frx644yxze0g8wh", 
+//                     229973000,
+//                     sig.data(), sig.size(), 
+//                     pubk.data(), pubk.size(),
+//                     prevout_hash, 0,
+//                     0xfffffffe
+//                     );
+
+//     uint64_t tx_data_n;
+//     uint8_t* tx_data = chain_transaction_to_data(tx, 1 /*int bool wire*/, &tx_data_n);
+//     std::cout << "-----------------------------------------------------------------------------\n";
+//     print_hex(tx_data, tx_data_n);
+//     std::cout << "-----------------------------------------------------------------------------\n";
+//     free(tx_data);
+
+//     chain_transaction_destruct(tx);
+//     return 0;
+// }
 
 //int main(int argc, char* argv[]) {
 //    auto wl = word_list_construct();
@@ -275,30 +363,7 @@ int main(int  /*argc*/, char*  /*argv*/[]) {
 // // chain_get_last_height()
 // // int chain_get_last_height(chain_t chain, uint64_t* /*size_t*/ height) {
 
- void wait_until_block(chain_t chain, size_t desired_height) {
-     printf("wait_until_block - 1\n");
 
-     uint64_t height;
-     int error = chain_get_last_height(chain, &height);
-     //printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
-    
-     while (error == 0 && height < desired_height) {
-         error = chain_get_last_height(chain, &height);
-         //printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
-        
-         if (height < desired_height) {
-             //printf("wait_until_block - 2\n");
-             // time.sleep(1)
-            
-             // std::this_thread::sleep_for(10s);
-             std::this_thread::sleep_for(std::chrono::seconds(10));
-
-             //printf("wait_until_block - 3\n");
-         }
-     }
-
-     //printf("wait_until_block - 4\n");
- }
 
 
 

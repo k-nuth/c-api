@@ -44,7 +44,7 @@ BITPRIM_EXPORT
 void keoken_memory_state_reset(keoken_memory_state_t state);
 
 BITPRIM_EXPORT
-void keoken_memory_state_rollback_to(keoken_memory_state_t state, uint64_t /*size_t*/ height);
+void keoken_memory_state_remove_up_to(keoken_memory_state_t state, uint64_t /*size_t*/ height);
 
 BITPRIM_EXPORT
 void keoken_memory_state_create_asset(keoken_memory_state_t state, char const* asset_name, keoken_amount_t asset_amount, payment_address_t owner, uint64_t /*size_t*/ block_height, hash_t txid);

@@ -34,7 +34,7 @@ void keoken_manager_configure_state(keoken_manager_t manager
     , keoken_state_delegated_set_initial_asset_id_t set_initial_asset_id
 
     , keoken_state_delegated_reset_t reset
-    , keoken_state_delegated_rollback_to_t rollback_to
+    , keoken_state_delegated_remove_up_to_t remove_up_to
 
     , keoken_state_delegated_create_asset_t create_asset
     , keoken_state_delegated_create_balance_entry_t create_balance_entry
