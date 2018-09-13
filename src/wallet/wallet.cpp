@@ -22,10 +22,18 @@
 
 #include <bitprim/nodecint/primitives.h>
 
+#ifdef BITPRIM_USE_DOMAIN
+#include <bitcoin/infrastructure/math/elliptic_curve.hpp>
+#include <bitcoin/bitcoin/wallet/ec_public.hpp>
+#include <bitcoin/infrastructure/wallet/hd_private.hpp>
+#include <bitcoin/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
+#else
 #include <bitcoin/bitcoin/math/elliptic_curve.hpp>
 #include <bitcoin/bitcoin/wallet/ec_public.hpp>
 #include <bitcoin/bitcoin/wallet/hd_private.hpp>
 #include <bitcoin/bitcoin/wallet/mnemonic.hpp>
+#endif // BITPRIM_USE_DOMAIN
+
 #include <bitcoin/bitcoin/wallet/payment_address.hpp>
 #include <bitprim/nodecint/helpers.hpp>
 

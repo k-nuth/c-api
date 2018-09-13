@@ -29,8 +29,11 @@
 #include <bitprim/nodecint/helpers.hpp>
 #include <bitprim/nodecint/version.h>
 
+#ifdef BITPRIM_USE_DOMAIN
+#include <bitcoin/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
+#else
 #include <bitcoin/bitcoin/wallet/mnemonic.hpp>  //Warning, put it after boost headers
-
+#endif // BITPRIM_USE_DOMAIN
 
 libbitcoin::node::configuration make_config(char const* path) {
     libbitcoin::node::configuration config(libbitcoin::config::settings::mainnet);

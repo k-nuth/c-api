@@ -19,7 +19,11 @@
 
 #include <bitprim/nodecint/binary.h>
 
+#ifdef BITPRIM_USE_DOMAIN
+#include <bitcoin/infrastructure/utility/binary.hpp>
+#else
 #include <bitcoin/bitcoin/utility/binary.hpp>
+#endif // BITPRIM_USE_DOMAIN
 
 #include <bitprim/nodecint/helpers.hpp>
 #include <bitprim/nodecint/type_conversions.h>
