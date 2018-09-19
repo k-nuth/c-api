@@ -126,6 +126,63 @@ if (USE_DOMAIN)
   add_definitions(-DBITPRIM_USE_DOMAIN)
 endif()
 
+# Implement and declare DB_TRANSACTION_UNCONFIRMED.
+#------------------------------------------------------------------------------
+option(DB_TRANSACTION_UNCONFIRMED "DB Transactions Unconfirmed enabled." OFF)
+if (DB_TRANSACTION_UNCONFIRMED)
+  message(STATUS "Bitprim: DB Transactions Unconfirmed enabled")
+  add_definitions(-DBITPRIM_DB_TRANSACTION_UNCONFIRMED)
+endif()
+
+# Implement and declare DB_SPENDS.
+#------------------------------------------------------------------------------
+option(DB_SPENDS "DB Spends enabled." OFF)
+if (DB_SPENDS)
+  message(STATUS "Bitprim: DB Spends enabled")
+  add_definitions(-DBITPRIM_DB_SPENDS)
+endif()
+
+# Implement and declare DB_HISTORY.
+#------------------------------------------------------------------------------
+option(DB_HISTORY "DB History enabled." OFF)
+if (DB_HISTORY)
+  message(STATUS "Bitprim: DB History enabled")
+  add_definitions(-DBITPRIM_DB_HISTORY)
+endif()
+
+# Implement and declare DB_STEALTH.
+#------------------------------------------------------------------------------
+option(DB_STEALTH "DB Stealth enabled." OFF)
+if (DB_STEALTH)
+  message(STATUS "Bitprim: DB Stealth enabled")
+  add_definitions(-DBITPRIM_DB_STEALTH)
+endif()
+
+# Implement and declare DB_UNSPENT_LIBBITCOIN.
+#------------------------------------------------------------------------------
+option(DB_UNSPENT_LIBBITCOIN "DB Unspent Libbitcoin enabled." OFF)
+if (DB_UNSPENT_LIBBITCOIN)
+  message(STATUS "Bitprim: DB Unspent Libbitcoin enabled")
+  add_definitions(-DBITPRIM_DB_UNSPENT_LIBBITCOIN)
+endif()
+
+# Implement and declare DB_LEGACY.
+#------------------------------------------------------------------------------
+option(DB_LEGACY "DB Legacy enabled." OFF)
+if (DB_LEGACY)
+  message(STATUS "Bitprim: DB Legacy enabled")
+  add_definitions(-DBITPRIM_DB_LEGACY)
+endif()
+
+# Implement and declare DB_NEW.
+#------------------------------------------------------------------------------
+option(DB_NEW "DB New enabled." OFF)
+if (DB_NEW)
+  message(STATUS "Bitprim: DB New enabled")
+  add_definitions(-DBITPRIM_DB_NEW)
+endif()
+
+
 
 if (ENABLE_SHARED_NODE_CINT)
   set(ENABLE_SHARED ON)
