@@ -174,6 +174,9 @@ error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_hei
 BITPRIM_EXPORT
 mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment_address_t address, bool_t use_testnet_rules);
 
+BITPRIM_EXPORT
+transaction_list_t chain_get_wallets_transactions(chain_t chain, word_list_t addresses, bool_t use_testnet_rules);
+
 //
 //// Filters.
 ////-------------------------------------------------------------------------
