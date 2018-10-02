@@ -97,6 +97,7 @@ typedef void* hash_list_t;
 typedef void* raw_output_t;
 typedef void* raw_output_list_t;
 
+typedef void* string_list_t;
 
 typedef struct short_hash_t {
     uint8_t hash[BITCOIN_SHORT_HASH_SIZE];  //libbitcoin::hash_size

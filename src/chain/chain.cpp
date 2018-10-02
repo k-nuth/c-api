@@ -743,7 +743,7 @@ mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment
     return static_cast<mempool_transaction_list_t>(ret_txs);
 }
 
-transaction_list_t chain_get_mempool_transactions_from_wallets(chain_t chain, word_list_t addresses, bool_t use_testnet_rules) {
+transaction_list_t chain_get_mempool_transactions_from_wallets(chain_t chain, string_list_t addresses, bool_t use_testnet_rules) {
 #ifdef BITPRIM_CURRENCY_BCH
     bool_t witness = 0;
 #else
