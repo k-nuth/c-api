@@ -750,12 +750,8 @@ transaction_list_t chain_get_mempool_transactions_from_wallets(chain_t chain, wo
     bool_t witness = 1;
 #endif
     auto const& addresses_cpp = *static_cast<const std::vector<std::string>*>(addresses);
-    if (addresses_cpp.size() > 0) {
-        auto txs = safe_chain(chain).get_mempool_transactions_from_wallets(addresses_cpp, bitprim::int_to_bool(use_testnet_rules), bitprim::int_to_bool(witness));
-        auto ret_txs = new std::vector<libbitcoin::chain::transaction>(txs);
-        return static_cast<transaction_list_t>(ret_txs);
-    }
-    auto ret_txs = new std::vector<libbitcoin::chain::transaction>();
+    auto txs = safe_chain(chain).get_mempool_transactions_from_wallets(addresses_cpp, bitprim::int_to_bool(use_testnet_rules), bitprim::int_to_bool(witness));
+    auto ret_txs = new std::vector<libbitcoin::chain::transaction>(txs);
     return static_cast<transaction_list_t>(ret_txs);
 }
 
