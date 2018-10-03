@@ -88,6 +88,7 @@ typedef void* get_headers_t;
 typedef void* get_headers_ptr_t;
 
 typedef void* payment_address_t;
+typedef void* payment_address_list_t;
 typedef void* binary_t;
 typedef void* stealth_compact_t;
 typedef void* stealth_compact_list_t;

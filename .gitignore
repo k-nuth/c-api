@@ -31,3 +31,4 @@ docs/latex
 .vscode/
 __pycache__/
 mypkg/
+*.sh

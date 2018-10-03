@@ -303,6 +303,7 @@ set(_bitprim_sources
         src/p2p/p2p.cpp
 
         src/wallet/payment_address.cpp
+        src/wallet/payment_address_list.cpp
         # src/wallet/ec_public.cpp
         src/wallet/raw_output.cpp
         src/wallet/raw_output_list.cpp
@@ -574,6 +575,7 @@ set(_bitprim_headers
         bitprim/nodecint/p2p/p2p.h
 
         bitprim/nodecint/wallet/payment_address.h
+        bitprim/nodecint/wallet/payment_address_list.h
         bitprim/nodecint/wallet/wallet.h
         bitprim/nodecint/wallet/word_list.h
 )
