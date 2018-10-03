@@ -170,6 +170,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
     core_string_list_push_back(addresses, "bchtest:qq6g5362emyqppwx6kwpsl08xkgep7xwkyh9p68qsj");
     core_string_list_push_back(addresses, "bchtest:qqg2fwfzd4xeywf8h2zajqy77357gk0v7yvsvhd4xu");
     transaction_list_t txs = chain_get_mempool_transactions_from_wallets(chain, addresses, 1);
+    core_string_list_destruct();
     auto tx_count = chain_transaction_list_count(txs);
     printf("tx_count: %lu\n", tx_count);
 
