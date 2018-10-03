@@ -33,12 +33,14 @@
 #include <bitprim/nodecint/chain/output_point.h>
 #include <bitprim/nodecint/chain/script.h>
 #include <bitprim/nodecint/chain/transaction.h>
+#include <bitprim/nodecint/chain/transaction_list.h>
 #include <bitprim/nodecint/executor_c.h>
 #include <bitprim/nodecint/hash_list.h>
 #include <bitprim/nodecint/helpers.hpp>
 #include <bitprim/nodecint/wallet/payment_address.h>
 #include <bitprim/nodecint/wallet/wallet.h>
 #include <bitprim/nodecint/wallet/word_list.h>
+#include <bitprim/nodecint/string_list.h>
 
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/bitcoin/utility/binary.hpp>
@@ -119,19 +121,20 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // std::signal(SIGTERM, handle_stop);
 
 
-    auto exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+    auto exec = executor_construct("/home/bitprim/dev/bitprim/github/bitprim/bitprim-insight/bitprim.insight/bcc-testnet.cfg", stdout, stderr);
+    //auto exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
     // executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
     //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
 
-    printf("**-- 1\n");
-    int res1 = executor_initchain(exec);
+    // printf("**-- 1\n");
+    // int res1 = executor_initchain(exec);
 
-    if (res1 == 0) {
-        printf("Error initializing files\n");
-        executor_destruct(exec);
-        return -1;
-    }
+    // if (res1 == 0) {
+    //     printf("Error initializing files\n");
+    //     executor_destruct(exec);
+    //     return -1;
+    // }
 
     printf("**-- 2\n");
     
@@ -158,11 +161,18 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     uint64_t out_h;
     auto res = chain_get_block_height(chain, prevout_hash, &out_h);
-    printf("res: %d", res);
-    printf("out_h: %d", out_h);
-
+    printf("res: %d\n", res);
+    printf("out_h: %d\n", out_h);
 
     printf("**-- 7\n");
+
+    string_list_t addresses = core_string_list_construct();
+    core_string_list_push_back(addresses, "bchtest:qq6g5362emyqppwx6kwpsl08xkgep7xwkyh9p68qsj");
+    core_string_list_push_back(addresses, "bchtest:qqg2fwfzd4xeywf8h2zajqy77357gk0v7yvsvhd4xu");
+    transaction_list_t txs = chain_get_mempool_transactions_from_wallets(chain, addresses, 1);
+    core_string_list_destruct();
+    auto tx_count = chain_transaction_list_count(txs);
+    printf("tx_count: %lu\n", tx_count);
 
     executor_destruct(exec);
 

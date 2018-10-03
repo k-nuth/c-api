@@ -741,7 +741,17 @@ mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment
     } 
     auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>();
     return static_cast<mempool_transaction_list_t>(ret_txs);
-    
+}
+
+transaction_list_t chain_get_mempool_transactions_from_wallets(chain_t chain, string_list_t addresses, bool_t use_testnet_rules) {
+#ifdef BITPRIM_CURRENCY_BCH
+    bool_t witness = 0;
+#else
+    bool_t witness = 1;
+#endif
+    auto const& addresses_cpp = *static_cast<const std::vector<std::string>*>(addresses);
+    auto txs = safe_chain(chain).get_mempool_transactions_from_wallets(addresses_cpp, bitprim::int_to_bool(use_testnet_rules), bitprim::int_to_bool(witness));
+    return bitprim::move_or_copy_and_leak(std::move(txs));
 }
 
 //// Filters.

@@ -270,6 +270,7 @@ set(_bitprim_sources
         # src/parser.cpp
         src/binary.cpp
         src/platform.cpp
+        src/string_list.cpp
 
         src/chain/block.cpp
         src/chain/block_indexes.cpp
@@ -540,6 +541,7 @@ set(_bitprim_headers
         bitprim/nodecint/primitives.h
         bitprim/nodecint/version.h
         bitprim/nodecint/visibility.h
+        bitprim/nodecint/string_list.h
 
         bitprim/nodecint/chain/block.h
         bitprim/nodecint/chain/block_indexes.h
