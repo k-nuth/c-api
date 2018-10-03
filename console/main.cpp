@@ -40,7 +40,7 @@
 #include <bitprim/nodecint/wallet/payment_address.h>
 #include <bitprim/nodecint/wallet/wallet.h>
 #include <bitprim/nodecint/wallet/word_list.h>
-#include <bitprim/nodecint/string_list.h>
+#include <bitprim/nodecint/wallet/payment_address_list.h>
 
 #include <bitcoin/bitcoin/message/transaction.hpp>
 #include <bitcoin/bitcoin/utility/binary.hpp>
@@ -136,17 +136,18 @@ int main(int /*argc*/, char* /*argv*/[]) {
     //     return -1;
     // }
 
-    printf("**-- 2\n");
+    printf("**-- 2aaaaaa\n");
     
     int res2 = executor_run_wait(exec);
 
+    printf("**-- 3\n");
     if (res2 != 0) {
         printf("Error initializing files\n");
         executor_destruct(exec);
         return -1;
     }
     std::this_thread::sleep_for(std::chrono::seconds(10));
-
+    printf("**-- 4\n");
 
     chain_t chain = executor_get_chain(exec);
         
@@ -162,15 +163,20 @@ int main(int /*argc*/, char* /*argv*/[]) {
     uint64_t out_h;
     auto res = chain_get_block_height(chain, prevout_hash, &out_h);
     printf("res: %d\n", res);
-    printf("out_h: %d\n", out_h);
+    printf("out_h: %lu\n", out_h);
 
     printf("**-- 7\n");
 
-    string_list_t addresses = core_string_list_construct();
-    core_string_list_push_back(addresses, "bchtest:qq6g5362emyqppwx6kwpsl08xkgep7xwkyh9p68qsj");
-    core_string_list_push_back(addresses, "bchtest:qqg2fwfzd4xeywf8h2zajqy77357gk0v7yvsvhd4xu");
+    payment_address_list_t addresses = wallet_payment_address_list_construct_default();
+    payment_address_t addr1 = wallet_payment_address_construct_from_string("bchtest:qq6g5362emyqppwx6kwpsl08xkgep7xwkyh9p68qsj");
+    payment_address_t addr2 = wallet_payment_address_construct_from_string("bchtest:qqg2fwfzd4xeywf8h2zajqy77357gk0v7yvsvhd4xu");
+    wallet_payment_address_list_push_back(addresses, addr1);
+    wallet_payment_address_list_push_back(addresses, addr2);
+    //Copies were pushed, so clean up
+    wallet_payment_address_destruct(addr1);
+    wallet_payment_address_destruct(addr2);
     transaction_list_t txs = chain_get_mempool_transactions_from_wallets(chain, addresses, 1);
-    core_string_list_destruct();
+    wallet_payment_address_list_destruct(addresses);
     auto tx_count = chain_transaction_list_count(txs);
     printf("tx_count: %lu\n", tx_count);
 
