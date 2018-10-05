@@ -32,7 +32,7 @@
 #include <bitprim/nodecint/chain/block_list.h>
 #include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/helpers.hpp>
-
+#include <bitprim/nodecint/chain/utxo.h>
 
 namespace {
 
@@ -752,6 +752,16 @@ transaction_list_t chain_get_mempool_transactions_from_wallets(chain_t chain, pa
     auto const& addresses_cpp = *static_cast<const std::vector<libbitcoin::wallet::payment_address>*>(addresses);
     auto txs = safe_chain(chain).get_mempool_transactions_from_wallets(addresses_cpp, bitprim::int_to_bool(use_testnet_rules), bitprim::int_to_bool(witness));
     return bitprim::move_or_copy_and_leak(std::move(txs));
+}
+
+utxo_list_t chain_get_utxos(chain_t chain, payment_address_t address, bool_t use_testnet_rules) {
+    auto utxos = safe_chain(chain).get_utxos(wallet_payment_address_const_cpp(address), bitprim::int_to_bool(use_testnet_rules));
+    auto result = new std::vector<libbitcoin::chain::utxo>();
+    for(auto utxo_tuple : utxos) {
+        libbitcoin::chain::utxo utxo_struct;
+        utxo_struct.address = std::get<0>(utxo_tuple);
+    }
+    return static_cast<utxo_list_t>(result);
 }
 
 //// Filters.

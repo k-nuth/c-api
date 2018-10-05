@@ -297,6 +297,8 @@ set(_bitprim_sources
         src/chain/transaction.cpp
         src/chain/mempool_transaction.cpp
         src/chain/transaction_list.cpp
+        src/chain/utxo.cpp
+        src/chain/utxo_list.cpp
 
         src/node/settings.cpp
 
@@ -569,6 +571,8 @@ set(_bitprim_headers
         bitprim/nodecint/chain/mempool_transaction.h
         bitprim/nodecint/chain/transaction.h
         bitprim/nodecint/chain/transaction_list.h
+        bitprim/nodecint/chain/utxo.h
+        bitprim/nodecint/chain/utxo_list.h
 
         bitprim/nodecint/node/settings.h
 

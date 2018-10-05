@@ -36,6 +36,7 @@
 // #include <bitcoin/bitcoin/wallet/ec_public.hpp>
 #include <bitcoin/bitcoin/wallet/transaction_functions.hpp>
 #include <bitcoin/blockchain/interface/safe_chain.hpp>
+#include <bitprim/nodecint/chain/utxo.h>
 
 BITPRIM_CONV_DECLARE(chain, block_t, libbitcoin::message::block, block)
 BITPRIM_CONV_DECLARE(chain, header_t, libbitcoin::message::header, header)
@@ -48,7 +49,9 @@ BITPRIM_CONV_DECLARE(chain, point_t, libbitcoin::chain::point, point)
 BITPRIM_CONV_DECLARE(chain, mempool_transaction_t, libbitcoin::blockchain::mempool_transaction_summary, mempool_transaction)
 BITPRIM_CONV_DECLARE(chain, history_compact_t, libbitcoin::chain::history_compact, history_compact)
 BITPRIM_CONV_DECLARE(chain, stealth_compact_t, libbitcoin::chain::stealth_compact, stealth_compact)
+BITPRIM_CONV_DECLARE(chain, utxo_t, libbitcoin::chain::utxo, utxo)
 BITPRIM_CONV_DECLARE(wallet, payment_address_t, libbitcoin::wallet::payment_address, payment_address)
+
 
 //Note: block_list_t created with this function has not have to destruct it...
 // BITPRIM_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, block_list_t, libbitcoin::message::block, block_list)
