@@ -756,10 +756,16 @@ transaction_list_t chain_get_mempool_transactions_from_wallets(chain_t chain, pa
 
 utxo_list_t chain_get_utxos(chain_t chain, payment_address_t address, bool_t use_testnet_rules) {
     auto utxos = safe_chain(chain).get_utxos(wallet_payment_address_const_cpp(address), bitprim::int_to_bool(use_testnet_rules));
+    printf("LOCURA LOCA: %d\n", utxos.size());
     auto result = new std::vector<libbitcoin::chain::utxo>();
     for(auto utxo_tuple : utxos) {
         libbitcoin::chain::utxo utxo_struct;
         utxo_struct.address = std::get<0>(utxo_tuple);
+        utxo_struct.tx_hash = std::get<1>(utxo_tuple);
+        utxo_struct.index = std::get<2>(utxo_tuple);
+        utxo_struct.amount = std::get<3>(utxo_tuple);
+        utxo_struct.script = std::get<4>(utxo_tuple);
+        result->push_back(utxo_struct);
     }
     return static_cast<utxo_list_t>(result);
 }

@@ -178,7 +178,7 @@ BITPRIM_EXPORT
 transaction_list_t chain_get_mempool_transactions_from_wallets(chain_t chain, payment_address_list_t addresses, bool_t use_testnet_rules);
 
 BITPRIM_EXPORT
-utxo_list_t chain_get_utxo(chain_t chain, payment_address_t address, bool_t use_testnet_rules);
+utxo_list_t chain_get_utxos(chain_t chain, payment_address_t address, bool_t use_testnet_rules);
 
 //
 //// Filters.
