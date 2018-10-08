@@ -35,6 +35,7 @@ namespace chain {
         uint32_t index;
         uint64_t amount;
         libbitcoin::chain::script script;
+        uint64_t block_height;
     };
 }
 }
@@ -57,6 +58,9 @@ uint64_t chain_utxo_get_amount(utxo_t utxo);
 
 BITPRIM_EXPORT
 script_t chain_utxo_get_script(utxo_t utxo);
+
+BITPRIM_EXPORT
+uint64_t chain_utxo_get_block_height(utxo_t utxo);
 
 #ifdef __cplusplus
 } // extern "C"

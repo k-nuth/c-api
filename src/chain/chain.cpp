@@ -764,6 +764,7 @@ utxo_list_t chain_get_utxos(chain_t chain, payment_address_t address, bool_t use
         utxo_struct.index = std::get<2>(utxo_tuple);
         utxo_struct.amount = std::get<3>(utxo_tuple);
         utxo_struct.script = std::get<4>(utxo_tuple);
+        utxo_struct.block_height = std::get<5>(utxo_tuple);
         result->push_back(utxo_struct);
     }
     return static_cast<utxo_list_t>(result);

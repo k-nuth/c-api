@@ -51,4 +51,8 @@ script_t chain_utxo_get_script(utxo_t utxo) {
     return &(chain_utxo_cpp(utxo).script);
 }
 
+uint64_t chain_utxo_get_block_height(utxo_t utxo) {
+    return chain_utxo_const_cpp(utxo).block_height;
+}
+
 } // extern "C"
