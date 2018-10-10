@@ -23,6 +23,7 @@
 
 #include <bitprim/nodecint/conversions.hpp>
 #include <bitprim/nodecint/list_creator.h>
+
 #include <bitcoin/bitcoin/wallet/payment_address.hpp>
 
 BITPRIM_LIST_DEFINE_CONVERTERS(wallet, payment_address_list_t, libbitcoin::wallet::payment_address, payment_address_list)
