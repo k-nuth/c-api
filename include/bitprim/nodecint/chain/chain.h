@@ -56,6 +56,7 @@ BITPRIM_EXPORT
 error_code_t chain_get_block_header_by_hash(chain_t chain, hash_t hash, header_t* out_header, uint64_t* /*size_t*/ out_height);
 
 
+#if defined(BITPRIM_DB_LEGACY)
 // Block ---------------------------------------------------------------------
 BITPRIM_EXPORT
 void chain_fetch_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_fetch_handler_t handler);
@@ -84,7 +85,6 @@ error_code_t chain_get_block_header_by_hash_txs_size(chain_t chain, hash_t hash,
 BITPRIM_EXPORT
 error_code_t chain_get_block_hash(chain_t chain, uint64_t height, hash_t* out_hash);
 
-
 // Merkle Block ---------------------------------------------------------------------
 BITPRIM_EXPORT
 void chain_fetch_merkle_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, merkle_block_fetch_handler_t handler);
@@ -97,7 +97,6 @@ void chain_fetch_merkle_block_by_hash(chain_t chain, void* ctx, hash_t hash, mer
 
 BITPRIM_EXPORT
 error_code_t chain_get_merkle_block_by_hash(chain_t chain, hash_t hash, merkle_block_t* out_block, uint64_t* /*size_t*/ out_height);
-
 
 // Compact Block ---------------------------------------------------------------------
 BITPRIM_EXPORT
@@ -124,31 +123,43 @@ void chain_fetch_transaction_position(chain_t chain, void* ctx, hash_t hash, int
 
 BITPRIM_EXPORT
 error_code_t chain_get_transaction_position(chain_t chain, hash_t hash, int require_confirmed, uint64_t* /*size_t*/ out_position, uint64_t* /*size_t*/ out_height);
+#endif // defined(BITPRIM_DB_LEGACY)
 
+#if defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_SPENDS)
 // Spend ---------------------------------------------------------------------
 BITPRIM_EXPORT
 void chain_fetch_spend(chain_t chain, void* ctx, output_point_t op, spend_fetch_handler_t handler);
 
+BITPRIM_EXPORT
+error_code_t chain_get_spend(chain_t chain, output_point_t op, input_point_t* out_input_point);
+#endif //defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_SPENDS)
+
+#if defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_HISTORY)
 // History ---------------------------------------------------------------------
 BITPRIM_EXPORT
 void chain_fetch_history(chain_t chain, void* ctx, payment_address_t address, uint64_t /*size_t*/ limit, uint64_t /*size_t*/ from_height, history_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 error_code_t chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_t*/ limit, uint64_t /*size_t*/ from_height, history_compact_list_t* out_history);
+#endif // defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_HISTORY)
 
+
+#if defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
 BITPRIM_EXPORT
 void chain_fetch_confirmed_transactions(chain_t chain, void* ctx, payment_address_t address, uint64_t max, uint64_t start_height, transactions_by_addres_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 error_code_t chain_get_confirmed_transactions(chain_t chain, payment_address_t address, uint64_t max, uint64_t start_height, hash_list_t* out_tx_hashes);
+#endif // defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
 
+#if defined(BITPRIM_DB_STEALTH)
 // Stealth ---------------------------------------------------------------------
 BITPRIM_EXPORT
 void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t from_height, stealth_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_height, stealth_compact_list_t* out_list);
-
+#endif // defined(BITPRIM_DB_STEALTH)
 
 //BITPRIM_EXPORT
 //void chain_fetch_stealth(const binary& filter, uint64_t /*size_t*/ from_height, stealth_fetch_handler handler);
@@ -171,8 +182,10 @@ error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_hei
 //virtual void fetch_template(merkle_block_fetch_handler handler) const = 0;
 //virtual void fetch_mempool(size_t count_limit, uint64_t minimum_fee, inventory_fetch_handler handler) const = 0;
 
+#if defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
 BITPRIM_EXPORT
 mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment_address_t address, bool_t use_testnet_rules);
+#endif // defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
 
 //
 //// Filters.

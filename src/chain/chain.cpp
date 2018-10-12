@@ -173,6 +173,7 @@ error_code_t chain_get_block_header_by_hash(chain_t chain, hash_t hash, header_t
     return res;
 }
 
+#if defined(BITPRIM_DB_LEGACY)
 void chain_fetch_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_fetch_handler_t handler) {
 #ifdef BITPRIM_CURRENCY_BCH
     bool_t witness = 0;
@@ -215,6 +216,8 @@ error_code_t chain_get_block_by_height(chain_t chain, uint64_t /*size_t*/ height
     latch.count_down_and_wait();
     return res;
 }
+#endif // defined(BITPRIM_DB_LEGACY)
+
 
 void chain_fetch_block_by_height_timestamp(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_hash_timestamp_fetch_handler_t handler) {
     safe_chain(chain).fetch_block_hash_timestamp(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::hash_digest const& hash, uint32_t timestamp, size_t h) {
@@ -247,6 +250,7 @@ error_code_t chain_get_block_by_height_timestamp(chain_t chain, uint64_t /*size_
     return res;
 }
 
+#if defined(BITPRIM_DB_LEGACY)
 void chain_fetch_block_by_hash(chain_t chain, void* ctx, hash_t hash, block_fetch_handler_t handler) {
 #ifdef BITPRIM_CURRENCY_BCH
     bool_t witness = 0;
@@ -339,6 +343,8 @@ error_code_t chain_get_block_header_by_hash_txs_size(chain_t chain, hash_t hash,
     latch.count_down_and_wait();
     return res;
 }
+#endif // defined(BITPRIM_DB_LEGACY)
+
 
 error_code_t chain_get_block_hash(chain_t chain, uint64_t height, hash_t* out_hash) {
     libbitcoin::hash_digest block_hash;
@@ -350,8 +356,8 @@ error_code_t chain_get_block_hash(chain_t chain, uint64_t height, hash_t* out_ha
     return bitprim_ec_success;
 }
 
+#if defined(BITPRIM_DB_LEGACY)
 void chain_fetch_merkle_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, merkle_block_fetch_handler_t handler) {
-
     safe_chain(chain).fetch_merkle_block(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::merkle_block::const_ptr block, size_t h) {
         auto new_block = new libbitcoin::message::merkle_block(*block);
         //Note: It is the responsibility of the user to release/destruct the object
@@ -377,7 +383,6 @@ error_code_t chain_get_merkle_block_by_height(chain_t chain, uint64_t /*size_t*/
 }
 
 void chain_fetch_merkle_block_by_hash(chain_t chain, void* ctx, hash_t hash, merkle_block_fetch_handler_t handler) {
-
     auto hash_cpp = bitprim::to_array(hash.hash);
 
     safe_chain(chain).fetch_merkle_block(hash_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::merkle_block::const_ptr block, size_t h) {
@@ -452,43 +457,6 @@ error_code_t chain_get_transaction(chain_t chain, hash_t hash, int require_confi
     return res;
 
 }
-
-//Note: Removed on 3.3.0
-// void chain_fetch_output(chain_t chain, void* ctx, hash_t hash, uint32_t index, int require_confirmed, output_fetch_handler_t handler) {
-
-// //    libbitcoin::hash_digest hash_cpp;
-// //    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
-//     auto hash_cpp = bitprim::to_array(hash.hash);
-
-//     libbitcoin::chain::output_point point(hash_cpp, index);
-
-//     safe_chain(chain).fetch_output(point, require_confirmed != 0, [chain, ctx, handler](std::error_code const& ec, libbitcoin::chain::output const& output) {
-//         //It is the user's responsibility to release this memory
-//         auto new_output = new libbitcoin::chain::output(output);
-//         handler(chain, ctx, bitprim::to_c_err(ec), new_output);
-//     });
-// }
-
-// error_code_t chain_get_output(chain_t chain, hash_t hash, uint32_t index, int require_confirmed, output_t* out_output) {
-//     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
-//     error_code_t res;
-
-// //    libbitcoin::hash_digest hash_cpp;
-// //    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
-//     auto hash_cpp = bitprim::to_array(hash.hash);
-
-//     libbitcoin::chain::output_point point(hash_cpp, index);
-
-//     safe_chain(chain).fetch_output(point, require_confirmed != 0, [&](std::error_code const& ec, libbitcoin::chain::output const& output) {
-//         *out_output = new libbitcoin::chain::output(output);
-
-//         res = bitprim::to_c_err(ec);
-//         latch.count_down();
-//     });
-
-//     latch.count_down_and_wait();
-//     return res;
-// }
 
 void chain_fetch_compact_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, compact_block_fetch_handler_t handler) {
     safe_chain(chain).fetch_compact_block(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::compact_block::const_ptr block, size_t h) {
@@ -567,7 +535,10 @@ error_code_t chain_get_transaction_position(chain_t chain, hash_t hash, int requ
     latch.count_down_and_wait();
     return res;
 }
+#endif // defined(BITPRIM_DB_LEGACY)
 
+
+#if defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_SPENDS)
 //It is the user's responsibility to release the input point returned in the callback
 void chain_fetch_spend(chain_t chain, void* ctx, output_point_t op, spend_fetch_handler_t handler) {
     auto* outpoint_cpp = static_cast<libbitcoin::chain::output_point*>(op);
@@ -593,7 +564,9 @@ error_code_t chain_get_spend(chain_t chain, output_point_t op, input_point_t* ou
     latch.count_down_and_wait();
     return res;
 }
+#endif // defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_SPENDS)
 
+#if defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_HISTORY)
 //It is the user's responsibility to release the history returned in the callback
 void chain_fetch_history(chain_t chain, void* ctx, payment_address_t address, uint64_t /*size_t*/ limit, uint64_t /*size_t*/ from_height, history_fetch_handler_t handler) {
     // auto const& address_cpp = wallet_payment_address_const_cpp(address);
@@ -620,7 +593,10 @@ error_code_t chain_get_history(chain_t chain, payment_address_t address, uint64_
     latch.count_down_and_wait();
     return res;
 }
+#endif // defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_HISTORY)
 
+
+#if defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
 void chain_fetch_confirmed_transactions(chain_t chain, void* ctx, payment_address_t address, uint64_t max, uint64_t start_height, transactions_by_addres_fetch_handler_t handler) {
     // auto const& address_cpp = wallet_payment_address_const_cpp(address);
 
@@ -647,7 +623,10 @@ error_code_t chain_get_confirmed_transactions(chain_t chain, payment_address_t a
     latch.count_down_and_wait();
     return res;
 }
+#endif // defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
 
+
+#if defined(BITPRIM_DB_STEALTH)
 void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t from_height, stealth_fetch_handler_t handler) {
 	auto* filter_cpp_ptr = static_cast<libbitcoin::binary const*>(filter);
 	libbitcoin::binary const& filter_cpp  = *filter_cpp_ptr;
@@ -674,8 +653,7 @@ error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_hei
     latch.count_down_and_wait();
     return res;
 }
-
-
+#endif // defined(BITPRIM_DB_STEALTH)
 
 // ------------------------------------------------------------------
 //virtual void fetch_block_locator(const chain::block::indexes& heights, block_locator_fetch_handler handler) const = 0;
@@ -727,6 +705,7 @@ error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_hei
 //virtual void fetch_mempool(size_t count_limit, uint64_t minimum_fee, inventory_fetch_handler handler) const = 0;
 //
 
+#if defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
 mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment_address_t address, bool_t use_testnet_rules) {
 #ifdef BITPRIM_CURRENCY_BCH
     bool_t witness = 0;
@@ -741,8 +720,9 @@ mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment
     } 
     auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>();
     return static_cast<mempool_transaction_list_t>(ret_txs);
-    
 }
+#endif // defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
+
 
 //// Filters.
 ////-------------------------------------------------------------------------
