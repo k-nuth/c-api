@@ -25,8 +25,8 @@
 #include <bitprim/nodecint/type_conversions.h>
 
 #include <bitprim/keoken/manager.hpp>
-#include <bitprim/keoken/primitives.hpp>
 #include <bitprim/keoken/memory_state.hpp>
+#include <bitprim/keoken/primitives.hpp>
 #include <bitprim/keoken/state_delegated.hpp>
 #include <bitprim/keoken/state_dto.hpp>
 

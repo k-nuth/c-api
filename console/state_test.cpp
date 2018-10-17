@@ -97,19 +97,22 @@ get_all_asset_addresses_list_t my_get_all_asset_addresses(void*  /*ctx*/) {
 
 
 
-
-
-
-
-
-
-
-
-
 void my_set_initial_asset_id_state(void* ctx, keoken_asset_id_t asset_id_initial) {
     printf("my_set_initial_asset_id_state - asset_id_initial: %d\n", asset_id_initial);
     auto st = static_cast<keoken_memory_state_t>(ctx);
     keoken_memory_state_set_initial_asset_id(st, asset_id_initial);
+}
+
+void my_reset_state(void* ctx) {
+    printf("my_reset_state\n");
+    auto st = static_cast<keoken_memory_state_t>(ctx);
+    keoken_memory_state_reset(st);
+}
+
+void my_remove_up_to_state(void* ctx, uint64_t height) {
+    printf("my_remove_up_to_state - height: %lu\n", height);
+    auto st = static_cast<keoken_memory_state_t>(ctx);
+    keoken_memory_state_remove_up_to(st, height);
 }
 
 void my_create_asset_state(void* ctx, char const* asset_name, keoken_amount_t asset_amount, payment_address_t owner, uint64_t /*size_t*/ block_height, hash_t txid) {
@@ -200,21 +203,12 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     keoken_manager_t keo_manager = executor_get_keoken_manager(exec);
 
-    // keoken_manager_configure_state(keo_manager
-    //                        , nullptr 
-    //                        , my_set_initial_asset_id
-    //                        , my_create_asset
-    //                        , my_create_balance_entry
-    //                        , my_asset_id_exists
-    //                        , my_get_balance
-    //                        , my_get_assets_by_address
-    //                        , my_get_assets
-    //                        , my_get_all_asset_addresses);
-
     keoken_memory_state_t memory_state = keoken_memory_state_construct_default();
     keoken_manager_configure_state(keo_manager
                            , memory_state 
                            , my_set_initial_asset_id_state
+                           , my_reset_state
+                           , my_remove_up_to_state
                            , my_create_asset_state
                            , my_create_balance_entry_state
                            , my_asset_id_exists_state
@@ -222,7 +216,6 @@ int main(int /*argc*/, char* /*argv*/[]) {
                            , my_get_assets_by_address_state
                            , my_get_assets_state
                            , my_get_all_asset_addresses_state);
-
 
     printf("***************************************************************************************\n");
 
@@ -232,10 +225,10 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     get_assets_list_t list = keoken_manager_get_assets(keo_manager);
     auto n = keoken_get_assets_list_count(list);
-    printf("keoken_get_assets_list_count: %llu\n", n);
+    printf("keoken_get_assets_list_count: %lu\n", n);
 
     while (n-- != 0u) {
-        printf("while n: %llu\n", n);
+        printf("while n: %lu\n", n);
         auto elem = keoken_get_assets_list_nth(list, n);
 
 
@@ -245,7 +238,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
         printf("asset_id:   %d\n", asset_id);
         printf("asset_name: %s\n", asset_name);
-        printf("amount:     %lld\n", amount);
+        printf("amount:     %ld\n", amount);
     }    
 
     while (executor_stopped(exec) == 0) {

@@ -88,6 +88,7 @@ typedef void* get_headers_t;
 typedef void* get_headers_ptr_t;
 
 typedef void* payment_address_t;
+typedef void* payment_address_list_t;
 typedef void* binary_t;
 typedef void* stealth_compact_t;
 typedef void* stealth_compact_list_t;
@@ -97,6 +98,7 @@ typedef void* hash_list_t;
 typedef void* raw_output_t;
 typedef void* raw_output_list_t;
 
+typedef void* string_list_t;
 
 typedef struct short_hash_t {
     uint8_t hash[BITCOIN_SHORT_HASH_SIZE];  //libbitcoin::hash_size

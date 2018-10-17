@@ -335,6 +335,7 @@ set(_bitprim_sources
         # src/parser.cpp
         src/binary.cpp
         src/platform.cpp
+        src/string_list.cpp
 
         src/chain/block.cpp
         src/chain/block_indexes.cpp
@@ -367,6 +368,7 @@ set(_bitprim_sources
         src/p2p/p2p.cpp
 
         src/wallet/payment_address.cpp
+        src/wallet/payment_address_list.cpp
         # src/wallet/ec_public.cpp
         src/wallet/raw_output.cpp
         src/wallet/raw_output_list.cpp
@@ -605,6 +607,7 @@ set(_bitprim_headers
         bitprim/nodecint/primitives.h
         bitprim/nodecint/version.h
         bitprim/nodecint/visibility.h
+        bitprim/nodecint/string_list.h
 
         bitprim/nodecint/chain/block.h
         bitprim/nodecint/chain/block_indexes.h
@@ -637,6 +640,7 @@ set(_bitprim_headers
         bitprim/nodecint/p2p/p2p.h
 
         bitprim/nodecint/wallet/payment_address.h
+        bitprim/nodecint/wallet/payment_address_list.h
         bitprim/nodecint/wallet/wallet.h
         bitprim/nodecint/wallet/word_list.h
 )
