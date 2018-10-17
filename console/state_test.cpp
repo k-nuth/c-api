@@ -47,7 +47,14 @@
 #include <bitprim/nodecint/keoken/state_delegated.h>
 
 #include <bitcoin/bitcoin/message/transaction.hpp>
+
+#ifdef BITPRIM_USE_DOMAIN
+#include <bitcoin/infrastructure/utility/binary.hpp>
+#else
 #include <bitcoin/bitcoin/utility/binary.hpp>
+
+#endif // BITPRIM_USE_DOMAIN
+
 #include <bitcoin/bitcoin/wallet/hd_private.hpp>
 
 

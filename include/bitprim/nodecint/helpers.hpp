@@ -26,8 +26,12 @@
 #include <type_traits>
 #include <utility>
 
-
+#ifdef BITPRIM_USE_DOMAIN
+#include <bitcoin/infrastructure/math/hash.hpp>
+#else
 #include <bitcoin/bitcoin/math/hash.hpp>
+#endif // BITPRIM_USE_DOMAIN
+
 
 namespace bitprim {
 namespace detail {

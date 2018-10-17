@@ -20,7 +20,12 @@
 #ifndef BITPRIM_NODECINT_EXECUTOR_HPP_
 #define BITPRIM_NODECINT_EXECUTOR_HPP_
 
+#ifdef BITPRIM_USE_DOMAIN
+#include <bitcoin/infrastructure/handlers.hpp>
+#else
 #include <bitcoin/bitcoin/handlers.hpp>
+#endif // BITPRIM_USE_DOMAIN
+
 #include <bitcoin/node.hpp>
 #include <future>
 #include <iostream>
