@@ -56,7 +56,7 @@ BITPRIM_EXPORT
 error_code_t chain_get_block_header_by_hash(chain_t chain, hash_t hash, header_t* out_header, uint64_t* /*size_t*/ out_height);
 
 
-#if defined(BITPRIM_DB_LEGACY)
+#if defined(BITPRIM_DB_LEGACY) || defined(BITPRIM_DB_NEW_BLOCKS)
 // Block ---------------------------------------------------------------------
 BITPRIM_EXPORT
 void chain_fetch_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_fetch_handler_t handler);
@@ -111,6 +111,12 @@ void chain_fetch_compact_block_by_hash(chain_t chain, void* ctx, hash_t hash, co
 BITPRIM_EXPORT
 error_code_t chain_get_compact_block_by_hash(chain_t chain, hash_t hash, compact_block_t* out_block, uint64_t* /*size_t*/ out_height);
 
+
+#endif // defined(BITPRIM_DB_LEGACY) || BITPRIM_DB_NEW_BLOCKS
+
+
+#ifdef BITPRIM_DB_LEGACY 
+
 // Transaction ---------------------------------------------------------------------
 BITPRIM_EXPORT
 void chain_fetch_transaction(chain_t chain, void* ctx, hash_t hash, int require_confirmed, transaction_fetch_handler_t handler);
@@ -123,7 +129,9 @@ void chain_fetch_transaction_position(chain_t chain, void* ctx, hash_t hash, int
 
 BITPRIM_EXPORT
 error_code_t chain_get_transaction_position(chain_t chain, hash_t hash, int require_confirmed, uint64_t* /*size_t*/ out_position, uint64_t* /*size_t*/ out_height);
-#endif // defined(BITPRIM_DB_LEGACY)
+
+#endif //BITPRIM_DB_LEGACY
+
 
 #if defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_SPENDS)
 // Spend ---------------------------------------------------------------------
