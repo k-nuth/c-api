@@ -46,7 +46,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
                "keoken": [True, False],
                "mining": [True, False],
                "use_domain": [True, False],
-               "db": ['legacy', 'legacy_full', 'new', 'new_with_blocks'],
+               "db": ['legacy', 'legacy_full', 'new', 'new_with_blocks', 'new_full']
     }
 
     default_options = "shared=False", \
@@ -183,6 +183,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
             cmake.definitions["DB_LEGACY"] = option_on_off(True)
             cmake.definitions["DB_NEW"] = option_on_off(False)
             cmake.definitions["DB_NEW_BLOCKS"] = option_on_off(False)
+            cmake.definitions["DB_NEW_FULL"] = option_on_off(False)
         elif self.options.db == "legacy_full":
             cmake.definitions["DB_TRANSACTION_UNCONFIRMED"] = option_on_off(True)
             cmake.definitions["DB_SPENDS"] = option_on_off(True)
@@ -192,6 +193,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
             cmake.definitions["DB_LEGACY"] = option_on_off(True)
             cmake.definitions["DB_NEW"] = option_on_off(False)
             cmake.definitions["DB_NEW_BLOCKS"] = option_on_off(False)
+            cmake.definitions["DB_NEW_FULL"] = option_on_off(False)
         elif self.options.db == "new":
             cmake.definitions["DB_TRANSACTION_UNCONFIRMED"] = option_on_off(False)
             cmake.definitions["DB_SPENDS"] = option_on_off(False)
@@ -201,6 +203,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
             cmake.definitions["DB_LEGACY"] = option_on_off(False)
             cmake.definitions["DB_NEW"] = option_on_off(True)
             cmake.definitions["DB_NEW_BLOCKS"] = option_on_off(False)
+            cmake.definitions["DB_NEW_FULL"] = option_on_off(False)
         elif self.options.db == "new_with_blocks":
             cmake.definitions["DB_TRANSACTION_UNCONFIRMED"] = option_on_off(False)
             cmake.definitions["DB_SPENDS"] = option_on_off(False)
@@ -210,6 +213,17 @@ class BitprimNodeCIntConan(BitprimConanFile):
             cmake.definitions["DB_LEGACY"] = option_on_off(False)
             cmake.definitions["DB_NEW"] = option_on_off(True)
             cmake.definitions["DB_NEW_BLOCKS"] = option_on_off(True)
+            cmake.definitions["DB_NEW_FULL"] = option_on_off(False)
+        elif self.options.db == "new_full":
+            cmake.definitions["DB_TRANSACTION_UNCONFIRMED"] = option_on_off(False)
+            cmake.definitions["DB_SPENDS"] = option_on_off(False)
+            cmake.definitions["DB_HISTORY"] = option_on_off(False)
+            cmake.definitions["DB_STEALTH"] = option_on_off(False)
+            cmake.definitions["DB_UNSPENT_LIBBITCOIN"] = option_on_off(False)
+            cmake.definitions["DB_LEGACY"] = option_on_off(False)
+            cmake.definitions["DB_NEW"] = option_on_off(True)
+            cmake.definitions["DB_NEW_BLOCKS"] = option_on_off(True)
+            cmake.definitions["DB_NEW_FULL"] = option_on_off(True)
 
 
         if self.settings.compiler != "Visual Studio":

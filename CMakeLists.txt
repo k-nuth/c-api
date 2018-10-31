@@ -190,6 +190,14 @@ if (DB_NEW_BLOCKS)
   add_definitions(-DBITPRIM_DB_NEW_BLOCKS)
 endif()
 
+# Implement and declare DB_NEW_FULL.
+#------------------------------------------------------------------------------
+option(DB_NEW_FULL "DB New Full enabled." OFF)
+if (DB_NEW_FULL)
+  message(STATUS "Bitprim: DB New Full enabled")
+  add_definitions(-DBITPRIM_DB_NEW_FULL)
+endif()
+
 if (ENABLE_SHARED_NODE_CINT)
   set(ENABLE_SHARED ON)
 endif()
