@@ -85,9 +85,14 @@ class BitprimNodeCIntConan(BitprimConanFile):
 
     def requirements(self):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
-            self.requires("boost/1.66.0@bitprim/stable")
+
+            if self.options.use_domain:
+                self.requires("boost/1.68.0@bitprim/stable")
+            else:
+                self.requires("boost/1.66.0@bitprim/stable")
+
+
             self.requires("bitprim-node/0.X@%s/%s" % (self.user, self.channel))
-            # self.bitprim_requires(["bitprim-node/0.X@%s/%s"])
 
     def config_options(self):
         if self.settings.arch != "x86_64":
