@@ -555,13 +555,13 @@ jobs:
         - conan alias "${REPO_NAME}/0.X@bitprim/${BITPRIM_CONAN_CHANNEL}" "${REPO_NAME}/${BITPRIM_CONAN_VERSION}@bitprim/${BITPRIM_CONAN_CHANNEL}"
         - conan upload "${REPO_NAME}/0.X@bitprim/${BITPRIM_CONAN_CHANNEL}" --all -r bitprim_temp
 
-# Push to repos ------------------------------------------------------
-    - stage: push to repos
-      install: skip
-      script:
-          - chmod +x .travis/push_other_repo.sh
-          - ./.travis/push_other_repo.sh
-      if: branch =~ /^(dev|feature).*$/
+# # Push to repos ------------------------------------------------------
+#     - stage: push to repos
+#       install: skip
+#       script:
+#           - chmod +x .travis/push_other_repo.sh
+#           - ./.travis/push_other_repo.sh
+#       if: branch =~ /^(dev|feature).*$/
 
 # Dummy for master ------------------------------------------------------
     - stage: build and upload binaries
