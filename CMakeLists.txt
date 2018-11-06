@@ -29,8 +29,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Check for baseline language coverage in the compiler for the C++11 standard.
 #------------------------------------------------------------------------------
-# set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
+# set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Process options.

@@ -152,9 +152,13 @@ hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 7606
 
     // printf("C++ wallet_hd_new - 3\n");
 
-    // We require the private version, but public is unused here.
-    auto const prefixes = libbitcoin::wallet::hd_private::to_prefixes(version, 0);
 
+    // We require the private version, but public is unused here.
+#ifdef BITPRIM_USE_DOMAIN
+    auto const prefixes = libbitcoin::wallet::to_prefixes(version, 0);
+#else
+    auto const prefixes = libbitcoin::wallet::hd_private::to_prefixes(version, 0);
+#endif
     // printf("C++ wallet_hd_new - 4\n");
 
     // libbitcoin::wallet::hd_private const private_key(seed_cpp, prefixes);
