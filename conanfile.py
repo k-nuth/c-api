@@ -227,7 +227,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
             cmake.definitions["DB_UNSPENT_LIBBITCOIN"] = option_on_off(False)
             cmake.definitions["DB_LEGACY"] = option_on_off(False)
             cmake.definitions["DB_NEW"] = option_on_off(True)
-            cmake.definitions["DB_NEW_BLOCKS"] = option_on_off(True)
+            cmake.definitions["DB_NEW_BLOCKS"] = option_on_off(False)
             cmake.definitions["DB_NEW_FULL"] = option_on_off(True)
 
 
