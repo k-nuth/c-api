@@ -172,6 +172,8 @@ private:
 
 #define BN_MICROARCHITECTURE_INIT "Compiled for microarchitecture: %1%"
 
+#define BN_DB_TYPE_INIT "Database type: %1%"
+
 #define BN_NETWORK_INIT "Network: %1% (%2%)"
 
 #define BN_CORES_INIT "Configured to use %1% cores"
