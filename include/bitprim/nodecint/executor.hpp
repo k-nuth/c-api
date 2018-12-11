@@ -182,6 +182,17 @@ private:
 #define BN_LOG_HEADER \
     "================= startup %1% =================="
 
+#if defined(BITPRIM_DB_NEW_FULL)
+#define BN_DB_TYPE "full, new version"
+#elif defined(BITPRIM_DB_NEW_BLOCKS)
+#define BN_DB_TYPE "UTXO and Blocks, new version"
+#elif defined(BITPRIM_DB_NEW)
+#define BN_DB_TYPE "just UTXO, new version"
+#elif defined(BITPRIM_DB_HISTORY)
+#define BN_DB_TYPE "full, legacy version"
+#else
+#define BN_DB_TYPE "TXs and Blocks, legacy version"
+#endif
 
 } // namespace nodecint
 } // namespace bitprim
