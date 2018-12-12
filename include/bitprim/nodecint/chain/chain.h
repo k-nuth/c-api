@@ -56,7 +56,7 @@ BITPRIM_EXPORT
 error_code_t chain_get_block_header_by_hash(chain_t chain, hash_t hash, header_t* out_header, uint64_t* /*size_t*/ out_height);
 
 
-#if defined(BITPRIM_DB_LEGACY) || defined(BITPRIM_DB_NEW_BLOCKS)
+#if defined(BITPRIM_DB_LEGACY) || defined(BITPRIM_DB_NEW_BLOCKS) || defined(BITPRIM_DB_NEW_FULL)
 // Block ---------------------------------------------------------------------
 BITPRIM_EXPORT
 void chain_fetch_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_fetch_handler_t handler);
@@ -112,10 +112,10 @@ BITPRIM_EXPORT
 error_code_t chain_get_compact_block_by_hash(chain_t chain, hash_t hash, compact_block_t* out_block, uint64_t* /*size_t*/ out_height);
 
 
-#endif // defined(BITPRIM_DB_LEGACY) || BITPRIM_DB_NEW_BLOCKS
+#endif // defined(BITPRIM_DB_LEGACY) || BITPRIM_DB_NEW_BLOCKS || defined(BITPRIM_DB_NEW_FULL)
 
 
-#ifdef BITPRIM_DB_LEGACY 
+#if defined(BITPRIM_DB_LEGACY) || defined(BITPRIM_DB_NEW_FULL) 
 
 // Transaction ---------------------------------------------------------------------
 BITPRIM_EXPORT
@@ -130,35 +130,35 @@ void chain_fetch_transaction_position(chain_t chain, void* ctx, hash_t hash, int
 BITPRIM_EXPORT
 error_code_t chain_get_transaction_position(chain_t chain, hash_t hash, int require_confirmed, uint64_t* /*size_t*/ out_position, uint64_t* /*size_t*/ out_height);
 
-#endif //BITPRIM_DB_LEGACY
+#endif //BITPRIM_DB_LEGACY || defined(BITPRIM_DB_NEW_FULL)
 
 
-#if defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_SPENDS)
+#if (defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_SPENDS)) || defined(BITPRIM_DB_NEW_FULL) 
 // Spend ---------------------------------------------------------------------
 BITPRIM_EXPORT
 void chain_fetch_spend(chain_t chain, void* ctx, output_point_t op, spend_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 error_code_t chain_get_spend(chain_t chain, output_point_t op, input_point_t* out_input_point);
-#endif //defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_SPENDS)
+#endif //defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_SPENDS) || defined(BITPRIM_DB_NEW_FULL)
 
-#if defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_HISTORY)
+#if (defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_HISTORY)) || defined(BITPRIM_DB_NEW_FULL) 
 // History ---------------------------------------------------------------------
 BITPRIM_EXPORT
 void chain_fetch_history(chain_t chain, void* ctx, payment_address_t address, uint64_t /*size_t*/ limit, uint64_t /*size_t*/ from_height, history_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 error_code_t chain_get_history(chain_t chain, payment_address_t address, uint64_t /*size_t*/ limit, uint64_t /*size_t*/ from_height, history_compact_list_t* out_history);
-#endif // defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_HISTORY)
+#endif // defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_HISTORY) || defined(BITPRIM_DB_NEW_FULL)
 
 
-#if defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
+#if defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED) || defined(BITPRIM_DB_NEW_FULL)
 BITPRIM_EXPORT
 void chain_fetch_confirmed_transactions(chain_t chain, void* ctx, payment_address_t address, uint64_t max, uint64_t start_height, transactions_by_addres_fetch_handler_t handler);
 
 BITPRIM_EXPORT
 error_code_t chain_get_confirmed_transactions(chain_t chain, payment_address_t address, uint64_t max, uint64_t start_height, hash_list_t* out_tx_hashes);
-#endif // defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
+#endif // defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED) || defined(BITPRIM_DB_NEW_FULL)
 
 #if defined(BITPRIM_DB_STEALTH)
 // Stealth ---------------------------------------------------------------------
@@ -190,10 +190,10 @@ error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_hei
 //virtual void fetch_template(merkle_block_fetch_handler handler) const = 0;
 //virtual void fetch_mempool(size_t count_limit, uint64_t minimum_fee, inventory_fetch_handler handler) const = 0;
 
-#if defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
+#if defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED) || defined(BITPRIM_DB_NEW_FULL)
 BITPRIM_EXPORT
 mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment_address_t address, bool_t use_testnet_rules);
-#endif // defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
+#endif // defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED) || defined(BITPRIM_DB_NEW_FULL)
 
 BITPRIM_EXPORT
 transaction_list_t chain_get_mempool_transactions_from_wallets(chain_t chain, payment_address_list_t addresses, bool_t use_testnet_rules);

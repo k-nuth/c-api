@@ -173,7 +173,7 @@ error_code_t chain_get_block_header_by_hash(chain_t chain, hash_t hash, header_t
     return res;
 }
 
-#if defined(BITPRIM_DB_LEGACY) || defined(BITPRIM_DB_NEW_BLOCKS)
+#if defined(BITPRIM_DB_LEGACY) || defined(BITPRIM_DB_NEW_BLOCKS) || defined(BITPRIM_DB_NEW_FULL)
 void chain_fetch_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_fetch_handler_t handler) {
 #ifdef BITPRIM_CURRENCY_BCH
     bool_t witness = 0;
@@ -417,7 +417,7 @@ error_code_t chain_get_compact_block_by_hash(chain_t chain, hash_t hash, compact
 }
 
 
-#endif // defined(BITPRIM_DB_LEGACY) || defined(BITPRIM_DB_NEW_BLOCKS)
+#endif // defined(BITPRIM_DB_LEGACY) || defined(BITPRIM_DB_NEW_BLOCKS) || defined(BITPRIM_DB_NEW_FULL)
 
 
 void chain_fetch_block_by_height_timestamp(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_hash_timestamp_fetch_handler_t handler) {
@@ -463,7 +463,7 @@ error_code_t chain_get_block_hash(chain_t chain, uint64_t height, hash_t* out_ha
     return bitprim_ec_success;
 }
 
-#if defined(BITPRIM_DB_LEGACY)
+#if defined(BITPRIM_DB_LEGACY) || defined(BITPRIM_DB_NEW_FULL)
 
 void chain_fetch_transaction(chain_t chain, void* ctx, hash_t hash, bool_t require_confirmed, transaction_fetch_handler_t handler) {
 #ifdef BITPRIM_CURRENCY_BCH
@@ -539,10 +539,10 @@ error_code_t chain_get_transaction_position(chain_t chain, hash_t hash, int requ
     latch.count_down_and_wait();
     return res;
 }
-#endif // defined(BITPRIM_DB_LEGACY)
+#endif // defined(BITPRIM_DB_LEGACY) || defined(BITPRIM_DB_NEW_FULL)
 
 
-#if defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_SPENDS)
+#if (defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_SPENDS)) || defined(BITPRIM_DB_NEW_FULL)
 //It is the user's responsibility to release the input point returned in the callback
 void chain_fetch_spend(chain_t chain, void* ctx, output_point_t op, spend_fetch_handler_t handler) {
     auto* outpoint_cpp = static_cast<libbitcoin::chain::output_point*>(op);
@@ -568,9 +568,9 @@ error_code_t chain_get_spend(chain_t chain, output_point_t op, input_point_t* ou
     latch.count_down_and_wait();
     return res;
 }
-#endif // defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_SPENDS)
+#endif // defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_SPENDS) || defined(BITPRIM_DB_NEW_FULL)
 
-#if defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_HISTORY)
+#if (defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_HISTORY)) || defined(BITPRIM_DB_NEW_FULL)
 //It is the user's responsibility to release the history returned in the callback
 void chain_fetch_history(chain_t chain, void* ctx, payment_address_t address, uint64_t /*size_t*/ limit, uint64_t /*size_t*/ from_height, history_fetch_handler_t handler) {
     // auto const& address_cpp = wallet_payment_address_const_cpp(address);
@@ -597,7 +597,7 @@ error_code_t chain_get_history(chain_t chain, payment_address_t address, uint64_
     latch.count_down_and_wait();
     return res;
 }
-#endif // defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_HISTORY)
+#endif // defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_HISTORY) || defined(BITPRIM_DB_NEW_FULL)
 
 
 #if defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
