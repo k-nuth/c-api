@@ -600,7 +600,7 @@ error_code_t chain_get_history(chain_t chain, payment_address_t address, uint64_
 #endif // defined(BITPRIM_DB_LEGACY) && defined(BITPRIM_DB_HISTORY) || defined(BITPRIM_DB_NEW_FULL)
 
 
-#if defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
+#if defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED) || defined(BITPRIM_DB_NEW_FULL)
 void chain_fetch_confirmed_transactions(chain_t chain, void* ctx, payment_address_t address, uint64_t max, uint64_t start_height, transactions_by_addres_fetch_handler_t handler) {
     // auto const& address_cpp = wallet_payment_address_const_cpp(address);
 
@@ -627,7 +627,7 @@ error_code_t chain_get_confirmed_transactions(chain_t chain, payment_address_t a
     latch.count_down_and_wait();
     return res;
 }
-#endif // defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
+#endif // defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED) || defined(BITPRIM_DB_NEW_FULL)
 
 
 #if defined(BITPRIM_DB_STEALTH)
@@ -709,7 +709,7 @@ error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_hei
 //virtual void fetch_mempool(size_t count_limit, uint64_t minimum_fee, inventory_fetch_handler handler) const = 0;
 //
 
-#if defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
+#if defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED) || defined(BITPRIM_DB_NEW_FULL)
 mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment_address_t address, bool_t use_testnet_rules) {
 #ifdef BITPRIM_CURRENCY_BCH
     bool_t witness = 0;
@@ -736,7 +736,7 @@ transaction_list_t chain_get_mempool_transactions_from_wallets(chain_t chain, pa
     auto txs = safe_chain(chain).get_mempool_transactions_from_wallets(addresses_cpp, bitprim::int_to_bool(use_testnet_rules), bitprim::int_to_bool(witness));
     return bitprim::move_or_copy_and_leak(std::move(txs));
 }
-#endif // defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED)
+#endif // defined(BITPRIM_DB_TRANSACTION_UNCONFIRMED) || defined(BITPRIM_DB_NEW_FULL)
 
 
 //// Filters.

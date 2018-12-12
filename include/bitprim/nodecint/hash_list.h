@@ -32,6 +32,9 @@ extern "C" {
 
 BITPRIM_LIST_DECLARE(core, hash_list_t, hash_t, hash_list)
 
+BITPRIM_EXPORT
+void core_hash_list_nth_out(hash_list_t list, uint64_t /*size_t*/ n, hash_t* out_hash);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
