@@ -30,14 +30,14 @@
 #include <future>
 #include <iostream>
 
-#ifdef WITH_KEOKEN
+#ifdef BITPRIM_WITH_KEOKEN
 #include <bitprim/keoken/manager.hpp>
 #include <bitprim/keoken/state_delegated.hpp>
 #endif
 
 namespace bitprim { 
 
-#ifdef WITH_KEOKEN
+#ifdef BITPRIM_WITH_KEOKEN
     using keoken_manager_cpp_t = bitprim::keoken::manager<bitprim::keoken::state_delegated>;
 #endif
 
@@ -70,10 +70,10 @@ public:
     libbitcoin::node::full_node& node();
     libbitcoin::node::full_node const& node() const;
 
-#ifdef WITH_KEOKEN
+#ifdef BITPRIM_WITH_KEOKEN
     keoken_manager_cpp_t const& keoken_manager() const;
     keoken_manager_cpp_t& keoken_manager();
-#endif // WITH_KEOKEN
+#endif // BITPRIM_WITH_KEOKEN
 
     bool load_config_valid() const;
 
@@ -108,7 +108,7 @@ private:
     std::ostream& error_;
     
     libbitcoin::node::full_node::ptr node_;
-#ifdef WITH_KEOKEN
+#ifdef BITPRIM_WITH_KEOKEN
     std::unique_ptr<keoken_manager_cpp_t> keoken_manager_;
 #endif
 
