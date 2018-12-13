@@ -147,7 +147,7 @@ libbitcoin::node::full_node const& executor::node() const {
     return *node_;
 }
 
-#ifdef WITH_KEOKEN
+#ifdef BITPRIM_WITH_KEOKEN
 keoken_manager_cpp_t& executor::keoken_manager() {
     return *keoken_manager_;
 }
@@ -155,7 +155,7 @@ keoken_manager_cpp_t& executor::keoken_manager() {
 keoken_manager_cpp_t const& executor::keoken_manager() const {
     return *keoken_manager_;
 }
-#endif // WITH_KEOKEN
+#endif // BITPRIM_WITH_KEOKEN
 
 
 bool executor::load_config_valid() const {
@@ -181,7 +181,7 @@ bool executor::run(libbitcoin::handle0 handler) {
     node_ = std::make_shared<libbitcoin::node::full_node>(config_);
 
 
-#ifdef WITH_KEOKEN
+#ifdef BITPRIM_WITH_KEOKEN
     keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_bitprim(), config_.node.keoken_genesis_height));    //NOLINT
 #endif
 
@@ -220,7 +220,7 @@ bool executor::init_and_run(libbitcoin::handle0 handler) {
     node_ = std::make_shared<libbitcoin::node::full_node>(config_);
 
 
-    #ifdef WITH_KEOKEN
+    #ifdef BITPRIM_WITH_KEOKEN
         keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_bitprim(), config_.node.keoken_genesis_height));    //NOLINT
     #endif
 
@@ -365,7 +365,7 @@ void executor::initialize_output() {
 
     LOG_INFO(LOG_NODE) << format(BN_VERSION_MESSAGE_INIT) % BITPRIM_NODECINT_VERSION;
     LOG_INFO(LOG_NODE) << format(BN_CRYPTOCURRENCY_INIT) % BITPRIM_CURRENCY_SYMBOL_STR % BITPRIM_CURRENCY_STR;
-#ifdef WITH_KEOKEN
+#ifdef BITPRIM_WITH_KEOKEN
     LOG_INFO(LOG_NODE) << format(BN_KEOKEN_MESSAGE_INIT);
 #endif
     LOG_INFO(LOG_NODE) << format(BN_MICROARCHITECTURE_INIT) % BITPRIM_MICROARCHITECTURE_STR;
