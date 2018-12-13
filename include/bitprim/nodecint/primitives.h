@@ -124,7 +124,7 @@ typedef void* word_list_t;
 // Wallet (end) -------------------------------------------------------
 
 // Keoken -------------------------------------------------------------
-#ifdef WITH_KEOKEN
+#ifdef BITPRIM_WITH_KEOKEN
 // Keoken Primitives
 typedef uint32_t keoken_asset_id_t;
 typedef int64_t keoken_amount_t;
@@ -140,7 +140,7 @@ typedef void* get_assets_by_address_list_t;
 typedef void* get_assets_list_t;
 typedef void* get_all_asset_addresses_list_t;
 
-#endif //WITH_KEOKEN
+#endif //BITPRIM_WITH_KEOKEN
 
 
 // Callback signatures ------------------------------------------------

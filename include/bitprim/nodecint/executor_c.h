@@ -78,7 +78,7 @@ chain_t executor_get_chain(executor_t exec);
 BITPRIM_EXPORT
 p2p_t executor_get_p2p(executor_t exec);
 
-#ifdef WITH_KEOKEN
+#ifdef BITPRIM_WITH_KEOKEN
 BITPRIM_EXPORT
 keoken_manager_t executor_get_keoken_manager(executor_t exec);
 #endif
