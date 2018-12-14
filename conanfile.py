@@ -47,6 +47,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
                "mining": [True, False],
                "use_domain": [True, False],
                "db": ['legacy', 'legacy_full', 'new', 'new_with_blocks'],
+               "glibcxx_supports_cxx11_abi": "ANY",
     }
 
     default_options = "shared=False", \
@@ -63,7 +64,8 @@ class BitprimNodeCIntConan(BitprimConanFile):
         "keoken=False", \
         "mining=False", \
         "use_domain=False", \
-        "db=legacy_full"
+        "db=legacy_full", \
+        "glibcxx_supports_cxx11_abi=_DUMMY_"
 
     generators = "cmake"
     exports = "conan_*", "ci_utils/*"
