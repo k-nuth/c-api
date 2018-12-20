@@ -368,10 +368,15 @@ void executor::initialize_output() {
 #ifdef BITPRIM_WITH_KEOKEN
     LOG_INFO(LOG_NODE) << format(BN_KEOKEN_MESSAGE_INIT);
 #endif
+
     LOG_INFO(LOG_NODE) << format(BN_MICROARCHITECTURE_INIT) % BITPRIM_MICROARCHITECTURE_STR;
+
+    LOG_INFO(LOG_NODE) << format(BN_DB_TYPE_INIT) % BN_DB_TYPE;
+
     LOG_INFO(LOG_NODE) << format(BN_NETWORK_INIT) % 
             (libbitcoin::get_network(config_.network.identifier) == libbitcoin::config::settings::testnet ? "Testnet" : "Mainnet") %
             config_.network.identifier;
+  
     LOG_INFO(LOG_NODE) << format(BN_CORES_INIT) % libbitcoin::thread_ceiling(config_.chain.cores);
 }
 

@@ -172,6 +172,8 @@ private:
 
 #define BN_MICROARCHITECTURE_INIT "Compiled for microarchitecture: %1%"
 
+#define BN_DB_TYPE_INIT "Database type: %1%"
+
 #define BN_NETWORK_INIT "Network: %1% (%2%)"
 
 #define BN_CORES_INIT "Configured to use %1% cores"
@@ -180,6 +182,17 @@ private:
 #define BN_LOG_HEADER \
     "================= startup %1% =================="
 
+#if defined(BITPRIM_DB_NEW_FULL)
+#define BN_DB_TYPE "full, new version"
+#elif defined(BITPRIM_DB_NEW_BLOCKS)
+#define BN_DB_TYPE "UTXO and Blocks, new version"
+#elif defined(BITPRIM_DB_NEW)
+#define BN_DB_TYPE "just UTXO, new version"
+#elif defined(BITPRIM_DB_HISTORY)
+#define BN_DB_TYPE "full, legacy version"
+#else
+#define BN_DB_TYPE "TXs and Blocks, legacy version"
+#endif
 
 } // namespace nodecint
 } // namespace bitprim
