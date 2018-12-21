@@ -130,6 +130,13 @@ class BitprimNodeCIntConan(BitprimConanFile):
         else:
             self.options["*"].keoken = self.options.keoken
 
+
+        if self.is_keoken:
+            if self.options.db == "pruned" or self.options.db == "default":
+                self.output.warn("Keoken mode requires db=full and your configuration is db=%s, it has been changed automatically..." % (self.options.db,))
+                self.options.db = "full"
+
+
         self.options["*"].db = self.options.db
 
         self.options["*"].keoken = self.is_keoken
@@ -140,6 +147,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
 
         self.options["*"].currency = self.options.currency
         self.output.info("Compiling for currency: %s" % (self.options.currency,))
+        self.output.info("Compiling for DB: %s" % (self.options.db,))
 
     def package_id(self):
         self.info.options.with_tests = "ANY"
