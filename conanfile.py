@@ -111,6 +111,8 @@ class BitprimNodeCIntConan(BitprimConanFile):
 
 
     def configure(self):
+        BitprimConanFile.configure(self)
+
         if self.options.no_compilation or (self.settings.compiler == None and self.settings.arch == 'x86_64' and self.settings.os in ('Linux', 'Windows', 'Macos')):
             self.settings.remove("compiler")
             self.settings.remove("build_type")
@@ -150,6 +152,8 @@ class BitprimNodeCIntConan(BitprimConanFile):
         self.output.info("Compiling for DB: %s" % (self.options.db,))
 
     def package_id(self):
+        BitprimConanFile.package_id(self)
+
         self.info.options.with_tests = "ANY"
         self.info.options.with_console = "ANY"
         self.info.options.no_compilation = "ANY"
@@ -162,10 +166,10 @@ class BitprimNodeCIntConan(BitprimConanFile):
         # self.info.settings.compiler = "ANY"
         # self.info.settings.build_type = "ANY"
 
-        #For Bitprim Packages libstdc++ and libstdc++11 are the same
-        if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
-            if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
-                self.info.settings.compiler.libcxx = "ANY"
+        # #For Bitprim Packages libstdc++ and libstdc++11 are the same
+        # if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
+        #     if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
+        #         self.info.settings.compiler.libcxx = "ANY"
 
     def build(self):
         cmake = CMake(self)
