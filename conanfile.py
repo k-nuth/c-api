@@ -44,7 +44,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
                "cxxflags": "ANY",
                "cflags": "ANY",
                "keoken": [True, False],
-               "mining": [True, False],
+               "mempool": [True, False],
                "use_domain": [True, False],
                "db": ['legacy', 'legacy_full', 'pruned', 'default', 'full'],
                "glibcxx_supports_cxx11_abi": "ANY",
@@ -62,7 +62,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
         "cxxflags=_DUMMY_", \
         "cflags=_DUMMY_", \
         "keoken=False", \
-        "mining=False", \
+        "mempool=True", \
         "use_domain=False", \
         "db=default", \
         "glibcxx_supports_cxx11_abi=_DUMMY_"
@@ -144,8 +144,8 @@ class BitprimNodeCIntConan(BitprimConanFile):
         self.options["*"].keoken = self.is_keoken
         self.options["*"].use_domain = self.options.use_domain
 
-        self.options["*"].mining = self.options.mining
-        self.output.info("Compiling with mining optimizations: %s" % (self.options.mining,))
+        self.options["*"].mempool = self.options.mempool
+        self.output.info("Compiling with mempool: %s" % (self.options.mempool,))
 
         self.options["*"].currency = self.options.currency
         self.output.info("Compiling for currency: %s" % (self.options.currency,))
@@ -189,7 +189,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
         cmake.definitions["WITH_KEOKEN"] = option_on_off(self.is_keoken)
 
         cmake.definitions["CURRENCY"] = self.options.currency
-        cmake.definitions["WITH_MINING"] = option_on_off(self.options.mining)
+        cmake.definitions["WITH_MEMPOOL"] = option_on_off(self.options.mempool)
 
         cmake.definitions["USE_DOMAIN"] = option_on_off(self.options.use_domain)
 
