@@ -30,19 +30,20 @@ if __name__ == "__main__":
                 marchs = ["x86-64"]
 
             ci_currency = os.getenv('BITPRIM_CI_CURRENCY', None)
-            with_keoken = os.getenv('BITPRIM_WITH_KEOKEN', 'false') == 'true'
+            # with_keoken = os.getenv('BITPRIM_WITH_KEOKEN', 'false') == 'true'
 
             opts_full = copy.deepcopy(options)
             opts_full["%s:db" % name] = "full"
 
             if ci_currency is not None:
                 options["*:currency"] = ci_currency
-                options["*:keoken"] = with_keoken
+                # options["*:keoken"] = with_keoken
 
-                if with_keoken:
-                    options["*:db"] = "full"
+                # if with_keoken:
+                #     options["*:db"] = "full"
 
-                if ci_currency == "BCH" and not with_keoken:
+                # if ci_currency == "BCH" and not with_keoken:
+                if ci_currency == "BCH":
                     opts_bch_domain = copy.deepcopy(options)
                     opts_bch_domain["%s:use_domain" % name] = "True"
                     handle_microarchs("*:microarchitecture", marchs, filtered_builds, settings, opts_bch_domain, env_vars, build_requires)
