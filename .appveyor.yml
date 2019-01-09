@@ -91,6 +91,11 @@ for:
         - /(dev|feature).*/    # Just development branches
     environment:
       matrix:
+        - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
+          BITPRIM_CI_CURRENCY: BCH
+        - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
+          BITPRIM_CI_CURRENCY: BTC
+
         # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
         #   CONAN_VISUAL_VERSIONS: 15
         #   CONAN_VISUAL_RUNTIMES: MT
@@ -185,6 +190,16 @@ for:
         #   BITPRIM_CI_CURRENCY: BCH
         # - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
         #   BITPRIM_CI_CURRENCY: BTC
+
+
+        # - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
+        #   BITPRIM_CI_CURRENCY: BCH
+        #   BITPRIM_WITH_KEOKEN: true
+        - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
+          BITPRIM_CI_CURRENCY: BCH
+          BITPRIM_WITH_KEOKEN: false
+        - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
+          BITPRIM_CI_CURRENCY: BTC
 
 
         # - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
