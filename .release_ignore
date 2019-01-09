@@ -1,0 +1,16 @@
+.release_ignore
+README.md
+.appveyor.yml
+.travis.yml
+.gitignore
+.vscode/*
+.travis/*
+.appveyor/*
+.clang-format
+build.py
+helpers/*
+AUTHORS
+
+test/*
+docs/*
+cfg/*
