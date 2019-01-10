@@ -77,12 +77,13 @@ test_script:
         }
         Write-Host "bitprim-node/0.X@bitprim/staging found"
       }
-      Else {
-        python build.py
-      }
+      # Else {
+      #   python build.py
+      # }
 
   # - python build.py
 
+  - PowerShell .\.appveyor\build.ps1
 
 for:
   -
