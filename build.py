@@ -43,10 +43,10 @@ if __name__ == "__main__":
                 #     options["*:db"] = "full"
 
                 # if ci_currency == "BCH" and not with_keoken:
-                if ci_currency == "BCH":
-                    opts_bch_domain = copy.deepcopy(options)
-                    opts_bch_domain["%s:use_domain" % name] = "True"
-                    handle_microarchs("*:microarchitecture", marchs, filtered_builds, settings, opts_bch_domain, env_vars, build_requires)
+                # if ci_currency == "BCH":
+                #     opts_bch_domain = copy.deepcopy(options)
+                #     opts_bch_domain["%s:use_domain" % name] = "True"
+                #     handle_microarchs("*:microarchitecture", marchs, filtered_builds, settings, opts_bch_domain, env_vars, build_requires)
 
                 handle_microarchs("*:microarchitecture", marchs, filtered_builds, settings, opts_full, env_vars, build_requires)
                 handle_microarchs("*:microarchitecture", marchs, filtered_builds, settings, options, env_vars, build_requires)
