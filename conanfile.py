@@ -63,7 +63,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
         "cflags=_DUMMY_", \
         "keoken=False", \
         "mempool=True", \
-        "use_domain=False", \
+        "use_domain=True", \
         "db=default", \
         "glibcxx_supports_cxx11_abi=_DUMMY_"
 
@@ -89,7 +89,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
 
             if self.options.use_domain:
-                self.requires("boost/1.68.0@bitprim/stable")
+                self.requires("boost/1.69.0@bitprim/stable")
             else:
                 self.requires("boost/1.66.0@bitprim/stable")
 
