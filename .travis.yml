@@ -68,13 +68,13 @@ script:
   - git fetch --unshallow
   - git fetch origin master:master
 
-  # #TODO(fernando): Use lasote/conanclang50 for checking formating and other clang-tools related
+  # #TODO(fernando): Use conanio/clang50 for checking formating and other clang-tools related
   # - |
   #   if [[ "${CHECK_FORMATTING}" == "true" ]]; then
   #     cd ${TRAVIS_BUILD_DIR}
   #     chmod a+x .travis/check_format.sh
   #     /usr/bin/docker run --rm -ti -v ${TRAVIS_BUILD_DIR}:/home/conan/project \
-  #                                  -v ${TRAVIS_BUILD_DIR}/.travis/check_format.sh:/tmp/check_format.sh lasote/conanclang40 \
+  #                                  -v ${TRAVIS_BUILD_DIR}/.travis/check_format.sh:/tmp/check_format.sh conanio/clang40 \
   #                                  /bin/bash \
   #                                  -c /tmp/check_format.sh
 
@@ -97,7 +97,7 @@ jobs:
       python: "3.6"
       services:
         - docker
-      env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=lasote/conangcc8
+      env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
            BITPRIM_CI_CURRENCY=BCH
       if: branch =~ /^(release|hotfix).+$/    #Just releases
       script:
@@ -119,7 +119,7 @@ jobs:
     - stage: static checks
       os: osx
       language: generic
-      osx_image: xcode9.3
+      osx_image: xcode10.1
       # env: CONAN_APPLE_CLANG_VERSIONS=9.0 
       # if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
       if: branch =~ /^(disable|temporarily).*$/    #Avoid master
@@ -204,7 +204,7 @@ jobs:
         # - cd ${TRAVIS_BUILD_DIR}
         # - chmod a+x .travis/check_format.sh
         # - /usr/bin/docker run --rm -ti -v ${TRAVIS_BUILD_DIR}:/home/conan/project \
-        #                             -v ${TRAVIS_BUILD_DIR}/.travis/check_format.sh:/tmp/check_format.sh lasote/conanclang60 \
+        #                             -v ${TRAVIS_BUILD_DIR}/.travis/check_format.sh:/tmp/check_format.sh conanio/clang60 \
         #                             /bin/bash \
         #                             -c /tmp/check_format.sh
 
@@ -217,7 +217,7 @@ jobs:
     #   python: "3.6"
     #   services:
     #     - docker
-    #   env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=lasote/conangcc8
+    #   env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
     #        BITPRIM_CI_CURRENCY=BCH
     #        BITPRIM_WITH_KEOKEN=true
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
@@ -228,7 +228,7 @@ jobs:
       python: "3.6"
       services:
         - docker
-      env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=lasote/conangcc8
+      env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
            BITPRIM_CI_CURRENCY=BCH
            BITPRIM_WITH_KEOKEN=false
       if: branch =~ /^(release|hotfix).+$/    #Just releases
@@ -239,7 +239,7 @@ jobs:
       python: "3.6"
       services:
         - docker
-      env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=lasote/conangcc8
+      env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
            BITPRIM_CI_CURRENCY=BTC
       if: branch =~ /^(release|hotfix).+$/    #Just releases
 
@@ -250,7 +250,7 @@ jobs:
     #   python: "3.6"
     #   services:
     #     - docker
-    #   env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7
+    #   env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7
     #        BITPRIM_CI_CURRENCY=BCH
     #        BITPRIM_RUN_TESTS=true
     #        BITPRIM_WITH_KEOKEN=true
@@ -262,7 +262,7 @@ jobs:
       python: "3.6"
       services:
         - docker
-      env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7
+      env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7
            BITPRIM_CI_CURRENCY=BCH
            BITPRIM_RUN_TESTS=true
            BITPRIM_WITH_KEOKEN=false
@@ -274,7 +274,7 @@ jobs:
       python: "3.6"
       services:
         - docker
-      env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7
+      env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7
            BITPRIM_CI_CURRENCY=BTC
            BITPRIM_RUN_TESTS=true
       if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
@@ -286,7 +286,7 @@ jobs:
     #   python: "3.6"
     #   services:
     #     - docker
-    #   env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=lasote/conangcc6
+    #   env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6
     #        BITPRIM_CI_CURRENCY=BCH
     #        BITPRIM_WITH_KEOKEN=true
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
@@ -297,7 +297,7 @@ jobs:
       python: "3.6"
       services:
         - docker
-      env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=lasote/conangcc6
+      env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6
            BITPRIM_CI_CURRENCY=BCH
            BITPRIM_WITH_KEOKEN=false
       if: branch =~ /^(release|hotfix).+$/    #Just releases
@@ -308,7 +308,7 @@ jobs:
       python: "3.6"
       services:
         - docker
-      env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=lasote/conangcc6
+      env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6
            BITPRIM_CI_CURRENCY=BTC
       if: branch =~ /^(release|hotfix).+$/    #Just releases
 
@@ -319,7 +319,7 @@ jobs:
     #   python: "3.6"
     #   services:
     #     - docker
-    #   env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc5
+    #   env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5
     #        BITPRIM_CI_CURRENCY=BCH
     #        BITPRIM_WITH_KEOKEN=true
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
@@ -330,7 +330,7 @@ jobs:
       python: "3.6"
       services:
         - docker
-      env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc5
+      env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5
            BITPRIM_CI_CURRENCY=BCH
            BITPRIM_WITH_KEOKEN=false
       if: branch =~ /^(release|hotfix).+$/    #Just releases
@@ -341,7 +341,7 @@ jobs:
       python: "3.6"
       services:
         - docker
-      env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc5
+      env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5
            BITPRIM_CI_CURRENCY=BTC
       if: branch =~ /^(release|hotfix).+$/    #Just releases
 
@@ -353,7 +353,7 @@ jobs:
     #   python: "3.6"
     #   services:
     #     - docker
-    #   env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=lasote/conangcc49
+    #   env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49
     #   if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
 
     # Linux, Clang, libstdc++ ----------------------------------------------------
@@ -364,7 +364,7 @@ jobs:
     #   python: "3.6"
     #   services:
     #     - docker
-    #   env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=lasote/conanclang60
+    #   env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
     #        BITPRIM_CI_CURRENCY=BCH
     #        BITPRIM_WITH_KEOKEN=true
     #   if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
@@ -375,7 +375,7 @@ jobs:
       python: "3.6"
       services:
         - docker
-      env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=lasote/conanclang60
+      env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
            BITPRIM_CI_CURRENCY=BCH
            BITPRIM_WITH_KEOKEN=false
       if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
@@ -386,7 +386,7 @@ jobs:
       python: "3.6"
       services:
         - docker
-      env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=lasote/conanclang60
+      env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
            BITPRIM_CI_CURRENCY=BTC
       if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
 
@@ -397,7 +397,7 @@ jobs:
     #   python: "3.6"
     #   services:
     #     - docker
-    #   env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=lasote/conanclang50
+    #   env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50
     #        BITPRIM_CI_CURRENCY=BCH
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
     # - stage: build and upload binaries
@@ -407,7 +407,7 @@ jobs:
     #   python: "3.6"
     #   services:
     #     - docker
-    #   env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=lasote/conanclang50
+    #   env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50
     #        BITPRIM_CI_CURRENCY=BTC
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
 
@@ -418,7 +418,7 @@ jobs:
     #   python: "3.6"
     #   services:
     #     - docker
-    #   env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=lasote/conanclang40
+    #   env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40
     #        BITPRIM_CI_CURRENCY=BCH
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
     # - stage: build and upload binaries
@@ -428,7 +428,7 @@ jobs:
     #   python: "3.6"
     #   services:
     #     - docker
-    #   env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=lasote/conanclang40
+    #   env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40
     #        BITPRIM_CI_CURRENCY=BTC
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
 
@@ -439,14 +439,14 @@ jobs:
     #   python: "3.6"
     #   services:
     #     - docker
-    #   env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=lasote/conanclang39
+    #   env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39
 
     # macOS, apple-Clang, libc++ -------------------------------------------------
     # - stage: build and upload binaries
     #   os: osx
     #   language: generic
-    #   osx_image: xcode9.3
-    #   env: CONAN_APPLE_CLANG_VERSIONS=9.1
+    #   osx_image: xcode10.1
+    #   env: CONAN_APPLE_CLANG_VERSIONS=10.0
     #        BITPRIM_RUN_TESTS=true
     #        BITPRIM_CI_CURRENCY=BCH
     #        BITPRIM_WITH_KEOKEN=true
@@ -454,8 +454,8 @@ jobs:
     - stage: build and upload binaries
       os: osx
       language: generic
-      osx_image: xcode9.3
-      env: CONAN_APPLE_CLANG_VERSIONS=9.1
+      osx_image: xcode10.1
+      env: CONAN_APPLE_CLANG_VERSIONS=10.0
            BITPRIM_RUN_TESTS=true
            BITPRIM_CI_CURRENCY=BCH
            BITPRIM_WITH_KEOKEN=false
@@ -463,24 +463,24 @@ jobs:
     - stage: build and upload binaries
       os: osx
       language: generic
-      osx_image: xcode9.3
-      env: CONAN_APPLE_CLANG_VERSIONS=9.1
+      osx_image: xcode10.1
+      env: CONAN_APPLE_CLANG_VERSIONS=10.0
            BITPRIM_RUN_TESTS=true
            BITPRIM_CI_CURRENCY=BTC
       if: branch =~ /^(release|hotfix).+$/    #Just releases
     # - stage: build and upload binaries
     #   os: osx
     #   language: generic
-    #   osx_image: xcode9.3
-    #   env: CONAN_APPLE_CLANG_VERSIONS=9.1
+    #   osx_image: xcode10.1
+    #   env: CONAN_APPLE_CLANG_VERSIONS=10.0
     #        BITPRIM_CI_CURRENCY=BCH
     #        BITPRIM_WITH_KEOKEN=true
     #   if: branch =~ /^(feature|dev).*$/       #Just development
     - stage: build and upload binaries
       os: osx
       language: generic
-      osx_image: xcode9.3
-      env: CONAN_APPLE_CLANG_VERSIONS=9.1
+      osx_image: xcode10.1
+      env: CONAN_APPLE_CLANG_VERSIONS=10.0
            BITPRIM_CI_CURRENCY=BTC
       if: branch =~ /^(feature|dev).*$/       #Just development
 
