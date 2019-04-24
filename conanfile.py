@@ -62,7 +62,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
         "cxxflags=_DUMMY_", \
         "cflags=_DUMMY_", \
         "keoken=False", \
-        "mempool=True", \
+        "mempool=False", \
         "use_domain=True", \
         "db=default", \
         "glibcxx_supports_cxx11_abi=_DUMMY_"
