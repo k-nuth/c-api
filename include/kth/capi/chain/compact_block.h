@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-// TODO(fernando): Dario check how to map compact_block::short_ids()
+// TODO(fernando): check how to map compact_block::short_ids()
 
 KTH_EXPORT
 header_t chain_compact_block_header(compact_block_t block);
