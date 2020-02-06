@@ -5,7 +5,7 @@
 
 #include <knuth/nodecint/chain/input_list.h>
 
-#include <bitcoin/bitcoin/chain/input.hpp>
+#include <kth/bitcoin/chain/input.hpp>
 #include <knuth/nodecint/chain/input.h>
 #include <knuth/nodecint/conversions.hpp>
 

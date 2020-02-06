@@ -8,7 +8,7 @@
 #include <knuth/nodecint/conversions.hpp>
 #include <knuth/nodecint/helpers.hpp>
 
-#include <bitcoin/bitcoin/message/transaction.hpp>
+#include <kth/bitcoin/message/transaction.hpp>
 
 
 KTH_CONV_DEFINE(chain, block_t, kth::message::block, block)

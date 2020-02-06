@@ -5,7 +5,7 @@
 
 #include <knuth/nodecint/wallet/ec_public.h>
 
-#include <bitcoin/bitcoin/wallet/transaction_functions.hpp>
+#include <kth/bitcoin/wallet/transaction_functions.hpp>
 
 #include <knuth/nodecint/conversions.hpp>
 #include <knuth/nodecint/helpers.hpp>

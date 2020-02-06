@@ -6,8 +6,8 @@
 
 #include <knuth/nodecint/wallet/transaction_functions.h>
 
-#include <bitcoin/bitcoin/wallet/payment_address.hpp>
-#include <bitcoin/bitcoin/wallet/transaction_functions.hpp>
+#include <kth/bitcoin/wallet/payment_address.hpp>
+#include <kth/bitcoin/wallet/transaction_functions.hpp>
 
 #include <knuth/nodecint/conversions.hpp>
 #include <knuth/nodecint/helpers.hpp>

@@ -9,18 +9,18 @@
 #include <knuth/nodecint/primitives.h>
 
 #ifdef KTH_USE_DOMAIN
-#include <bitcoin/infrastructure/math/elliptic_curve.hpp>
-#include <bitcoin/bitcoin/wallet/ec_public.hpp>
-#include <bitcoin/infrastructure/wallet/hd_private.hpp>
-#include <bitcoin/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
+#include <kth/infrastructure/math/elliptic_curve.hpp>
+#include <kth/bitcoin/wallet/ec_public.hpp>
+#include <kth/infrastructure/wallet/hd_private.hpp>
+#include <kth/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 #else
-#include <bitcoin/bitcoin/math/elliptic_curve.hpp>
-#include <bitcoin/bitcoin/wallet/ec_public.hpp>
-#include <bitcoin/bitcoin/wallet/hd_private.hpp>
-#include <bitcoin/bitcoin/wallet/mnemonic.hpp>
+#include <kth/bitcoin/math/elliptic_curve.hpp>
+#include <kth/bitcoin/wallet/ec_public.hpp>
+#include <kth/bitcoin/wallet/hd_private.hpp>
+#include <kth/bitcoin/wallet/mnemonic.hpp>
 #endif // KTH_USE_DOMAIN
 
-#include <bitcoin/bitcoin/wallet/payment_address.hpp>
+#include <kth/bitcoin/wallet/payment_address.hpp>
 #include <knuth/nodecint/helpers.hpp>
 
 

@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <bitcoin/bitcoin/chain/point.hpp>
+#include <kth/bitcoin/chain/point.hpp>
 
 #include <knuth/nodecint/chain/point_list.h>
 #include <knuth/nodecint/conversions.hpp>

@@ -26,8 +26,8 @@
 #include <knuth/nodecint/executor_c.h>
 #include <knuth/nodecint/helpers.hpp>
 
-#include <bitcoin/bitcoin/multi_crypto_support.hpp>
-#include <bitcoin/network/p2p.hpp>
+#include <kth/bitcoin/multi_crypto_support.hpp>
+#include <kth/network/p2p.hpp>
 
 // ---------------------------------------------------------------------------
 extern "C" {

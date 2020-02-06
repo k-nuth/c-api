@@ -16,9 +16,9 @@
 #include <knuth/nodecint/version.h>
 
 #ifdef KTH_USE_DOMAIN
-#include <bitcoin/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
+#include <kth/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 #else
-#include <bitcoin/bitcoin/wallet/mnemonic.hpp>  //Warning, put it after boost headers
+#include <kth/bitcoin/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 #endif // KTH_USE_DOMAIN
 
 kth::node::configuration make_config(char const* path) {

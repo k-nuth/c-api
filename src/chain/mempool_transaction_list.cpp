@@ -5,7 +5,7 @@
 
 #include <knuth/nodecint/chain/mempool_transaction_list.h>
 
-#include <bitcoin/blockchain/interface/safe_chain.hpp>
+#include <kth/blockchain/interface/safe_chain.hpp>
 #include <knuth/nodecint/conversions.hpp>
 
 

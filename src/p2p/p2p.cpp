@@ -5,7 +5,7 @@
 
 #include <knuth/nodecint/p2p/p2p.h>
 
-#include <bitcoin/network/p2p.hpp>
+#include <kth/network/p2p.hpp>
 #include <knuth/nodecint/helpers.hpp>
 
 namespace {

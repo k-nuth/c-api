@@ -6,9 +6,9 @@
 #include <knuth/nodecint/binary.h>
 
 #ifdef KTH_USE_DOMAIN
-#include <bitcoin/infrastructure/utility/binary.hpp>
+#include <kth/infrastructure/utility/binary.hpp>
 #else
-#include <bitcoin/bitcoin/utility/binary.hpp>
+#include <kth/bitcoin/utility/binary.hpp>
 #endif // KTH_USE_DOMAIN
 
 #include <knuth/nodecint/helpers.hpp>

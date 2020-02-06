@@ -28,15 +28,15 @@
 #include <knuth/nodecint/wallet/word_list.h>
 #include <knuth/nodecint/wallet/payment_address_list.h>
 
-#include <bitcoin/bitcoin/message/transaction.hpp>
+#include <kth/bitcoin/message/transaction.hpp>
 
 #ifdef KTH_USE_DOMAIN
-#include <bitcoin/infrastructure/utility/binary.hpp>
+#include <kth/infrastructure/utility/binary.hpp>
 #else
-#include <bitcoin/bitcoin/utility/binary.hpp>
+#include <kth/bitcoin/utility/binary.hpp>
 #endif // KTH_USE_DOMAIN
 
-#include <bitcoin/bitcoin/wallet/hd_private.hpp>
+#include <kth/bitcoin/wallet/hd_private.hpp>
 
 
  void wait_until_block(chain_t chain, size_t desired_height) {

@@ -5,8 +5,8 @@
 
 #include <knuth/nodecint/chain/merkle_block.h>
 
-#include <bitcoin/bitcoin/message/merkle_block.hpp>
-#include <bitcoin/bitcoin/message/transaction.hpp>
+#include <kth/bitcoin/message/merkle_block.hpp>
+#include <kth/bitcoin/message/transaction.hpp>
 
 #include <knuth/nodecint/helpers.hpp>
 #include <knuth/nodecint/type_conversions.h>

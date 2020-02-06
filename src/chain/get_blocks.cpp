@@ -5,7 +5,7 @@
 
 #include <knuth/nodecint/chain/block.h>
 
-#include <bitcoin/bitcoin/message/get_blocks.hpp>
+#include <kth/bitcoin/message/get_blocks.hpp>
 
 #include <knuth/nodecint/conversions.hpp>
 #include <knuth/nodecint/helpers.hpp>

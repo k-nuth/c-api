@@ -5,7 +5,7 @@
 
 #include <knuth/nodecint/chain/point.h>
 
-#include <bitcoin/bitcoin/chain/point.hpp>
+#include <kth/bitcoin/chain/point.hpp>
 
 #include <knuth/nodecint/helpers.hpp>
 #include <knuth/nodecint/type_conversions.h>

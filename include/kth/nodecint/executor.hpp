@@ -7,12 +7,12 @@
 #define KTH_NODECINT_EXECUTOR_HPP_
 
 #ifdef KTH_USE_DOMAIN
-#include <bitcoin/infrastructure/handlers.hpp>
+#include <kth/infrastructure/handlers.hpp>
 #else
-#include <bitcoin/bitcoin/handlers.hpp>
+#include <kth/bitcoin/handlers.hpp>
 #endif // KTH_USE_DOMAIN
 
-#include <bitcoin/node.hpp>
+#include <kth/node.hpp>
 #include <future>
 #include <iostream>
 

@@ -7,7 +7,7 @@
 
 #include <tuple>
 
-#include <bitcoin/blockchain/interface/safe_chain.hpp>
+#include <kth/blockchain/interface/safe_chain.hpp>
 
 #include <knuth/nodecint/helpers.hpp>
 #include <knuth/nodecint/type_conversions.h>

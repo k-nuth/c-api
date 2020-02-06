@@ -8,8 +8,8 @@
 #include <knuth/nodecint/helpers.hpp>
 #include <knuth/nodecint/type_conversions.h>
 
-#include <bitcoin/bitcoin/multi_crypto_support.hpp>
-#include <bitcoin/bitcoin/wallet/payment_address.hpp>
+#include <kth/bitcoin/multi_crypto_support.hpp>
+#include <kth/bitcoin/wallet/payment_address.hpp>
 
 KTH_CONV_DEFINE(wallet, payment_address_t, kth::wallet::payment_address, payment_address)
 

@@ -5,7 +5,7 @@
 
 #include <knuth/nodecint/chain/stealth_compact.h>
 
-#include <bitcoin/bitcoin/chain/stealth.hpp>
+#include <kth/bitcoin/chain/stealth.hpp>
 
 #include <knuth/nodecint/helpers.hpp>
 #include <knuth/nodecint/type_conversions.h>

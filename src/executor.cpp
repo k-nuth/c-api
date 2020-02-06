@@ -14,9 +14,9 @@
 
 #include <boost/core/null_deleter.hpp>
 
-#include <bitcoin/bitcoin/multi_crypto_support.hpp>
-#include <bitcoin/node.hpp>
-#include <bitcoin/node/parser.hpp>
+#include <kth/bitcoin/multi_crypto_support.hpp>
+#include <kth/node.hpp>
+#include <kth/node/parser.hpp>
 
 #include <knuth/nodecint/version.h>
 

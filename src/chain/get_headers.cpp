@@ -8,7 +8,7 @@
 #include <knuth/nodecint/conversions.hpp>
 #include <knuth/nodecint/helpers.hpp>
 
-#include <bitcoin/bitcoin/message/get_headers.hpp>
+#include <kth/bitcoin/message/get_headers.hpp>
 
 
 KTH_CONV_DEFINE(chain, get_headers_t, kth::message::get_headers, get_headers)

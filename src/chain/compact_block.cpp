@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <bitcoin/bitcoin/message/compact_block.hpp>
+#include <kth/bitcoin/message/compact_block.hpp>
 
 #include <knuth/nodecint/chain/compact_block.h>
 #include <knuth/nodecint/helpers.hpp>

@@ -32,16 +32,16 @@
 #include <knuth/nodecint/keoken/memory_state.h>
 #include <knuth/nodecint/keoken/state_delegated.h>
 
-#include <bitcoin/bitcoin/message/transaction.hpp>
+#include <kth/bitcoin/message/transaction.hpp>
 
 #ifdef KTH_USE_DOMAIN
-#include <bitcoin/infrastructure/utility/binary.hpp>
+#include <kth/infrastructure/utility/binary.hpp>
 #else
-#include <bitcoin/bitcoin/utility/binary.hpp>
+#include <kth/bitcoin/utility/binary.hpp>
 
 #endif // KTH_USE_DOMAIN
 
-#include <bitcoin/bitcoin/wallet/hd_private.hpp>
+#include <kth/bitcoin/wallet/hd_private.hpp>
 
 
 void my_set_initial_asset_id(void*  /*ctx*/, keoken_asset_id_t asset_id_initial) {

@@ -23,11 +23,11 @@
 
 #include <boost/thread/latch.hpp>
 
-#include <bitcoin/bitcoin/message/block.hpp>
-#include <bitcoin/bitcoin/message/header.hpp>
-#include <bitcoin/bitcoin/message/merkle_block.hpp>
-#include <bitcoin/bitcoin/message/transaction.hpp>
-#include <bitcoin/blockchain/interface/safe_chain.hpp>
+#include <kth/bitcoin/message/block.hpp>
+#include <kth/bitcoin/message/header.hpp>
+#include <kth/bitcoin/message/merkle_block.hpp>
+#include <kth/bitcoin/message/transaction.hpp>
+#include <kth/blockchain/interface/safe_chain.hpp>
 
 #include <knuth/nodecint/chain/block_list.h>
 #include <knuth/nodecint/conversions.hpp>

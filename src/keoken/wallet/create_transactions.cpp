@@ -6,7 +6,7 @@
 
 #include <knuth/nodecint/keoken/wallet/create_transactions.h>
 
-#include <bitcoin/bitcoin/wallet/payment_address.hpp>
+#include <kth/bitcoin/wallet/payment_address.hpp>
 
 #include <knuth/keoken/wallet/create_transaction.hpp>
 

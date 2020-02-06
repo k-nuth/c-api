@@ -5,8 +5,8 @@
 
 #include <knuth/nodecint/chain/history_compact_list.h>
 
-#include <bitcoin/bitcoin/chain/history.hpp>
-#include <bitcoin/bitcoin/chain/output_point.hpp>
+#include <kth/bitcoin/chain/history.hpp>
+#include <kth/bitcoin/chain/output_point.hpp>
 
 #include <knuth/nodecint/conversions.hpp>
 

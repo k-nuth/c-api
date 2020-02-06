@@ -12,16 +12,16 @@
 #include <knuth/nodecint/primitives.h>
 #include <knuth/nodecint/type_conversions.h>
 
-#include <bitcoin/bitcoin/chain/input.hpp>
-#include <bitcoin/bitcoin/chain/output.hpp>
-#include <bitcoin/bitcoin/chain/output_point.hpp>
-#include <bitcoin/bitcoin/chain/script.hpp>
-#include <bitcoin/bitcoin/message/block.hpp>
-#include <bitcoin/bitcoin/message/header.hpp>
-#include <bitcoin/bitcoin/message/transaction.hpp>
-// #include <bitcoin/bitcoin/wallet/ec_public.hpp>
-#include <bitcoin/bitcoin/wallet/transaction_functions.hpp>
-#include <bitcoin/blockchain/interface/safe_chain.hpp>
+#include <kth/bitcoin/chain/input.hpp>
+#include <kth/bitcoin/chain/output.hpp>
+#include <kth/bitcoin/chain/output_point.hpp>
+#include <kth/bitcoin/chain/script.hpp>
+#include <kth/bitcoin/message/block.hpp>
+#include <kth/bitcoin/message/header.hpp>
+#include <kth/bitcoin/message/transaction.hpp>
+// #include <kth/bitcoin/wallet/ec_public.hpp>
+#include <kth/bitcoin/wallet/transaction_functions.hpp>
+#include <kth/blockchain/interface/safe_chain.hpp>
 
 KTH_CONV_DECLARE(chain, block_t, kth::message::block, block)
 KTH_CONV_DECLARE(chain, header_t, kth::message::header, header)

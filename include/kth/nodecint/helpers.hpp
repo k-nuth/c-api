@@ -13,9 +13,9 @@
 #include <utility>
 
 #ifdef KTH_USE_DOMAIN
-#include <bitcoin/infrastructure/math/hash.hpp>
+#include <kth/infrastructure/math/hash.hpp>
 #else
-#include <bitcoin/bitcoin/math/hash.hpp>
+#include <kth/bitcoin/math/hash.hpp>
 #endif // KTH_USE_DOMAIN
 
 
