@@ -1,31 +1,17 @@
-#
-# Copyright (c) 2016-2018 Bitprim Inc.
-#
-# This file is part of Bitprim.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
+# Copyright (c) 2016-2020 Knuth Project developers.
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 
 from conans import CMake
 from ci_utils import option_on_off, march_conan_manip, pass_march_to_compiler
-from ci_utils import BitprimConanFile
+from ci_utils import KnuthConanFile
 
-class BitprimNodeCIntConan(BitprimConanFile):
-    name = "bitprim-node-cint"
+class KnuthNodeCIntConan(KnuthConanFile):
+    name = "node-cint"
     # version = get_version()
     license = "http://www.boost.org/users/license.html"
-    url = "https://github.com/bitprim/bitprim-node-cint"
+    url = "https://github.com/k-nuth/node-cint"
     description = "Bitcoin Full Node Library with C interface"
     settings = "os", "compiler", "build_type", "arch"
 
@@ -69,8 +55,8 @@ class BitprimNodeCIntConan(BitprimConanFile):
 
     generators = "cmake"
     exports = "conan_*", "ci_utils/*"
-    exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "bitprim-node-cintConfig.cmake.in", "bitprimbuildinfo.cmake","include/*", "test/*", "console/*"
-    package_files = "build/lbitprim-node-cint.so"
+    exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "kth-node-cintConfig.cmake.in", "knuthbuildinfo.cmake","include/*", "test/*", "console/*"
+    package_files = "build/lkth-node-cint.so"
     build_policy = "missing"
 
     @property
@@ -89,12 +75,12 @@ class BitprimNodeCIntConan(BitprimConanFile):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
 
             if self.options.use_domain:
-                self.requires("boost/1.69.0@bitprim/stable")
+                self.requires("boost/1.69.0@kth/stable")
             else:
-                self.requires("boost/1.66.0@bitprim/stable")
+                self.requires("boost/1.66.0@kth/stable")
 
 
-            self.requires("bitprim-node/0.X@%s/%s" % (self.user, self.channel))
+            self.requires("kth-node/0.X@%s/%s" % (self.user, self.channel))
 
     def config_options(self):
         if self.settings.arch != "x86_64":
@@ -111,7 +97,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
 
 
     def configure(self):
-        BitprimConanFile.configure(self)
+        KnuthConanFile.configure(self)
 
         if self.options.no_compilation or (self.settings.compiler == None and self.settings.arch == 'x86_64' and self.settings.os in ('Linux', 'Windows', 'Macos')):
             self.settings.remove("compiler")
@@ -152,7 +138,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
         self.output.info("Compiling for DB: %s" % (self.options.db,))
 
     def package_id(self):
-        BitprimConanFile.package_id(self)
+        KnuthConanFile.package_id(self)
 
         self.info.options.with_tests = "ANY"
         self.info.options.with_console = "ANY"
@@ -198,7 +184,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
             cmake.definitions["DB_SPENDS"] = option_on_off(False)
             cmake.definitions["DB_HISTORY"] = option_on_off(False)
             cmake.definitions["DB_STEALTH"] = option_on_off(False)
-            cmake.definitions["DB_UNSPENT_LIBBITCOIN"] = option_on_off(True)
+            cmake.definitions["DB_UNSPENT_LEGACY"] = option_on_off(True)
             cmake.definitions["DB_LEGACY"] = option_on_off(True)
             cmake.definitions["DB_NEW"] = option_on_off(False)
             cmake.definitions["DB_NEW_BLOCKS"] = option_on_off(False)
@@ -208,7 +194,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
             cmake.definitions["DB_SPENDS"] = option_on_off(True)
             cmake.definitions["DB_HISTORY"] = option_on_off(True)
             cmake.definitions["DB_STEALTH"] = option_on_off(True)
-            cmake.definitions["DB_UNSPENT_LIBBITCOIN"] = option_on_off(True)
+            cmake.definitions["DB_UNSPENT_LEGACY"] = option_on_off(True)
             cmake.definitions["DB_LEGACY"] = option_on_off(True)
             cmake.definitions["DB_NEW"] = option_on_off(False)
             cmake.definitions["DB_NEW_BLOCKS"] = option_on_off(False)
@@ -218,7 +204,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
             cmake.definitions["DB_SPENDS"] = option_on_off(False)
             cmake.definitions["DB_HISTORY"] = option_on_off(False)
             cmake.definitions["DB_STEALTH"] = option_on_off(False)
-            cmake.definitions["DB_UNSPENT_LIBBITCOIN"] = option_on_off(False)
+            cmake.definitions["DB_UNSPENT_LEGACY"] = option_on_off(False)
             cmake.definitions["DB_LEGACY"] = option_on_off(False)
             cmake.definitions["DB_NEW"] = option_on_off(True)
             cmake.definitions["DB_NEW_BLOCKS"] = option_on_off(False)
@@ -228,7 +214,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
             cmake.definitions["DB_SPENDS"] = option_on_off(False)
             cmake.definitions["DB_HISTORY"] = option_on_off(False)
             cmake.definitions["DB_STEALTH"] = option_on_off(False)
-            cmake.definitions["DB_UNSPENT_LIBBITCOIN"] = option_on_off(False)
+            cmake.definitions["DB_UNSPENT_LEGACY"] = option_on_off(False)
             cmake.definitions["DB_LEGACY"] = option_on_off(False)
             cmake.definitions["DB_NEW"] = option_on_off(True)
             cmake.definitions["DB_NEW_BLOCKS"] = option_on_off(True)
@@ -238,7 +224,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
             cmake.definitions["DB_SPENDS"] = option_on_off(False)
             cmake.definitions["DB_HISTORY"] = option_on_off(False)
             cmake.definitions["DB_STEALTH"] = option_on_off(False)
-            cmake.definitions["DB_UNSPENT_LIBBITCOIN"] = option_on_off(False)
+            cmake.definitions["DB_UNSPENT_LEGACY"] = option_on_off(False)
             cmake.definitions["DB_LEGACY"] = option_on_off(False)
             cmake.definitions["DB_NEW"] = option_on_off(True)
             cmake.definitions["DB_NEW_BLOCKS"] = option_on_off(False)
@@ -262,7 +248,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
             cmake.definitions["CONAN_C_FLAGS"] = cmake.definitions.get("CONAN_C_FLAGS", "") + " " + str(self.options.cflags)
 
         cmake.definitions["MICROARCHITECTURE"] = self.options.microarchitecture
-        cmake.definitions["BITPRIM_PROJECT_VERSION"] = self.version
+        cmake.definitions["KTH_PROJECT_VERSION"] = self.version
 
         if self.settings.compiler == "gcc":
             if float(str(self.settings.compiler.version)) >= 5:
@@ -302,7 +288,7 @@ class BitprimNodeCIntConan(BitprimConanFile):
         self.cpp_info.includedirs = ['include']
 
         if self.is_shared:
-            self.cpp_info.libs = ["bitprim-node-cint"]
+            self.cpp_info.libs = ["kth-node-cint"]
         else:
-            self.cpp_info.libs = ["bitprim-node-cint", "bitprim-node-cint-version"]
+            self.cpp_info.libs = ["kth-node-cint", "kth-node-cint-version"]
 

@@ -1,28 +1,14 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <bitprim/nodecint/wallet/wallet.h>
 
-#include <bitprim/nodecint/primitives.h>
+#include <knuth/nodecint/wallet/wallet.h>
 
-#ifdef BITPRIM_USE_DOMAIN
+#include <knuth/nodecint/primitives.h>
+
+#ifdef KTH_USE_DOMAIN
 #include <bitcoin/infrastructure/math/elliptic_curve.hpp>
 #include <bitcoin/bitcoin/wallet/ec_public.hpp>
 #include <bitcoin/infrastructure/wallet/hd_private.hpp>
@@ -32,10 +18,10 @@
 #include <bitcoin/bitcoin/wallet/ec_public.hpp>
 #include <bitcoin/bitcoin/wallet/hd_private.hpp>
 #include <bitcoin/bitcoin/wallet/mnemonic.hpp>
-#endif // BITPRIM_USE_DOMAIN
+#endif // KTH_USE_DOMAIN
 
 #include <bitcoin/bitcoin/wallet/payment_address.hpp>
-#include <bitprim/nodecint/helpers.hpp>
+#include <knuth/nodecint/helpers.hpp>
 
 
 libbitcoin::ec_secret new_key(libbitcoin::data_chunk const& seed) {
@@ -49,13 +35,13 @@ extern "C" {
 long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
     auto const& mnemonics_cpp = *static_cast<const std::vector<std::string>*>(mnemonics);
     auto hash_cpp = libbitcoin::wallet::decode_mnemonic(mnemonics_cpp);
-    return bitprim::to_long_hash_t(hash_cpp);
+    return knuth::to_long_hash_t(hash_cpp);
 }
 
 //TODO(fernando): return error code and use output parameters
 ec_secret_t wallet_ec_new(uint8_t* seed, uint64_t n) {
 
-    if (n < BITCOIN_MINIMUM_SEED_SIZE) return bitprim::null_ec_secret;
+    if (n < BITCOIN_MINIMUM_SEED_SIZE) return knuth::null_ec_secret;
 
     libbitcoin::data_chunk seed_cpp(seed, std::next(seed, n));
 
@@ -74,14 +60,14 @@ ec_secret_t wallet_ec_new(uint8_t* seed, uint64_t n) {
 
     // return secret;
 
-    return bitprim::to_ec_secret_t(secret);
+    return knuth::to_ec_secret_t(secret);
 
 }
 
 ec_public_t wallet_ec_to_public(ec_secret_t secret, bool_t uncompressed) {
     
-    auto secret_cpp = bitprim::to_array(secret.data);
-    bool uncompressed_cpp = bitprim::int_to_bool(uncompressed);
+    auto secret_cpp = knuth::to_array(secret.data);
+    bool uncompressed_cpp = knuth::int_to_bool(uncompressed);
     
     libbitcoin::ec_compressed point;
     libbitcoin::secret_to_public(point, secret_cpp);
@@ -98,7 +84,7 @@ payment_address_t wallet_ec_to_address(ec_public_t point, uint32_t version) {
 // console_result hd_new::invoke(std::ostream& output, std::ostream& error)
 // {
 //     // Bound parameters.
-//     const auto version = get_version_option();
+//     auto const version = get_version_option();
 //     const data_chunk& seed = get_seed_argument();
 
 //     if (seed.size() < minimum_seed_size)
@@ -108,7 +94,7 @@ payment_address_t wallet_ec_to_address(ec_public_t point, uint32_t version) {
 //     }
 
 //     // We require the private version, but public is unused here.
-//     const auto prefixes = bc::wallet::hd_private::to_prefixes(version, 0);
+//     auto const prefixes = bc::wallet::hd_private::to_prefixes(version, 0);
 //     const bc::wallet::hd_private private_key(seed, prefixes);
 
 //     if (!private_key)
@@ -131,7 +117,7 @@ hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 7606
 //     }
 
 //     // We require the private version, but public is unused here.
-//     const auto prefixes = bc::wallet::hd_private::to_prefixes(version, 0);
+//     auto const prefixes = bc::wallet::hd_private::to_prefixes(version, 0);
 //     const bc::wallet::hd_private private_key(seed, prefixes);
 
 //     if (!private_key)
@@ -154,7 +140,7 @@ hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 7606
 
 
     // We require the private version, but public is unused here.
-#ifdef BITPRIM_USE_DOMAIN
+#ifdef KTH_USE_DOMAIN
     auto const prefixes = libbitcoin::wallet::to_prefixes(version, 0);
 #else
     auto const prefixes = libbitcoin::wallet::hd_private::to_prefixes(version, 0);
@@ -173,11 +159,11 @@ hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 7606
 // console_result hd_to_ec::invoke(std::ostream& output, std::ostream& error)
 // {
 //     // Bound parameters.
-//     const auto& key = get_hd_key_argument();
-//     const auto private_version = get_secret_version_option();
-//     const auto public_version = get_public_version_option();
+//     auto const& key = get_hd_key_argument();
+//     auto const private_version = get_secret_version_option();
+//     auto const public_version = get_public_version_option();
 
-//     const auto key_version = key.version();
+//     auto const key_version = key.version();
 //     if (key_version != private_version && key_version != public_version)
 //     {
 //         output << "ERROR_VERSION" << std::endl;
@@ -186,11 +172,11 @@ hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 7606
 
 //     if (key.version() == private_version)
 //     {
-//         const auto prefixes = bc::wallet::hd_private::to_prefixes(
+//         auto const prefixes = bc::wallet::hd_private::to_prefixes(
 //             key.version(), public_version);
 
 //         // Create the private key from hd_key and the public version.
-//         const auto private_key = bc::wallet::hd_private(key, prefixes);
+//         auto const private_key = bc::wallet::hd_private(key, prefixes);
 //         if (private_key)
 //         {
 //             output << encode_base16(private_key.secret()) << std::endl;
@@ -200,7 +186,7 @@ hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 7606
 //     else
 //     {
 //         // Create the public key from hd_key and the public version.
-//         const auto public_key = bc::wallet::hd_public(key, public_version);
+//         auto const public_key = bc::wallet::hd_public(key, public_version);
 //         if (public_key)
 //         {
 //             output << bc::wallet::ec_public(public_key) << std::endl;
@@ -217,7 +203,7 @@ hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 7606
 ec_secret_t wallet_hd_private_to_ec(hd_private_t key) {
     auto const& key_cpp = *static_cast<libbitcoin::wallet::hd_private const*>(key);
     libbitcoin::ec_secret secret = key_cpp.secret();
-    return bitprim::to_ec_secret_t(secret);
+    return knuth::to_ec_secret_t(secret);
 }
 
 

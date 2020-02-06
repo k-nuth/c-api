@@ -1,33 +1,19 @@
-/**
- * Copyright (c) 2018 Bitprim developers (see AUTHORS)
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <bitprim/nodecint/chain/mempool_transaction_list.h>
+
+#include <knuth/nodecint/chain/mempool_transaction_list.h>
 
 #include <bitcoin/blockchain/interface/safe_chain.hpp>
-#include <bitprim/nodecint/conversions.hpp>
+#include <knuth/nodecint/conversions.hpp>
 
 
-BITPRIM_LIST_DEFINE_CONVERTERS(chain, mempool_transaction_list_t, libbitcoin::blockchain::mempool_transaction_summary, mempool_transaction_list)
-BITPRIM_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, mempool_transaction_list_t, libbitcoin::blockchain::mempool_transaction_summary, mempool_transaction_list)
+KTH_LIST_DEFINE_CONVERTERS(chain, mempool_transaction_list_t, libbitcoin::blockchain::mempool_transaction_summary, mempool_transaction_list)
+KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, mempool_transaction_list_t, libbitcoin::blockchain::mempool_transaction_summary, mempool_transaction_list)
 
 extern "C" {
 
-BITPRIM_LIST_DEFINE(chain, mempool_transaction_list_t, mempool_transaction_t, mempool_transaction_list, libbitcoin::blockchain::mempool_transaction_summary, chain_mempool_transaction_const_cpp)
+KTH_LIST_DEFINE(chain, mempool_transaction_list_t, mempool_transaction_t, mempool_transaction_list, libbitcoin::blockchain::mempool_transaction_summary, chain_mempool_transaction_const_cpp)
 
 } // extern "C"

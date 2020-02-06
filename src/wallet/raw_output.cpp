@@ -1,31 +1,17 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <bitprim/nodecint/wallet/raw_output.h>
+
+#include <knuth/nodecint/wallet/raw_output.h>
 
 #include <bitcoin/bitcoin/wallet/transaction_functions.hpp>
 
-#include <bitprim/nodecint/conversions.hpp>
-#include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/type_conversions.h>
+#include <knuth/nodecint/conversions.hpp>
+#include <knuth/nodecint/helpers.hpp>
+#include <knuth/nodecint/type_conversions.h>
 
-BITPRIM_CONV_DEFINE(wallet, raw_output_t, libbitcoin::wallet::raw_output, raw_output)
+KTH_CONV_DEFINE(wallet, raw_output_t, libbitcoin::wallet::raw_output, raw_output)
 
 // C++ class declaration
 // using raw_output = std::pair<payment_address, uint64_t>;
@@ -49,8 +35,8 @@ uint64_t wallet_raw_output_amount(raw_output_t obj) {
 //     //precondition: [previous_block_hash, 32) is a valid range
 //     //              && [merkle, 32) is a valid range
 
-//     auto previous_block_hash_cpp = bitprim::hash_to_cpp(previous_block_hash);
-//     auto merkle_cpp = bitprim::hash_to_cpp(merkle);
+//     auto previous_block_hash_cpp = knuth::hash_to_cpp(previous_block_hash);
+//     auto merkle_cpp = knuth::hash_to_cpp(merkle);
 //     return new libbitcoin::wallet::raw_output(version, previous_block_hash_cpp, merkle_cpp, timestamp, bits, nonce);
 // }
 

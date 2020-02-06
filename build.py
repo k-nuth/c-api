@@ -9,7 +9,7 @@ def xor(a, b):
 
 if __name__ == "__main__":
 
-    full_build = os.getenv('BITPRIM_FULL_BUILD', '0') == '1'
+    full_build = os.getenv('KTH_FULL_BUILD', '0') == '1'
     builder, name = get_builder()
     builder.add_common_builds(shared_option_name="%s:shared" % name)
     filtered_builds = []
@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
             copy_env_vars(env_vars)
                 
-            if os.getenv('BITPRIM_RUN_TESTS', 'false') == 'true':
+            if os.getenv('KTH_RUN_TESTS', 'false') == 'true':
                 options["%s:with_tests" % name] = "True"
 
             if full_build:
@@ -29,8 +29,8 @@ if __name__ == "__main__":
             else:
                 marchs = ["x86-64"]
 
-            ci_currency = os.getenv('BITPRIM_CI_CURRENCY', None)
-            # with_keoken = os.getenv('BITPRIM_WITH_KEOKEN', 'false') == 'true'
+            ci_currency = os.getenv('KTH_CI_CURRENCY', None)
+            # with_keoken = os.getenv('KTH_WITH_KEOKEN', 'false') == 'true'
 
             opts_full = copy.deepcopy(options)
             opts_full["%s:db" % name] = "full"

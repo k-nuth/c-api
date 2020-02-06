@@ -1,6 +1,6 @@
 # Executor
 
-Defined in header `<bitprim/nodecint/executor_c.h>`
+Defined in header `<knuth/nodecint/executor_c.h>`
 
 Controls the execution of a Bitprim crypto node.
 

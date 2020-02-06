@@ -1,27 +1,13 @@
-#
-# Copyright (c) 2016-2018 Bitprim Inc.
-#
-# This file is part of Bitprim.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
+# Copyright (c) 2016-2020 Knuth Project developers.
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 
 cmake_minimum_required(VERSION 3.4)
 
-# bitprim-node-cint
+# kth-node-cint
 #==============================================================================
-project(bitprim-node-cint
+project(kth-node-cint
         VERSION 0
         LANGUAGES CXX C)
 
@@ -29,8 +15,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Check for baseline language coverage in the compiler for the C++11 standard.
 #------------------------------------------------------------------------------
-set(CMAKE_CXX_STANDARD 14)
-# set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
+# set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Process options.
@@ -56,11 +42,11 @@ option(ENABLE_POSITION_INDEPENDENT_CODE "Enable POSITION_INDEPENDENT_CODE proper
 
 # Implement --with-remote-blockchain and declare WITH_REMOTE_BLOCKCHAIN.
 #------------------------------------------------------------------------------
-option(WITH_REMOTE_BLOCKCHAIN "Compile with remote bitprim-blockchain (aka. bitprim-blockchain-requester)." OFF)
+option(WITH_REMOTE_BLOCKCHAIN "Compile with remote kth-blockchain (aka. kth-blockchain-requester)." OFF)
 
 # Implement --with-remote-database and declare WITH_REMOTE_DATABASE.
 #------------------------------------------------------------------------------
-option(WITH_REMOTE_DATABASE "Compile with remote bitprim-database (aka. bitprim-database-requester)." OFF)
+option(WITH_REMOTE_DATABASE "Compile with remote kth-database (aka. kth-database-requester)." OFF)
 
 # Implement --with-tests and declare WITH_TESTS.
 #------------------------------------------------------------------------------
@@ -73,129 +59,129 @@ option(WITH_CONSOLE_NODE_CINT "Compile console application." ON)
 
 
 
-set(BITPRIM_PROJECT_VERSION "-" CACHE STRING "Specify the Bitprim Project Version.")
-# message(${BITPRIM_PROJECT_VERSION})
+set(KTH_PROJECT_VERSION "-" CACHE STRING "Specify the Knuth Project Version.")
+# message(${KTH_PROJECT_VERSION})
 
 set(MICROARCHITECTURE "x86_64" CACHE STRING "Specify the Microarchitecture (x86_64|...).")
-message( STATUS "Bitprim: Compiling for ${MICROARCHITECTURE}")
-add_definitions(-DBITPRIM_MICROARCHITECTURE=${MICROARCHITECTURE})
-add_definitions(-DBITPRIM_MICROARCHITECTURE_STR="${MICROARCHITECTURE}")
+message( STATUS "Knuth: Compiling for ${MICROARCHITECTURE}")
+add_definitions(-DKTH_MICROARCHITECTURE=${MICROARCHITECTURE})
+add_definitions(-DKTH_MICROARCHITECTURE_STR="${MICROARCHITECTURE}")
 
 
 set(CURRENCY "BCH" CACHE STRING "Specify the Cryptocurrency (BCH|BTC|LTC).")
 
 if (${CURRENCY} STREQUAL "BCH")
-  add_definitions(-DBITPRIM_CURRENCY_BCH)
-  add_definitions(-DBITPRIM_CURRENCY_SYMBOL_STR="BCH")
-  add_definitions(-DBITPRIM_CURRENCY_STR="Bitcoin Cash")
+  add_definitions(-DKTH_CURRENCY_BCH)
+  add_definitions(-DKTH_CURRENCY_SYMBOL_STR="BCH")
+  add_definitions(-DKTH_CURRENCY_STR="Bitcoin Cash")
 elseif (${CURRENCY} STREQUAL "BTC")
-  add_definitions(-DBITPRIM_CURRENCY_BTC)
-  add_definitions(-DBITPRIM_CURRENCY_SYMBOL_STR="BTC")
-  add_definitions(-DBITPRIM_CURRENCY_STR="Bitcoin Legacy")
+  add_definitions(-DKTH_CURRENCY_BTC)
+  add_definitions(-DKTH_CURRENCY_SYMBOL_STR="BTC")
+  add_definitions(-DKTH_CURRENCY_STR="Bitcoin Legacy")
 elseif (${CURRENCY} STREQUAL "LTC")
-  add_definitions(-DBITPRIM_CURRENCY_LTC)
-  add_definitions(-DBITPRIM_CURRENCY_SYMBOL_STR="LTC")
-  add_definitions(-DBITPRIM_CURRENCY_STR="Litecoin")
+  add_definitions(-DKTH_CURRENCY_LTC)
+  add_definitions(-DKTH_CURRENCY_SYMBOL_STR="LTC")
+  add_definitions(-DKTH_CURRENCY_STR="Litecoin")
 else()
   message(FATAL_ERROR "Invalid Cryptocurrency: ${CURRENCY}")
 endif()
 
-message(STATUS "Bitprim: Cryptocurrency: ${CURRENCY}")
+message(STATUS "Knuth: Cryptocurrency: ${CURRENCY}")
 
 # Implement --with-keoken and declare WITH_KEOKEN.
 #------------------------------------------------------------------------------
 option(WITH_KEOKEN "Keoken enabled." OFF)
 if (WITH_KEOKEN)
-  message(STATUS "Bitprim: Keoken enabled")
-  add_definitions(-DBITPRIM_WITH_KEOKEN)
+  message(STATUS "Knuth: Keoken enabled")
+  add_definitions(-DKTH_WITH_KEOKEN)
 endif()
 
 # Implement --with-mempool and declare WITH_MEMPOOL.
 #------------------------------------------------------------------------------
 option(WITH_MEMPOOL "Mempool enabled." OFF)
 if (WITH_MEMPOOL)
-  message(STATUS "Bitprim: Mempool enabled")
-  add_definitions(-DBITPRIM_WITH_MEMPOOL)
+  message(STATUS "Knuth: Mempool enabled")
+  add_definitions(-DKTH_WITH_MEMPOOL)
 endif()
 
 # Implement --use-domain and declare USE_DOMAIN.
 #------------------------------------------------------------------------------
 option(USE_DOMAIN "Domain enabled." ON)
 if (USE_DOMAIN)
-  message(STATUS "Bitprim: Using Domain enabled")
-  add_definitions(-DBITPRIM_USE_DOMAIN)
+  message(STATUS "Knuth: Using Domain enabled")
+  add_definitions(-DKTH_USE_DOMAIN)
 endif()
 
 # Implement and declare DB_TRANSACTION_UNCONFIRMED.
 #------------------------------------------------------------------------------
 option(DB_TRANSACTION_UNCONFIRMED "DB Transactions Unconfirmed enabled." OFF)
 if (DB_TRANSACTION_UNCONFIRMED)
-  message(STATUS "Bitprim: DB Transactions Unconfirmed enabled")
-  add_definitions(-DBITPRIM_DB_TRANSACTION_UNCONFIRMED)
+  message(STATUS "Knuth: DB Transactions Unconfirmed enabled")
+  add_definitions(-DKTH_DB_TRANSACTION_UNCONFIRMED)
 endif()
 
 # Implement and declare DB_SPENDS.
 #------------------------------------------------------------------------------
 option(DB_SPENDS "DB Spends enabled." OFF)
 if (DB_SPENDS)
-  message(STATUS "Bitprim: DB Spends enabled")
-  add_definitions(-DBITPRIM_DB_SPENDS)
+  message(STATUS "Knuth: DB Spends enabled")
+  add_definitions(-DKTH_DB_SPENDS)
 endif()
 
 # Implement and declare DB_HISTORY.
 #------------------------------------------------------------------------------
 option(DB_HISTORY "DB History enabled." OFF)
 if (DB_HISTORY)
-  message(STATUS "Bitprim: DB History enabled")
-  add_definitions(-DBITPRIM_DB_HISTORY)
+  message(STATUS "Knuth: DB History enabled")
+  add_definitions(-DKTH_DB_HISTORY)
 endif()
 
 # Implement and declare DB_STEALTH.
 #------------------------------------------------------------------------------
 option(DB_STEALTH "DB Stealth enabled." OFF)
 if (DB_STEALTH)
-  message(STATUS "Bitprim: DB Stealth enabled")
-  add_definitions(-DBITPRIM_DB_STEALTH)
+  message(STATUS "Knuth: DB Stealth enabled")
+  add_definitions(-DKTH_DB_STEALTH)
 endif()
 
-# Implement and declare DB_UNSPENT_LIBBITCOIN.
+# Implement and declare DB_UNSPENT_LEGACY.
 #------------------------------------------------------------------------------
-option(DB_UNSPENT_LIBBITCOIN "DB Unspent Libbitcoin enabled." OFF)
-if (DB_UNSPENT_LIBBITCOIN)
-  message(STATUS "Bitprim: DB Unspent Libbitcoin enabled")
-  add_definitions(-DBITPRIM_DB_UNSPENT_LIBBITCOIN)
+option(DB_UNSPENT_LEGACY "DB Unspent Legacy enabled." OFF)
+if (DB_UNSPENT_LEGACY)
+  message(STATUS "Knuth: DB Unspent Legacy enabled")
+  add_definitions(-DKTH_DB_UNSPENT_LEGACY)
 endif()
 
 # Implement and declare DB_LEGACY.
 #------------------------------------------------------------------------------
 option(DB_LEGACY "DB Legacy enabled." OFF)
 if (DB_LEGACY)
-  message(STATUS "Bitprim: DB Legacy enabled")
-  add_definitions(-DBITPRIM_DB_LEGACY)
+  message(STATUS "Knuth: DB Legacy enabled")
+  add_definitions(-DKTH_DB_LEGACY)
 endif()
 
 # Implement and declare DB_NEW.
 #------------------------------------------------------------------------------
 option(DB_NEW "DB New enabled." OFF)
 if (DB_NEW)
-  message(STATUS "Bitprim: DB New enabled")
-  add_definitions(-DBITPRIM_DB_NEW)
+  message(STATUS "Knuth: DB New enabled")
+  add_definitions(-DKTH_DB_NEW)
 endif()
 
 # Implement and declare DB_NEW_BLOCKS.
 #------------------------------------------------------------------------------
 option(DB_NEW_BLOCKS "DB Blocks New enabled." OFF)
 if (DB_NEW_BLOCKS)
-  message(STATUS "Bitprim: DB Blocks New enabled")
-  add_definitions(-DBITPRIM_DB_NEW_BLOCKS)
+  message(STATUS "Knuth: DB Blocks New enabled")
+  add_definitions(-DKTH_DB_NEW_BLOCKS)
 endif()
 
 # Implement and declare DB_NEW_FULL.
 #------------------------------------------------------------------------------
 option(DB_NEW_FULL "DB New Full enabled." OFF)
 if (DB_NEW_FULL)
-  message(STATUS "Bitprim: DB New Full enabled")
-  add_definitions(-DBITPRIM_DB_NEW_FULL)
+  message(STATUS "Knuth: DB New Full enabled")
+  add_definitions(-DKTH_DB_NEW_FULL)
 endif()
 
 if (ENABLE_SHARED_NODE_CINT)
@@ -206,10 +192,10 @@ endif()
 
 # Conan infrastructure
 #==============================================================================
-if(EXISTS ${CMAKE_SOURCE_DIR}/ci_utils/cmake/bitprimbuildinfo.cmake)
-    include(${CMAKE_SOURCE_DIR}/ci_utils/cmake/bitprimbuildinfo.cmake)
+if(EXISTS ${CMAKE_SOURCE_DIR}/ci_utils/cmake/knuthbuildinfo.cmake)
+    include(${CMAKE_SOURCE_DIR}/ci_utils/cmake/knuthbuildinfo.cmake)
 else()
-    message( STATUS "bitprimbuildinfo doent exists")
+    message( STATUS "knuthbuildinfo doent exists")
 endif()
 
 
@@ -238,18 +224,18 @@ if (NO_CONAN_AT_ALL)
 endif()
 
 if (NOT USE_CONAN)
-  ## Require bitprim-consensus of at least version 2.0.0 and output ${bitprim_consensus_CPPFLAGS/LIBS/PKG}.
+  ## Require kth-consensus of at least version 2.0.0 and output ${kth_consensus_CPPFLAGS/LIBS/PKG}.
   ##------------------------------------------------------------------------------
   #if (WITH_CONSENSUS)
-  #  if (NOT TARGET bitprim-consensus)
-  #    find_package(bitprim-consensus 2.0.0 REQUIRED)
+  #  if (NOT TARGET kth-consensus)
+  #    find_package(kth-consensus 2.0.0 REQUIRED)
   #  endif()
   #endif()
 
-  # Require bitprim-node of at least version 0 and output ${bitprim_node_CPPFLAGS/LIBS/PKG}.
+  # Require kth-node of at least version 0 and output ${kth_node_CPPFLAGS/LIBS/PKG}.
   #------------------------------------------------------------------------------
-  if (NOT TARGET bitprim-node)
-    find_package(bitprim-node 0 REQUIRED)
+  if (NOT TARGET kth-node)
+    find_package(kth-node 0 REQUIRED)
   endif()
 endif()
 
@@ -262,7 +248,7 @@ include(CheckCXXCompilerFlag)
 #------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/ci_utils/cmake)
 
-include(BitprimTools)
+include(KnuthTools)
 
 
 # set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -s")
@@ -333,7 +319,7 @@ endif()
 # Build
 #==============================================================================
 
-# src/bitprim-node-cint.la => ${libdir}
+# src/kth-node-cint.la => ${libdir}
 #------------------------------------------------------------------------------
 #set(MODE STATIC)
 if (ENABLE_SHARED)
@@ -416,108 +402,108 @@ if (WITH_KEOKEN)
 endif()
 
 
-add_library(bitprim-node-cint ${MODE}
+add_library(kth-node-cint ${MODE}
         ${_bitprim_sources}
 )
 
 if (NOT ENABLE_SHARED)
-  add_library(bitprim-node-cint-version ${MODE}
+  add_library(kth-node-cint-version ${MODE}
     src/user_agent.cpp
   )
 
   if (ENABLE_POSITION_INDEPENDENT_CODE) 
-    set_property(TARGET bitprim-node-cint-version PROPERTY POSITION_INDEPENDENT_CODE ON)
+    set_property(TARGET kth-node-cint-version PROPERTY POSITION_INDEPENDENT_CODE ON)
   endif(ENABLE_POSITION_INDEPENDENT_CODE)
 
-  target_compile_definitions(bitprim-node-cint-version PUBLIC -DBITPRIM_PROJECT_VERSION="${BITPRIM_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
+  target_compile_definitions(kth-node-cint-version PUBLIC -DKTH_PROJECT_VERSION="${KTH_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
 
-  target_include_directories(bitprim-node-cint-version PUBLIC
+  target_include_directories(kth-node-cint-version PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>)
 
 
-  # set(CINT_VERSION_LIBS ${CINT_VERSION_LIBS} "bitprim-network")
-  # target_link_libraries(bitprim-node-cint-version PUBLIC ${CINT_VERSION_LIBS})
+  # set(CINT_VERSION_LIBS ${CINT_VERSION_LIBS} "kth-network")
+  # target_link_libraries(kth-node-cint-version PUBLIC ${CINT_VERSION_LIBS})
 
   # if (NOT NO_CONAN_AT_ALL)
-  #   target_link_libraries(bitprim-node-cint-version PUBLIC ${CONAN_LIBS})
+  #   target_link_libraries(kth-node-cint-version PUBLIC ${CONAN_LIBS})
   # endif()
 
 endif()
 
 
 if (ENABLE_POSITION_INDEPENDENT_CODE) 
-  set_property(TARGET bitprim-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
+  set_property(TARGET kth-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif(ENABLE_POSITION_INDEPENDENT_CODE)
 
-#set_target_properties(bitprim-node-cint PROPERTIES CXX_VISIBILITY_PRESET hidden)
+#set_target_properties(kth-node-cint PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
-target_compile_definitions(bitprim-node-cint PUBLIC -DBITPRIM_PROJECT_VERSION="${BITPRIM_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
-target_compile_definitions(bitprim-node-cint PUBLIC -Dbitprim_EXPORTS)
+target_compile_definitions(kth-node-cint PUBLIC -DKTH_PROJECT_VERSION="${KTH_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
+target_compile_definitions(kth-node-cint PUBLIC -Dbitprim_EXPORTS)
 
-target_include_directories(bitprim-node-cint PUBLIC
+target_include_directories(kth-node-cint PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>)
 
-# target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC)
+# target_compile_definitions(kth-node-cint PUBLIC -DBCN_STATIC)
 if (NOT ENABLE_SHARED)
-  target_compile_definitions(bitprim-node-cint PUBLIC -DBITPRIM_LIB_STATIC)
-  # target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
+  target_compile_definitions(kth-node-cint PUBLIC -DKTH_LIB_STATIC)
+  # target_compile_definitions(kth-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
 # else()
-  # target_compile_definitions(bitprim-node-cint PUBLIC -DBC_DLL)
+  # target_compile_definitions(kth-node-cint PUBLIC -DBC_DLL)
 endif()
 
 #Note: Bitprim modules are Static, NodeCint Shared
-target_compile_definitions(bitprim-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
+target_compile_definitions(kth-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
 
 
 
 if (NOT MSVC)
-  target_compile_definitions(bitprim-node-cint PUBLIC -DSYSCONFDIR=\"${SYSCONFDIR}\")
+  target_compile_definitions(kth-node-cint PUBLIC -DSYSCONFDIR=\"${SYSCONFDIR}\")
 endif()
 
 if (NOT USE_CONAN)
-  set(DEP_LIBS ${DEP_LIBS} "bitprim-node")
+  set(DEP_LIBS ${DEP_LIBS} "kth-node")
   if (NOT ENABLE_SHARED)
-    set(DEP_LIBS ${DEP_LIBS} "bitprim-node-cint-version")
+    set(DEP_LIBS ${DEP_LIBS} "kth-node-cint-version")
   endif()
 
-  target_link_libraries(bitprim-node-cint PUBLIC ${DEP_LIBS})
+  target_link_libraries(kth-node-cint PUBLIC ${DEP_LIBS})
 endif()
 
-# lib/libbitprim-node-cint-version
+# lib/libkth-node-cint-version
 
 
 if (NOT NO_CONAN_AT_ALL)
   if (NOT ENABLE_SHARED)
-    set(CONAN_LIBS ${CONAN_LIBS} "bitprim-node-cint-version")
+    set(CONAN_LIBS ${CONAN_LIBS} "kth-node-cint-version")
   endif()
-  target_link_libraries(bitprim-node-cint PUBLIC ${CONAN_LIBS})
+  target_link_libraries(kth-node-cint PUBLIC ${CONAN_LIBS})
 endif()
 
 # if (NOT ENABLE_SHARED)
-#   target_link_libraries(bitprim-node-cint PUBLIC bitprim-node-cint-version)
+#   target_link_libraries(kth-node-cint PUBLIC kth-node-cint-version)
 # endif()
 
 if (USE_CONAN)
   if (MINGW)
-    target_link_libraries(bitprim-node-cint PUBLIC ws2_32 wsock32) #TODO(fernando): manage with Conan
+    target_link_libraries(kth-node-cint PUBLIC ws2_32 wsock32) #TODO(fernando): manage with Conan
   endif()
 endif()
 
 
 
 # if (MSVC)
-#   target_link_libraries(bitprim-node-cint PUBLIC ${Boost_LOG_LIBRARY} ${Boost_LOG_SETUP_LIBRARY})
+#   target_link_libraries(kth-node-cint PUBLIC ${Boost_LOG_LIBRARY} ${Boost_LOG_SETUP_LIBRARY})
 # endif()
 #if (MINGW)
-#  target_link_libraries(bitprim-node-cint PUBLIC bitprim-node wsock32)
+#  target_link_libraries(kth-node-cint PUBLIC kth-node wsock32)
 #else()
-#    target_link_libraries(bitprim-node-cint PUBLIC bitprim-node)
+#    target_link_libraries(kth-node-cint PUBLIC kth-node)
 #endif()
 
 
-_group_sources(bitprim-node-cint "${CMAKE_CURRENT_LIST_DIR}")
+_group_sources(kth-node-cint "${CMAKE_CURRENT_LIST_DIR}")
 
 
 
@@ -541,7 +527,7 @@ if (WITH_CONSOLE_NODE_CINT)
 
   add_executable(test_console ${_test_console_sources})
 
-  target_link_libraries(test_console bitprim-node-cint)
+  target_link_libraries(test_console kth-node-cint)
 
   set_target_properties(
           test_console PROPERTIES
@@ -562,15 +548,15 @@ endif()
 #   enable_testing()
 # endif()
 
-  # local: test/bitprim_node_cint_test
+  # local: test/kth_node_cint_test
   #------------------------------------------------------------------------------
  if (WITH_TESTS)
    add_executable(queries
            test/queries.cpp)
-   target_link_libraries(queries PUBLIC bitprim-node-cint)
+   target_link_libraries(queries PUBLIC kth-node-cint)
    #_group_sources(queries "${CMAKE_CURRENT_LIST_DIR}/test")
 
-   #_add_tests(bitprim_node_cint_test
+   #_add_tests(kth_node_cint_test
    #        configuration_tests
    #        node_tests
    #       header_queue_tests
@@ -586,15 +572,15 @@ endif()
 
 # Install
 #==============================================================================
-#install(TARGETS bitprim-node-cint
-#        EXPORT bitprim-node-cint
+#install(TARGETS kth-node-cint
+#        EXPORT kth-node-cint
 #        ARCHIVE DESTINATION lib
 #        LIBRARY DESTINATION lib
 #)
 
 if (NOT ENABLE_SHARED)
-  install(TARGETS bitprim-node-cint-version
-          EXPORT bitprim-node-cint-version
+  install(TARGETS kth-node-cint-version
+          EXPORT kth-node-cint-version
           LIBRARY DESTINATION "lib"
           ARCHIVE DESTINATION "lib"
           RUNTIME DESTINATION "lib"
@@ -602,8 +588,8 @@ if (NOT ENABLE_SHARED)
           )
 endif()
 
-install(TARGETS bitprim-node-cint
-        EXPORT bitprim-node-cint
+install(TARGETS kth-node-cint
+        EXPORT kth-node-cint
         LIBRARY DESTINATION "lib"
         ARCHIVE DESTINATION "lib"
         RUNTIME DESTINATION "lib"
@@ -611,7 +597,7 @@ install(TARGETS bitprim-node-cint
         )
 
 
-set(_bitprim_headers
+set(_kth_headers
         bitprim/nodecint/binary.h
         bitprim/nodecint/conversions.hpp
         bitprim/nodecint/helpers.hpp
@@ -660,13 +646,13 @@ set(_bitprim_headers
 )
 
 if (WITH_KEOKEN)
-  set(_bitprim_headers
-    ${_bitprim_headers}
+  set(_kth_headers
+    ${_kth_headers}
     bitprim/nodecint/keoken/manager.h
   )
 endif()
 
-foreach (_header ${_bitprim_headers})
+foreach (_header ${_kth_headers})
   get_filename_component(_directory "${_header}" DIRECTORY)
   install(FILES "include/${_header}" DESTINATION "include/${_directory}")
 endforeach()
@@ -676,14 +662,14 @@ endforeach()
 include(CMakePackageConfigHelpers)
 
 if (NOT ENABLE_SHARED)
-  export(EXPORT bitprim-node-cint-version
-          FILE "${CMAKE_CURRENT_BINARY_DIR}/bitprim-node-cint-versionTargets.cmake")
-  export(PACKAGE bitprim-node-cint-version)
+  export(EXPORT kth-node-cint-version
+          FILE "${CMAKE_CURRENT_BINARY_DIR}/kth-node-cint-versionTargets.cmake")
+  export(PACKAGE kth-node-cint-version)
 endif()
 
-export(EXPORT bitprim-node-cint
-        FILE "${CMAKE_CURRENT_BINARY_DIR}/bitprim-node-cintTargets.cmake")
-export(PACKAGE bitprim-node-cint)
+export(EXPORT kth-node-cint
+        FILE "${CMAKE_CURRENT_BINARY_DIR}/kth-node-cintTargets.cmake")
+export(PACKAGE kth-node-cint)
 
 if (UNIX)
   set(_config_package_location "lib/cmake")
@@ -693,28 +679,28 @@ endif()
 
 
 if (NOT ENABLE_SHARED)
-  install(EXPORT bitprim-node-cint-version
-          FILE bitprim-node-cint-versionTargets.cmake
+  install(EXPORT kth-node-cint-version
+          FILE kth-node-cint-versionTargets.cmake
           DESTINATION ${_config_package_location})
 endif()
 
-install(EXPORT bitprim-node-cint
-        FILE bitprim-node-cintTargets.cmake
+install(EXPORT kth-node-cint
+        FILE kth-node-cintTargets.cmake
         DESTINATION ${_config_package_location})
 
-configure_file(bitprim-node-cintConfig.cmake.in
-        "${CMAKE_CURRENT_BINARY_DIR}/bitprim-node-cintConfig.cmake"
+configure_file(kth-node-cintConfig.cmake.in
+        "${CMAKE_CURRENT_BINARY_DIR}/kth-node-cintConfig.cmake"
         @ONLY)
 
 write_basic_package_version_file(
-        "${CMAKE_CURRENT_BINARY_DIR}/bitprim-node-cintConfigVersion.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/kth-node-cintConfigVersion.cmake"
         VERSION ${PROJECT_VERSION}
         COMPATIBILITY AnyNewerVersion)
 
 install(
         FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/bitprim-node-cintConfig.cmake"
-        "${CMAKE_CURRENT_BINARY_DIR}/bitprim-node-cintConfigVersion.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/kth-node-cintConfig.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/kth-node-cintConfigVersion.cmake"
         DESTINATION ${_config_package_location})
 
         

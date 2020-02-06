@@ -1,24 +1,10 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITPRIM_NODECINT_HELPERS_HPP_
-#define BITPRIM_NODECINT_HELPERS_HPP_
+
+#ifndef KTH_NODECINT_HELPERS_HPP_
+#define KTH_NODECINT_HELPERS_HPP_
 
 #include <array>
 #include <cstddef>
@@ -26,11 +12,11 @@
 #include <type_traits>
 #include <utility>
 
-#ifdef BITPRIM_USE_DOMAIN
+#ifdef KTH_USE_DOMAIN
 #include <bitcoin/infrastructure/math/hash.hpp>
 #else
 #include <bitcoin/bitcoin/math/hash.hpp>
-#endif // BITPRIM_USE_DOMAIN
+#endif // KTH_USE_DOMAIN
 
 
 namespace bitprim {
@@ -188,4 +174,4 @@ bool int_to_bool(int x) {
 
 } /* namespace bitprim */
 
-#endif /* BITPRIM_NODECINT_HELPERS_HPP_ */
+#endif /* KTH_NODECINT_HELPERS_HPP_ */

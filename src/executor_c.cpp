@@ -1,23 +1,9 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <bitprim/nodecint/executor_c.h>
+
+#include <knuth/nodecint/executor_c.h>
 
 #include <cstdio>
 #include <memory>
@@ -25,15 +11,15 @@
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/thread/latch.hpp>
 
-#include <bitprim/nodecint/executor.hpp>
-#include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/version.h>
+#include <knuth/nodecint/executor.hpp>
+#include <knuth/nodecint/helpers.hpp>
+#include <knuth/nodecint/version.h>
 
-#ifdef BITPRIM_USE_DOMAIN
+#ifdef KTH_USE_DOMAIN
 #include <bitcoin/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 #else
 #include <bitcoin/bitcoin/wallet/mnemonic.hpp>  //Warning, put it after boost headers
-#endif // BITPRIM_USE_DOMAIN
+#endif // KTH_USE_DOMAIN
 
 libbitcoin::node::configuration make_config(char const* path) {
     libbitcoin::node::configuration config(libbitcoin::config::settings::mainnet);
@@ -131,7 +117,7 @@ struct executor {
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> serr_buffer_;
     std::ostream sout_;
     std::ostream serr_;
-    bitprim::nodecint::executor actual;
+    knuth::nodecint::executor actual;
 };
 
 executor_t executor_construct(char const* path, FILE* sout, FILE* serr) {
@@ -163,7 +149,7 @@ void executor_destruct(executor_t exec) {
 int executor_initchain(executor_t exec) {
     // TODO(fernando): return error_t to inform error in detail
     try {
-        return bitprim::bool_to_int(exec->actual.do_initchain());
+        return knuth::bool_to_int(exec->actual.do_initchain());
 //    } catch (const std::exception& e) {
 //        return 0;
     } catch (...) {
@@ -279,7 +265,7 @@ p2p_t executor_get_p2p(executor_t exec) {
     return &static_cast<libbitcoin::network::p2p&>(exec->actual.node());
 }
 
-#ifdef BITPRIM_WITH_KEOKEN
+#ifdef KTH_WITH_KEOKEN
 keoken_manager_t executor_get_keoken_manager(executor_t exec) {
     // return &(exec->actual.node().keoken_manager());
     return &(exec->actual.keoken_manager());
@@ -287,7 +273,7 @@ keoken_manager_t executor_get_keoken_manager(executor_t exec) {
 #endif
 
 char const* executor_version() {
-    return BITPRIM_NODECINT_VERSION;
+    return KTH_NODECINT_VERSION;
 }
 
 } // extern "C"

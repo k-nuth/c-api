@@ -1,21 +1,7 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 
 #include <chrono>
 #include <csignal>
@@ -23,37 +9,37 @@
 #include <iostream>
 #include <thread>
 
-#include <bitprim/nodecint/chain/chain.h>
-#include <bitprim/nodecint/chain/history_compact.h>
-#include <bitprim/nodecint/chain/history_compact_list.h>
-#include <bitprim/nodecint/chain/input.h>
-#include <bitprim/nodecint/chain/input_list.h>
-#include <bitprim/nodecint/chain/output.h>
-#include <bitprim/nodecint/chain/output_list.h>
-#include <bitprim/nodecint/chain/output_point.h>
-#include <bitprim/nodecint/chain/script.h>
-#include <bitprim/nodecint/chain/transaction.h>
-#include <bitprim/nodecint/executor_c.h>
-#include <bitprim/nodecint/hash_list.h>
-#include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/wallet/payment_address.h>
-#include <bitprim/nodecint/wallet/wallet.h>
-#include <bitprim/nodecint/wallet/word_list.h>
+#include <knuth/nodecint/chain/chain.h>
+#include <knuth/nodecint/chain/history_compact.h>
+#include <knuth/nodecint/chain/history_compact_list.h>
+#include <knuth/nodecint/chain/input.h>
+#include <knuth/nodecint/chain/input_list.h>
+#include <knuth/nodecint/chain/output.h>
+#include <knuth/nodecint/chain/output_list.h>
+#include <knuth/nodecint/chain/output_point.h>
+#include <knuth/nodecint/chain/script.h>
+#include <knuth/nodecint/chain/transaction.h>
+#include <knuth/nodecint/executor_c.h>
+#include <knuth/nodecint/hash_list.h>
+#include <knuth/nodecint/helpers.hpp>
+#include <knuth/nodecint/wallet/payment_address.h>
+#include <knuth/nodecint/wallet/wallet.h>
+#include <knuth/nodecint/wallet/word_list.h>
 
-#include <bitprim/nodecint/keoken/get_assets_data.h>
-#include <bitprim/nodecint/keoken/get_assets_list.h>
-#include <bitprim/nodecint/keoken/manager.h>
-#include <bitprim/nodecint/keoken/memory_state.h>
-#include <bitprim/nodecint/keoken/state_delegated.h>
+#include <knuth/nodecint/keoken/get_assets_data.h>
+#include <knuth/nodecint/keoken/get_assets_list.h>
+#include <knuth/nodecint/keoken/manager.h>
+#include <knuth/nodecint/keoken/memory_state.h>
+#include <knuth/nodecint/keoken/state_delegated.h>
 
 #include <bitcoin/bitcoin/message/transaction.hpp>
 
-#ifdef BITPRIM_USE_DOMAIN
+#ifdef KTH_USE_DOMAIN
 #include <bitcoin/infrastructure/utility/binary.hpp>
 #else
 #include <bitcoin/bitcoin/utility/binary.hpp>
 
-#endif // BITPRIM_USE_DOMAIN
+#endif // KTH_USE_DOMAIN
 
 #include <bitcoin/bitcoin/wallet/hd_private.hpp>
 

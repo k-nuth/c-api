@@ -1,23 +1,9 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <bitprim/nodecint/executor.hpp>
+
+#include <knuth/nodecint/executor.hpp>
 
 #include <csignal>
 #include <functional>
@@ -32,7 +18,7 @@
 #include <bitcoin/node.hpp>
 #include <bitcoin/node/parser.hpp>
 
-#include <bitprim/nodecint/version.h>
+#include <knuth/nodecint/version.h>
 
 namespace bitprim { namespace nodecint {
 
@@ -59,7 +45,7 @@ executor::executor(libbitcoin::node::configuration const& config, std::ostream& 
     config_ = metadata.configured;
 
     auto const& network = config_.network;
-    const auto verbose = network.verbose;
+    auto const verbose = network.verbose;
 
     libbitcoin::log::rotable_file const debug_file {
                     network.debug_file,
@@ -147,7 +133,7 @@ libbitcoin::node::full_node const& executor::node() const {
     return *node_;
 }
 
-#ifdef BITPRIM_WITH_KEOKEN
+#ifdef KTH_WITH_KEOKEN
 keoken_manager_cpp_t& executor::keoken_manager() {
     return *keoken_manager_;
 }
@@ -155,7 +141,7 @@ keoken_manager_cpp_t& executor::keoken_manager() {
 keoken_manager_cpp_t const& executor::keoken_manager() const {
     return *keoken_manager_;
 }
-#endif // BITPRIM_WITH_KEOKEN
+#endif // KTH_WITH_KEOKEN
 
 
 bool executor::load_config_valid() const {
@@ -181,7 +167,7 @@ bool executor::run(libbitcoin::handle0 handler) {
     node_ = std::make_shared<libbitcoin::node::full_node>(config_);
 
 
-#ifdef BITPRIM_WITH_KEOKEN
+#ifdef KTH_WITH_KEOKEN
     keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_bitprim(), config_.node.keoken_genesis_height));    //NOLINT
 #endif
 
@@ -220,7 +206,7 @@ bool executor::init_and_run(libbitcoin::handle0 handler) {
     node_ = std::make_shared<libbitcoin::node::full_node>(config_);
 
 
-    #ifdef BITPRIM_WITH_KEOKEN
+    #ifdef KTH_WITH_KEOKEN
         keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_bitprim(), config_.node.keoken_genesis_height));    //NOLINT
     #endif
 
@@ -363,13 +349,13 @@ void executor::initialize_output() {
         LOG_INFO(LOG_NODE) << format(BN_USING_CONFIG_FILE) % file;
     }
 
-    LOG_INFO(LOG_NODE) << format(BN_VERSION_MESSAGE_INIT) % BITPRIM_NODECINT_VERSION;
-    LOG_INFO(LOG_NODE) << format(BN_CRYPTOCURRENCY_INIT) % BITPRIM_CURRENCY_SYMBOL_STR % BITPRIM_CURRENCY_STR;
-#ifdef BITPRIM_WITH_KEOKEN
+    LOG_INFO(LOG_NODE) << format(BN_VERSION_MESSAGE_INIT) % KTH_NODECINT_VERSION;
+    LOG_INFO(LOG_NODE) << format(BN_CRYPTOCURRENCY_INIT) % KTH_CURRENCY_SYMBOL_STR % KTH_CURRENCY_STR;
+#ifdef KTH_WITH_KEOKEN
     LOG_INFO(LOG_NODE) << format(BN_KEOKEN_MESSAGE_INIT);
 #endif
 
-    LOG_INFO(LOG_NODE) << format(BN_MICROARCHITECTURE_INIT) % BITPRIM_MICROARCHITECTURE_STR;
+    LOG_INFO(LOG_NODE) << format(BN_MICROARCHITECTURE_INIT) % KTH_MICROARCHITECTURE_STR;
 
     LOG_INFO(LOG_NODE) << format(BN_DB_TYPE_INIT) % BN_DB_TYPE;
 

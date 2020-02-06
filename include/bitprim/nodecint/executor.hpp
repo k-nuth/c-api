@@ -1,44 +1,30 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITPRIM_NODECINT_EXECUTOR_HPP_
-#define BITPRIM_NODECINT_EXECUTOR_HPP_
 
-#ifdef BITPRIM_USE_DOMAIN
+#ifndef KTH_NODECINT_EXECUTOR_HPP_
+#define KTH_NODECINT_EXECUTOR_HPP_
+
+#ifdef KTH_USE_DOMAIN
 #include <bitcoin/infrastructure/handlers.hpp>
 #else
 #include <bitcoin/bitcoin/handlers.hpp>
-#endif // BITPRIM_USE_DOMAIN
+#endif // KTH_USE_DOMAIN
 
 #include <bitcoin/node.hpp>
 #include <future>
 #include <iostream>
 
-#ifdef BITPRIM_WITH_KEOKEN
-#include <bitprim/keoken/manager.hpp>
-#include <bitprim/keoken/state_delegated.hpp>
+#ifdef KTH_WITH_KEOKEN
+#include <knuth/keoken/manager.hpp>
+#include <knuth/keoken/state_delegated.hpp>
 #endif
 
 namespace bitprim { 
 
-#ifdef BITPRIM_WITH_KEOKEN
-    using keoken_manager_cpp_t = bitprim::keoken::manager<bitprim::keoken::state_delegated>;
+#ifdef KTH_WITH_KEOKEN
+    using keoken_manager_cpp_t = knuth::keoken::manager<knuth::keoken::state_delegated>;
 #endif
 
 
@@ -70,10 +56,10 @@ public:
     libbitcoin::node::full_node& node();
     libbitcoin::node::full_node const& node() const;
 
-#ifdef BITPRIM_WITH_KEOKEN
+#ifdef KTH_WITH_KEOKEN
     keoken_manager_cpp_t const& keoken_manager() const;
     keoken_manager_cpp_t& keoken_manager();
-#endif // BITPRIM_WITH_KEOKEN
+#endif // KTH_WITH_KEOKEN
 
     bool load_config_valid() const;
 
@@ -108,7 +94,7 @@ private:
     std::ostream& error_;
     
     libbitcoin::node::full_node::ptr node_;
-#ifdef BITPRIM_WITH_KEOKEN
+#ifdef KTH_WITH_KEOKEN
     std::unique_ptr<keoken_manager_cpp_t> keoken_manager_;
 #endif
 
@@ -182,13 +168,13 @@ private:
 #define BN_LOG_HEADER \
     "================= startup %1% =================="
 
-#if defined(BITPRIM_DB_NEW_FULL)
+#if defined(KTH_DB_NEW_FULL)
 #define BN_DB_TYPE "full, new version"
-#elif defined(BITPRIM_DB_NEW_BLOCKS)
+#elif defined(KTH_DB_NEW_BLOCKS)
 #define BN_DB_TYPE "UTXO and Blocks, new version"
-#elif defined(BITPRIM_DB_NEW)
+#elif defined(KTH_DB_NEW)
 #define BN_DB_TYPE "just UTXO, new version"
-#elif defined(BITPRIM_DB_HISTORY)
+#elif defined(KTH_DB_HISTORY)
 #define BN_DB_TYPE "full, legacy version"
 #else
 #define BN_DB_TYPE "TXs and Blocks, legacy version"
@@ -197,4 +183,4 @@ private:
 } // namespace nodecint
 } // namespace bitprim
 
-#endif /* BITPRIM_NODECINT_EXECUTOR_HPP_ */
+#endif /* KTH_NODECINT_EXECUTOR_HPP_ */

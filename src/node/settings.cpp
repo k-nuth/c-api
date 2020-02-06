@@ -1,7 +1,7 @@
 /**
-* Copyright (c) 2016-2018 Bitprim Inc.
+* Copyright (c) 2016-2020 Knuth Project developers.
 *
-* This file is part of Bitprim.
+* This file is part of the Knuth Project.
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Affero General Public License as published by
@@ -17,14 +17,14 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <bitprim/nodecint/node/settings.h>
+#include <knuth/nodecint/node/settings.h>
 
 #include <algorithm>
 #include <cstdlib>
 #include <string>
 
-#include <bitprim/nodecint/executor_c.h>
-#include <bitprim/nodecint/helpers.hpp>
+#include <knuth/nodecint/executor_c.h>
+#include <knuth/nodecint/helpers.hpp>
 
 #include <bitcoin/bitcoin/multi_crypto_support.hpp>
 #include <bitcoin/network/p2p.hpp>
@@ -51,12 +51,12 @@ network_t node_settings_get_network(executor_t exec) {
 }
 
 char const* node_settings_cashaddr_prefix() {
-#if defined(BITPRIM_CURRENCY_BCH)
+#if defined(KTH_CURRENCY_BCH)
     auto str = libbitcoin::cashaddr_prefix();
 #else
     std::string str; //Note: to avoid checking compilation-time feature at other languages
 #endif
-    return bitprim::create_c_str(str);    
+    return knuth::create_c_str(str);    
 }
 
 } // extern "C"

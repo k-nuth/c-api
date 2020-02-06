@@ -1,21 +1,7 @@
-#
-# Copyright (c) 2016-2018 Bitprim Inc.
-#
-# This file is part of Bitprim.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
+# Copyright (c) 2016-2020 Knuth Project developers.
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 
 branches:
   only:
@@ -66,23 +52,23 @@ test_script:
         $a = python ci_utils/set_envvars_and_files.py
         Write-Host $a
         Invoke-Expression $a
-        conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim
+        conan remote add kth https://api.bintray.com/conan/k-nuth/kth
         python ci_utils/process_conan_reqs.py
         conan remove "*" -f
-        conan remote remove bitprim
+        conan remote remove kth
       }
   - ps: |
       If ($env:WAIT_FOR_DEPS -eq 1) {
         conan user
-        conan remote add bitprim_temp https://api.bintray.com/conan/bitprim/bitprim
-        echo "waiting for bitprim-node/0.X@bitprim/staging ..."
-        conan search bitprim-node/0.X@bitprim/staging -r bitprim_temp > $null
+        conan remote add kth_temp https://api.bintray.com/conan/k-nuth/kth
+        echo "waiting for kth-node/0.X@kth/staging ..."
+        conan search kth-node/0.X@kth/staging -r kth_temp > $null
         while($env:lastExitCode -eq 1) {
           Write-Host "."
           Start-Sleep -s 10
-          conan search bitprim-node/0.X@bitprim/staging -r bitprim_temp > $null
+          conan search kth-node/0.X@kth/staging -r kth_temp > $null
         }
-        Write-Host "bitprim-node/0.X@bitprim/staging found"
+        Write-Host "kth-node/0.X@kth/staging found"
       }
       # Else {
       #   python build.py
@@ -100,29 +86,29 @@ for:
     environment:
       matrix:
         - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
-          BITPRIM_CI_CURRENCY: BCH
+          KTH_CI_CURRENCY: BCH
         - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
-          BITPRIM_CI_CURRENCY: BTC
+          KTH_CI_CURRENCY: BTC
 
         # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
         #   CONAN_VISUAL_VERSIONS: 15
         #   CONAN_VISUAL_RUNTIMES: MT
-        #   # BITPRIM_RUN_TESTS: true
-        #   BITPRIM_CI_CURRENCY: BCH
-        #   BITPRIM_WITH_KEOKEN: true
+        #   # KTH_RUN_TESTS: true
+        #   KTH_CI_CURRENCY: BCH
+        #   KTH_WITH_KEOKEN: true
         #   VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
           CONAN_VISUAL_VERSIONS: 15
           CONAN_VISUAL_RUNTIMES: MT
-          # BITPRIM_RUN_TESTS: true
-          BITPRIM_CI_CURRENCY: BCH
-          BITPRIM_WITH_KEOKEN: false
+          # KTH_RUN_TESTS: true
+          KTH_CI_CURRENCY: BCH
+          KTH_WITH_KEOKEN: false
           VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
           CONAN_VISUAL_VERSIONS: 15
           CONAN_VISUAL_RUNTIMES: MT
-          # BITPRIM_RUN_TESTS: true
-          BITPRIM_CI_CURRENCY: BTC
+          # KTH_RUN_TESTS: true
+          KTH_CI_CURRENCY: BTC
           VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
 
   -
@@ -135,99 +121,99 @@ for:
           APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
           CONAN_VISUAL_VERSIONS: 15
           CONAN_VISUAL_RUNTIMES: MT
-          # BITPRIM_RUN_TESTS: true
-          BITPRIM_CI_CURRENCY: BCH
+          # KTH_RUN_TESTS: true
+          KTH_CI_CURRENCY: BCH
           VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
         # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
         #   CONAN_VISUAL_VERSIONS: 15
         #   CONAN_VISUAL_RUNTIMES: MT
-        #   # BITPRIM_RUN_TESTS: true
-        #   BITPRIM_CI_CURRENCY: BCH
-        #   BITPRIM_WITH_KEOKEN: true
+        #   # KTH_RUN_TESTS: true
+        #   KTH_CI_CURRENCY: BCH
+        #   KTH_WITH_KEOKEN: true
         #   VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
           CONAN_VISUAL_VERSIONS: 15
           CONAN_VISUAL_RUNTIMES: MT
-          # BITPRIM_RUN_TESTS: true
-          BITPRIM_CI_CURRENCY: BCH
-          BITPRIM_WITH_KEOKEN: false
+          # KTH_RUN_TESTS: true
+          KTH_CI_CURRENCY: BCH
+          KTH_WITH_KEOKEN: false
           VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
           CONAN_VISUAL_VERSIONS: 15
           CONAN_VISUAL_RUNTIMES: MT
-          # BITPRIM_RUN_TESTS: true
-          BITPRIM_CI_CURRENCY: BTC
+          # KTH_RUN_TESTS: true
+          KTH_CI_CURRENCY: BTC
           VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
         # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
         #   CONAN_VISUAL_VERSIONS: 15
         #   CONAN_VISUAL_RUNTIMES: MD
-        #   BITPRIM_CI_CURRENCY: BCH
-        #   BITPRIM_WITH_KEOKEN: true
-        #   # BITPRIM_RUN_TESTS: true
+        #   KTH_CI_CURRENCY: BCH
+        #   KTH_WITH_KEOKEN: true
+        #   # KTH_RUN_TESTS: true
         #   VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
           CONAN_VISUAL_VERSIONS: 15
           CONAN_VISUAL_RUNTIMES: MD
-          BITPRIM_CI_CURRENCY: BCH
-          BITPRIM_WITH_KEOKEN: false
-          # BITPRIM_RUN_TESTS: true
+          KTH_CI_CURRENCY: BCH
+          KTH_WITH_KEOKEN: false
+          # KTH_RUN_TESTS: true
           VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
           CONAN_VISUAL_VERSIONS: 15
           CONAN_VISUAL_RUNTIMES: MD
-          BITPRIM_CI_CURRENCY: BTC
-          # BITPRIM_RUN_TESTS: true
+          KTH_CI_CURRENCY: BTC
+          # KTH_RUN_TESTS: true
           VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
         # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
         #   CONAN_VISUAL_VERSIONS: 14
         #   CONAN_VISUAL_RUNTIMES: MT
-        #   BITPRIM_CI_CURRENCY: BCH
+        #   KTH_CI_CURRENCY: BCH
         # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
         #   CONAN_VISUAL_VERSIONS: 14
         #   CONAN_VISUAL_RUNTIMES: MT
-        #   BITPRIM_CI_CURRENCY: BTC
+        #   KTH_CI_CURRENCY: BTC
         # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
         #   CONAN_VISUAL_VERSIONS: 14
         #   CONAN_VISUAL_RUNTIMES: MD
-        #   BITPRIM_CI_CURRENCY: BCH
+        #   KTH_CI_CURRENCY: BCH
         # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
         #   CONAN_VISUAL_VERSIONS: 14
         #   CONAN_VISUAL_RUNTIMES: MD
-        #   BITPRIM_CI_CURRENCY: BTC
+        #   KTH_CI_CURRENCY: BTC
         # - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
-        #   BITPRIM_CI_CURRENCY: BCH
+        #   KTH_CI_CURRENCY: BCH
         # - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
-        #   BITPRIM_CI_CURRENCY: BTC
+        #   KTH_CI_CURRENCY: BTC
 
 
         # - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
-        #   BITPRIM_CI_CURRENCY: BCH
-        #   BITPRIM_WITH_KEOKEN: true
+        #   KTH_CI_CURRENCY: BCH
+        #   KTH_WITH_KEOKEN: true
         - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
-          BITPRIM_CI_CURRENCY: BCH
-          BITPRIM_WITH_KEOKEN: false
+          KTH_CI_CURRENCY: BCH
+          KTH_WITH_KEOKEN: false
         - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
-          BITPRIM_CI_CURRENCY: BTC
+          KTH_CI_CURRENCY: BTC
 
 
         # - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
-        #   BITPRIM_CI_CURRENCY: BCH
-        #   BITPRIM_WITH_KEOKEN: true
+        #   KTH_CI_CURRENCY: BCH
+        #   KTH_WITH_KEOKEN: true
         - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
-          BITPRIM_CI_CURRENCY: BCH
-          BITPRIM_WITH_KEOKEN: false
+          KTH_CI_CURRENCY: BCH
+          KTH_WITH_KEOKEN: false
         - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
-          BITPRIM_CI_CURRENCY: BTC
+          KTH_CI_CURRENCY: BTC
 
 
         # - MINGW_CONFIGURATIONS: "6@x86_64@seh@posix"
-        #   BITPRIM_CI_CURRENCY: BCH
+        #   KTH_CI_CURRENCY: BCH
         # - MINGW_CONFIGURATIONS: "6@x86_64@seh@posix"
-        #   BITPRIM_CI_CURRENCY: BTC
+        #   KTH_CI_CURRENCY: BTC
         # - MINGW_CONFIGURATIONS: "5@x86_64@seh@posix"
-        #   BITPRIM_CI_CURRENCY: BCH
+        #   KTH_CI_CURRENCY: BCH
         # - MINGW_CONFIGURATIONS: "5@x86_64@seh@posix"
-        #   BITPRIM_CI_CURRENCY: BTC
+        #   KTH_CI_CURRENCY: BTC
   -
     branches:
       only:

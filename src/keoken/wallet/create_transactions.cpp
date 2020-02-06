@@ -1,32 +1,18 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <bitprim/nodecint/keoken/wallet/create_transactions.h>
+
+#include <knuth/nodecint/keoken/wallet/create_transactions.h>
 
 #include <bitcoin/bitcoin/wallet/payment_address.hpp>
 
-#include <bitprim/keoken/wallet/create_transaction.hpp>
+#include <knuth/keoken/wallet/create_transaction.hpp>
 
-#include <bitprim/nodecint/conversions.hpp>
-#include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/primitives.h>
+#include <knuth/nodecint/conversions.hpp>
+#include <knuth/nodecint/helpers.hpp>
+#include <knuth/nodecint/primitives.h>
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -42,7 +28,7 @@ error_code_t keoken_wallet_tx_encode_create_asset(
     uint8_t script_version /*= 5*/,
     transaction_t* out_transaction) {
 
-    auto p = bitprim::keoken::wallet::tx_encode_create_asset(
+    auto p = knuth::keoken::wallet::tx_encode_create_asset(
                 chain_point_list_const_cpp(outputs_to_spend),
                 wallet_payment_address_const_cpp(asset_owner),
                 utxo_satoshis,
@@ -59,7 +45,7 @@ error_code_t keoken_wallet_tx_encode_create_asset(
         *out_transaction = nullptr;
     }
 
-    return bitprim::to_c_err(p.first);
+    return knuth::to_c_err(p.first);
 }
 
 error_code_t keoken_wallet_tx_encode_send_tokens(
@@ -75,7 +61,7 @@ error_code_t keoken_wallet_tx_encode_send_tokens(
     uint8_t script_version /*= 5*/,
     transaction_t* out_transaction) {
 
-    auto p = bitprim::keoken::wallet::tx_encode_send_token(
+    auto p = knuth::keoken::wallet::tx_encode_send_token(
                 chain_point_list_const_cpp(outputs_to_spend),
                 wallet_payment_address_const_cpp(asset_owner),
                 utxo_satoshis,
@@ -95,7 +81,7 @@ error_code_t keoken_wallet_tx_encode_send_tokens(
         *out_transaction = nullptr;
     }
 
-    return bitprim::to_c_err(p.first);
+    return knuth::to_c_err(p.first);
 }
 
 } // extern "C"
