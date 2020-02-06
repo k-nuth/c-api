@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_KEOKEN_GET_ALL_ASSETS_ADDRESSES_DATA_H_
-#define KTH_NODECINT_KEOKEN_GET_ALL_ASSETS_ADDRESSES_DATA_H_
+#ifndef KTH_CAPI_KEOKEN_GET_ALL_ASSETS_ADDRESSES_DATA_H_
+#define KTH_CAPI_KEOKEN_GET_ALL_ASSETS_ADDRESSES_DATA_H_
 
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
@@ -41,4 +41,4 @@ payment_address_t keoken_get_all_asset_addresses_data_amount_owner(get_all_asset
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_KEOKEN_GET_ALL_ASSETS_ADDRESSES_DATA_H_ */
+#endif /* KTH_CAPI_KEOKEN_GET_ALL_ASSETS_ADDRESSES_DATA_H_ */

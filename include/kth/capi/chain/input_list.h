@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_INPUT_LIST_H_
-#define KTH_NODECINT_CHAIN_INPUT_LIST_H_
+#ifndef KTH_CAPI_CHAIN_INPUT_LIST_H_
+#define KTH_CAPI_CHAIN_INPUT_LIST_H_
 
 #include <stdint.h>
 
@@ -22,4 +22,4 @@ KTH_LIST_DECLARE(chain, input_list_t, input_t, input_list)
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_CHAIN_INPUT_LIST_H_ */
+#endif /* KTH_CAPI_CHAIN_INPUT_LIST_H_ */

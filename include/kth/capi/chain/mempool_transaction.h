@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_MEMPOOL_TRANSACTION_H_
-#define KTH_NODECINT_CHAIN_MEMPOOL_TRANSACTION_H_
+#ifndef KTH_CAPI_CHAIN_MEMPOOL_TRANSACTION_H_
+#define KTH_CAPI_CHAIN_MEMPOOL_TRANSACTION_H_
 
 #include <stdint.h>
 
@@ -40,4 +40,4 @@ char const* chain_mempool_transaction_prev_output_index(mempool_transaction_t tx
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_CHAIN_MEMPOOL_TRANSACTION_H_ */
+#endif /* KTH_CAPI_CHAIN_MEMPOOL_TRANSACTION_H_ */

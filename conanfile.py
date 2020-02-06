@@ -7,7 +7,7 @@ from conans import CMake
 from ci_utils import option_on_off, march_conan_manip, pass_march_to_compiler
 from ci_utils import KnuthConanFile
 
-class KnuthNodeCIntConan(KnuthConanFile):
+class KnuthCAPIConan(KnuthConanFile):
     name = "node-cint"
     # version = get_version()
     license = "http://www.boost.org/users/license.html"

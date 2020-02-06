@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_KEOKEN_CONVERSIONS_HPP_
-#define KTH_NODECINT_KEOKEN_CONVERSIONS_HPP_
+#ifndef KTH_CAPI_KEOKEN_CONVERSIONS_HPP_
+#define KTH_CAPI_KEOKEN_CONVERSIONS_HPP_
 
 // #include <vector>
 
@@ -24,4 +24,4 @@ KTH_LIST_DECLARE_CONVERTERS(keoken, get_assets_by_address_list_t, knuth::keoken:
 KTH_LIST_DECLARE_CONVERTERS(keoken, get_assets_list_t, knuth::keoken::get_assets_data, get_assets_list)
 
 
-#endif /* KTH_NODECINT_KEOKEN_CONVERSIONS_HPP_ */
+#endif /* KTH_CAPI_KEOKEN_CONVERSIONS_HPP_ */

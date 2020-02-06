@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_BINARY_H
-#define KTH_NODECINT_BINARY_H
+#ifndef KTH_CAPI_BINARY_H
+#define KTH_CAPI_BINARY_H
 
 #include <stdint.h>
 
@@ -43,4 +43,4 @@ char* core_binary_encoded(binary_t binary);
 } // extern "C"
 #endif
 
-#endif // KTH_NODECINT_BINARY_H
+#endif // KTH_CAPI_BINARY_H

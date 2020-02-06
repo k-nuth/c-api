@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_KEOKEN_STATE_DELEGATED_H_
-#define KTH_NODECINT_KEOKEN_STATE_DELEGATED_H_
+#ifndef KTH_CAPI_KEOKEN_STATE_DELEGATED_H_
+#define KTH_CAPI_KEOKEN_STATE_DELEGATED_H_
 
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
@@ -64,4 +64,4 @@ typedef get_all_asset_addresses_list_t (*keoken_state_delegated_get_all_asset_ad
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_KEOKEN_STATE_DELEGATED_H_ */
+#endif /* KTH_CAPI_KEOKEN_STATE_DELEGATED_H_ */

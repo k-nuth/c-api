@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_LIST_CREATOR_H_
-#define KTH_NODECINT_LIST_CREATOR_H_
+#ifndef KTH_CAPI_LIST_CREATOR_H_
+#define KTH_CAPI_LIST_CREATOR_H_
 
 #include <stdint.h>
 
@@ -79,4 +79,4 @@ elem_t api##_##list_name##_nth(list_t l, uint64_t /*size_t*/ n) {               
 }
 
 
-#endif /* KTH_NODECINT_LIST_CREATOR_H_ */
+#endif /* KTH_CAPI_LIST_CREATOR_H_ */

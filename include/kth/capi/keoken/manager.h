@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_KEOKEN_MANAGER_H_
-#define KTH_NODECINT_KEOKEN_MANAGER_H_
+#ifndef KTH_CAPI_KEOKEN_MANAGER_H_
+#define KTH_CAPI_KEOKEN_MANAGER_H_
 
 #include <kth/capi/keoken/state_delegated.h>
 #include <kth/capi/primitives.h>
@@ -49,4 +49,4 @@ get_all_asset_addresses_list_t keoken_manager_get_all_asset_addresses(keoken_man
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_KEOKEN_MANAGER_H_ */
+#endif /* KTH_CAPI_KEOKEN_MANAGER_H_ */

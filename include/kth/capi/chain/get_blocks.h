@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_GET_BLOCKS_H_
-#define KTH_NODECINT_CHAIN_GET_BLOCKS_H_
+#ifndef KTH_CAPI_CHAIN_GET_BLOCKS_H_
+#define KTH_CAPI_CHAIN_GET_BLOCKS_H_
 
 #include <stdint.h>
 
@@ -52,4 +52,4 @@ uint64_t /*size_t*/ chain_get_blocks_serialized_size(get_blocks_t get_b, uint32_
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_CHAIN_GET_BLOCKS_H_ */
+#endif /* KTH_CAPI_CHAIN_GET_BLOCKS_H_ */

@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_WALLET_EC_PUBLIC_H_
-#define KTH_NODECINT_WALLET_EC_PUBLIC_H_
+#ifndef KTH_CAPI_WALLET_EC_PUBLIC_H_
+#define KTH_CAPI_WALLET_EC_PUBLIC_H_
 
 #include <stdint.h>
 
@@ -40,4 +40,4 @@ bool_t wallet_ec_public_compressed(ec_public_t obj);
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_WALLET_EC_PUBLIC_H_ */
+#endif /* KTH_CAPI_WALLET_EC_PUBLIC_H_ */

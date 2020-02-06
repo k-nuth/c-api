@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_GET_HEADERS_H_
-#define KTH_NODECINT_CHAIN_GET_HEADERS_H_
+#ifndef KTH_CAPI_CHAIN_GET_HEADERS_H_
+#define KTH_CAPI_CHAIN_GET_HEADERS_H_
 
 #include <stdint.h>
 
@@ -52,4 +52,4 @@ uint64_t /*size_t*/ chain_get_headers_serialized_size(get_headers_t get_b, uint3
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_CHAIN_GET_HEADERS_H_ */
+#endif /* KTH_CAPI_CHAIN_GET_HEADERS_H_ */

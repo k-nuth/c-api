@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_HELPERS_HPP_
-#define KTH_NODECINT_HELPERS_HPP_
+#ifndef KTH_CAPI_HELPERS_HPP_
+#define KTH_CAPI_HELPERS_HPP_
 
 #include <array>
 #include <cstddef>
@@ -174,4 +174,4 @@ bool int_to_bool(int x) {
 
 } // namespace kth
 
-#endif /* KTH_NODECINT_HELPERS_HPP_ */
+#endif /* KTH_CAPI_HELPERS_HPP_ */

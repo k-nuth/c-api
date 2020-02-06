@@ -19,7 +19,7 @@
 
 #include <kth/capi/version.h>
 
-namespace kth { namespace nodecint {
+namespace kth { namespace capi {
 
 using boost::format;
 using boost::null_deleter;
@@ -347,7 +347,7 @@ void executor::initialize_output() {
         LOG_INFO(LOG_NODE) << format(BN_USING_CONFIG_FILE) % file;
     }
 
-    LOG_INFO(LOG_NODE) << format(BN_VERSION_MESSAGE_INIT) % KTH_NODECINT_VERSION;
+    LOG_INFO(LOG_NODE) << format(BN_VERSION_MESSAGE_INIT) % KTH_CAPI_VERSION;
     LOG_INFO(LOG_NODE) << format(BN_CRYPTOCURRENCY_INIT) % KTH_CURRENCY_SYMBOL_STR % KTH_CURRENCY_STR;
 #ifdef KTH_WITH_KEOKEN
     LOG_INFO(LOG_NODE) << format(BN_KEOKEN_MESSAGE_INIT);
@@ -385,5 +385,5 @@ bool executor::verify_directory() {
 }
 #endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
-} // namespace nodecint
+} // namespace capi
 } // namespace kth

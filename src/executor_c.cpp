@@ -117,7 +117,7 @@ struct executor {
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> serr_buffer_;
     std::ostream sout_;
     std::ostream serr_;
-    knuth::nodecint::executor actual;
+    knuth::capi::executor actual;
 };
 
 executor_t executor_construct(char const* path, FILE* sout, FILE* serr) {
@@ -273,7 +273,7 @@ keoken_manager_t executor_get_keoken_manager(executor_t exec) {
 #endif
 
 char const* executor_version() {
-    return KTH_NODECINT_VERSION;
+    return KTH_CAPI_VERSION;
 }
 
 } // extern "C"

@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_STEALTH_COMPACT_H_
-#define KTH_NODECINT_CHAIN_STEALTH_COMPACT_H_
+#ifndef KTH_CAPI_CHAIN_STEALTH_COMPACT_H_
+#define KTH_CAPI_CHAIN_STEALTH_COMPACT_H_
 
 #include <stdint.h>
 
@@ -37,4 +37,4 @@ void chain_stealth_compact_get_public_key_hash_out(stealth_compact_t stealth, sh
 } // extern "C"
 #endif
 
-#endif // KTH_NODECINT_CHAIN_STEALTH_COMPACT_H_
+#endif // KTH_CAPI_CHAIN_STEALTH_COMPACT_H_

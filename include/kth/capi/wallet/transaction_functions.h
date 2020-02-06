@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_WALLET_TRANSACTION_FUNCTIONS_H_
-#define KTH_NODECINT_WALLET_TRANSACTION_FUNCTIONS_H_
+#ifndef KTH_CAPI_WALLET_TRANSACTION_FUNCTIONS_H_
+#define KTH_CAPI_WALLET_TRANSACTION_FUNCTIONS_H_
 
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
@@ -82,4 +82,4 @@ error_code_t input_set(
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_WALLET_TRANSACTION_FUNCTIONS_H_ */
+#endif /* KTH_CAPI_WALLET_TRANSACTION_FUNCTIONS_H_ */

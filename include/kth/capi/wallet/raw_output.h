@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_WALLET_RAW_OUTPUT_H_
-#define KTH_NODECINT_WALLET_RAW_OUTPUT_H_
+#ifndef KTH_CAPI_WALLET_RAW_OUTPUT_H_
+#define KTH_CAPI_WALLET_RAW_OUTPUT_H_
 
 #include <stdint.h>
 
@@ -25,4 +25,4 @@ uint64_t wallet_raw_output_amount(raw_output_t obj);
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_WALLET_RAW_OUTPUT_H_ */
+#endif /* KTH_CAPI_WALLET_RAW_OUTPUT_H_ */

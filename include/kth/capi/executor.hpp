@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_EXECUTOR_HPP_
-#define KTH_NODECINT_EXECUTOR_HPP_
+#ifndef KTH_CAPI_EXECUTOR_HPP_
+#define KTH_CAPI_EXECUTOR_HPP_
 
 #ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/handlers.hpp>
@@ -28,7 +28,7 @@ namespace kth {
 #endif
 
 
-namespace nodecint {
+namespace capi {
 
 class executor {
 public:
@@ -180,7 +180,7 @@ private:
 #define BN_DB_TYPE "TXs and Blocks, legacy version"
 #endif
 
-} // namespace nodecint
+} // namespace capi
 } // namespace kth
 
-#endif /* KTH_NODECINT_EXECUTOR_HPP_ */
+#endif /* KTH_CAPI_EXECUTOR_HPP_ */

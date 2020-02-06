@@ -9,7 +9,7 @@ namespace kth {
 namespace network {
 
 std::string get_user_agent() {
-    return "/kth:" KTH_NODECINT_VERSION "/";
+    return "/kth:" KTH_CAPI_VERSION "/";
 }
 
 } // namespace network

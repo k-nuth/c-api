@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_HISTORY_COMPACT_H
-#define KTH_NODECINT_CHAIN_HISTORY_COMPACT_H
+#ifndef KTH_CAPI_CHAIN_HISTORY_COMPACT_H
+#define KTH_CAPI_CHAIN_HISTORY_COMPACT_H
 
 #include <stdint.h>
 
@@ -31,4 +31,4 @@ uint64_t chain_history_compact_get_value_or_previous_checksum(history_compact_t 
 } // extern "C"
 #endif
 
-#endif // KTH_NODECINT_CHAIN_HISTORY_COMPACT_H
+#endif // KTH_CAPI_CHAIN_HISTORY_COMPACT_H

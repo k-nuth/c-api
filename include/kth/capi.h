@@ -10,9 +10,9 @@
  * Maintainers: Do not include this header internal to this library.
  */
 
-#ifndef KTH_NODECINT_H_
-#define KTH_NODECINT_H_
+#ifndef KTH_CAPI_H_
+#define KTH_CAPI_H_
 
-#include <kth/capi/nodecint.h>
+#include <kth/capi/capi.h>
 
-#endif /* KTH_NODECINT_H_ */
+#endif // KTH_CAPI_H_

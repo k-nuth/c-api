@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_HEADER_H_
-#define KTH_NODECINT_CHAIN_HEADER_H_
+#ifndef KTH_CAPI_CHAIN_HEADER_H_
+#define KTH_CAPI_CHAIN_HEADER_H_
 
 #include <stdint.h>
 
@@ -92,4 +92,4 @@ void chain_header_hash_out(header_t header, hash_t* out_hash);
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_CHAIN_HEADER_H_ */
+#endif /* KTH_CAPI_CHAIN_HEADER_H_ */

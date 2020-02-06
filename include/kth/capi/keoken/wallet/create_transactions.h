@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_KEOKEN_WALLET_CREATE_TRANSACTION_H_
-#define KTH_NODECINT_KEOKEN_WALLET_CREATE_TRANSACTION_H_
+#ifndef KTH_CAPI_KEOKEN_WALLET_CREATE_TRANSACTION_H_
+#define KTH_CAPI_KEOKEN_WALLET_CREATE_TRANSACTION_H_
 
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
@@ -43,4 +43,4 @@ error_code_t keoken_wallet_tx_encode_send_tokens(
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_KEOKEN_WALLET_CREATE_TRANSACTION_H_ */
+#endif /* KTH_CAPI_KEOKEN_WALLET_CREATE_TRANSACTION_H_ */

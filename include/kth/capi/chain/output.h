@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_OUTPUT_H_
-#define KTH_NODECINT_CHAIN_OUTPUT_H_
+#ifndef KTH_CAPI_CHAIN_OUTPUT_H_
+#define KTH_CAPI_CHAIN_OUTPUT_H_
 
 #include <stdint.h>
 
@@ -52,4 +52,4 @@ uint8_t* chain_output_to_data(output_t output, bool_t wire, uint64_t* /*size_t*/
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_CHAIN_OUTPUT_H_ */
+#endif /* KTH_CAPI_CHAIN_OUTPUT_H_ */

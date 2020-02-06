@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_PRIMITIVES_H_
-#define KTH_NODECINT_PRIMITIVES_H_
+#ifndef KTH_CAPI_PRIMITIVES_H_
+#define KTH_CAPI_PRIMITIVES_H_
 
 #include <stdint.h>
 
@@ -156,4 +156,4 @@ typedef void (*transactions_by_addres_fetch_handler_t)(chain_t, void*, error_cod
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_PRIMITIVES_H_ */
+#endif /* KTH_CAPI_PRIMITIVES_H_ */

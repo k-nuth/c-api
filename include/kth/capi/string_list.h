@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_STRING_LIST_H_
-#define KTH_NODECINT_STRING_LIST_H_
+#ifndef KTH_CAPI_STRING_LIST_H_
+#define KTH_CAPI_STRING_LIST_H_
 
 #include <stdint.h>
 
@@ -28,4 +28,4 @@ void core_string_list_destruct(string_list_t string_list);
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_WALLET_WORD_LIST_H_ */
+#endif /* KTH_CAPI_WALLET_WORD_LIST_H_ */

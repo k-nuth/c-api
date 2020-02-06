@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_TYPE_CONVERSIONS_H_
-#define KTH_NODECINT_TYPE_CONVERSIONS_H_
+#ifndef KTH_CAPI_TYPE_CONVERSIONS_H_
+#define KTH_CAPI_TYPE_CONVERSIONS_H_
 
 #include <stdint.h>
 
@@ -23,4 +23,4 @@ type_cpp& api##_##obj_name##_cpp(type_c o) {                    \
     return *static_cast<type_cpp*>(o);                          \
 }
 
-#endif /* KTH_NODECINT_TYPE_CONVERSIONS_H_ */
+#endif /* KTH_CAPI_TYPE_CONVERSIONS_H_ */

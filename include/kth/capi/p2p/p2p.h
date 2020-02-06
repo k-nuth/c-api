@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_P2P_P2P_H_
-#define KTH_NODECINT_P2P_P2P_H_
+#ifndef KTH_CAPI_P2P_P2P_H_
+#define KTH_CAPI_P2P_P2P_H_
 
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
@@ -29,4 +29,4 @@ bool_t p2p_stopped(p2p_t p2p);
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_P2P_P2P_H_ */
+#endif /* KTH_CAPI_P2P_P2P_H_ */

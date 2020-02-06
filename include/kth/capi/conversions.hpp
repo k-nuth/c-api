@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CONVERSIONS_HPP_
-#define KTH_NODECINT_CONVERSIONS_HPP_
+#ifndef KTH_CAPI_CONVERSIONS_HPP_
+#define KTH_CAPI_CONVERSIONS_HPP_
 
 #include <vector>
 
@@ -58,4 +58,4 @@ KTH_CONV_DECLARE(wallet, raw_output_t, kth::wallet::raw_output, raw_output)
 KTH_LIST_DECLARE_CONVERTERS(wallet, raw_output_list_t, kth::wallet::raw_output, raw_output_list)
 
 
-#endif /* KTH_NODECINT_CONVERSIONS_HPP_ */
+#endif /* KTH_CAPI_CONVERSIONS_HPP_ */

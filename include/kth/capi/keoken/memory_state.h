@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_KEOKEN_MEMORY_STATE_H_
-#define KTH_NODECINT_KEOKEN_MEMORY_STATE_H_
+#ifndef KTH_CAPI_KEOKEN_MEMORY_STATE_H_
+#define KTH_CAPI_KEOKEN_MEMORY_STATE_H_
 
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
@@ -59,4 +59,4 @@ get_all_asset_addresses_list_t keoken_memory_state_get_all_asset_addresses(keoke
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_KEOKEN_MEMORY_STATE_H_ */
+#endif /* KTH_CAPI_KEOKEN_MEMORY_STATE_H_ */

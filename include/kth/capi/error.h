@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_ERROR_H_
-#define KTH_NODECINT_ERROR_H_
+#ifndef KTH_CAPI_ERROR_H_
+#define KTH_CAPI_ERROR_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -200,4 +200,4 @@ typedef enum error_code {
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_ERROR_H_ */
+#endif /* KTH_CAPI_ERROR_H_ */

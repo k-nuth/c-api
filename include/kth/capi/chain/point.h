@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_POINT_H_
-#define KTH_NODECINT_CHAIN_POINT_H_
+#ifndef KTH_CAPI_CHAIN_POINT_H_
+#define KTH_CAPI_CHAIN_POINT_H_
 
 #include <stdint.h>
 
@@ -34,4 +34,4 @@ uint64_t chain_point_get_checksum(point_t point);
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_CHAIN_POINT_H_ */
+#endif /* KTH_CAPI_CHAIN_POINT_H_ */

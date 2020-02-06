@@ -453,7 +453,7 @@ if (NOT ENABLE_SHARED)
   # target_compile_definitions(kth-node-cint PUBLIC -DBC_DLL)
 endif()
 
-#Note: Knuth modules are Static, NodeCint Shared
+#Note: Knuth modules are Static, C-API Shared
 target_compile_definitions(kth-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
 
 
@@ -598,57 +598,57 @@ install(TARGETS kth-node-cint
 
 
 set(_kth_headers
-        kth/nodecint/binary.h
-        kth/nodecint/conversions.hpp
-        kth/nodecint/helpers.hpp
-        kth/nodecint/executor_c.h
-        kth/nodecint/hash_list.h
-        kth/nodecint/platform.h
-        kth/nodecint/primitives.h
-        kth/nodecint/version.h
-        kth/nodecint/visibility.h
-        kth/nodecint/string_list.h
+        kth/capi/binary.h
+        kth/capi/conversions.hpp
+        kth/capi/helpers.hpp
+        kth/capi/executor_c.h
+        kth/capi/hash_list.h
+        kth/capi/platform.h
+        kth/capi/primitives.h
+        kth/capi/version.h
+        kth/capi/visibility.h
+        kth/capi/string_list.h
 
-        kth/nodecint/chain/block.h
-        kth/nodecint/chain/block_indexes.h
-        kth/nodecint/chain/block_list.h
-        kth/nodecint/chain/chain.h
-        kth/nodecint/chain/compact_block.h
-        kth/nodecint/chain/get_blocks.h
-        kth/nodecint/chain/get_headers.h
-        kth/nodecint/chain/header.h
-        kth/nodecint/chain/history_compact.h
-        kth/nodecint/chain/history_compact_list.h
-        kth/nodecint/chain/stealth_compact.h
-        kth/nodecint/chain/stealth_compact_list.h
-        kth/nodecint/chain/input.h
-        kth/nodecint/chain/input_list.h
-        kth/nodecint/chain/mempool_transaction_list.h
-        kth/nodecint/chain/merkle_block.h
-        kth/nodecint/chain/output.h
-        kth/nodecint/chain/output_list.h
-        kth/nodecint/chain/output_point.h
-        kth/nodecint/chain/point.h
-        kth/nodecint/chain/point_list.h
-        kth/nodecint/chain/script.h
-        kth/nodecint/chain/mempool_transaction.h
-        kth/nodecint/chain/transaction.h
-        kth/nodecint/chain/transaction_list.h
+        kth/capi/chain/block.h
+        kth/capi/chain/block_indexes.h
+        kth/capi/chain/block_list.h
+        kth/capi/chain/chain.h
+        kth/capi/chain/compact_block.h
+        kth/capi/chain/get_blocks.h
+        kth/capi/chain/get_headers.h
+        kth/capi/chain/header.h
+        kth/capi/chain/history_compact.h
+        kth/capi/chain/history_compact_list.h
+        kth/capi/chain/stealth_compact.h
+        kth/capi/chain/stealth_compact_list.h
+        kth/capi/chain/input.h
+        kth/capi/chain/input_list.h
+        kth/capi/chain/mempool_transaction_list.h
+        kth/capi/chain/merkle_block.h
+        kth/capi/chain/output.h
+        kth/capi/chain/output_list.h
+        kth/capi/chain/output_point.h
+        kth/capi/chain/point.h
+        kth/capi/chain/point_list.h
+        kth/capi/chain/script.h
+        kth/capi/chain/mempool_transaction.h
+        kth/capi/chain/transaction.h
+        kth/capi/chain/transaction_list.h
 
-        kth/nodecint/node/settings.h
+        kth/capi/node/settings.h
 
-        kth/nodecint/p2p/p2p.h
+        kth/capi/p2p/p2p.h
 
-        kth/nodecint/wallet/payment_address.h
-        kth/nodecint/wallet/payment_address_list.h
-        kth/nodecint/wallet/wallet.h
-        kth/nodecint/wallet/word_list.h
+        kth/capi/wallet/payment_address.h
+        kth/capi/wallet/payment_address_list.h
+        kth/capi/wallet/wallet.h
+        kth/capi/wallet/word_list.h
 )
 
 if (WITH_KEOKEN)
   set(_kth_headers
     ${_kth_headers}
-    kth/nodecint/keoken/manager.h
+    kth/capi/keoken/manager.h
   )
 endif()
 

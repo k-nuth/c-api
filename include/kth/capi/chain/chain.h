@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_CHAIN_H_
-#define KTH_NODECINT_CHAIN_CHAIN_H_
+#ifndef KTH_CAPI_CHAIN_CHAIN_H_
+#define KTH_CAPI_CHAIN_CHAIN_H_
 
 #include <stdint.h>
 
@@ -249,4 +249,4 @@ bool_t chain_is_stale(chain_t chain);
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_CHAIN_CHAIN_H_ */
+#endif /* KTH_CAPI_CHAIN_CHAIN_H_ */

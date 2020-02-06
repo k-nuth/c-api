@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_HASH_LIST_H_
-#define KTH_NODECINT_HASH_LIST_H_
+#ifndef KTH_CAPI_HASH_LIST_H_
+#define KTH_CAPI_HASH_LIST_H_
 
 #include <stdint.h>
 
@@ -25,4 +25,4 @@ void core_hash_list_nth_out(hash_list_t list, uint64_t /*size_t*/ n, hash_t* out
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_HASH_LIST_H_ */
+#endif /* KTH_CAPI_HASH_LIST_H_ */

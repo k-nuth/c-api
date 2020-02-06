@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_NODE_SETTINGS_H_
-#define KTH_NODECINT_NODE_SETTINGS_H_
+#ifndef KTH_CAPI_NODE_SETTINGS_H_
+#define KTH_CAPI_NODE_SETTINGS_H_
 
 #include <stdint.h>
 
@@ -43,4 +43,4 @@ char const* node_settings_cashaddr_prefix();
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_NODE_SETTINGS_H_ */
+#endif /* KTH_CAPI_NODE_SETTINGS_H_ */

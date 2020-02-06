@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_VISIBILITY_H_
-#define KTH_NODECINT_VISIBILITY_H_
+#ifndef KTH_CAPI_VISIBILITY_H_
+#define KTH_CAPI_VISIBILITY_H_
 
 
 #if defined(KTH_LIB_STATIC)
@@ -36,4 +36,4 @@
 
 
 
-#endif /* KTH_NODECINT_VISIBILITY_H_ */
+#endif /* KTH_CAPI_VISIBILITY_H_ */

@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_WALLET_PAYMENT_ADDRESS_H_
-#define KTH_NODECINT_WALLET_PAYMENT_ADDRESS_H_
+#ifndef KTH_CAPI_WALLET_PAYMENT_ADDRESS_H_
+#define KTH_CAPI_WALLET_PAYMENT_ADDRESS_H_
 
 #include <stdint.h>
 
@@ -47,4 +47,4 @@ void wallet_payment_address_destruct(payment_address_t payment_address);
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_WALLET_PAYMENT_ADDRESS_H_ */
+#endif /* KTH_CAPI_WALLET_PAYMENT_ADDRESS_H_ */

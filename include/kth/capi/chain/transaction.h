@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_TRANSACTION_H_
-#define KTH_NODECINT_CHAIN_TRANSACTION_H_
+#ifndef KTH_CAPI_CHAIN_TRANSACTION_H_
+#define KTH_CAPI_CHAIN_TRANSACTION_H_
 
 #include <stdint.h>
 
@@ -109,4 +109,4 @@ uint8_t* chain_transaction_to_data(transaction_t transaction, bool_t wire, uint6
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_CHAIN_TRANSACTION_H_ */
+#endif /* KTH_CAPI_CHAIN_TRANSACTION_H_ */

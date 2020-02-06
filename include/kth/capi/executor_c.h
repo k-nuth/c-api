@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_EXECUTOR_C_H
-#define KTH_NODECINT_EXECUTOR_C_H
+#ifndef KTH_CAPI_EXECUTOR_C_H
+#define KTH_CAPI_EXECUTOR_C_H
 
 #include <stdint.h>
 #include <stdio.h>
@@ -79,4 +79,4 @@ int executor_load_config_valid(executor_t exec);
 } // extern "C"
 #endif
 
-#endif // KTH_NODECINT_EXECUTOR_C_H
+#endif // KTH_CAPI_EXECUTOR_C_H

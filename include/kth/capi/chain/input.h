@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_INPUT_H_
-#define KTH_NODECINT_CHAIN_INPUT_H_
+#ifndef KTH_CAPI_CHAIN_INPUT_H_
+#define KTH_CAPI_CHAIN_INPUT_H_
 
 #include <stdint.h>
 
@@ -52,4 +52,4 @@ uint8_t* chain_input_to_data(input_t input, bool_t wire, uint64_t* /*size_t*/ ou
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_CHAIN_INPUT_H_ */
+#endif /* KTH_CAPI_CHAIN_INPUT_H_ */

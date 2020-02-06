@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_WALLET_WALLET_H_
-#define KTH_NODECINT_WALLET_WALLET_H_
+#ifndef KTH_CAPI_WALLET_WALLET_H_
+#define KTH_CAPI_WALLET_WALLET_H_
 
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
@@ -36,4 +36,4 @@ ec_secret_t wallet_hd_private_to_ec(hd_private_t key);
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_WALLET_WALLET_H_ */
+#endif /* KTH_CAPI_WALLET_WALLET_H_ */

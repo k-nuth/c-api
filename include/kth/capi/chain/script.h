@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_SCRIPT_H_
-#define KTH_NODECINT_CHAIN_SCRIPT_H_
+#ifndef KTH_CAPI_CHAIN_SCRIPT_H_
+#define KTH_CAPI_CHAIN_SCRIPT_H_
 
 #include <stdint.h>
 
@@ -55,4 +55,4 @@ uint64_t /*size_t*/ chain_script_sigops(script_t script, bool_t embedded);
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_CHAIN_SCRIPT_H_ */
+#endif /* KTH_CAPI_CHAIN_SCRIPT_H_ */

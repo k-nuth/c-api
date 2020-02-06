@@ -63,7 +63,7 @@ In case there are no pre-built binaries for your platform, it is necessary to bu
 #include <stdint.h>
 #include <stdio.h>
 
-#include <kth/nodecint.h>
+#include <kth/capi.h>
 
 int main() {
     executor_t exec = executor_construct("my_config_file", stdout, stderr);
@@ -103,7 +103,7 @@ Includes C standard library fixed width integer types: `uint64_t`.
 Includes C standard library input/output features: `stdout`, `stderr` and `printf()`.
 
 ```c
-#include <kth/nodecint.h>
+#include <kth/capi.h>
 ```
 
 Needed to use the Knuth C-API features.

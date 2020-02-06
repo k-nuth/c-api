@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_KEOKEN_GET_ALL_ASSETS_ADDRESSES_LIST_H_
-#define KTH_NODECINT_KEOKEN_GET_ALL_ASSETS_ADDRESSES_LIST_H_
+#ifndef KTH_CAPI_KEOKEN_GET_ALL_ASSETS_ADDRESSES_LIST_H_
+#define KTH_CAPI_KEOKEN_GET_ALL_ASSETS_ADDRESSES_LIST_H_
 
 #include <kth/capi/list_creator.h>
 #include <kth/capi/primitives.h>
@@ -20,4 +20,4 @@ KTH_LIST_DECLARE(keoken, get_all_asset_addresses_list_t, get_all_asset_addresses
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_KEOKEN_GET_ALL_ASSETS_ADDRESSES_LIST_H_ */
+#endif /* KTH_CAPI_KEOKEN_GET_ALL_ASSETS_ADDRESSES_LIST_H_ */

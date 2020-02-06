@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_WALLET_RAW_OUTPUT_LIST_H_
-#define KTH_NODECINT_WALLET_RAW_OUTPUT_LIST_H_
+#ifndef KTH_CAPI_WALLET_RAW_OUTPUT_LIST_H_
+#define KTH_CAPI_WALLET_RAW_OUTPUT_LIST_H_
 
 #include <kth/capi/list_creator.h>
 #include <kth/capi/primitives.h>
@@ -20,4 +20,4 @@ KTH_LIST_DECLARE(wallet, raw_output_list_t, raw_output_t, raw_output_list)
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_WALLET_RAW_OUTPUT_LIST_H_ */
+#endif /* KTH_CAPI_WALLET_RAW_OUTPUT_LIST_H_ */

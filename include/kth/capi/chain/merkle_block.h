@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_MERKLE_BLOCK_H_
-#define KTH_NODECINT_CHAIN_MERKLE_BLOCK_H_
+#ifndef KTH_CAPI_CHAIN_MERKLE_BLOCK_H_
+#define KTH_CAPI_CHAIN_MERKLE_BLOCK_H_
 
 #include <stdint.h>
 
@@ -46,4 +46,4 @@ void chain_merkle_block_reset(merkle_block_t block);
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_CHAIN_MERKLE_BLOCK_H_ */
+#endif /* KTH_CAPI_CHAIN_MERKLE_BLOCK_H_ */

@@ -10,8 +10,8 @@
  * Maintainers: Do not include this header internal to this library.
  */
 
-#ifndef KTH_NODECINT_NODECINT_H_
-#define KTH_NODECINT_NODECINT_H_
+#ifndef KTH_CAPI_CAPI_H_
+#define KTH_CAPI_CAPI_H_
 
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
@@ -47,4 +47,4 @@
 #include <kth/capi/wallet/wallet.h>
 #include <kth/capi/wallet/word_list.h>
 
-#endif /* KTH_NODECINT_NODECINT_H_ */
+#endif /* KTH_CAPI_CAPI_H_ */

@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODECINT_CHAIN_OUTPUT_POINT_H_
-#define KTH_NODECINT_CHAIN_OUTPUT_POINT_H_
+#ifndef KTH_CAPI_CHAIN_OUTPUT_POINT_H_
+#define KTH_CAPI_CHAIN_OUTPUT_POINT_H_
 
 #include <stdint.h>
 
@@ -37,4 +37,4 @@ uint32_t chain_output_point_get_index(output_point_t op);
 } // extern "C"
 #endif
 
-#endif /* KTH_NODECINT_CHAIN_OUTPUT_POINT_H_ */
+#endif /* KTH_CAPI_CHAIN_OUTPUT_POINT_H_ */
