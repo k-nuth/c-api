@@ -11,7 +11,7 @@
 #include <knuth/nodecint/type_conversions.h>
 
 
-KTH_CONV_DEFINE(chain, point_t, libbitcoin::chain::point, point)
+KTH_CONV_DEFINE(chain, point_t, kth::chain::point, point)
 
 // ---------------------------------------------------------------------------
 extern "C" {

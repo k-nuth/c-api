@@ -11,12 +11,12 @@
 #include <knuth/nodecint/helpers.hpp>
 #include <knuth/nodecint/type_conversions.h>
 
-KTH_CONV_DEFINE(wallet, ec_public_t, libbitcoin::wallet::ec_public, ec_public)
+KTH_CONV_DEFINE(wallet, ec_public_t, kth::wallet::ec_public, ec_public)
 
 extern "C" {
 
 ec_public_t wallet_ec_public_construct_default() {
-    return new libbitcoin::wallet::ec_public();
+    return new kth::wallet::ec_public();
 }
 
 // payment_address_t wallet_ec_public_destiny(ec_public_t obj) {

@@ -87,15 +87,15 @@ typedef void* raw_output_list_t;
 typedef void* string_list_t;
 
 typedef struct short_hash_t {
-    uint8_t hash[BITCOIN_SHORT_HASH_SIZE];  //libbitcoin::hash_size
+    uint8_t hash[BITCOIN_SHORT_HASH_SIZE];  //kth::hash_size
 } short_hash_t;
 
 typedef struct hash_t {
-    uint8_t hash[BITCOIN_HASH_SIZE];        //libbitcoin::hash_size
+    uint8_t hash[BITCOIN_HASH_SIZE];        //kth::hash_size
 } hash_t;
 
 typedef struct long_hash_t {
-    uint8_t hash[BITCOIN_LONG_HASH_SIZE];   //libbitcoin::long_hash_size
+    uint8_t hash[BITCOIN_LONG_HASH_SIZE];   //kth::long_hash_size
 } long_hash_t;
 
 

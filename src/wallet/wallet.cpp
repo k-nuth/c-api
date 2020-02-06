@@ -24,8 +24,8 @@
 #include <knuth/nodecint/helpers.hpp>
 
 
-libbitcoin::ec_secret new_key(libbitcoin::data_chunk const& seed) {
-    libbitcoin::wallet::hd_private const key(seed);
+kth::ec_secret new_key(kth::data_chunk const& seed) {
+    kth::wallet::hd_private const key(seed);
     return key.secret();
 }
 
@@ -34,7 +34,7 @@ extern "C" {
 
 long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
     auto const& mnemonics_cpp = *static_cast<const std::vector<std::string>*>(mnemonics);
-    auto hash_cpp = libbitcoin::wallet::decode_mnemonic(mnemonics_cpp);
+    auto hash_cpp = kth::wallet::decode_mnemonic(mnemonics_cpp);
     return knuth::to_long_hash_t(hash_cpp);
 }
 
@@ -43,7 +43,7 @@ ec_secret_t wallet_ec_new(uint8_t* seed, uint64_t n) {
 
     if (n < BITCOIN_MINIMUM_SEED_SIZE) return knuth::null_ec_secret;
 
-    libbitcoin::data_chunk seed_cpp(seed, std::next(seed, n));
+    kth::data_chunk seed_cpp(seed, std::next(seed, n));
 
     // if (seed_cpp.size() < minimum_seed_size)
     // {
@@ -51,7 +51,7 @@ ec_secret_t wallet_ec_new(uint8_t* seed, uint64_t n) {
     //     return console_result::failure;
     // }
 
-    libbitcoin::ec_secret secret(new_key(seed_cpp));
+    kth::ec_secret secret(new_key(seed_cpp));
     // if (secret == null_hash)
     // {
     //     error << BX_EC_NEW_INVALID_KEY << std::endl;
@@ -69,14 +69,14 @@ ec_public_t wallet_ec_to_public(ec_secret_t secret, bool_t uncompressed) {
     auto secret_cpp = knuth::to_array(secret.data);
     bool uncompressed_cpp = knuth::int_to_bool(uncompressed);
     
-    libbitcoin::ec_compressed point;
-    libbitcoin::secret_to_public(point, secret_cpp);
-    return new libbitcoin::wallet::ec_public(point, !uncompressed_cpp);
+    kth::ec_compressed point;
+    kth::secret_to_public(point, secret_cpp);
+    return new kth::wallet::ec_public(point, !uncompressed_cpp);
 }
 
 payment_address_t wallet_ec_to_address(ec_public_t point, uint32_t version) {
-    libbitcoin::wallet::ec_public const& point_cpp = *static_cast<libbitcoin::wallet::ec_public const*>(point);
-    return new libbitcoin::wallet::payment_address(point_cpp, version);
+    kth::wallet::ec_public const& point_cpp = *static_cast<kth::wallet::ec_public const*>(point);
+    return new kth::wallet::payment_address(point_cpp, version);
 }
 
 //TODO(fernando): implement ec-to-wif
@@ -134,21 +134,21 @@ hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 7606
 
     // printf("C++ wallet_hd_new - 2\n");
 
-    libbitcoin::data_chunk seed_cpp(seed, std::next(seed, n));
+    kth::data_chunk seed_cpp(seed, std::next(seed, n));
 
     // printf("C++ wallet_hd_new - 3\n");
 
 
     // We require the private version, but public is unused here.
 #ifdef KTH_USE_DOMAIN
-    auto const prefixes = libbitcoin::wallet::to_prefixes(version, 0);
+    auto const prefixes = kth::wallet::to_prefixes(version, 0);
 #else
-    auto const prefixes = libbitcoin::wallet::hd_private::to_prefixes(version, 0);
+    auto const prefixes = kth::wallet::hd_private::to_prefixes(version, 0);
 #endif
     // printf("C++ wallet_hd_new - 4\n");
 
-    // libbitcoin::wallet::hd_private const private_key(seed_cpp, prefixes);
-    auto* res = new libbitcoin::wallet::hd_private(seed_cpp, prefixes);
+    // kth::wallet::hd_private const private_key(seed_cpp, prefixes);
+    auto* res = new kth::wallet::hd_private(seed_cpp, prefixes);
 
     // printf("C++ wallet_hd_new - 5\n");
 
@@ -201,8 +201,8 @@ hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 7606
 
 //TODO(fernando): return error code and use output parameters
 ec_secret_t wallet_hd_private_to_ec(hd_private_t key) {
-    auto const& key_cpp = *static_cast<libbitcoin::wallet::hd_private const*>(key);
-    libbitcoin::ec_secret secret = key_cpp.secret();
+    auto const& key_cpp = *static_cast<kth::wallet::hd_private const*>(key);
+    kth::ec_secret secret = key_cpp.secret();
     return knuth::to_ec_secret_t(secret);
 }
 

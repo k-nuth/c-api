@@ -9,7 +9,7 @@
 #include <knuth/nodecint/helpers.hpp>
 #include <knuth/nodecint/type_conversions.h>
 
-KTH_CONV_DEFINE(chain, compact_block_t, libbitcoin::message::compact_block, compact_block)
+KTH_CONV_DEFINE(chain, compact_block_t, kth::message::compact_block, compact_block)
 
 // ---------------------------------------------------------------------------
 extern "C" {

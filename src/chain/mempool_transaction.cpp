@@ -12,7 +12,7 @@
 #include <knuth/nodecint/helpers.hpp>
 #include <knuth/nodecint/type_conversions.h>
 
-KTH_CONV_DEFINE(chain, mempool_transaction_t, libbitcoin::blockchain::mempool_transaction_summary, mempool_transaction)
+KTH_CONV_DEFINE(chain, mempool_transaction_t, kth::blockchain::mempool_transaction_summary, mempool_transaction)
 
 // ---------------------------------------------------------------------------
 extern "C" {

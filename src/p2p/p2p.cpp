@@ -11,8 +11,8 @@
 namespace {
 
 inline
-libbitcoin::network::p2p& p2p_cast(p2p_t p2p) {
-    return *static_cast<libbitcoin::network::p2p*>(p2p);
+kth::network::p2p& p2p_cast(p2p_t p2p) {
+    return *static_cast<kth::network::p2p*>(p2p);
 }
 
 } /* end of anonymous namespace */

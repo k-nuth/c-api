@@ -147,7 +147,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     
 	std::string hash = "0000000071966c2b1d065fd446b1e485b2c9d9594acd2007ccbd5441cfc89444";
-	libbitcoin::hash_digest hash_bytes;
+	kth::hash_digest hash_bytes;
 	hex2bin(hash.c_str(), hash_bytes.data());
 	std::reverse(hash_bytes.begin(), hash_bytes.end());
     auto prevout_hash = knuth::to_hash_t(hash_bytes);
@@ -254,7 +254,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 // 	hex2bin(pubk_str.c_str(), pubk.data());
 
 //     std::string prevout_hash_str = "98a2c7b069d6aa414dc4138a45dcc9c804928338599a4df67d73d8e21e00622b";
-// 	libbitcoin::hash_digest hash_bytes;
+// 	kth::hash_digest hash_bytes;
 // 	hex2bin(prevout_hash_str.c_str(), hash_bytes.data());
 // 	std::reverse(hash_bytes.begin(), hash_bytes.end());
 //     auto prevout_hash = knuth::to_hash_t(hash_bytes);
@@ -380,7 +380,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 // void handle_stop(int signal) {
 //     std::cout << "handle_stop()\n";
-//     // stop(libbitcoin::error::success);
+//     // stop(kth::error::success);
 //     //executor_stop(exec);
 //     //chain_t chain = executor_get_chain(exec);
 //     //chain_unsubscribe(chain);
@@ -510,8 +510,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 
 
-// libbitcoin::message::transaction const& tx_const_cpp2(transaction_t transaction) {
-// 	return *static_cast<libbitcoin::message::transaction const*>(transaction);
+// kth::message::transaction const& tx_const_cpp2(transaction_t transaction) {
+// 	return *static_cast<kth::message::transaction const*>(transaction);
 // }
 
 // int main(int /*argc*/, char* /*argv*/[]) {
@@ -584,7 +584,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //	//}
 //
 //	//std::string hash = "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b";
-//	//libbitcoin::hash_digest hash_bytes;
+//	//kth::hash_digest hash_bytes;
 //	//hex2bin(hash.c_str(), hash_bytes.data());
 //	//std::reverse(hash_bytes.begin(), hash_bytes.end());
 //	//transaction_t tx;
@@ -678,8 +678,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     std::string raw = "0200000001ffecbd2b832ea847a7da905a40d5abaff8323cc18ff3121532f6fe781ce79f6e000000008b483045022100a26515b4bb5f3eb0259c0cc0806b4d8096f91a801ee9b15ced76f2537f7de94b02205becd631fe0ae232e4453f1b4a8a5375e4caec62e3971dbfe5a6d86b2538dcf64141044636673164f4b636d560cb4192cb07aa62054154f1a7a99a694b235f8fba56950b34e6ab55d58991470a13ca59330bc6339a2f72eb6f9204a64a1a538ddff4fbffffffff0290d00300000000001976a9144913233162944e9239637f998235d76e1601b1cf88ac80d1f008000000001976a914cc1d800e7f83edd96a0340a4e269b2956f636e3f88ac00000000";
     
-    libbitcoin::data_chunk chunk;
-    libbitcoin::decode_base16(chunk,raw);
+    kth::data_chunk chunk;
+    kth::decode_base16(chunk,raw);
 
     transaction_t tx = chain_transaction_factory_from_data(1,chunk.data(),chunk.size());
 

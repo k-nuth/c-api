@@ -11,23 +11,23 @@
 #include <knuth/nodecint/helpers.hpp>
 
 
-KTH_CONV_DEFINE(chain, transaction_t, libbitcoin::message::transaction, transaction)
+KTH_CONV_DEFINE(chain, transaction_t, kth::message::transaction, transaction)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 transaction_t chain_transaction_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
-    libbitcoin::data_chunk data_cpp(data, std::next(data, n));
-    auto tx = libbitcoin::message::transaction::factory_from_data(version, data_cpp);
+    kth::data_chunk data_cpp(data, std::next(data, n));
+    auto tx = kth::message::transaction::factory_from_data(version, data_cpp);
     return knuth::move_or_copy_and_leak(std::move(tx));
 }
 
 transaction_t chain_transaction_construct_default() {
-    return new libbitcoin::message::transaction();
+    return new kth::message::transaction();
 }
 
 transaction_t chain_transaction_construct(uint32_t version, uint32_t locktime, input_list_t inputs, output_list_t outputs) {
-    return new libbitcoin::message::transaction(version, locktime,
+    return new kth::message::transaction(version, locktime,
                                                 chain_input_list_const_cpp(inputs),
                                                 chain_output_list_const_cpp(outputs));
 }
@@ -45,7 +45,7 @@ uint32_t chain_transaction_version(transaction_t transaction) {
 }
 
 void chain_transaction_set_version(transaction_t transaction, uint32_t version) {
-    return static_cast<libbitcoin::message::transaction*>(transaction)->set_version(version);
+    return static_cast<kth::message::transaction*>(transaction)->set_version(version);
 }
 
 hash_t chain_transaction_hash(transaction_t transaction) {

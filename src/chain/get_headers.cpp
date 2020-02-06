@@ -11,20 +11,20 @@
 #include <bitcoin/bitcoin/message/get_headers.hpp>
 
 
-KTH_CONV_DEFINE(chain, get_headers_t, libbitcoin::message::get_headers, get_headers)
+KTH_CONV_DEFINE(chain, get_headers_t, kth::message::get_headers, get_headers)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 get_headers_t chain_get_headers_construct_default() {
-    return new libbitcoin::message::get_headers();
+    return new kth::message::get_headers();
 }
 
 get_headers_t chain_get_headers_construct(hash_list_t start, hash_t stop) {
     auto const& start_cpp = core_hash_list_const_cpp(start);
     auto stop_cpp = knuth::to_array(stop.hash);
 
-    return new libbitcoin::message::get_headers(start_cpp, stop_cpp);
+    return new kth::message::get_headers(start_cpp, stop_cpp);
 }
 
 void chain_get_headers_destruct(get_headers_t get_b) {

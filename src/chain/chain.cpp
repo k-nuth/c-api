@@ -37,22 +37,22 @@
 namespace {
 
 inline
-libbitcoin::blockchain::safe_chain& safe_chain(chain_t chain) {
-    return *static_cast<libbitcoin::blockchain::safe_chain*>(chain);
+kth::blockchain::safe_chain& safe_chain(chain_t chain) {
+    return *static_cast<kth::blockchain::safe_chain*>(chain);
 }
 
 inline
-libbitcoin::message::transaction::const_ptr tx_shared(transaction_t tx) {
-    auto const& tx_ref = *static_cast<libbitcoin::message::transaction const*>(tx);
-    auto* tx_new = new libbitcoin::message::transaction(tx_ref);
-    return libbitcoin::message::transaction::const_ptr(tx_new);
+kth::message::transaction::const_ptr tx_shared(transaction_t tx) {
+    auto const& tx_ref = *static_cast<kth::message::transaction const*>(tx);
+    auto* tx_new = new kth::message::transaction(tx_ref);
+    return kth::message::transaction::const_ptr(tx_new);
 }
 
 inline
-libbitcoin::message::block::const_ptr block_shared(block_t block) {
-    auto const& block_ref = *static_cast<libbitcoin::message::block const*>(block);
-    auto* block_new = new libbitcoin::message::block(block_ref);
-    return libbitcoin::message::block::const_ptr(block_new);
+kth::message::block::const_ptr block_shared(block_t block) {
+    auto const& block_ref = *static_cast<kth::message::block const*>(block);
+    auto* block_new = new kth::message::block(block_ref);
+    return kth::message::block::const_ptr(block_new);
 }
 
 } /* end of anonymous namespace */
@@ -83,7 +83,7 @@ error_code_t chain_get_last_height(chain_t chain, uint64_t* /*size_t*/ out_heigh
 
 //void chain_fetch_block_height(chain_t chain, void* ctx, hash_t hash, block_height_fetch_handler_t handler) {
 //
-//    libbitcoin::hash_digest hash_cpp;
+//    kth::hash_digest hash_cpp;
 //    std::copy_n(hash, hash_cpp.size(), std::begin(hash_cpp));
 //
 //    safe_chain(chain).fetch_block_height(hash_cpp, [chain, ctx, handler](std::error_code const& ec, size_t h) {
@@ -94,7 +94,7 @@ error_code_t chain_get_last_height(chain_t chain, uint64_t* /*size_t*/ out_heigh
 void chain_fetch_block_height(chain_t chain, void* ctx, hash_t hash, block_height_fetch_handler_t handler) {
 
     auto hash_cpp = knuth::to_array(hash.hash);
-    // std::cout << "hash_cpp: " << libbitcoin::encode_hash(hash_cpp) << std::endl;
+    // std::cout << "hash_cpp: " << kth::encode_hash(hash_cpp) << std::endl;
     
     safe_chain(chain).fetch_block_height(hash_cpp, [chain, ctx, handler](std::error_code const& ec, size_t h) {
         handler(chain, ctx, knuth::to_c_err(ec), h);
@@ -118,8 +118,8 @@ error_code_t chain_get_block_height(chain_t chain, hash_t hash, uint64_t* /*size
 }
 
 void chain_fetch_block_header_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_header_fetch_handler_t handler) {
-    safe_chain(chain).fetch_block_header(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::header::ptr header, size_t h) {
-        auto new_header = new libbitcoin::message::header(*header);
+    safe_chain(chain).fetch_block_header(height, [chain, ctx, handler](std::error_code const& ec, kth::message::header::ptr header, size_t h) {
+        auto new_header = new kth::message::header(*header);
 //        auto new_header = std::make_unique(*header).release();
         //Note: It is the responsability of the user to release/destruct the object
         handler(chain, ctx, knuth::to_c_err(ec), new_header, h);
@@ -130,8 +130,8 @@ error_code_t chain_get_block_header_by_height(chain_t chain, uint64_t /*size_t*/
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
-    safe_chain(chain).fetch_block_header(height, [&](std::error_code const& ec, libbitcoin::message::header::ptr header, size_t h) {
-        *out_header = new libbitcoin::message::header(*header);
+    safe_chain(chain).fetch_block_header(height, [&](std::error_code const& ec, kth::message::header::ptr header, size_t h) {
+        *out_header = new kth::message::header(*header);
         //Note: It is the responsability of the user to release/destruct the object
 
         *out_height = h;
@@ -147,8 +147,8 @@ void chain_fetch_block_header_by_hash(chain_t chain, void* ctx, hash_t hash, blo
 
     auto hash_cpp = knuth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_block_header(hash_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::header::ptr header, size_t h) {
-        auto new_header = new libbitcoin::message::header(*header);
+    safe_chain(chain).fetch_block_header(hash_cpp, [chain, ctx, handler](std::error_code const& ec, kth::message::header::ptr header, size_t h) {
+        auto new_header = new kth::message::header(*header);
         //Note: It is the responsability of the user to release/destruct the object
         handler(chain, ctx, knuth::to_c_err(ec), new_header, h);
     });
@@ -160,8 +160,8 @@ error_code_t chain_get_block_header_by_hash(chain_t chain, hash_t hash, header_t
 
     auto hash_cpp = knuth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_block_header(hash_cpp, [&](std::error_code const& ec, libbitcoin::message::header::ptr header, size_t h) {
-        *out_header = new libbitcoin::message::header(*header);
+    safe_chain(chain).fetch_block_header(hash_cpp, [&](std::error_code const& ec, kth::message::header::ptr header, size_t h) {
+        *out_header = new kth::message::header(*header);
         //Note: It is the responsability of the user to release/destruct the object
 
         *out_height = h;
@@ -180,9 +180,9 @@ void chain_fetch_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ h
 #else
     bool_t witness = 1;
 #endif
-    safe_chain(chain).fetch_block(height, knuth::int_to_bool(witness), [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
-        if (ec == libbitcoin::error::success) {
-            auto new_block = new libbitcoin::message::block(*block);
+    safe_chain(chain).fetch_block(height, knuth::int_to_bool(witness), [chain, ctx, handler](std::error_code const& ec, kth::message::block::const_ptr block, size_t h) {
+        if (ec == kth::error::success) {
+            auto new_block = new kth::message::block(*block);
             //Note: It is the responsability of the user to release/destruct the object
             handler(chain, ctx, knuth::to_c_err(ec), new_block, h);
         } else {
@@ -200,10 +200,10 @@ error_code_t chain_get_block_by_height(chain_t chain, uint64_t /*size_t*/ height
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
-    safe_chain(chain).fetch_block(height, knuth::int_to_bool(witness), [&](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
-        if (ec == libbitcoin::error::success) {
+    safe_chain(chain).fetch_block(height, knuth::int_to_bool(witness), [&](std::error_code const& ec, kth::message::block::const_ptr block, size_t h) {
+        if (ec == kth::error::success) {
             //Note: It is the responsability of the user to release/destruct the object
-            *out_block = new libbitcoin::message::block(*block);
+            *out_block = new kth::message::block(*block);
         } else {
             *out_block = nullptr;
         }
@@ -225,10 +225,10 @@ void chain_fetch_block_by_hash(chain_t chain, void* ctx, hash_t hash, block_fetc
 #endif
     auto hash_cpp = knuth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_block(hash_cpp, knuth::int_to_bool(witness), [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
-        if (ec == libbitcoin::error::success) {
+    safe_chain(chain).fetch_block(hash_cpp, knuth::int_to_bool(witness), [chain, ctx, handler](std::error_code const& ec, kth::message::block::const_ptr block, size_t h) {
+        if (ec == kth::error::success) {
             //Note: It is the responsability of the user to release/destruct the object
-            auto new_block = new libbitcoin::message::block(*block);
+            auto new_block = new kth::message::block(*block);
             handler(chain, ctx, knuth::to_c_err(ec), new_block, h);
         } else {
             handler(chain, ctx, knuth::to_c_err(ec), nullptr, h);
@@ -247,10 +247,10 @@ error_code_t chain_get_block_by_hash(chain_t chain, hash_t hash, block_t* out_bl
 
     auto hash_cpp = knuth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_block(hash_cpp, knuth::int_to_bool(witness), [&](std::error_code const& ec, libbitcoin::message::block::const_ptr block, size_t h) {
-        if (ec == libbitcoin::error::success) {
+    safe_chain(chain).fetch_block(hash_cpp, knuth::int_to_bool(witness), [&](std::error_code const& ec, kth::message::block::const_ptr block, size_t h) {
+        if (ec == kth::error::success) {
             //Note: It is the responsability of the user to release/destruct the object
-            *out_block = new libbitcoin::message::block(*block);
+            *out_block = new kth::message::block(*block);
         } else {
             *out_block = nullptr;
         }
@@ -268,12 +268,12 @@ void chain_fetch_block_header_by_hash_txs_size(chain_t chain, void* ctx, hash_t 
 
     auto hash_cpp = knuth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_block_header_txs_size(hash_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::header::const_ptr header, size_t block_height, const std::shared_ptr<libbitcoin::hash_list> tx_hashes, uint64_t block_serialized_size) {
-        if (ec == libbitcoin::error::success) {
+    safe_chain(chain).fetch_block_header_txs_size(hash_cpp, [chain, ctx, handler](std::error_code const& ec, kth::message::header::const_ptr header, size_t block_height, const std::shared_ptr<kth::hash_list> tx_hashes, uint64_t block_serialized_size) {
+        if (ec == kth::error::success) {
             //Note: It is the user's responsability of the user to release/destruct the object
-            auto new_header = new libbitcoin::message::header(*header);
+            auto new_header = new kth::message::header(*header);
             //Note: It is the user's responsability of the user to release/destruct the object
-            auto new_tx_hashes = new libbitcoin::hash_list(*tx_hashes);
+            auto new_tx_hashes = new kth::hash_list(*tx_hashes);
             handler(chain, ctx, knuth::to_c_err(ec), new_header, block_height, new_tx_hashes, block_serialized_size);
         } else {
             handler(chain, ctx, knuth::to_c_err(ec), nullptr, 0, nullptr, 0);
@@ -287,13 +287,13 @@ error_code_t chain_get_block_header_by_hash_txs_size(chain_t chain, hash_t hash,
 
     auto hash_cpp = knuth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_block_header_txs_size(hash_cpp, [&](std::error_code const& ec, libbitcoin::message::header::const_ptr header, size_t block_height, const std::shared_ptr<libbitcoin::hash_list> tx_hashes, uint64_t block_serialized_size) {
-        if (ec == libbitcoin::error::success) {
+    safe_chain(chain).fetch_block_header_txs_size(hash_cpp, [&](std::error_code const& ec, kth::message::header::const_ptr header, size_t block_height, const std::shared_ptr<kth::hash_list> tx_hashes, uint64_t block_serialized_size) {
+        if (ec == kth::error::success) {
             //Note: It is the user's responsability of the user to release/destruct the object
-            *out_header = new libbitcoin::message::header(*header);
+            *out_header = new kth::message::header(*header);
             *out_block_height = block_height;
             //Note: It is the user's responsability of the user to release/destruct the object
-            *out_tx_hashes = new libbitcoin::hash_list(*tx_hashes);
+            *out_tx_hashes = new kth::hash_list(*tx_hashes);
             *out_serialized_size = block_serialized_size;
         } else {
             *out_header = nullptr;
@@ -311,8 +311,8 @@ error_code_t chain_get_block_header_by_hash_txs_size(chain_t chain, hash_t hash,
 }
 
 void chain_fetch_merkle_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, merkle_block_fetch_handler_t handler) {
-    safe_chain(chain).fetch_merkle_block(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::merkle_block::const_ptr block, size_t h) {
-        auto new_block = new libbitcoin::message::merkle_block(*block);
+    safe_chain(chain).fetch_merkle_block(height, [chain, ctx, handler](std::error_code const& ec, kth::message::merkle_block::const_ptr block, size_t h) {
+        auto new_block = new kth::message::merkle_block(*block);
         //Note: It is the responsibility of the user to release/destruct the object
         handler(chain, ctx, knuth::to_c_err(ec), new_block, h);
     });
@@ -322,8 +322,8 @@ error_code_t chain_get_merkle_block_by_height(chain_t chain, uint64_t /*size_t*/
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
-    safe_chain(chain).fetch_merkle_block(height, [&](std::error_code const& ec, libbitcoin::message::merkle_block::const_ptr block, size_t h) {
-        *out_block = new libbitcoin::message::merkle_block(*block);
+    safe_chain(chain).fetch_merkle_block(height, [&](std::error_code const& ec, kth::message::merkle_block::const_ptr block, size_t h) {
+        *out_block = new kth::message::merkle_block(*block);
         //Note: It is the responsability of the user to release/destruct the object
 
         *out_height = h;
@@ -338,8 +338,8 @@ error_code_t chain_get_merkle_block_by_height(chain_t chain, uint64_t /*size_t*/
 void chain_fetch_merkle_block_by_hash(chain_t chain, void* ctx, hash_t hash, merkle_block_fetch_handler_t handler) {
     auto hash_cpp = knuth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_merkle_block(hash_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::merkle_block::const_ptr block, size_t h) {
-        auto new_block = new libbitcoin::message::merkle_block(*block);
+    safe_chain(chain).fetch_merkle_block(hash_cpp, [chain, ctx, handler](std::error_code const& ec, kth::message::merkle_block::const_ptr block, size_t h) {
+        auto new_block = new kth::message::merkle_block(*block);
         handler(chain, ctx, knuth::to_c_err(ec), new_block, h);
     });
 }
@@ -350,9 +350,9 @@ error_code_t chain_get_merkle_block_by_hash(chain_t chain, hash_t hash, merkle_b
 
     auto hash_cpp = knuth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_merkle_block(hash_cpp, [&](std::error_code const& ec, libbitcoin::message::merkle_block::const_ptr block, size_t h) {
+    safe_chain(chain).fetch_merkle_block(hash_cpp, [&](std::error_code const& ec, kth::message::merkle_block::const_ptr block, size_t h) {
         //Note: It is the responsability of the user to release/destruct the object
-        *out_block = new libbitcoin::message::merkle_block(*block);
+        *out_block = new kth::message::merkle_block(*block);
         *out_height = h;
         res = knuth::to_c_err(ec);
         latch.count_down();
@@ -364,8 +364,8 @@ error_code_t chain_get_merkle_block_by_hash(chain_t chain, hash_t hash, merkle_b
 
 
 void chain_fetch_compact_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, compact_block_fetch_handler_t handler) {
-    safe_chain(chain).fetch_compact_block(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::compact_block::const_ptr block, size_t h) {
-        auto new_block = new libbitcoin::message::compact_block(*block);
+    safe_chain(chain).fetch_compact_block(height, [chain, ctx, handler](std::error_code const& ec, kth::message::compact_block::const_ptr block, size_t h) {
+        auto new_block = new kth::message::compact_block(*block);
         //Note: It is the responsibility of the user to release/destruct the object
         handler(chain, ctx, knuth::to_c_err(ec), new_block, h);
     });
@@ -375,8 +375,8 @@ error_code_t chain_get_compact_block_by_height(chain_t chain, uint64_t /*size_t*
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
-    safe_chain(chain).fetch_compact_block(height, [&](std::error_code const& ec, libbitcoin::message::compact_block::const_ptr block, size_t h) {
-        *out_block = new libbitcoin::message::compact_block(*block);
+    safe_chain(chain).fetch_compact_block(height, [&](std::error_code const& ec, kth::message::compact_block::const_ptr block, size_t h) {
+        *out_block = new kth::message::compact_block(*block);
         //Note: It is the responsability of the user to release/destruct the object
 
         *out_height = h;
@@ -391,8 +391,8 @@ error_code_t chain_get_compact_block_by_height(chain_t chain, uint64_t /*size_t*
 void chain_fetch_compact_block_by_hash(chain_t chain, void* ctx, hash_t hash, compact_block_fetch_handler_t handler) {
     auto hash_cpp = knuth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_compact_block(hash_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::compact_block::const_ptr block, size_t h) {
-        auto new_block = new libbitcoin::message::compact_block(*block);
+    safe_chain(chain).fetch_compact_block(hash_cpp, [chain, ctx, handler](std::error_code const& ec, kth::message::compact_block::const_ptr block, size_t h) {
+        auto new_block = new kth::message::compact_block(*block);
         //Note: It is the responsibility of the user to release/destruct the object
         handler(chain, ctx, knuth::to_c_err(ec), new_block, h);
     });
@@ -404,9 +404,9 @@ error_code_t chain_get_compact_block_by_hash(chain_t chain, hash_t hash, compact
 
     auto hash_cpp = knuth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_compact_block(hash_cpp, [&](std::error_code const& ec, libbitcoin::message::compact_block::const_ptr block, size_t h) {
+    safe_chain(chain).fetch_compact_block(hash_cpp, [&](std::error_code const& ec, kth::message::compact_block::const_ptr block, size_t h) {
         //Note: It is the responsability of the user to release/destruct the object
-        *out_block = new libbitcoin::message::compact_block(*block);
+        *out_block = new kth::message::compact_block(*block);
         *out_height = h;
         res = knuth::to_c_err(ec);
         latch.count_down();
@@ -421,11 +421,11 @@ error_code_t chain_get_compact_block_by_hash(chain_t chain, hash_t hash, compact
 
 
 void chain_fetch_block_by_height_timestamp(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_hash_timestamp_fetch_handler_t handler) {
-    safe_chain(chain).fetch_block_hash_timestamp(height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::hash_digest const& hash, uint32_t timestamp, size_t h) {
-        if (ec == libbitcoin::error::success) {
+    safe_chain(chain).fetch_block_hash_timestamp(height, [chain, ctx, handler](std::error_code const& ec, kth::hash_digest const& hash, uint32_t timestamp, size_t h) {
+        if (ec == kth::error::success) {
             handler(chain, ctx, knuth::to_c_err(ec), knuth::to_hash_t(hash), timestamp, h);
         } else {
-            handler(chain, ctx, knuth::to_c_err(ec), knuth::to_hash_t(libbitcoin::null_hash), 0, h);
+            handler(chain, ctx, knuth::to_c_err(ec), knuth::to_hash_t(kth::null_hash), 0, h);
         }
     });
 }
@@ -434,12 +434,12 @@ error_code_t chain_get_block_by_height_timestamp(chain_t chain, uint64_t /*size_
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
-    safe_chain(chain).fetch_block_hash_timestamp(height, [&](std::error_code const& ec, libbitcoin::hash_digest const& hash, uint32_t timestamp, size_t h) {
-        if (ec == libbitcoin::error::success) {
+    safe_chain(chain).fetch_block_hash_timestamp(height, [&](std::error_code const& ec, kth::hash_digest const& hash, uint32_t timestamp, size_t h) {
+        if (ec == kth::error::success) {
             knuth::copy_c_hash(hash, out_hash);
             *out_timestamp = timestamp;
         } else {
-            knuth::copy_c_hash(libbitcoin::null_hash, out_hash);
+            knuth::copy_c_hash(kth::null_hash, out_hash);
             *out_timestamp = 0;
         }
 
@@ -454,7 +454,7 @@ error_code_t chain_get_block_by_height_timestamp(chain_t chain, uint64_t /*size_
 
 
 error_code_t chain_get_block_hash(chain_t chain, uint64_t height, hash_t* out_hash) {
-    libbitcoin::hash_digest block_hash;
+    kth::hash_digest block_hash;
     bool found_block = safe_chain(chain).get_block_hash(block_hash, height);
     if( ! found_block ) {
         return bitprim_ec_not_found;
@@ -475,9 +475,9 @@ void chain_fetch_transaction(chain_t chain, void* ctx, hash_t hash, bool_t requi
 
     auto hash_cpp = knuth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction(hash_cpp, knuth::int_to_bool(require_confirmed), knuth::int_to_bool(witness), [chain, ctx, handler](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t i, size_t h) {
-        if (ec == libbitcoin::error::success) {
-            auto new_transaction = new libbitcoin::message::transaction(*transaction);
+    safe_chain(chain).fetch_transaction(hash_cpp, knuth::int_to_bool(require_confirmed), knuth::int_to_bool(witness), [chain, ctx, handler](std::error_code const& ec, kth::message::transaction::const_ptr transaction, size_t i, size_t h) {
+        if (ec == kth::error::success) {
+            auto new_transaction = new kth::message::transaction(*transaction);
             handler(chain, ctx, knuth::to_c_err(ec), new_transaction, i, h);
         } else {
             handler(chain, ctx, knuth::to_c_err(ec), nullptr, i, h);
@@ -496,9 +496,9 @@ error_code_t chain_get_transaction(chain_t chain, hash_t hash, int require_confi
 
     auto hash_cpp = knuth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction(hash_cpp, knuth::int_to_bool(require_confirmed), knuth::int_to_bool(witness), [&](std::error_code const& ec, libbitcoin::message::transaction::const_ptr transaction, size_t i, size_t h) {
-        if (ec == libbitcoin::error::success) {
-            *out_transaction = new libbitcoin::message::transaction(*transaction);
+    safe_chain(chain).fetch_transaction(hash_cpp, knuth::int_to_bool(require_confirmed), knuth::int_to_bool(witness), [&](std::error_code const& ec, kth::message::transaction::const_ptr transaction, size_t i, size_t h) {
+        if (ec == kth::error::success) {
+            *out_transaction = new kth::message::transaction(*transaction);
         } else {
             *out_transaction = nullptr;
         }
@@ -545,10 +545,10 @@ error_code_t chain_get_transaction_position(chain_t chain, hash_t hash, int requ
 #if (defined(KTH_DB_LEGACY) && defined(KTH_DB_SPENDS)) || defined(KTH_DB_NEW_FULL)
 //It is the user's responsibility to release the input point returned in the callback
 void chain_fetch_spend(chain_t chain, void* ctx, output_point_t op, spend_fetch_handler_t handler) {
-    auto* outpoint_cpp = static_cast<libbitcoin::chain::output_point*>(op);
+    auto* outpoint_cpp = static_cast<kth::chain::output_point*>(op);
 
-    safe_chain(chain).fetch_spend(*outpoint_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::chain::input_point input_point) {
-        auto new_input_point = new libbitcoin::chain::input_point(input_point);
+    safe_chain(chain).fetch_spend(*outpoint_cpp, [chain, ctx, handler](std::error_code const& ec, kth::chain::input_point input_point) {
+        auto new_input_point = new kth::chain::input_point(input_point);
         handler(chain, ctx, knuth::to_c_err(ec), new_input_point);
     });
 }
@@ -557,10 +557,10 @@ error_code_t chain_get_spend(chain_t chain, output_point_t op, input_point_t* ou
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
-    auto* outpoint_cpp = static_cast<libbitcoin::chain::output_point*>(op);
+    auto* outpoint_cpp = static_cast<kth::chain::output_point*>(op);
 
-    safe_chain(chain).fetch_spend(*outpoint_cpp, [&](std::error_code const& ec, libbitcoin::chain::input_point input_point) {
-        *out_input_point = new libbitcoin::chain::input_point(input_point);
+    safe_chain(chain).fetch_spend(*outpoint_cpp, [&](std::error_code const& ec, kth::chain::input_point input_point) {
+        *out_input_point = new kth::chain::input_point(input_point);
         res = knuth::to_c_err(ec);
         latch.count_down();
     });
@@ -575,8 +575,8 @@ error_code_t chain_get_spend(chain_t chain, output_point_t op, input_point_t* ou
 void chain_fetch_history(chain_t chain, void* ctx, payment_address_t address, uint64_t /*size_t*/ limit, uint64_t /*size_t*/ from_height, history_fetch_handler_t handler) {
     // auto const& address_cpp = wallet_payment_address_const_cpp(address);
 
-    safe_chain(chain).fetch_history(wallet_payment_address_const_cpp(address), limit, from_height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::chain::history_compact::list history) {
-        auto new_history = new libbitcoin::chain::history_compact::list(history);
+    safe_chain(chain).fetch_history(wallet_payment_address_const_cpp(address), limit, from_height, [chain, ctx, handler](std::error_code const& ec, kth::chain::history_compact::list history) {
+        auto new_history = new kth::chain::history_compact::list(history);
         handler(chain, ctx, knuth::to_c_err(ec), new_history);
     });
 }
@@ -588,8 +588,8 @@ error_code_t chain_get_history(chain_t chain, payment_address_t address, uint64_
 
     // auto const& address_cpp = wallet_payment_address_const_cpp(address);
 
-    safe_chain(chain).fetch_history(wallet_payment_address_const_cpp(address), limit, from_height, [&](std::error_code const& ec, libbitcoin::chain::history_compact::list history) {
-        *out_history = new libbitcoin::chain::history_compact::list(history);
+    safe_chain(chain).fetch_history(wallet_payment_address_const_cpp(address), limit, from_height, [&](std::error_code const& ec, kth::chain::history_compact::list history) {
+        *out_history = new kth::chain::history_compact::list(history);
         res = knuth::to_c_err(ec);
         latch.count_down();
     });
@@ -604,9 +604,9 @@ error_code_t chain_get_history(chain_t chain, payment_address_t address, uint64_
 void chain_fetch_confirmed_transactions(chain_t chain, void* ctx, payment_address_t address, uint64_t max, uint64_t start_height, transactions_by_addres_fetch_handler_t handler) {
     // auto const& address_cpp = wallet_payment_address_const_cpp(address);
 
-    safe_chain(chain).fetch_confirmed_transactions(wallet_payment_address_const_cpp(address), max, start_height, [chain, ctx, handler](std::error_code const& ec, const std::vector<libbitcoin::hash_digest>& txs) {
+    safe_chain(chain).fetch_confirmed_transactions(wallet_payment_address_const_cpp(address), max, start_height, [chain, ctx, handler](std::error_code const& ec, const std::vector<kth::hash_digest>& txs) {
         //It is the user's responsibility to release this allocated memory
-        auto new_txs = new libbitcoin::hash_list(txs);
+        auto new_txs = new kth::hash_list(txs);
         handler(chain, ctx, knuth::to_c_err(ec), new_txs);
     });
 }
@@ -617,9 +617,9 @@ error_code_t chain_get_confirmed_transactions(chain_t chain, payment_address_t a
 
     // auto const& address_cpp = wallet_payment_address_const_cpp(address);
 
-    safe_chain(chain).fetch_confirmed_transactions(wallet_payment_address_const_cpp(address), max, start_height, [&](std::error_code const& ec, const std::vector<libbitcoin::hash_digest>& txs) {
+    safe_chain(chain).fetch_confirmed_transactions(wallet_payment_address_const_cpp(address), max, start_height, [&](std::error_code const& ec, const std::vector<kth::hash_digest>& txs) {
         //It is the user's responsibility to release this allocated memory
-        *out_tx_hashes = new libbitcoin::hash_list(txs);
+        *out_tx_hashes = new kth::hash_list(txs);
         res = knuth::to_c_err(ec);
         latch.count_down();
     });
@@ -632,11 +632,11 @@ error_code_t chain_get_confirmed_transactions(chain_t chain, payment_address_t a
 
 #if defined(KTH_DB_STEALTH)
 void chain_fetch_stealth(chain_t chain, void* ctx, binary_t filter, uint64_t from_height, stealth_fetch_handler_t handler) {
-	auto* filter_cpp_ptr = static_cast<libbitcoin::binary const*>(filter);
-	libbitcoin::binary const& filter_cpp  = *filter_cpp_ptr;
+	auto* filter_cpp_ptr = static_cast<kth::binary const*>(filter);
+	kth::binary const& filter_cpp  = *filter_cpp_ptr;
 
-    safe_chain(chain).fetch_stealth(filter_cpp, from_height, [chain, ctx, handler](std::error_code const& ec, libbitcoin::chain::stealth_compact::list stealth) {
-        auto new_stealth = new libbitcoin::chain::stealth_compact::list(stealth);
+    safe_chain(chain).fetch_stealth(filter_cpp, from_height, [chain, ctx, handler](std::error_code const& ec, kth::chain::stealth_compact::list stealth) {
+        auto new_stealth = new kth::chain::stealth_compact::list(stealth);
         handler(chain, ctx, knuth::to_c_err(ec), new_stealth);
     });
 } 
@@ -645,11 +645,11 @@ error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_hei
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     error_code_t res;
 
-	auto* filter_cpp_ptr = static_cast<libbitcoin::binary const*>(filter);
-	libbitcoin::binary const& filter_cpp  = *filter_cpp_ptr;
+	auto* filter_cpp_ptr = static_cast<kth::binary const*>(filter);
+	kth::binary const& filter_cpp  = *filter_cpp_ptr;
 
-    safe_chain(chain).fetch_stealth(filter_cpp, from_height, [&](std::error_code const& ec, libbitcoin::chain::stealth_compact::list stealth) {
-        *out_list = new libbitcoin::chain::stealth_compact::list(stealth);
+    safe_chain(chain).fetch_stealth(filter_cpp, from_height, [&](std::error_code const& ec, kth::chain::stealth_compact::list stealth) {
+        *out_list = new kth::chain::stealth_compact::list(stealth);
         res = knuth::to_c_err(ec);
         latch.count_down();
     });
@@ -665,9 +665,9 @@ error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_hei
 //void chain_fetch_block_locator(chain_t chain, void* ctx, block_indexes_t heights, block_locator_fetch_handler_t handler) {
 //    auto const& heights_cpp = chain_block_indexes_const_cpp(heights);
 //
-//    safe_chain(chain).fetch_block_locator(heights_cpp, [chain, ctx, handler](std::error_code const& ec, libbitcoin::get_headers_ptr headers) {
+//    safe_chain(chain).fetch_block_locator(heights_cpp, [chain, ctx, handler](std::error_code const& ec, kth::get_headers_ptr headers) {
 //        //TODO: check if the pointer is set, before dereferencing
-//        auto* new_headers = new libbitcoin::message::get_headers(*headers);
+//        auto* new_headers = new kth::message::get_headers(*headers);
 //        handler(chain, ctx, knuth::to_c_err(ec), new_headers);
 //    });
 //}
@@ -679,9 +679,9 @@ error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_hei
 //
 //    auto const& heights_cpp = chain_block_indexes_const_cpp(heights);
 //
-//    safe_chain(chain).fetch_block_locator(heights_cpp, [&](std::error_code const& ec, libbitcoin::get_headers_ptr headers) {
+//    safe_chain(chain).fetch_block_locator(heights_cpp, [&](std::error_code const& ec, kth::get_headers_ptr headers) {
 //        //TODO: check if the pointer is set, before dereferencing
-//        *out_headers = new libbitcoin::message::get_headers(*headers);
+//        *out_headers = new kth::message::get_headers(*headers);
 //        res = knuth::to_c_err(ec);
 //        latch.count_down();
 //    });
@@ -719,10 +719,10 @@ mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment
     auto const& address_cpp = wallet_payment_address_const_cpp(address);
     if (address_cpp) {
         auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), knuth::int_to_bool(use_testnet_rules), knuth::int_to_bool(witness));
-        auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>(txs);
+        auto ret_txs = new std::vector<kth::blockchain::mempool_transaction_summary>(txs);
         return static_cast<mempool_transaction_list_t>(ret_txs);
     } 
-    auto ret_txs = new std::vector<libbitcoin::blockchain::mempool_transaction_summary>();
+    auto ret_txs = new std::vector<kth::blockchain::mempool_transaction_summary>();
     return static_cast<mempool_transaction_list_t>(ret_txs);
 }
 
@@ -732,7 +732,7 @@ transaction_list_t chain_get_mempool_transactions_from_wallets(chain_t chain, pa
 #else
     bool_t witness = 1;
 #endif
-    auto const& addresses_cpp = *static_cast<const std::vector<libbitcoin::wallet::payment_address>*>(addresses);
+    auto const& addresses_cpp = *static_cast<const std::vector<kth::wallet::payment_address>*>(addresses);
     auto txs = safe_chain(chain).get_mempool_transactions_from_wallets(addresses_cpp, knuth::int_to_bool(use_testnet_rules), knuth::int_to_bool(witness));
     return knuth::move_or_copy_and_leak(std::move(txs));
 }
@@ -755,12 +755,12 @@ transaction_list_t chain_get_mempool_transactions_from_wallets(chain_t chain, pa
 // Subscribers.
 //-------------------------------------------------------------------------
 
-block_t cast_block(libbitcoin::message::block const& x) {
-    return const_cast<libbitcoin::message::block*>(&x);    
+block_t cast_block(kth::message::block const& x) {
+    return const_cast<kth::message::block*>(&x);    
 }
 
 void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subscribe_blockchain_handler_t handler) {
-    safe_chain(chain).subscribe_blockchain([exec, chain, ctx, handler](std::error_code const& ec, size_t fork_height, libbitcoin::block_const_ptr_list_const_ptr incoming, libbitcoin::block_const_ptr_list_const_ptr replaced_blocks) {
+    safe_chain(chain).subscribe_blockchain([exec, chain, ctx, handler](std::error_code const& ec, size_t fork_height, kth::block_const_ptr_list_const_ptr incoming, kth::block_const_ptr_list_const_ptr replaced_blocks) {
 
         if (safe_chain(chain).is_stale()) { // TODO(fernando): Move somewhere else (there should be no logic here)
             return 1;
@@ -770,7 +770,7 @@ void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subsc
         if (incoming) {
             incoming_cpp = chain_block_list_construct_default();
             for (auto&& x : *incoming) {
-                // auto new_block = new libbitcoin::message::block(*x);
+                // auto new_block = new kth::message::block(*x);
                 // chain_block_list_push_back(incoming_cpp, new_block);
                 chain_block_list_push_back(incoming_cpp, cast_block(*x));
             }
@@ -780,7 +780,7 @@ void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subsc
         if (replaced_blocks) {
             replaced_blocks_cpp = chain_block_list_construct_default();
             for (auto&& x : *replaced_blocks) {
-                // auto new_block = new libbitcoin::message::block(*x);
+                // auto new_block = new kth::message::block(*x);
                 // chain_block_list_push_back(replaced_blocks_cpp, new_block);
                 // chain_block_list_push_back_const(replaced_blocks_cpp, x.get());
                 chain_block_list_push_back(replaced_blocks_cpp, cast_block(*x));
@@ -793,10 +793,10 @@ void chain_subscribe_blockchain(executor_t exec, chain_t chain, void* ctx, subsc
 }
 
 void chain_subscribe_transaction(executor_t exec, chain_t chain, void* ctx, subscribe_transaction_handler_t handler) {
-    safe_chain(chain).subscribe_transaction([exec, chain, ctx, handler](std::error_code const& ec, libbitcoin::transaction_const_ptr tx) {
+    safe_chain(chain).subscribe_transaction([exec, chain, ctx, handler](std::error_code const& ec, kth::transaction_const_ptr tx) {
         transaction_t new_tx = nullptr;
         if (tx) {
-            new_tx = new libbitcoin::message::transaction(*tx);
+            new_tx = new kth::message::transaction(*tx);
         }
         auto res = handler(exec, chain, ctx, knuth::to_c_err(ec), new_tx);
         return res;
@@ -856,10 +856,10 @@ int chain_organize_transaction_sync(chain_t chain, transaction_t transaction) {
 ////It is the user's responsibility to release the transaction returned
 //transaction_t chain_hex_to_tx(char const* tx_hex) {
 //
-//    static auto const version = libbitcoin::message::version::level::canonical;
+//    static auto const version = kth::message::version::level::canonical;
 //
-////    auto const tx = std::make_shared<libbitcoin::message::transaction>();
-//    auto* tx = new libbitcoin::message::transaction;
+////    auto const tx = std::make_shared<kth::message::transaction>();
+//    auto* tx = new kth::message::transaction;
 //
 //    std::string tx_hex_cpp(tx_hex);
 //    std::vector<uint8_t> data(tx_hex_cpp.size() / 2); // (tx_hex_cpp.begin(), tx_hex_cpp.end());

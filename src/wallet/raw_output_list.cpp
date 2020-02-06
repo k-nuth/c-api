@@ -26,9 +26,9 @@
 #include <knuth/nodecint/conversions.hpp>
 #include <knuth/nodecint/list_creator.h>
 
-KTH_LIST_DEFINE_CONVERTERS(wallet, raw_output_list_t, libbitcoin::wallet::raw_output, raw_output_list)
-KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(wallet, raw_output_list_t, libbitcoin::wallet::raw_output, raw_output_list)
+KTH_LIST_DEFINE_CONVERTERS(wallet, raw_output_list_t, kth::wallet::raw_output, raw_output_list)
+KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(wallet, raw_output_list_t, kth::wallet::raw_output, raw_output_list)
 
 extern "C" {
-KTH_LIST_DEFINE(wallet, raw_output_list_t, raw_output_t, raw_output_list, libbitcoin::wallet::raw_output, wallet_raw_output_const_cpp)
+KTH_LIST_DEFINE(wallet, raw_output_list_t, raw_output_t, raw_output_list, kth::wallet::raw_output, wallet_raw_output_const_cpp)
 } // extern "C"

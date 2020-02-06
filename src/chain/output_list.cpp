@@ -8,11 +8,11 @@
 #include <knuth/nodecint/chain/output.h>
 #include <knuth/nodecint/conversions.hpp>
 
-KTH_LIST_DEFINE_CONVERTERS(chain, output_list_t, libbitcoin::chain::output, output_list)
-KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, output_list_t, libbitcoin::chain::output, output_list)
+KTH_LIST_DEFINE_CONVERTERS(chain, output_list_t, kth::chain::output, output_list)
+KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, output_list_t, kth::chain::output, output_list)
 
 extern "C" {
 
-KTH_LIST_DEFINE(chain, output_list_t, output_t, output_list, libbitcoin::chain::output, chain_output_const_cpp)
+KTH_LIST_DEFINE(chain, output_list_t, output_t, output_list, kth::chain::output, chain_output_const_cpp)
 
 } // extern "C"

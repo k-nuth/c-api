@@ -11,7 +11,7 @@
 #include <knuth/nodecint/helpers.hpp>
 #include <knuth/nodecint/type_conversions.h>
 
-KTH_CONV_DEFINE(chain, merkle_block_t, libbitcoin::message::merkle_block, merkle_block)
+KTH_CONV_DEFINE(chain, merkle_block_t, kth::message::merkle_block, merkle_block)
 
 // ---------------------------------------------------------------------------
 extern "C" {

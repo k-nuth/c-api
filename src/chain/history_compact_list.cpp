@@ -10,10 +10,10 @@
 
 #include <knuth/nodecint/conversions.hpp>
 
-KTH_LIST_DEFINE_CONVERTERS(chain, history_compact_list_t, libbitcoin::chain::history_compact, history_compact_list)
+KTH_LIST_DEFINE_CONVERTERS(chain, history_compact_list_t, kth::chain::history_compact, history_compact_list)
 
 extern "C" {
 
-KTH_LIST_DEFINE(chain, history_compact_list_t, history_compact_t, history_compact_list, libbitcoin::chain::history_compact, chain_history_compact_const_cpp)
+KTH_LIST_DEFINE(chain, history_compact_list_t, history_compact_t, history_compact_list, kth::chain::history_compact, chain_history_compact_const_cpp)
 
 } // extern "C"

@@ -33,7 +33,7 @@ namespace nodecint {
 class executor {
 public:
 
-    executor(libbitcoin::node::configuration const& config, std::ostream& output, std::ostream& error);
+    executor(kth::node::configuration const& config, std::ostream& output, std::ostream& error);
 
     executor(executor const&) = delete;
     void operator=(executor const&) = delete;
@@ -44,17 +44,17 @@ public:
     bool do_initchain();
 #endif
 
-    bool run(libbitcoin::handle0 handler);
-    //bool run_wait(libbitcoin::handle0 handler);
+    bool run(kth::handle0 handler);
+    //bool run_wait(kth::handle0 handler);
 
-    bool init_and_run(libbitcoin::handle0 handler);
+    bool init_and_run(kth::handle0 handler);
    
-    //static void stop(libbitcoin::code const& ec);
+    //static void stop(kth::code const& ec);
     //static void stop();
     bool stop();
 
-    libbitcoin::node::full_node& node();
-    libbitcoin::node::full_node const& node() const;
+    kth::node::full_node& node();
+    kth::node::full_node const& node() const;
 
 #ifdef KTH_WITH_KEOKEN
     keoken_manager_cpp_t const& keoken_manager() const;
@@ -66,12 +66,12 @@ public:
     bool stopped() const;
 
 private:
-//    static void stop(libbitcoin::code const& ec);
+//    static void stop(kth::code const& ec);
     //static void handle_stop(int code);
 
-    void handle_started(libbitcoin::code const& ec);
-    void handle_running(libbitcoin::code const& ec);
-    void handle_stopped(libbitcoin::code const& ec);
+    void handle_started(kth::code const& ec);
+    void handle_running(kth::code const& ec);
+    void handle_stopped(kth::code const& ec);
 
     void do_help();
     void do_settings();
@@ -86,19 +86,19 @@ private:
 #endif
 
     // Termination state.
-    static std::promise<libbitcoin::code> stopping_;
+    static std::promise<kth::code> stopping_;
 
 //    parser& metadata_;
-    libbitcoin::node::configuration config_;
+    kth::node::configuration config_;
     std::ostream& output_;
     std::ostream& error_;
     
-    libbitcoin::node::full_node::ptr node_;
+    kth::node::full_node::ptr node_;
 #ifdef KTH_WITH_KEOKEN
     std::unique_ptr<keoken_manager_cpp_t> keoken_manager_;
 #endif
 
-    libbitcoin::handle0 run_handler_;
+    kth::handle0 run_handler_;
     bool parse_config_from_file_result_;
 };
 

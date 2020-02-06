@@ -8,7 +8,7 @@
 #include <knuth/nodecint/chain/history_compact.h>
 #include <knuth/nodecint/type_conversions.h>
 
-KTH_CONV_DEFINE(chain, history_compact_t, libbitcoin::chain::history_compact, history_compact)
+KTH_CONV_DEFINE(chain, history_compact_t, kth::chain::history_compact, history_compact)
 
 // ---------------------------------------------------------------------------
 extern "C" {

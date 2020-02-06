@@ -33,26 +33,26 @@
 extern "C" {
 
 currency_t node_settings_get_currency() {
-    return static_cast<currency_t>(static_cast<int>(libbitcoin::get_currency()));
+    return static_cast<currency_t>(static_cast<int>(kth::get_currency()));
 }
 
 network_t node_settings_get_network(executor_t exec) {
 
     p2p_t p2p_node = executor_get_p2p(exec);
-    auto const& node = *static_cast<libbitcoin::network::p2p*>(p2p_node);
+    auto const& node = *static_cast<kth::network::p2p*>(p2p_node);
 
     // auto const& node = exec->actual.node();
     auto const& sett = node.network_settings();
     auto id = sett.identifier;
 
-    return static_cast<network_t>(static_cast<int>(libbitcoin::get_network(id)));
+    return static_cast<network_t>(static_cast<int>(kth::get_network(id)));
 
-    // return static_cast<network_t>(static_cast<int>(libbitcoin::get_network(exec->actual.node().network_settings().identifier)));
+    // return static_cast<network_t>(static_cast<int>(kth::get_network(exec->actual.node().network_settings().identifier)));
 }
 
 char const* node_settings_cashaddr_prefix() {
 #if defined(KTH_CURRENCY_BCH)
-    auto str = libbitcoin::cashaddr_prefix();
+    auto str = kth::cashaddr_prefix();
 #else
     std::string str; //Note: to avoid checking compilation-time feature at other languages
 #endif

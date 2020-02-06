@@ -26,9 +26,9 @@
 
 #include <bitcoin/bitcoin/wallet/payment_address.hpp>
 
-KTH_LIST_DEFINE_CONVERTERS(wallet, payment_address_list_t, libbitcoin::wallet::payment_address, payment_address_list)
-KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(wallet, payment_address_list_t, libbitcoin::wallet::payment_address, payment_address_list)
+KTH_LIST_DEFINE_CONVERTERS(wallet, payment_address_list_t, kth::wallet::payment_address, payment_address_list)
+KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(wallet, payment_address_list_t, kth::wallet::payment_address, payment_address_list)
 
 extern "C" {
-KTH_LIST_DEFINE(wallet, payment_address_list_t, payment_address_t, payment_address_list, libbitcoin::wallet::payment_address, wallet_payment_address_const_cpp)
+KTH_LIST_DEFINE(wallet, payment_address_list_t, payment_address_t, payment_address_list, kth::wallet::payment_address, wallet_payment_address_const_cpp)
 } // extern "C"

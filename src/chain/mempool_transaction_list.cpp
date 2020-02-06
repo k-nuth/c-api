@@ -9,11 +9,11 @@
 #include <knuth/nodecint/conversions.hpp>
 
 
-KTH_LIST_DEFINE_CONVERTERS(chain, mempool_transaction_list_t, libbitcoin::blockchain::mempool_transaction_summary, mempool_transaction_list)
-KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, mempool_transaction_list_t, libbitcoin::blockchain::mempool_transaction_summary, mempool_transaction_list)
+KTH_LIST_DEFINE_CONVERTERS(chain, mempool_transaction_list_t, kth::blockchain::mempool_transaction_summary, mempool_transaction_list)
+KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, mempool_transaction_list_t, kth::blockchain::mempool_transaction_summary, mempool_transaction_list)
 
 extern "C" {
 
-KTH_LIST_DEFINE(chain, mempool_transaction_list_t, mempool_transaction_t, mempool_transaction_list, libbitcoin::blockchain::mempool_transaction_summary, chain_mempool_transaction_const_cpp)
+KTH_LIST_DEFINE(chain, mempool_transaction_list_t, mempool_transaction_t, mempool_transaction_list, kth::blockchain::mempool_transaction_summary, chain_mempool_transaction_const_cpp)
 
 } // extern "C"

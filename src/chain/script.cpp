@@ -8,19 +8,19 @@
 #include <knuth/nodecint/conversions.hpp>
 #include <knuth/nodecint/helpers.hpp>
 
-KTH_CONV_DEFINE(chain, script_t, libbitcoin::chain::script, script)
+KTH_CONV_DEFINE(chain, script_t, kth::chain::script, script)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 script_t chain_script_construct_default() {
-    return new libbitcoin::chain::script();
+    return new kth::chain::script();
 }
 
 // script::script(const data_chunk& encoded, bool prefix)
 script_t chain_script_construct(uint8_t* encoded, uint64_t n, bool_t prefix) {
-    libbitcoin::data_chunk encoded_cpp(encoded, std::next(encoded, n));
-    return new libbitcoin::chain::script(encoded_cpp, knuth::int_to_bool(prefix));
+    kth::data_chunk encoded_cpp(encoded, std::next(encoded, n));
+    return new kth::chain::script(encoded_cpp, knuth::int_to_bool(prefix));
 }
 
 void chain_script_destruct(script_t script) {
@@ -54,15 +54,15 @@ char* chain_script_type(script_t script) {
     auto script_pattern = chain_script_const_cpp(script).pattern();
     std::string type = "non_standard";
     switch(script_pattern) {
-        case libbitcoin::machine::script_pattern::null_data: type = "nulldata"; break;
-        case libbitcoin::machine::script_pattern::pay_multisig: type = "pay_multisig"; break;
-        case libbitcoin::machine::script_pattern::pay_public_key: type = "pay_public_key"; break;
-        case libbitcoin::machine::script_pattern::pay_key_hash: type = "pay_key_hash"; break;
-        case libbitcoin::machine::script_pattern::pay_script_hash: type = "pay_script_hash"; break;
-        case libbitcoin::machine::script_pattern::sign_multisig: type = "sign_multisig"; break;
-        case libbitcoin::machine::script_pattern::sign_public_key: type = "sign_public_key"; break;
-        case libbitcoin::machine::script_pattern::sign_key_hash: type = "sign_key_hash"; break;
-        case libbitcoin::machine::script_pattern::sign_script_hash: type = "sign_script_hash"; break;
+        case kth::machine::script_pattern::null_data: type = "nulldata"; break;
+        case kth::machine::script_pattern::pay_multisig: type = "pay_multisig"; break;
+        case kth::machine::script_pattern::pay_public_key: type = "pay_public_key"; break;
+        case kth::machine::script_pattern::pay_key_hash: type = "pay_key_hash"; break;
+        case kth::machine::script_pattern::pay_script_hash: type = "pay_script_hash"; break;
+        case kth::machine::script_pattern::sign_multisig: type = "sign_multisig"; break;
+        case kth::machine::script_pattern::sign_public_key: type = "sign_public_key"; break;
+        case kth::machine::script_pattern::sign_key_hash: type = "sign_key_hash"; break;
+        case kth::machine::script_pattern::sign_script_hash: type = "sign_script_hash"; break;
         default: type = "non_standard"; break;
     }
 

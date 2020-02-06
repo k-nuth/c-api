@@ -14,22 +14,22 @@
 #include <knuth/nodecint/helpers.hpp>
 #include <knuth/nodecint/type_conversions.h>
 
-KTH_CONV_DEFINE(core, binary_t, libbitcoin::binary, binary)
+KTH_CONV_DEFINE(core, binary_t, kth::binary, binary)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 binary_t core_binary_construct() {
-    return new libbitcoin::binary();
+    return new kth::binary();
 }
 
 binary_t core_binary_construct_string(char const* string) {
-    return new libbitcoin::binary(string);
+    return new kth::binary(string);
 }
 
 binary_t core_binary_construct_blocks(uint64_t /*size_t*/ bits_size, uint8_t* blocks, uint64_t /*size_t*/ n) {
-    libbitcoin::data_slice blocks_cpp(blocks, blocks + n); 
-    return new libbitcoin::binary(bits_size, blocks_cpp);
+    kth::data_slice blocks_cpp(blocks, blocks + n); 
+    return new kth::binary(bits_size, blocks_cpp);
 }
 
 void core_binary_destruct(binary_t binary) {

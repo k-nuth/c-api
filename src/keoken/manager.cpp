@@ -70,10 +70,10 @@ void keoken_manager_configure_state(keoken_manager_t manager
             remove_up_to(ctx, block_height);
         },
 
-        [create_asset, ctx](std::string asset_name, amount_t asset_amount, bc::wallet::payment_address const& owner, size_t block_height, libbitcoin::hash_digest const& txid) {
+        [create_asset, ctx](std::string asset_name, amount_t asset_amount, bc::wallet::payment_address const& owner, size_t block_height, kth::hash_digest const& txid) {
             create_asset(ctx, asset_name.c_str(), asset_amount, obj_to_c(owner), block_height, knuth::to_hash_t(txid));
         },
-        [create_balance_entry, ctx](asset_id_t asset_id, amount_t asset_amount, bc::wallet::payment_address const& source, bc::wallet::payment_address const& target, size_t block_height, libbitcoin::hash_digest const& txid) {
+        [create_balance_entry, ctx](asset_id_t asset_id, amount_t asset_amount, bc::wallet::payment_address const& source, bc::wallet::payment_address const& target, size_t block_height, kth::hash_digest const& txid) {
             create_balance_entry(ctx, asset_id, asset_amount, obj_to_c(source), obj_to_c(target), block_height, knuth::to_hash_t(txid));
         },
         [asset_id_exists, ctx](knuth::keoken::asset_id_t id) {

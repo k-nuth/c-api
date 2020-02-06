@@ -11,17 +11,17 @@
 #include <knuth/nodecint/helpers.hpp>
 
 
-KTH_CONV_DEFINE(chain, input_t, libbitcoin::chain::input, input)
+KTH_CONV_DEFINE(chain, input_t, kth::chain::input, input)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 input_t chain_input_construct_default() {
-    return new libbitcoin::chain::input();
+    return new kth::chain::input();
 }
 
 input_t chain_input_construct(output_point_t previous_output, script_t script, uint32_t sequence) {
-    return new libbitcoin::chain::input(chain_output_point_const_cpp(previous_output), chain_script_const_cpp(script), sequence);
+    return new kth::chain::input(chain_output_point_const_cpp(previous_output), chain_script_const_cpp(script), sequence);
 }
 
 void chain_input_destruct(input_t input) {

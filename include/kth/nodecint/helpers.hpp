@@ -66,7 +66,7 @@ std::array<detail::remove_cv_t<T>, 32> to_array(T (&x)[32]) {
 }
 
 inline
-hash_t to_hash_t(libbitcoin::hash_digest const& x) {
+hash_t to_hash_t(kth::hash_digest const& x) {
     // return to_c_array<hash_t>(x);
     return { {x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
               x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15],
@@ -75,7 +75,7 @@ hash_t to_hash_t(libbitcoin::hash_digest const& x) {
 }
 
 inline
-short_hash_t to_short_hash_t(libbitcoin::short_hash const& x) {
+short_hash_t to_short_hash_t(kth::short_hash const& x) {
     // return to_c_array<short_hash_t>(x);
     return { {x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
               x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15],
@@ -83,7 +83,7 @@ short_hash_t to_short_hash_t(libbitcoin::short_hash const& x) {
 }
 
 inline
-long_hash_t to_long_hash_t(libbitcoin::long_hash const& x) {
+long_hash_t to_long_hash_t(kth::long_hash const& x) {
     // return to_c_array<long_hash_t>(x);
 
     return { {x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
@@ -98,7 +98,7 @@ long_hash_t to_long_hash_t(libbitcoin::long_hash const& x) {
 }
 
 inline
-ec_secret_t to_ec_secret_t(libbitcoin::hash_digest const& x) {
+ec_secret_t to_ec_secret_t(kth::hash_digest const& x) {
     return { {x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
               x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15],
               x[16], x[17], x[18], x[19], x[20], x[21], x[22], x[23],
@@ -112,8 +112,8 @@ constexpr ec_secret_t null_ec_secret = {
     0, 0, 0, 0, 0, 0, 0, 0}};
 
 inline
-libbitcoin::hash_digest hash_to_cpp(uint8_t* x) {
-    libbitcoin::hash_digest ret;
+kth::hash_digest hash_to_cpp(uint8_t* x) {
+    kth::hash_digest ret;
     std::copy_n(x, ret.size(), std::begin(ret));
     return ret;
 }
@@ -134,7 +134,7 @@ char* create_c_str(std::string const& str) {
 
 template <typename N>
 inline
-uint8_t* create_c_array(libbitcoin::data_chunk const& arr, N& out_size) {
+uint8_t* create_c_array(kth::data_chunk const& arr, N& out_size) {
     auto* ret = mnew<uint8_t>(arr.size());
     out_size = arr.size();
     std::copy_n(arr.begin(), arr.size(), ret);

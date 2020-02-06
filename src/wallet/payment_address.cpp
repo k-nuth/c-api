@@ -11,7 +11,7 @@
 #include <bitcoin/bitcoin/multi_crypto_support.hpp>
 #include <bitcoin/bitcoin/wallet/payment_address.hpp>
 
-KTH_CONV_DEFINE(wallet, payment_address_t, libbitcoin::wallet::payment_address, payment_address)
+KTH_CONV_DEFINE(wallet, payment_address_t, kth::wallet::payment_address, payment_address)
 
 //TODO(fernando): payment_address has to be in the wallet API
 
@@ -21,12 +21,12 @@ extern "C" {
 #ifdef KTH_CURRENCY_BCH
 void wallet_payment_address_set_cashaddr_prefix(char const* prefix) {
     std::string prefix_cpp(prefix);
-    libbitcoin::set_cashaddr_prefix(prefix_cpp);
+    kth::set_cashaddr_prefix(prefix_cpp);
 }
 #endif //KTH_CURRENCY_BCH
 
 payment_address_t wallet_payment_address_construct_from_string(char const* address) {
-    return new libbitcoin::wallet::payment_address(std::string(address));
+    return new kth::wallet::payment_address(std::string(address));
 }
 
 //User is responsible for releasing return value memory

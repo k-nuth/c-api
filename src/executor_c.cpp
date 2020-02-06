@@ -21,8 +21,8 @@
 #include <bitcoin/bitcoin/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 #endif // KTH_USE_DOMAIN
 
-libbitcoin::node::configuration make_config(char const* path) {
-    libbitcoin::node::configuration config(libbitcoin::config::settings::mainnet);
+kth::node::configuration make_config(char const* path) {
+    kth::node::configuration config(kth::config::settings::mainnet);
     config.file = boost::filesystem::path(path);
     return config;
 }
@@ -262,7 +262,7 @@ chain_t executor_get_chain(executor_t exec) {
 }
 
 p2p_t executor_get_p2p(executor_t exec) {
-    return &static_cast<libbitcoin::network::p2p&>(exec->actual.node());
+    return &static_cast<kth::network::p2p&>(exec->actual.node());
 }
 
 #ifdef KTH_WITH_KEOKEN

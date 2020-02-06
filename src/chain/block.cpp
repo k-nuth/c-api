@@ -11,27 +11,27 @@
 #include <bitcoin/bitcoin/message/transaction.hpp>
 
 
-KTH_CONV_DEFINE(chain, block_t, libbitcoin::message::block, block)
+KTH_CONV_DEFINE(chain, block_t, kth::message::block, block)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 block_t chain_block_construct_default() {
-    return new libbitcoin::message::block();
+    return new kth::message::block();
 }
 
 block_t chain_block_construct(header_t header, transaction_list_t transactions) {
 
     auto const& header_cpp = chain_header_const_cpp(header);
-    auto const& txs_cpp = *static_cast<libbitcoin::chain::transaction::list const*>(transactions);
+    auto const& txs_cpp = *static_cast<kth::chain::transaction::list const*>(transactions);
     // auto const& txs_cpp = chain_transaction_list_const_cpp(transactions);
-    return new libbitcoin::message::block(header_cpp, txs_cpp);
+    return new kth::message::block(header_cpp, txs_cpp);
 }
 
 block_t chain_block_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
     
-    libbitcoin::data_chunk data_cpp(data, std::next(data, n));
-    auto block = libbitcoin::message::block::factory_from_data(version, data_cpp);
+    kth::data_chunk data_cpp(data, std::next(data, n));
+    auto block = kth::message::block::factory_from_data(version, data_cpp);
     return knuth::move_or_copy_and_leak(std::move(block));
 }
 
@@ -98,14 +98,14 @@ uint64_t /*size_t*/ chain_block_serialized_size(block_t block, uint32_t version)
 
 /*static*/
 uint64_t chain_block_subsidy(uint64_t /*size_t*/ height) {
-    return libbitcoin::message::block::subsidy(height);
+    return kth::message::block::subsidy(height);
 }
 
 //static uint256_t chain_block_proof(uint32_t bits) {}
 
 ///*static*/
 //uint256_t chain_block_proof(uint64_t /*size_t*/ height) {
-//    return libbitcoin::message::block::proof(height);
+//    return kth::message::block::proof(height);
 //}
 
 uint64_t chain_block_fees(block_t block) {

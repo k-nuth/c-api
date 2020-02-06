@@ -8,14 +8,14 @@
 #include <knuth/nodecint/conversions.hpp>
 #include <knuth/nodecint/helpers.hpp>
 
-KTH_LIST_DEFINE_CONVERTERS(core, hash_list_t, libbitcoin::hash_digest, hash_list)
-KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(core, hash_list_t, libbitcoin::hash_digest, hash_list)
+KTH_LIST_DEFINE_CONVERTERS(core, hash_list_t, kth::hash_digest, hash_list)
+KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(core, hash_list_t, kth::hash_digest, hash_list)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 hash_list_t core_hash_list_construct_default() {
-    return new std::vector<libbitcoin::hash_digest>();
+    return new std::vector<kth::hash_digest>();
 }
 
 void core_hash_list_push_back(hash_list_t list, hash_t hash) {
