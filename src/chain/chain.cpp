@@ -457,10 +457,10 @@ error_code_t chain_get_block_hash(chain_t chain, uint64_t height, hash_t* out_ha
     kth::hash_digest block_hash;
     bool found_block = safe_chain(chain).get_block_hash(block_hash, height);
     if( ! found_block ) {
-        return bitprim_ec_not_found;
+        return kth_ec_not_found;
     }
     knuth::copy_c_hash(block_hash, out_hash);
-    return bitprim_ec_success;
+    return kth_ec_success;
 }
 
 #if defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_FULL)

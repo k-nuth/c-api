@@ -328,7 +328,7 @@ else()
     set(MODE STATIC)
 endif()
 
-set(_bitprim_sources
+set(_kth_sources
         src/executor.cpp
         src/executor_c.cpp
         src/hash_list.cpp
@@ -380,15 +380,15 @@ set(_bitprim_sources
 )
 
 if (ENABLE_SHARED)
-  set(_bitprim_sources
-    ${_bitprim_sources}
+  set(_kth_sources
+    ${_kth_sources}
     src/user_agent.cpp
   )
 endif()
 
 if (WITH_KEOKEN)
-  set(_bitprim_sources
-    ${_bitprim_sources}
+  set(_kth_sources
+    ${_kth_sources}
     src/keoken/get_all_asset_addresses_data.cpp
     src/keoken/get_all_asset_addresses_list.cpp
     src/keoken/get_assets_by_address_data.cpp
@@ -403,7 +403,7 @@ endif()
 
 
 add_library(kth-node-cint ${MODE}
-        ${_bitprim_sources}
+        ${_kth_sources}
 )
 
 if (NOT ENABLE_SHARED)
@@ -439,7 +439,7 @@ endif(ENABLE_POSITION_INDEPENDENT_CODE)
 #set_target_properties(kth-node-cint PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
 target_compile_definitions(kth-node-cint PUBLIC -DKTH_PROJECT_VERSION="${KTH_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
-target_compile_definitions(kth-node-cint PUBLIC -Dbitprim_EXPORTS)
+target_compile_definitions(kth-node-cint PUBLIC -DKTH_EXPORTS)
 
 target_include_directories(kth-node-cint PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -453,7 +453,7 @@ if (NOT ENABLE_SHARED)
   # target_compile_definitions(kth-node-cint PUBLIC -DBC_DLL)
 endif()
 
-#Note: Bitprim modules are Static, NodeCint Shared
+#Note: Knuth modules are Static, NodeCint Shared
 target_compile_definitions(kth-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
 
 
@@ -598,57 +598,57 @@ install(TARGETS kth-node-cint
 
 
 set(_kth_headers
-        bitprim/nodecint/binary.h
-        bitprim/nodecint/conversions.hpp
-        bitprim/nodecint/helpers.hpp
-        bitprim/nodecint/executor_c.h
-        bitprim/nodecint/hash_list.h
-        bitprim/nodecint/platform.h
-        bitprim/nodecint/primitives.h
-        bitprim/nodecint/version.h
-        bitprim/nodecint/visibility.h
-        bitprim/nodecint/string_list.h
+        kth/nodecint/binary.h
+        kth/nodecint/conversions.hpp
+        kth/nodecint/helpers.hpp
+        kth/nodecint/executor_c.h
+        kth/nodecint/hash_list.h
+        kth/nodecint/platform.h
+        kth/nodecint/primitives.h
+        kth/nodecint/version.h
+        kth/nodecint/visibility.h
+        kth/nodecint/string_list.h
 
-        bitprim/nodecint/chain/block.h
-        bitprim/nodecint/chain/block_indexes.h
-        bitprim/nodecint/chain/block_list.h
-        bitprim/nodecint/chain/chain.h
-        bitprim/nodecint/chain/compact_block.h
-        bitprim/nodecint/chain/get_blocks.h
-        bitprim/nodecint/chain/get_headers.h
-        bitprim/nodecint/chain/header.h
-        bitprim/nodecint/chain/history_compact.h
-        bitprim/nodecint/chain/history_compact_list.h
-        bitprim/nodecint/chain/stealth_compact.h
-        bitprim/nodecint/chain/stealth_compact_list.h
-        bitprim/nodecint/chain/input.h
-        bitprim/nodecint/chain/input_list.h
-        bitprim/nodecint/chain/mempool_transaction_list.h
-        bitprim/nodecint/chain/merkle_block.h
-        bitprim/nodecint/chain/output.h
-        bitprim/nodecint/chain/output_list.h
-        bitprim/nodecint/chain/output_point.h
-        bitprim/nodecint/chain/point.h
-        bitprim/nodecint/chain/point_list.h
-        bitprim/nodecint/chain/script.h
-        bitprim/nodecint/chain/mempool_transaction.h
-        bitprim/nodecint/chain/transaction.h
-        bitprim/nodecint/chain/transaction_list.h
+        kth/nodecint/chain/block.h
+        kth/nodecint/chain/block_indexes.h
+        kth/nodecint/chain/block_list.h
+        kth/nodecint/chain/chain.h
+        kth/nodecint/chain/compact_block.h
+        kth/nodecint/chain/get_blocks.h
+        kth/nodecint/chain/get_headers.h
+        kth/nodecint/chain/header.h
+        kth/nodecint/chain/history_compact.h
+        kth/nodecint/chain/history_compact_list.h
+        kth/nodecint/chain/stealth_compact.h
+        kth/nodecint/chain/stealth_compact_list.h
+        kth/nodecint/chain/input.h
+        kth/nodecint/chain/input_list.h
+        kth/nodecint/chain/mempool_transaction_list.h
+        kth/nodecint/chain/merkle_block.h
+        kth/nodecint/chain/output.h
+        kth/nodecint/chain/output_list.h
+        kth/nodecint/chain/output_point.h
+        kth/nodecint/chain/point.h
+        kth/nodecint/chain/point_list.h
+        kth/nodecint/chain/script.h
+        kth/nodecint/chain/mempool_transaction.h
+        kth/nodecint/chain/transaction.h
+        kth/nodecint/chain/transaction_list.h
 
-        bitprim/nodecint/node/settings.h
+        kth/nodecint/node/settings.h
 
-        bitprim/nodecint/p2p/p2p.h
+        kth/nodecint/p2p/p2p.h
 
-        bitprim/nodecint/wallet/payment_address.h
-        bitprim/nodecint/wallet/payment_address_list.h
-        bitprim/nodecint/wallet/wallet.h
-        bitprim/nodecint/wallet/word_list.h
+        kth/nodecint/wallet/payment_address.h
+        kth/nodecint/wallet/payment_address_list.h
+        kth/nodecint/wallet/wallet.h
+        kth/nodecint/wallet/word_list.h
 )
 
 if (WITH_KEOKEN)
   set(_kth_headers
     ${_kth_headers}
-    bitprim/nodecint/keoken/manager.h
+    kth/nodecint/keoken/manager.h
   )
 endif()
 

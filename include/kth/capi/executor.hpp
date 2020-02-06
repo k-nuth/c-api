@@ -21,7 +21,7 @@
 #include <knuth/keoken/state_delegated.hpp>
 #endif
 
-namespace bitprim { 
+namespace kth { 
 
 #ifdef KTH_WITH_KEOKEN
     using keoken_manager_cpp_t = knuth::keoken::manager<knuth::keoken::state_delegated>;
@@ -181,6 +181,6 @@ private:
 #endif
 
 } // namespace nodecint
-} // namespace bitprim
+} // namespace kth
 
 #endif /* KTH_NODECINT_EXECUTOR_HPP_ */

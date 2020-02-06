@@ -16,10 +16,10 @@ extern "C" {
 #endif
 
 typedef enum currency {
-    bitprim_currency_none,
-    bitprim_currency_bitcoin,
-    bitprim_currency_bitcoin_cash,
-    bitprim_currency_litecoin
+    kth_currency_none,
+    kth_currency_bitcoin,
+    kth_currency_bitcoin_cash,
+    kth_currency_litecoin
 } currency_t;
 
 // settings

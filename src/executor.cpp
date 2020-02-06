@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #include <knuth/nodecint/executor.hpp>
 
 #include <csignal>
@@ -20,7 +19,7 @@
 
 #include <knuth/nodecint/version.h>
 
-namespace bitprim { namespace nodecint {
+namespace kth { namespace nodecint {
 
 using boost::format;
 using boost::null_deleter;
@@ -168,7 +167,7 @@ bool executor::run(kth::handle0 handler) {
 
 
 #ifdef KTH_WITH_KEOKEN
-    keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_bitprim(), config_.node.keoken_genesis_height));    //NOLINT
+    keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_kth(), config_.node.keoken_genesis_height));    //NOLINT
 #endif
 
     // Initialize broadcast to statistics server if configured.
@@ -207,7 +206,7 @@ bool executor::init_and_run(kth::handle0 handler) {
 
 
     #ifdef KTH_WITH_KEOKEN
-        keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_bitprim(), config_.node.keoken_genesis_height));    //NOLINT
+        keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_kth(), config_.node.keoken_genesis_height));    //NOLINT
     #endif
 
     // Initialize broadcast to statistics server if configured.
@@ -388,4 +387,4 @@ bool executor::verify_directory() {
 #endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
 } // namespace nodecint
-} // namespace bitprim
+} // namespace kth

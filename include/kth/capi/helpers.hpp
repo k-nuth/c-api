@@ -19,7 +19,7 @@
 #endif // KTH_USE_DOMAIN
 
 
-namespace bitprim {
+namespace kth {
 namespace detail {
 
 template <typename T>
@@ -172,6 +172,6 @@ bool int_to_bool(int x) {
     return x != 0;
 }
 
-} /* namespace bitprim */
+} // namespace kth
 
 #endif /* KTH_NODECINT_HELPERS_HPP_ */

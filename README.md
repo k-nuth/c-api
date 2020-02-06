@@ -1,19 +1,19 @@
-# Bitprim C-API <a target="_blank" href="http://semver.org">![Version][badge.version]</a> <a target="_blank" href="https://travis-ci.org/k-nuth/node-cint">![Travis status][badge.Travis]</a> [![Appveyor Status](https://ci.appveyor.com/api/projects/status/github/k-nuth/node-cint?svg=true&branch=master)](https://ci.appveyor.com/projects/k-nuth/node-cint) <a target="_blank" href="https://gitter.im/bitprim/Lobby">![Gitter Chat][badge.Gitter]</a>
+# Knuth C-API <a target="_blank" href="http://semver.org">![Version][badge.version]</a> <a target="_blank" href="https://travis-ci.org/k-nuth/node-cint">![Travis status][badge.Travis]</a> [![Appveyor Status](https://ci.appveyor.com/api/projects/status/github/k-nuth/node-cint?svg=true&branch=master)](https://ci.appveyor.com/projects/k-nuth/node-cint) <a target="_blank" href="https://gitter.im/kth/Lobby">![Gitter Chat][badge.Gitter]</a>
 
 > Multi-Cryptocurrency _C Programming Language_ API.
 
-*Bitprim C-API* is a library written in the _C Programming Language_ which exposes an API that allows you to programmatically access all of the *Knuth* node features:
+*Knuth C-API* is a library written in the _C Programming Language_ which exposes an API that allows you to programmatically access all of the *Knuth* node features:
   * Wallet
   * Mining
   * Full blockchain
   * Routing
 
-Bitprim C-API supports the following cryptocurrencies:
+Knuth C-API supports the following cryptocurrencies:
   * [Bitcoin Cash](https://www.bitcoincash.org/)
   * [Bitcoin](https://bitcoin.org/)
   * [Litecoin](https://litecoin.org/)
   
-  The main purpose of this API is to serve as a building block for higher level APIs, because most high level languages can interface most easily with C. Therefore, this C API is functional, but we encourage using the others built on top of it (such as bitprim-py, bitprim-cs and bitprim-go).
+  The main purpose of this API is to serve as a building block for higher level APIs, because most high level languages can interface most easily with C. Therefore, this C API is functional, but we encourage using the others built on top of it (such as kth-py, kth-cs and kth-go).
 
 ## Installation Requirements
 
@@ -106,18 +106,18 @@ Includes C standard library input/output features: `stdout`, `stderr` and `print
 #include <knuth/nodecint.h>
 ```
 
-Needed to use the Bitprim C-API features.
+Needed to use the Knuth C-API features.
 
 ```c
 executor_t exec = executor_construct("my_config_file", stdout, stderr);
 ```
-Construct a Bitprim _Executor_ object, which is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.  
+Construct a Knuth _Executor_ object, which is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.  
 
-`"my_config_file"` is the path to the configuration file; in the [bitprim-config](https://github.com/k-nuth/config) repository you can find some example files.  
+`"my_config_file"` is the path to the configuration file; in the [kth-config](https://github.com/k-nuth/config) repository you can find some example files.  
 If you pass an empty string (`""`), default configuration will be used.
 
-`stdout` and `stderr` are pointers to the standard output and standard error streams. These are used to tell the Bitprim node where to print the logs.   
-You can use any object of type `FILE*`. For example, you can make the Bitprim node redirect the logs to a file.  
+`stdout` and `stderr` are pointers to the standard output and standard error streams. These are used to tell the Knuth node where to print the logs.   
+You can use any object of type `FILE*`. For example, you can make the Knuth node redirect the logs to a file.  
 If you pass null pointers (`NULL` or `0`), there will be no logging information.
 
 ```c
@@ -161,12 +161,12 @@ This is the _C Programming Language_, there is no automatic handling of resource
 
 ### Build and run:
 
-_Note: Here we are building the code using the GNU Compiler Collection (GCC) on Linux. You can use other compilers and operating systems as well. If you have any questions, you can [contact us here](https://gitter.im/bitprim/contact)._
+_Note: Here we are building the code using the GNU Compiler Collection (GCC) on Linux. You can use other compilers and operating systems as well. If you have any questions, you can [contact us here](https://gitter.im/kth/contact)._
 
 To build and run the code example, first you have to create a tool file called `conanfile.txt` in orded to manage the dependencies of the code:
 
 ```sh
-printf "[requires]\nkth-node-cint/0.X@kth/stable\n[options]\nkth-node-cint:shared=True\n[imports]\ninclude/bitprim, *.h -> ./include/bitprim\ninclude/bitprim, *.hpp -> ./include/bitprim\nlib, *.so -> ./lib\n" > conanfile.txt
+printf "[requires]\nkth-node-cint/0.X@kth/stable\n[options]\nkth-node-cint:shared=True\n[imports]\ninclude/kth, *.h -> ./include/kth\ninclude/kth, *.hpp -> ./include/kth\nlib, *.so -> ./lib\n" > conanfile.txt
 ```
 
 Then, run the following command to bring the dependencies to the local directory:
@@ -182,7 +182,7 @@ gcc -Iinclude -c hello_blockchain.c
 gcc -Llib -o hello_blockchain hello_blockchain.o -lkth-node-cint
 ```
 
-...run it and enjoy the Bitprim programmable APIs:
+...run it and enjoy the Knuth programmable APIs:
 
 ```sh
 ./hello_blockchain
@@ -191,7 +191,7 @@ gcc -Llib -o hello_blockchain hello_blockchain.o -lkth-node-cint
 
 ## Advanced Installation
 
-Bitprim is a high performance node, so we have some options and pre-built packages tuned for several platforms.
+Knuth is a high performance node, so we have some options and pre-built packages tuned for several platforms.
 Specifically, you can choose your computer _microarchitecture_ to download a pre-build executable compiled to take advantage of the instructions available in your processor. For example:
 
 ```
@@ -215,4 +215,4 @@ conan install kth-node-cint/0.X@kth/stable
 [badge.Appveyor]: https://ci.appveyor.com/api/projects/status/github/k-nuth/node-cint?svg=true&branch=dev
 [badge.Gitter]: https://img.shields.io/badge/gitter-join%20chat-blue.svg
 [badge.Travis]: https://travis-ci.org/k-nuth/node-cint.svg?branch=master
-[badge.version]: https://badge.fury.io/gh/bitprim%2Fkth-node-cint.svg
+[badge.version]: https://badge.fury.io/gh/kth%2Fkth-node-cint.svg

@@ -113,7 +113,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // std::signal(SIGTERM, handle_stop);
 
 
-    auto exec = executor_construct("/home/bitprim/dev/bitprim/github/k-nuth/insight/bitprim.insight/bcc-testnet.cfg", stdout, stderr);
+    auto exec = executor_construct("/home/kth/dev/kth/github/k-nuth/insight/kth.insight/bcc-testnet.cfg", stdout, stderr);
     //auto exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
     // executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
     //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);

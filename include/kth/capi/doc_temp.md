@@ -2,7 +2,7 @@
 
 Defined in header `<knuth/nodecint/executor_c.h>`
 
-Controls the execution of a Bitprim crypto node.
+Controls the execution of a Knuth crypto node.
 
 ## Construction
 
@@ -19,7 +19,7 @@ Typical use is to pass `stderr` defined in the standard header `<stdio.h>`.
 
 ### Return value:
 
-An `executor_t` object that is capable to run a Bitprim crypto full-node.
+An `executor_t` object that is capable to run a Knuth crypto full-node.
 
 ### Notes:
 
