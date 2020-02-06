@@ -6,7 +6,7 @@
 
 #include <kth/capi/keoken/wallet/create_transactions.h>
 
-#include <kth/bitcoin/wallet/payment_address.hpp>
+#include <kth/domain/wallet/payment_address.hpp>
 
 #include <kth/keoken/wallet/create_transaction.hpp>
 
@@ -28,7 +28,7 @@ error_code_t keoken_wallet_tx_encode_create_asset(
     uint8_t script_version /*= 5*/,
     transaction_t* out_transaction) {
 
-    auto p = knuth::keoken::wallet::tx_encode_create_asset(
+    auto p = kth::keoken::wallet::tx_encode_create_asset(
                 chain_point_list_const_cpp(outputs_to_spend),
                 wallet_payment_address_const_cpp(asset_owner),
                 utxo_satoshis,
@@ -45,7 +45,7 @@ error_code_t keoken_wallet_tx_encode_create_asset(
         *out_transaction = nullptr;
     }
 
-    return knuth::to_c_err(p.first);
+    return kth::to_c_err(p.first);
 }
 
 error_code_t keoken_wallet_tx_encode_send_tokens(
@@ -61,7 +61,7 @@ error_code_t keoken_wallet_tx_encode_send_tokens(
     uint8_t script_version /*= 5*/,
     transaction_t* out_transaction) {
 
-    auto p = knuth::keoken::wallet::tx_encode_send_token(
+    auto p = kth::keoken::wallet::tx_encode_send_token(
                 chain_point_list_const_cpp(outputs_to_spend),
                 wallet_payment_address_const_cpp(asset_owner),
                 utxo_satoshis,
@@ -81,7 +81,7 @@ error_code_t keoken_wallet_tx_encode_send_tokens(
         *out_transaction = nullptr;
     }
 
-    return knuth::to_c_err(p.first);
+    return kth::to_c_err(p.first);
 }
 
 } // extern "C"

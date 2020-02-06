@@ -24,7 +24,7 @@
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/list_creator.h>
 
-#include <kth/bitcoin/wallet/payment_address.hpp>
+#include <kth/domain/wallet/payment_address.hpp>
 
 KTH_LIST_DEFINE_CONVERTERS(wallet, payment_address_list_t, kth::wallet::payment_address, payment_address_list)
 KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(wallet, payment_address_list_t, kth::wallet::payment_address, payment_address_list)

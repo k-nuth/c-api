@@ -18,7 +18,7 @@
 #ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 #else
-#include <kth/bitcoin/wallet/mnemonic.hpp>  //Warning, put it after boost headers
+#include <kth/domain/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 #endif // KTH_USE_DOMAIN
 
 kth::node::configuration make_config(char const* path) {
@@ -117,7 +117,7 @@ struct executor {
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> serr_buffer_;
     std::ostream sout_;
     std::ostream serr_;
-    knuth::capi::executor actual;
+    kth::capi::executor actual;
 };
 
 executor_t executor_construct(char const* path, FILE* sout, FILE* serr) {
@@ -149,7 +149,7 @@ void executor_destruct(executor_t exec) {
 int executor_initchain(executor_t exec) {
     // TODO(fernando): return error_t to inform error in detail
     try {
-        return knuth::bool_to_int(exec->actual.do_initchain());
+        return kth::bool_to_int(exec->actual.do_initchain());
 //    } catch (const std::exception& e) {
 //        return 0;
     } catch (...) {

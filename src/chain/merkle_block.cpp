@@ -5,8 +5,8 @@
 
 #include <kth/capi/chain/merkle_block.h>
 
-#include <kth/bitcoin/message/merkle_block.hpp>
-#include <kth/bitcoin/message/transaction.hpp>
+#include <kth/domain/message/merkle_block.hpp>
+#include <kth/domain/message/transaction.hpp>
 
 #include <kth/capi/helpers.hpp>
 #include <kth/capi/type_conversions.h>
@@ -25,7 +25,7 @@ hash_t chain_merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) 
 
     auto* blk = &chain_merkle_block_cpp(block);
     auto& hash_n = blk->hashes()[n];
-    return knuth::to_hash_t(hash_n);
+    return kth::to_hash_t(hash_n);
 }
 
 void chain_merkle_block_hash_nth_out(merkle_block_t block, uint64_t /*size_t*/ n, hash_t* out_hash) {
@@ -33,7 +33,7 @@ void chain_merkle_block_hash_nth_out(merkle_block_t block, uint64_t /*size_t*/ n
 
     auto* blk = &chain_merkle_block_cpp(block);
     auto& hash_n = blk->hashes()[n];
-    knuth::copy_c_hash(hash_n, out_hash);
+    kth::copy_c_hash(hash_n, out_hash);
 }
 
 header_t chain_merkle_block_header(merkle_block_t block) {
@@ -41,7 +41,7 @@ header_t chain_merkle_block_header(merkle_block_t block) {
 }
 
 bool_t chain_merkle_block_is_valid(merkle_block_t block) {
-    return knuth::bool_to_int(chain_merkle_block_const_cpp(block).is_valid());
+    return kth::bool_to_int(chain_merkle_block_const_cpp(block).is_valid());
 }
 
 uint64_t /*size_t*/ chain_merkle_block_hash_count(merkle_block_t block) {

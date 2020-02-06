@@ -26,7 +26,7 @@
 #include <kth/capi/executor_c.h>
 #include <kth/capi/helpers.hpp>
 
-#include <kth/bitcoin/multi_crypto_support.hpp>
+#include <kth/domain/multi_crypto_support.hpp>
 #include <kth/network/p2p.hpp>
 
 // ---------------------------------------------------------------------------
@@ -56,7 +56,7 @@ char const* node_settings_cashaddr_prefix() {
 #else
     std::string str; //Note: to avoid checking compilation-time feature at other languages
 #endif
-    return knuth::create_c_str(str);    
+    return kth::create_c_str(str);    
 }
 
 } // extern "C"

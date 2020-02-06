@@ -9,7 +9,7 @@
 #ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/handlers.hpp>
 #else
-#include <kth/bitcoin/handlers.hpp>
+#include <kth/domain/handlers.hpp>
 #endif // KTH_USE_DOMAIN
 
 #include <kth/node.hpp>
@@ -24,7 +24,7 @@
 namespace kth { 
 
 #ifdef KTH_WITH_KEOKEN
-    using keoken_manager_cpp_t = knuth::keoken::manager<knuth::keoken::state_delegated>;
+    using keoken_manager_cpp_t = kth::keoken::manager<kth::keoken::state_delegated>;
 #endif
 
 

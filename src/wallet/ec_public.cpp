@@ -5,7 +5,7 @@
 
 #include <kth/capi/wallet/ec_public.h>
 
-#include <kth/bitcoin/wallet/transaction_functions.hpp>
+#include <kth/domain/wallet/transaction_functions.hpp>
 
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/helpers.hpp>
@@ -36,7 +36,7 @@ uint8_t wallet_ec_public_wif_version(ec_public_t obj) {
 }
 
 bool_t wallet_ec_public_compressed(ec_public_t obj) {
-    return knuth::bool_to_int(wallet_ec_public_const_cpp(obj).compressed());
+    return kth::bool_to_int(wallet_ec_public_const_cpp(obj).compressed());
 }
 
 } // extern "C"

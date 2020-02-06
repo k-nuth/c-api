@@ -12,15 +12,15 @@
 #include <kth/capi/primitives.h>
 #include <kth/capi/type_conversions.h>
 
-#include <kth/bitcoin/chain/input.hpp>
-#include <kth/bitcoin/chain/output.hpp>
-#include <kth/bitcoin/chain/output_point.hpp>
-#include <kth/bitcoin/chain/script.hpp>
-#include <kth/bitcoin/message/block.hpp>
-#include <kth/bitcoin/message/header.hpp>
-#include <kth/bitcoin/message/transaction.hpp>
-// #include <kth/bitcoin/wallet/ec_public.hpp>
-#include <kth/bitcoin/wallet/transaction_functions.hpp>
+#include <kth/domain/chain/input.hpp>
+#include <kth/domain/chain/output.hpp>
+#include <kth/domain/chain/output_point.hpp>
+#include <kth/domain/chain/script.hpp>
+#include <kth/domain/message/block.hpp>
+#include <kth/domain/message/header.hpp>
+#include <kth/domain/message/transaction.hpp>
+// #include <kth/domain/wallet/ec_public.hpp>
+#include <kth/domain/wallet/transaction_functions.hpp>
 #include <kth/blockchain/interface/safe_chain.hpp>
 
 KTH_CONV_DECLARE(chain, block_t, kth::message::block, block)

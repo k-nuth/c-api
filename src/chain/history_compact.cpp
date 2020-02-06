@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <kth/bitcoin/chain/history.hpp>
+#include <kth/domain/chain/history.hpp>
 
 #include <kth/capi/chain/history_compact.h>
 #include <kth/capi/type_conversions.h>

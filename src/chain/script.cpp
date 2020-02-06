@@ -20,7 +20,7 @@ script_t chain_script_construct_default() {
 // script::script(const data_chunk& encoded, bool prefix)
 script_t chain_script_construct(uint8_t* encoded, uint64_t n, bool_t prefix) {
     kth::data_chunk encoded_cpp(encoded, std::next(encoded, n));
-    return new kth::chain::script(encoded_cpp, knuth::int_to_bool(prefix));
+    return new kth::chain::script(encoded_cpp, kth::int_to_bool(prefix));
 }
 
 void chain_script_destruct(script_t script) {
@@ -28,11 +28,11 @@ void chain_script_destruct(script_t script) {
 }
 
 bool_t chain_script_is_valid(script_t script) {
-    return knuth::bool_to_int(chain_script_const_cpp(script).is_valid());
+    return kth::bool_to_int(chain_script_const_cpp(script).is_valid());
 }
 
 bool_t chain_script_is_valid_operations(script_t script) {
-    return knuth::bool_to_int(chain_script_const_cpp(script).is_valid_operations());
+    return kth::bool_to_int(chain_script_const_cpp(script).is_valid_operations());
 }
 
 uint64_t /*size_t*/ chain_script_satoshi_content_size(script_t script) {
@@ -40,13 +40,13 @@ uint64_t /*size_t*/ chain_script_satoshi_content_size(script_t script) {
 }
 
 uint64_t /*size_t*/ chain_script_serialized_size(script_t script, bool_t prefix) {
-    return chain_script_const_cpp(script).serialized_size(knuth::int_to_bool(prefix));
+    return chain_script_const_cpp(script).serialized_size(kth::int_to_bool(prefix));
 }
 
 //Note: user of the function has to release the resource (memory) manually
 char* chain_script_to_string(script_t script, uint32_t active_forks) {
     auto str = chain_script_const_cpp(script).to_string(active_forks);
-    return knuth::create_c_str(str);
+    return kth::create_c_str(str);
 }
 
 // TODO(fernando): Move this logic elsewhere (this does not go in a wrapper like c-api)
@@ -66,16 +66,16 @@ char* chain_script_type(script_t script) {
         default: type = "non_standard"; break;
     }
 
-    return knuth::create_c_str(type);
+    return kth::create_c_str(type);
 }
 
 uint8_t* chain_script_to_data(script_t script, bool_t prefix, uint64_t* /*size_t*/ out_size) {
-    auto script_data = chain_script_const_cpp(script).to_data(knuth::int_to_bool(prefix));
-    return knuth::create_c_array(script_data, *out_size);
+    auto script_data = chain_script_const_cpp(script).to_data(kth::int_to_bool(prefix));
+    return kth::create_c_array(script_data, *out_size);
 }
 
 uint64_t /*size_t*/ chain_script_sigops(script_t script, bool_t embedded) {
-    return chain_script_const_cpp(script).sigops(knuth::int_to_bool(embedded));
+    return chain_script_const_cpp(script).sigops(kth::int_to_bool(embedded));
 }
 
 } // extern "C"

@@ -8,8 +8,8 @@
 #include <kth/capi/helpers.hpp>
 #include <kth/capi/type_conversions.h>
 
-#include <kth/bitcoin/multi_crypto_support.hpp>
-#include <kth/bitcoin/wallet/payment_address.hpp>
+#include <kth/domain/multi_crypto_support.hpp>
+#include <kth/domain/wallet/payment_address.hpp>
 
 KTH_CONV_DEFINE(wallet, payment_address_t, kth::wallet::payment_address, payment_address)
 
@@ -32,20 +32,20 @@ payment_address_t wallet_payment_address_construct_from_string(char const* addre
 //User is responsible for releasing return value memory
 char* wallet_payment_address_encoded(payment_address_t payment_address) {
     std::string str = wallet_payment_address_const_cpp(payment_address).encoded();
-    return knuth::create_c_str(str);
+    return kth::create_c_str(str);
 }
 
 #ifdef KTH_CURRENCY_BCH
 //User is responsible for releasing return value memory
 char* wallet_payment_address_encoded_cashaddr(payment_address_t payment_address) {
     std::string str = wallet_payment_address_const_cpp(payment_address).encoded_cashaddr();
-    return knuth::create_c_str(str);
+    return kth::create_c_str(str);
 }
 #endif //KTH_CURRENCY_BCH
 
 short_hash_t wallet_payment_address_hash(payment_address_t payment_address) {
     auto const& hash_cpp = wallet_payment_address_const_cpp(payment_address).hash();
-    return knuth::to_short_hash_t(hash_cpp);
+    return kth::to_short_hash_t(hash_cpp);
 }
 
 uint8_t wallet_payment_address_version(payment_address_t payment_address) {
@@ -53,7 +53,7 @@ uint8_t wallet_payment_address_version(payment_address_t payment_address) {
 }
 
 bool_t wallet_payment_address_is_valid(payment_address_t payment_address) {
-    return knuth::bool_to_int(static_cast<bool>(wallet_payment_address_const_cpp(payment_address)));
+    return kth::bool_to_int(static_cast<bool>(wallet_payment_address_const_cpp(payment_address)));
 }
 
 void wallet_payment_address_destruct(payment_address_t payment_address) {

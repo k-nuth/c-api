@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <kth/bitcoin/chain/stealth.hpp>
+#include <kth/domain/chain/stealth.hpp>
 
 #include <kth/capi/chain/stealth_compact_list.h>
 #include <kth/capi/conversions.hpp>

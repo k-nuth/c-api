@@ -6,8 +6,8 @@
 
 #include <kth/capi/wallet/transaction_functions.h>
 
-#include <kth/bitcoin/wallet/payment_address.hpp>
-#include <kth/bitcoin/wallet/transaction_functions.hpp>
+#include <kth/domain/wallet/payment_address.hpp>
+#include <kth/domain/wallet/transaction_functions.hpp>
 
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/helpers.hpp>
@@ -40,7 +40,7 @@ error_code_t wallet_tx_encode_with_extra_outputs(
         *out_transaction = nullptr;
     }
 
-    return knuth::to_c_err(p.first);
+    return kth::to_c_err(p.first);
 }
 
 error_code_t wallet_tx_encode(
@@ -65,7 +65,7 @@ error_code_t wallet_tx_encode(
         *out_transaction = nullptr;
     }
 
-    return knuth::to_c_err(p.first);
+    return kth::to_c_err(p.first);
 }
 
 error_code_t input_signature_old(
@@ -79,22 +79,22 @@ error_code_t input_signature_old(
     uint64_t* /*size_t*/ out_signature_size) {
 
     auto p = kth::wallet::input_signature_old(
-        knuth::to_array(private_key.data),
+        kth::to_array(private_key.data),
         chain_script_const_cpp(output_script),
         chain_transaction_const_cpp(tx),
         index,
         sign_type,
-        knuth::int_to_bool(anyone_can_pay)
+        kth::int_to_bool(anyone_can_pay)
     );
 
     if (p.first == kth::error::success) {
-        *out_signature = knuth::create_c_array(p.second, *out_signature_size);
+        *out_signature = kth::create_c_array(p.second, *out_signature_size);
     } else {
         *out_signature_size = 0;
         *out_signature = nullptr;
     }
 
-    return knuth::to_c_err(p.first);
+    return kth::to_c_err(p.first);
 }
 
 error_code_t input_signature_btc(
@@ -109,23 +109,23 @@ error_code_t input_signature_btc(
     uint64_t* /*size_t*/ out_signature_size) {
 
     auto p = kth::wallet::input_signature_btc(
-        knuth::to_array(private_key.data),
+        kth::to_array(private_key.data),
         chain_script_const_cpp(output_script),
         chain_transaction_const_cpp(tx),
         amount,
         index,
         sign_type,
-        knuth::int_to_bool(anyone_can_pay)
+        kth::int_to_bool(anyone_can_pay)
     );
 
     if (p.first == kth::error::success) {
-        *out_signature = knuth::create_c_array(p.second, *out_signature_size);
+        *out_signature = kth::create_c_array(p.second, *out_signature_size);
     } else {
         *out_signature_size = 0;
         *out_signature = nullptr;
     }
 
-    return knuth::to_c_err(p.first);
+    return kth::to_c_err(p.first);
 }
 
 error_code_t input_signature_bch(
@@ -140,23 +140,23 @@ error_code_t input_signature_bch(
     uint64_t* /*size_t*/ out_signature_size) {
 
     auto p = kth::wallet::input_signature_bch(
-        knuth::to_array(private_key.data),
+        kth::to_array(private_key.data),
         chain_script_const_cpp(output_script),
         chain_transaction_const_cpp(tx),
         amount,
         index,
         sign_type,
-        knuth::int_to_bool(anyone_can_pay)
+        kth::int_to_bool(anyone_can_pay)
     );
 
     if (p.first == kth::error::success) {
-        *out_signature = knuth::create_c_array(p.second, *out_signature_size);
+        *out_signature = kth::create_c_array(p.second, *out_signature_size);
     } else {
         *out_signature_size = 0;
         *out_signature = nullptr;
     }
 
-    return knuth::to_c_err(p.first);
+    return kth::to_c_err(p.first);
 }
 
 error_code_t input_set_script(
@@ -177,7 +177,7 @@ error_code_t input_set_script(
         *out_transaction = nullptr;
     }
 
-    return knuth::to_c_err(p.first);
+    return kth::to_c_err(p.first);
 }
 
 // error_code_t input_set_signature(
@@ -203,7 +203,7 @@ error_code_t input_set_script(
 //         *out_transaction = nullptr;
 //     }
 
-//     return knuth::to_c_err(p.first);
+//     return kth::to_c_err(p.first);
 // }
 
 

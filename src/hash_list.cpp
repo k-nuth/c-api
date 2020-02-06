@@ -19,7 +19,7 @@ hash_list_t core_hash_list_construct_default() {
 }
 
 void core_hash_list_push_back(hash_list_t list, hash_t hash) {
-    auto hash_cpp = knuth::to_array(hash.hash);
+    auto hash_cpp = kth::to_array(hash.hash);
     core_hash_list_cpp(list).push_back(hash_cpp);
 }
 
@@ -33,12 +33,12 @@ uint64_t /*size_t*/ core_hash_list_count(hash_list_t list) {
 
 hash_t core_hash_list_nth(hash_list_t list, uint64_t /*size_t*/ n) {
     auto const& x = core_hash_list_cpp(list)[n];
-    return knuth::to_hash_t(x);
+    return kth::to_hash_t(x);
 }
 
 void core_hash_list_nth_out(hash_list_t list, uint64_t /*size_t*/ n, hash_t* out_hash) {
     auto const& x = core_hash_list_cpp(list)[n];
-    knuth::copy_c_hash(x, out_hash);
+    kth::copy_c_hash(x, out_hash);
 }
 
 } // extern "C"

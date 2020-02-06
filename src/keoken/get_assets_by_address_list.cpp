@@ -25,9 +25,9 @@
 #include <kth/capi/keoken/conversions.hpp>
 #include <kth/capi/list_creator.h>
 
-KTH_LIST_DEFINE_CONVERTERS(keoken, get_assets_by_address_list_t, knuth::keoken::get_assets_by_address_data, get_assets_by_address_list)
-KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(keoken, get_assets_by_address_list_t, knuth::keoken::get_assets_by_address_data, get_assets_by_address_list)
+KTH_LIST_DEFINE_CONVERTERS(keoken, get_assets_by_address_list_t, kth::keoken::get_assets_by_address_data, get_assets_by_address_list)
+KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(keoken, get_assets_by_address_list_t, kth::keoken::get_assets_by_address_data, get_assets_by_address_list)
 
 extern "C" {
-KTH_LIST_DEFINE(keoken, get_assets_by_address_list_t, get_assets_by_address_data_t, get_assets_by_address_list, knuth::keoken::get_assets_by_address_data, keoken_get_assets_by_address_data_const_cpp)
+KTH_LIST_DEFINE(keoken, get_assets_by_address_list_t, get_assets_by_address_data_t, get_assets_by_address_list, kth::keoken::get_assets_by_address_data, keoken_get_assets_by_address_data_const_cpp)
 } // extern "C"

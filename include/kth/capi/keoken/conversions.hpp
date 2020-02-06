@@ -10,18 +10,18 @@
 
 #include <kth/keoken/state_dto.hpp>
 
-knuth::keoken::get_all_asset_addresses_data& keoken_get_all_asset_addresses_data_cpp(get_all_asset_addresses_data_t obj);
-knuth::keoken::get_all_asset_addresses_data const& keoken_get_all_asset_addresses_data_const_cpp(get_all_asset_addresses_data_t obj);
+kth::keoken::get_all_asset_addresses_data& keoken_get_all_asset_addresses_data_cpp(get_all_asset_addresses_data_t obj);
+kth::keoken::get_all_asset_addresses_data const& keoken_get_all_asset_addresses_data_const_cpp(get_all_asset_addresses_data_t obj);
 
-knuth::keoken::get_assets_by_address_data& keoken_get_assets_by_address_data_cpp(get_assets_by_address_data_t obj);
-knuth::keoken::get_assets_by_address_data const& keoken_get_assets_by_address_data_const_cpp(get_assets_by_address_data_t obj);
+kth::keoken::get_assets_by_address_data& keoken_get_assets_by_address_data_cpp(get_assets_by_address_data_t obj);
+kth::keoken::get_assets_by_address_data const& keoken_get_assets_by_address_data_const_cpp(get_assets_by_address_data_t obj);
 
-knuth::keoken::get_assets_data& keoken_get_assets_data_cpp(get_assets_data_t obj);
-knuth::keoken::get_assets_data const& keoken_get_assets_data_const_cpp(get_assets_data_t obj);
+kth::keoken::get_assets_data& keoken_get_assets_data_cpp(get_assets_data_t obj);
+kth::keoken::get_assets_data const& keoken_get_assets_data_const_cpp(get_assets_data_t obj);
 
-KTH_LIST_DECLARE_CONVERTERS(keoken, get_all_asset_addresses_list_t, knuth::keoken::get_all_asset_addresses_data, get_all_asset_addresses_list)
-KTH_LIST_DECLARE_CONVERTERS(keoken, get_assets_by_address_list_t, knuth::keoken::get_assets_by_address_data, get_assets_by_address_list)
-KTH_LIST_DECLARE_CONVERTERS(keoken, get_assets_list_t, knuth::keoken::get_assets_data, get_assets_list)
+KTH_LIST_DECLARE_CONVERTERS(keoken, get_all_asset_addresses_list_t, kth::keoken::get_all_asset_addresses_data, get_all_asset_addresses_list)
+KTH_LIST_DECLARE_CONVERTERS(keoken, get_assets_by_address_list_t, kth::keoken::get_assets_by_address_data, get_assets_by_address_list)
+KTH_LIST_DECLARE_CONVERTERS(keoken, get_assets_list_t, kth::keoken::get_assets_data, get_assets_list)
 
 
 #endif /* KTH_CAPI_KEOKEN_CONVERSIONS_HPP_ */

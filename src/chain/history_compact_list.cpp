@@ -5,8 +5,8 @@
 
 #include <kth/capi/chain/history_compact_list.h>
 
-#include <kth/bitcoin/chain/history.hpp>
-#include <kth/bitcoin/chain/output_point.hpp>
+#include <kth/domain/chain/history.hpp>
+#include <kth/domain/chain/output_point.hpp>
 
 #include <kth/capi/conversions.hpp>
 

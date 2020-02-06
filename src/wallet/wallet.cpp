@@ -10,17 +10,17 @@
 
 #ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/math/elliptic_curve.hpp>
-#include <kth/bitcoin/wallet/ec_public.hpp>
+#include <kth/domain/wallet/ec_public.hpp>
 #include <kth/infrastructure/wallet/hd_private.hpp>
 #include <kth/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 #else
-#include <kth/bitcoin/math/elliptic_curve.hpp>
-#include <kth/bitcoin/wallet/ec_public.hpp>
-#include <kth/bitcoin/wallet/hd_private.hpp>
-#include <kth/bitcoin/wallet/mnemonic.hpp>
+#include <kth/domain/math/elliptic_curve.hpp>
+#include <kth/domain/wallet/ec_public.hpp>
+#include <kth/domain/wallet/hd_private.hpp>
+#include <kth/domain/wallet/mnemonic.hpp>
 #endif // KTH_USE_DOMAIN
 
-#include <kth/bitcoin/wallet/payment_address.hpp>
+#include <kth/domain/wallet/payment_address.hpp>
 #include <kth/capi/helpers.hpp>
 
 
@@ -35,13 +35,13 @@ extern "C" {
 long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics) {
     auto const& mnemonics_cpp = *static_cast<const std::vector<std::string>*>(mnemonics);
     auto hash_cpp = kth::wallet::decode_mnemonic(mnemonics_cpp);
-    return knuth::to_long_hash_t(hash_cpp);
+    return kth::to_long_hash_t(hash_cpp);
 }
 
 //TODO(fernando): return error code and use output parameters
 ec_secret_t wallet_ec_new(uint8_t* seed, uint64_t n) {
 
-    if (n < BITCOIN_MINIMUM_SEED_SIZE) return knuth::null_ec_secret;
+    if (n < BITCOIN_MINIMUM_SEED_SIZE) return kth::null_ec_secret;
 
     kth::data_chunk seed_cpp(seed, std::next(seed, n));
 
@@ -60,14 +60,14 @@ ec_secret_t wallet_ec_new(uint8_t* seed, uint64_t n) {
 
     // return secret;
 
-    return knuth::to_ec_secret_t(secret);
+    return kth::to_ec_secret_t(secret);
 
 }
 
 ec_public_t wallet_ec_to_public(ec_secret_t secret, bool_t uncompressed) {
     
-    auto secret_cpp = knuth::to_array(secret.data);
-    bool uncompressed_cpp = knuth::int_to_bool(uncompressed);
+    auto secret_cpp = kth::to_array(secret.data);
+    bool uncompressed_cpp = kth::int_to_bool(uncompressed);
     
     kth::ec_compressed point;
     kth::secret_to_public(point, secret_cpp);
@@ -203,7 +203,7 @@ hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 7606
 ec_secret_t wallet_hd_private_to_ec(hd_private_t key) {
     auto const& key_cpp = *static_cast<kth::wallet::hd_private const*>(key);
     kth::ec_secret secret = key_cpp.secret();
-    return knuth::to_ec_secret_t(secret);
+    return kth::to_ec_secret_t(secret);
 }
 
 

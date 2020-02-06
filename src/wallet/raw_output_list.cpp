@@ -21,7 +21,7 @@
 
 #include <vector>
 
-#include <kth/bitcoin/wallet/transaction_functions.hpp>
+#include <kth/domain/wallet/transaction_functions.hpp>
 
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/list_creator.h>

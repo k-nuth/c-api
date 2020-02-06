@@ -29,15 +29,15 @@ void chain_input_destruct(input_t input) {
 }
 
 bool_t chain_input_is_valid(input_t input) {
-    return knuth::bool_to_int(chain_input_const_cpp(input).is_valid());
+    return kth::bool_to_int(chain_input_const_cpp(input).is_valid());
 }
 
 bool_t chain_input_is_final(input_t input) {
-    return knuth::bool_to_int(chain_input_const_cpp(input).is_final());
+    return kth::bool_to_int(chain_input_const_cpp(input).is_final());
 }
 
 uint64_t /*size_t*/ chain_input_serialized_size(input_t input, bool_t wire /* = true*/) {
-    return chain_input_const_cpp(input).serialized_size(knuth::int_to_bool(wire));
+    return chain_input_const_cpp(input).serialized_size(kth::int_to_bool(wire));
 }
 
 uint32_t chain_input_sequence(input_t input) {
@@ -50,7 +50,7 @@ uint64_t /*size_t*/ chain_input_signature_operations(input_t input, bool_t bip16
 #else
     bool_t bip141_active = 1;
 #endif
-    return chain_input_const_cpp(input).signature_operations(knuth::int_to_bool(bip16_active), knuth::int_to_bool(bip141_active));
+    return chain_input_const_cpp(input).signature_operations(kth::int_to_bool(bip16_active), kth::int_to_bool(bip141_active));
 }
 
 script_t chain_input_script(input_t input) {
@@ -62,8 +62,8 @@ output_point_t chain_input_previous_output(input_t input) {
 }
 
 uint8_t* chain_input_to_data(input_t input, bool_t wire, uint64_t* /*size_t*/ out_size) {
-    auto input_data = chain_input_const_cpp(input).to_data(knuth::int_to_bool(wire));
-    return knuth::create_c_array(input_data, *out_size);
+    auto input_data = chain_input_const_cpp(input).to_data(kth::int_to_bool(wire));
+    return kth::create_c_array(input_data, *out_size);
 }
 
 } // extern "C"

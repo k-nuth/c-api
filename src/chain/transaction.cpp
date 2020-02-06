@@ -19,7 +19,7 @@ extern "C" {
 transaction_t chain_transaction_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
     kth::data_chunk data_cpp(data, std::next(data, n));
     auto tx = kth::message::transaction::factory_from_data(version, data_cpp);
-    return knuth::move_or_copy_and_leak(std::move(tx));
+    return kth::move_or_copy_and_leak(std::move(tx));
 }
 
 transaction_t chain_transaction_construct_default() {
@@ -50,22 +50,22 @@ void chain_transaction_set_version(transaction_t transaction, uint32_t version) 
 
 hash_t chain_transaction_hash(transaction_t transaction) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash();
-    return knuth::to_hash_t(hash_cpp);
+    return kth::to_hash_t(hash_cpp);
 }
 
 void chain_transaction_hash_out(transaction_t transaction, hash_t* out_hash) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash();
-    knuth::copy_c_hash(hash_cpp, out_hash);
+    kth::copy_c_hash(hash_cpp, out_hash);
 }
 
 hash_t chain_transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
-    return knuth::to_hash_t(hash_cpp);
+    return kth::to_hash_t(hash_cpp);
 }
 
 void chain_transaction_hash_sighash_type_out(transaction_t transaction, uint32_t sighash_type, hash_t* out_hash) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
-    knuth::copy_c_hash(hash_cpp, out_hash);
+    kth::copy_c_hash(hash_cpp, out_hash);
 }
 
 uint32_t chain_transaction_locktime(transaction_t transaction) {
@@ -90,7 +90,7 @@ uint64_t /*size_t*/ chain_transaction_signature_operations_bip16_active(transact
 #else
     bool_t bip141_active = 1;
 #endif
-    return chain_transaction_const_cpp(transaction).signature_operations(knuth::int_to_bool(bip16_active), knuth::int_to_bool(bip141_active));
+    return chain_transaction_const_cpp(transaction).signature_operations(kth::int_to_bool(bip16_active), kth::int_to_bool(bip141_active));
 }
 
 uint64_t chain_transaction_total_input_value(transaction_t transaction) {
@@ -122,7 +122,7 @@ bool_t chain_transaction_is_overspent(transaction_t transaction) {
 }
 
 bool_t chain_transaction_is_double_spend(transaction_t transaction, bool_t include_unconfirmed) {
-    return static_cast<int>(chain_transaction_const_cpp(transaction).is_double_spend(knuth::int_to_bool(include_unconfirmed)));
+    return static_cast<int>(chain_transaction_const_cpp(transaction).is_double_spend(kth::int_to_bool(include_unconfirmed)));
 }
 
 bool_t chain_transaction_is_missing_previous_outputs(transaction_t transaction) {
@@ -149,7 +149,7 @@ input_list_t chain_transaction_inputs(transaction_t transaction) {
 
 uint8_t* chain_transaction_to_data(transaction_t transaction, bool_t wire, uint64_t* /*size_t*/ out_size) {
     auto tx_data = chain_transaction_const_cpp(transaction).to_data(wire);
-    return knuth::create_c_array(tx_data, *out_size);
+    return kth::create_c_array(tx_data, *out_size);
 }
 
 } // extern "C"

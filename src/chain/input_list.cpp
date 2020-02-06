@@ -5,7 +5,7 @@
 
 #include <kth/capi/chain/input_list.h>
 
-#include <kth/bitcoin/chain/input.hpp>
+#include <kth/domain/chain/input.hpp>
 #include <kth/capi/chain/input.h>
 #include <kth/capi/conversions.hpp>
 

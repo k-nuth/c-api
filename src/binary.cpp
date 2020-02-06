@@ -8,7 +8,7 @@
 #ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/utility/binary.hpp>
 #else
-#include <kth/bitcoin/utility/binary.hpp>
+#include <kth/domain/utility/binary.hpp>
 #endif // KTH_USE_DOMAIN
 
 #include <kth/capi/helpers.hpp>
@@ -43,7 +43,7 @@ uint8_t const* core_binary_blocks(binary_t binary, uint64_t* /*size_t*/ out_n) {
 
 char* core_binary_encoded(binary_t binary) {
     std::string str = core_binary_const_cpp(binary).encoded();   //TODO(fernando): returns a value or a reference?
-    return knuth::create_c_str(str);
+    return kth::create_c_str(str);
 }
 
 } // extern "C"

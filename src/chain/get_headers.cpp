@@ -8,7 +8,7 @@
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/helpers.hpp>
 
-#include <kth/bitcoin/message/get_headers.hpp>
+#include <kth/domain/message/get_headers.hpp>
 
 
 KTH_CONV_DEFINE(chain, get_headers_t, kth::message::get_headers, get_headers)
@@ -22,7 +22,7 @@ get_headers_t chain_get_headers_construct_default() {
 
 get_headers_t chain_get_headers_construct(hash_list_t start, hash_t stop) {
     auto const& start_cpp = core_hash_list_const_cpp(start);
-    auto stop_cpp = knuth::to_array(stop.hash);
+    auto stop_cpp = kth::to_array(stop.hash);
 
     return new kth::message::get_headers(start_cpp, stop_cpp);
 }
@@ -43,21 +43,21 @@ void chain_get_headers_set_start_hashes(get_headers_t get_b, hash_list_t value) 
 
 hash_t chain_get_headers_stop_hash(get_headers_t get_b) {
     auto& stop = chain_get_headers_cpp(get_b).stop_hash();
-    return knuth::to_hash_t(stop);
+    return kth::to_hash_t(stop);
 }
 
 void chain_get_headers_stop_hash_out(get_headers_t get_b, hash_t* out_stop_hash) {
     auto& stop = chain_get_headers_cpp(get_b).stop_hash();
-    knuth::copy_c_hash(stop, out_stop_hash);
+    kth::copy_c_hash(stop, out_stop_hash);
 }
 
 void chain_get_headers_set_stop_hash(get_headers_t get_b, hash_t value) {
-    auto value_cpp = knuth::to_array(value.hash);
+    auto value_cpp = kth::to_array(value.hash);
     chain_get_headers_cpp(get_b).set_stop_hash(value_cpp);
 }
 
 bool_t chain_get_headers_is_valid(get_headers_t get_b) {
-    return knuth::bool_to_int(chain_get_headers_cpp(get_b).is_valid());
+    return kth::bool_to_int(chain_get_headers_cpp(get_b).is_valid());
 }
 
 void chain_get_headers_reset(get_headers_t get_b) {

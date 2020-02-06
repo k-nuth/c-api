@@ -24,18 +24,18 @@
 #include <kth/capi/helpers.hpp>
 #include <kth/capi/type_conversions.h>
 
-KTH_CONV_DEFINE(keoken, get_assets_data_t, knuth::keoken::get_assets_data, get_assets_data)
+KTH_CONV_DEFINE(keoken, get_assets_data_t, kth::keoken::get_assets_data, get_assets_data)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 // get_assets_data_t keoken_get_assets_data_construct_default(void) {
-//     return new knuth::keoken::get_assets_data();
+//     return new kth::keoken::get_assets_data();
 // }
 
 get_assets_data_t keoken_get_assets_data_construct(keoken_asset_id_t asset_id, char const* asset_name, payment_address_t asset_creator, keoken_amount_t amount) {
     // auto const& asset_creator_cpp = wallet_payment_address_const_cpp(asset_creator);
-    return new knuth::keoken::get_assets_data(asset_id, std::string(asset_name), wallet_payment_address_const_cpp(asset_creator), amount);
+    return new kth::keoken::get_assets_data(asset_id, std::string(asset_name), wallet_payment_address_const_cpp(asset_creator), amount);
 }
 
 void keoken_get_assets_data_destruct(get_assets_data_t obj) {
@@ -48,7 +48,7 @@ keoken_asset_id_t keoken_get_assets_data_asset_id(get_assets_data_t obj) {
 
 char const* keoken_get_assets_data_asset_name(get_assets_data_t obj) {
     auto const& asset_name = keoken_get_assets_data_const_cpp(obj).asset_name;
-    return knuth::create_c_str(asset_name);
+    return kth::create_c_str(asset_name);
 }
 
 payment_address_t keoken_get_assets_data_asset_creator(get_assets_data_t obj) {

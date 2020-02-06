@@ -30,7 +30,7 @@
 #include <kth/keoken/state_delegated.hpp>
 #include <kth/keoken/state_dto.hpp>
 
-using keoken_manager_cpp_t = knuth::keoken::manager<knuth::keoken::state_delegated>;
+using keoken_manager_cpp_t = kth::keoken::manager<kth::keoken::state_delegated>;
 KTH_CONV_DEFINE(keoken, keoken_manager_t, keoken_manager_cpp_t, manager)
 
 template <typename T>
@@ -55,11 +55,11 @@ void keoken_manager_configure_state(keoken_manager_t manager
     , keoken_state_delegated_get_assets_t get_assets
     , keoken_state_delegated_get_all_asset_addresses_t get_all_asset_addresses) {
 
-    using knuth::keoken::amount_t;
-    using knuth::keoken::asset_id_t;
+    using kth::keoken::amount_t;
+    using kth::keoken::asset_id_t;
 
     keoken_manager_cpp(manager).configure_state(
-        [set_initial_asset_id, ctx](knuth::keoken::asset_id_t asset_id_initial) {
+        [set_initial_asset_id, ctx](kth::keoken::asset_id_t asset_id_initial) {
             set_initial_asset_id(ctx, asset_id_initial);
         },
 
@@ -71,13 +71,13 @@ void keoken_manager_configure_state(keoken_manager_t manager
         },
 
         [create_asset, ctx](std::string asset_name, amount_t asset_amount, bc::wallet::payment_address const& owner, size_t block_height, kth::hash_digest const& txid) {
-            create_asset(ctx, asset_name.c_str(), asset_amount, obj_to_c(owner), block_height, knuth::to_hash_t(txid));
+            create_asset(ctx, asset_name.c_str(), asset_amount, obj_to_c(owner), block_height, kth::to_hash_t(txid));
         },
         [create_balance_entry, ctx](asset_id_t asset_id, amount_t asset_amount, bc::wallet::payment_address const& source, bc::wallet::payment_address const& target, size_t block_height, kth::hash_digest const& txid) {
-            create_balance_entry(ctx, asset_id, asset_amount, obj_to_c(source), obj_to_c(target), block_height, knuth::to_hash_t(txid));
+            create_balance_entry(ctx, asset_id, asset_amount, obj_to_c(source), obj_to_c(target), block_height, kth::to_hash_t(txid));
         },
-        [asset_id_exists, ctx](knuth::keoken::asset_id_t id) {
-            return knuth::int_to_bool(asset_id_exists(ctx, id));
+        [asset_id_exists, ctx](kth::keoken::asset_id_t id) {
+            return kth::int_to_bool(asset_id_exists(ctx, id));
         },
         [get_balance, ctx](asset_id_t id, bc::wallet::payment_address const& addr) {
             return get_balance(ctx, id, obj_to_c(addr));
@@ -102,22 +102,22 @@ void keoken_manager_initialize_from_blockchain(keoken_manager_t manager) {
 }
 
 bool_t keoken_manager_initialized(keoken_manager_t manager) {
-    return knuth::bool_to_int(keoken_manager_const_cpp(manager).initialized());
+    return kth::bool_to_int(keoken_manager_const_cpp(manager).initialized());
 }
 
 get_assets_by_address_list_t keoken_manager_get_assets_by_address(keoken_manager_t manager, payment_address_t address) {
     auto result = keoken_manager_const_cpp(manager).get_assets_by_address(wallet_payment_address_const_cpp(address));
-    return knuth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
+    return kth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
 get_assets_list_t keoken_manager_get_assets(keoken_manager_t manager) {
     auto result = keoken_manager_const_cpp(manager).get_assets();
-    return knuth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
+    return kth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
 get_all_asset_addresses_list_t keoken_manager_get_all_asset_addresses(keoken_manager_t manager) {
     auto result = keoken_manager_const_cpp(manager).get_all_asset_addresses();
-    return knuth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
+    return kth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
 } // extern "C"

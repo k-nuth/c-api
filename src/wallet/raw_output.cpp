@@ -5,7 +5,7 @@
 
 #include <kth/capi/wallet/raw_output.h>
 
-#include <kth/bitcoin/wallet/transaction_functions.hpp>
+#include <kth/domain/wallet/transaction_functions.hpp>
 
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/helpers.hpp>
@@ -35,8 +35,8 @@ uint64_t wallet_raw_output_amount(raw_output_t obj) {
 //     //precondition: [previous_block_hash, 32) is a valid range
 //     //              && [merkle, 32) is a valid range
 
-//     auto previous_block_hash_cpp = knuth::hash_to_cpp(previous_block_hash);
-//     auto merkle_cpp = knuth::hash_to_cpp(merkle);
+//     auto previous_block_hash_cpp = kth::hash_to_cpp(previous_block_hash);
+//     auto merkle_cpp = kth::hash_to_cpp(merkle);
 //     return new kth::wallet::raw_output(version, previous_block_hash_cpp, merkle_cpp, timestamp, bits, nonce);
 // }
 

@@ -13,7 +13,7 @@
 
 #include <boost/core/null_deleter.hpp>
 
-#include <kth/bitcoin/multi_crypto_support.hpp>
+#include <kth/domain/multi_crypto_support.hpp>
 #include <kth/node.hpp>
 #include <kth/node/parser.hpp>
 

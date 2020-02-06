@@ -1,6 +1,6 @@
 # Executor
 
-Defined in header `<knuth/capi/executor_c.h>`
+Defined in header `<kth/capi/executor_c.h>`
 
 Controls the execution of a Knuth crypto node.
 

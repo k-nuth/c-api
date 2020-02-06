@@ -33,7 +33,7 @@ void p2p_close(p2p_t p2p) {
 }
 
 bool_t p2p_stopped(p2p_t p2p) {
-    return knuth::bool_to_int(p2p_cast(p2p).stopped());
+    return kth::bool_to_int(p2p_cast(p2p).stopped());
 }
 
 } // extern "C"

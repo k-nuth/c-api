@@ -28,15 +28,15 @@
 #include <kth/capi/wallet/word_list.h>
 #include <kth/capi/wallet/payment_address_list.h>
 
-#include <kth/bitcoin/message/transaction.hpp>
+#include <kth/domain/message/transaction.hpp>
 
 #ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/utility/binary.hpp>
 #else
-#include <kth/bitcoin/utility/binary.hpp>
+#include <kth/domain/utility/binary.hpp>
 #endif // KTH_USE_DOMAIN
 
-#include <kth/bitcoin/wallet/hd_private.hpp>
+#include <kth/domain/wallet/hd_private.hpp>
 
 
  void wait_until_block(chain_t chain, size_t desired_height) {
@@ -150,7 +150,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 	kth::hash_digest hash_bytes;
 	hex2bin(hash.c_str(), hash_bytes.data());
 	std::reverse(hash_bytes.begin(), hash_bytes.end());
-    auto prevout_hash = knuth::to_hash_t(hash_bytes);
+    auto prevout_hash = kth::to_hash_t(hash_bytes);
 
     uint64_t out_h;
     auto res = chain_get_block_height(chain, prevout_hash, &out_h);
@@ -257,7 +257,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 // 	kth::hash_digest hash_bytes;
 // 	hex2bin(prevout_hash_str.c_str(), hash_bytes.data());
 // 	std::reverse(hash_bytes.begin(), hash_bytes.end());
-//     auto prevout_hash = knuth::to_hash_t(hash_bytes);
+//     auto prevout_hash = kth::to_hash_t(hash_bytes);
 
 
 //     // bitcoincash:qprzrw2lsj85qdnw9qwrc6cjg7ypgcs7fq40e4v5wn

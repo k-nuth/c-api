@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <kth/bitcoin/message/compact_block.hpp>
+#include <kth/domain/message/compact_block.hpp>
 
 #include <kth/capi/chain/compact_block.h>
 #include <kth/capi/helpers.hpp>
@@ -19,7 +19,7 @@ header_t chain_compact_block_header(compact_block_t block) {
 }
 
 bool_t chain_compact_block_is_valid(compact_block_t block) {
-    return knuth::bool_to_int(chain_compact_block_const_cpp(block).is_valid());
+    return kth::bool_to_int(chain_compact_block_const_cpp(block).is_valid());
 }
 
 uint64_t /*size_t*/ chain_compact_block_serialized_size(compact_block_t block, uint32_t version) {
