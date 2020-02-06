@@ -50,6 +50,7 @@ class KnuthCAPIConan(KnuthConanFile):
 
         "microarchitecture": "_DUMMY_",
         "fix_march": False,
+        "march_id": "_DUMMY_",
 
         "no_compilation": False,
         "currency": "BCH",
