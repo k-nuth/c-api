@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef KTH_NODE_CINT_PLATFORM_H
-#define KTH_NODE_CINT_PLATFORM_H
+#ifndef KTH_CAPI_PLATFORM_H
+#define KTH_CAPI_PLATFORM_H
 
 #include <kth/capi/visibility.h>
 
@@ -19,4 +19,4 @@ void platform_free(void* ptr);
 } // extern "C"
 #endif
 
-#endif //KTH_NODE_CINT_PLATFORM_H
+#endif //KTH_CAPI_PLATFORM_H

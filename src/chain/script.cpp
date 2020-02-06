@@ -49,7 +49,7 @@ char* chain_script_to_string(script_t script, uint32_t active_forks) {
     return knuth::create_c_str(str);
 }
 
-// TODO(fernando): Move this logic elsewhere (this does not go in a wrapper like node-cint)
+// TODO(fernando): Move this logic elsewhere (this does not go in a wrapper like c-api)
 char* chain_script_type(script_t script) {
     auto script_pattern = chain_script_const_cpp(script).pattern();
     std::string type = "non_standard";

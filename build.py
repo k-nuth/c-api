@@ -2,18 +2,17 @@ import copy
 import os
 import cpuid
 import platform
-from ci_utils import get_builder, handle_microarchs, copy_env_vars, filter_valid_exts, filter_marchs_tests
+from kthbuild import get_base_march_ids, get_builder, handle_microarchs, copy_env_vars, filter_valid_exts, filter_marchs_tests
 
 def xor(a, b):
     return (a and not b) or (not a and b)
 
 if __name__ == "__main__":
-
-    full_build = os.getenv('KTH_FULL_BUILD', '0') == '1'
-    builder, name = get_builder()
+    builder, name = get_builder(os.path.dirname(os.path.abspath(__file__)))
     builder.add_common_builds(shared_option_name="%s:shared" % name)
-    filtered_builds = []
 
+    filtered_builds = []
+    march_ids = get_base_march_ids()
     for settings, options, env_vars, build_requires, reference in builder.items:
 
         if settings["build_type"] == "Release" \
@@ -22,36 +21,23 @@ if __name__ == "__main__":
             copy_env_vars(env_vars)
                 
             if os.getenv('KTH_RUN_TESTS', 'false') == 'true':
-                options["%s:with_tests" % name] = "True"
+                options["%s:tests" % name] = "True"
 
-            if full_build:
-                marchs = filter_valid_exts(str(platform.system()), str(settings["compiler"]), float(str(settings["compiler.version"])), ['x86-64', 'haswell', 'skylake'])
-            else:
-                marchs = ["x86-64"]
+            opts_bch = copy.deepcopy(options)
+            opts_btc = copy.deepcopy(options)
 
-            ci_currency = os.getenv('KTH_CI_CURRENCY', None)
-            # with_keoken = os.getenv('KTH_WITH_KEOKEN', 'false') == 'true'
+            opts_bch["%s:currency" % name] = "BCH"
+            opts_btc["%s:currency" % name] = "BTC"
 
-            opts_full = copy.deepcopy(options)
-            opts_full["%s:db" % name] = "full"
 
-            if ci_currency is not None:
-                options["*:currency"] = ci_currency
-                # options["*:keoken"] = with_keoken
+            opts_bch_full = copy.deepcopy(opts_bch)
+            opts_bch_full["%s:db" % name] = "full"
 
-                # if with_keoken:
-                #     options["*:db"] = "full"
+            handle_microarchs("*:microarchitecture", march_ids, filtered_builds, settings, opts_bch_full, env_vars, build_requires)
+            handle_microarchs("*:microarchitecture", march_ids, filtered_builds, settings, opts_bch, env_vars, build_requires)
+            handle_microarchs("*:microarchitecture", march_ids, filtered_builds, settings, opts_btc, env_vars, build_requires)
 
-                # if ci_currency == "BCH" and not with_keoken:
-                # if ci_currency == "BCH":
-                #     opts_bch_domain = copy.deepcopy(options)
-                #     opts_bch_domain["%s:use_domain" % name] = "True"
-                #     handle_microarchs("*:microarchitecture", marchs, filtered_builds, settings, opts_bch_domain, env_vars, build_requires)
-
-                handle_microarchs("*:microarchitecture", marchs, filtered_builds, settings, opts_full, env_vars, build_requires)
-                handle_microarchs("*:microarchitecture", marchs, filtered_builds, settings, options, env_vars, build_requires)
-
-            filter_marchs_tests(name, filtered_builds, ["%s:with_tests" % name], "*:microarchitecture")
+            filter_marchs_tests(name, filtered_builds, ["%s:tests" % name], "*:microarchitecture")
 
     builder.builds = filtered_builds
     builder.run()

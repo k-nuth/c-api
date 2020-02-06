@@ -1,4 +1,4 @@
-# Knuth C-API <a target="_blank" href="http://semver.org">![Version][badge.version]</a> <a target="_blank" href="https://travis-ci.org/k-nuth/node-cint">![Travis status][badge.Travis]</a> [![Appveyor Status](https://ci.appveyor.com/api/projects/status/github/k-nuth/node-cint?svg=true&branch=master)](https://ci.appveyor.com/projects/k-nuth/node-cint) <a target="_blank" href="https://gitter.im/kth/Lobby">![Gitter Chat][badge.Gitter]</a>
+# Knuth C-API <a target="_blank" href="http://semver.org">![Version][badge.version]</a> <a target="_blank" href="https://travis-ci.org/k-nuth/c-api">![Travis status][badge.Travis]</a> [![Appveyor Status](https://ci.appveyor.com/api/projects/status/github/k-nuth/c-api?svg=true&branch=master)](https://ci.appveyor.com/projects/k-nuth/c-api) <a target="_blank" href="https://gitter.im/kth/Lobby">![Gitter Chat][badge.Gitter]</a>
 
 > Multi-Cryptocurrency _C Programming Language_ API.
 
@@ -35,15 +35,15 @@ conan remote add kth https://api.bintray.com/conan/k-nuth/kth
 
 ```
 # For Bitcoin Cash
-conan install kth-node-cint/0.X@kth/stable -o currency=BCH 
+conan install kth-c-api/0.X@kth/stable -o currency=BCH 
 # ... or (BCH is the default crypto)
-conan install kth-node-cint/0.X@kth/stable 
+conan install kth-c-api/0.X@kth/stable 
 
 # For Bitcoin Legacy
-conan install kth-node-cint/0.X@kth/stable -o currency=BTC
+conan install kth-c-api/0.X@kth/stable -o currency=BTC
 
 # For Litecoin
-conan install kth-node-cint/0.X@kth/stable -o currency=LTC
+conan install kth-c-api/0.X@kth/stable -o currency=LTC
 ```
 
 ## Building from source Requirements
@@ -166,7 +166,7 @@ _Note: Here we are building the code using the GNU Compiler Collection (GCC) on 
 To build and run the code example, first you have to create a tool file called `conanfile.txt` in orded to manage the dependencies of the code:
 
 ```sh
-printf "[requires]\nkth-node-cint/0.X@kth/stable\n[options]\nkth-node-cint:shared=True\n[imports]\ninclude/kth, *.h -> ./include/kth\ninclude/kth, *.hpp -> ./include/kth\nlib, *.so -> ./lib\n" > conanfile.txt
+printf "[requires]\nkth-c-api/0.X@kth/stable\n[options]\nkth-c-api:shared=True\n[imports]\ninclude/kth, *.h -> ./include/kth\ninclude/kth, *.hpp -> ./include/kth\nlib, *.so -> ./lib\n" > conanfile.txt
 ```
 
 Then, run the following command to bring the dependencies to the local directory:
@@ -179,7 +179,7 @@ Now, you can build our code example:
 
 ```sh
 gcc -Iinclude -c hello_blockchain.c
-gcc -Llib -o hello_blockchain hello_blockchain.o -lkth-node-cint
+gcc -Llib -o hello_blockchain hello_blockchain.o -lkth-c-api
 ```
 
 ...run it and enjoy the Knuth programmable APIs:
@@ -196,7 +196,7 @@ Specifically, you can choose your computer _microarchitecture_ to download a pre
 
 ```
 # For Haswell microarchitecture and Bitcoin Cash currency
-conan install kth-node-cint/0.X@kth/stable -o currency=BCH -o microarchitecture=haswell 
+conan install kth-c-api/0.X@kth/stable -o currency=BCH -o microarchitecture=haswell 
 ```
 So, you can manually choose the appropriate microarchitecture, some examples are: _x86_64_, _haswell_, _ivybridge_, _sandybridge_, _bulldozer_, ...  
 By default, if you do not specify any, the building system will select a base microarchitecture corresponding to your _Instruction Set Architecture_ (ISA). For example, for _Intel 80x86_, the x86_64 microarchitecture will be selected.
@@ -207,12 +207,12 @@ Our build system has the ability to automatically detect the microarchitecture o
 
 ```
 pip install cpuid
-conan install kth-node-cint/0.X@kth/stable 
+conan install kth-c-api/0.X@kth/stable 
 ```
 
 
 <!-- Links -->
-[badge.Appveyor]: https://ci.appveyor.com/api/projects/status/github/k-nuth/node-cint?svg=true&branch=dev
+[badge.Appveyor]: https://ci.appveyor.com/api/projects/status/github/k-nuth/c-api?svg=true&branch=dev
 [badge.Gitter]: https://img.shields.io/badge/gitter-join%20chat-blue.svg
-[badge.Travis]: https://travis-ci.org/k-nuth/node-cint.svg?branch=master
-[badge.version]: https://badge.fury.io/gh/kth%2Fkth-node-cint.svg
+[badge.Travis]: https://travis-ci.org/k-nuth/c-api.svg?branch=master
+[badge.version]: https://badge.fury.io/gh/kth%2Fkth-c-api.svg

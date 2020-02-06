@@ -70,9 +70,6 @@ executor::executor(kth::node::configuration const& config, std::ostream& output,
     kth::log::initialize(debug_file, error_file, console_out, console_err, verbose);
 }
 
-
-#if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
-
 bool executor::init_directory(error_code& ec) {
     
     auto const& directory = config_.database.directory;
@@ -117,9 +114,6 @@ bool executor::do_initchain() {
     return false;
 }
 
-#endif   // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
-
-
 // Run.
 // ----------------------------------------------------------------------------
 
@@ -155,11 +149,9 @@ bool executor::run(kth::handle0 handler) {
     LOG_INFO(LOG_NODE) << BN_NODE_INTERRUPT;
     LOG_INFO(LOG_NODE) << BN_NODE_STARTING;
 
-#if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
     if (!verify_directory()) {
         return false;
     }
-#endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
     // Now that the directory is verified we can create the node for it.
     node_ = std::make_shared<kth::node::full_node>(config_);
@@ -187,8 +179,6 @@ bool executor::init_and_run(kth::handle0 handler) {
     LOG_INFO(LOG_NODE) << BN_NODE_INTERRUPT;
     LOG_INFO(LOG_NODE) << BN_NODE_STARTING;
 
-#if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
-    
     if ( ! verify_directory() ) {
         error_code ec;
         
@@ -198,11 +188,9 @@ bool executor::init_and_run(kth::handle0 handler) {
             return false;
         }
     }
-#endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
     // Now that the directory is verified we can create the node for it.
     node_ = std::make_shared<kth::node::full_node>(config_);
-
 
     #ifdef KTH_WITH_KEOKEN
         keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_kth(), config_.node.keoken_genesis_height));    //NOLINT
@@ -364,7 +352,6 @@ void executor::initialize_output() {
     LOG_INFO(LOG_NODE) << format(BN_CORES_INIT) % kth::thread_ceiling(config_.chain.cores);
 }
 
-#if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 // Use missing directory as a sentinel indicating lack of initialization.
 bool executor::verify_directory() {
     error_code ec;
@@ -383,7 +370,6 @@ bool executor::verify_directory() {
     LOG_ERROR(LOG_NODE) << format(BN_INITCHAIN_TRY) % directory % message;
     return false;
 }
-#endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
 } // namespace capi
 } // namespace kth

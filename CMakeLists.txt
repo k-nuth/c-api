@@ -5,9 +5,9 @@
 
 cmake_minimum_required(VERSION 3.4)
 
-# kth-node-cint
+# kth-c-api
 #==============================================================================
-project(kth-node-cint
+project(kth-c-api
         VERSION 0
         LANGUAGES CXX C)
 
@@ -34,19 +34,11 @@ endif()
 # Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
 #------------------------------------------------------------------------------
 option(ENABLE_SHARED "" ON)
-option(ENABLE_SHARED_NODE_CINT "" ON)
+option(ENABLE_SHARED_CAPI "" ON)
 
 # Implement POSITION_INDEPENDENT_CODE
 #------------------------------------------------------------------------------
 option(ENABLE_POSITION_INDEPENDENT_CODE "Enable POSITION_INDEPENDENT_CODE property" ON)
-
-# Implement --with-remote-blockchain and declare WITH_REMOTE_BLOCKCHAIN.
-#------------------------------------------------------------------------------
-option(WITH_REMOTE_BLOCKCHAIN "Compile with remote kth-blockchain (aka. kth-blockchain-requester)." OFF)
-
-# Implement --with-remote-database and declare WITH_REMOTE_DATABASE.
-#------------------------------------------------------------------------------
-option(WITH_REMOTE_DATABASE "Compile with remote kth-database (aka. kth-database-requester)." OFF)
 
 # Implement --with-tests and declare WITH_TESTS.
 #------------------------------------------------------------------------------
@@ -55,7 +47,7 @@ option(WITH_TESTS "Compile with unit tests." ON)
 # Implement --with-console and declare WITH_CONSOLE.
 #------------------------------------------------------------------------------
 option(WITH_CONSOLE "Compile console application." ON)
-option(WITH_CONSOLE_NODE_CINT "Compile console application." ON)
+option(WITH_CONSOLE_CAPI "Compile console application." ON)
 
 
 
@@ -184,11 +176,11 @@ if (DB_NEW_FULL)
   add_definitions(-DKTH_DB_NEW_FULL)
 endif()
 
-if (ENABLE_SHARED_NODE_CINT)
+if (ENABLE_SHARED_CAPI)
   set(ENABLE_SHARED ON)
 endif()
 
-# set(WITH_CONSOLE_NODE_CINT ON)
+# set(WITH_CONSOLE_CAPI ON)
 
 # Conan infrastructure
 #==============================================================================
@@ -319,7 +311,7 @@ endif()
 # Build
 #==============================================================================
 
-# src/kth-node-cint.la => ${libdir}
+# src/kth-c-api.la => ${libdir}
 #------------------------------------------------------------------------------
 #set(MODE STATIC)
 if (ENABLE_SHARED)
@@ -402,108 +394,108 @@ if (WITH_KEOKEN)
 endif()
 
 
-add_library(kth-node-cint ${MODE}
+add_library(kth-c-api ${MODE}
         ${_kth_sources}
 )
 
 if (NOT ENABLE_SHARED)
-  add_library(kth-node-cint-version ${MODE}
+  add_library(kth-c-api-version ${MODE}
     src/user_agent.cpp
   )
 
   if (ENABLE_POSITION_INDEPENDENT_CODE) 
-    set_property(TARGET kth-node-cint-version PROPERTY POSITION_INDEPENDENT_CODE ON)
+    set_property(TARGET kth-c-api-version PROPERTY POSITION_INDEPENDENT_CODE ON)
   endif(ENABLE_POSITION_INDEPENDENT_CODE)
 
-  target_compile_definitions(kth-node-cint-version PUBLIC -DKTH_PROJECT_VERSION="${KTH_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
+  target_compile_definitions(kth-c-api-version PUBLIC -DKTH_PROJECT_VERSION="${KTH_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
 
-  target_include_directories(kth-node-cint-version PUBLIC
+  target_include_directories(kth-c-api-version PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>)
 
 
-  # set(CINT_VERSION_LIBS ${CINT_VERSION_LIBS} "kth-network")
-  # target_link_libraries(kth-node-cint-version PUBLIC ${CINT_VERSION_LIBS})
+  # set(CAPI_VERSION_LIBS ${CAPIVERSION_LIBS} "kth-network")
+  # target_link_libraries(kth-c-api-version PUBLIC ${CAPIVERSION_LIBS})
 
   # if (NOT NO_CONAN_AT_ALL)
-  #   target_link_libraries(kth-node-cint-version PUBLIC ${CONAN_LIBS})
+  #   target_link_libraries(kth-c-api-version PUBLIC ${CONAN_LIBS})
   # endif()
 
 endif()
 
 
 if (ENABLE_POSITION_INDEPENDENT_CODE) 
-  set_property(TARGET kth-node-cint PROPERTY POSITION_INDEPENDENT_CODE ON)
+  set_property(TARGET kth-c-api PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif(ENABLE_POSITION_INDEPENDENT_CODE)
 
-#set_target_properties(kth-node-cint PROPERTIES CXX_VISIBILITY_PRESET hidden)
+#set_target_properties(kth-c-api PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
-target_compile_definitions(kth-node-cint PUBLIC -DKTH_PROJECT_VERSION="${KTH_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
-target_compile_definitions(kth-node-cint PUBLIC -DKTH_EXPORTS)
+target_compile_definitions(kth-c-api PUBLIC -DKTH_PROJECT_VERSION="${KTH_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
+target_compile_definitions(kth-c-api PUBLIC -DKTH_EXPORTS)
 
-target_include_directories(kth-node-cint PUBLIC
+target_include_directories(kth-c-api PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>)
 
-# target_compile_definitions(kth-node-cint PUBLIC -DBCN_STATIC)
+# target_compile_definitions(kth-c-api PUBLIC -DBCN_STATIC)
 if (NOT ENABLE_SHARED)
-  target_compile_definitions(kth-node-cint PUBLIC -DKTH_LIB_STATIC)
-  # target_compile_definitions(kth-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
+  target_compile_definitions(kth-c-api PUBLIC -DKTH_LIB_STATIC)
+  # target_compile_definitions(kth-c-api PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
 # else()
-  # target_compile_definitions(kth-node-cint PUBLIC -DBC_DLL)
+  # target_compile_definitions(kth-c-api PUBLIC -DBC_DLL)
 endif()
 
 #Note: Knuth modules are Static, C-API Shared
-target_compile_definitions(kth-node-cint PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
+target_compile_definitions(kth-c-api PUBLIC -DBCN_STATIC -DBCB_STATIC -DBCD_STATIC -DBCT_STATIC -DBC_STATIC)
 
 
 
 if (NOT MSVC)
-  target_compile_definitions(kth-node-cint PUBLIC -DSYSCONFDIR=\"${SYSCONFDIR}\")
+  target_compile_definitions(kth-c-api PUBLIC -DSYSCONFDIR=\"${SYSCONFDIR}\")
 endif()
 
 if (NOT USE_CONAN)
   set(DEP_LIBS ${DEP_LIBS} "kth-node")
   if (NOT ENABLE_SHARED)
-    set(DEP_LIBS ${DEP_LIBS} "kth-node-cint-version")
+    set(DEP_LIBS ${DEP_LIBS} "kth-c-api-version")
   endif()
 
-  target_link_libraries(kth-node-cint PUBLIC ${DEP_LIBS})
+  target_link_libraries(kth-c-api PUBLIC ${DEP_LIBS})
 endif()
 
-# lib/libkth-node-cint-version
+# lib/libkth-c-api-version
 
 
 if (NOT NO_CONAN_AT_ALL)
   if (NOT ENABLE_SHARED)
-    set(CONAN_LIBS ${CONAN_LIBS} "kth-node-cint-version")
+    set(CONAN_LIBS ${CONAN_LIBS} "kth-c-api-version")
   endif()
-  target_link_libraries(kth-node-cint PUBLIC ${CONAN_LIBS})
+  target_link_libraries(kth-c-api PUBLIC ${CONAN_LIBS})
 endif()
 
 # if (NOT ENABLE_SHARED)
-#   target_link_libraries(kth-node-cint PUBLIC kth-node-cint-version)
+#   target_link_libraries(kth-c-api PUBLIC kth-c-api-version)
 # endif()
 
 if (USE_CONAN)
   if (MINGW)
-    target_link_libraries(kth-node-cint PUBLIC ws2_32 wsock32) #TODO(fernando): manage with Conan
+    target_link_libraries(kth-c-api PUBLIC ws2_32 wsock32) #TODO(fernando): manage with Conan
   endif()
 endif()
 
 
 
 # if (MSVC)
-#   target_link_libraries(kth-node-cint PUBLIC ${Boost_LOG_LIBRARY} ${Boost_LOG_SETUP_LIBRARY})
+#   target_link_libraries(kth-c-api PUBLIC ${Boost_LOG_LIBRARY} ${Boost_LOG_SETUP_LIBRARY})
 # endif()
 #if (MINGW)
-#  target_link_libraries(kth-node-cint PUBLIC kth-node wsock32)
+#  target_link_libraries(kth-c-api PUBLIC kth-node wsock32)
 #else()
-#    target_link_libraries(kth-node-cint PUBLIC kth-node)
+#    target_link_libraries(kth-c-api PUBLIC kth-node)
 #endif()
 
 
-_group_sources(kth-node-cint "${CMAKE_CURRENT_LIST_DIR}")
+_group_sources(kth-c-api "${CMAKE_CURRENT_LIST_DIR}")
 
 
 
@@ -511,7 +503,7 @@ _group_sources(kth-node-cint "${CMAKE_CURRENT_LIST_DIR}")
 #==============================================================================
 
 
-if (WITH_CONSOLE_NODE_CINT)
+if (WITH_CONSOLE_CAPI)
   #add_executable(test-console-twos
   #        console/main.c)
 
@@ -527,7 +519,7 @@ if (WITH_CONSOLE_NODE_CINT)
 
   add_executable(test_console ${_test_console_sources})
 
-  target_link_libraries(test_console kth-node-cint)
+  target_link_libraries(test_console kth-c-api)
 
   set_target_properties(
           test_console PROPERTIES
@@ -553,7 +545,7 @@ endif()
  if (WITH_TESTS)
    add_executable(queries
            test/queries.cpp)
-   target_link_libraries(queries PUBLIC kth-node-cint)
+   target_link_libraries(queries PUBLIC kth-c-api)
    #_group_sources(queries "${CMAKE_CURRENT_LIST_DIR}/test")
 
    #_add_tests(kth_node_cint_test
@@ -572,15 +564,15 @@ endif()
 
 # Install
 #==============================================================================
-#install(TARGETS kth-node-cint
-#        EXPORT kth-node-cint
+#install(TARGETS kth-c-api
+#        EXPORT kth-c-api
 #        ARCHIVE DESTINATION lib
 #        LIBRARY DESTINATION lib
 #)
 
 if (NOT ENABLE_SHARED)
-  install(TARGETS kth-node-cint-version
-          EXPORT kth-node-cint-version
+  install(TARGETS kth-c-api-version
+          EXPORT kth-c-api-version
           LIBRARY DESTINATION "lib"
           ARCHIVE DESTINATION "lib"
           RUNTIME DESTINATION "lib"
@@ -588,8 +580,8 @@ if (NOT ENABLE_SHARED)
           )
 endif()
 
-install(TARGETS kth-node-cint
-        EXPORT kth-node-cint
+install(TARGETS kth-c-api
+        EXPORT kth-c-api
         LIBRARY DESTINATION "lib"
         ARCHIVE DESTINATION "lib"
         RUNTIME DESTINATION "lib"
@@ -662,14 +654,14 @@ endforeach()
 include(CMakePackageConfigHelpers)
 
 if (NOT ENABLE_SHARED)
-  export(EXPORT kth-node-cint-version
-          FILE "${CMAKE_CURRENT_BINARY_DIR}/kth-node-cint-versionTargets.cmake")
-  export(PACKAGE kth-node-cint-version)
+  export(EXPORT kth-c-api-version
+          FILE "${CMAKE_CURRENT_BINARY_DIR}/kth-c-api-versionTargets.cmake")
+  export(PACKAGE kth-c-api-version)
 endif()
 
-export(EXPORT kth-node-cint
-        FILE "${CMAKE_CURRENT_BINARY_DIR}/kth-node-cintTargets.cmake")
-export(PACKAGE kth-node-cint)
+export(EXPORT kth-c-api
+        FILE "${CMAKE_CURRENT_BINARY_DIR}/kth-c-apiTargets.cmake")
+export(PACKAGE kth-c-api)
 
 if (UNIX)
   set(_config_package_location "lib/cmake")
@@ -679,28 +671,28 @@ endif()
 
 
 if (NOT ENABLE_SHARED)
-  install(EXPORT kth-node-cint-version
-          FILE kth-node-cint-versionTargets.cmake
+  install(EXPORT kth-c-api-version
+          FILE kth-c-api-versionTargets.cmake
           DESTINATION ${_config_package_location})
 endif()
 
-install(EXPORT kth-node-cint
-        FILE kth-node-cintTargets.cmake
+install(EXPORT kth-c-api
+        FILE kth-c-apiTargets.cmake
         DESTINATION ${_config_package_location})
 
-configure_file(kth-node-cintConfig.cmake.in
-        "${CMAKE_CURRENT_BINARY_DIR}/kth-node-cintConfig.cmake"
+configure_file(kth-c-apiConfig.cmake.in
+        "${CMAKE_CURRENT_BINARY_DIR}/kth-c-apiConfig.cmake"
         @ONLY)
 
 write_basic_package_version_file(
-        "${CMAKE_CURRENT_BINARY_DIR}/kth-node-cintConfigVersion.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/kth-c-apiConfigVersion.cmake"
         VERSION ${PROJECT_VERSION}
         COMPATIBILITY AnyNewerVersion)
 
 install(
         FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/kth-node-cintConfig.cmake"
-        "${CMAKE_CURRENT_BINARY_DIR}/kth-node-cintConfigVersion.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/kth-c-apiConfig.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/kth-c-apiConfigVersion.cmake"
         DESTINATION ${_config_package_location})
 
         

@@ -40,9 +40,7 @@ public:
 
 //    bool menu();
 
-#if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
     bool do_initchain();
-#endif
 
     bool run(kth::handle0 handler);
     //bool run_wait(kth::handle0 handler);
@@ -80,10 +78,8 @@ private:
 
     bool init_directory(boost::system::error_code& ec);
 
-#if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 //    bool do_initchain();
     bool verify_directory();
-#endif
 
     // Termination state.
     static std::promise<kth::code> stopping_;
@@ -107,8 +103,6 @@ private:
     "These are the configuration settings that can be set."
 #define BN_INFORMATION_MESSAGE \
     "Runs a full bitcoin node with additional client-server query protocol."
-
-#if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 #define BN_UNINITIALIZED_CHAIN \
     "The %1% directory is not initialized, run: bn --initchain"
 #define BN_INITIALIZING_CHAIN \
@@ -123,7 +117,6 @@ private:
     "Completed initialization."
 #define BN_INITCHAIN_FAILED \
     "Error creating database files."
-#endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
 #define BN_NODE_INTERRUPT \
     "Press CTRL-C to stop the node."
