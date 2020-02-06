@@ -5,11 +5,11 @@
 #include <bitcoin/network/user_agent.hpp>
 #include <knuth/nodecint/version.h>
 
-namespace libbitcoin {
+namespace kth {
 namespace network {
 
 std::string get_user_agent() {
-    return "/bitprim:" KTH_NODECINT_VERSION "/";
+    return "/kth:" KTH_NODECINT_VERSION "/";
 }
 
 } // namespace network
