@@ -1,36 +1,22 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <bitprim/nodecint/wallet/ec_public.h>
 
-#include <bitcoin/bitcoin/wallet/transaction_functions.hpp>
+#include <kth/capi/wallet/ec_public.h>
 
-#include <bitprim/nodecint/conversions.hpp>
-#include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/type_conversions.h>
+#include <kth/bitcoin/wallet/transaction_functions.hpp>
 
-BITPRIM_CONV_DEFINE(wallet, ec_public_t, libbitcoin::wallet::ec_public, ec_public)
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/type_conversions.h>
+
+KTH_CONV_DEFINE(wallet, ec_public_t, kth::wallet::ec_public, ec_public)
 
 extern "C" {
 
 ec_public_t wallet_ec_public_construct_default() {
-    return new libbitcoin::wallet::ec_public();
+    return new kth::wallet::ec_public();
 }
 
 // payment_address_t wallet_ec_public_destiny(ec_public_t obj) {
@@ -50,7 +36,7 @@ uint8_t wallet_ec_public_wif_version(ec_public_t obj) {
 }
 
 bool_t wallet_ec_public_compressed(ec_public_t obj) {
-    return bitprim::bool_to_int(wallet_ec_public_const_cpp(obj).compressed());
+    return knuth::bool_to_int(wallet_ec_public_const_cpp(obj).compressed());
 }
 
 } // extern "C"

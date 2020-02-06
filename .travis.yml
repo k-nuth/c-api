@@ -1,21 +1,7 @@
-#
-# Copyright (c) 2016-2018 Bitprim Inc.
-#
-# This file is part of Bitprim.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
+# Copyright (c) 2016-2020 Knuth Project developers.
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 
 branches:
   only:
@@ -34,19 +20,35 @@ branches:
 env:
    global:
      - CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
+     # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+     #   via the "travis encrypt" command using the project repo's public key
+     - secure: "zmnprZPwibJ3tet1PRZvt3W3UkARdVb19lsSkAhfQCfq0GU2psBy8F8MAY92cHBOVwUNEOoxBIZUfPq6J+/S0V0qNTT2hvTmv8SlyZ5GdpUOJYURNHZarVneTm+43Gpd93o0M33heIz2/w0khXZUydKFSoK/pKi7wwc5Lpt5IaW9QzFl5LchfVtD+Cwhgd7Nwrw7w7hlcJyOwuDfJzXxZER2YxE4zIWQoWF4ZLln+BXWH+bxjCM8FuLG7GjMCp4NFM6ap8nfxTd6pSgJ1COUweOeyhC9DAE17KebU2kPoflDAtANGo+6fBWCEdUCx2gm+dKjfyTvT2r1d3XGdiYX4vxxVjOgWJkc+mSoefDuysQwbU00X6hDMKaK3OmFMGlirmZoGjoNOrT8yA+GqF6bgdah3eQ/vBGXyIoKIf07/OvCdPEsSujJHZupFBzDYSby/X3uY9JdhMOH8mJrADgpmMMAqFAOd0HOGBq83WH11od1ZozCIAfhmNjXWWcnNxVF2vtzMpFC1sXUiVN8CwNxH5Mg5rWjJe44yDJQWDNafq1mIExvi3sPjrSfTBSav0Q3WVBDn63F/HKKwCqCAbKd7SGkM5a5UQQQeAu+yzmhuWROi/kYx+TqB/iCN7Rw7I3g70RExcIXDitmubHCUYqw6KPmREMew4+OuXz6uwODD1g="
 
+cache:
+  timeout: 600
+  ccache: true
+  directories:
+    - $HOME/Library/Caches/Homebrew
 
 linux: &linux
    os: linux
    sudo: required
+   dist: xenial
    language: python
-   python: "3.6"
+   python: "3.7"
    services:
      - docker
 
 osx: &osx
    os: osx
    language: generic
+
+# windows: &windows
+#    os: windows
+#    language: generic
+
+before_cache:
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then brew cleanup; fi
 
 before_install:
   - |
@@ -67,6 +69,11 @@ install:
 script:
   - git fetch --unshallow
   - git fetch origin master:master
+  # - git tag
+  # - git describe
+  # - git describe origin
+  # - git describe master
+  # - python ci_utils/print_version.py
 
   # #TODO(fernando): Use conanio/clang50 for checking formating and other clang-tools related
   # - |
@@ -80,8 +87,13 @@ script:
 
   #   fi
 
+  # - conan remote add kth https://api.bintray.com/conan/k-nuth/kth
+  # - conan info . --only None
+  # - conan info . --only None -s compiler=gcc -s compiler.version=5 -s compiler.libcxx=libstdc++
+  # - conan remote remove kth
   - |
     if [[ "${CHECK_FORMATTING}" != "true" ]]; then
+      echo ${CONAN_STABLE_BRANCH_PATTERN}
       cd ${TRAVIS_BUILD_DIR}
       chmod +x ci_utils/.travis/run.sh
       ./ci_utils/.travis/run.sh
@@ -89,415 +101,411 @@ script:
 
 jobs:
   include:
+
+
+# # Travis Windows Tests ----------------------------------------------
+#     - stage: travis windows tests
+#       os: windows
+#       # sudo: required
+#       dist: xenial
+#       language: python
+#       python: "3.7"
+#       # services:
+#       #   - docker
+#       install:
+#         - python -m pip install --upgrade pip > NUL
+#       script:
+#         - conan user
+
+# # Coverity Scan Test ----------------------------------------------
+#     - stage: coverity scan
+#       os: linux
+#       sudo: required
+#       language: python
+#       dist: xenial
+#       python: "3.7"
+#       services:
+#         - docker
+#       env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
+#            KTH_CI_CURRENCY=BCH
+#            KTH_WITH_KEOKEN=true
+#            KTH_COVERITY_SCAN=1
+#       if: branch =~ /^(feature|dev).*$/    #Just development
+#       before_install:
+#         - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+#       addons:
+#         coverity_scan:
+#           project:
+#             name: "kth/domain"
+#             description: "Knuth Domain"
+#           notification_email: fpelliccioni@gmail.com
+#           build_command_prepend: ""
+#           build_command: "conan create . domain/0.2.0@kth/testing"
+#           branch_pattern: dev
+
+
+# # Wait for dependencies ----------------------------------------------
+#     - stage: wait for dependencies
+#       os: linux
+#       sudo: required
+#       dist: xenial
+#       language: python
+#       python: "3.7"
+#       services:
+#         - docker
+#       env: CONAN_GCC_VERSIONS=9 CONAN_DOCKER_IMAGE=conanio/gcc9
+#       if: branch =~ /^(release|hotfix).+$/    #Just releases
+#       script:
+#         - |
+#           conan user
+#           conan remote add kth_temp https://api.bintray.com/conan/k-nuth/kth
+#           echo "waiting for secp256k1/0.X@kth/staging ..."
+#           conan search secp256k1/0.X@kth/staging -r kth_temp > /dev/null
+#           while [ $? == 1 ]
+#           do
+#             printf "."
+#             sleep 10
+#             conan search secp256k1/0.X@kth/staging -r kth_temp > /dev/null
+#           done
+#           echo "secp256k1/0.X@kth/staging found"
+
 # Wait for dependencies ----------------------------------------------
     - stage: wait for dependencies
       os: linux
       sudo: required
+      dist: xenial
       language: python
-      python: "3.6"
+      python: "3.7"
       services:
         - docker
-      env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
-           BITPRIM_CI_CURRENCY=BCH
+      env: CONAN_GCC_VERSIONS=9 CONAN_DOCKER_IMAGE=conanio/gcc9
       if: branch =~ /^(release|hotfix).+$/    #Just releases
       script:
         - |
           conan user
-          conan remote add bitprim_temp https://api.bintray.com/conan/bitprim/bitprim
-          echo "waiting for bitprim-node/0.X@bitprim/staging ..."
-          conan search bitprim-node/0.X@bitprim/staging -r bitprim_temp > /dev/null
-          while [ $? == 1 ]
-          do
-            printf "."
-            sleep 10
-            conan search bitprim-node/0.X@bitprim/staging -r bitprim_temp > /dev/null
-          done
-          echo "bitprim-node/0.X@bitprim/staging found"
+          conan remote add kth_temp https://api.bintray.com/conan/k-nuth/kth
+          # REPO_NAME=$(echo $TRAVIS_REPO_SLUG| cut -d'/' -f 2)
+          # echo $REPO_NAME
+          # python ci_utils/wait_for_deps.py $REPO_NAME
+          python ci_utils/wait_for_deps.py
+
 
 # Static Checks ------------------------------------------------------
-
     - stage: static checks
-      os: osx
-      language: generic
-      osx_image: xcode10.1
-      # env: CONAN_APPLE_CLANG_VERSIONS=9.0 
+      os: linux
+      sudo: required
+      dist: xenial
+      language: python
+      python: "3.7"
+      services:
+        - docker
       # if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
-      if: branch =~ /^(disable|temporarily).*$/    #Avoid master
+      if: branch =~ /^(release|hotfix|dev).*$/ OR type IN (pull_request)
+      
       # install: skip
       install:
-        - cd ${TRAVIS_BUILD_DIR}
-        - pwd
-        - ls -ltra
-        - |
-          # chmod +x ci_utils/.travis/install.sh
-          # ./ci_utils/.travis/install.sh
 
-          # set -e
-          # set -x
-
-          if [[ "$(uname -s)" == 'Darwin' ]]; then
-              brew update >/dev/null || brew update >/dev/null
-              brew outdated pyenv || brew upgrade pyenv
-              brew install pyenv-virtualenv
-              brew install cmake || true
-
-              if which pyenv > /dev/null; then
-                  eval "$(pyenv init -)"
-              fi
-
-              pyenv install 2.7.10
-              pyenv virtualenv 2.7.10 conan
-              pyenv rehash
-              pyenv activate conan
-          fi
-
-        - pip install conan --upgrade
-        - pip install conan_package_tools
-        # - pip install cpuid --upgrade
-        - conan user
-        # pip uninstall cpuid
-        - brew update >/dev/null
-        - brew upgrade pcre || brew install pcre || exit 1
-        - brew upgrade vera++ || brew install vera++ || exit 1
-        - brew upgrade llvm --with-clang --with-clang-extra-tools || brew install llvm --with-clang --with-clang-extra-tools || exit 1
-        - ls /usr/local/opt/llvm/bin | grep clang
       script:
-        - git fetch --unshallow || true
-        - git fetch origin master:master
-        - |
-          if which pyenv > /dev/null; then
-              eval "$(pyenv init -)"
-              eval "$(pyenv virtualenv-init -)"
-          fi
-        - pyenv activate conan
-        - eval $(python ci_utils/set_envvars_and_files.py)
-        - conan user
-        - conan remote add bitprim_temp https://api.bintray.com/conan/bitprim/bitprim
         - cd ${TRAVIS_BUILD_DIR}
-        - pwd
-        - ls -ltra
-        - mkdir build
-        - cd build
-        - conan install .. -o keoken=True
-        # - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" ${BOOST_OPTS}
-        # - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-        # - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON                 -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=Release
-        - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DUSE_CONAN=ON  -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DWITH_KEOKEN=ON -DCMAKE_BUILD_TYPE=Release
-        - export PATH=$PATH:/usr/local/opt/llvm/bin/
-        - clang-tidy --version
-        # - sudo find / -name "run-clang-tidy.py"
-        # - /usr/local/Cellar/llvm/6.0.0/share/clang/run-clang-tidy.py -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -header-filter=${TRAVIS_BUILD_DIR}/include
-        # - python ci_utils/run-clang-tidy.py -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -warnings-as-errors='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -header-filter=${TRAVIS_BUILD_DIR}/include
-        - python ../ci_utils/run-clang-tidy.py -checks='*,-bugprone-macro-parentheses,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-owning-memory,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-hicpp-vararg,-hicpp-no-malloc,-fuchsia-default-arguments,-google-runtime-references,-cppcoreguidelines-no-malloc,-hicpp-no-malloc,-llvm-header-guard,-android-cloexec-fopen,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-const-cast,-hicpp-braces-around-statements,-hicpp-special-member-functions,-readability-braces-around-statements,-coreguidelines-special-member-function,-cppcoreguidelines-special-member-functions,-clang-diagnostic-static-inline-explicit-instantiation,-misc-macro-parentheses' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include
+        #TODO(fernando): disabled static checks for the moment
+        # - chmod a+x .travis/ci-run.sh
+        # - /usr/bin/docker run --rm -ti -e TRAVIS_BRANCH=$TRAVIS_BRANCH -v ${TRAVIS_BUILD_DIR}:/home/conan/project -v ${TRAVIS_BUILD_DIR}/.travis/ci-run.sh:/tmp/ci-run.sh conanio/gcc9 /bin/bash -c /tmp/ci-run.sh
+        # - /usr/bin/docker run --rm -ti -e TRAVIS_BRANCH=$TRAVIS_BRANCH -v ${TRAVIS_BUILD_DIR}:/home/conan/project -v ${TRAVIS_BUILD_DIR}/.travis/ci-run.sh:/tmp/ci-run.sh arceri/buildimage-ubuntu:18.10 /bin/bash -c /tmp/ci-run.sh
+        # -e TRAVIS_PYTHON_VERSION=$TRAVIS_PYTHON_VERSION
+        
 
-          # # Find non-ASCII characters in headers
-          # hpps=$(find include doc -name \*\.hpp)
-          # cpps=$(find test example -name \*\.cpp)
-          # pcregrep --color='auto' -n "[\x80-\xFF]" ${hpps} ${cpps}
-          # if [[ $? -ne 1 ]]; then exit 1; fi
-          # # F001: Source files should not use the '\r' (CR) character
-          # # L001: No trailing whitespace at the end of lines
-          # # L002: Don't use tab characters
-          # find include -name \*\.hpp | vera++ --rule F001 --rule L001 --rule L002 --error
+# # Static Checks ------------------------------------------------------
 
-      # script: echo "Running checks (1)"
-        # - cd ${TRAVIS_BUILD_DIR}
-        # - chmod a+x .travis/check_format.sh
-        # - /usr/bin/docker run --rm -ti -v ${TRAVIS_BUILD_DIR}:/home/conan/project \
-        #                             -v ${TRAVIS_BUILD_DIR}/.travis/check_format.sh:/tmp/check_format.sh conanio/clang60 \
-        #                             /bin/bash \
-        #                             -c /tmp/check_format.sh
+#     - stage: static checks
+#       os: osx
+#       language: generic
+#       osx_image: xcode10.1
+#       # env: CONAN_APPLE_CLANG_VERSIONS=9.0 
+#       if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
+#       # install: skip
+#       install:
+#         - cd ${TRAVIS_BUILD_DIR}
+#         - pwd
+#         - ls -ltra
+#         - |
+#           # chmod +x ci_utils/.travis/install.sh
+#           # ./ci_utils/.travis/install.sh
+
+#           # set -e
+#           # set -x
+
+#           if [[ "$(uname -s)" == 'Darwin' ]]; then
+#               brew update >/dev/null || brew update >/dev/null
+#               brew outdated pyenv || brew upgrade pyenv
+#               brew install pyenv-virtualenv
+#               brew install cmake || true
+
+#               if which pyenv > /dev/null; then
+#                   eval "$(pyenv init -)"
+#               fi
+
+#               pyenv install 2.7.10
+#               pyenv virtualenv 2.7.10 conan
+#               pyenv rehash
+#               pyenv activate conan
+#           fi
+
+#         - pip install conan --upgrade
+#         - pip install conan_package_tools
+#         # - pip install cpuid --upgrade
+#         - conan user
+#         # pip uninstall cpuid
+#         - brew update >/dev/null
+#         - brew upgrade pcre || brew install pcre || exit 1
+#         - brew upgrade vera++ || brew install vera++ || exit 1
+#         - brew upgrade llvm --with-clang --with-clang-extra-tools || brew install llvm --with-clang --with-clang-extra-tools || exit 1
+#         - ls /usr/local/opt/llvm/bin | grep clang
+#       script:
+#         - git fetch --unshallow || true
+#         - git fetch origin master:master
+#         - |
+#           if which pyenv > /dev/null; then
+#               eval "$(pyenv init -)"
+#               eval "$(pyenv virtualenv-init -)"
+#           fi
+#         - pyenv activate conan
+#         - eval $(python ci_utils/set_envvars_and_files.py)
+#         - conan user
+#         - conan remote add kth_temp https://api.bintray.com/conan/k-nuth/kth
+#         - cd ${TRAVIS_BUILD_DIR}
+#         - pwd
+#         - ls -ltra
+#         - mkdir build
+#         - cd build
+#         - conan install ..
+#         # - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" ${BOOST_OPTS}
+#         # - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+#         # - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON                 -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=Release
+#         - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DUSE_CONAN=ON  -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=Release -DJUST_KTH_SOURCES=ON -DWITH_KEOKEN=ON
+#         - export PATH=$PATH:/usr/local/opt/llvm/bin/
+#         - clang-tidy --version
+#         # - sudo find / -name "run-clang-tidy.py"
+#         # - /usr/local/Cellar/llvm/7.0.0/share/clang/run-clang-tidy.py -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -header-filter=${TRAVIS_BUILD_DIR}/include
+#         # - python ci_utils/run-clang-tidy.py -checks='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -warnings-as-errors='*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers' -header-filter=${TRAVIS_BUILD_DIR}/include
+#         - python ../ci_utils/run-clang-tidy.py -checks='*,-android-*,-modernize-use-using,-hicpp-deprecated-headers,-modernize-deprecated-headers,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-owning-memory,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-hicpp-vararg,-hicpp-no-malloc,-fuchsia-default-arguments,-google-runtime-references,-cppcoreguidelines-no-malloc,-hicpp-no-malloc,-llvm-header-guard,-android-cloexec-fopen,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-const-cast,-hicpp-braces-around-statements,-hicpp-special-member-functions,-readability-braces-around-statements,-coreguidelines-special-member-function,-cppcoreguidelines-special-member-functions,-clang-diagnostic-static-inline-explicit-instantiation,-fuchsia-overloaded-operator,-cppcoreguidelines-pro-type-member-init,-hicpp-member-init' -warnings-as-errors='*' -header-filter=${TRAVIS_BUILD_DIR}/include/knuth
+
+#           # # Find non-ASCII characters in headers
+#           # hpps=$(find include doc -name \*\.hpp)
+#           # cpps=$(find test example -name \*\.cpp)
+#           # pcregrep --color='auto' -n "[\x80-\xFF]" ${hpps} ${cpps}
+#           # if [[ $? -ne 1 ]]; then exit 1; fi
+#           # # F001: Source files should not use the '\r' (CR) character
+#           # # L001: No trailing whitespace at the end of lines
+#           # # L002: Don't use tab characters
+#           # find include -name \*\.hpp | vera++ --rule F001 --rule L001 --rule L002 --error
+
+
+# # Static Checks ------------------------------------------------------
+#     - stage: static checks
+#       os: linux
+#       sudo: required
+#       dist: xenial
+#       language: python
+#       python: "3.7"
+#       services:
+#         - docker
+#       env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
+#       # if: branch =~ /^(release|hotfix).+$/    #Just releases
+#       if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
+#       install: skip
+#       script: echo "Running checks (1)"
+#         # - cd ${TRAVIS_BUILD_DIR}
+#         # - chmod a+x .travis/check_format.sh
+#         # - /usr/bin/docker run --rm -ti -v ${TRAVIS_BUILD_DIR}:/home/conan/project \
+#         #                             -v ${TRAVIS_BUILD_DIR}/.travis/check_format.sh:/tmp/check_format.sh conanio/clang60 \
+#         #                             /bin/bash \
+#         #                             -c /tmp/check_format.sh
 
 # Builds ------------------------------------------------------
     # Linux, GCC, libstdc++ ------------------------------------------------------
-    # - stage: build and upload binaries
-    #   os: linux
-    #   sudo: required
-    #   language: python
-    #   python: "3.6"
-    #   services:
-    #     - docker
-    #   env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
-    #        BITPRIM_CI_CURRENCY=BCH
-    #        BITPRIM_WITH_KEOKEN=true
-    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
     - stage: build and upload binaries
       os: linux
       sudo: required
+      dist: xenial
       language: python
-      python: "3.6"
+      python: "3.7"
+      services:
+        - docker
+      env: CONAN_GCC_VERSIONS=9 CONAN_DOCKER_IMAGE=conanio/gcc9 
+      # CONAN_PIP_COMMAND="pip --install-option='--no-remotes=True'"
+      if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
+
+    - stage: build and upload binaries
+      os: linux
+      sudo: required
+      dist: xenial
+      language: python
+      python: "3.7"
       services:
         - docker
       env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
-           BITPRIM_CI_CURRENCY=BCH
-           BITPRIM_WITH_KEOKEN=false
       if: branch =~ /^(release|hotfix).+$/    #Just releases
+
     - stage: build and upload binaries
       os: linux
       sudo: required
+      dist: xenial
       language: python
-      python: "3.6"
+      python: "3.7"
       services:
         - docker
-      env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
-           BITPRIM_CI_CURRENCY=BTC
+      env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7 
+           KTH_RUN_TESTS=true
+      # if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
       if: branch =~ /^(release|hotfix).+$/    #Just releases
 
     # - stage: build and upload binaries
     #   os: linux
     #   sudo: required
+    #   dist: xenial
     #   language: python
-    #   python: "3.6"
-    #   services:
-    #     - docker
-    #   env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7
-    #        BITPRIM_CI_CURRENCY=BCH
-    #        BITPRIM_RUN_TESTS=true
-    #        BITPRIM_WITH_KEOKEN=true
-    #   if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
-    - stage: build and upload binaries
-      os: linux
-      sudo: required
-      language: python
-      python: "3.6"
-      services:
-        - docker
-      env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7
-           BITPRIM_CI_CURRENCY=BCH
-           BITPRIM_RUN_TESTS=true
-           BITPRIM_WITH_KEOKEN=false
-      if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
-    - stage: build and upload binaries
-      os: linux
-      sudo: required
-      language: python
-      python: "3.6"
-      services:
-        - docker
-      env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7
-           BITPRIM_CI_CURRENCY=BTC
-           BITPRIM_RUN_TESTS=true
-      if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
-
-    # - stage: build and upload binaries
-    #   os: linux
-    #   sudo: required
-    #   language: python
-    #   python: "3.6"
+    #   python: "3.7"
     #   services:
     #     - docker
     #   env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6
-    #        BITPRIM_CI_CURRENCY=BCH
-    #        BITPRIM_WITH_KEOKEN=true
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
-    - stage: build and upload binaries
-      os: linux
-      sudo: required
-      language: python
-      python: "3.6"
-      services:
-        - docker
-      env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6
-           BITPRIM_CI_CURRENCY=BCH
-           BITPRIM_WITH_KEOKEN=false
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
-    - stage: build and upload binaries
-      os: linux
-      sudo: required
-      language: python
-      python: "3.6"
-      services:
-        - docker
-      env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6
-           BITPRIM_CI_CURRENCY=BTC
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
 
     # - stage: build and upload binaries
     #   os: linux
     #   sudo: required
+    #   dist: xenial
     #   language: python
-    #   python: "3.6"
+    #   python: "3.7"
     #   services:
     #     - docker
     #   env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5
-    #        BITPRIM_CI_CURRENCY=BCH
-    #        BITPRIM_WITH_KEOKEN=true
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
-    - stage: build and upload binaries
-      os: linux
-      sudo: required
-      language: python
-      python: "3.6"
-      services:
-        - docker
-      env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5
-           BITPRIM_CI_CURRENCY=BCH
-           BITPRIM_WITH_KEOKEN=false
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
-    - stage: build and upload binaries
-      os: linux
-      sudo: required
-      language: python
-      python: "3.6"
-      services:
-        - docker
-      env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5
-           BITPRIM_CI_CURRENCY=BTC
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
-
 
     # - stage: build and upload binaries
     #   os: linux
     #   sudo: required
+    #   dist: xenial
     #   language: python
-    #   python: "3.6"
+    #   python: "3.7"
     #   services:
     #     - docker
     #   env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49
-    #   if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
+    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
+
 
     # Linux, Clang, libstdc++ ----------------------------------------------------
+    - stage: build and upload binaries
+      os: linux
+      sudo: required
+      dist: xenial
+      language: python
+      python: "3.7"
+      services:
+        - docker
+      env: CONAN_CLANG_VERSIONS=9 CONAN_DOCKER_IMAGE=conanio/clang9
+      if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
+
     # - stage: build and upload binaries
     #   os: linux
     #   sudo: required
+    #   dist: xenial
     #   language: python
-    #   python: "3.6"
+    #   python: "3.7"
+    #   services:
+    #     - docker
+    #   env: CONAN_CLANG_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/clang8
+    #   if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
+
+    # - stage: build and upload binaries
+    #   os: linux
+    #   sudo: required
+    #   dist: xenial
+    #   language: python
+    #   python: "3.7"
+    #   services:
+    #     - docker
+    #   env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7
+    #   if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
+
+    # - stage: build and upload binaries
+    #   os: linux
+    #   sudo: required
+    #   dist: xenial
+    #   language: python
+    #   python: "3.7"
     #   services:
     #     - docker
     #   env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
-    #        BITPRIM_CI_CURRENCY=BCH
-    #        BITPRIM_WITH_KEOKEN=true
     #   if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
-    - stage: build and upload binaries
-      os: linux
-      sudo: required
-      language: python
-      python: "3.6"
-      services:
-        - docker
-      env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
-           BITPRIM_CI_CURRENCY=BCH
-           BITPRIM_WITH_KEOKEN=false
-      if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
-    - stage: build and upload binaries
-      os: linux
-      sudo: required
-      language: python
-      python: "3.6"
-      services:
-        - docker
-      env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
-           BITPRIM_CI_CURRENCY=BTC
-      if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
 
     # - stage: build and upload binaries
     #   os: linux
     #   sudo: required
+    #   dist: xenial
     #   language: python
-    #   python: "3.6"
+    #   python: "3.7"
     #   services:
     #     - docker
     #   env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50
-    #        BITPRIM_CI_CURRENCY=BCH
-    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
-    # - stage: build and upload binaries
-    #   os: linux
-    #   sudo: required
-    #   language: python
-    #   python: "3.6"
-    #   services:
-    #     - docker
-    #   env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50
-    #        BITPRIM_CI_CURRENCY=BTC
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
 
     # - stage: build and upload binaries
     #   os: linux
     #   sudo: required
+    #   dist: xenial
     #   language: python
-    #   python: "3.6"
+    #   python: "3.7"
     #   services:
     #     - docker
     #   env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40
-    #        BITPRIM_CI_CURRENCY=BCH
-    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
-    # - stage: build and upload binaries
-    #   os: linux
-    #   sudo: required
-    #   language: python
-    #   python: "3.6"
-    #   services:
-    #     - docker
-    #   env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40
-    #        BITPRIM_CI_CURRENCY=BTC
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
 
     # - stage: build and upload binaries
     #   os: linux
     #   sudo: required
+    #   dist: xenial
     #   language: python
-    #   python: "3.6"
+    #   python: "3.7"
     #   services:
     #     - docker
     #   env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39
 
     # macOS, apple-Clang, libc++ -------------------------------------------------
+
+    #Note: do not run tests on dev for macOS (they are too expensive)
+    - stage: build and upload binaries
+      os: osx
+      language: generic
+      osx_image: xcode11
+      env: CONAN_APPLE_CLANG_VERSIONS=11.0
+           KTH_RUN_TESTS=true
+      if: branch =~ /^(release|hotfix).+$/    #Just releases
+    - stage: build and upload binaries
+      os: osx
+      language: generic
+      osx_image: xcode11
+      env: CONAN_APPLE_CLANG_VERSIONS=11.0
+      if: branch =~ /^(feature|dev).*$/    #Just development
+
     # - stage: build and upload binaries
     #   os: osx
     #   language: generic
     #   osx_image: xcode10.1
     #   env: CONAN_APPLE_CLANG_VERSIONS=10.0
-    #        BITPRIM_RUN_TESTS=true
-    #        BITPRIM_CI_CURRENCY=BCH
-    #        BITPRIM_WITH_KEOKEN=true
+    #        KTH_RUN_TESTS=true
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
-    - stage: build and upload binaries
-      os: osx
-      language: generic
-      osx_image: xcode10.1
-      env: CONAN_APPLE_CLANG_VERSIONS=10.0
-           BITPRIM_RUN_TESTS=true
-           BITPRIM_CI_CURRENCY=BCH
-           BITPRIM_WITH_KEOKEN=false
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
-    - stage: build and upload binaries
-      os: osx
-      language: generic
-      osx_image: xcode10.1
-      env: CONAN_APPLE_CLANG_VERSIONS=10.0
-           BITPRIM_RUN_TESTS=true
-           BITPRIM_CI_CURRENCY=BTC
-      if: branch =~ /^(release|hotfix).+$/    #Just releases
     # - stage: build and upload binaries
     #   os: osx
     #   language: generic
     #   osx_image: xcode10.1
     #   env: CONAN_APPLE_CLANG_VERSIONS=10.0
-    #        BITPRIM_CI_CURRENCY=BCH
-    #        BITPRIM_WITH_KEOKEN=true
-    #   if: branch =~ /^(feature|dev).*$/       #Just development
-    - stage: build and upload binaries
-      os: osx
-      language: generic
-      osx_image: xcode10.1
-      env: CONAN_APPLE_CLANG_VERSIONS=10.0
-           BITPRIM_CI_CURRENCY=BTC
-      if: branch =~ /^(feature|dev).*$/       #Just development
-
+    #   if: branch =~ /^(feature|dev).*$/    #Just development
 
     # - stage: build and upload binaries
     #   os: osx
     #   language: generic
-    #   osx_image: xcode9
+    #   osx_image: xcode9        
     #   env: CONAN_APPLE_CLANG_VERSIONS=9.0
-    #        BITPRIM_CI_CURRENCY=BCH
-    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
-    # - stage: build and upload binaries
-    #   os: osx
-    #   language: generic
-    #   osx_image: xcode9
-    #   env: CONAN_APPLE_CLANG_VERSIONS=9.0
-    #        BITPRIM_CI_CURRENCY=BTC
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
 
     # - stage: build and upload binaries
@@ -505,14 +513,6 @@ jobs:
     #   language: generic
     #   osx_image: xcode8.3         
     #   env: CONAN_APPLE_CLANG_VERSIONS=8.1
-    #        BITPRIM_CI_CURRENCY=BCH
-    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
-    # - stage: build and upload binaries
-    #   os: osx
-    #   language: generic
-    #   osx_image: xcode8.3         
-    #   env: CONAN_APPLE_CLANG_VERSIONS=8.1
-    #        BITPRIM_CI_CURRENCY=BTC
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
 
     # - stage: build and upload binaries
@@ -520,27 +520,21 @@ jobs:
     #   language: generic
     #   osx_image: xcode7.3
     #   env: CONAN_APPLE_CLANG_VERSIONS=7.3
-    #        BITPRIM_CI_CURRENCY=BCH
-    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
-    # - stage: build and upload binaries
-    #   os: osx
-    #   language: generic
-    #   osx_image: xcode7.3
-    #   env: CONAN_APPLE_CLANG_VERSIONS=7.3
-    #        BITPRIM_CI_CURRENCY=BTC
     #   if: branch =~ /^(release|hotfix).+$/    #Just releases
 
 # Upload Aliases -----------------------------------------------------
     - stage: upload aliases
       os: linux
       sudo: required
+      dist: xenial
       language: python
-      python: "3.6"
+      python: "3.7"
       # install: skip
       if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
       script:
         - |
           cd ${TRAVIS_BUILD_DIR}
+          echo $TRAVIS_REPO_SLUG
           git fetch --unshallow
           git fetch origin master:master
           REPO_NAME=$(echo $TRAVIS_REPO_SLUG| cut -d'/' -f 2)
@@ -548,20 +542,22 @@ jobs:
 
         - eval $(python ci_utils/set_envvars_and_files.py)
         #TODO(fernando): configure the remote and user using environment variables
-        - conan remote add bitprim_temp https://api.bintray.com/conan/bitprim/bitprim
+        # - conan remote add kthbuild_kth_temp_ https://api.bintray.com/conan/k-nuth/kth
         - conan user
-        - conan user ${CONAN_LOGIN_USERNAME} -r bitprim_temp -p ${CONAN_PASSWORD}
+        - conan user ${CONAN_LOGIN_USERNAME} -r kthbuild_kth_temp_ -p ${CONAN_PASSWORD}
         - conan user
-        - conan alias "${REPO_NAME}/0.X@bitprim/${BITPRIM_CONAN_CHANNEL}" "${REPO_NAME}/${BITPRIM_CONAN_VERSION}@bitprim/${BITPRIM_CONAN_CHANNEL}"
-        - conan upload "${REPO_NAME}/0.X@bitprim/${BITPRIM_CONAN_CHANNEL}" --all -r bitprim_temp
+        - echo "conan alias ${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL} ${REPO_NAME}/${KTH_CONAN_VERSION}@kth/${KTH_CONAN_CHANNEL}"
+        - conan alias "${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL}" "${REPO_NAME}/${KTH_CONAN_VERSION}@kth/${KTH_CONAN_CHANNEL}"
+        - echo "conan upload ${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL} --all -r kthbuild_kth_temp_"
+        - conan upload "${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL}" --all -r kthbuild_kth_temp_        
 
-# # Push to repos ------------------------------------------------------
-#     - stage: push to repos
-#       install: skip
-#       script:
-#           - chmod +x .travis/push_other_repo.sh
-#           - ./.travis/push_other_repo.sh
-#       if: branch =~ /^(dev|feature).*$/
+# Push to repos ------------------------------------------------------
+    - stage: push to repos
+      install: skip
+      script:
+          - chmod +x .travis/push_other_repo.sh
+          - ./.travis/push_other_repo.sh
+      if: branch =~ /^(feature|dev).*$/    #Just development
 
 # Dummy for master ------------------------------------------------------
     - stage: build and upload binaries
@@ -569,7 +565,7 @@ jobs:
         - echo "Stable packages are published in Release branches"
       script:
         - echo "Stable packages are published in Release branches"
-      if: branch =~ /^master$/
+      if: branch =~ /^master$/    #Just master, dummy
 
 
 # # Integration Tests ------------------------------------------------------
@@ -597,4 +593,3 @@ notifications:
     urls: https://webhooks.gitter.im/e/a19dd2b03bf676d2b622
     on_success: change
     on_failure: always
-

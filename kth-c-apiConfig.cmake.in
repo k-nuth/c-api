@@ -1,0 +1,12 @@
+# - Config file for the KTH_CAPI package
+#
+#  KTH_CAPI_INCLUDE_DIRS - include directories for KTH_CAPI
+#  KTH_CAPI_LIBRARIES    - libraries to link against
+
+get_filename_component(KTH_CAPI_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(KTH_CAPI_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+
+include("${KTH_CAPI_CMAKE_DIR}/kth-c-apiTargets.cmake")
+set(KTH_CAPI_LIBRARIES kth-c-api)
+
+find_package(kth-node 0 REQUIRED)

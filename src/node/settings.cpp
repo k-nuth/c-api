@@ -1,7 +1,7 @@
 /**
-* Copyright (c) 2016-2018 Bitprim Inc.
+* Copyright (c) 2016-2020 Knuth Project developers.
 *
-* This file is part of Bitprim.
+* This file is part of the Knuth Project.
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Affero General Public License as published by
@@ -17,46 +17,46 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <bitprim/nodecint/node/settings.h>
+#include <kth/capi/node/settings.h>
 
 #include <algorithm>
 #include <cstdlib>
 #include <string>
 
-#include <bitprim/nodecint/executor_c.h>
-#include <bitprim/nodecint/helpers.hpp>
+#include <kth/capi/executor_c.h>
+#include <kth/capi/helpers.hpp>
 
-#include <bitcoin/bitcoin/multi_crypto_support.hpp>
-#include <bitcoin/network/p2p.hpp>
+#include <kth/bitcoin/multi_crypto_support.hpp>
+#include <kth/network/p2p.hpp>
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 currency_t node_settings_get_currency() {
-    return static_cast<currency_t>(static_cast<int>(libbitcoin::get_currency()));
+    return static_cast<currency_t>(static_cast<int>(kth::get_currency()));
 }
 
 network_t node_settings_get_network(executor_t exec) {
 
     p2p_t p2p_node = executor_get_p2p(exec);
-    auto const& node = *static_cast<libbitcoin::network::p2p*>(p2p_node);
+    auto const& node = *static_cast<kth::network::p2p*>(p2p_node);
 
     // auto const& node = exec->actual.node();
     auto const& sett = node.network_settings();
     auto id = sett.identifier;
 
-    return static_cast<network_t>(static_cast<int>(libbitcoin::get_network(id)));
+    return static_cast<network_t>(static_cast<int>(kth::get_network(id)));
 
-    // return static_cast<network_t>(static_cast<int>(libbitcoin::get_network(exec->actual.node().network_settings().identifier)));
+    // return static_cast<network_t>(static_cast<int>(kth::get_network(exec->actual.node().network_settings().identifier)));
 }
 
 char const* node_settings_cashaddr_prefix() {
-#if defined(BITPRIM_CURRENCY_BCH)
-    auto str = libbitcoin::cashaddr_prefix();
+#if defined(KTH_CURRENCY_BCH)
+    auto str = kth::cashaddr_prefix();
 #else
     std::string str; //Note: to avoid checking compilation-time feature at other languages
 #endif
-    return bitprim::create_c_str(str);    
+    return knuth::create_c_str(str);    
 }
 
 } // extern "C"

@@ -1,23 +1,8 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <bitprim/nodecint/executor.hpp>
+#include <kth/capi/executor.hpp>
 
 #include <csignal>
 #include <functional>
@@ -28,13 +13,13 @@
 
 #include <boost/core/null_deleter.hpp>
 
-#include <bitcoin/bitcoin/multi_crypto_support.hpp>
-#include <bitcoin/node.hpp>
-#include <bitcoin/node/parser.hpp>
+#include <kth/bitcoin/multi_crypto_support.hpp>
+#include <kth/node.hpp>
+#include <kth/node/parser.hpp>
 
-#include <bitprim/nodecint/version.h>
+#include <kth/capi/version.h>
 
-namespace bitprim { namespace nodecint {
+namespace kth { namespace capi {
 
 using boost::format;
 using boost::null_deleter;
@@ -47,21 +32,21 @@ static constexpr int initialize_stop = 0;
 static constexpr int directory_exists = 0;
 static constexpr int directory_not_found = 2;
 
-std::promise<libbitcoin::code> executor::stopping_; //NOLINT
+std::promise<kth::code> executor::stopping_; //NOLINT
 
-executor::executor(libbitcoin::node::configuration const& config, std::ostream& output, std::ostream& error)
+executor::executor(kth::node::configuration const& config, std::ostream& output, std::ostream& error)
     : config_(config), output_(output), error_(error)
 {
 	
-    libbitcoin::node::parser metadata(libbitcoin::config::settings::mainnet);
+    kth::node::parser metadata(kth::config::settings::mainnet);
     parse_config_from_file_result_ = metadata.parse_from_file(config_.file, std::cerr);
   
     config_ = metadata.configured;
 
     auto const& network = config_.network;
-    const auto verbose = network.verbose;
+    auto const verbose = network.verbose;
 
-    libbitcoin::log::rotable_file const debug_file {
+    kth::log::rotable_file const debug_file {
                     network.debug_file,
                     network.archive_directory,
                     network.rotation_size,
@@ -70,7 +55,7 @@ executor::executor(libbitcoin::node::configuration const& config, std::ostream& 
                     network.maximum_archive_files
     };
 
-    libbitcoin::log::rotable_file const error_file {
+    kth::log::rotable_file const error_file {
                     network.error_file,
                     network.archive_directory,
                     network.rotation_size,
@@ -79,14 +64,11 @@ executor::executor(libbitcoin::node::configuration const& config, std::ostream& 
                     network.maximum_archive_files
     };
 
-    libbitcoin::log::stream console_out(&output_, null_deleter());
-    libbitcoin::log::stream console_err(&error_, null_deleter());
+    kth::log::stream console_out(&output_, null_deleter());
+    kth::log::stream console_err(&error_, null_deleter());
 
-    libbitcoin::log::initialize(debug_file, error_file, console_out, console_err, verbose);
+    kth::log::initialize(debug_file, error_file, console_out, console_err, verbose);
 }
-
-
-#if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
 bool executor::init_directory(error_code& ec) {
     
@@ -95,7 +77,7 @@ bool executor::init_directory(error_code& ec) {
     if (create_directories(directory, ec)) {
         LOG_INFO(LOG_NODE) << format(BN_INITIALIZING_CHAIN) % directory;
 
-        auto const genesis = libbitcoin::node::full_node::get_genesis_block(config_.chain);
+        auto const genesis = kth::node::full_node::get_genesis_block(config_.chain);
         auto const& settings = config_.database;
         auto const result = data_base(settings).create(genesis);
 
@@ -110,7 +92,6 @@ bool executor::init_directory(error_code& ec) {
 
     return false;
 }
-
 
 // Emit to the log.
 bool executor::do_initchain() {
@@ -133,21 +114,18 @@ bool executor::do_initchain() {
     return false;
 }
 
-#endif   // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
-
-
 // Run.
 // ----------------------------------------------------------------------------
 
-libbitcoin::node::full_node& executor::node() {
+kth::node::full_node& executor::node() {
     return *node_;
 }
 
-libbitcoin::node::full_node const& executor::node() const {
+kth::node::full_node const& executor::node() const {
     return *node_;
 }
 
-#ifdef BITPRIM_WITH_KEOKEN
+#ifdef KTH_WITH_KEOKEN
 keoken_manager_cpp_t& executor::keoken_manager() {
     return *keoken_manager_;
 }
@@ -155,14 +133,14 @@ keoken_manager_cpp_t& executor::keoken_manager() {
 keoken_manager_cpp_t const& executor::keoken_manager() const {
     return *keoken_manager_;
 }
-#endif // BITPRIM_WITH_KEOKEN
+#endif // KTH_WITH_KEOKEN
 
 
 bool executor::load_config_valid() const {
     return parse_config_from_file_result_;
 }
 
-bool executor::run(libbitcoin::handle0 handler) {
+bool executor::run(kth::handle0 handler) {
 
     run_handler_ = std::move(handler);
 
@@ -171,22 +149,20 @@ bool executor::run(libbitcoin::handle0 handler) {
     LOG_INFO(LOG_NODE) << BN_NODE_INTERRUPT;
     LOG_INFO(LOG_NODE) << BN_NODE_STARTING;
 
-#if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
     if (!verify_directory()) {
         return false;
     }
-#endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
     // Now that the directory is verified we can create the node for it.
-    node_ = std::make_shared<libbitcoin::node::full_node>(config_);
+    node_ = std::make_shared<kth::node::full_node>(config_);
 
 
-#ifdef BITPRIM_WITH_KEOKEN
-    keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_bitprim(), config_.node.keoken_genesis_height));    //NOLINT
+#ifdef KTH_WITH_KEOKEN
+    keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_kth(), config_.node.keoken_genesis_height));    //NOLINT
 #endif
 
     // Initialize broadcast to statistics server if configured.
-    libbitcoin::log::initialize_statsd(node_->thread_pool(), config_.network.statistics_server);
+    kth::log::initialize_statsd(node_->thread_pool(), config_.network.statistics_server);
 
     // The callback may be returned on the same thread.
     node_->start(std::bind(&executor::handle_started, this, _1));
@@ -194,7 +170,7 @@ bool executor::run(libbitcoin::handle0 handler) {
     return true;
 }
 
-bool executor::init_and_run(libbitcoin::handle0 handler) {
+bool executor::init_and_run(kth::handle0 handler) {
     
     run_handler_ = std::move(handler);
 
@@ -203,8 +179,6 @@ bool executor::init_and_run(libbitcoin::handle0 handler) {
     LOG_INFO(LOG_NODE) << BN_NODE_INTERRUPT;
     LOG_INFO(LOG_NODE) << BN_NODE_STARTING;
 
-#if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
-    
     if ( ! verify_directory() ) {
         error_code ec;
         
@@ -214,18 +188,16 @@ bool executor::init_and_run(libbitcoin::handle0 handler) {
             return false;
         }
     }
-#endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
     // Now that the directory is verified we can create the node for it.
-    node_ = std::make_shared<libbitcoin::node::full_node>(config_);
+    node_ = std::make_shared<kth::node::full_node>(config_);
 
-
-    #ifdef BITPRIM_WITH_KEOKEN
-        keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_bitprim(), config_.node.keoken_genesis_height));    //NOLINT
+    #ifdef KTH_WITH_KEOKEN
+        keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_kth(), config_.node.keoken_genesis_height));    //NOLINT
     #endif
 
     // Initialize broadcast to statistics server if configured.
-    libbitcoin::log::initialize_statsd(node_->thread_pool(), config_.network.statistics_server);
+    kth::log::initialize_statsd(node_->thread_pool(), config_.network.statistics_server);
 
     // The callback may be returned on the same thread.
     node_->start(std::bind(&executor::handle_started, this, _1));
@@ -233,7 +205,7 @@ bool executor::init_and_run(libbitcoin::handle0 handler) {
     return true;
 }
 
-// bool executor::run_wait(libbitcoin::handle0 handler) {
+// bool executor::run_wait(kth::handle0 handler) {
 
 //     run(std::move(handler));
 
@@ -253,7 +225,7 @@ bool executor::init_and_run(libbitcoin::handle0 handler) {
 // }
 
 // Handle the completion of the start sequence and begin the run sequence.
-void executor::handle_started(libbitcoin::code const& ec) {
+void executor::handle_started(kth::code const& ec) {
     if (ec) {
         LOG_ERROR(LOG_NODE) << format(BN_NODE_START_FAIL) % ec.message();
 //        stop(ec);
@@ -274,7 +246,7 @@ void executor::handle_started(libbitcoin::code const& ec) {
 }
 
 // This is the end of the run sequence.
-void executor::handle_running(libbitcoin::code const& ec) {
+void executor::handle_running(kth::code const& ec) {
     if (ec) {
         LOG_INFO(LOG_NODE) << format(BN_NODE_START_FAIL) % ec.message();
 //        stop(ec);
@@ -294,7 +266,7 @@ void executor::handle_running(libbitcoin::code const& ec) {
 }
 
 // This is the end of the stop sequence.
-void executor::handle_stopped(libbitcoin::code const&  /*ec*/) {
+void executor::handle_stopped(kth::code const&  /*ec*/) {
     //stop(ec);
     
     //stop();
@@ -316,19 +288,19 @@ void executor::handle_stopped(libbitcoin::code const&  /*ec*/) {
 //    }
 //
 //    LOG_INFO(LOG_NODE) << format(BN_NODE_SIGNALED) % code;
-//    //stop(libbitcoin::error::success);
+//    //stop(kth::error::success);
 //    stop();
 //    node_
 //}
 
 //// Manage the race between console stop and server stop.
-//void executor::stop(libbitcoin::code const& ec) {
+//void executor::stop(kth::code const& ec) {
 //    static std::once_flag stop_mutex;
 //    std::call_once(stop_mutex, [&]() { stopping_.set_value(ec); });
 //}
 
 //void executor::stop() {
-//    stop(libbitcoin::error::success);
+//    stop(kth::error::success);
 //}
 
 bool executor::stop() {
@@ -347,7 +319,7 @@ bool executor::stopped() const {
 
 // Set up logging.
 void executor::initialize_output() {
-    auto const header = format(BN_LOG_HEADER) % libbitcoin::local_time();
+    auto const header = format(BN_LOG_HEADER) % kth::local_time();
 
     LOG_DEBUG(LOG_NODE) << header;
     LOG_INFO(LOG_NODE) << header;
@@ -363,24 +335,23 @@ void executor::initialize_output() {
         LOG_INFO(LOG_NODE) << format(BN_USING_CONFIG_FILE) % file;
     }
 
-    LOG_INFO(LOG_NODE) << format(BN_VERSION_MESSAGE_INIT) % BITPRIM_NODECINT_VERSION;
-    LOG_INFO(LOG_NODE) << format(BN_CRYPTOCURRENCY_INIT) % BITPRIM_CURRENCY_SYMBOL_STR % BITPRIM_CURRENCY_STR;
-#ifdef BITPRIM_WITH_KEOKEN
+    LOG_INFO(LOG_NODE) << format(BN_VERSION_MESSAGE_INIT) % KTH_CAPI_VERSION;
+    LOG_INFO(LOG_NODE) << format(BN_CRYPTOCURRENCY_INIT) % KTH_CURRENCY_SYMBOL_STR % KTH_CURRENCY_STR;
+#ifdef KTH_WITH_KEOKEN
     LOG_INFO(LOG_NODE) << format(BN_KEOKEN_MESSAGE_INIT);
 #endif
 
-    LOG_INFO(LOG_NODE) << format(BN_MICROARCHITECTURE_INIT) % BITPRIM_MICROARCHITECTURE_STR;
+    LOG_INFO(LOG_NODE) << format(BN_MICROARCHITECTURE_INIT) % KTH_MICROARCHITECTURE_STR;
 
     LOG_INFO(LOG_NODE) << format(BN_DB_TYPE_INIT) % BN_DB_TYPE;
 
     LOG_INFO(LOG_NODE) << format(BN_NETWORK_INIT) % 
-            (libbitcoin::get_network(config_.network.identifier) == libbitcoin::config::settings::testnet ? "Testnet" : "Mainnet") %
+            (kth::get_network(config_.network.identifier) == kth::config::settings::testnet ? "Testnet" : "Mainnet") %
             config_.network.identifier;
   
-    LOG_INFO(LOG_NODE) << format(BN_CORES_INIT) % libbitcoin::thread_ceiling(config_.chain.cores);
+    LOG_INFO(LOG_NODE) << format(BN_CORES_INIT) % kth::thread_ceiling(config_.chain.cores);
 }
 
-#if !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 // Use missing directory as a sentinel indicating lack of initialization.
 bool executor::verify_directory() {
     error_code ec;
@@ -399,7 +370,6 @@ bool executor::verify_directory() {
     LOG_ERROR(LOG_NODE) << format(BN_INITCHAIN_TRY) % directory % message;
     return false;
 }
-#endif // !defined(WITH_REMOTE_BLOCKCHAIN) && !defined(WITH_REMOTE_DATABASE)
 
-} // namespace nodecint
-} // namespace bitprim
+} // namespace capi
+} // namespace kth

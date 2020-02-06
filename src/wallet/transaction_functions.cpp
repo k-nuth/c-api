@@ -1,31 +1,17 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <bitprim/nodecint/wallet/transaction_functions.h>
 
-#include <bitcoin/bitcoin/wallet/payment_address.hpp>
-#include <bitcoin/bitcoin/wallet/transaction_functions.hpp>
+#include <kth/capi/wallet/transaction_functions.h>
 
-#include <bitprim/nodecint/conversions.hpp>
-#include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/primitives.h>
+#include <kth/bitcoin/wallet/payment_address.hpp>
+#include <kth/bitcoin/wallet/transaction_functions.hpp>
+
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/primitives.h>
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -39,7 +25,7 @@ error_code_t wallet_tx_encode_with_extra_outputs(
     uint8_t script_version /*= 5*/,
     transaction_t* out_transaction) {
 
-    auto p = libbitcoin::wallet::tx_encode(
+    auto p = kth::wallet::tx_encode(
                 chain_point_list_const_cpp(outputs_to_spend),
                 wallet_raw_output_list_const_cpp(destiny_and_amount),
                 chain_output_list_const_cpp(extra_outputs),
@@ -48,13 +34,13 @@ error_code_t wallet_tx_encode_with_extra_outputs(
                 script_version
                );
 
-    if (p.first == libbitcoin::error::success) {
-        *out_transaction = new libbitcoin::message::transaction(std::move(p.second));
+    if (p.first == kth::error::success) {
+        *out_transaction = new kth::message::transaction(std::move(p.second));
     } else {
         *out_transaction = nullptr;
     }
 
-    return bitprim::to_c_err(p.first);
+    return knuth::to_c_err(p.first);
 }
 
 error_code_t wallet_tx_encode(
@@ -65,7 +51,7 @@ error_code_t wallet_tx_encode(
     uint8_t script_version /*= 5*/,
     transaction_t* out_transaction) {
 
-    auto p = libbitcoin::wallet::tx_encode(
+    auto p = kth::wallet::tx_encode(
                 chain_point_list_const_cpp(outputs_to_spend),
                 wallet_raw_output_list_const_cpp(destiny_and_amount),
                 locktime,
@@ -73,13 +59,13 @@ error_code_t wallet_tx_encode(
                 script_version
                );
 
-    if (p.first == libbitcoin::error::success) {
-        *out_transaction = new libbitcoin::message::transaction(std::move(p.second));
+    if (p.first == kth::error::success) {
+        *out_transaction = new kth::message::transaction(std::move(p.second));
     } else {
         *out_transaction = nullptr;
     }
 
-    return bitprim::to_c_err(p.first);
+    return knuth::to_c_err(p.first);
 }
 
 error_code_t input_signature_old(
@@ -92,23 +78,23 @@ error_code_t input_signature_old(
     uint8_t** out_signature,
     uint64_t* /*size_t*/ out_signature_size) {
 
-    auto p = libbitcoin::wallet::input_signature_old(
-        bitprim::to_array(private_key.data),
+    auto p = kth::wallet::input_signature_old(
+        knuth::to_array(private_key.data),
         chain_script_const_cpp(output_script),
         chain_transaction_const_cpp(tx),
         index,
         sign_type,
-        bitprim::int_to_bool(anyone_can_pay)
+        knuth::int_to_bool(anyone_can_pay)
     );
 
-    if (p.first == libbitcoin::error::success) {
-        *out_signature = bitprim::create_c_array(p.second, *out_signature_size);
+    if (p.first == kth::error::success) {
+        *out_signature = knuth::create_c_array(p.second, *out_signature_size);
     } else {
         *out_signature_size = 0;
         *out_signature = nullptr;
     }
 
-    return bitprim::to_c_err(p.first);
+    return knuth::to_c_err(p.first);
 }
 
 error_code_t input_signature_btc(
@@ -122,24 +108,24 @@ error_code_t input_signature_btc(
     uint8_t** out_signature,
     uint64_t* /*size_t*/ out_signature_size) {
 
-    auto p = libbitcoin::wallet::input_signature_btc(
-        bitprim::to_array(private_key.data),
+    auto p = kth::wallet::input_signature_btc(
+        knuth::to_array(private_key.data),
         chain_script_const_cpp(output_script),
         chain_transaction_const_cpp(tx),
         amount,
         index,
         sign_type,
-        bitprim::int_to_bool(anyone_can_pay)
+        knuth::int_to_bool(anyone_can_pay)
     );
 
-    if (p.first == libbitcoin::error::success) {
-        *out_signature = bitprim::create_c_array(p.second, *out_signature_size);
+    if (p.first == kth::error::success) {
+        *out_signature = knuth::create_c_array(p.second, *out_signature_size);
     } else {
         *out_signature_size = 0;
         *out_signature = nullptr;
     }
 
-    return bitprim::to_c_err(p.first);
+    return knuth::to_c_err(p.first);
 }
 
 error_code_t input_signature_bch(
@@ -153,24 +139,24 @@ error_code_t input_signature_bch(
     uint8_t** out_signature,
     uint64_t* /*size_t*/ out_signature_size) {
 
-    auto p = libbitcoin::wallet::input_signature_bch(
-        bitprim::to_array(private_key.data),
+    auto p = kth::wallet::input_signature_bch(
+        knuth::to_array(private_key.data),
         chain_script_const_cpp(output_script),
         chain_transaction_const_cpp(tx),
         amount,
         index,
         sign_type,
-        bitprim::int_to_bool(anyone_can_pay)
+        knuth::int_to_bool(anyone_can_pay)
     );
 
-    if (p.first == libbitcoin::error::success) {
-        *out_signature = bitprim::create_c_array(p.second, *out_signature_size);
+    if (p.first == kth::error::success) {
+        *out_signature = knuth::create_c_array(p.second, *out_signature_size);
     } else {
         *out_signature_size = 0;
         *out_signature = nullptr;
     }
 
-    return bitprim::to_c_err(p.first);
+    return knuth::to_c_err(p.first);
 }
 
 error_code_t input_set_script(
@@ -179,19 +165,19 @@ error_code_t input_set_script(
     uint32_t index /*= 0*/,
     transaction_t* out_transaction) {
 
-    auto p = libbitcoin::wallet::input_set(
+    auto p = kth::wallet::input_set(
                 chain_script_const_cpp(script),
                 chain_transaction_const_cpp(tx),
                 index
                );
 
-    if (p.first == libbitcoin::error::success) {
-        *out_transaction = new libbitcoin::message::transaction(std::move(p.second));
+    if (p.first == kth::error::success) {
+        *out_transaction = new kth::message::transaction(std::move(p.second));
     } else {
         *out_transaction = nullptr;
     }
 
-    return bitprim::to_c_err(p.first);
+    return knuth::to_c_err(p.first);
 }
 
 // error_code_t input_set_signature(
@@ -202,22 +188,22 @@ error_code_t input_set_script(
 //     uint32_t index /*= 0*/,
 //     transaction_t* out_transaction) {
 
-//     libbitcoin::data_chunk signature_cpp(signature, std::next(signature, signature_n));
+//     kth::data_chunk signature_cpp(signature, std::next(signature, signature_n));
 
-//     auto p = libbitcoin::wallet::input_set(
+//     auto p = kth::wallet::input_set(
 //                 signature_cpp,
 //                 wallet_ec_public_const_cpp(public_key),
 //                 chain_transaction_const_cpp(tx),
 //                 index
 //                );
 
-//     if (p.first == libbitcoin::error::success) {
-//         *out_transaction = new libbitcoin::message::transaction(std::move(p.second));
+//     if (p.first == kth::error::success) {
+//         *out_transaction = new kth::message::transaction(std::move(p.second));
 //     } else {
 //         *out_transaction = nullptr;
 //     }
 
-//     return bitprim::to_c_err(p.first);
+//     return knuth::to_c_err(p.first);
 // }
 
 

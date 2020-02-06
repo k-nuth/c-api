@@ -1,40 +1,26 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <bitprim/nodecint/chain/script.h>
 
-#include <bitprim/nodecint/conversions.hpp>
-#include <bitprim/nodecint/helpers.hpp>
+#include <kth/capi/chain/script.h>
 
-BITPRIM_CONV_DEFINE(chain, script_t, libbitcoin::chain::script, script)
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
+
+KTH_CONV_DEFINE(chain, script_t, kth::chain::script, script)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 script_t chain_script_construct_default() {
-    return new libbitcoin::chain::script();
+    return new kth::chain::script();
 }
 
 // script::script(const data_chunk& encoded, bool prefix)
 script_t chain_script_construct(uint8_t* encoded, uint64_t n, bool_t prefix) {
-    libbitcoin::data_chunk encoded_cpp(encoded, std::next(encoded, n));
-    return new libbitcoin::chain::script(encoded_cpp, bitprim::int_to_bool(prefix));
+    kth::data_chunk encoded_cpp(encoded, std::next(encoded, n));
+    return new kth::chain::script(encoded_cpp, knuth::int_to_bool(prefix));
 }
 
 void chain_script_destruct(script_t script) {
@@ -42,11 +28,11 @@ void chain_script_destruct(script_t script) {
 }
 
 bool_t chain_script_is_valid(script_t script) {
-    return bitprim::bool_to_int(chain_script_const_cpp(script).is_valid());
+    return knuth::bool_to_int(chain_script_const_cpp(script).is_valid());
 }
 
 bool_t chain_script_is_valid_operations(script_t script) {
-    return bitprim::bool_to_int(chain_script_const_cpp(script).is_valid_operations());
+    return knuth::bool_to_int(chain_script_const_cpp(script).is_valid_operations());
 }
 
 uint64_t /*size_t*/ chain_script_satoshi_content_size(script_t script) {
@@ -54,42 +40,42 @@ uint64_t /*size_t*/ chain_script_satoshi_content_size(script_t script) {
 }
 
 uint64_t /*size_t*/ chain_script_serialized_size(script_t script, bool_t prefix) {
-    return chain_script_const_cpp(script).serialized_size(bitprim::int_to_bool(prefix));
+    return chain_script_const_cpp(script).serialized_size(knuth::int_to_bool(prefix));
 }
 
 //Note: user of the function has to release the resource (memory) manually
 char* chain_script_to_string(script_t script, uint32_t active_forks) {
     auto str = chain_script_const_cpp(script).to_string(active_forks);
-    return bitprim::create_c_str(str);
+    return knuth::create_c_str(str);
 }
 
-// TODO(fernando): Move this logic elsewhere (this does not go in a wrapper like node-cint)
+// TODO(fernando): Move this logic elsewhere (this does not go in a wrapper like c-api)
 char* chain_script_type(script_t script) {
     auto script_pattern = chain_script_const_cpp(script).pattern();
     std::string type = "non_standard";
     switch(script_pattern) {
-        case libbitcoin::machine::script_pattern::null_data: type = "nulldata"; break;
-        case libbitcoin::machine::script_pattern::pay_multisig: type = "pay_multisig"; break;
-        case libbitcoin::machine::script_pattern::pay_public_key: type = "pay_public_key"; break;
-        case libbitcoin::machine::script_pattern::pay_key_hash: type = "pay_key_hash"; break;
-        case libbitcoin::machine::script_pattern::pay_script_hash: type = "pay_script_hash"; break;
-        case libbitcoin::machine::script_pattern::sign_multisig: type = "sign_multisig"; break;
-        case libbitcoin::machine::script_pattern::sign_public_key: type = "sign_public_key"; break;
-        case libbitcoin::machine::script_pattern::sign_key_hash: type = "sign_key_hash"; break;
-        case libbitcoin::machine::script_pattern::sign_script_hash: type = "sign_script_hash"; break;
+        case kth::machine::script_pattern::null_data: type = "nulldata"; break;
+        case kth::machine::script_pattern::pay_multisig: type = "pay_multisig"; break;
+        case kth::machine::script_pattern::pay_public_key: type = "pay_public_key"; break;
+        case kth::machine::script_pattern::pay_key_hash: type = "pay_key_hash"; break;
+        case kth::machine::script_pattern::pay_script_hash: type = "pay_script_hash"; break;
+        case kth::machine::script_pattern::sign_multisig: type = "sign_multisig"; break;
+        case kth::machine::script_pattern::sign_public_key: type = "sign_public_key"; break;
+        case kth::machine::script_pattern::sign_key_hash: type = "sign_key_hash"; break;
+        case kth::machine::script_pattern::sign_script_hash: type = "sign_script_hash"; break;
         default: type = "non_standard"; break;
     }
 
-    return bitprim::create_c_str(type);
+    return knuth::create_c_str(type);
 }
 
 uint8_t* chain_script_to_data(script_t script, bool_t prefix, uint64_t* /*size_t*/ out_size) {
-    auto script_data = chain_script_const_cpp(script).to_data(bitprim::int_to_bool(prefix));
-    return bitprim::create_c_array(script_data, *out_size);
+    auto script_data = chain_script_const_cpp(script).to_data(knuth::int_to_bool(prefix));
+    return knuth::create_c_array(script_data, *out_size);
 }
 
 uint64_t /*size_t*/ chain_script_sigops(script_t script, bool_t embedded) {
-    return chain_script_const_cpp(script).sigops(bitprim::int_to_bool(embedded));
+    return chain_script_const_cpp(script).sigops(knuth::int_to_bool(embedded));
 }
 
 } // extern "C"

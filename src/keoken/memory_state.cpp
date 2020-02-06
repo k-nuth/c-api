@@ -1,7 +1,7 @@
 /**
-* Copyright (c) 2016-2018 Bitprim Inc.
+* Copyright (c) 2016-2020 Knuth Project developers.
 *
-* This file is part of Bitprim.
+* This file is part of the Knuth Project.
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Affero General Public License as published by
@@ -17,21 +17,21 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <bitprim/nodecint/keoken/memory_state.h>
+#include <kth/capi/keoken/memory_state.h>
 
-#include <bitprim/keoken/memory_state.hpp>
-#include <bitprim/keoken/state_dto.hpp>
-#include <bitprim/nodecint/conversions.hpp>
-#include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/type_conversions.h>
+#include <kth/keoken/memory_state.hpp>
+#include <kth/keoken/state_dto.hpp>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/type_conversions.h>
 
-BITPRIM_CONV_DEFINE(keoken, keoken_memory_state_t, bitprim::keoken::memory_state, memory_state)
+KTH_CONV_DEFINE(keoken, keoken_memory_state_t, knuth::keoken::memory_state, memory_state)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 keoken_memory_state_t keoken_memory_state_construct_default() {
-    return new bitprim::keoken::memory_state();
+    return new knuth::keoken::memory_state();
 }
 
 void keoken_memory_state_destruct(keoken_memory_state_t state) {
@@ -56,7 +56,7 @@ void keoken_memory_state_create_asset(keoken_memory_state_t state, char const* a
         asset_amount,
         wallet_payment_address_const_cpp(owner),
         block_height,
-        bitprim::to_array(txid.hash)
+        knuth::to_array(txid.hash)
     );
 }
 
@@ -67,12 +67,12 @@ void keoken_memory_state_create_balance_entry(keoken_memory_state_t state, keoke
         wallet_payment_address_const_cpp(source),
         wallet_payment_address_const_cpp(target),
         block_height,
-        bitprim::to_array(txid.hash)
+        knuth::to_array(txid.hash)
     );
 }
 
 bool_t keoken_memory_state_asset_id_exists(keoken_memory_state_t state, keoken_asset_id_t id) {
-    return bitprim::bool_to_int(keoken_memory_state_const_cpp(state).asset_id_exists(id));
+    return knuth::bool_to_int(keoken_memory_state_const_cpp(state).asset_id_exists(id));
 }
 
 keoken_amount_t keoken_memory_state_get_balance(keoken_memory_state_t state, keoken_asset_id_t id, payment_address_t addr) {
@@ -81,17 +81,17 @@ keoken_amount_t keoken_memory_state_get_balance(keoken_memory_state_t state, keo
 
 get_assets_by_address_list_t keoken_memory_state_get_assets_by_address(keoken_memory_state_t state, payment_address_t addr) {
     auto result = keoken_memory_state_const_cpp(state).get_assets_by_address(wallet_payment_address_const_cpp(addr));
-    return bitprim::move_or_copy_and_leak(std::move(result));         //Must be released by caller
+    return knuth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
 get_assets_list_t keoken_memory_state_get_assets(keoken_memory_state_t state) {
     auto result = keoken_memory_state_const_cpp(state).get_assets();
-    return bitprim::move_or_copy_and_leak(std::move(result));         //Must be released by caller
+    return knuth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
 get_all_asset_addresses_list_t keoken_memory_state_get_all_asset_addresses(keoken_memory_state_t state) {
     auto result = keoken_memory_state_const_cpp(state).get_all_asset_addresses();
-    return bitprim::move_or_copy_and_leak(std::move(result));         //Must be released by caller
+    return knuth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
 } // extern "C"

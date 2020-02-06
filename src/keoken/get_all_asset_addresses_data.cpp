@@ -1,7 +1,7 @@
 /**
-* Copyright (c) 2016-2018 Bitprim Inc.
+* Copyright (c) 2016-2020 Knuth Project developers.
 *
-* This file is part of Bitprim.
+* This file is part of the Knuth Project.
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Affero General Public License as published by
@@ -17,31 +17,31 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <bitprim/nodecint/keoken/get_all_asset_addresses_data.h>
+#include <kth/capi/keoken/get_all_asset_addresses_data.h>
 
-#include <bitprim/keoken/state_dto.hpp>
-#include <bitprim/nodecint/conversions.hpp>
-#include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/type_conversions.h>
+#include <kth/keoken/state_dto.hpp>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/type_conversions.h>
 
-BITPRIM_CONV_DEFINE(keoken, get_all_asset_addresses_data_t, bitprim::keoken::get_all_asset_addresses_data, get_all_asset_addresses_data)
+KTH_CONV_DEFINE(keoken, get_all_asset_addresses_data_t, knuth::keoken::get_all_asset_addresses_data, get_all_asset_addresses_data)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 // get_all_asset_addresses_data_t keoken_get_all_asset_addresses_data_construct_default(void) {
-//     return new bitprim::keoken::get_all_asset_addresses_data();
+//     return new knuth::keoken::get_all_asset_addresses_data();
 // }
 
 get_all_asset_addresses_data_t keoken_get_all_asset_addresses_data_construct(keoken_asset_id_t asset_id, char const* asset_name, payment_address_t asset_creator, keoken_amount_t amount, payment_address_t amount_owner) {
-    auto result = bitprim::keoken::get_all_asset_addresses_data(
+    auto result = knuth::keoken::get_all_asset_addresses_data(
         asset_id, 
         std::string(asset_name), 
         wallet_payment_address_const_cpp(asset_creator), 
         amount, 
         wallet_payment_address_const_cpp(amount_owner))
     ;
-    return bitprim::move_or_copy_and_leak(std::move(result));         //Must be released by caller
+    return knuth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
 void keoken_get_all_asset_addresses_data_destruct(get_all_asset_addresses_data_t obj) {
@@ -54,7 +54,7 @@ keoken_asset_id_t keoken_get_all_asset_addresses_data_asset_id(get_all_asset_add
 
 char const* keoken_get_all_asset_addresses_data_asset_name(get_all_asset_addresses_data_t obj) {
     auto const& asset_name = keoken_get_all_asset_addresses_data_const_cpp(obj).asset_name;
-    return bitprim::create_c_str(asset_name);
+    return knuth::create_c_str(asset_name);
 }
 
 payment_address_t keoken_get_all_asset_addresses_data_asset_creator(get_all_asset_addresses_data_t obj) {

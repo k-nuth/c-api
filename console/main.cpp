@@ -1,21 +1,7 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 
 #include <chrono>
 #include <csignal>
@@ -23,34 +9,34 @@
 #include <iostream>
 #include <thread>
 
-#include <bitprim/nodecint/chain/chain.h>
-#include <bitprim/nodecint/chain/history_compact.h>
-#include <bitprim/nodecint/chain/history_compact_list.h>
-#include <bitprim/nodecint/chain/input.h>
-#include <bitprim/nodecint/chain/input_list.h>
-#include <bitprim/nodecint/chain/output.h>
-#include <bitprim/nodecint/chain/output_list.h>
-#include <bitprim/nodecint/chain/output_point.h>
-#include <bitprim/nodecint/chain/script.h>
-#include <bitprim/nodecint/chain/transaction.h>
-#include <bitprim/nodecint/chain/transaction_list.h>
-#include <bitprim/nodecint/executor_c.h>
-#include <bitprim/nodecint/hash_list.h>
-#include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/wallet/payment_address.h>
-#include <bitprim/nodecint/wallet/wallet.h>
-#include <bitprim/nodecint/wallet/word_list.h>
-#include <bitprim/nodecint/wallet/payment_address_list.h>
+#include <kth/capi/chain/chain.h>
+#include <kth/capi/chain/history_compact.h>
+#include <kth/capi/chain/history_compact_list.h>
+#include <kth/capi/chain/input.h>
+#include <kth/capi/chain/input_list.h>
+#include <kth/capi/chain/output.h>
+#include <kth/capi/chain/output_list.h>
+#include <kth/capi/chain/output_point.h>
+#include <kth/capi/chain/script.h>
+#include <kth/capi/chain/transaction.h>
+#include <kth/capi/chain/transaction_list.h>
+#include <kth/capi/executor_c.h>
+#include <kth/capi/hash_list.h>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/wallet/payment_address.h>
+#include <kth/capi/wallet/wallet.h>
+#include <kth/capi/wallet/word_list.h>
+#include <kth/capi/wallet/payment_address_list.h>
 
-#include <bitcoin/bitcoin/message/transaction.hpp>
+#include <kth/bitcoin/message/transaction.hpp>
 
-#ifdef BITPRIM_USE_DOMAIN
-#include <bitcoin/infrastructure/utility/binary.hpp>
+#ifdef KTH_USE_DOMAIN
+#include <kth/infrastructure/utility/binary.hpp>
 #else
-#include <bitcoin/bitcoin/utility/binary.hpp>
-#endif // BITPRIM_USE_DOMAIN
+#include <kth/bitcoin/utility/binary.hpp>
+#endif // KTH_USE_DOMAIN
 
-#include <bitcoin/bitcoin/wallet/hd_private.hpp>
+#include <kth/bitcoin/wallet/hd_private.hpp>
 
 
  void wait_until_block(chain_t chain, size_t desired_height) {
@@ -127,7 +113,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // std::signal(SIGTERM, handle_stop);
 
 
-    auto exec = executor_construct("/home/bitprim/dev/bitprim/github/bitprim/bitprim-insight/bitprim.insight/bcc-testnet.cfg", stdout, stderr);
+    auto exec = executor_construct("/home/kth/dev/kth/github/k-nuth/insight/kth.insight/bcc-testnet.cfg", stdout, stderr);
     //auto exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
     // executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
     //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
@@ -161,10 +147,10 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     
 	std::string hash = "0000000071966c2b1d065fd446b1e485b2c9d9594acd2007ccbd5441cfc89444";
-	libbitcoin::hash_digest hash_bytes;
+	kth::hash_digest hash_bytes;
 	hex2bin(hash.c_str(), hash_bytes.data());
 	std::reverse(hash_bytes.begin(), hash_bytes.end());
-    auto prevout_hash = bitprim::to_hash_t(hash_bytes);
+    auto prevout_hash = knuth::to_hash_t(hash_bytes);
 
     uint64_t out_h;
     auto res = chain_get_block_height(chain, prevout_hash, &out_h);
@@ -268,10 +254,10 @@ int main(int /*argc*/, char* /*argv*/[]) {
 // 	hex2bin(pubk_str.c_str(), pubk.data());
 
 //     std::string prevout_hash_str = "98a2c7b069d6aa414dc4138a45dcc9c804928338599a4df67d73d8e21e00622b";
-// 	libbitcoin::hash_digest hash_bytes;
+// 	kth::hash_digest hash_bytes;
 // 	hex2bin(prevout_hash_str.c_str(), hash_bytes.data());
 // 	std::reverse(hash_bytes.begin(), hash_bytes.end());
-//     auto prevout_hash = bitprim::to_hash_t(hash_bytes);
+//     auto prevout_hash = knuth::to_hash_t(hash_bytes);
 
 
 //     // bitcoincash:qprzrw2lsj85qdnw9qwrc6cjg7ypgcs7fq40e4v5wn
@@ -394,7 +380,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 // void handle_stop(int signal) {
 //     std::cout << "handle_stop()\n";
-//     // stop(libbitcoin::error::success);
+//     // stop(kth::error::success);
 //     //executor_stop(exec);
 //     //chain_t chain = executor_get_chain(exec);
 //     //chain_unsubscribe(chain);
@@ -524,8 +510,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 
 
-// libbitcoin::message::transaction const& tx_const_cpp2(transaction_t transaction) {
-// 	return *static_cast<libbitcoin::message::transaction const*>(transaction);
+// kth::message::transaction const& tx_const_cpp2(transaction_t transaction) {
+// 	return *static_cast<kth::message::transaction const*>(transaction);
 // }
 
 // int main(int /*argc*/, char* /*argv*/[]) {
@@ -598,7 +584,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //	//}
 //
 //	//std::string hash = "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b";
-//	//libbitcoin::hash_digest hash_bytes;
+//	//kth::hash_digest hash_bytes;
 //	//hex2bin(hash.c_str(), hash_bytes.data());
 //	//std::reverse(hash_bytes.begin(), hash_bytes.end());
 //	//transaction_t tx;
@@ -663,7 +649,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     printf("hola -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 
-    executor_t exec = executor_construct("c:\\blockchain\\bcc-testnet_insight\\bitprim-node-bcc-testnet.cfg", stdout, stderr);
+    executor_t exec = executor_construct("c:\\blockchain\\bcc-testnet_insight\\kth-node-bcc-testnet.cfg", stdout, stderr);
 
     int config_valid = executor_load_config_valid(exec);
 
@@ -678,7 +664,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     printf("hola -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 
-    executor_t exec = executor_construct("c:\\blockchain\\bcc-testnet_insight\\bitprim-node-bcc-testnet.cfg", stdout, stderr);
+    executor_t exec = executor_construct("c:\\blockchain\\bcc-testnet_insight\\kth-node-bcc-testnet.cfg", stdout, stderr);
 
 
     int res1 = executor_initchain(exec);
@@ -692,8 +678,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     std::string raw = "0200000001ffecbd2b832ea847a7da905a40d5abaff8323cc18ff3121532f6fe781ce79f6e000000008b483045022100a26515b4bb5f3eb0259c0cc0806b4d8096f91a801ee9b15ced76f2537f7de94b02205becd631fe0ae232e4453f1b4a8a5375e4caec62e3971dbfe5a6d86b2538dcf64141044636673164f4b636d560cb4192cb07aa62054154f1a7a99a694b235f8fba56950b34e6ab55d58991470a13ca59330bc6339a2f72eb6f9204a64a1a538ddff4fbffffffff0290d00300000000001976a9144913233162944e9239637f998235d76e1601b1cf88ac80d1f008000000001976a914cc1d800e7f83edd96a0340a4e269b2956f636e3f88ac00000000";
     
-    libbitcoin::data_chunk chunk;
-    libbitcoin::decode_base16(chunk,raw);
+    kth::data_chunk chunk;
+    kth::decode_base16(chunk,raw);
 
     transaction_t tx = chain_transaction_factory_from_data(1,chunk.data(),chunk.size());
 

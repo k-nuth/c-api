@@ -1,47 +1,33 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-#include <bitprim/nodecint/chain/transaction.h>
-
-#include <bitprim/nodecint/chain/input_list.h>
-#include <bitprim/nodecint/chain/output_list.h>
-#include <bitprim/nodecint/conversions.hpp>
-#include <bitprim/nodecint/helpers.hpp>
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-BITPRIM_CONV_DEFINE(chain, transaction_t, libbitcoin::message::transaction, transaction)
+#include <kth/capi/chain/transaction.h>
+
+#include <kth/capi/chain/input_list.h>
+#include <kth/capi/chain/output_list.h>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
+
+
+KTH_CONV_DEFINE(chain, transaction_t, kth::message::transaction, transaction)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 transaction_t chain_transaction_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
-    libbitcoin::data_chunk data_cpp(data, std::next(data, n));
-    auto tx = libbitcoin::message::transaction::factory_from_data(version, data_cpp);
-    return bitprim::move_or_copy_and_leak(std::move(tx));
+    kth::data_chunk data_cpp(data, std::next(data, n));
+    auto tx = kth::message::transaction::factory_from_data(version, data_cpp);
+    return knuth::move_or_copy_and_leak(std::move(tx));
 }
 
 transaction_t chain_transaction_construct_default() {
-    return new libbitcoin::message::transaction();
+    return new kth::message::transaction();
 }
 
 transaction_t chain_transaction_construct(uint32_t version, uint32_t locktime, input_list_t inputs, output_list_t outputs) {
-    return new libbitcoin::message::transaction(version, locktime,
+    return new kth::message::transaction(version, locktime,
                                                 chain_input_list_const_cpp(inputs),
                                                 chain_output_list_const_cpp(outputs));
 }
@@ -59,27 +45,27 @@ uint32_t chain_transaction_version(transaction_t transaction) {
 }
 
 void chain_transaction_set_version(transaction_t transaction, uint32_t version) {
-    return static_cast<libbitcoin::message::transaction*>(transaction)->set_version(version);
+    return static_cast<kth::message::transaction*>(transaction)->set_version(version);
 }
 
 hash_t chain_transaction_hash(transaction_t transaction) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash();
-    return bitprim::to_hash_t(hash_cpp);
+    return knuth::to_hash_t(hash_cpp);
 }
 
 void chain_transaction_hash_out(transaction_t transaction, hash_t* out_hash) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash();
-    bitprim::copy_c_hash(hash_cpp, out_hash);
+    knuth::copy_c_hash(hash_cpp, out_hash);
 }
 
 hash_t chain_transaction_hash_sighash_type(transaction_t transaction, uint32_t sighash_type) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
-    return bitprim::to_hash_t(hash_cpp);
+    return knuth::to_hash_t(hash_cpp);
 }
 
 void chain_transaction_hash_sighash_type_out(transaction_t transaction, uint32_t sighash_type, hash_t* out_hash) {
     auto const& hash_cpp = chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
-    bitprim::copy_c_hash(hash_cpp, out_hash);
+    knuth::copy_c_hash(hash_cpp, out_hash);
 }
 
 uint32_t chain_transaction_locktime(transaction_t transaction) {
@@ -99,12 +85,12 @@ uint64_t /*size_t*/ chain_transaction_signature_operations(transaction_t transac
 }
 
 uint64_t /*size_t*/ chain_transaction_signature_operations_bip16_active(transaction_t transaction, bool_t bip16_active) {
-#ifdef BITPRIM_CURRENCY_BCH
+#ifdef KTH_CURRENCY_BCH
     bool_t bip141_active = 0;
 #else
     bool_t bip141_active = 1;
 #endif
-    return chain_transaction_const_cpp(transaction).signature_operations(bitprim::int_to_bool(bip16_active), bitprim::int_to_bool(bip141_active));
+    return chain_transaction_const_cpp(transaction).signature_operations(knuth::int_to_bool(bip16_active), knuth::int_to_bool(bip141_active));
 }
 
 uint64_t chain_transaction_total_input_value(transaction_t transaction) {
@@ -136,7 +122,7 @@ bool_t chain_transaction_is_overspent(transaction_t transaction) {
 }
 
 bool_t chain_transaction_is_double_spend(transaction_t transaction, bool_t include_unconfirmed) {
-    return static_cast<int>(chain_transaction_const_cpp(transaction).is_double_spend(bitprim::int_to_bool(include_unconfirmed)));
+    return static_cast<int>(chain_transaction_const_cpp(transaction).is_double_spend(knuth::int_to_bool(include_unconfirmed)));
 }
 
 bool_t chain_transaction_is_missing_previous_outputs(transaction_t transaction) {
@@ -163,7 +149,7 @@ input_list_t chain_transaction_inputs(transaction_t transaction) {
 
 uint8_t* chain_transaction_to_data(transaction_t transaction, bool_t wire, uint64_t* /*size_t*/ out_size) {
     auto tx_data = chain_transaction_const_cpp(transaction).to_data(wire);
-    return bitprim::create_c_array(tx_data, *out_size);
+    return knuth::create_c_array(tx_data, *out_size);
 }
 
 } // extern "C"

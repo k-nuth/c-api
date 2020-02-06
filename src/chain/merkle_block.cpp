@@ -1,31 +1,17 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <bitprim/nodecint/chain/merkle_block.h>
 
-#include <bitcoin/bitcoin/message/merkle_block.hpp>
-#include <bitcoin/bitcoin/message/transaction.hpp>
+#include <kth/capi/chain/merkle_block.h>
 
-#include <bitprim/nodecint/helpers.hpp>
-#include <bitprim/nodecint/type_conversions.h>
+#include <kth/bitcoin/message/merkle_block.hpp>
+#include <kth/bitcoin/message/transaction.hpp>
 
-BITPRIM_CONV_DEFINE(chain, merkle_block_t, libbitcoin::message::merkle_block, merkle_block)
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/type_conversions.h>
+
+KTH_CONV_DEFINE(chain, merkle_block_t, kth::message::merkle_block, merkle_block)
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -39,7 +25,7 @@ hash_t chain_merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) 
 
     auto* blk = &chain_merkle_block_cpp(block);
     auto& hash_n = blk->hashes()[n];
-    return bitprim::to_hash_t(hash_n);
+    return knuth::to_hash_t(hash_n);
 }
 
 void chain_merkle_block_hash_nth_out(merkle_block_t block, uint64_t /*size_t*/ n, hash_t* out_hash) {
@@ -47,7 +33,7 @@ void chain_merkle_block_hash_nth_out(merkle_block_t block, uint64_t /*size_t*/ n
 
     auto* blk = &chain_merkle_block_cpp(block);
     auto& hash_n = blk->hashes()[n];
-    bitprim::copy_c_hash(hash_n, out_hash);
+    knuth::copy_c_hash(hash_n, out_hash);
 }
 
 header_t chain_merkle_block_header(merkle_block_t block) {
@@ -55,7 +41,7 @@ header_t chain_merkle_block_header(merkle_block_t block) {
 }
 
 bool_t chain_merkle_block_is_valid(merkle_block_t block) {
-    return bitprim::bool_to_int(chain_merkle_block_const_cpp(block).is_valid());
+    return knuth::bool_to_int(chain_merkle_block_const_cpp(block).is_valid());
 }
 
 uint64_t /*size_t*/ chain_merkle_block_hash_count(merkle_block_t block) {

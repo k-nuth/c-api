@@ -1,52 +1,38 @@
-/**
- * Copyright (c) 2016-2018 Bitprim Inc.
- *
- * This file is part of Bitprim.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-#include <bitprim/nodecint/chain/block.h>
-
-#include <bitprim/nodecint/conversions.hpp>
-#include <bitprim/nodecint/helpers.hpp>
-
-#include <bitcoin/bitcoin/message/transaction.hpp>
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-BITPRIM_CONV_DEFINE(chain, block_t, libbitcoin::message::block, block)
+#include <kth/capi/chain/block.h>
+
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
+
+#include <kth/bitcoin/message/transaction.hpp>
+
+
+KTH_CONV_DEFINE(chain, block_t, kth::message::block, block)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 block_t chain_block_construct_default() {
-    return new libbitcoin::message::block();
+    return new kth::message::block();
 }
 
 block_t chain_block_construct(header_t header, transaction_list_t transactions) {
 
     auto const& header_cpp = chain_header_const_cpp(header);
-    auto const& txs_cpp = *static_cast<libbitcoin::chain::transaction::list const*>(transactions);
+    auto const& txs_cpp = *static_cast<kth::chain::transaction::list const*>(transactions);
     // auto const& txs_cpp = chain_transaction_list_const_cpp(transactions);
-    return new libbitcoin::message::block(header_cpp, txs_cpp);
+    return new kth::message::block(header_cpp, txs_cpp);
 }
 
 block_t chain_block_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
     
-    libbitcoin::data_chunk data_cpp(data, std::next(data, n));
-    auto block = libbitcoin::message::block::factory_from_data(version, data_cpp);
-    return bitprim::move_or_copy_and_leak(std::move(block));
+    kth::data_chunk data_cpp(data, std::next(data, n));
+    auto block = kth::message::block::factory_from_data(version, data_cpp);
+    return knuth::move_or_copy_and_leak(std::move(block));
 }
 
 void chain_block_destruct(block_t block) {
@@ -54,7 +40,7 @@ void chain_block_destruct(block_t block) {
 }
 
 bool_t chain_block_is_valid(block_t block) {
-    return bitprim::bool_to_int(chain_block_const_cpp(block).is_valid());
+    return knuth::bool_to_int(chain_block_const_cpp(block).is_valid());
 }
 
 header_t chain_block_header(block_t block) {
@@ -63,12 +49,12 @@ header_t chain_block_header(block_t block) {
 
 hash_t chain_block_hash(block_t block) {
     auto const& hash_cpp = chain_block_const_cpp(block).hash();
-    return bitprim::to_hash_t(hash_cpp);
+    return knuth::to_hash_t(hash_cpp);
 }
 
 void chain_block_hash_out(block_t block, hash_t* out_hash) {
     auto const& hash_cpp = chain_block_const_cpp(block).hash();
-    bitprim::copy_c_hash(hash_cpp, out_hash);
+    knuth::copy_c_hash(hash_cpp, out_hash);
 }
 
 //deprecated
@@ -81,7 +67,7 @@ char const* chain_block_proof(block_t block) {
 
 char const* chain_block_proof_str(block_t block) {
     auto proof_str = chain_block_const_cpp(block).proof().str();
-    return bitprim::create_c_str(proof_str);
+    return knuth::create_c_str(proof_str);
 }
 
 // Warning: breaking change
@@ -112,14 +98,14 @@ uint64_t /*size_t*/ chain_block_serialized_size(block_t block, uint32_t version)
 
 /*static*/
 uint64_t chain_block_subsidy(uint64_t /*size_t*/ height) {
-    return libbitcoin::message::block::subsidy(height);
+    return kth::message::block::subsidy(height);
 }
 
 //static uint256_t chain_block_proof(uint32_t bits) {}
 
 ///*static*/
 //uint256_t chain_block_proof(uint64_t /*size_t*/ height) {
-//    return libbitcoin::message::block::proof(height);
+//    return kth::message::block::proof(height);
 //}
 
 uint64_t chain_block_fees(block_t block) {
@@ -147,12 +133,12 @@ uint64_t chain_block_reward(block_t block, uint64_t /*size_t*/ height) {
 
 hash_t chain_block_generate_merkle_root(block_t block) {
     auto hash_cpp = chain_block_const_cpp(block).generate_merkle_root();
-    return bitprim::to_hash_t(hash_cpp);
+    return knuth::to_hash_t(hash_cpp);
 }
 
 void chain_block_generate_merkle_root_out(block_t block, hash_t* out_merkle) {
     auto hash_cpp = chain_block_const_cpp(block).generate_merkle_root();
-    bitprim::copy_c_hash(hash_cpp, out_merkle);
+    knuth::copy_c_hash(hash_cpp, out_merkle);
 }
 
 uint64_t /*size_t*/ chain_block_signature_operations(block_t block) {
@@ -160,50 +146,50 @@ uint64_t /*size_t*/ chain_block_signature_operations(block_t block) {
 }
 
 uint64_t /*size_t*/ chain_block_signature_operations_bip16_active(block_t block, bool_t bip16_active) {
-#ifdef BITPRIM_CURRENCY_BCH
+#ifdef KTH_CURRENCY_BCH
     bool_t bip141_active = 0;
 #else
     bool_t bip141_active = 1;
 #endif
 
-    return chain_block_const_cpp(block).signature_operations(bitprim::int_to_bool(bip16_active), bitprim::int_to_bool(bip141_active));
+    return chain_block_const_cpp(block).signature_operations(knuth::int_to_bool(bip16_active), knuth::int_to_bool(bip141_active));
 }
 
 uint64_t /*size_t*/ chain_block_total_inputs(block_t block, bool_t with_coinbase=1) {
-    return chain_block_const_cpp(block).total_inputs(bitprim::int_to_bool(with_coinbase));
+    return chain_block_const_cpp(block).total_inputs(knuth::int_to_bool(with_coinbase));
 }
 
 bool_t chain_block_is_extra_coinbases(block_t block) {
-    return bitprim::bool_to_int(chain_block_const_cpp(block).is_extra_coinbases());
+    return knuth::bool_to_int(chain_block_const_cpp(block).is_extra_coinbases());
 }
 
 bool_t chain_block_is_final(block_t block, uint64_t /*size_t*/ height, uint32_t block_time) {
-    return bitprim::bool_to_int(chain_block_const_cpp(block).is_final(height, block_time));
+    return knuth::bool_to_int(chain_block_const_cpp(block).is_final(height, block_time));
 }
 
 bool_t chain_block_is_distinct_transaction_set(block_t block) {
-    return bitprim::bool_to_int(chain_block_const_cpp(block).is_distinct_transaction_set());
+    return knuth::bool_to_int(chain_block_const_cpp(block).is_distinct_transaction_set());
 }
 
 bool_t chain_block_is_valid_coinbase_claim(block_t block, uint64_t /*size_t*/ height) {
-    return bitprim::bool_to_int(chain_block_const_cpp(block).is_valid_coinbase_claim(height));
+    return knuth::bool_to_int(chain_block_const_cpp(block).is_valid_coinbase_claim(height));
 }
 
 bool_t chain_block_is_valid_coinbase_script(block_t block, uint64_t /*size_t*/ height) {
-    return bitprim::bool_to_int(chain_block_const_cpp(block).is_valid_coinbase_script(height));
+    return knuth::bool_to_int(chain_block_const_cpp(block).is_valid_coinbase_script(height));
 }
 
 bool_t chain_block_is_internal_double_spend(block_t block) {
-    return bitprim::bool_to_int(chain_block_const_cpp(block).is_internal_double_spend());
+    return knuth::bool_to_int(chain_block_const_cpp(block).is_internal_double_spend());
 }
 
 bool_t chain_block_is_valid_merkle_root(block_t block) {
-    return bitprim::bool_to_int(chain_block_const_cpp(block).is_valid_merkle_root());
+    return knuth::bool_to_int(chain_block_const_cpp(block).is_valid_merkle_root());
 }
 
 uint8_t const* chain_block_to_data(block_t block, bool_t wire, uint64_t* /*size_t*/ out_size) {
     auto block_data = chain_block_const_cpp(block).to_data(wire);
-    return bitprim::create_c_array(block_data, *out_size);
+    return knuth::create_c_array(block_data, *out_size);
 }
 
 } // extern "C"
