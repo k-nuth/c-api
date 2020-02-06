@@ -5,9 +5,9 @@
 
 #include <kth/bitcoin/message/compact_block.hpp>
 
-#include <knuth/nodecint/chain/compact_block.h>
-#include <knuth/nodecint/helpers.hpp>
-#include <knuth/nodecint/type_conversions.h>
+#include <kth/capi/chain/compact_block.h>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/type_conversions.h>
 
 KTH_CONV_DEFINE(chain, compact_block_t, kth::message::compact_block, compact_block)
 

@@ -8,8 +8,8 @@
 
 #include <stdint.h>
 
-#include <knuth/nodecint/error.h>
-#include <knuth/nodecint/visibility.h>
+#include <kth/capi/error.h>
+#include <kth/capi/visibility.h>
 
 #define KTH_LIST_DECLARE_CONVERTERS(api, list_t, cpp_elem_t, list_name)  \
 std::vector<cpp_elem_t> const& api##_##list_name##_const_cpp(list_t l);      \

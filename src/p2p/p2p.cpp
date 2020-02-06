@@ -3,10 +3,10 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/p2p/p2p.h>
+#include <kth/capi/p2p/p2p.h>
 
 #include <kth/network/p2p.hpp>
-#include <knuth/nodecint/helpers.hpp>
+#include <kth/capi/helpers.hpp>
 
 namespace {
 

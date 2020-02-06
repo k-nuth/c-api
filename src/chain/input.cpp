@@ -3,12 +3,12 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/chain/input.h>
+#include <kth/capi/chain/input.h>
 
-#include <knuth/nodecint/chain/output_point.h>
-#include <knuth/nodecint/chain/script.h>
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/helpers.hpp>
+#include <kth/capi/chain/output_point.h>
+#include <kth/capi/chain/script.h>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
 
 
 KTH_CONV_DEFINE(chain, input_t, kth::chain::input, input)

@@ -5,7 +5,7 @@
 
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include <knuth/nodecint/executor_c.h>
+#include <kth/capi/executor_c.h>
 #include <iostream>
 
 class QueriesTestsFixture {

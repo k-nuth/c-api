@@ -3,14 +3,14 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/chain/mempool_transaction.h>
+#include <kth/capi/chain/mempool_transaction.h>
 
 #include <tuple>
 
 #include <kth/blockchain/interface/safe_chain.hpp>
 
-#include <knuth/nodecint/helpers.hpp>
-#include <knuth/nodecint/type_conversions.h>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/type_conversions.h>
 
 KTH_CONV_DEFINE(chain, mempool_transaction_t, kth::blockchain::mempool_transaction_summary, mempool_transaction)
 

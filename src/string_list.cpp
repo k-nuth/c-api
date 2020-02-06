@@ -3,12 +3,12 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/string_list.h>
+#include <kth/capi/string_list.h>
 
 #include <string>
 #include <vector>
 
-#include <knuth/nodecint/list_creator.h>
+#include <kth/capi/list_creator.h>
 
 KTH_LIST_DEFINE_CONVERTERS(core, string_list_t, std::string, string_list)
 

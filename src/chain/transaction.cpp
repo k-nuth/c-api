@@ -3,12 +3,12 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/chain/transaction.h>
+#include <kth/capi/chain/transaction.h>
 
-#include <knuth/nodecint/chain/input_list.h>
-#include <knuth/nodecint/chain/output_list.h>
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/helpers.hpp>
+#include <kth/capi/chain/input_list.h>
+#include <kth/capi/chain/output_list.h>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
 
 
 KTH_CONV_DEFINE(chain, transaction_t, kth::message::transaction, transaction)

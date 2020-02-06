@@ -3,12 +3,12 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/chain/point.h>
+#include <kth/capi/chain/point.h>
 
 #include <kth/bitcoin/chain/point.hpp>
 
-#include <knuth/nodecint/helpers.hpp>
-#include <knuth/nodecint/type_conversions.h>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/type_conversions.h>
 
 
 KTH_CONV_DEFINE(chain, point_t, kth::chain::point, point)

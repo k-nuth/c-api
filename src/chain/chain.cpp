@@ -17,7 +17,7 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <knuth/nodecint/chain/chain.h>
+#include <kth/capi/chain/chain.h>
 #include <cstdio>
 #include <memory>
 
@@ -29,9 +29,9 @@
 #include <kth/bitcoin/message/transaction.hpp>
 #include <kth/blockchain/interface/safe_chain.hpp>
 
-#include <knuth/nodecint/chain/block_list.h>
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/helpers.hpp>
+#include <kth/capi/chain/block_list.h>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
 
 
 namespace {

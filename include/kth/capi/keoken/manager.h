@@ -6,9 +6,9 @@
 #ifndef KTH_NODECINT_KEOKEN_MANAGER_H_
 #define KTH_NODECINT_KEOKEN_MANAGER_H_
 
-#include <knuth/nodecint/keoken/state_delegated.h>
-#include <knuth/nodecint/primitives.h>
-#include <knuth/nodecint/visibility.h>
+#include <kth/capi/keoken/state_delegated.h>
+#include <kth/capi/primitives.h>
+#include <kth/capi/visibility.h>
 
 #ifdef __cplusplus
 extern "C" {

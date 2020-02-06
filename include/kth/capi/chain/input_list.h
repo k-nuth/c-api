@@ -8,9 +8,9 @@
 
 #include <stdint.h>
 
-#include <knuth/nodecint/list_creator.h>
-#include <knuth/nodecint/primitives.h>
-#include <knuth/nodecint/visibility.h>
+#include <kth/capi/list_creator.h>
+#include <kth/capi/primitives.h>
+#include <kth/capi/visibility.h>
 
 #ifdef __cplusplus
 extern "C" {

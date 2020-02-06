@@ -9,8 +9,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include <knuth/nodecint/primitives.h>
-#include <knuth/nodecint/visibility.h>
+#include <kth/capi/primitives.h>
+#include <kth/capi/visibility.h>
 
 #ifdef __cplusplus
 extern "C" {

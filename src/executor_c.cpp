@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/executor_c.h>
+#include <kth/capi/executor_c.h>
 
 #include <cstdio>
 #include <memory>
@@ -11,9 +11,9 @@
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/thread/latch.hpp>
 
-#include <knuth/nodecint/executor.hpp>
-#include <knuth/nodecint/helpers.hpp>
-#include <knuth/nodecint/version.h>
+#include <kth/capi/executor.hpp>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/version.h>
 
 #ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers

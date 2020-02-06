@@ -3,13 +3,13 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/chain/merkle_block.h>
+#include <kth/capi/chain/merkle_block.h>
 
 #include <kth/bitcoin/message/merkle_block.hpp>
 #include <kth/bitcoin/message/transaction.hpp>
 
-#include <knuth/nodecint/helpers.hpp>
-#include <knuth/nodecint/type_conversions.h>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/type_conversions.h>
 
 KTH_CONV_DEFINE(chain, merkle_block_t, kth::message::merkle_block, merkle_block)
 

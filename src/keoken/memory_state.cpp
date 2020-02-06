@@ -17,13 +17,13 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <knuth/nodecint/keoken/memory_state.h>
+#include <kth/capi/keoken/memory_state.h>
 
-#include <knuth/keoken/memory_state.hpp>
-#include <knuth/keoken/state_dto.hpp>
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/helpers.hpp>
-#include <knuth/nodecint/type_conversions.h>
+#include <kth/keoken/memory_state.hpp>
+#include <kth/keoken/state_dto.hpp>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/type_conversions.h>
 
 KTH_CONV_DEFINE(keoken, keoken_memory_state_t, knuth::keoken::memory_state, memory_state)
 

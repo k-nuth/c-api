@@ -17,8 +17,8 @@
 #include <iostream>
 
 #ifdef KTH_WITH_KEOKEN
-#include <knuth/keoken/manager.hpp>
-#include <knuth/keoken/state_delegated.hpp>
+#include <kth/keoken/manager.hpp>
+#include <kth/keoken/state_delegated.hpp>
 #endif
 
 namespace kth { 

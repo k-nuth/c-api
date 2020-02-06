@@ -17,12 +17,12 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <knuth/nodecint/wallet/payment_address_list.h>
+#include <kth/capi/wallet/payment_address_list.h>
 
 #include <vector>
 
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/list_creator.h>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/list_creator.h>
 
 #include <kth/bitcoin/wallet/payment_address.hpp>
 

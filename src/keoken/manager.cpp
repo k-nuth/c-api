@@ -17,18 +17,18 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <knuth/nodecint/keoken/manager.h>
+#include <kth/capi/keoken/manager.h>
 
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/helpers.hpp>
-#include <knuth/nodecint/keoken/conversions.hpp>
-#include <knuth/nodecint/type_conversions.h>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/keoken/conversions.hpp>
+#include <kth/capi/type_conversions.h>
 
-#include <knuth/keoken/manager.hpp>
-#include <knuth/keoken/memory_state.hpp>
-#include <knuth/keoken/primitives.hpp>
-#include <knuth/keoken/state_delegated.hpp>
-#include <knuth/keoken/state_dto.hpp>
+#include <kth/keoken/manager.hpp>
+#include <kth/keoken/memory_state.hpp>
+#include <kth/keoken/primitives.hpp>
+#include <kth/keoken/state_delegated.hpp>
+#include <kth/keoken/state_dto.hpp>
 
 using keoken_manager_cpp_t = knuth::keoken::manager<knuth::keoken::state_delegated>;
 KTH_CONV_DEFINE(keoken, keoken_manager_t, keoken_manager_cpp_t, manager)

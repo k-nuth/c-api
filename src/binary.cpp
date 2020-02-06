@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/binary.h>
+#include <kth/capi/binary.h>
 
 #ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/utility/binary.hpp>
@@ -11,8 +11,8 @@
 #include <kth/bitcoin/utility/binary.hpp>
 #endif // KTH_USE_DOMAIN
 
-#include <knuth/nodecint/helpers.hpp>
-#include <knuth/nodecint/type_conversions.h>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/type_conversions.h>
 
 KTH_CONV_DEFINE(core, binary_t, kth::binary, binary)
 

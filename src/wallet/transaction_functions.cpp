@@ -4,14 +4,14 @@
 
 
 
-#include <knuth/nodecint/wallet/transaction_functions.h>
+#include <kth/capi/wallet/transaction_functions.h>
 
 #include <kth/bitcoin/wallet/payment_address.hpp>
 #include <kth/bitcoin/wallet/transaction_functions.hpp>
 
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/helpers.hpp>
-#include <knuth/nodecint/primitives.h>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/primitives.h>
 
 // ---------------------------------------------------------------------------
 extern "C" {

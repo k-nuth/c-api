@@ -3,12 +3,12 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/chain/stealth_compact.h>
+#include <kth/capi/chain/stealth_compact.h>
 
 #include <kth/bitcoin/chain/stealth.hpp>
 
-#include <knuth/nodecint/helpers.hpp>
-#include <knuth/nodecint/type_conversions.h>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/type_conversions.h>
 
 
 KTH_CONV_DEFINE(chain, stealth_compact_t, kth::chain::stealth_compact, stealth_compact)

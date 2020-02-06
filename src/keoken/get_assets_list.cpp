@@ -17,13 +17,13 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <knuth/nodecint/keoken/get_assets_list.h>
+#include <kth/capi/keoken/get_assets_list.h>
 
 #include <vector>
 
-#include <knuth/keoken/state_dto.hpp>
-#include <knuth/nodecint/keoken/conversions.hpp>
-#include <knuth/nodecint/list_creator.h>
+#include <kth/keoken/state_dto.hpp>
+#include <kth/capi/keoken/conversions.hpp>
+#include <kth/capi/list_creator.h>
 
 KTH_LIST_DEFINE_CONVERTERS(keoken, get_assets_list_t, knuth::keoken::get_assets_data, get_assets_list)
 KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(keoken, get_assets_list_t, knuth::keoken::get_assets_data, get_assets_list)

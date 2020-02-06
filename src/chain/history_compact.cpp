@@ -5,8 +5,8 @@
 
 #include <kth/bitcoin/chain/history.hpp>
 
-#include <knuth/nodecint/chain/history_compact.h>
-#include <knuth/nodecint/type_conversions.h>
+#include <kth/capi/chain/history_compact.h>
+#include <kth/capi/type_conversions.h>
 
 KTH_CONV_DEFINE(chain, history_compact_t, kth::chain::history_compact, history_compact)
 

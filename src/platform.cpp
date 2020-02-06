@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/platform.h>
+#include <kth/capi/platform.h>
 #include <cstdlib>
 
 // ---------------------------------------------------------------------------

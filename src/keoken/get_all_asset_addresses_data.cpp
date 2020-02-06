@@ -17,12 +17,12 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <knuth/nodecint/keoken/get_all_asset_addresses_data.h>
+#include <kth/capi/keoken/get_all_asset_addresses_data.h>
 
-#include <knuth/keoken/state_dto.hpp>
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/helpers.hpp>
-#include <knuth/nodecint/type_conversions.h>
+#include <kth/keoken/state_dto.hpp>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/type_conversions.h>
 
 KTH_CONV_DEFINE(keoken, get_all_asset_addresses_data_t, knuth::keoken::get_all_asset_addresses_data, get_all_asset_addresses_data)
 

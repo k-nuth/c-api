@@ -9,28 +9,28 @@
 #include <iostream>
 #include <thread>
 
-#include <knuth/nodecint/chain/chain.h>
-#include <knuth/nodecint/chain/history_compact.h>
-#include <knuth/nodecint/chain/history_compact_list.h>
-#include <knuth/nodecint/chain/input.h>
-#include <knuth/nodecint/chain/input_list.h>
-#include <knuth/nodecint/chain/output.h>
-#include <knuth/nodecint/chain/output_list.h>
-#include <knuth/nodecint/chain/output_point.h>
-#include <knuth/nodecint/chain/script.h>
-#include <knuth/nodecint/chain/transaction.h>
-#include <knuth/nodecint/executor_c.h>
-#include <knuth/nodecint/hash_list.h>
-#include <knuth/nodecint/helpers.hpp>
-#include <knuth/nodecint/wallet/payment_address.h>
-#include <knuth/nodecint/wallet/wallet.h>
-#include <knuth/nodecint/wallet/word_list.h>
+#include <kth/capi/chain/chain.h>
+#include <kth/capi/chain/history_compact.h>
+#include <kth/capi/chain/history_compact_list.h>
+#include <kth/capi/chain/input.h>
+#include <kth/capi/chain/input_list.h>
+#include <kth/capi/chain/output.h>
+#include <kth/capi/chain/output_list.h>
+#include <kth/capi/chain/output_point.h>
+#include <kth/capi/chain/script.h>
+#include <kth/capi/chain/transaction.h>
+#include <kth/capi/executor_c.h>
+#include <kth/capi/hash_list.h>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/wallet/payment_address.h>
+#include <kth/capi/wallet/wallet.h>
+#include <kth/capi/wallet/word_list.h>
 
-#include <knuth/nodecint/keoken/get_assets_data.h>
-#include <knuth/nodecint/keoken/get_assets_list.h>
-#include <knuth/nodecint/keoken/manager.h>
-#include <knuth/nodecint/keoken/memory_state.h>
-#include <knuth/nodecint/keoken/state_delegated.h>
+#include <kth/capi/keoken/get_assets_data.h>
+#include <kth/capi/keoken/get_assets_list.h>
+#include <kth/capi/keoken/manager.h>
+#include <kth/capi/keoken/memory_state.h>
+#include <kth/capi/keoken/state_delegated.h>
 
 #include <kth/bitcoin/message/transaction.hpp>
 

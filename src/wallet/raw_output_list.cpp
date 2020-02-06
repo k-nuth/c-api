@@ -17,14 +17,14 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <knuth/nodecint/wallet/raw_output_list.h>
+#include <kth/capi/wallet/raw_output_list.h>
 
 #include <vector>
 
 #include <kth/bitcoin/wallet/transaction_functions.hpp>
 
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/list_creator.h>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/list_creator.h>
 
 KTH_LIST_DEFINE_CONVERTERS(wallet, raw_output_list_t, kth::wallet::raw_output, raw_output_list)
 KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(wallet, raw_output_list_t, kth::wallet::raw_output, raw_output_list)

@@ -3,10 +3,10 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/chain/transaction_list.h>
+#include <kth/capi/chain/transaction_list.h>
 
-#include <knuth/nodecint/chain/transaction.h>
-#include <knuth/nodecint/conversions.hpp>
+#include <kth/capi/chain/transaction.h>
+#include <kth/capi/conversions.hpp>
 
 
 KTH_LIST_DEFINE_CONVERTERS(chain, transaction_list_t, kth::message::transaction, transaction_list)

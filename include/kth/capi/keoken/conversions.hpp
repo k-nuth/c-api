@@ -8,7 +8,7 @@
 
 // #include <vector>
 
-#include <knuth/keoken/state_dto.hpp>
+#include <kth/keoken/state_dto.hpp>
 
 knuth::keoken::get_all_asset_addresses_data& keoken_get_all_asset_addresses_data_cpp(get_all_asset_addresses_data_t obj);
 knuth::keoken::get_all_asset_addresses_data const& keoken_get_all_asset_addresses_data_const_cpp(get_all_asset_addresses_data_t obj);

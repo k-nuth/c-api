@@ -5,9 +5,9 @@
 
 #include <kth/bitcoin/chain/point.hpp>
 
-#include <knuth/nodecint/chain/point_list.h>
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/list_creator.h>
+#include <kth/capi/chain/point_list.h>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/list_creator.h>
 
 KTH_LIST_DEFINE_CONVERTERS(chain, point_list_t, kth::chain::point, point_list)
 

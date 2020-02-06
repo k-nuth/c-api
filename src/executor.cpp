@@ -2,7 +2,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <knuth/nodecint/executor.hpp>
+#include <kth/capi/executor.hpp>
 
 #include <csignal>
 #include <functional>
@@ -17,7 +17,7 @@
 #include <kth/node.hpp>
 #include <kth/node/parser.hpp>
 
-#include <knuth/nodecint/version.h>
+#include <kth/capi/version.h>
 
 namespace kth { namespace nodecint {
 
@@ -95,7 +95,6 @@ bool executor::init_directory(error_code& ec) {
 
     return false;
 }
-
 
 // Emit to the log.
 bool executor::do_initchain() {

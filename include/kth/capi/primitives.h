@@ -8,8 +8,8 @@
 
 #include <stdint.h>
 
-#include <knuth/nodecint/error.h>
-#include <knuth/nodecint/visibility.h>
+#include <kth/capi/error.h>
+#include <kth/capi/visibility.h>
 
 #ifdef __cplusplus
 extern "C" {

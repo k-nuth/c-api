@@ -6,7 +6,7 @@
 #ifndef KTH_NODE_CINT_PLATFORM_H
 #define KTH_NODE_CINT_PLATFORM_H
 
-#include <knuth/nodecint/visibility.h>
+#include <kth/capi/visibility.h>
 
 #ifdef __cplusplus
 extern "C" {

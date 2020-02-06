@@ -3,10 +3,10 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/wallet/payment_address.h>
+#include <kth/capi/wallet/payment_address.h>
 
-#include <knuth/nodecint/helpers.hpp>
-#include <knuth/nodecint/type_conversions.h>
+#include <kth/capi/helpers.hpp>
+#include <kth/capi/type_conversions.h>
 
 #include <kth/bitcoin/multi_crypto_support.hpp>
 #include <kth/bitcoin/wallet/payment_address.hpp>

@@ -17,14 +17,14 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <knuth/nodecint/node/settings.h>
+#include <kth/capi/node/settings.h>
 
 #include <algorithm>
 #include <cstdlib>
 #include <string>
 
-#include <knuth/nodecint/executor_c.h>
-#include <knuth/nodecint/helpers.hpp>
+#include <kth/capi/executor_c.h>
+#include <kth/capi/helpers.hpp>
 
 #include <kth/bitcoin/multi_crypto_support.hpp>
 #include <kth/network/p2p.hpp>

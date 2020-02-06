@@ -13,38 +13,38 @@
 #ifndef KTH_NODECINT_NODECINT_H_
 #define KTH_NODECINT_NODECINT_H_
 
-#include <knuth/nodecint/primitives.h>
-#include <knuth/nodecint/visibility.h>
-#include <knuth/nodecint/version.h>
-#include <knuth/nodecint/executor_c.h>
+#include <kth/capi/primitives.h>
+#include <kth/capi/visibility.h>
+#include <kth/capi/version.h>
+#include <kth/capi/executor_c.h>
 
-#include <knuth/nodecint/binary.h>
+#include <kth/capi/binary.h>
 
-#include <knuth/nodecint/chain/block.h>
-#include <knuth/nodecint/chain/block_list.h>
-#include <knuth/nodecint/chain/chain.h>
-#include <knuth/nodecint/chain/compact_block.h>
-#include <knuth/nodecint/chain/header.h>
-#include <knuth/nodecint/chain/history_compact.h>
-#include <knuth/nodecint/chain/history_compact_list.h>
-#include <knuth/nodecint/chain/stealth_compact.h>
-#include <knuth/nodecint/chain/stealth_compact_list.h>
-#include <knuth/nodecint/chain/input.h>
-#include <knuth/nodecint/chain/input_list.h>
-#include <knuth/nodecint/chain/merkle_block.h>
-#include <knuth/nodecint/chain/output.h>
-#include <knuth/nodecint/chain/output_list.h>
-#include <knuth/nodecint/chain/output_point.h>
-#include <knuth/nodecint/wallet/payment_address.h>
-#include <knuth/nodecint/chain/point.h>
-#include <knuth/nodecint/chain/point_list.h>
-#include <knuth/nodecint/chain/script.h>
-#include <knuth/nodecint/chain/transaction.h>
-#include <knuth/nodecint/chain/transaction_list.h>
+#include <kth/capi/chain/block.h>
+#include <kth/capi/chain/block_list.h>
+#include <kth/capi/chain/chain.h>
+#include <kth/capi/chain/compact_block.h>
+#include <kth/capi/chain/header.h>
+#include <kth/capi/chain/history_compact.h>
+#include <kth/capi/chain/history_compact_list.h>
+#include <kth/capi/chain/stealth_compact.h>
+#include <kth/capi/chain/stealth_compact_list.h>
+#include <kth/capi/chain/input.h>
+#include <kth/capi/chain/input_list.h>
+#include <kth/capi/chain/merkle_block.h>
+#include <kth/capi/chain/output.h>
+#include <kth/capi/chain/output_list.h>
+#include <kth/capi/chain/output_point.h>
+#include <kth/capi/wallet/payment_address.h>
+#include <kth/capi/chain/point.h>
+#include <kth/capi/chain/point_list.h>
+#include <kth/capi/chain/script.h>
+#include <kth/capi/chain/transaction.h>
+#include <kth/capi/chain/transaction_list.h>
 
-#include <knuth/nodecint/p2p/p2p.h>
+#include <kth/capi/p2p/p2p.h>
 
-#include <knuth/nodecint/wallet/wallet.h>
-#include <knuth/nodecint/wallet/word_list.h>
+#include <kth/capi/wallet/wallet.h>
+#include <kth/capi/wallet/word_list.h>
 
 #endif /* KTH_NODECINT_NODECINT_H_ */

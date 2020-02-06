@@ -3,12 +3,12 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/chain/block.h>
+#include <kth/capi/chain/block.h>
 
 #include <kth/bitcoin/message/get_blocks.hpp>
 
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/helpers.hpp>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
 
 KTH_CONV_DEFINE(chain, get_blocks_t, kth::message::get_blocks, get_blocks)
 

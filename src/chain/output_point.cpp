@@ -3,10 +3,10 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/chain/output_point.h>
+#include <kth/capi/chain/output_point.h>
 
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/helpers.hpp>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
 
 KTH_CONV_DEFINE(chain, output_point_t, kth::chain::output_point, output_point)
 

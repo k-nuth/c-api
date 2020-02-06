@@ -3,11 +3,11 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/chain/input_list.h>
+#include <kth/capi/chain/input_list.h>
 
 #include <kth/bitcoin/chain/input.hpp>
-#include <knuth/nodecint/chain/input.h>
-#include <knuth/nodecint/conversions.hpp>
+#include <kth/capi/chain/input.h>
+#include <kth/capi/conversions.hpp>
 
 
 KTH_LIST_DEFINE_CONVERTERS(chain, input_list_t, kth::chain::input, input_list)

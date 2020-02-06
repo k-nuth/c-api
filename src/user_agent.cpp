@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <kth/network/user_agent.hpp>
-#include <knuth/nodecint/version.h>
+#include <kth/capi/version.h>
 
 namespace kth {
 namespace network {

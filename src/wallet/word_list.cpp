@@ -3,13 +3,13 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/wallet/word_list.h>
+#include <kth/capi/wallet/word_list.h>
 
 // #include <iostream>
 #include <string>
 #include <vector>
 
-#include <knuth/nodecint/list_creator.h>
+#include <kth/capi/list_creator.h>
 
 KTH_LIST_DEFINE_CONVERTERS(wallet, word_list_t, std::string, word_list)
 

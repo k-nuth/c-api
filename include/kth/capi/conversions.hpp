@@ -8,9 +8,9 @@
 
 #include <vector>
 
-#include <knuth/nodecint/list_creator.h>
-#include <knuth/nodecint/primitives.h>
-#include <knuth/nodecint/type_conversions.h>
+#include <kth/capi/list_creator.h>
+#include <kth/capi/primitives.h>
+#include <kth/capi/type_conversions.h>
 
 #include <kth/bitcoin/chain/input.hpp>
 #include <kth/bitcoin/chain/output.hpp>

@@ -3,10 +3,10 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/chain/block.h>
+#include <kth/capi/chain/block.h>
 
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/helpers.hpp>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
 
 #include <kth/bitcoin/message/transaction.hpp>
 

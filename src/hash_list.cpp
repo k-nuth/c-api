@@ -3,10 +3,10 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/hash_list.h>
+#include <kth/capi/hash_list.h>
 
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/helpers.hpp>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
 
 KTH_LIST_DEFINE_CONVERTERS(core, hash_list_t, kth::hash_digest, hash_list)
 KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(core, hash_list_t, kth::hash_digest, hash_list)

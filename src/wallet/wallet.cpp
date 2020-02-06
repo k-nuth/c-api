@@ -4,9 +4,9 @@
 
 
 
-#include <knuth/nodecint/wallet/wallet.h>
+#include <kth/capi/wallet/wallet.h>
 
-#include <knuth/nodecint/primitives.h>
+#include <kth/capi/primitives.h>
 
 #ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/math/elliptic_curve.hpp>
@@ -21,7 +21,7 @@
 #endif // KTH_USE_DOMAIN
 
 #include <kth/bitcoin/wallet/payment_address.hpp>
-#include <knuth/nodecint/helpers.hpp>
+#include <kth/capi/helpers.hpp>
 
 
 kth::ec_secret new_key(kth::data_chunk const& seed) {

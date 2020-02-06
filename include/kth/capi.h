@@ -13,6 +13,6 @@
 #ifndef KTH_NODECINT_H_
 #define KTH_NODECINT_H_
 
-#include <knuth/nodecint/nodecint.h>
+#include <kth/capi/nodecint.h>
 
 #endif /* KTH_NODECINT_H_ */

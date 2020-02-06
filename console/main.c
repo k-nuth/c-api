@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 
-#include <knuth/nodecint/executor_c.h>
+#include <kth/capi/executor_c.h>
 
 
 #include <iostream>

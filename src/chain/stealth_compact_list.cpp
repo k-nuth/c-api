@@ -5,9 +5,9 @@
 
 #include <kth/bitcoin/chain/stealth.hpp>
 
-#include <knuth/nodecint/chain/stealth_compact_list.h>
-#include <knuth/nodecint/conversions.hpp>
-#include <knuth/nodecint/list_creator.h>
+#include <kth/capi/chain/stealth_compact_list.h>
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/list_creator.h>
 
 
 KTH_LIST_DEFINE_CONVERTERS(chain, stealth_compact_list_t, kth::chain::stealth_compact, stealth_compact_list)

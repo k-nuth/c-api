@@ -3,12 +3,12 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/chain/history_compact_list.h>
+#include <kth/capi/chain/history_compact_list.h>
 
 #include <kth/bitcoin/chain/history.hpp>
 #include <kth/bitcoin/chain/output_point.hpp>
 
-#include <knuth/nodecint/conversions.hpp>
+#include <kth/capi/conversions.hpp>
 
 KTH_LIST_DEFINE_CONVERTERS(chain, history_compact_list_t, kth::chain::history_compact, history_compact_list)
 

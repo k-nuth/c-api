@@ -3,10 +3,10 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <knuth/nodecint/chain/block_list.h>
+#include <kth/capi/chain/block_list.h>
 
-#include <knuth/nodecint/chain/block.h>
-#include <knuth/nodecint/conversions.hpp>
+#include <kth/capi/chain/block.h>
+#include <kth/capi/conversions.hpp>
 
 
 KTH_LIST_DEFINE_CONVERTERS(chain, block_list_t, kth::message::block, block_list)

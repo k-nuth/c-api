@@ -8,8 +8,8 @@
 
 #include <stdint.h>
 
-#include <knuth/nodecint/error.h>
-#include <knuth/nodecint/visibility.h>
+#include <kth/capi/error.h>
+#include <kth/capi/visibility.h>
 
 #define KTH_CONV_DECLARE(api, type_c, type_cpp, obj_name)   \
 type_cpp const& api##_##obj_name##_const_cpp(type_c);           \
