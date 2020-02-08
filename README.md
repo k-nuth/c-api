@@ -5,7 +5,7 @@
 *Knuth C-API* is a library written in the _C Programming Language_ which exposes an API that allows you to programmatically access all of the *Knuth* node features:
   * Wallet
   * Mining
-  * Full blockchain
+  * Fully indexed blockchain
   * Routing
 
 Knuth C-API supports the following cryptocurrencies:
@@ -123,7 +123,7 @@ executor_initchain(exec);
 ```
 
 Initialize the filesystem database where the Blockchain will be stored.  
-You need to have enough disk space to store the full Blockchain.
+You need to have enough disk space to store the blockchain.
 
 This is equivalent to executing: `bn -i -c my_config_file`.
 
