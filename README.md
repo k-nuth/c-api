@@ -46,7 +46,7 @@ conan install kth-c-api/0.X@kth/stable -o currency=LTC
 
 In case there are no pre-built binaries for your platform, it is necessary to build from source code. In such a scenario, the following requirements must be added to the previous ones:
 
-- C++11 Conforming Compiler.
+- C++17 conforming compiler.
 - [CMake](https://cmake.org/) building tool, version 3.8 or newer.
 
 ## How to use it
