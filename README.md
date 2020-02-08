@@ -32,12 +32,10 @@ conan remote add kth https://api.bintray.com/conan/k-nuth/kth
 2. Install the appropriate library
 
 ```
-# For Bitcoin Cash
+# For Bitcoin Cash (default)
 conan install kth-c-api/0.X@kth/stable -o currency=BCH 
-# ... or (BCH is the default crypto)
-conan install kth-c-api/0.X@kth/stable 
 
-# For Bitcoin Legacy
+# For Bitcoin Core
 conan install kth-c-api/0.X@kth/stable -o currency=BTC
 
 # For Litecoin
