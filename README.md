@@ -22,9 +22,7 @@ Knuth C-API supports the following cryptocurrencies:
 
 ## Installation Procedure
 
-The *Knuth* libraries can be installed on Linux, macOS, FreeBSD, Windows and others. These binaries are pre-built for the most usual operating system/compiler combinations and hosted in an online repository. If there are no pre-built binaries for your platform, a build from source will be attempted.
-
-So, for any platform, an installation can be performed in 2 simple steps:
+Library installation can be performed in 3 simple steps:
 
 1. Configure the Conan remote
 ```
@@ -51,7 +49,7 @@ conan install kth-c-api/0.X@kth/stable -o currency=LTC
 In case there are no pre-built binaries for your platform, it is necessary to build from source code. In such a scenario, the following requirements must be added to the previous ones:
 
 - C++11 Conforming Compiler.
-- [CMake](https://cmake.org/) building tool, version 3.4 or newer.
+- [CMake](https://cmake.org/) building tool, version 3.8 or newer.
 
 ## How to use it
 
