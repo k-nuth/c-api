@@ -1,4 +1,4 @@
-# Knuth C-API <a target="_blank" href="http://semver.org">![Version][badge.version]</a> <a target="_blank" href="https://travis-ci.org/k-nuth/c-api">![Travis status][badge.Travis]</a> [![Appveyor Status](https://ci.appveyor.com/api/projects/status/github/k-nuth/c-api?svg=true&branch=master)](https://ci.appveyor.com/projects/k-nuth/c-api) <a target="_blank" href="https://gitter.im/kth/Lobby">![Gitter Chat][badge.Gitter]</a>
+# C-API <a target="_blank" href="http://semver.org">![Version][badge.version]</a> <a target="_blank" href="https://travis-ci.org/k-nuth/c-api">![Travis status][badge.Travis]</a> [![Appveyor Status](https://ci.appveyor.com/api/projects/status/github/k-nuth/c-api?svg=true&branch=master)](https://ci.appveyor.com/projects/k-nuth/c-api) <a target="_blank" href="https://gitter.im/kth/Lobby">![Gitter Chat][badge.Gitter]</a>
 
 > Multi-Cryptocurrency _C Programming Language_ API.
 
@@ -8,7 +8,7 @@
   * Fully indexed blockchain
   * Routing
 
-Knuth C-API supports the following cryptocurrencies:
+C-API supports the following cryptocurrencies:
   * [Bitcoin Cash](https://www.bitcoincash.org/)
   * [Bitcoin](https://bitcoin.org/)
   * [Litecoin](https://litecoin.org/)
@@ -104,7 +104,7 @@ Includes C standard library input/output features: `stdout`, `stderr` and `print
 #include <kth/capi.h>
 ```
 
-Needed to use the Knuth C-API features.
+Needed to use the C-API features.
 
 ```c
 executor_t exec = executor_construct("my_config_file", stdout, stderr);
