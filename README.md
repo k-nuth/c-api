@@ -22,7 +22,7 @@ C-API supports the following cryptocurrencies:
 
 ## Installation Procedure
 
-Library installation can be performed in 3 simple steps:
+Installing the library is as simple as:
 
 1. Configure the Conan remote
 ```
