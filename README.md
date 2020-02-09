@@ -18,7 +18,7 @@ C-API supports the following cryptocurrencies:
 ## Installation Requirements
 
 - 64-bit machine.
-- [Conan](https://www.conan.io/) package manager, version 1.1.0 or newer. See [Conan Installation](http://docs.conan.io/en/latest/installation.html#install-with-pip-recommended).
+- [Conan](https://www.conan.io/) package manager, version 1.1.0 or newer. See [$ conan installation](http://docs.conan.io/en/latest/installation.html#install-with-pip-recommended).
 
 ## Installation Procedure
 
@@ -33,13 +33,13 @@ conan remote add kth https://api.bintray.com/conan/k-nuth/kth
 
 ```
 # For Bitcoin Cash (default)
-conan install kth-c-api/0.X@kth/stable -o currency=BCH 
+$ conan install kth-c-api/0.X@kth/stable -o currency=BCH 
 
 # For Bitcoin Core
-conan install kth-c-api/0.X@kth/stable -o currency=BTC
+$ conan install kth-c-api/0.X@kth/stable -o currency=BTC
 
 # For Litecoin
-conan install kth-c-api/0.X@kth/stable -o currency=LTC
+$ conan install kth-c-api/0.X@kth/stable -o currency=LTC
 ```
 
 ## Building from source Requirements
@@ -168,7 +168,7 @@ printf "[requires]\nkth-c-api/0.X@kth/stable\n[options]\nkth-c-api:shared=True\n
 Then, run the following command to bring the dependencies to the local directory:
 
 ```sh
-conan install .
+$ conan install .
 ```
 
 Now, you can build our code example:
@@ -192,7 +192,7 @@ Specifically, you can choose your computer _microarchitecture_ to download a pre
 
 ```
 # For Haswell microarchitecture and Bitcoin Cash currency
-conan install kth-c-api/0.X@kth/stable -o currency=BCH -o microarchitecture=haswell 
+$ conan install kth-c-api/0.X@kth/stable -o currency=BCH -o microarchitecture=haswell 
 ```
 So, you can manually choose the appropriate microarchitecture, some examples are: _x86_64_, _haswell_, _ivybridge_, _sandybridge_, _bulldozer_, ...  
 By default, if you do not specify any, the building system will select a base microarchitecture corresponding to your _Instruction Set Architecture_ (ISA). For example, for _Intel 80x86_, the x86_64 microarchitecture will be selected.
@@ -203,7 +203,7 @@ Our build system has the ability to automatically detect the microarchitecture o
 
 ```
 pip install cpuid
-conan install kth-c-api/0.X@kth/stable 
+$ conan install kth-c-api/0.X@kth/stable 
 ```
 
 
