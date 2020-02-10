@@ -337,9 +337,9 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //    // auto ec_priv = wallet_hd_private_to_ec(hd_priv);
 //
 //
-//    // pubk = bn.wallet_ec_to_public(ec_priv, 1)
-//    // addr = bn.wallet_ec_to_address(pubk, 0)
-//    // addr_str = bn.payment_address_encoded(addr)
+//    // pubk = kth.wallet_ec_to_public(ec_priv, 1)
+//    // addr = kth.wallet_ec_to_address(pubk, 0)
+//    // addr_str = kth.payment_address_encoded(addr)
 //
 //    // // seed_hex = seed[::-1].encode('hex')
 //    // seed_hex = seed.encode('hex')

@@ -104,7 +104,7 @@ private:
 #define BN_INFORMATION_MESSAGE \
     "Runs a full bitcoin node with additional client-server query protocol."
 #define BN_UNINITIALIZED_CHAIN \
-    "The %1% directory is not initialized, run: bn --initchain"
+    "The %1% directory is not initialized, run: kth --initchain"
 #define BN_INITIALIZING_CHAIN \
     "Please wait while initializing %1% directory..."
 #define BN_INITCHAIN_NEW \
