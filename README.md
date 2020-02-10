@@ -165,7 +165,7 @@ $ gcc -Llib -o hello_knuth hello_knuth.o -lkth-c-api
 $ ./hello_knuth
 ```
 
-For more more detailed instructions, please refer to our [documentation](https://k-nuth.github.io/docs/).
+For more more detailed instructions, please refer to our [documentation](https://kth.cash/docs/).
 
 ## About this library
 
