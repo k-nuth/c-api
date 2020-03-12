@@ -19,7 +19,6 @@ self = 0.0.0.0:0
 seed = testnet-seed.bitcoinabc.org:18333
 seed = testnet-seed-abc.bitcoinforks.org:18333
 seed = testnet-seed.bitcoinunlimited.info:18333
-seed = testnet-seed.bitprim.org:18333
 seed = testnet-seed.deadalnix.me:18333
 seed = testnet-seeder.criptolayer.net:18333
 

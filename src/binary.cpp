@@ -5,11 +5,7 @@
 
 #include <kth/capi/binary.h>
 
-#ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/utility/binary.hpp>
-#else
-#include <kth/domain/utility/binary.hpp>
-#endif // KTH_USE_DOMAIN
 
 #include <kth/capi/helpers.hpp>
 #include <kth/capi/type_conversions.h>

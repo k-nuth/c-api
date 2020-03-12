@@ -34,20 +34,26 @@ executor_t executor_construct_handles(char const* path, void* sout, void* serr);
 KTH_EXPORT
 void executor_destruct(executor_t exec);
 
+#if ! defined(KTH_DB_READONLY)
 KTH_EXPORT
 int executor_initchain(executor_t exec);
+#endif // ! defined(KTH_DB_READONLY)
 
 KTH_EXPORT
 void executor_run(executor_t exec, void* ctx, run_handler_t handler);
 
+#if ! defined(KTH_DB_READONLY)
 KTH_EXPORT
 void executor_init_and_run(executor_t exec, void* ctx, run_handler_t handler);
+#endif // ! defined(KTH_DB_READONLY)
 
 KTH_EXPORT
 int executor_run_wait(executor_t exec);
 
+#if ! defined(KTH_DB_READONLY)
 KTH_EXPORT
 int executor_init_and_run_wait(executor_t exec);
+#endif // ! defined(KTH_DB_READONLY)
 
 KTH_EXPORT
 int executor_stop(executor_t exec);

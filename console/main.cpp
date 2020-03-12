@@ -30,13 +30,8 @@
 
 #include <kth/domain/message/transaction.hpp>
 
-#ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/utility/binary.hpp>
-#else
-#include <kth/domain/utility/binary.hpp>
-#endif // KTH_USE_DOMAIN
-
-#include <kth/domain/wallet/hd_private.hpp>
+#include <kth/infrastructure/wallet/hd_private.hpp>
 
 
  void wait_until_block(chain_t chain, size_t desired_height) {

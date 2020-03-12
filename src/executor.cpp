@@ -70,6 +70,7 @@ executor::executor(kth::node::configuration const& config, std::ostream& output,
     kth::log::initialize(debug_file, error_file, console_out, console_err, verbose);
 }
 
+#if ! defined(KTH_DB_READONLY)
 bool executor::init_directory(error_code& ec) {
     
     auto const& directory = config_.database.directory;
@@ -113,6 +114,7 @@ bool executor::do_initchain() {
     LOG_ERROR(LOG_NODE) << format(BN_INITCHAIN_NEW) % directory % ec.message();
     return false;
 }
+#endif // ! defined(KTH_DB_READONLY)
 
 // Run.
 // ----------------------------------------------------------------------------
@@ -170,6 +172,7 @@ bool executor::run(kth::handle0 handler) {
     return true;
 }
 
+#if ! defined(KTH_DB_READONLY)
 bool executor::init_and_run(kth::handle0 handler) {
     
     run_handler_ = std::move(handler);
@@ -204,6 +207,7 @@ bool executor::init_and_run(kth::handle0 handler) {
 
     return true;
 }
+#endif // ! defined(KTH_DB_READONLY)
 
 // bool executor::run_wait(kth::handle0 handler) {
 

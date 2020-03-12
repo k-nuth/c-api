@@ -8,17 +8,10 @@
 
 #include <kth/capi/primitives.h>
 
-#ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/math/elliptic_curve.hpp>
 #include <kth/domain/wallet/ec_public.hpp>
 #include <kth/infrastructure/wallet/hd_private.hpp>
 #include <kth/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
-#else
-#include <kth/domain/math/elliptic_curve.hpp>
-#include <kth/domain/wallet/ec_public.hpp>
-#include <kth/domain/wallet/hd_private.hpp>
-#include <kth/domain/wallet/mnemonic.hpp>
-#endif // KTH_USE_DOMAIN
 
 #include <kth/domain/wallet/payment_address.hpp>
 #include <kth/capi/helpers.hpp>
@@ -140,11 +133,7 @@ hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 7606
 
 
     // We require the private version, but public is unused here.
-#ifdef KTH_USE_DOMAIN
     auto const prefixes = kth::wallet::to_prefixes(version, 0);
-#else
-    auto const prefixes = kth::wallet::hd_private::to_prefixes(version, 0);
-#endif
     // printf("C++ wallet_hd_new - 4\n");
 
     // kth::wallet::hd_private const private_key(seed_cpp, prefixes);

@@ -6,11 +6,7 @@
 #ifndef KTH_CAPI_EXECUTOR_HPP_
 #define KTH_CAPI_EXECUTOR_HPP_
 
-#ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/handlers.hpp>
-#else
-#include <kth/domain/handlers.hpp>
-#endif // KTH_USE_DOMAIN
 
 #include <kth/node.hpp>
 #include <future>
@@ -40,13 +36,17 @@ public:
 
 //    bool menu();
 
+#if ! defined(KTH_DB_READONLY)
     bool do_initchain();
+#endif // ! defined(KTH_DB_READONLY)    
 
     bool run(kth::handle0 handler);
     //bool run_wait(kth::handle0 handler);
 
+#if ! defined(KTH_DB_READONLY)
     bool init_and_run(kth::handle0 handler);
-   
+#endif // ! defined(KTH_DB_READONLY)   
+
     //static void stop(kth::code const& ec);
     //static void stop();
     bool stop();
@@ -76,9 +76,10 @@ private:
     void do_version();
     void initialize_output();
 
+#if ! defined(KTH_DB_READONLY)
     bool init_directory(boost::system::error_code& ec);
+#endif // ! defined(KTH_DB_READONLY)
 
-//    bool do_initchain();
     bool verify_directory();
 
     // Termination state.

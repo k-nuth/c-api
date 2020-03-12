@@ -12,12 +12,7 @@
 #include <type_traits>
 #include <utility>
 
-#ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/math/hash.hpp>
-#else
-#include <kth/domain/math/hash.hpp>
-#endif // KTH_USE_DOMAIN
-
 
 namespace kth {
 namespace detail {

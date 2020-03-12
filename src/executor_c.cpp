@@ -15,11 +15,7 @@
 #include <kth/capi/helpers.hpp>
 #include <kth/capi/version.h>
 
-#ifdef KTH_USE_DOMAIN
 #include <kth/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
-#else
-#include <kth/domain/wallet/mnemonic.hpp>  //Warning, put it after boost headers
-#endif // KTH_USE_DOMAIN
 
 kth::node::configuration make_config(char const* path) {
     kth::node::configuration config(kth::config::settings::mainnet);
@@ -146,6 +142,7 @@ void executor_destruct(executor_t exec) {
     delete exec;
 }
 
+#if ! defined(KTH_DB_READONLY)
 int executor_initchain(executor_t exec) {
     // TODO(fernando): return error_t to inform error in detail
     try {
@@ -156,6 +153,7 @@ int executor_initchain(executor_t exec) {
         return 0;
     }
 }
+#endif // ! defined(KTH_DB_READONLY)
 
 void executor_run(executor_t exec, void* ctx, run_handler_t handler) {
     try {
@@ -169,6 +167,7 @@ void executor_run(executor_t exec, void* ctx, run_handler_t handler) {
     }
 }
 
+#if ! defined(KTH_DB_READONLY)
 void executor_init_and_run(executor_t exec, void* ctx, run_handler_t handler) {
     
     try {
@@ -182,6 +181,7 @@ void executor_init_and_run(executor_t exec, void* ctx, run_handler_t handler) {
     }
 
 }
+#endif // ! defined(KTH_DB_READONLY)
 
 int executor_run_wait(executor_t exec) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
@@ -206,7 +206,7 @@ int executor_run_wait(executor_t exec) {
     return 1; // TODO(fernando): return error_t to inform errors in detail
 }
 
-
+#if ! defined(KTH_DB_READONLY)
 int executor_init_and_run_wait(executor_t exec) {
     
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
@@ -229,8 +229,8 @@ int executor_init_and_run_wait(executor_t exec) {
     }
 
     return 1; // TODO(fernando): return error_t to inform errors in detail
-     
 }
+#endif // ! defined(KTH_DB_READONLY)
 
 
 //void executor_stop(executor_t exec) {
