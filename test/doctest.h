@@ -4369,7 +4369,7 @@ namespace detail
     };
 #else // DOCTEST_CONFIG_POSIX_SIGNALS || DOCTEST_CONFIG_WINDOWS_SEH
 
-    void reportFatal(const std::string& message) {
+    void reportFatal(std::string const& message) {
         DOCTEST_LOG_START();
 
         contextState->numAssertions += contextState->numAssertionsForCurrentTestcase;
