@@ -2,7 +2,6 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 cmake_minimum_required(VERSION 3.8)
 
 # kth-c-api
@@ -49,6 +48,13 @@ option(WITH_TESTS "Compile with unit tests." ON)
 option(WITH_CONSOLE "Compile console application." ON)
 option(WITH_CONSOLE_CAPI "Compile console application." ON)
 
+
+# Implement --binlog.
+#------------------------------------------------------------------------------
+option(BINLOG "Uses BinLog logging library." OFF)
+if (BINLOG)
+  add_definitions(-DKTH_USE_BINLOG)
+endif()
 
 
 set(KTH_PROJECT_VERSION "-" CACHE STRING "Specify the Knuth Project Version.")
