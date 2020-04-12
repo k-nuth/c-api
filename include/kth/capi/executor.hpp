@@ -100,67 +100,42 @@ private:
 };
 
 // Localizable messages.
-#define BN_SETTINGS_MESSAGE \
-    "These are the configuration settings that can be set."
-#define BN_INFORMATION_MESSAGE \
-    "Runs a full bitcoin node with additional client-server query protocol."
-#define BN_UNINITIALIZED_CHAIN \
-    "The %1% directory is not initialized, run: kth --initchain"
-#define BN_INITIALIZING_CHAIN \
-    "Please wait while initializing %1% directory..."
-#define BN_INITCHAIN_NEW \
-    "Failed to create directory %1% with error, '%2%'."
-#define BN_INITCHAIN_EXISTS \
-    "Failed because the directory %1% already exists."
-#define BN_INITCHAIN_TRY \
-    "Failed to test directory %1% with error, '%2%'."
-#define BN_INITCHAIN_COMPLETE \
-    "Completed initialization."
-#define BN_INITCHAIN_FAILED \
-    "Error creating database files."
+#define BN_SETTINGS_MESSAGE "These are the configuration settings that can be set."
+#define BN_INFORMATION_MESSAGE "Runs a full bitcoin node with additional client-server query protocol."
+#define BN_UNINITIALIZED_CHAIN "The {} directory is not initialized, run: kth --initchain"
+#define BN_INITIALIZING_CHAIN "Please wait while initializing {} directory..."
+#define BN_INITCHAIN_NEW "Failed to create directory {} with error, '{}'."
+#define BN_INITCHAIN_EXISTS "Failed because the directory {} already exists."
+#define BN_INITCHAIN_TRY "Failed to test directory {} with error, '{}'."
+#define BN_INITCHAIN_COMPLETE "Completed initialization."
+#define BN_INITCHAIN_FAILED "Error creating database files."
 
-#define BN_NODE_INTERRUPT \
-    "Press CTRL-C to stop the node."
-#define BN_NODE_STARTING \
-    "Please wait while the node is starting..."
-#define BN_NODE_START_FAIL \
-    "Node failed to start with error, %1%."
-#define BN_NODE_SEEDED \
-    "Seeding is complete."
-#define BN_NODE_STARTED \
-    "Node is started."
+#define BN_NODE_INTERRUPT "Press CTRL-C to stop the node."
+#define BN_NODE_STARTING "Please wait while the node is starting..."
+#define BN_NODE_START_FAIL "Node failed to start with error, {}."
+#define BN_NODE_SEEDED "Seeding is complete."
+#define BN_NODE_STARTED "Node is started."
 
-#define BN_NODE_SIGNALED \
-    "Stop signal detected (code: %1%)."
-#define BN_NODE_STOPPING \
-    "Please wait while the node is stopping..."
-#define BN_NODE_STOP_FAIL \
-    "Node failed to stop properly, see log."
-#define BN_NODE_STOPPED \
-    "Node stopped successfully."
+#define BN_NODE_SIGNALED "Stop signal detected (code: {})."
+#define BN_NODE_STOPPING "Please wait while the node is stopping..."
+#define BN_NODE_STOP_FAIL "Node failed to stop properly, see log."
+#define BN_NODE_STOPPED "Node stopped successfully."
 
-#define BN_USING_CONFIG_FILE \
-    "Using config file: %1%"
-#define BN_USING_DEFAULT_CONFIG \
-    "Using default configuration settings."
+#define BN_USING_CONFIG_FILE "Using config file: {}"
+#define BN_USING_DEFAULT_CONFIG "Using default configuration settings."
 
-#define BN_VERSION_MESSAGE_INIT "Node version: %1%"
+#define BN_VERSION_MESSAGE_INIT "Node version: {}"
 
 #define BN_KEOKEN_MESSAGE_INIT "Keoken protocol enabled"
 
-#define BN_CRYPTOCURRENCY_INIT "Currency: %1% - %2%"
-
-#define BN_MICROARCHITECTURE_INIT "Compiled for microarchitecture: %1%"
-
-#define BN_DB_TYPE_INIT "Database type: %1%"
-
-#define BN_NETWORK_INIT "Network: %1% (%2%)"
-
-#define BN_CORES_INIT "Configured to use %1% cores"
+#define BN_CRYPTOCURRENCY_INIT "Currency: {} - {}"
+#define BN_MICROARCHITECTURE_INIT "Compiled for microarchitecture: {}"
+#define BN_DB_TYPE_INIT "Database type: {}"
+#define BN_NETWORK_INIT "Network: {} ({})"
+#define BN_CORES_INIT "Configured to use {} cores"
 
 
-#define BN_LOG_HEADER \
-    "================= startup %1% =================="
+// #define BN_LOG_HEADER "================= startup {} =================="
 
 #if defined(KTH_DB_NEW_FULL)
 #define BN_DB_TYPE "full, new version"

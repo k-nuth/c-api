@@ -19,9 +19,8 @@
 
 #include <kth/capi/version.h>
 
-namespace kth { namespace capi {
+namespace kth::capi {
 
-using boost::format;
 using boost::null_deleter;
 using boost::system::error_code;
 // using bc::chain::block;
@@ -76,7 +75,7 @@ bool executor::init_directory(error_code& ec) {
     auto const& directory = config_.database.directory;
   
     if (create_directories(directory, ec)) {
-        LOG_INFO(LOG_NODE, format(BN_INITIALIZING_CHAIN) % directory);
+        LOG_INFO(LOG_NODE, fmt::format(BN_INITIALIZING_CHAIN, directory.string()));
 
         auto const genesis = kth::node::full_node::get_genesis_block(config_.chain);
         auto const& settings = config_.database;
@@ -107,11 +106,11 @@ bool executor::do_initchain() {
     auto const& directory = config_.database.directory;
 
     if (ec.value() == directory_exists) {
-        LOG_ERROR(LOG_NODE, format(BN_INITCHAIN_EXISTS) % directory);
+        LOG_ERROR(LOG_NODE, fmt::format(BN_INITCHAIN_EXISTS, directory.string()));
         return false;
     }
 
-    LOG_ERROR(LOG_NODE, format(BN_INITCHAIN_NEW) % directory % ec.message());
+    LOG_ERROR(LOG_NODE, fmt::format(BN_INITCHAIN_NEW, directory.string(), ec.message()));
     return false;
 }
 #endif // ! defined(KTH_DB_READONLY)
@@ -151,7 +150,7 @@ bool executor::run(kth::handle0 handler) {
     LOG_INFO(LOG_NODE, BN_NODE_INTERRUPT);
     LOG_INFO(LOG_NODE, BN_NODE_STARTING);
 
-    if (!verify_directory()) {
+    if ( ! verify_directory()) {
         return false;
     }
 
@@ -187,7 +186,7 @@ bool executor::init_and_run(kth::handle0 handler) {
         
         if ( ! init_directory(ec) ) {
             auto const& directory = config_.database.directory;
-            LOG_ERROR(LOG_NODE, format(BN_INITCHAIN_NEW) % directory % ec.message());
+            LOG_ERROR(LOG_NODE, fmt::format(BN_INITCHAIN_NEW, directory.string(), ec.message()));
             return false;
         }
     }
@@ -231,7 +230,7 @@ bool executor::init_and_run(kth::handle0 handler) {
 // Handle the completion of the start sequence and begin the run sequence.
 void executor::handle_started(kth::code const& ec) {
     if (ec) {
-        LOG_ERROR(LOG_NODE, format(BN_NODE_START_FAIL) % ec.message());
+        LOG_ERROR(LOG_NODE, fmt::format(BN_NODE_START_FAIL, ec.message()));
 //        stop(ec);
 
         if (run_handler_) {
@@ -252,7 +251,7 @@ void executor::handle_started(kth::code const& ec) {
 // This is the end of the run sequence.
 void executor::handle_running(kth::code const& ec) {
     if (ec) {
-        LOG_INFO(LOG_NODE, format(BN_NODE_START_FAIL) % ec.message());
+        LOG_INFO(LOG_NODE, fmt::format(BN_NODE_START_FAIL, ec.message()));
 //        stop(ec);
 
         if (run_handler_) {
@@ -291,7 +290,7 @@ void executor::handle_stopped(kth::code const&  /*ec*/) {
 //        return;
 //    }
 //
-//    LOG_INFO(LOG_NODE, format(BN_NODE_SIGNALED) % code);
+//    LOG_INFO(LOG_NODE, fmt::format(BN_NODE_SIGNALED, code));
 //    //stop(kth::error::success);
 //    stop();
 //    node_
@@ -323,37 +322,37 @@ bool executor::stopped() const {
 
 // Set up logging.
 void executor::initialize_output() {
-    auto const header = format(BN_LOG_HEADER) % kth::local_time();
+    // auto const header = fmt::format(BN_LOG_HEADER, kth::local_time());
 
-    LOG_DEBUG(LOG_NODE, header);
-    LOG_INFO(LOG_NODE, header);
-    LOG_WARNING(LOG_NODE, header);
-    LOG_ERROR(LOG_NODE, header);
-    LOG_FATAL(LOG_NODE, header);
+    // LOG_DEBUG(LOG_NODE, header);
+    // LOG_INFO(LOG_NODE, header);
+    // LOG_WARNING(LOG_NODE, header);
+    // LOG_ERROR(LOG_NODE, header);
+    // LOG_FATAL(LOG_NODE, header);
 
     auto const& file = config_.file;
 
     if (file.empty()) {
         LOG_INFO(LOG_NODE, BN_USING_DEFAULT_CONFIG);
     } else {
-        LOG_INFO(LOG_NODE, format(BN_USING_CONFIG_FILE) % file);
+        LOG_INFO(LOG_NODE, fmt::format(BN_USING_CONFIG_FILE, file.string()));
     }
 
-    LOG_INFO(LOG_NODE, format(BN_VERSION_MESSAGE_INIT) % KTH_CAPI_VERSION);
-    LOG_INFO(LOG_NODE, format(BN_CRYPTOCURRENCY_INIT) % KTH_CURRENCY_SYMBOL_STR % KTH_CURRENCY_STR);
+    LOG_INFO(LOG_NODE, fmt::format(BN_VERSION_MESSAGE_INIT, KTH_CAPI_VERSION));
+    LOG_INFO(LOG_NODE, fmt::format(BN_CRYPTOCURRENCY_INIT, KTH_CURRENCY_SYMBOL_STR, KTH_CURRENCY_STR));
 #ifdef KTH_WITH_KEOKEN
-    LOG_INFO(LOG_NODE, format(BN_KEOKEN_MESSAGE_INIT));
+    LOG_INFO(LOG_NODE, fmt::format(BN_KEOKEN_MESSAGE_INIT)));
 #endif
 
-    LOG_INFO(LOG_NODE, format(BN_MICROARCHITECTURE_INIT) % KTH_MICROARCHITECTURE_STR);
+    LOG_INFO(LOG_NODE, fmt::format(BN_MICROARCHITECTURE_INIT, KTH_MICROARCHITECTURE_STR));
 
-    LOG_INFO(LOG_NODE, format(BN_DB_TYPE_INIT) % BN_DB_TYPE);
+    LOG_INFO(LOG_NODE, fmt::format(BN_DB_TYPE_INIT, BN_DB_TYPE));
 
-    LOG_INFO(LOG_NODE, format(BN_NETWORK_INIT) % 
-            (kth::get_network(config_.network.identifier) == kth::config::settings::testnet ? "Testnet" : "Mainnet") %
-            config_.network.identifier);
+    LOG_INFO(LOG_NODE, fmt::format(BN_NETWORK_INIT, 
+            (kth::get_network(config_.network.identifier) == kth::config::settings::testnet ? "Testnet" : "Mainnet"),
+            config_.network.identifier));
   
-    LOG_INFO(LOG_NODE, format(BN_CORES_INIT) % kth::thread_ceiling(config_.chain.cores));
+    LOG_INFO(LOG_NODE, fmt::format(BN_CORES_INIT, kth::thread_ceiling(config_.chain.cores)));
 }
 
 // Use missing directory as a sentinel indicating lack of initialization.
@@ -366,14 +365,13 @@ bool executor::verify_directory() {
     }
 
     if (ec.value() == directory_not_found) {
-        LOG_ERROR(LOG_NODE, format(BN_UNINITIALIZED_CHAIN) % directory);
+        LOG_ERROR(LOG_NODE, fmt::format(BN_UNINITIALIZED_CHAIN, directory.string()));
         return false;
     }
 
     auto const message = ec.message();
-    LOG_ERROR(LOG_NODE, format(BN_INITCHAIN_TRY) % directory % message);
+    LOG_ERROR(LOG_NODE, fmt::format(BN_INITCHAIN_TRY, directory.string(), message));
     return false;
 }
 
-} // namespace capi
-} // namespace kth
+} // namespace kth::capi
