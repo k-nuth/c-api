@@ -660,7 +660,7 @@ error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_hei
 #endif // defined(KTH_DB_STEALTH)
 
 // ------------------------------------------------------------------
-//virtual void fetch_block_locator(const chain::block::indexes& heights, block_locator_fetch_handler handler) const = 0;
+//virtual void fetch_block_locator(chain::block::indexes const& heights, block_locator_fetch_handler handler) const = 0;
 
 //void chain_fetch_block_locator(chain_t chain, void* ctx, block_indexes_t heights, block_locator_fetch_handler_t handler) {
 //    auto const& heights_cpp = chain_block_indexes_const_cpp(heights);
