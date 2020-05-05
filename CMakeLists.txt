@@ -49,12 +49,27 @@ option(WITH_CONSOLE "Compile console application." ON)
 option(WITH_CONSOLE_CAPI "Compile console application." ON)
 
 
-# Implement --binlog.
-#------------------------------------------------------------------------------
-option(BINLOG "Uses BinLog logging library." OFF)
-if (BINLOG)
-  add_definitions(-DKTH_USE_BINLOG)
+# # Implement --binlog.
+# #------------------------------------------------------------------------------
+# option(BINLOG "Uses BinLog logging library." OFF)
+# if (BINLOG)
+#   add_definitions(-DKTH_USE_BINLOG)
+# endif()
+
+set(LOG_LIBRARY "boost" CACHE STRING "Setting for the logging library (boost|spdlog|binlog).")
+
+if (${LOG_LIBRARY} STREQUAL "boost")
+  add_definitions(-DKTH_LOG_LIBRARY_BOOST)
+elseif (${LOG_LIBRARY} STREQUAL "spdlog")
+  add_definitions(-DKTH_LOG_LIBRARY_SPDLOG)
+elseif (${LOG_LIBRARY} STREQUAL "binlog")
+  add_definitions(-DKTH_LOG_LIBRARY_BINLOG)
+else()
+  message(FATAL_ERROR "Invalid Logging Library: ${LOG_LIBRARY}")
 endif()
+
+message(STATUS "Knuth: Logging Library: ${LOG_LIBRARY}")
+
 
 # Implement --use_libmdbx.
 #------------------------------------------------------------------------------
