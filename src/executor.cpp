@@ -22,7 +22,7 @@
 namespace kth::capi {
 
 using boost::null_deleter;
-using boost::system::error_code;
+using std::error_code;
 // using bc::chain::block;
 using bc::database::data_base;
 using std::placeholders::_1;

@@ -92,7 +92,6 @@ class KnuthCAPIConan(KnuthConanFile):
 
     def requirements(self):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
-            self.requires("boost/1.73.0@kth/stable")
             self.requires("node/0.X@%s/%s" % (self.user, self.channel))
 
     def config_options(self):
