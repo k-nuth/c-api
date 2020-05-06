@@ -19,7 +19,7 @@
 
 kth::node::configuration make_config(char const* path) {
     kth::node::configuration config(kth::config::settings::mainnet);
-    config.file = boost::filesystem::path(path);
+    config.file = std::filesystem::path(path);
     return config;
 }
 

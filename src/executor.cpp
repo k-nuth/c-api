@@ -22,7 +22,7 @@
 namespace kth::capi {
 
 using boost::null_deleter;
-using boost::system::error_code;
+using std::error_code;
 // using bc::chain::block;
 using bc::database::data_base;
 using std::placeholders::_1;
@@ -45,6 +45,8 @@ executor::executor(kth::node::configuration const& config, std::ostream& output,
     auto const& network = config_.network;
     auto const verbose = network.verbose;
 
+//TODO(fernando): implement this for spdlog and binlog
+#if defined(KTH_LOG_LIBRARY_BOOST)
     kth::log::rotable_file const debug_file {
                     network.debug_file,
                     network.archive_directory,
@@ -67,6 +69,7 @@ executor::executor(kth::node::configuration const& config, std::ostream& output,
     kth::log::stream console_err(&error_, null_deleter());
 
     kth::log::initialize(debug_file, error_file, console_out, console_err, verbose);
+#endif
 }
 
 #if ! defined(KTH_DB_READONLY)
@@ -162,8 +165,11 @@ bool executor::run(kth::handle0 handler) {
     keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_kth(), config_.node.keoken_genesis_height));    //NOLINT
 #endif
 
+//TODO(fernando): implement this for spdlog and binlog
+#if defined(KTH_LOG_LIBRARY_BOOST)
     // Initialize broadcast to statistics server if configured.
     kth::log::initialize_statsd(node_->thread_pool(), config_.network.statistics_server);
+#endif
 
     // The callback may be returned on the same thread.
     node_->start(std::bind(&executor::handle_started, this, _1));
@@ -198,8 +204,11 @@ bool executor::init_and_run(kth::handle0 handler) {
         keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_kth(), config_.node.keoken_genesis_height));    //NOLINT
     #endif
 
+//TODO(fernando): implement this for spdlog and binlog
+#if defined(KTH_LOG_LIBRARY_BOOST)
     // Initialize broadcast to statistics server if configured.
     kth::log::initialize_statsd(node_->thread_pool(), config_.network.statistics_server);
+#endif
 
     // The callback may be returned on the same thread.
     node_->start(std::bind(&executor::handle_started, this, _1));

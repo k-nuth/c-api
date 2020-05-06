@@ -77,7 +77,7 @@ private:
     void initialize_output();
 
 #if ! defined(KTH_DB_READONLY)
-    bool init_directory(boost::system::error_code& ec);
+    bool init_directory(std::error_code& ec);
 #endif // ! defined(KTH_DB_READONLY)
 
     bool verify_directory();
