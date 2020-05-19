@@ -123,16 +123,16 @@ for:
           CONAN_VISUAL_RUNTIMES: MD
           KTH_RUN_TESTS: true
 
-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-          CONAN_VISUAL_VERSIONS: 15
-          CONAN_VISUAL_RUNTIMES: MT
-          KTH_RUN_TESTS: true
-          VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-          CONAN_VISUAL_VERSIONS: 15
-          CONAN_VISUAL_RUNTIMES: MD
-          KTH_RUN_TESTS: true
-          VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
+        # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+        #   CONAN_VISUAL_VERSIONS: 15
+        #   CONAN_VISUAL_RUNTIMES: MT
+        #   KTH_RUN_TESTS: true
+        #   VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
+        # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+        #   CONAN_VISUAL_VERSIONS: 15
+        #   CONAN_VISUAL_RUNTIMES: MD
+        #   KTH_RUN_TESTS: true
+        #   VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
 
         # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
         #   CONAN_VISUAL_VERSIONS: 14
