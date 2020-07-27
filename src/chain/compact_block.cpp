@@ -9,7 +9,7 @@
 #include <kth/capi/helpers.hpp>
 #include <kth/capi/type_conversions.h>
 
-KTH_CONV_DEFINE(chain, compact_block_t, kth::message::compact_block, compact_block)
+KTH_CONV_DEFINE(chain, compact_block_t, kth::domain::message::compact_block, compact_block)
 
 // ---------------------------------------------------------------------------
 extern "C" {

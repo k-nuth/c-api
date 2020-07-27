@@ -10,19 +10,19 @@
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/helpers.hpp>
 
-KTH_CONV_DEFINE(chain, get_blocks_t, kth::message::get_blocks, get_blocks)
+KTH_CONV_DEFINE(chain, get_blocks_t, kth::domain::message::get_blocks, get_blocks)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 get_blocks_t chain_get_blocks_construct_default() {
-    return new kth::message::get_blocks();
+    return new kth::domain::message::get_blocks();
 }
 
 get_blocks_t chain_get_blocks_construct(hash_list_t start, hash_t stop) {
     auto const& start_cpp = core_hash_list_const_cpp(start);
     auto stop_cpp = kth::to_array(stop.hash);
-    return new kth::message::get_blocks(start_cpp, stop_cpp);
+    return new kth::domain::message::get_blocks(start_cpp, stop_cpp);
 }
 
 void chain_get_blocks_destruct(get_blocks_t get_b) {

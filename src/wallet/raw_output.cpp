@@ -11,7 +11,7 @@
 #include <kth/capi/helpers.hpp>
 #include <kth/capi/type_conversions.h>
 
-KTH_CONV_DEFINE(wallet, raw_output_t, kth::wallet::raw_output, raw_output)
+KTH_CONV_DEFINE(wallet, raw_output_t, kth::domain::wallet::raw_output, raw_output)
 
 // C++ class declaration
 // using raw_output = std::pair<payment_address, uint64_t>;
@@ -28,7 +28,7 @@ uint64_t wallet_raw_output_amount(raw_output_t obj) {
 
 
 // raw_output_t wallet_raw_output_construct_default() {
-//     return new kth::wallet::raw_output();
+//     return new kth::domain::wallet::raw_output();
 // }
 
 // raw_output_t wallet_raw_output_construct(uint32_t version, uint8_t* previous_block_hash, uint8_t* merkle, uint32_t timestamp, uint32_t bits, uint32_t nonce) {
@@ -37,7 +37,7 @@ uint64_t wallet_raw_output_amount(raw_output_t obj) {
 
 //     auto previous_block_hash_cpp = kth::hash_to_cpp(previous_block_hash);
 //     auto merkle_cpp = kth::hash_to_cpp(merkle);
-//     return new kth::wallet::raw_output(version, previous_block_hash_cpp, merkle_cpp, timestamp, bits, nonce);
+//     return new kth::domain::wallet::raw_output(version, previous_block_hash_cpp, merkle_cpp, timestamp, bits, nonce);
 // }
 
 

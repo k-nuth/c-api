@@ -9,11 +9,11 @@
 #include <kth/capi/conversions.hpp>
 
 
-KTH_LIST_DEFINE_CONVERTERS(chain, transaction_list_t, kth::message::transaction, transaction_list)
-KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, transaction_list_t, kth::message::transaction, transaction_list)
+KTH_LIST_DEFINE_CONVERTERS(chain, transaction_list_t, kth::domain::message::transaction, transaction_list)
+KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, transaction_list_t, kth::domain::message::transaction, transaction_list)
 
 extern "C" {
 
-KTH_LIST_DEFINE(chain, transaction_list_t, transaction_t, transaction_list, kth::message::transaction, chain_transaction_const_cpp)
+KTH_LIST_DEFINE(chain, transaction_list_t, transaction_t, transaction_list, kth::domain::message::transaction, chain_transaction_const_cpp)
 
 } // extern "C"

@@ -18,7 +18,7 @@
 #include <kth/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 
 kth::node::configuration make_config(char const* path) {
-    kth::node::configuration config(kth::config::settings::mainnet);
+    kth::node::configuration config(kth::infrastructure::config::settings::mainnet);
     config.file = std::filesystem::path(path);
     return config;
 }

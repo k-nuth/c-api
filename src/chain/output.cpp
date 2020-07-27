@@ -9,17 +9,17 @@
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/helpers.hpp>
 
-KTH_CONV_DEFINE(chain, output_t, kth::chain::output, output)
+KTH_CONV_DEFINE(chain, output_t, kth::domain::chain::output, output)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 output_t chain_output_construct_default() {
-    return new kth::chain::output();
+    return new kth::domain::chain::output();
 }
 
 output_t chain_output_construct(uint64_t value, script_t script) {
-    return new kth::chain::output(value, chain_script_const_cpp(script));
+    return new kth::domain::chain::output(value, chain_script_const_cpp(script));
 }
 
 void chain_output_destruct(output_t output) {
@@ -53,7 +53,7 @@ script_t chain_output_script(output_t output) {
 
 payment_address_t chain_output_payment_address(output_t output, bool_t use_testnet_rules) {
     auto payment_address = chain_output_cpp(output).address(kth::int_to_bool(use_testnet_rules));
-    return new kth::wallet::payment_address(payment_address);
+    return new kth::domain::wallet::payment_address(payment_address);
 }
 
 uint8_t* chain_output_to_data(output_t output, bool_t wire, uint64_t* /*size_t*/ out_size) {

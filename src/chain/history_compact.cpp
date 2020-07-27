@@ -8,7 +8,7 @@
 #include <kth/capi/chain/history_compact.h>
 #include <kth/capi/type_conversions.h>
 
-KTH_CONV_DEFINE(chain, history_compact_t, kth::chain::history_compact, history_compact)
+KTH_CONV_DEFINE(chain, history_compact_t, kth::domain::chain::history_compact, history_compact)
 
 // ---------------------------------------------------------------------------
 extern "C" {

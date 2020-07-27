@@ -24,7 +24,7 @@ namespace kth::capi {
 using boost::null_deleter;
 using std::error_code;
 // using bc::chain::block;
-using bc::database::data_base;
+using kth::database::data_base;
 using std::placeholders::_1;
 
 static constexpr int initialize_stop = 0;
@@ -37,7 +37,7 @@ executor::executor(kth::node::configuration const& config, std::ostream& output,
     : config_(config), output_(output), error_(error)
 {
 	
-    kth::node::parser metadata(kth::config::settings::mainnet);
+    kth::node::parser metadata(kth::infrastructure::config::settings::mainnet);
     parse_config_from_file_result_ = metadata.parse_from_file(config_.file, std::cerr);
   
     config_ = metadata.configured;
@@ -358,7 +358,7 @@ void executor::initialize_output() {
     LOG_INFO(LOG_NODE, fmt::format(BN_DB_TYPE_INIT, BN_DB_TYPE));
 
     LOG_INFO(LOG_NODE, fmt::format(BN_NETWORK_INIT, 
-            (kth::get_network(config_.network.identifier) == kth::config::settings::testnet ? "Testnet" : "Mainnet"),
+            (kth::get_network(config_.network.identifier) == kth::infrastructure::config::settings::testnet ? "Testnet" : "Mainnet"),
             config_.network.identifier));
   
     LOG_INFO(LOG_NODE, fmt::format(BN_CORES_INIT, kth::thread_ceiling(config_.chain.cores)));

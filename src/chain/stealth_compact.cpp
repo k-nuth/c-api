@@ -11,7 +11,7 @@
 #include <kth/capi/type_conversions.h>
 
 
-KTH_CONV_DEFINE(chain, stealth_compact_t, kth::chain::stealth_compact, stealth_compact)
+KTH_CONV_DEFINE(chain, stealth_compact_t, kth::domain::chain::stealth_compact, stealth_compact)
 
 // ---------------------------------------------------------------------------
 extern "C" {

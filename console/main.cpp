@@ -505,8 +505,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 
 
-// kth::message::transaction const& tx_const_cpp2(transaction_t transaction) {
-// 	return *static_cast<kth::message::transaction const*>(transaction);
+// kth::domain::message::transaction const& tx_const_cpp2(transaction_t transaction) {
+// 	return *static_cast<kth::domain::message::transaction const*>(transaction);
 // }
 
 // int main(int /*argc*/, char* /*argv*/[]) {

@@ -70,19 +70,19 @@ void keoken_manager_configure_state(keoken_manager_t manager
             remove_up_to(ctx, block_height);
         },
 
-        [create_asset, ctx](std::string asset_name, amount_t asset_amount, bc::wallet::payment_address const& owner, size_t block_height, kth::hash_digest const& txid) {
+        [create_asset, ctx](std::string asset_name, amount_t asset_amount, kd::wallet::payment_address const& owner, size_t block_height, kth::hash_digest const& txid) {
             create_asset(ctx, asset_name.c_str(), asset_amount, obj_to_c(owner), block_height, kth::to_hash_t(txid));
         },
-        [create_balance_entry, ctx](asset_id_t asset_id, amount_t asset_amount, bc::wallet::payment_address const& source, bc::wallet::payment_address const& target, size_t block_height, kth::hash_digest const& txid) {
+        [create_balance_entry, ctx](asset_id_t asset_id, amount_t asset_amount, kd::wallet::payment_address const& source, kd::wallet::payment_address const& target, size_t block_height, kth::hash_digest const& txid) {
             create_balance_entry(ctx, asset_id, asset_amount, obj_to_c(source), obj_to_c(target), block_height, kth::to_hash_t(txid));
         },
         [asset_id_exists, ctx](kth::keoken::asset_id_t id) {
             return kth::int_to_bool(asset_id_exists(ctx, id));
         },
-        [get_balance, ctx](asset_id_t id, bc::wallet::payment_address const& addr) {
+        [get_balance, ctx](asset_id_t id, kd::wallet::payment_address const& addr) {
             return get_balance(ctx, id, obj_to_c(addr));
         },
-        [get_assets_by_address, ctx](bc::wallet::payment_address const& addr) {
+        [get_assets_by_address, ctx](kd::wallet::payment_address const& addr) {
             auto res = get_assets_by_address(ctx, obj_to_c(addr));
             return keoken_get_assets_by_address_list_const_cpp(res);
         },

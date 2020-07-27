@@ -11,7 +11,7 @@
 #include <kth/capi/helpers.hpp>
 #include <kth/capi/type_conversions.h>
 
-KTH_CONV_DEFINE(chain, merkle_block_t, kth::message::merkle_block, merkle_block)
+KTH_CONV_DEFINE(chain, merkle_block_t, kth::domain::message::merkle_block, merkle_block)
 
 // ---------------------------------------------------------------------------
 extern "C" {

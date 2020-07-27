@@ -8,20 +8,20 @@
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/helpers.hpp>
 
-KTH_CONV_DEFINE(chain, output_point_t, kth::chain::output_point, output_point)
+KTH_CONV_DEFINE(chain, output_point_t, kth::domain::chain::output_point, output_point)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 output_point_t chain_output_point_construct() {
-    // return std::make_unique<kth::chain::output_point>().release();
-    return new kth::chain::output_point;
+    // return std::make_unique<kth::domain::chain::output_point>().release();
+    return new kth::domain::chain::output_point;
 }
 
 
 output_point_t chain_output_point_construct_from_hash_index(hash_t hash, uint32_t index) {
     auto hash_cpp = kth::to_array(hash.hash);
-    auto ret = new kth::chain::output_point(hash_cpp, index);
+    auto ret = new kth::domain::chain::output_point(hash_cpp, index);
     return ret;
 }
 

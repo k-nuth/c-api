@@ -9,11 +9,11 @@
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/list_creator.h>
 
-KTH_LIST_DEFINE_CONVERTERS(chain, point_list_t, kth::chain::point, point_list)
+KTH_LIST_DEFINE_CONVERTERS(chain, point_list_t, kth::domain::chain::point, point_list)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
-KTH_LIST_DEFINE(chain, point_list_t, point_t, point_list, kth::chain::point, chain_point_const_cpp)
+KTH_LIST_DEFINE(chain, point_list_t, point_t, point_list, kth::domain::chain::point, chain_point_const_cpp)
 
 } // extern "C"

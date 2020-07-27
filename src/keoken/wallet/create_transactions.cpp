@@ -40,7 +40,7 @@ error_code_t keoken_wallet_tx_encode_create_asset(
                );
 
     if (p.first == kth::error::success) {
-        *out_transaction = new kth::message::transaction(std::move(p.second));
+        *out_transaction = new kth::domain::message::transaction(std::move(p.second));
     } else {
         *out_transaction = nullptr;
     }
@@ -76,7 +76,7 @@ error_code_t keoken_wallet_tx_encode_send_tokens(
                );
 
     if (p.first == kth::error::success) {
-        *out_transaction = new kth::message::transaction(std::move(p.second));
+        *out_transaction = new kth::domain::message::transaction(std::move(p.second));
     } else {
         *out_transaction = nullptr;
     }

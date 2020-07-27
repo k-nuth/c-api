@@ -10,11 +10,11 @@
 #include <kth/capi/list_creator.h>
 
 
-KTH_LIST_DEFINE_CONVERTERS(chain, stealth_compact_list_t, kth::chain::stealth_compact, stealth_compact_list)
+KTH_LIST_DEFINE_CONVERTERS(chain, stealth_compact_list_t, kth::domain::chain::stealth_compact, stealth_compact_list)
 
 extern "C" {
 
-KTH_LIST_DEFINE(chain, stealth_compact_list_t, stealth_compact_t, stealth_compact_list, kth::chain::stealth_compact, chain_stealth_compact_cpp)
+KTH_LIST_DEFINE(chain, stealth_compact_list_t, stealth_compact_t, stealth_compact_list, kth::domain::chain::stealth_compact, chain_stealth_compact_cpp)
 
 } // extern "C"
 

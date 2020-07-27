@@ -11,7 +11,7 @@
 #include <kth/domain/multi_crypto_support.hpp>
 #include <kth/domain/wallet/payment_address.hpp>
 
-KTH_CONV_DEFINE(wallet, payment_address_t, kth::wallet::payment_address, payment_address)
+KTH_CONV_DEFINE(wallet, payment_address_t, kth::domain::wallet::payment_address, payment_address)
 
 //TODO(fernando): payment_address has to be in the wallet API
 
@@ -26,7 +26,7 @@ void wallet_payment_address_set_cashaddr_prefix(char const* prefix) {
 #endif //KTH_CURRENCY_BCH
 
 payment_address_t wallet_payment_address_construct_from_string(char const* address) {
-    return new kth::wallet::payment_address(std::string(address));
+    return new kth::domain::wallet::payment_address(std::string(address));
 }
 
 //User is responsible for releasing return value memory
