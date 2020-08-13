@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-#ifdef KTH_CURRENCY_BCH
+#if defined(KTH_CURRENCY_BCH)
 KTH_EXPORT
 void wallet_payment_address_set_cashaddr_prefix(char const* prefix);
 #endif //KTH_CURRENCY_BCH
@@ -23,7 +23,7 @@ void wallet_payment_address_set_cashaddr_prefix(char const* prefix);
 KTH_EXPORT
 char* wallet_payment_address_encoded(payment_address_t payment_address);
 
-#ifdef KTH_CURRENCY_BCH
+#if defined(KTH_CURRENCY_BCH)
 KTH_EXPORT
 char* wallet_payment_address_encoded_cashaddr(payment_address_t payment_address);
 #endif //KTH_CURRENCY_BCH

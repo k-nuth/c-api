@@ -88,16 +88,14 @@ struct executor {
         , serr_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(serr), boost::iostreams::never_close_handle))
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
-        , actual(make_config(path), sout_, serr_)
-    {}
+        , actual(make_config(path), sout_, serr_) {}
 
     executor(char const* path, int sout_fd, int serr_fd)
         : sout_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(sout_fd), boost::iostreams::never_close_handle))
         , serr_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(serr_fd), boost::iostreams::never_close_handle))
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
-        , actual(make_config(path), sout_, serr_)
-    {}
+        , actual(make_config(path), sout_, serr_) {}
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
     executor(char const* path, handle_sink sout, handle_sink serr)
@@ -105,8 +103,7 @@ struct executor {
         , serr_buffer_(boost::iostreams::file_descriptor_sink(serr, boost::iostreams::never_close_handle))
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
-        , actual(make_config(path), sout_, serr_)
-    {}
+        , actual(make_config(path), sout_, serr_) {}
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> sout_buffer_;

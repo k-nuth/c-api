@@ -565,14 +565,14 @@ public:
     String(const String& other) { copy(other); }
 
     ~String() {
-        if(!isOnStack())
+        if( ! isOnStack())
             delete[] data.ptr;
     }
 
     // GCC 4.9/5/6 report Wstrict-overflow when optimizations are ON and it got inlined in the vector class somewhere...
     // see commit 574ef95f0cd379118be5011704664e4b5351f1e0 and build https://travis-ci.org/onqtam/doctest/builds/230671611
     DOCTEST_NOINLINE String& operator=(const String& other) {
-        if(!isOnStack())
+        if( ! isOnStack())
             delete[] data.ptr;
 
         copy(other);
@@ -1406,7 +1406,7 @@ namespace detail
         bool res = op_macro(lhs, rhs);                                                             \
         if(m_assert_type & assertType::is_false)                                                   \
             res = !res;                                                                            \
-        if(!res || doctest::detail::getTestsContextState()->success)                               \
+        if( ! res || doctest::detail::getTestsContextState()->success)                               \
             return Result(res, stringifyBinaryExpr(lhs, op_str, rhs));                             \
         return Result(res);                                                                        \
     }
@@ -1438,14 +1438,14 @@ namespace detail
             if(m_assert_type & assertType::is_false) //!OCLINT bitwise operator in conditional
                 res = !res;
 
-            if(!res || getTestsContextState()->success)
+            if( ! res || getTestsContextState()->success)
                 return Result(res, toString(lhs));
             return Result(res);
         }
 
         // clang-format off
         DOCTEST_DO_BINARY_EXPRESSION_COMPARISON(==, " == ", DOCTEST_CMP_EQ) //!OCLINT bitwise operator in conditional
-        DOCTEST_DO_BINARY_EXPRESSION_COMPARISON(!=, " != ", DOCTEST_CMP_NE) //!OCLINT bitwise operator in conditional
+        DOCTEST_DO_BINARY_EXPRESSION_COMPARISON( ! =, " != ", DOCTEST_CMP_NE) //!OCLINT bitwise operator in conditional
         DOCTEST_DO_BINARY_EXPRESSION_COMPARISON(>, " >  ", DOCTEST_CMP_GT) //!OCLINT bitwise operator in conditional
         DOCTEST_DO_BINARY_EXPRESSION_COMPARISON(<, " <  ", DOCTEST_CMP_LT) //!OCLINT bitwise operator in conditional
         DOCTEST_DO_BINARY_EXPRESSION_COMPARISON(>=, " >= ", DOCTEST_CMP_GE) //!OCLINT bitwise operator in conditional
@@ -1630,7 +1630,7 @@ namespace detail
         DOCTEST_NOINLINE void binary_assert(const DOCTEST_REF_WRAP(L) lhs,
                                             const DOCTEST_REF_WRAP(R) rhs) {
             m_result.m_passed = RelationalComparator<comparison, L, R>()(lhs, rhs);
-            if(!m_result.m_passed || getTestsContextState()->success)
+            if( ! m_result.m_passed || getTestsContextState()->success)
                 m_result.m_decomposition = stringifyBinaryExpr(lhs, ", ", rhs);
         }
 
@@ -1641,7 +1641,7 @@ namespace detail
             if(m_assert_type & assertType::is_false) //!OCLINT bitwise operator in conditional
                 m_result.m_passed = !m_result.m_passed;
 
-            if(!m_result.m_passed || getTestsContextState()->success)
+            if( ! m_result.m_passed || getTestsContextState()->success)
                 m_result.m_decomposition = toString(val);
         }
 
@@ -1670,7 +1670,7 @@ namespace detail
 
         rb.m_result.m_passed = RelationalComparator<comparison, L, R>()(lhs, rhs);
 
-        if(!rb.m_result.m_passed || getTestsContextState()->success)
+        if( ! rb.m_result.m_passed || getTestsContextState()->success)
             rb.m_result.m_decomposition = stringifyBinaryExpr(lhs, ", ", rhs);
 
         int res = 0;
@@ -1704,7 +1704,7 @@ namespace detail
         if(assert_type & assertType::is_false) //!OCLINT bitwise operator in conditional
             rb.m_result.m_passed = !rb.m_result.m_passed;
 
-        if(!rb.m_result.m_passed || getTestsContextState()->success)
+        if( ! rb.m_result.m_passed || getTestsContextState()->success)
             rb.m_result.m_decomposition = toString(val);
 
         int res = 0;
@@ -1958,7 +1958,7 @@ namespace detail
         }
 
         DOCTEST_NOINLINE ~ContextScope() {
-            if(!built)
+            if( ! built)
                 useContextIfExceptionOccurred(this);
             popFromContexts();
         }
@@ -2287,7 +2287,7 @@ public:
             inline DOCTEST_NOINLINE doctest::detail::TestSuite& getCurrentTestSuite() {            \
                 static doctest::detail::TestSuite data;                                            \
                 static bool                       inited = false;                                  \
-                if(!inited) {                                                                      \
+                if( ! inited) {                                                                      \
                     data* decorators;                                                              \
                     inited = true;                                                                 \
                 }                                                                                  \
@@ -2438,7 +2438,7 @@ constexpr T to_lvalue = x;
 
 #define DOCTEST_ASSERT_THROWS(expr, assert_type)                                                   \
     do {                                                                                           \
-        if(!doctest::detail::getTestsContextState()->no_throw) {                                   \
+        if( ! doctest::detail::getTestsContextState()->no_throw) {                                   \
             doctest::detail::ResultBuilder _DOCTEST_RB(doctest::detail::assertType::assert_type,   \
                                                        __FILE__, __LINE__, #expr);                 \
             try {                                                                                  \
@@ -2450,7 +2450,7 @@ constexpr T to_lvalue = x;
 
 #define DOCTEST_ASSERT_THROWS_AS(expr, as, assert_type)                                            \
     do {                                                                                           \
-        if(!doctest::detail::getTestsContextState()->no_throw) {                                   \
+        if( ! doctest::detail::getTestsContextState()->no_throw) {                                   \
             doctest::detail::ResultBuilder _DOCTEST_RB(                                            \
                     doctest::detail::assertType::assert_type, __FILE__, __LINE__, #expr,           \
                     DOCTEST_TOSTR(DOCTEST_HANDLE_BRACED_VA_ARGS(as)));                             \
@@ -2466,7 +2466,7 @@ constexpr T to_lvalue = x;
 
 #define DOCTEST_ASSERT_NOTHROW(expr, assert_type)                                                  \
     do {                                                                                           \
-        if(!doctest::detail::getTestsContextState()->no_throw) {                                   \
+        if( ! doctest::detail::getTestsContextState()->no_throw) {                                   \
             doctest::detail::ResultBuilder _DOCTEST_RB(doctest::detail::assertType::assert_type,   \
                                                        __FILE__, __LINE__, #expr);                 \
             try {                                                                                  \
@@ -3283,7 +3283,7 @@ namespace detail
 
 #define DOCTEST_LOG_START()                                                                        \
     do {                                                                                           \
-        if(!contextState->hasLoggedCurrentTestStart) {                                             \
+        if( ! contextState->hasLoggedCurrentTestStart) {                                             \
             doctest::detail::logTestStart(*contextState->currentTest);                             \
             contextState->hasLoggedCurrentTestStart = true;                                        \
         }                                                                                          \
@@ -3572,7 +3572,7 @@ String::String(String&& other) {
 }
 
 String& String::operator=(String&& other) {
-    if(!isOnStack())
+    if( ! isOnStack())
         delete[] data.ptr;
     detail::my_memcpy(buf, other.buf, len);
     other.buf[0] = '\0';
@@ -3958,7 +3958,7 @@ namespace detail
 
         while(*str) {
             if(*wild == '*') {
-                if(!*++wild) {
+                if( ! *++wild) {
                     return 1;
                 }
                 mp = wild;
@@ -4005,7 +4005,7 @@ namespace detail
 
     UInt64 getCurrentTicks() {
         static UInt64 hz = 0, hzo = 0;
-        if(!hz) {
+        if( ! hz) {
             QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&hz));
             QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&hzo));
         }
@@ -4063,7 +4063,7 @@ namespace detail
 
         // check subcase filters
         if(s->subcasesCurrentLevel < s->subcase_filter_levels) {
-            if(!matchesAny(m_signature.m_name, s->filters[6], 1, s->case_sensitive))
+            if( ! matchesAny(m_signature.m_name, s->filters[6], 1, s->case_sensitive))
                 return;
             if(matchesAny(m_signature.m_name, s->filters[7], 0, s->case_sensitive))
                 return;
@@ -4098,7 +4098,7 @@ namespace detail
             if(s->subcasesHasSkipped == false)
                 s->subcasesPassed.insert(m_signature);
 
-            if(!s->subcasesStack.empty())
+            if( ! s->subcasesStack.empty())
                 s->subcasesStack.pop_back();
             if(s->hasLoggedCurrentTestStart)
                 logTestEnd();
@@ -4207,7 +4207,7 @@ namespace detail
 
     void Color::init() {
 #ifdef DOCTEST_CONFIG_COLORS_WINDOWS
-        if(!g_attrsInitted) {
+        if( ! g_attrsInitted) {
             g_stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
             g_attrsInitted = true;
             CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
@@ -4677,7 +4677,7 @@ namespace detail
 
         std::string contextStr;
 
-        if(!contextState->exceptionalContexts.empty()) {
+        if( ! contextState->exceptionalContexts.empty()) {
             contextStr += "with context:\n";
             for(size_t i = contextState->exceptionalContexts.size(); i > 0; --i) {
                 contextStr += "  ";
@@ -4698,7 +4698,7 @@ namespace detail
     String logContext() {
         std::ostringstream           stream;
         std::vector<IContextScope*>& contexts = contextState->contexts;
-        if(!contexts.empty())
+        if( ! contexts.empty())
             stream << "with context:\n";
         for(size_t i = 0; i < contexts.size(); ++i) {
             stream << "  ";
@@ -4776,7 +4776,7 @@ namespace detail
         char info2[DOCTEST_SNPRINTF_BUFFER_LENGTH];
         info2[0] = 0;
 
-        if(!threw)
+        if( ! threw)
             DOCTEST_SNPRINTF(info2, DOCTEST_COUNTOF(info2), "didn't throw at all\n");
 
         bool isWarn = assert_type & assertType::is_warn;
@@ -4812,9 +4812,9 @@ namespace detail
         info2[0] = 0;
         info3[0] = 0;
 
-        if(!threw) { //!OCLINT inverted logic
+        if( ! threw) { //!OCLINT inverted logic
             DOCTEST_SNPRINTF(info2, DOCTEST_COUNTOF(info2), "didn't throw at all\n");
-        } else if(!threw_as) {
+        } else if( ! threw_as) {
             DOCTEST_SNPRINTF(info2, DOCTEST_COUNTOF(info2), "threw a different exception:\n");
             DOCTEST_SNPRINTF(info3, DOCTEST_COUNTOF(info3), "  %s\n", exception.c_str());
         }
@@ -4952,7 +4952,7 @@ namespace detail
         bool is_warn = m_severity & doctest::detail::assertType::is_warn;
 
         // warn is just a message in this context so we dont treat it as an assert
-        if(!is_warn) {
+        if( ! is_warn) {
             contextState->numAssertionsForCurrentTestcase++;
             addFailedAssert(m_severity);
         }
@@ -5013,7 +5013,7 @@ namespace detail
     // locates a flag on the command line
     bool parseFlag(int argc, const char* const* argv, const char* pattern) {
 #ifndef DOCTEST_CONFIG_NO_UNPREFIXED_OPTIONS
-        if(!parseFlagImpl(argc, argv, pattern))
+        if( ! parseFlagImpl(argc, argv, pattern))
             return parseFlagImpl(argc, argv, pattern + 3); // 3 for "dt-"
         return true;
 #else  // DOCTEST_CONFIG_NO_UNPREFIXED_OPTIONS
@@ -5053,7 +5053,7 @@ namespace detail
                      const String& defaultVal = String()) {
         res = defaultVal;
 #ifndef DOCTEST_CONFIG_NO_UNPREFIXED_OPTIONS
-        if(!parseOptionImpl(argc, argv, pattern, res))
+        if( ! parseOptionImpl(argc, argv, pattern, res))
             return parseOptionImpl(argc, argv, pattern + 3, res); // 3 for "dt-"
         return true;
 #else // DOCTEST_CONFIG_NO_UNPREFIXED_OPTIONS
@@ -5091,7 +5091,7 @@ namespace detail
     bool parseIntOption(int argc, const char* const* argv, const char* pattern, optionType type,
                         int& res) {
         String parsedValue;
-        if(!parseOption(argc, argv, pattern, parsedValue))
+        if( ! parseOption(argc, argv, pattern, parsedValue))
             return false;
 
         if(type == 0) {
@@ -5451,7 +5451,7 @@ int Context::run() {
         testArray.push_back(&(*it));
 
     // sort the collected records
-    if(!testArray.empty()) {
+    if( ! testArray.empty()) {
         if(p->order_by.compare("file", true) == 0) {
             std::qsort(&testArray[0], testArray.size(), sizeof(TestCase*), fileOrderComparator);
         } else if(p->order_by.compare("suite", true) == 0) {
@@ -5494,15 +5494,15 @@ int Context::run() {
         if(data.m_skip && !p->no_skip)
             continue;
 
-        if(!matchesAny(data.m_file, p->filters[0], 1, p->case_sensitive))
+        if( ! matchesAny(data.m_file, p->filters[0], 1, p->case_sensitive))
             continue;
         if(matchesAny(data.m_file, p->filters[1], 0, p->case_sensitive))
             continue;
-        if(!matchesAny(data.m_test_suite, p->filters[2], 1, p->case_sensitive))
+        if( ! matchesAny(data.m_test_suite, p->filters[2], 1, p->case_sensitive))
             continue;
         if(matchesAny(data.m_test_suite, p->filters[3], 0, p->case_sensitive))
             continue;
-        if(!matchesAny(data.m_name, p->filters[4], 1, p->case_sensitive))
+        if( ! matchesAny(data.m_name, p->filters[4], 1, p->case_sensitive))
             continue;
         if(matchesAny(data.m_name, p->filters[5], 0, p->case_sensitive))
             continue;

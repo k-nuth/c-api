@@ -85,7 +85,7 @@ uint64_t /*size_t*/ chain_transaction_signature_operations(transaction_t transac
 }
 
 uint64_t /*size_t*/ chain_transaction_signature_operations_bip16_active(transaction_t transaction, bool_t bip16_active) {
-#ifdef KTH_CURRENCY_BCH
+#if defined(KTH_CURRENCY_BCH)
     bool_t bip141_active = 0;
 #else
     bool_t bip141_active = 1;

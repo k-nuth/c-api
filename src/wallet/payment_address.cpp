@@ -18,7 +18,7 @@ KTH_CONV_DEFINE(wallet, payment_address_t, kth::domain::wallet::payment_address,
 // ---------------------------------------------------------------------------
 extern "C" {
 
-#ifdef KTH_CURRENCY_BCH
+#if defined(KTH_CURRENCY_BCH)
 void wallet_payment_address_set_cashaddr_prefix(char const* prefix) {
     std::string prefix_cpp(prefix);
     kth::set_cashaddr_prefix(prefix_cpp);
@@ -35,7 +35,7 @@ char* wallet_payment_address_encoded(payment_address_t payment_address) {
     return kth::create_c_str(str);
 }
 
-#ifdef KTH_CURRENCY_BCH
+#if defined(KTH_CURRENCY_BCH)
 //User is responsible for releasing return value memory
 char* wallet_payment_address_encoded_cashaddr(payment_address_t payment_address) {
     std::string str = wallet_payment_address_const_cpp(payment_address).encoded_cashaddr();

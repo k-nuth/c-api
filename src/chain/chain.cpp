@@ -175,7 +175,7 @@ error_code_t chain_get_block_header_by_hash(chain_t chain, hash_t hash, header_t
 
 #if defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_BLOCKS) || defined(KTH_DB_NEW_FULL)
 void chain_fetch_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ height, block_fetch_handler_t handler) {
-#ifdef KTH_CURRENCY_BCH
+#if defined(KTH_CURRENCY_BCH)
     bool_t witness = 0;
 #else
     bool_t witness = 1;
@@ -192,7 +192,7 @@ void chain_fetch_block_by_height(chain_t chain, void* ctx, uint64_t /*size_t*/ h
 }
 
 error_code_t chain_get_block_by_height(chain_t chain, uint64_t /*size_t*/ height, block_t* out_block, uint64_t* /*size_t*/ out_height) {
-#ifdef KTH_CURRENCY_BCH
+#if defined(KTH_CURRENCY_BCH)
     bool_t witness = 0;
 #else
     bool_t witness = 1;
@@ -218,7 +218,7 @@ error_code_t chain_get_block_by_height(chain_t chain, uint64_t /*size_t*/ height
 }
 
 void chain_fetch_block_by_hash(chain_t chain, void* ctx, hash_t hash, block_fetch_handler_t handler) {
-#ifdef KTH_CURRENCY_BCH
+#if defined(KTH_CURRENCY_BCH)
     bool_t witness = 0;
 #else
     bool_t witness = 1;
@@ -237,7 +237,7 @@ void chain_fetch_block_by_hash(chain_t chain, void* ctx, hash_t hash, block_fetc
 }
 
 error_code_t chain_get_block_by_hash(chain_t chain, hash_t hash, block_t* out_block, uint64_t* /*size_t*/ out_height) {
-#ifdef KTH_CURRENCY_BCH
+#if defined(KTH_CURRENCY_BCH)
     bool_t witness = 0;
 #else
     bool_t witness = 1;
@@ -466,7 +466,7 @@ error_code_t chain_get_block_hash(chain_t chain, uint64_t height, hash_t* out_ha
 #if defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_FULL)
 
 void chain_fetch_transaction(chain_t chain, void* ctx, hash_t hash, bool_t require_confirmed, transaction_fetch_handler_t handler) {
-#ifdef KTH_CURRENCY_BCH
+#if defined(KTH_CURRENCY_BCH)
     bool_t witness = 0;
 #else
     bool_t witness = 1;
@@ -486,7 +486,7 @@ void chain_fetch_transaction(chain_t chain, void* ctx, hash_t hash, bool_t requi
 }
 
 error_code_t chain_get_transaction(chain_t chain, hash_t hash, int require_confirmed, transaction_t* out_transaction, uint64_t* /*size_t*/ out_height, uint64_t* /*size_t*/ out_index) {
-#ifdef KTH_CURRENCY_BCH
+#if defined(KTH_CURRENCY_BCH)
     bool_t witness = 0;
 #else
     bool_t witness = 1;
@@ -711,7 +711,7 @@ error_code_t chain_get_stealth(chain_t chain, binary_t filter, uint64_t from_hei
 
 #if defined(KTH_DB_TRANSACTION_UNCONFIRMED) || defined(KTH_DB_NEW_FULL)
 mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment_address_t address, bool_t use_testnet_rules) {
-#ifdef KTH_CURRENCY_BCH
+#if defined(KTH_CURRENCY_BCH)
     bool_t witness = 0;
 #else
     bool_t witness = 1;
@@ -727,7 +727,7 @@ mempool_transaction_list_t chain_get_mempool_transactions(chain_t chain, payment
 }
 
 transaction_list_t chain_get_mempool_transactions_from_wallets(chain_t chain, payment_address_list_t addresses, bool_t use_testnet_rules) {
-#ifdef KTH_CURRENCY_BCH
+#if defined(KTH_CURRENCY_BCH)
     bool_t witness = 0;
 #else
     bool_t witness = 1;
@@ -867,7 +867,7 @@ int chain_organize_transaction_sync(chain_t chain, transaction_t transaction) {
 //
 //    hex2bin(tx_hex_cpp.c_str(), data.data());
 //
-//    if (!tx->from_data(version, data)) {
+//    if ( ! tx->from_data(version, data)) {
 //        return nullptr;
 //    }
 //
@@ -920,7 +920,7 @@ bool_t chain_is_stale(chain_t chain) {
 
 
 /// Get a reference to the blockchain configuration settings.
-// const settings& chain_settings() const;
+// settings const& chain_settings() const;
 
 
 } // extern "C"

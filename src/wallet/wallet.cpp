@@ -90,7 +90,7 @@ payment_address_t wallet_ec_to_address(ec_public_t point, uint32_t version) {
 //     auto const prefixes = bc::wallet::hd_private::to_prefixes(version, 0);
 //     const bc::wallet::hd_private private_key(seed, prefixes);
 
-//     if (!private_key)
+//     if ( ! private_key)
 //     {
 //         error << BX_HD_NEW_INVALID_KEY << std::endl;
 //         return console_result::failure;
@@ -113,7 +113,7 @@ hd_private_t wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 7606
 //     auto const prefixes = bc::wallet::hd_private::to_prefixes(version, 0);
 //     const bc::wallet::hd_private private_key(seed, prefixes);
 
-//     if (!private_key)
+//     if ( ! private_key)
 //     {
 //         error << BX_HD_NEW_INVALID_KEY << std::endl;
 //         return console_result::failure;

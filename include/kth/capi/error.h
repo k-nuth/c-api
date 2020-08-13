@@ -70,6 +70,11 @@ typedef enum error_code {
     kth_ec_merkle_mismatch = 31,
     kth_ec_block_legacy_sigop_limit = 30,
 
+#if defined(KTH_CURRENCY_BCH)
+    kth_ec_non_canonical_ordered = 84,
+    kth_ec_block_sigchecks_limit = 85,
+#endif
+
     // accept block
     kth_ec_block_non_final = 34,
     kth_ec_coinbase_height_mismatch = 37,
@@ -85,6 +90,9 @@ typedef enum error_code {
     kth_ec_transaction_internal_double_spend = 72,
     kth_ec_transaction_size_limit = 53,
     kth_ec_transaction_legacy_sigop_limit = 54,
+#if defined(KTH_CURRENCY_BCH)
+    kth_ec_transaction_sigchecks_limit = 86,
+#endif
 
     // accept transaction
     kth_ec_transaction_non_final = 74,

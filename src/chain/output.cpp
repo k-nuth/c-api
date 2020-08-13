@@ -39,7 +39,7 @@ uint64_t chain_output_value(output_t output) {
 }
 
 uint64_t /*size_t*/ chain_output_signature_operations(output_t output) {
-#ifdef KTH_CURRENCY_BCH
+#if defined(KTH_CURRENCY_BCH)
     bool_t bip141_active = 0;
 #else
     bool_t bip141_active = 1;
