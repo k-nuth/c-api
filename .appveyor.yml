@@ -105,7 +105,7 @@ for:
 
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       CONAN_VISUAL_VERSIONS: 16
-      CONAN_VISUAL_RUNTIMES: MT
+      CONAN_VISUAL_RUNTIMES: MD
       KTH_RUN_TESTS: true
   -
     branches:
