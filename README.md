@@ -167,10 +167,6 @@ $ ./hello_knuth
 
 For more more detailed instructions, please refer to our [documentation](https://kth.cash/docs/).
 
-## About this library
-
-This library can be used stand-alone, but it is probably convenient for you to use one of our main projects, [look over here](https://github.com/k-nuth/kth/).
-
 ## Issues
 
 Each of our modules has its own Github repository, but in case you want to create an issue, please do so in our [main repository](https://github.com/k-nuth/kth/issues).
