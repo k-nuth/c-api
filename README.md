@@ -1,6 +1,10 @@
 <!-- <a target="_blank" href="http://semver.org">![Version][badge.version]</a> -->
 <!-- <a target="_blank" href="https://cirrus-ci.com/github/k-nuth/c-api">![Build Status][badge.Cirrus]</a> -->
 
+
+<img width="400px" src="https://github.com/nuke-build/nuke/raw/develop/images/logo-black.png" />
+<img width="400px" src="https://raw.githubusercontent.com/k-nuth/misc/master/images/The_C_Programming_Language_logo.svg" />
+
 # C API <a target="_blank" href="https://github.com/k-nuth/c-api/releases">![Github Releases][badge.release]</a> <a target="_blank" href="https://travis-ci.org/k-nuth/c-api">![Build status][badge.Travis]</a> <a target="_blank" href="https://ci.appveyor.com/projects/k-nuth/c-api">![Build Status][badge.Appveyor]</a> <a href="#">![C][badge.c]</a> <a target="_blank" href="https://t.me/knuth_cash">![Telegram][badge.telegram]</a> <a target="_blank" href="https://k-nuth.slack.com/">![Slack][badge.slack]</a>
 
 > Bitcoin full node as a C Programming Language library
