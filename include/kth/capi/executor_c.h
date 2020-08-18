@@ -45,6 +45,9 @@ void executor_run(executor_t exec, void* ctx, run_handler_t handler);
 #if ! defined(KTH_DB_READONLY)
 KTH_EXPORT
 void executor_init_and_run(executor_t exec, void* ctx, run_handler_t handler);
+
+KTH_EXPORT
+void executor_init_run_and_wait_for_signal(executor_t exec, void* ctx, run_handler_t handler);
 #endif // ! defined(KTH_DB_READONLY)
 
 KTH_EXPORT
@@ -58,8 +61,11 @@ int executor_init_and_run_wait(executor_t exec);
 KTH_EXPORT
 int executor_stop(executor_t exec);
 
-//KTH_EXPORT
-//int executor_close(executor_t exec);
+KTH_EXPORT
+void executor_signal_stop(executor_t exec);
+
+KTH_EXPORT
+int executor_close(executor_t exec);
 
 KTH_EXPORT
 int executor_stopped(executor_t exec);
@@ -69,6 +75,9 @@ chain_t executor_get_chain(executor_t exec);
 
 KTH_EXPORT
 p2p_t executor_get_p2p(executor_t exec);
+
+KTH_EXPORT
+void executor_print_thread_id();
 
 #ifdef KTH_WITH_KEOKEN
 KTH_EXPORT

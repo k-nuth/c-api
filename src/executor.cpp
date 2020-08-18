@@ -78,18 +78,18 @@ bool executor::init_directory(error_code& ec) {
     auto const& directory = config_.database.directory;
   
     if (create_directories(directory, ec)) {
-        LOG_INFO(LOG_NODE, fmt::format(BN_INITIALIZING_CHAIN, directory.string()));
+        LOG_INFO(LOG_NODE, fmt::format(KTH_INITIALIZING_CHAIN, directory.string()));
 
         auto const genesis = kth::node::full_node::get_genesis_block(config_.chain);
         auto const& settings = config_.database;
         auto const result = data_base(settings).create(genesis);
 
         if ( ! result ) {
-            LOG_INFO(LOG_NODE, BN_INITCHAIN_FAILED);
+            LOG_INFO(LOG_NODE, KTH_INITCHAIN_FAILED);
             return false;
         }
 
-        LOG_INFO(LOG_NODE, BN_INITCHAIN_COMPLETE);
+        LOG_INFO(LOG_NODE, KTH_INITCHAIN_COMPLETE);
         return true;
     }
 
@@ -109,11 +109,11 @@ bool executor::do_initchain() {
     auto const& directory = config_.database.directory;
 
     if (ec.value() == directory_exists) {
-        LOG_ERROR(LOG_NODE, fmt::format(BN_INITCHAIN_EXISTS, directory.string()));
+        LOG_ERROR(LOG_NODE, fmt::format(KTH_INITCHAIN_EXISTS, directory.string()));
         return false;
     }
 
-    LOG_ERROR(LOG_NODE, fmt::format(BN_INITCHAIN_NEW, directory.string(), ec.message()));
+    LOG_ERROR(LOG_NODE, fmt::format(KTH_INITCHAIN_NEW, directory.string(), ec.message()));
     return false;
 }
 #endif // ! defined(KTH_DB_READONLY)
@@ -150,8 +150,8 @@ bool executor::run(kth::handle0 handler) {
 
     initialize_output();
 
-    LOG_INFO(LOG_NODE, BN_NODE_INTERRUPT);
-    LOG_INFO(LOG_NODE, BN_NODE_STARTING);
+    LOG_INFO(LOG_NODE, KTH_NODE_INTERRUPT);
+    LOG_INFO(LOG_NODE, KTH_NODE_STARTING);
 
     if ( ! verify_directory()) {
         return false;
@@ -184,15 +184,15 @@ bool executor::init_and_run(kth::handle0 handler) {
 
     initialize_output();
 
-    LOG_INFO(LOG_NODE, BN_NODE_INTERRUPT);
-    LOG_INFO(LOG_NODE, BN_NODE_STARTING);
+    LOG_INFO(LOG_NODE, KTH_NODE_INTERRUPT);
+    LOG_INFO(LOG_NODE, KTH_NODE_STARTING);
 
     if ( ! verify_directory() ) {
         error_code ec;
         
         if ( ! init_directory(ec) ) {
             auto const& directory = config_.database.directory;
-            LOG_ERROR(LOG_NODE, fmt::format(BN_INITCHAIN_NEW, directory.string(), ec.message()));
+            LOG_ERROR(LOG_NODE, fmt::format(KTH_INITCHAIN_NEW, directory.string(), ec.message()));
             return false;
         }
     }
@@ -200,9 +200,9 @@ bool executor::init_and_run(kth::handle0 handler) {
     // Now that the directory is verified we can create the node for it.
     node_ = std::make_shared<kth::node::full_node>(config_);
 
-    #ifdef KTH_WITH_KEOKEN
-        keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_kth(), config_.node.keoken_genesis_height));    //NOLINT
-    #endif
+#ifdef KTH_WITH_KEOKEN
+    keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_kth(), config_.node.keoken_genesis_height));    //NOLINT
+#endif
 
 //TODO(fernando): implement this for spdlog and binlog
 #if defined(KTH_LOG_LIBRARY_BOOST)
@@ -215,6 +215,55 @@ bool executor::init_and_run(kth::handle0 handler) {
 
     return true;
 }
+
+bool executor::init_run_and_wait_for_signal(kth::handle0 handler) {
+    run_handler_ = std::move(handler);
+
+    initialize_output();
+
+    LOG_INFO(LOG_NODE, KTH_NODE_INTERRUPT);
+    LOG_INFO(LOG_NODE, KTH_NODE_STARTING);
+
+    if ( ! verify_directory() ) {
+        error_code ec;
+        
+        if ( ! init_directory(ec) ) {
+            auto const& directory = config_.database.directory;
+            LOG_ERROR(LOG_NODE, fmt::format(KTH_INITCHAIN_NEW, directory.string(), ec.message()));
+            return false;
+        }
+    }
+
+    // Now that the directory is verified we can create the node for it.
+    node_ = std::make_shared<kth::node::full_node>(config_);
+
+#ifdef KTH_WITH_KEOKEN
+    keoken_manager_.reset(new keoken_manager_cpp_t(node_->chain_kth(), config_.node.keoken_genesis_height));    //NOLINT
+#endif
+
+//TODO(fernando): implement this for spdlog and binlog
+#if defined(KTH_LOG_LIBRARY_BOOST)
+    // Initialize broadcast to statistics server if configured.
+    kth::log::initialize_statsd(node_->thread_pool(), config_.network.statistics_server);
+#endif
+
+    // The callback may be returned on the same thread.
+    node_->start(std::bind(&executor::handle_started, this, _1));
+
+    // Wait for stop.
+    stopping_.get_future().wait();
+
+    LOG_INFO(LOG_NODE, KTH_NODE_STOPPING);
+
+    // Close must be called from main thread.
+    if (node_->close()) {
+        LOG_INFO(LOG_NODE, KTH_NODE_STOPPED);
+    } else {
+        LOG_INFO(LOG_NODE, KTH_NODE_STOP_FAIL);
+    }
+
+    return true;
+}
 #endif // ! defined(KTH_DB_READONLY)
 
 // bool executor::run_wait(kth::handle0 handler) {
@@ -224,13 +273,13 @@ bool executor::init_and_run(kth::handle0 handler) {
 //     // Wait for stop.
 //     stopping_.get_future().wait();
 
-//     LOG_INFO(LOG_NODE, BN_NODE_STOPPING);
+//     LOG_INFO(LOG_NODE, KTH_NODE_STOPPING);
 
 //     // Close must be called from main thread.
 //     if (node_->close()) {
-//         LOG_INFO(LOG_NODE, BN_NODE_STOPPED);
+//         LOG_INFO(LOG_NODE, KTH_NODE_STOPPED);
 //     } else {
-//         LOG_INFO(LOG_NODE, BN_NODE_STOP_FAIL);
+//         LOG_INFO(LOG_NODE, KTH_NODE_STOP_FAIL);
 //     }
 
 //     return true;
@@ -239,7 +288,7 @@ bool executor::init_and_run(kth::handle0 handler) {
 // Handle the completion of the start sequence and begin the run sequence.
 void executor::handle_started(kth::code const& ec) {
     if (ec) {
-        LOG_ERROR(LOG_NODE, fmt::format(BN_NODE_START_FAIL, ec.message()));
+        LOG_ERROR(LOG_NODE, fmt::format(KTH_NODE_START_FAIL, ec.message()));
 //        stop(ec);
 
         if (run_handler_) {
@@ -248,7 +297,7 @@ void executor::handle_started(kth::code const& ec) {
         return;
     }
 
-    LOG_INFO(LOG_NODE, BN_NODE_SEEDED);
+    LOG_INFO(LOG_NODE, KTH_NODE_SEEDED);
 
     // This is the beginning of the stop sequence.
     node_->subscribe_stop(std::bind(&executor::handle_stopped, this, _1));
@@ -260,7 +309,7 @@ void executor::handle_started(kth::code const& ec) {
 // This is the end of the run sequence.
 void executor::handle_running(kth::code const& ec) {
     if (ec) {
-        LOG_INFO(LOG_NODE, fmt::format(BN_NODE_START_FAIL, ec.message()));
+        LOG_INFO(LOG_NODE, fmt::format(KTH_NODE_START_FAIL, ec.message()));
 //        stop(ec);
 
         if (run_handler_) {
@@ -270,7 +319,7 @@ void executor::handle_running(kth::code const& ec) {
         return;
     }
 
-    LOG_INFO(LOG_NODE, BN_NODE_STARTED);
+    LOG_INFO(LOG_NODE, KTH_NODE_STARTED);
 
     if (run_handler_) {
         run_handler_(ec);
@@ -288,38 +337,15 @@ void executor::handle_stopped(kth::code const&  /*ec*/) {
 // Stop signal.
 // ----------------------------------------------------------------------------
 
-//void executor::handle_stop(int code) {
-//    // Reinitialize after each capture to prevent hard shutdown.
-//    // Do not capture failure signals as calling stop can cause flush lock file
-//    // to clear due to the aborted thread dropping the flush lock mutex.
-//    //std::signal(SIGINT, handle_stop);
-//    //std::signal(SIGTERM, handle_stop);
-//
-//    if (code == initialize_stop) {
-//        return;
-//    }
-//
-//    LOG_INFO(LOG_NODE, fmt::format(BN_NODE_SIGNALED, code));
-//    //stop(kth::error::success);
-//    stop();
-//    node_
-//}
-
-//// Manage the race between console stop and server stop.
-//void executor::stop(kth::code const& ec) {
-//    static std::once_flag stop_mutex;
-//    std::call_once(stop_mutex, [&]() { stopping_.set_value(ec); });
-//}
-
-//void executor::stop() {
-//    stop(kth::error::success);
-//}
-
 bool executor::stop() {
-    // std::cout << "executor::stop() - 1\n";
     bool res = node_->stop();
-    // std::cout << "executor::stop() - 2\n";
     return res;
+}
+
+// Manage the race between console stop and server stop.
+void executor::signal_stop() {
+    static std::once_flag stop_mutex;
+    std::call_once(stop_mutex, [&](){ stopping_.set_value(kth::code()); });
 }
 
 bool executor::stopped() const {
@@ -331,7 +357,7 @@ bool executor::stopped() const {
 
 // Set up logging.
 void executor::initialize_output() {
-    // auto const header = fmt::format(BN_LOG_HEADER, kth::local_time());
+    // auto const header = fmt::format(KTH_LOG_HEADER, kth::local_time());
 
     // LOG_DEBUG(LOG_NODE, header);
     // LOG_INFO(LOG_NODE, header);
@@ -342,26 +368,26 @@ void executor::initialize_output() {
     auto const& file = config_.file;
 
     if (file.empty()) {
-        LOG_INFO(LOG_NODE, BN_USING_DEFAULT_CONFIG);
+        LOG_INFO(LOG_NODE, KTH_USING_DEFAULT_CONFIG);
     } else {
-        LOG_INFO(LOG_NODE, fmt::format(BN_USING_CONFIG_FILE, file.string()));
+        LOG_INFO(LOG_NODE, fmt::format(KTH_USING_CONFIG_FILE, file.string()));
     }
 
-    LOG_INFO(LOG_NODE, fmt::format(BN_VERSION_MESSAGE_INIT, KTH_CAPI_VERSION));
-    LOG_INFO(LOG_NODE, fmt::format(BN_CRYPTOCURRENCY_INIT, KTH_CURRENCY_SYMBOL_STR, KTH_CURRENCY_STR));
+    LOG_INFO(LOG_NODE, fmt::format(KTH_VERSION_MESSAGE_INIT, KTH_CAPI_VERSION));
+    LOG_INFO(LOG_NODE, fmt::format(KTH_CRYPTOCURRENCY_INIT, KTH_CURRENCY_SYMBOL_STR, KTH_CURRENCY_STR));
 #ifdef KTH_WITH_KEOKEN
-    LOG_INFO(LOG_NODE, fmt::format(BN_KEOKEN_MESSAGE_INIT)));
+    LOG_INFO(LOG_NODE, fmt::format(KTH_KEOKEN_MESSAGE_INIT)));
 #endif
 
-    LOG_INFO(LOG_NODE, fmt::format(BN_MICROARCHITECTURE_INIT, KTH_MICROARCHITECTURE_STR));
+    LOG_INFO(LOG_NODE, fmt::format(KTH_MICROARCHITECTURE_INIT, KTH_MICROARCHITECTURE_STR));
 
-    LOG_INFO(LOG_NODE, fmt::format(BN_DB_TYPE_INIT, BN_DB_TYPE));
+    LOG_INFO(LOG_NODE, fmt::format(KTH_DB_TYPE_INIT, KTH_DB_TYPE));
 
-    LOG_INFO(LOG_NODE, fmt::format(BN_NETWORK_INIT, 
+    LOG_INFO(LOG_NODE, fmt::format(KTH_NETWORK_INIT, 
             (kth::get_network(config_.network.identifier) == kth::infrastructure::config::settings::testnet ? "Testnet" : "Mainnet"),
             config_.network.identifier));
   
-    LOG_INFO(LOG_NODE, fmt::format(BN_CORES_INIT, kth::thread_ceiling(config_.chain.cores)));
+    LOG_INFO(LOG_NODE, fmt::format(KTH_CORES_INIT, kth::thread_ceiling(config_.chain.cores)));
 }
 
 // Use missing directory as a sentinel indicating lack of initialization.
@@ -374,12 +400,12 @@ bool executor::verify_directory() {
     }
 
     if (ec.value() == directory_not_found) {
-        LOG_ERROR(LOG_NODE, fmt::format(BN_UNINITIALIZED_CHAIN, directory.string()));
+        LOG_ERROR(LOG_NODE, fmt::format(KTH_UNINITIALIZED_CHAIN, directory.string()));
         return false;
     }
 
     auto const message = ec.message();
-    LOG_ERROR(LOG_NODE, fmt::format(BN_INITCHAIN_TRY, directory.string(), message));
+    LOG_ERROR(LOG_NODE, fmt::format(KTH_INITCHAIN_TRY, directory.string(), message));
     return false;
 }
 

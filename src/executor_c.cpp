@@ -59,7 +59,6 @@ int fileno_or_devnull(int fd) {
     if (fd < 0) {
         return devnull_fileno();
     }
-
     return fd;
 }
 
@@ -88,14 +87,16 @@ struct executor {
         , serr_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(serr), boost::iostreams::never_close_handle))
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
-        , actual(make_config(path), sout_, serr_) {}
+        , actual(make_config(path), sout_, serr_) 
+    {}
 
     executor(char const* path, int sout_fd, int serr_fd)
         : sout_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(sout_fd), boost::iostreams::never_close_handle))
         , serr_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(serr_fd), boost::iostreams::never_close_handle))
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
-        , actual(make_config(path), sout_, serr_) {}
+        , actual(make_config(path), sout_, serr_) 
+    {}
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
     executor(char const* path, handle_sink sout, handle_sink serr)
@@ -103,7 +104,8 @@ struct executor {
         , serr_buffer_(boost::iostreams::file_descriptor_sink(serr, boost::iostreams::never_close_handle))
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
-        , actual(make_config(path), sout_, serr_) {}
+        , actual(make_config(path), sout_, serr_) 
+    {}
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> sout_buffer_;
@@ -132,10 +134,7 @@ executor_t executor_construct_handles(char const* path, void* sout, void* serr) 
 
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
-
 void executor_destruct(executor_t exec) {
-//    std::cout << "From C++: executor_destruct\n";
-//    printf("executor_destruct - exec: 0x%" PRIXPTR "\n", (uintptr_t)exec);
     delete exec;
 }
 
@@ -166,7 +165,6 @@ void executor_run(executor_t exec, void* ctx, run_handler_t handler) {
 
 #if ! defined(KTH_DB_READONLY)
 void executor_init_and_run(executor_t exec, void* ctx, run_handler_t handler) {
-    
     try {
         exec->actual.init_and_run([exec, ctx, handler](std::error_code const& ec) {
             if (handler != nullptr) {
@@ -176,8 +174,16 @@ void executor_init_and_run(executor_t exec, void* ctx, run_handler_t handler) {
     } catch (...) {
         handler(exec, ctx, 1); // TODO(fernando): return error_t to inform errors in detail
     }
-
 }
+
+void executor_init_run_and_wait_for_signal(executor_t exec, void* ctx, run_handler_t handler) {
+    exec->actual.init_run_and_wait_for_signal([exec, ctx, handler](std::error_code const& ec) {
+        if (handler != nullptr) {
+            handler(exec, ctx, ec.value());
+        }
+    });
+}
+
 #endif // ! defined(KTH_DB_READONLY)
 
 int executor_run_wait(executor_t exec) {
@@ -230,21 +236,18 @@ int executor_init_and_run_wait(executor_t exec) {
 #endif // ! defined(KTH_DB_READONLY)
 
 
-//void executor_stop(executor_t exec) {
-//    exec->actual.stop();
-//}
-
-
 int executor_stop(executor_t exec) {
-    // std::cout << "executor_stop() - 1\n";
     auto res = static_cast<int>(exec->actual.stop());
-    // std::cout << "executor_stop() - 2\n";
     return res;
 }
 
-//int executor_close(executor_t exec) {
-//    return exec->actual.node().close();
-//}
+void executor_signal_stop(executor_t exec) {
+    exec->actual.signal_stop();
+}
+
+int executor_close(executor_t exec) {
+   return exec->actual.node().close();
+}
 
 int executor_stopped(executor_t exec) {
     return static_cast<int>(exec->actual.stopped());
@@ -260,6 +263,10 @@ chain_t executor_get_chain(executor_t exec) {
 
 p2p_t executor_get_p2p(executor_t exec) {
     return &static_cast<kth::network::p2p&>(exec->actual.node());
+}
+
+void executor_print_thread_id() {
+    std::cout << std::this_thread::get_id() << std::endl;
 }
 
 #ifdef KTH_WITH_KEOKEN

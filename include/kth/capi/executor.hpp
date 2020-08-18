@@ -45,11 +45,13 @@ public:
 
 #if ! defined(KTH_DB_READONLY)
     bool init_and_run(kth::handle0 handler);
+    bool init_run_and_wait_for_signal(kth::handle0 handler);
 #endif // ! defined(KTH_DB_READONLY)   
 
     //static void stop(kth::code const& ec);
     //static void stop();
     bool stop();
+    void signal_stop();
 
     kth::node::full_node& node();
     kth::node::full_node const& node() const;
@@ -100,53 +102,53 @@ private:
 };
 
 // Localizable messages.
-#define BN_SETTINGS_MESSAGE "These are the configuration settings that can be set."
-#define BN_INFORMATION_MESSAGE "Runs a full bitcoin node with additional client-server query protocol."
-#define BN_UNINITIALIZED_CHAIN "The {} directory is not initialized, run: kth --initchain"
-#define BN_INITIALIZING_CHAIN "Please wait while initializing {} directory..."
-#define BN_INITCHAIN_NEW "Failed to create directory {} with error, '{}'."
-#define BN_INITCHAIN_EXISTS "Failed because the directory {} already exists."
-#define BN_INITCHAIN_TRY "Failed to test directory {} with error, '{}'."
-#define BN_INITCHAIN_COMPLETE "Completed initialization."
-#define BN_INITCHAIN_FAILED "Error creating database files."
+#define KTH_SETTINGS_MESSAGE "These are the configuration settings that can be set."
+#define KTH_INFORMATION_MESSAGE "Runs a full bitcoin node with additional client-server query protocol."
+#define KTH_UNINITIALIZED_CHAIN "The {} directory is not initialized, run: kth --initchain"
+#define KTH_INITIALIZING_CHAIN "Please wait while initializing {} directory..."
+#define KTH_INITCHAIN_NEW "Failed to create directory {} with error, '{}'."
+#define KTH_INITCHAIN_EXISTS "Failed because the directory {} already exists."
+#define KTH_INITCHAIN_TRY "Failed to test directory {} with error, '{}'."
+#define KTH_INITCHAIN_COMPLETE "Completed initialization."
+#define KTH_INITCHAIN_FAILED "Error creating database files."
 
-#define BN_NODE_INTERRUPT "Press CTRL-C to stop the node."
-#define BN_NODE_STARTING "Please wait while the node is starting..."
-#define BN_NODE_START_FAIL "Node failed to start with error, {}."
-#define BN_NODE_SEEDED "Seeding is complete."
-#define BN_NODE_STARTED "Node is started."
+#define KTH_NODE_INTERRUPT "Press CTRL-C to stop the node."
+#define KTH_NODE_STARTING "Please wait while the node is starting..."
+#define KTH_NODE_START_FAIL "Node failed to start with error, {}."
+#define KTH_NODE_SEEDED "Seeding is complete."
+#define KTH_NODE_STARTED "Node is started."
 
-#define BN_NODE_SIGNALED "Stop signal detected (code: {})."
-#define BN_NODE_STOPPING "Please wait while the node is stopping..."
-#define BN_NODE_STOP_FAIL "Node failed to stop properly, see log."
-#define BN_NODE_STOPPED "Node stopped successfully."
+#define KTH_NODE_SIGNALED "Stop signal detected (code: {})."
+#define KTH_NODE_STOPPING "Please wait while the node is stopping..."
+#define KTH_NODE_STOP_FAIL "Node failed to stop properly, see log."
+#define KTH_NODE_STOPPED "Node stopped successfully."
 
-#define BN_USING_CONFIG_FILE "Using config file: {}"
-#define BN_USING_DEFAULT_CONFIG "Using default configuration settings."
+#define KTH_USING_CONFIG_FILE "Using config file: {}"
+#define KTH_USING_DEFAULT_CONFIG "Using default configuration settings."
 
-#define BN_VERSION_MESSAGE_INIT "Node version: {}"
+#define KTH_VERSION_MESSAGE_INIT "Node version: {}"
 
-#define BN_KEOKEN_MESSAGE_INIT "Keoken protocol enabled"
+#define KTH_KEOKEN_MESSAGE_INIT "Keoken protocol enabled"
 
-#define BN_CRYPTOCURRENCY_INIT "Currency: {} - {}"
-#define BN_MICROARCHITECTURE_INIT "Compiled for microarchitecture: {}"
-#define BN_DB_TYPE_INIT "Database type: {}"
-#define BN_NETWORK_INIT "Network: {} ({})"
-#define BN_CORES_INIT "Configured to use {} cores"
+#define KTH_CRYPTOCURRENCY_INIT "Currency: {} - {}"
+#define KTH_MICROARCHITECTURE_INIT "Compiled for microarchitecture: {}"
+#define KTH_DB_TYPE_INIT "Database type: {}"
+#define KTH_NETWORK_INIT "Network: {} ({})"
+#define KTH_CORES_INIT "Configured to use {} cores"
 
 
-// #define BN_LOG_HEADER "================= startup {} =================="
+// #define KTH_LOG_HEADER "================= startup {} =================="
 
 #if defined(KTH_DB_NEW_FULL)
-#define BN_DB_TYPE "full, new version"
+#define KTH_DB_TYPE "full, new version"
 #elif defined(KTH_DB_NEW_BLOCKS)
-#define BN_DB_TYPE "UTXO and Blocks, new version"
+#define KTH_DB_TYPE "UTXO and Blocks, new version"
 #elif defined(KTH_DB_NEW)
-#define BN_DB_TYPE "just UTXO, new version"
+#define KTH_DB_TYPE "just UTXO, new version"
 #elif defined(KTH_DB_HISTORY)
-#define BN_DB_TYPE "full, legacy version"
+#define KTH_DB_TYPE "full, legacy version"
 #else
-#define BN_DB_TYPE "TXs and Blocks, legacy version"
+#define KTH_DB_TYPE "TXs and Blocks, legacy version"
 #endif
 
 } // namespace capi
