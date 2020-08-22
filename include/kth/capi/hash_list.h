@@ -15,10 +15,10 @@
 extern "C" {
 #endif
 
-KTH_LIST_DECLARE(core, hash_list_t, kth_hash_t, hash_list)
+KTH_LIST_DECLARE(core, kth_hash_list_t, kth_hash_t, hash_list)
 
 KTH_EXPORT
-void core_hash_list_nth_out(hash_list_t list, uint64_t /*size_t*/ n, kth_hash_t* out_hash);
+void kth_core_hash_list_nth_out(kth_hash_list_t list, kth_size_t n, kth_hash_t* out_hash);
 
 #ifdef __cplusplus
 } // extern "C"

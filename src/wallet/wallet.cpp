@@ -24,16 +24,16 @@ kth::ec_secret new_key(kth::data_chunk const& seed) {
 // ---------------------------------------------------------------------------
 extern "C" {
 
-long_kth_hash_t kth_wallet_mnemonics_to_seed(word_list_t mnemonics) {
+kth_longhash_t kth_wallet_mnemonics_to_seed(kth_word_list_t mnemonics) {
     auto const& mnemonics_cpp = *static_cast<std::vector<std::string> const*>(mnemonics);
     auto hash_cpp = kth::infrastructure::wallet::decode_mnemonic(mnemonics_cpp);
-    return kth::to_long_kth_hash_t(hash_cpp);
+    return kth::to_longhash_t(hash_cpp);
 }
 
 //TODO(fernando): return error code and use output parameters
-ec_secret_t kth_wallet_ec_new(uint8_t* seed, uint64_t n) {
+kth_ec_secret_t kth_wallet_ec_new(uint8_t* seed, uint64_t n) {
 
-    if (n < BITCOIN_MINIMUM_SEED_SIZE) return kth::null_ec_secret;
+    if (n < KTH_BITCOIN_MINIMUM_SEED_SIZE) return kth::null_ec_secret;
 
     kth::data_chunk seed_cpp(seed, std::next(seed, n));
 
@@ -56,7 +56,7 @@ ec_secret_t kth_wallet_ec_new(uint8_t* seed, uint64_t n) {
 
 }
 
-ec_public_t kth_wallet_ec_to_public(ec_secret_t secret, bool_t uncompressed) {
+kth_ec_public_t kth_wallet_ec_to_public(kth_ec_secret_t secret, kth_bool_t uncompressed) {
     
     auto secret_cpp = kth::to_array(secret.data);
     bool uncompressed_cpp = kth::int_to_bool(uncompressed);
@@ -66,7 +66,7 @@ ec_public_t kth_wallet_ec_to_public(ec_secret_t secret, bool_t uncompressed) {
     return new kth::domain::wallet::ec_public(point, !uncompressed_cpp);
 }
 
-kth_payment_address_t kth_wallet_ec_to_address(ec_public_t point, uint32_t version) {
+kth_payment_address_t kth_wallet_ec_to_address(kth_ec_public_t point, uint32_t version) {
     kth::domain::wallet::ec_public const& point_cpp = *static_cast<kth::domain::wallet::ec_public const*>(point);
     return new kth::domain::wallet::payment_address(point_cpp, version);
 }
@@ -100,7 +100,7 @@ kth_payment_address_t kth_wallet_ec_to_address(ec_public_t point, uint32_t versi
 // }
 
 //TODO(fernando): return error code and use output parameters
-hd_private_t kth_wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 76066276*/) {
+kth_hd_private_t kth_wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 76066276*/) {
 
 //     if (seed.size() < minimum_seed_size)
 //     {
@@ -122,7 +122,7 @@ hd_private_t kth_wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 
 //     return console_result::okay;
 
     // printf("C++ kth_wallet_hd_new - 1\n");
-    if (n < BITCOIN_MINIMUM_SEED_SIZE) return nullptr;
+    if (n < KTH_BITCOIN_MINIMUM_SEED_SIZE) return nullptr;
 
     // printf("C++ kth_wallet_hd_new - 2\n");
 
@@ -188,14 +188,14 @@ hd_private_t kth_wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 
 
 
 //TODO(fernando): return error code and use output parameters
-ec_secret_t kth_wallet_hd_private_to_ec(hd_private_t key) {
+kth_ec_secret_t kth_wallet_hd_private_to_ec(kth_hd_private_t key) {
     auto const& key_cpp = *static_cast<kth::infrastructure::wallet::hd_private const*>(key);
     kth::ec_secret secret = key_cpp.secret();
     return kth::to_ec_secret_t(secret);
 }
 
 
-//void long_hash_destroy(long_kth_hash_t ptr) {
+//void long_hash_destroy(kth_longhash_t ptr) {
 //    free(ptr);
 //}
 

@@ -31,11 +31,11 @@ void keoken_memory_state_reset(keoken_memory_state_t state) {
     keoken_memory_state_cpp(state).reset();
 }
 
-void keoken_memory_state_remove_up_to(keoken_memory_state_t state, uint64_t /*size_t*/ height) {
+void keoken_memory_state_remove_up_to(keoken_memory_state_t state, kth_size_t height) {
     keoken_memory_state_cpp(state).remove_up_to(height);
 }
 
-void keoken_memory_state_create_asset(keoken_memory_state_t state, char const* asset_name, keoken_amount_t asset_amount, kth_payment_address_t owner, uint64_t /*size_t*/ block_height, kth_hash_t txid) {
+void keoken_memory_state_create_asset(keoken_memory_state_t state, char const* asset_name, keoken_amount_t asset_amount, kth_payment_address_t owner, kth_size_t block_height, kth_hash_t txid) {
     keoken_memory_state_cpp(state).create_asset(
         std::string(asset_name),
         asset_amount,
@@ -45,7 +45,7 @@ void keoken_memory_state_create_asset(keoken_memory_state_t state, char const* a
     );
 }
 
-void keoken_memory_state_create_balance_entry(keoken_memory_state_t state, keoken_asset_id_t asset_id, keoken_amount_t asset_amount, kth_payment_address_t source, kth_payment_address_t target,  uint64_t /*size_t*/ block_height, kth_hash_t txid) {
+void keoken_memory_state_create_balance_entry(keoken_memory_state_t state, keoken_asset_id_t asset_id, keoken_amount_t asset_amount, kth_payment_address_t source, kth_payment_address_t target,  kth_size_t block_height, kth_hash_t txid) {
     keoken_memory_state_cpp(state).create_balance_entry(
         asset_id,
         asset_amount,
@@ -56,7 +56,7 @@ void keoken_memory_state_create_balance_entry(keoken_memory_state_t state, keoke
     );
 }
 
-bool_t keoken_memory_state_asset_id_exists(keoken_memory_state_t state, keoken_asset_id_t id) {
+kth_bool_t keoken_memory_state_asset_id_exists(keoken_memory_state_t state, keoken_asset_id_t id) {
     return kth::bool_to_int(keoken_memory_state_const_cpp(state).asset_id_exists(id));
 }
 
@@ -64,17 +64,17 @@ keoken_amount_t keoken_memory_state_get_balance(keoken_memory_state_t state, keo
     return keoken_memory_state_const_cpp(state).get_balance(id, kth_wallet_payment_address_const_cpp(addr)); 
 }
 
-get_assets_by_address_list_t keoken_memory_state_get_assets_by_address(keoken_memory_state_t state, kth_payment_address_t addr) {
-    auto result = keoken_memory_state_const_cpp(state).get_assets_by_address(wallet_payment_address_const_cpp(addr));
+keoken_get_assets_by_address_list_t keoken_memory_state_get_assets_by_address(keoken_memory_state_t state, kth_payment_address_t addr) {
+    auto result = keoken_memory_state_const_cpp(state).get_assets_by_address(kth_wallet_payment_address_const_cpp(addr));
     return kth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
-get_assets_list_t keoken_memory_state_get_assets(keoken_memory_state_t state) {
+keoken_get_assets_list_t keoken_memory_state_get_assets(keoken_memory_state_t state) {
     auto result = keoken_memory_state_const_cpp(state).get_assets();
     return kth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
-get_all_asset_addresses_list_t keoken_memory_state_get_all_asset_addresses(keoken_memory_state_t state) {
+keoken_get_all_asset_addresses_list_t keoken_memory_state_get_all_asset_addresses(keoken_memory_state_t state) {
     auto result = keoken_memory_state_const_cpp(state).get_all_asset_addresses();
     return kth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }

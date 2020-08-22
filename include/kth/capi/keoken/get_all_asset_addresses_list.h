@@ -13,7 +13,7 @@
 extern "C" {
 #endif
 
-KTH_LIST_DECLARE(keoken, get_all_asset_addresses_list_t, get_all_asset_addresses_data_t, get_all_asset_addresses_list)
+KTH_LIST_DECLARE(keoken, keoken_get_all_asset_addresses_list_t, keoken_get_all_asset_addresses_data_t, get_all_asset_addresses_list)
 
 #ifdef __cplusplus
 } // extern "C"

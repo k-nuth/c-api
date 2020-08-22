@@ -9,21 +9,21 @@
 
 #include <kth/capi/list_creator.h>
 
-KTH_LIST_DEFINE_CONVERTERS(core, string_list_t, std::string, string_list)
+KTH_LIST_DEFINE_CONVERTERS(core, kth_string_list_t, std::string, string_list)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
-string_list_t core_string_list_construct() {
+kth_string_list_t kth_core_string_list_construct() {
     return new std::vector<std::string>();
 }
 
-void core_string_list_destruct(string_list_t string_list) {
-    delete &core_string_list_cpp(string_list);
+void kth_core_string_list_destruct(kth_string_list_t string_list) {
+    delete &kth_core_string_list_cpp(string_list);
 }
 
-void core_string_list_push_back(string_list_t string_list, char const* string) {
-    core_string_list_cpp(string_list).emplace_back(std::string(string));
+void kth_core_string_list_push_back(kth_string_list_t string_list, char const* string) {
+    kth_core_string_list_cpp(string_list).emplace_back(std::string(string));
 }
 
 } // extern "C"

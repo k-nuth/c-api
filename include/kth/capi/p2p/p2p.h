@@ -13,16 +13,16 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-uint64_t /*size_t*/ kth_p2p_address_count(p2p_t p2p);
+kth_size_t kth_p2p_address_count(kth_p2p_t p2p);
 
 KTH_EXPORT
-void kth_p2p_stop(p2p_t p2p);
+void kth_p2p_stop(kth_p2p_t p2p);
 
 KTH_EXPORT
-void kth_p2p_close(p2p_t p2p);
+void kth_p2p_close(kth_p2p_t p2p);
 
 KTH_EXPORT
-bool_t kth_p2p_stopped(p2p_t p2p);
+kth_bool_t kth_p2p_stopped(kth_p2p_t p2p);
 
 #ifdef __cplusplus
 } // extern "C"

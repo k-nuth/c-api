@@ -21,7 +21,7 @@ KTH_EXPORT
 kth_transaction_t kth_chain_transaction_construct_default(void);
 
 KTH_EXPORT
-kth_transaction_t kth_chain_transaction_construct(uint32_t version, uint32_t locktime, input_list_t inputs, kth_output_list_t outputs);
+kth_transaction_t kth_chain_transaction_construct(uint32_t version, uint32_t locktime, kth_input_list_t inputs, kth_output_list_t outputs);
 
 KTH_EXPORT
 void kth_chain_transaction_destruct(kth_transaction_t transaction);
@@ -51,16 +51,16 @@ KTH_EXPORT
 uint32_t kth_chain_transaction_locktime(kth_transaction_t transaction);
 
 KTH_EXPORT
-uint64_t /*size_t*/ kth_chain_transaction_serialized_size(kth_transaction_t transaction, int wire /*= true*/);
+kth_size_t kth_chain_transaction_serialized_size(kth_transaction_t transaction, int wire /*= true*/);
 
 KTH_EXPORT
 uint64_t kth_chain_transaction_fees(kth_transaction_t transaction);
 
 KTH_EXPORT
-uint64_t /*size_t*/ kth_chain_transaction_signature_operations(kth_transaction_t transaction);
+kth_size_t kth_chain_transaction_signature_operations(kth_transaction_t transaction);
 
 KTH_EXPORT
-uint64_t /*size_t*/ kth_chain_transaction_signature_operations_bip16_active(kth_transaction_t transaction, bool_t bip16_active);
+kth_size_t kth_chain_transaction_signature_operations_bip16_active(kth_transaction_t transaction, kth_bool_t bip16_active);
 
 KTH_EXPORT
 uint64_t kth_chain_transaction_total_input_value(kth_transaction_t transaction);
@@ -69,40 +69,40 @@ KTH_EXPORT
 uint64_t kth_chain_transaction_total_output_value(kth_transaction_t transaction);
 
 KTH_EXPORT
-bool_t kth_chain_transaction_is_coinbase(kth_transaction_t transaction);
+kth_bool_t kth_chain_transaction_is_coinbase(kth_transaction_t transaction);
 
 KTH_EXPORT
-bool_t kth_chain_transaction_is_null_non_coinbase(kth_transaction_t transaction);
+kth_bool_t kth_chain_transaction_is_null_non_coinbase(kth_transaction_t transaction);
 
 KTH_EXPORT
-bool_t kth_chain_transaction_is_oversized_coinbase(kth_transaction_t transaction);
+kth_bool_t kth_chain_transaction_is_oversized_coinbase(kth_transaction_t transaction);
 
 KTH_EXPORT
-bool_t kth_chain_transaction_is_mature(kth_transaction_t transaction, uint64_t /*size_t*/ target_height);
+kth_bool_t kth_chain_transaction_is_mature(kth_transaction_t transaction, kth_size_t target_height);
 
 KTH_EXPORT
-bool_t kth_chain_transaction_is_overspent(kth_transaction_t transaction);
+kth_bool_t kth_chain_transaction_is_overspent(kth_transaction_t transaction);
 
 KTH_EXPORT
-bool_t kth_chain_transaction_is_double_spend(kth_transaction_t transaction, bool_t include_unconfirmed);
+kth_bool_t kth_chain_transaction_is_double_spend(kth_transaction_t transaction, kth_bool_t include_unconfirmed);
 
 KTH_EXPORT
-bool_t kth_chain_transaction_is_missing_previous_outputs(kth_transaction_t transaction);
+kth_bool_t kth_chain_transaction_is_missing_previous_outputs(kth_transaction_t transaction);
 
 KTH_EXPORT
-bool_t kth_chain_transaction_is_final(kth_transaction_t transaction, uint64_t /*size_t*/ block_height, uint32_t kth_block_time);
+kth_bool_t kth_chain_transaction_is_final(kth_transaction_t transaction, kth_size_t block_height, uint32_t kth_block_time);
 
 KTH_EXPORT
-bool_t kth_chain_transaction_is_locktime_conflict(kth_transaction_t transaction);
+kth_bool_t kth_chain_transaction_is_locktime_conflict(kth_transaction_t transaction);
 
 KTH_EXPORT
 kth_output_list_t kth_chain_transaction_outputs(kth_transaction_t transaction);
 
 KTH_EXPORT
-input_list_t kth_chain_transaction_inputs(kth_transaction_t transaction);
+kth_input_list_t kth_chain_transaction_inputs(kth_transaction_t transaction);
 
 KTH_EXPORT
-uint8_t* kth_chain_transaction_to_data(kth_transaction_t transaction, bool_t wire, uint64_t* /*size_t*/ out_size);
+uint8_t* kth_chain_transaction_to_data(kth_transaction_t transaction, kth_bool_t wire, kth_size_t* out_size);
 
 #ifdef __cplusplus
 } // extern "C"

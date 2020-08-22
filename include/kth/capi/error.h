@@ -201,7 +201,7 @@ typedef enum error_code {
     kth_ec_op_check_sequence_verify5,
     kth_ec_op_check_sequence_verify6,
     kth_ec_op_check_sequence_verify7
-} error_code_t;
+} kth_error_code_t;
 
 #ifdef __cplusplus
 } // extern "C"

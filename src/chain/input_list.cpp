@@ -9,11 +9,11 @@
 #include <kth/capi/conversions.hpp>
 
 
-KTH_LIST_DEFINE_CONVERTERS(chain, input_list_t, kth::domain::chain::input, input_list)
-KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, input_list_t, kth::domain::chain::input, input_list)
+KTH_LIST_DEFINE_CONVERTERS(chain, kth_input_list_t, kth::domain::chain::input, input_list)
+KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, kth_input_list_t, kth::domain::chain::input, input_list)
 
 extern "C" {
 
-KTH_LIST_DEFINE(chain, input_list_t, input_t, input_list, kth::domain::chain::input, kth_chain_input_const_cpp)
+KTH_LIST_DEFINE(chain, kth_input_list_t, kth_input_t, input_list, kth::domain::chain::input, kth_chain_input_const_cpp)
 
 } // extern "C"

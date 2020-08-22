@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-KTH_LIST_DECLARE(chain, mempool_transaction_list_t, mempool_kth_transaction_t, mempool_transaction_list)
+KTH_LIST_DECLARE(chain, kth_mempool_transaction_list_t, kth_mempool_transaction_t, mempool_transaction_list)
 
 #ifdef __cplusplus
 } // extern "C"

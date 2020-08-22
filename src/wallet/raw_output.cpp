@@ -18,7 +18,7 @@ KTH_CONV_DEFINE(wallet, kth_raw_output_t, kth::domain::wallet::raw_output, raw_o
 extern "C" {
 
 kth_payment_address_t kth_wallet_raw_output_destiny(kth_raw_output_t obj) {
-    return &wallet_raw_output_cpp(obj).first;
+    return &kth_wallet_raw_output_cpp(obj).first;
 }
 
 uint64_t kth_wallet_raw_output_amount(kth_raw_output_t obj) {
@@ -34,8 +34,8 @@ uint64_t kth_wallet_raw_output_amount(kth_raw_output_t obj) {
 //     //precondition: [previous_block_hash, 32) is a valid range
 //     //              && [merkle, 32) is a valid range
 
-//     auto previous_block_hash_cpp = kth::kth_hash_to_cpp(previous_block_hash);
-//     auto merkle_cpp = kth::kth_hash_to_cpp(merkle);
+//     auto previous_block_hash_cpp = kth::hash_to_cpp(previous_block_hash);
+//     auto merkle_cpp = kth::hash_to_cpp(merkle);
 //     return new kth::domain::wallet::raw_output(version, previous_block_hash_cpp, merkle_cpp, timestamp, bits, nonce);
 // }
 

@@ -2,7 +2,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <kth/capi/executor_c.h>
+#include <kth/capi/node.h>
 
 #include <iostream>
 #include <chrono>
@@ -50,7 +50,7 @@ int main() {
 
 // int main(int argc, char* argv[]) {
 
-//     executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
+//     kth_node_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
 
 //     int res1 = executor_initchain(exec);
 //     int res2 = executor_run(exec);

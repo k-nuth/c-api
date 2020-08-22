@@ -4,12 +4,12 @@
 
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include <kth/capi/executor_c.h>
+#include <kth/capi/node.h>
 #include <iostream>
 
 class QueriesTestsFixture {
 private:
-    executor_t exec;
+    kth_node_t exec;
 public:
     QueriesTestsFixture() {
         exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
@@ -18,7 +18,7 @@ public:
         //int res2 = executor_run(exec);
     }
 
-    executor_t getExecutor() {
+    kth_node_t getExecutor() {
         return exec;
     }
 };

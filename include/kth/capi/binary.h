@@ -15,28 +15,28 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-binary_t core_binary_construct(void);
+kth_binary_t kth_core_binary_construct(void);
 
 KTH_EXPORT
-binary_t core_binary_construct_string(char const* string);
+kth_binary_t kth_core_binary_construct_string(char const* string);
 
 KTH_EXPORT
-binary_t core_binary_construct_blocks(uint64_t /*size_t*/ bits_size, uint8_t* blocks, uint64_t /*size_t*/ n);
+kth_binary_t kth_core_binary_construct_blocks(kth_size_t bits_size, uint8_t* blocks, kth_size_t n);
 
 KTH_EXPORT
-void core_binary_destruct(binary_t binary);
+void kth_core_binary_destruct(kth_binary_t binary);
 
 KTH_EXPORT
-uint8_t const* core_binary_blocks(binary_t binary, uint64_t* /*size_t*/ out_n);
+uint8_t const* kth_core_binary_blocks(kth_binary_t binary, kth_size_t* out_n);
 
 KTH_EXPORT
-char* core_binary_encoded(binary_t binary);
+char* kth_core_binary_encoded(kth_binary_t binary);
 
 //KTH_EXPORT
-//void word_list_add_word(word_list_t word_list, char const* word);
+//void word_list_add_word(kth_word_list_t word_list, char const* word);
 
 //KTH_EXPORT
-//void word_list_destruct(word_list_t word_list);
+//void word_list_destruct(kth_word_list_t word_list);
 
 #ifdef __cplusplus
 } // extern "C"

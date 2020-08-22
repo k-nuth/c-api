@@ -16,7 +16,7 @@
 // ---------------------------------------------------------------------------
 extern "C" {
 
-error_code_t keoken_wallet_tx_encode_create_asset(
+kth_error_code_t keoken_wallet_tx_encode_create_asset(
     kth_point_list_t outputs_to_spend,
     kth_payment_address_t asset_owner,
     uint64_t utxo_satoshis,
@@ -47,7 +47,7 @@ error_code_t keoken_wallet_tx_encode_create_asset(
     return kth::to_c_err(p.first);
 }
 
-error_code_t keoken_wallet_tx_encode_send_tokens(
+kth_error_code_t keoken_wallet_tx_encode_send_tokens(
     kth_point_list_t outputs_to_spend,
     kth_payment_address_t asset_owner,
     uint64_t utxo_satoshis,

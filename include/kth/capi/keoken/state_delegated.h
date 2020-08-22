@@ -21,14 +21,14 @@ typedef void (*keoken_state_delegated_reset_t)
 
 typedef void (*keoken_state_delegated_remove_up_to_t)
                 (void* /*ctx*/, 
-                uint64_t /*size_t*/ /*height*/);
+                kth_size_t /*height*/);
 
 typedef void (*keoken_state_delegated_create_asset_t)
                 (void* /*ctx*/,
                 char const* /*asset_name*/, 
                 keoken_amount_t /*asset_amount*/, 
                 kth_payment_address_t /*owner*/, 
-                uint64_t /*size_t*/ /*block_height*/, 
+                kth_size_t /*block_height*/, 
                 kth_hash_t /*txid*/);
 
 typedef void (*keoken_state_delegated_create_balance_entry_t)
@@ -37,10 +37,10 @@ typedef void (*keoken_state_delegated_create_balance_entry_t)
                 keoken_amount_t /*asset_amount*/, 
                 kth_payment_address_t /*source*/, 
                 kth_payment_address_t /*target*/,  
-                uint64_t /*size_t*/ /*block_height*/, 
+                kth_size_t /*block_height*/, 
                 kth_hash_t /*txid*/);
 
-typedef bool_t (*keoken_state_delegated_asset_id_exists_t)
+typedef kth_bool_t (*keoken_state_delegated_asset_id_exists_t)
                 (void* /*ctx*/,
                 keoken_asset_id_t /*id*/);
 
@@ -49,14 +49,14 @@ typedef keoken_amount_t (*keoken_state_delegated_get_balance_t)
                 keoken_asset_id_t /*id*/, 
                 kth_payment_address_t /*addr*/);
 
-typedef get_assets_by_address_list_t (*keoken_state_delegated_get_assets_by_address_t)
+typedef keoken_get_assets_by_address_list_t (*keoken_state_delegated_get_assets_by_address_t)
                 (void* /*ctx*/,
                 kth_payment_address_t /*addr*/);
 
-typedef get_assets_list_t (*keoken_state_delegated_get_assets_t)
+typedef keoken_get_assets_list_t (*keoken_state_delegated_get_assets_t)
                 (void* /*ctx*/);
 
-typedef get_all_asset_addresses_list_t (*keoken_state_delegated_get_all_asset_addresses_t)
+typedef keoken_get_all_asset_addresses_list_t (*keoken_state_delegated_get_all_asset_addresses_t)
                 (void* /*ctx*/);
 
 #ifdef __cplusplus

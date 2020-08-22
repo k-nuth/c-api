@@ -23,38 +23,37 @@
 #include <kth/blockchain/interface/safe_chain.hpp>
 
 KTH_CONV_DECLARE(chain, kth_block_t, kth::domain::message::block, block)
-KTH_CONV_DECLARE(chain, header_t, kth::domain::message::header, header)
-KTH_CONV_DECLARE(chain, input_t, kth::domain::chain::input, input)
-KTH_CONV_DECLARE(chain, output_t, kth::domain::chain::output, output)
-KTH_CONV_DECLARE(chain, output_kth_point_t, kth::domain::chain::output_point, output_point)
-KTH_CONV_DECLARE(chain, script_t, kth::domain::chain::script, script)
-KTH_CONV_DECLARE(chain, transaction_t, kth::domain::message::transaction, transaction)
+KTH_CONV_DECLARE(chain, kth_header_t, kth::domain::message::header, header)
+KTH_CONV_DECLARE(chain, kth_input_t, kth::domain::chain::input, input)
+KTH_CONV_DECLARE(chain, kth_output_t, kth::domain::chain::output, output)
+KTH_CONV_DECLARE(chain, kth_outputpoint_t, kth::domain::chain::output_point, output_point)
+KTH_CONV_DECLARE(chain, kth_script_t, kth::domain::chain::script, script)
+KTH_CONV_DECLARE(chain, kth_transaction_t, kth::domain::message::transaction, transaction)
 KTH_CONV_DECLARE(chain, kth_point_t, kth::domain::chain::point, point)
-KTH_CONV_DECLARE(chain, mempool_transaction_t, kth::blockchain::mempool_transaction_summary, mempool_transaction)
-KTH_CONV_DECLARE(chain, history_compact_t, kth::domain::chain::history_compact, history_compact)
-KTH_CONV_DECLARE(chain, stealth_compact_t, kth::domain::chain::stealth_compact, stealth_compact)
+KTH_CONV_DECLARE(chain, kth_mempool_transaction_t, kth::blockchain::mempool_transaction_summary, mempool_transaction)
+KTH_CONV_DECLARE(chain, kth_history_compact_t, kth::domain::chain::history_compact, history_compact)
+KTH_CONV_DECLARE(chain, kth_stealth_compact_t, kth::domain::chain::stealth_compact, stealth_compact)
 KTH_CONV_DECLARE(wallet, kth_payment_address_t, kth::domain::wallet::payment_address, payment_address)
 
 //Note: kth_block_list_t created with this function has not have to destruct it...
 // KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_block_list_t, kth::domain::message::block, block_list)
-KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, input_list_t, kth::domain::chain::input, input_list)
-KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, output_list_t, kth::domain::chain::output, output_list)
+KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_input_list_t, kth::domain::chain::input, input_list)
+KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_output_list_t, kth::domain::chain::output, output_list)
 KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_transaction_list_t, kth::domain::message::transaction, transaction_list)
-KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(core, hash_list_t, kth::hash_digest, hash_list)
+KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(core, kth_hash_list_t, kth::hash_digest, hash_list)
 
 KTH_LIST_DECLARE_CONVERTERS(chain, kth_block_list_t, kth::domain::message::block, block_list)
-KTH_LIST_DECLARE_CONVERTERS(chain, point_list_t, kth::domain::chain::point, point_list)
-KTH_LIST_DECLARE_CONVERTERS(chain, input_list_t, kth::domain::chain::input, input_list)
-KTH_LIST_DECLARE_CONVERTERS(chain, output_list_t, kth::domain::chain::output, output_list)
+KTH_LIST_DECLARE_CONVERTERS(chain, kth_point_list_t, kth::domain::chain::point, point_list)
+KTH_LIST_DECLARE_CONVERTERS(chain, kth_input_list_t, kth::domain::chain::input, input_list)
+KTH_LIST_DECLARE_CONVERTERS(chain, kth_output_list_t, kth::domain::chain::output, output_list)
 KTH_LIST_DECLARE_CONVERTERS(chain, kth_transaction_list_t, kth::domain::message::transaction, transaction_list)
-KTH_LIST_DECLARE_CONVERTERS(core, hash_list_t, kth::hash_digest, hash_list)
-KTH_LIST_DECLARE_CONVERTERS(chain, kth_block_indexes_t, uint64_t, block_indexes)
+KTH_LIST_DECLARE_CONVERTERS(core, kth_hash_list_t, kth::hash_digest, hash_list)
+KTH_LIST_DECLARE_CONVERTERS(chain, kth_block_indexes_t, kth_size_t, block_indexes)
 
 // Wallet.
 // ------------------------------------------------------------------------------------
-// KTH_CONV_DECLARE(wallet, ec_public_t, kth::domain::wallet::ec_public, ec_public)
+// KTH_CONV_DECLARE(wallet, kth_ec_public_t, kth::domain::wallet::ec_public, ec_public)
 KTH_CONV_DECLARE(wallet, kth_raw_output_t, kth::domain::wallet::raw_output, raw_output)
-KTH_LIST_DECLARE_CONVERTERS(wallet, raw_output_list_t, kth::domain::wallet::raw_output, raw_output_list)
-
+KTH_LIST_DECLARE_CONVERTERS(wallet, kth_raw_output_list_t, kth::domain::wallet::raw_output, raw_output_list)
 
 #endif /* KTH_CAPI_CONVERSIONS_HPP_ */

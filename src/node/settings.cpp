@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <string>
 
-#include <kth/capi/executor_c.h>
+#include <kth/capi/node.h>
 #include <kth/capi/helpers.hpp>
 
 #include <kth/domain/multi_crypto_support.hpp>
@@ -21,9 +21,9 @@ currency_t kth_node_settings_get_currency() {
     return static_cast<currency_t>(static_cast<int>(kth::get_currency()));
 }
 
-network_t kth_node_settings_get_network(executor_t exec) {
+network_t kth_node_settings_get_network(kth_node_t exec) {
 
-    p2p_t p2p_node = executor_get_p2p(exec);
+    kth_p2p_t p2p_node = kth_node_get_p2p(exec);
     auto const& node = *static_cast<kth::network::p2p*>(p2p_node);
 
     // auto const& node = exec->actual.node();

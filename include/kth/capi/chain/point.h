@@ -21,7 +21,7 @@ KTH_EXPORT
 void kth_chain_point_get_hash_out(kth_point_t point, kth_hash_t* out_hash);
 
 KTH_EXPORT
-bool_t kth_chain_point_is_valid(kth_point_t point);
+kth_bool_t kth_chain_point_is_valid(kth_point_t point);
 
 KTH_EXPORT
 uint32_t kth_chain_point_get_index(kth_point_t point);

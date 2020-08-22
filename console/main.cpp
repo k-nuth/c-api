@@ -19,7 +19,7 @@
 #include <kth/capi/chain/script.h>
 #include <kth/capi/chain/transaction.h>
 #include <kth/capi/chain/transaction_list.h>
-#include <kth/capi/executor_c.h>
+#include <kth/capi/node.h>
 #include <kth/capi/hash_list.h>
 #include <kth/capi/helpers.hpp>
 #include <kth/capi/wallet/payment_address.h>
@@ -109,8 +109,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     auto exec = executor_construct("/home/kth/dev/kth/github/k-nuth/insight/kth.insight/bcc-testnet.cfg", stdout, stderr);
     //auto exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-    // executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-    //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+    // kth_node_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+    //kth_node_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
 
     // printf("**-- 1\n");
@@ -187,18 +187,18 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 //     auto address = kth_wallet_payment_address_construct_from_string(addr.c_str());
         
-//     if (wallet_payment_address_is_valid(address) == 0) {
+//     if (kth_wallet_payment_address_is_valid(address) == 0) {
 //         std::cout << "Invalid payment address: " << addr << std::endl;
 //     }
 
-//     short_kth_hash_t addr_hash = kth_wallet_payment_address_hash(address);
+//     kth_shorthash_t addr_hash = kth_wallet_payment_address_hash(address);
 //     std::copy_n(static_cast<uint8_t*>(addr_hash.hash), 20, static_cast<uint8_t*>(locking_script_data) + 3);
 //     kth_wallet_payment_address_destruct(address);
 
 //     //--------------------------------------------------------------------------------------------------------------
-//     script_t locking_script = kth_chain_script_construct(static_cast<uint8_t*>(locking_script_data), 25, 0 /*int bool prefix*/);
+//     kth_script_t locking_script = kth_chain_script_construct(static_cast<uint8_t*>(locking_script_data), 25, 0 /*int bool prefix*/);
 
-//     if (chain_script_is_valid(locking_script) == 0) {
+//     if (kth_chain_script_is_valid(locking_script) == 0) {
 //         std::cout << "Invalid locking script\n";
 //     }
 
@@ -210,21 +210,21 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //     unlocking_script_data[sig_n + 1] = pubk_n;
 //     std::copy_n(pubk, pubk_n, begin(unlocking_script_data) + (sig_n + 2));
     
-//     script_t unlocking_script = kth_chain_script_construct(unlocking_script_data.data(), unlocking_script_data.size(), 0 /*int bool prefix*/);
+//     kth_script_t unlocking_script = kth_chain_script_construct(unlocking_script_data.data(), unlocking_script_data.size(), 0 /*int bool prefix*/);
 
-//     if (chain_script_is_valid(unlocking_script) == 0) {
+//     if (kth_chain_script_is_valid(unlocking_script) == 0) {
 //         std::cout << "Invalid unlocking script\n";
 //     }
 
 //     //--------------------------------------------------------------------------------------------------------------
-//     output_kth_point_t previous_output = kth_chain_output_point_construct_from_hash_index(prevout_hash, prevout_index);
-//     input_t input = kth_chain_input_construct(previous_output, unlocking_script, sequence);
+//     kth_outputpoint_t previous_output = kth_chain_output_point_construct_from_hash_index(prevout_hash, prevout_index);
+//     kth_input_t input = kth_chain_input_construct(previous_output, unlocking_script, sequence);
 //     auto inputs = kth_chain_input_list_construct_default();
 //     kth_chain_input_list_push_back(inputs, input);
 
 //     //--------------------------------------------------------------------------------------------------------------
 //     auto outputs = kth_chain_output_list_construct_default();
-//     output_t output = kth_chain_output_construct(satoshis, locking_script);
+//     kth_output_t output = kth_chain_output_construct(satoshis, locking_script);
 //     kth_chain_output_list_push_back(outputs, output);
 //     //--------------------------------------------------------------------------------------------------------------
 
@@ -267,7 +267,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //                     );
 
 //     uint64_t tx_data_n;
-//     uint8_t* tx_data = kth_chain_ kth_transaction_to_data(tx, 1 /*int bool wire*/, &tx_data_n);
+//     uint8_t* tx_data = kth_chain_transaction_to_data(tx, 1 /*int bool wire*/, &tx_data_n);
 //     std::cout << "-----------------------------------------------------------------------------\n";
 //     print_hex(tx_data, tx_data_n);
 //     std::cout << "-----------------------------------------------------------------------------\n";
@@ -363,13 +363,13 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 
 // // kth_chain_get_last_height()
-// // int kth_chain_get_last_height(kth_chain_t chain, uint64_t* /*size_t*/ height) {
+// // int kth_chain_get_last_height(kth_chain_t chain, kth_size_t* height) {
 
 
 
 
 
-// executor_t exec;
+// kth_node_t exec;
 // bool stopped = false;
 
 // void handle_stop(int signal) {
@@ -384,7 +384,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 // int xxx = 0;
 
-// int kth_chain_subscribe_blockchain_handler(executor_t exec, kth_chain_t chain, void* ctx, int error, uint64_t fork_height, kth_block_list_t blocks_incoming, kth_block_list_t blocks_replaced) {
+// int kth_chain_subscribe_blockchain_handler(kth_node_t exec, kth_chain_t chain, void* ctx, int error, uint64_t fork_height, kth_block_list_t blocks_incoming, kth_block_list_t blocks_replaced) {
 //     //printf("chain_subscribe_blockchain_handler error: %d\n", error);
 
 //     if (executor_stopped(exec) == 1 || error == 1) {
@@ -418,8 +418,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 
 //     exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//     // executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//     //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+//     // kth_node_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//     //kth_node_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
 
 //     printf("**-- 1\n");
@@ -504,15 +504,15 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 
 
-// kth::domain::message::transaction const& tx_const_cpp2( kth_transaction_t transaction) {
+// kth::domain::message::transaction const& tx_const_cpp2(kth_transaction_t transaction) {
 // 	return *static_cast<kth::domain::message::transaction const*>(transaction);
 // }
 
 // int main(int /*argc*/, char* /*argv*/[]) {
 // //    using namespace std::chrono_literals;
 
-//     executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//     //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+//     kth_node_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//     //kth_node_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
 //     int res1 = executor_initchain(exec);
 
@@ -563,8 +563,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //int main(int argc, char* argv[]) {
 //	using namespace std::chrono_literals;
 //
-//    executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//	//executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+//    kth_node_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//	//kth_node_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 //
 //    int res1 = executor_initchain(exec);
 //
@@ -617,8 +617,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //	//fetch_last_height(exec, last_height_fetch_handler);
 //
 //
-//    //history_compact_t history;
-//    //point_kind_t xxx = history_compact_get_point_kind(history);
+//    //kth_history_compact_t history;
+//    //kth_point_kind_t xxx = history_compact_get_point_kind(history);
 //
 //	//std::this_thread::sleep_for(5s);
 //
@@ -643,7 +643,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     printf("hola -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 
-    executor_t exec = executor_construct("c:\\blockchain\\bcc-testnet_insight\\kth-node-bcc-testnet.cfg", stdout, stderr);
+    kth_node_t exec = executor_construct("c:\\blockchain\\bcc-testnet_insight\\kth-node-bcc-testnet.cfg", stdout, stderr);
 
     int config_valid = executor_load_config_valid(exec);
 
@@ -658,7 +658,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     printf("hola -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 
-    executor_t exec = executor_construct("c:\\blockchain\\bcc-testnet_insight\\kth-node-bcc-testnet.cfg", stdout, stderr);
+    kth_node_t exec = executor_construct("c:\\blockchain\\bcc-testnet_insight\\kth-node-bcc-testnet.cfg", stdout, stderr);
 
 
     int res1 = executor_initchain(exec);
@@ -687,7 +687,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
     return 0;
 }*/
 
-// void fetch_txns_handler(kth_chain_t chain, void* ctx, error_code ec, hash_list_t txs) {
+// void fetch_txns_handler(kth_chain_t chain, void* ctx, error_code ec, kth_hash_list_t txs) {
 //     int txs_count =  kth_chain_hash_list_count(txs);
 //     printf("Txs count: %d\n", txs_count);
 //     for(int i=0; i<txs_count; i++) {
@@ -701,7 +701,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 // int main(int argc, char* argv[]) {
 //     printf("fetch_txns test -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 
-//     executor_t exec = executor_construct("", stdout, stderr);
+//     kth_node_t exec = executor_construct("", stdout, stderr);
 //     int res1 = executor_initchain(exec);
 //     int res2 = executor_run_wait(exec);
 

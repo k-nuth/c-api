@@ -15,22 +15,22 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-output_kth_point_t kth_chain_output_point_construct(void);
+kth_outputpoint_t kth_chain_output_point_construct(void);
 
 KTH_EXPORT
-output_kth_point_t kth_chain_output_point_construct_from_hash_index(kth_hash_t hash, uint32_t index);
+kth_outputpoint_t kth_chain_output_point_construct_from_hash_index(kth_hash_t hash, uint32_t index);
 
 KTH_EXPORT
-void kth_chain_output_point_destruct(output_kth_point_t op);
+void kth_chain_output_point_destruct(kth_outputpoint_t op);
 
 KTH_EXPORT
-kth_hash_t kth_chain_output_point_get_hash(output_kth_point_t op);
+kth_hash_t kth_chain_output_point_get_hash(kth_outputpoint_t op);
 
 KTH_EXPORT
-void kth_chain_output_point_get_hash_out(output_kth_point_t op, kth_hash_t* out_hash);
+void kth_chain_output_point_get_hash_out(kth_outputpoint_t op, kth_hash_t* out_hash);
 
 KTH_EXPORT
-uint32_t kth_chain_output_point_get_index(output_kth_point_t op);
+uint32_t kth_chain_output_point_get_index(kth_outputpoint_t op);
 
 #ifdef __cplusplus
 } // extern "C"

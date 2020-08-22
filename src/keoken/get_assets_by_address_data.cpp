@@ -9,37 +9,37 @@
 #include <kth/capi/helpers.hpp>
 #include <kth/capi/type_conversions.h>
 
-KTH_CONV_DEFINE(keoken, get_assets_by_address_data_t, kth::keoken::get_assets_by_address_data, get_assets_by_address_data)
+KTH_CONV_DEFINE(keoken, keoken_get_assets_by_address_data_t, kth::keoken::get_assets_by_address_data, get_assets_by_address_data)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
-// get_assets_by_address_data_t keoken_get_assets_by_address_data_construct_default(void) {
+// keoken_get_assets_by_address_data_t keoken_get_assets_by_address_data_construct_default(void) {
 //     return new kth::keoken::get_assets_by_address_data();
 // }
 
-get_assets_by_address_data_t keoken_get_assets_by_address_data_construct(keoken_asset_id_t asset_id, char const* asset_name, kth_payment_address_t asset_creator, keoken_amount_t amount) {
+keoken_get_assets_by_address_data_t keoken_get_assets_by_address_data_construct(keoken_asset_id_t asset_id, char const* asset_name, kth_payment_address_t asset_creator, keoken_amount_t amount) {
     return new kth::keoken::get_assets_by_address_data(asset_id, std::string(asset_name), kth_wallet_payment_address_const_cpp(asset_creator), amount);
 }
 
-void keoken_get_assets_by_address_data_destruct(get_assets_by_address_data_t obj) {
+void keoken_get_assets_by_address_data_destruct(keoken_get_assets_by_address_data_t obj) {
     delete &keoken_get_assets_by_address_data_cpp(obj);
 }
 
-keoken_asset_id_t keoken_get_assets_by_address_data_asset_id(get_assets_by_address_data_t obj) {
+keoken_asset_id_t keoken_get_assets_by_address_data_asset_id(keoken_get_assets_by_address_data_t obj) {
     return keoken_get_assets_by_address_data_const_cpp(obj).asset_id;
 }
 
-char const* keoken_get_assets_by_address_data_asset_name(get_assets_by_address_data_t obj) {
+char const* keoken_get_assets_by_address_data_asset_name(keoken_get_assets_by_address_data_t obj) {
     auto const& asset_name = keoken_get_assets_by_address_data_const_cpp(obj).asset_name;
     return kth::create_c_str(asset_name);
 }
 
-kth_payment_address_t keoken_get_assets_by_address_data_asset_creator(get_assets_by_address_data_t obj) {
+kth_payment_address_t keoken_get_assets_by_address_data_asset_creator(keoken_get_assets_by_address_data_t obj) {
     return &keoken_get_assets_by_address_data_cpp(obj).asset_creator;
 }
 
-keoken_amount_t keoken_get_assets_by_address_data_amount(get_assets_by_address_data_t obj) {
+keoken_amount_t keoken_get_assets_by_address_data_amount(keoken_get_assets_by_address_data_t obj) {
     return keoken_get_assets_by_address_data_const_cpp(obj).amount;
 }
 

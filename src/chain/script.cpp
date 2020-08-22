@@ -7,49 +7,49 @@
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/helpers.hpp>
 
-KTH_CONV_DEFINE(chain, script_t, kth::domain::chain::script, script)
+KTH_CONV_DEFINE(chain, kth_script_t, kth::domain::chain::script, script)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
-script_t kth_chain_script_construct_default() {
+kth_script_t kth_chain_script_construct_default() {
     return new kth::domain::chain::script();
 }
 
 // script::script(const data_chunk& encoded, bool prefix)
-script_t kth_chain_script_construct(uint8_t* encoded, uint64_t n, bool_t prefix) {
+kth_script_t kth_chain_script_construct(uint8_t* encoded, uint64_t n, kth_bool_t prefix) {
     kth::data_chunk encoded_cpp(encoded, std::next(encoded, n));
     return new kth::domain::chain::script(encoded_cpp, kth::int_to_bool(prefix));
 }
 
-void kth_chain_script_destruct(script_t script) {
-    delete &chain_script_cpp(script);
+void kth_chain_script_destruct(kth_script_t script) {
+    delete &kth_chain_script_cpp(script);
 }
 
-bool_t kth_chain_script_is_valid(script_t script) {
-    return kth::bool_to_int(chain_script_const_cpp(script).is_valid());
+kth_bool_t kth_chain_script_is_valid(kth_script_t script) {
+    return kth::bool_to_int(kth_chain_script_const_cpp(script).is_valid());
 }
 
-bool_t kth_chain_script_is_valid_operations(script_t script) {
-    return kth::bool_to_int(chain_script_const_cpp(script).is_valid_operations());
+kth_bool_t kth_chain_script_is_valid_operations(kth_script_t script) {
+    return kth::bool_to_int(kth_chain_script_const_cpp(script).is_valid_operations());
 }
 
-uint64_t /*size_t*/ kth_chain_script_satoshi_content_size(script_t script) {
+kth_size_t kth_chain_script_satoshi_content_size(kth_script_t script) {
     return kth_chain_script_const_cpp(script).serialized_size(false);
 }
 
-uint64_t /*size_t*/ kth_chain_script_serialized_size(script_t script, bool_t prefix) {
+kth_size_t kth_chain_script_serialized_size(kth_script_t script, kth_bool_t prefix) {
     return kth_chain_script_const_cpp(script).serialized_size(kth::int_to_bool(prefix));
 }
 
 //Note: user of the function has to release the resource (memory) manually
-char* kth_chain_script_to_string(script_t script, uint32_t active_forks) {
+char* kth_chain_script_to_string(kth_script_t script, uint32_t active_forks) {
     auto str = kth_chain_script_const_cpp(script).to_string(active_forks);
     return kth::create_c_str(str);
 }
 
 // TODO(fernando): Move this logic elsewhere (this does not go in a wrapper like c-api)
-char* kth_chain_script_type(script_t script) {
+char* kth_chain_script_type(kth_script_t script) {
     auto script_pattern = kth_chain_script_const_cpp(script).pattern();
     std::string type = "non_standard";
     switch(script_pattern) {
@@ -68,12 +68,12 @@ char* kth_chain_script_type(script_t script) {
     return kth::create_c_str(type);
 }
 
-uint8_t* kth_chain_script_to_data(script_t script, bool_t prefix, uint64_t* /*size_t*/ out_size) {
+uint8_t* kth_chain_script_to_data(kth_script_t script, kth_bool_t prefix, kth_size_t* out_size) {
     auto script_data = kth_chain_script_const_cpp(script).to_data(kth::int_to_bool(prefix));
     return kth::create_c_array(script_data, *out_size);
 }
 
-uint64_t /*size_t*/ kth_chain_script_sigops(script_t script, bool_t embedded) {
+kth_size_t kth_chain_script_sigops(kth_script_t script, kth_bool_t embedded) {
     return kth_chain_script_const_cpp(script).sigops(kth::int_to_bool(embedded));
 }
 

@@ -10,20 +10,20 @@
 
 #include <kth/capi/list_creator.h>
 
-KTH_LIST_DEFINE_CONVERTERS(wallet, word_list_t, std::string, word_list)
+KTH_LIST_DEFINE_CONVERTERS(wallet, kth_word_list_t, std::string, word_list)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
-word_list_t kth_wallet_word_list_construct() {
+kth_word_list_t kth_wallet_word_list_construct() {
     return new std::vector<std::string>();
 }
 
-void kth_wallet_word_list_destruct(word_list_t word_list) {
-    delete &wallet_word_list_cpp(word_list);
+void kth_wallet_word_list_destruct(kth_word_list_t word_list) {
+    delete &kth_wallet_word_list_cpp(word_list);
 }
 
-void kth_wallet_word_list_add_word(word_list_t word_list, char const* word) {
+void kth_wallet_word_list_add_word(kth_word_list_t word_list, char const* word) {
     kth_wallet_word_list_cpp(word_list).emplace_back(std::string(word));
 }
 

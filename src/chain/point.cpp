@@ -25,8 +25,8 @@ void kth_chain_point_get_hash_out(kth_point_t point, kth_hash_t* out_hash) {
     kth::copy_c_hash(hash_cpp, out_hash);
 }
 
-bool_t kth_chain_point_is_valid(kth_point_t point) {
-    return kth::bool_to_int(chain_point_const_cpp(point).is_valid());
+kth_bool_t kth_chain_point_is_valid(kth_point_t point) {
+    return kth::bool_to_int(kth_chain_point_const_cpp(point).is_valid());
 }
 
 uint32_t kth_chain_point_get_index(kth_point_t point) {

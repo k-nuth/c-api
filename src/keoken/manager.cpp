@@ -86,21 +86,21 @@ void keoken_manager_initialize_from_blockchain(keoken_manager_t manager) {
     keoken_manager_cpp(manager).initialize_from_blockchain();
 }
 
-bool_t keoken_manager_initialized(keoken_manager_t manager) {
+kth_bool_t keoken_manager_initialized(keoken_manager_t manager) {
     return kth::bool_to_int(keoken_manager_const_cpp(manager).initialized());
 }
 
-get_assets_by_address_list_t keoken_manager_get_assets_by_address(keoken_manager_t manager, kth_payment_address_t address) {
-    auto result = keoken_manager_const_cpp(manager).get_assets_by_address(wallet_payment_address_const_cpp(address));
+keoken_get_assets_by_address_list_t keoken_manager_get_assets_by_address(keoken_manager_t manager, kth_payment_address_t address) {
+    auto result = keoken_manager_const_cpp(manager).get_assets_by_address(kth_wallet_payment_address_const_cpp(address));
     return kth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
-get_assets_list_t keoken_manager_get_assets(keoken_manager_t manager) {
+keoken_get_assets_list_t keoken_manager_get_assets(keoken_manager_t manager) {
     auto result = keoken_manager_const_cpp(manager).get_assets();
     return kth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
-get_all_asset_addresses_list_t keoken_manager_get_all_asset_addresses(keoken_manager_t manager) {
+keoken_get_all_asset_addresses_list_t keoken_manager_get_all_asset_addresses(keoken_manager_t manager) {
     auto result = keoken_manager_const_cpp(manager).get_all_asset_addresses();
     return kth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }

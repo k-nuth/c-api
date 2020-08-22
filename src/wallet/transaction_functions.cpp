@@ -15,7 +15,7 @@
 // ---------------------------------------------------------------------------
 extern "C" {
 
-error_code_t kth_wallet_tx_encode_with_extra_outputs(
+kth_error_code_t kth_wallet_tx_encode_with_extra_outputs(
     kth_point_list_t outputs_to_spend,
     kth_raw_output_list_t destiny_and_amount,
     kth_output_list_t extra_outputs,
@@ -42,7 +42,7 @@ error_code_t kth_wallet_tx_encode_with_extra_outputs(
     return kth::to_c_err(p.first);
 }
 
-error_code_t kth_wallet_tx_encode(
+kth_error_code_t kth_wallet_tx_encode(
     kth_point_list_t outputs_to_spend,
     kth_raw_output_list_t destiny_and_amount,
     uint32_t locktime /*= 0*/,
@@ -67,15 +67,15 @@ error_code_t kth_wallet_tx_encode(
     return kth::to_c_err(p.first);
 }
 
-error_code_t input_signature_old(
-    ec_secret_t private_key,    /*32 element byte array*/
-    script_t output_script,
+kth_error_code_t input_signature_old(
+    kth_ec_secret_t private_key,    /*32 element byte array*/
+    kth_script_t output_script,
     kth_transaction_t tx,
     uint32_t index,
     uint8_t sign_type /*= 0x01*/,
-    bool_t anyone_can_pay /*= false*/,
+    kth_bool_t anyone_can_pay /*= false*/,
     uint8_t** out_signature,
-    uint64_t* /*size_t*/ out_signature_size) {
+    kth_size_t* out_signature_size) {
 
     auto p = kth::domain::wallet::input_signature_old(
         kth::to_array(private_key.data),
@@ -96,16 +96,16 @@ error_code_t input_signature_old(
     return kth::to_c_err(p.first);
 }
 
-error_code_t input_signature_btc(
-    ec_secret_t private_key,    /*32 element byte array*/
-    script_t output_script,
+kth_error_code_t input_signature_btc(
+    kth_ec_secret_t private_key,    /*32 element byte array*/
+    kth_script_t output_script,
     kth_transaction_t tx,
     uint64_t amount,    
     uint32_t index,
     uint8_t sign_type /*= 0x01*/,
-    bool_t anyone_can_pay /*= false*/,
+    kth_bool_t anyone_can_pay /*= false*/,
     uint8_t** out_signature,
-    uint64_t* /*size_t*/ out_signature_size) {
+    kth_size_t* out_signature_size) {
 
     auto p = kth::domain::wallet::input_signature_btc(
         kth::to_array(private_key.data),
@@ -127,16 +127,16 @@ error_code_t input_signature_btc(
     return kth::to_c_err(p.first);
 }
 
-error_code_t input_signature_bch(
-    ec_secret_t private_key,    /*32 element byte array*/
-    script_t output_script,
+kth_error_code_t input_signature_bch(
+    kth_ec_secret_t private_key,    /*32 element byte array*/
+    kth_script_t output_script,
     kth_transaction_t tx,
     uint64_t amount,    
     uint32_t index,
     uint8_t sign_type /*= 0x01*/,
-    bool_t anyone_can_pay /*= false*/,
+    kth_bool_t anyone_can_pay /*= false*/,
     uint8_t** out_signature,
-    uint64_t* /*size_t*/ out_signature_size) {
+    kth_size_t* out_signature_size) {
 
     auto p = kth::domain::wallet::input_signature_bch(
         kth::to_array(private_key.data),
@@ -158,8 +158,8 @@ error_code_t input_signature_bch(
     return kth::to_c_err(p.first);
 }
 
-error_code_t input_set_script(
-    script_t script,
+kth_error_code_t input_set_script(
+    kth_script_t script,
     kth_transaction_t tx,
     uint32_t index /*= 0*/,
     kth_transaction_t* out_transaction) {
@@ -179,10 +179,10 @@ error_code_t input_set_script(
     return kth::to_c_err(p.first);
 }
 
-// error_code_t input_set_signature(
+// kth_error_code_t input_set_signature(
 //     uint8_t* signature, 
-//     uint64_t /*size_t*/ signature_n,
-//     ec_public_t public_key,
+//     kth_size_t signature_n,
+//     kth_ec_public_t public_key,
 //     kth_transaction_t tx,
 //     uint32_t index /*= 0*/,
 //     kth_transaction_t* out_transaction) {
@@ -207,7 +207,7 @@ error_code_t input_set_script(
 
 
 
-// BC_API std::pair<error::error_code_t, chain::transaction> input_set(data_chunk const& signature,
+// BC_API std::pair<error::kth_error_code_t, chain::transaction> input_set(data_chunk const& signature,
 //                                                                     wallet::ec_public const& public_key,
 //                                                                     chain::transaction const& tx, 
 //                                                                      uint32_t index = 0);

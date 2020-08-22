@@ -17,28 +17,28 @@ extern "C" {
 // TODO(fernando): check how to map compact_block::short_ids()
 
 KTH_EXPORT
-header_t kth_chain_compact_block_header(compact_kth_block_t block);
+kth_header_t kth_chain_compact_block_header(kth_compactblock_t block);
 
 KTH_EXPORT
-bool_t kth_chain_compact_block_is_valid(compact_kth_block_t block);
+kth_bool_t kth_chain_compact_block_is_valid(kth_compactblock_t block);
 
 KTH_EXPORT
-uint64_t /*size_t*/ kth_chain_compact_block_serialized_size(compact_kth_block_t block, uint32_t version);
+kth_size_t kth_chain_compact_block_serialized_size(kth_compactblock_t block, uint32_t version);
 
 KTH_EXPORT
-uint64_t /*size_t*/ kth_chain_compact_kth_block_transaction_count(compact_kth_block_t block);
+kth_size_t kth_chain_compactblock_transaction_count(kth_compactblock_t block);
 
 KTH_EXPORT
-kth_transaction_t kth_chain_compact_kth_block_transaction_nth(compact_kth_block_t block, uint64_t /*size_t*/ n);
+kth_transaction_t kth_chain_compactblock_transaction_nth(kth_compactblock_t block, kth_size_t n);
 
 KTH_EXPORT
-uint64_t kth_chain_compact_block_nonce(compact_kth_block_t block);
+uint64_t kth_chain_compact_block_nonce(kth_compactblock_t block);
 
 KTH_EXPORT
-void kth_chain_compact_block_destruct(compact_kth_block_t block);
+void kth_chain_compact_block_destruct(kth_compactblock_t block);
 
 KTH_EXPORT
-void kth_chain_compact_block_reset(compact_kth_block_t block);
+void kth_chain_compact_block_reset(kth_compactblock_t block);
 
 #ifdef __cplusplus
 } // extern "C"

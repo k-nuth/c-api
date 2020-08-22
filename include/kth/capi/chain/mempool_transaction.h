@@ -15,25 +15,25 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-char const* kth_chain_mempool_transaction_address(mempool_kth_transaction_t tx);
+char const* kth_chain_mempool_transaction_address(kth_mempool_transaction_t tx);
 
 KTH_EXPORT
-char const* kth_chain_mempool_transaction_hash(mempool_kth_transaction_t tx);
+char const* kth_chain_mempool_transaction_hash(kth_mempool_transaction_t tx);
 
 KTH_EXPORT
-uint64_t kth_chain_mempool_transaction_index(mempool_kth_transaction_t tx);
+uint64_t kth_chain_mempool_transaction_index(kth_mempool_transaction_t tx);
 
 KTH_EXPORT
-char const* kth_chain_mempool_transaction_satoshis(mempool_kth_transaction_t tx);
+char const* kth_chain_mempool_transaction_satoshis(kth_mempool_transaction_t tx);
 
 KTH_EXPORT
-uint64_t kth_chain_mempool_kth_transaction_timestamp(mempool_kth_transaction_t tx);
+uint64_t kth_chain_mempool_transaction_timestamp(kth_mempool_transaction_t tx);
 
 KTH_EXPORT
-char const* kth_chain_mempool_transaction_prev_output_id(mempool_kth_transaction_t tx);
+char const* kth_chain_mempool_transaction_prev_output_id(kth_mempool_transaction_t tx);
 
 KTH_EXPORT
-char const* kth_chain_mempool_transaction_prev_output_index(mempool_kth_transaction_t tx);
+char const* kth_chain_mempool_transaction_prev_output_index(kth_mempool_transaction_t tx);
 
 #ifdef __cplusplus
 } // extern "C"

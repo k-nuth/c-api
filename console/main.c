@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-#include <kth/capi/executor_c.h>
+#include <kth/capi/node.h>
 
 
 #include <iostream>
@@ -22,7 +22,7 @@ void history_fetch_handler(int error, history_compact_list_t list) {
 
 int main(int argc, char* argv[]) {
 
-    executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
+    kth_node_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
 
     int res1 = executor_initchain(exec);
     int res2 = executor_run(exec);

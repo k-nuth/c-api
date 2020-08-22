@@ -33,16 +33,16 @@ KTH_EXPORT
 void keoken_manager_initialize_from_blockchain(keoken_manager_t manager);
 
 KTH_EXPORT
-bool_t keoken_manager_initialized(keoken_manager_t manager);
+kth_bool_t keoken_manager_initialized(keoken_manager_t manager);
 
 KTH_EXPORT
-get_assets_by_address_list_t keoken_manager_get_assets_by_address(keoken_manager_t manager, kth_payment_address_t address);
+keoken_get_assets_by_address_list_t keoken_manager_get_assets_by_address(keoken_manager_t manager, kth_payment_address_t address);
 
 KTH_EXPORT
-get_assets_list_t keoken_manager_get_assets(keoken_manager_t manager);
+keoken_get_assets_list_t keoken_manager_get_assets(keoken_manager_t manager);
 
 KTH_EXPORT
-get_all_asset_addresses_list_t keoken_manager_get_all_asset_addresses(keoken_manager_t manager);
+keoken_get_all_asset_addresses_list_t keoken_manager_get_all_asset_addresses(keoken_manager_t manager);
 
 #ifdef __cplusplus
 } // extern "C"

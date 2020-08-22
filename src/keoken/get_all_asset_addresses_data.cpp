@@ -9,16 +9,16 @@
 #include <kth/capi/helpers.hpp>
 #include <kth/capi/type_conversions.h>
 
-KTH_CONV_DEFINE(keoken, get_all_asset_addresses_data_t, kth::keoken::get_all_asset_addresses_data, get_all_asset_addresses_data)
+KTH_CONV_DEFINE(keoken, keoken_get_all_asset_addresses_data_t, kth::keoken::get_all_asset_addresses_data, get_all_asset_addresses_data)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
-// get_all_asset_addresses_data_t keoken_get_all_asset_addresses_data_construct_default(void) {
+// keoken_get_all_asset_addresses_data_t keoken_get_all_asset_addresses_data_construct_default(void) {
 //     return new kth::keoken::get_all_asset_addresses_data();
 // }
 
-get_all_asset_addresses_data_t keoken_get_all_asset_addresses_data_construct(keoken_asset_id_t asset_id, char const* asset_name, kth_payment_address_t asset_creator, keoken_amount_t amount, kth_payment_address_t amount_owner) {
+keoken_get_all_asset_addresses_data_t keoken_get_all_asset_addresses_data_construct(keoken_asset_id_t asset_id, char const* asset_name, kth_payment_address_t asset_creator, keoken_amount_t amount, kth_payment_address_t amount_owner) {
     auto result = kth::keoken::get_all_asset_addresses_data(
         asset_id, 
         std::string(asset_name), 
@@ -29,28 +29,28 @@ get_all_asset_addresses_data_t keoken_get_all_asset_addresses_data_construct(keo
     return kth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
-void keoken_get_all_asset_addresses_data_destruct(get_all_asset_addresses_data_t obj) {
+void keoken_get_all_asset_addresses_data_destruct(keoken_get_all_asset_addresses_data_t obj) {
     delete &keoken_get_all_asset_addresses_data_cpp(obj);
 }
 
-keoken_asset_id_t keoken_get_all_asset_addresses_data_asset_id(get_all_asset_addresses_data_t obj) {
+keoken_asset_id_t keoken_get_all_asset_addresses_data_asset_id(keoken_get_all_asset_addresses_data_t obj) {
     return keoken_get_all_asset_addresses_data_const_cpp(obj).asset_id;
 }
 
-char const* keoken_get_all_asset_addresses_data_asset_name(get_all_asset_addresses_data_t obj) {
+char const* keoken_get_all_asset_addresses_data_asset_name(keoken_get_all_asset_addresses_data_t obj) {
     auto const& asset_name = keoken_get_all_asset_addresses_data_const_cpp(obj).asset_name;
     return kth::create_c_str(asset_name);
 }
 
-kth_payment_address_t keoken_get_all_asset_addresses_data_asset_creator(get_all_asset_addresses_data_t obj) {
+kth_payment_address_t keoken_get_all_asset_addresses_data_asset_creator(keoken_get_all_asset_addresses_data_t obj) {
     return &keoken_get_all_asset_addresses_data_cpp(obj).asset_creator;
 }
 
-keoken_amount_t keoken_get_all_asset_addresses_data_amount(get_all_asset_addresses_data_t obj) {
+keoken_amount_t keoken_get_all_asset_addresses_data_amount(keoken_get_all_asset_addresses_data_t obj) {
     return keoken_get_all_asset_addresses_data_const_cpp(obj).amount;
 }
 
-kth_payment_address_t keoken_get_all_asset_addresses_data_amount_owner(get_all_asset_addresses_data_t obj) {
+kth_payment_address_t keoken_get_all_asset_addresses_data_amount_owner(keoken_get_all_asset_addresses_data_t obj) {
     return &keoken_get_all_asset_addresses_data_cpp(obj).amount_owner;
 }
 

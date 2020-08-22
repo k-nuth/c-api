@@ -42,21 +42,21 @@ char* kth_wallet_payment_address_encoded_cashaddr(kth_payment_address_t payment_
 }
 #endif //KTH_CURRENCY_BCH
 
-short_kth_hash_t kth_wallet_payment_address_hash(kth_payment_address_t payment_address) {
+kth_shorthash_t kth_wallet_payment_address_hash(kth_payment_address_t payment_address) {
     auto const& hash_cpp = kth_wallet_payment_address_const_cpp(payment_address).hash();
-    return kth::to_short_kth_hash_t(hash_cpp);
+    return kth::to_shorthash_t(hash_cpp);
 }
 
 uint8_t kth_wallet_payment_address_version(kth_payment_address_t payment_address) {
     return kth_wallet_payment_address_const_cpp(payment_address).version();
 }
 
-bool_t kth_wallet_payment_address_is_valid(kth_payment_address_t payment_address) {
-    return kth::bool_to_int(static_cast<bool>(wallet_payment_address_const_cpp(payment_address)));
+kth_bool_t kth_wallet_payment_address_is_valid(kth_payment_address_t payment_address) {
+    return kth::bool_to_int(static_cast<bool>(kth_wallet_payment_address_const_cpp(payment_address)));
 }
 
 void kth_wallet_payment_address_destruct(kth_payment_address_t payment_address) {
-    delete &wallet_payment_address_cpp(payment_address);
+    delete &kth_wallet_payment_address_cpp(payment_address);
 }
 
 } // extern "C"

@@ -33,7 +33,7 @@ KTH_EXPORT
 currency_t kth_node_settings_get_currency();
 
 KTH_EXPORT
-network_t kth_node_settings_get_network(executor_t exec);
+network_t kth_node_settings_get_network(kth_node_t exec);
 
 KTH_EXPORT
 char const* kth_node_settings_cashaddr_prefix();

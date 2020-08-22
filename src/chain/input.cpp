@@ -10,57 +10,57 @@
 #include <kth/capi/helpers.hpp>
 
 
-KTH_CONV_DEFINE(chain, input_t, kth::domain::chain::input, input)
+KTH_CONV_DEFINE(chain, kth_input_t, kth::domain::chain::input, input)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
-input_t kth_chain_input_construct_default() {
+kth_input_t kth_chain_input_construct_default() {
     return new kth::domain::chain::input();
 }
 
-input_t kth_chain_input_construct(output_kth_point_t previous_output, script_t script, uint32_t sequence) {
-    return new kth::domain::chain::input(chain_output_point_const_cpp(previous_output), kth_chain_script_const_cpp(script), sequence);
+kth_input_t kth_chain_input_construct(kth_outputpoint_t previous_output, kth_script_t script, uint32_t sequence) {
+    return new kth::domain::chain::input(kth_chain_output_point_const_cpp(previous_output), kth_chain_script_const_cpp(script), sequence);
 }
 
-void kth_chain_input_destruct(input_t input) {
-    delete &chain_input_cpp(input);
+void kth_chain_input_destruct(kth_input_t input) {
+    delete &kth_chain_input_cpp(input);
 }
 
-bool_t kth_chain_input_is_valid(input_t input) {
-    return kth::bool_to_int(chain_input_const_cpp(input).is_valid());
+kth_bool_t kth_chain_input_is_valid(kth_input_t input) {
+    return kth::bool_to_int(kth_chain_input_const_cpp(input).is_valid());
 }
 
-bool_t kth_chain_input_is_final(input_t input) {
-    return kth::bool_to_int(chain_input_const_cpp(input).is_final());
+kth_bool_t kth_chain_input_is_final(kth_input_t input) {
+    return kth::bool_to_int(kth_chain_input_const_cpp(input).is_final());
 }
 
-uint64_t /*size_t*/ kth_chain_input_serialized_size(input_t input, bool_t wire /* = true*/) {
+kth_size_t kth_chain_input_serialized_size(kth_input_t input, kth_bool_t wire /* = true*/) {
     return kth_chain_input_const_cpp(input).serialized_size(kth::int_to_bool(wire));
 }
 
-uint32_t kth_chain_input_sequence(input_t input) {
+uint32_t kth_chain_input_sequence(kth_input_t input) {
     return kth_chain_input_const_cpp(input).sequence();
 }
 
-uint64_t /*size_t*/ kth_chain_input_signature_operations(input_t input, bool_t bip16_active) {
+kth_size_t kth_chain_input_signature_operations(kth_input_t input, kth_bool_t bip16_active) {
 #if defined(KTH_CURRENCY_BCH)
-    bool_t bip141_active = 0;
+    kth_bool_t bip141_active = 0;
 #else
-    bool_t bip141_active = 1;
+    kth_bool_t bip141_active = 1;
 #endif
     return kth_chain_input_const_cpp(input).signature_operations(kth::int_to_bool(bip16_active), kth::int_to_bool(bip141_active));
 }
 
-script_t kth_chain_input_script(input_t input) {
-    return &(chain_input_cpp(input).script());
+kth_script_t kth_chain_input_script(kth_input_t input) {
+    return &(kth_chain_input_cpp(input).script());
 }
 
-output_kth_point_t kth_chain_input_previous_output(input_t input) {
-    return &(chain_input_cpp(input).previous_output());
+kth_outputpoint_t kth_chain_input_previous_output(kth_input_t input) {
+    return &(kth_chain_input_cpp(input).previous_output());
 }
 
-uint8_t* kth_chain_input_to_data(input_t input, bool_t wire, uint64_t* /*size_t*/ out_size) {
+uint8_t* kth_chain_input_to_data(kth_input_t input, kth_bool_t wire, kth_size_t* out_size) {
     auto input_data = kth_chain_input_const_cpp(input).to_data(kth::int_to_bool(wire));
     return kth::create_c_array(input_data, *out_size);
 }

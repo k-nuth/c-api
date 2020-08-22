@@ -12,6 +12,6 @@ KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, kth_output_list_t, kth::domain::chain:
 
 extern "C" {
 
-KTH_LIST_DEFINE(chain, kth_output_list_t, output_t, output_list, kth::domain::chain::output, kth_chain_output_const_cpp)
+KTH_LIST_DEFINE(chain, kth_output_list_t, kth_output_t, output_list, kth::domain::chain::output, kth_chain_output_const_cpp)
 
 } // extern "C"

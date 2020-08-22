@@ -15,19 +15,19 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-ec_public_t kth_wallet_ec_public_construct_default(void);
+kth_ec_public_t kth_wallet_ec_public_construct_default(void);
 
 KTH_EXPORT
-uint16_t kth_wallet_ec_public_version(ec_public_t obj);
+uint16_t kth_wallet_ec_public_version(kth_ec_public_t obj);
 
 KTH_EXPORT
-uint8_t kth_wallet_ec_public_payment_version(ec_public_t obj);
+uint8_t kth_wallet_ec_public_payment_version(kth_ec_public_t obj);
 
 KTH_EXPORT
-uint8_t kth_wallet_ec_public_wif_version(ec_public_t obj);
+uint8_t kth_wallet_ec_public_wif_version(kth_ec_public_t obj);
 
 KTH_EXPORT
-bool_t kth_wallet_ec_public_compressed(ec_public_t obj);
+kth_bool_t kth_wallet_ec_public_compressed(kth_ec_public_t obj);
 
 // const ec_compressed& point() const;
 // const uint16_t version() const;

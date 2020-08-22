@@ -9,60 +9,60 @@
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/helpers.hpp>
 
-KTH_CONV_DEFINE(chain, get_blocks_t, kth::domain::message::get_blocks, get_blocks)
+KTH_CONV_DEFINE(chain, kth_get_blocks_t, kth::domain::message::get_blocks, get_blocks)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
-get_blocks_t kth_chain_get_blocks_construct_default() {
+kth_get_blocks_t kth_chain_get_blocks_construct_default() {
     return new kth::domain::message::get_blocks();
 }
 
-get_blocks_t kth_chain_get_blocks_construct(hash_list_t start, kth_hash_t stop) {
-    auto const& start_cpp = core_hash_list_const_cpp(start);
+kth_get_blocks_t kth_chain_get_blocks_construct(kth_hash_list_t start, kth_hash_t stop) {
+    auto const& start_cpp = kth_core_hash_list_const_cpp(start);
     auto stop_cpp = kth::to_array(stop.hash);
     return new kth::domain::message::get_blocks(start_cpp, stop_cpp);
 }
 
-void kth_chain_get_blocks_destruct(get_blocks_t get_b) {
-    delete &chain_get_blocks_cpp(get_b);
+void kth_chain_get_blocks_destruct(kth_get_blocks_t get_b) {
+    delete &kth_chain_get_blocks_cpp(get_b);
 }
 
-hash_list_t kth_chain_get_blocks_start_hashes(get_blocks_t get_b) {
+kth_hash_list_t kth_chain_get_blocks_start_hashes(kth_get_blocks_t get_b) {
     auto& list = kth_chain_get_blocks_cpp(get_b).start_hashes();
-    return core_hash_list_construct_from_cpp(list);
+    return kth_core_hash_list_construct_from_cpp(list);
 }
 
-void kth_chain_get_blocks_set_start_hashes(get_blocks_t get_b, hash_list_t value) {
-    auto const& value_cpp = core_hash_list_const_cpp(value);
+void kth_chain_get_blocks_set_start_hashes(kth_get_blocks_t get_b, kth_hash_list_t value) {
+    auto const& value_cpp = kth_core_hash_list_const_cpp(value);
     kth_chain_get_blocks_cpp(get_b).set_start_hashes(value_cpp);
 }
 
-kth_hash_t kth_chain_get_blocks_stop_hash(get_blocks_t get_b) {
+kth_hash_t kth_chain_get_blocks_stop_hash(kth_get_blocks_t get_b) {
     auto& stop = kth_chain_get_blocks_cpp(get_b).stop_hash();
     return kth::to_hash_t(stop);
 }
 
-void kth_chain_get_blocks_stop_hash_out(get_blocks_t get_b, kth_hash_t* out_stop_hash) {
+void kth_chain_get_blocks_stop_hash_out(kth_get_blocks_t get_b, kth_hash_t* out_stop_hash) {
     auto& stop = kth_chain_get_blocks_cpp(get_b).stop_hash();
     kth::copy_c_hash(stop, out_stop_hash);
 }
 
 //TODO(fernando): pass the kth_hash_t by reference (pointer)
-void kth_chain_get_blocks_set_stop_hash(get_blocks_t get_b, kth_hash_t value) {
+void kth_chain_get_blocks_set_stop_hash(kth_get_blocks_t get_b, kth_hash_t value) {
     auto value_cpp = kth::to_array(value.hash);
     kth_chain_get_blocks_cpp(get_b).set_stop_hash(value_cpp);
 }
 
-bool_t kth_chain_get_blocks_is_valid(get_blocks_t get_b) {
-    return kth::bool_to_int(chain_get_blocks_cpp(get_b).is_valid());
+kth_bool_t kth_chain_get_blocks_is_valid(kth_get_blocks_t get_b) {
+    return kth::bool_to_int(kth_chain_get_blocks_cpp(get_b).is_valid());
 }
 
-void kth_chain_get_blocks_reset(get_blocks_t get_b) {
+void kth_chain_get_blocks_reset(kth_get_blocks_t get_b) {
     kth_chain_get_blocks_cpp(get_b).reset();
 }
 
-uint64_t /*size_t*/ kth_chain_get_blocks_serialized_size(get_blocks_t get_b, uint32_t version) {
+kth_size_t kth_chain_get_blocks_serialized_size(kth_get_blocks_t get_b, uint32_t version) {
     return kth_chain_get_blocks_cpp(get_b).serialized_size(version);
 }
 

@@ -18,7 +18,7 @@ KTH_EXPORT
 kth_block_t kth_chain_block_construct_default(void);
 
 KTH_EXPORT
-kth_block_t kth_chain_block_construct(header_t header, kth_transaction_list_t transactions);
+kth_block_t kth_chain_block_construct(kth_header_t header, kth_transaction_list_t transactions);
 
 KTH_EXPORT
 kth_block_t kth_chain_block_factory_from_data(uint32_t version, uint8_t* data, uint64_t n);
@@ -30,7 +30,7 @@ KTH_EXPORT
 int kth_chain_block_is_valid(kth_block_t block);
 
 KTH_EXPORT
-header_t kth_chain_block_header(kth_block_t block);
+kth_header_t kth_chain_block_header(kth_block_t block);
 
 KTH_EXPORT
 kth_hash_t kth_chain_block_hash(kth_block_t block);
@@ -46,23 +46,23 @@ KTH_EXPORT
 char const* kth_chain_block_proof_str(kth_block_t block);
 
 KTH_EXPORT
-uint64_t /*size_t*/ kth_chain_block_transaction_count(kth_block_t block);
+kth_size_t kth_chain_block_transaction_count(kth_block_t block);
 
 KTH_EXPORT
-kth_transaction_t kth_chain_block_transaction_nth(kth_block_t block, uint64_t /*size_t*/ n);
+kth_transaction_t kth_chain_block_transaction_nth(kth_block_t block, kth_size_t n);
 
 //KTH_EXPORT
-//kth_transaction_t kth_chain_block_transactions(kth_block_t block, uint64_t* /*size_t*/ n);
+//kth_transaction_t kth_chain_block_transactions(kth_block_t block, kth_size_t* n);
 //
 //KTH_EXPORT
 //kth_transaction_t kth_chain_block_transaction_next(kth_transaction_t transaction);
 
 KTH_EXPORT
-uint64_t /*size_t*/ kth_chain_block_serialized_size(kth_block_t block, uint32_t version);
+kth_size_t kth_chain_block_serialized_size(kth_block_t block, uint32_t version);
 
 KTH_EXPORT
 /*static*/
-uint64_t kth_chain_block_subsidy(uint64_t /*size_t*/ height);
+uint64_t kth_chain_block_subsidy(kth_size_t height);
 
 KTH_EXPORT
 uint64_t kth_chain_block_fees(kth_block_t block);
@@ -71,7 +71,7 @@ KTH_EXPORT
 uint64_t kth_chain_block_claim(kth_block_t block);
 
 KTH_EXPORT
-uint64_t kth_chain_block_reward(kth_block_t block, uint64_t /*size_t*/ height);
+uint64_t kth_chain_block_reward(kth_block_t block, kth_size_t height);
 
 //Note: The user is responsible for the resource release
 KTH_EXPORT
@@ -81,37 +81,37 @@ KTH_EXPORT
 void kth_chain_block_generate_merkle_root_out(kth_block_t block, kth_hash_t* out_merkle);
 
 KTH_EXPORT
-uint64_t /*size_t*/ kth_chain_block_signature_operations(kth_block_t block);
+kth_size_t kth_chain_block_signature_operations(kth_block_t block);
 
 KTH_EXPORT
-uint64_t /*size_t*/ kth_chain_block_signature_operations_bip16_active(kth_block_t block, bool_t bip16_active);
+kth_size_t kth_chain_block_signature_operations_bip16_active(kth_block_t block, kth_bool_t bip16_active);
 
 KTH_EXPORT
-uint64_t /*size_t*/ kth_chain_block_total_inputs(kth_block_t block, bool_t with_coinbase /*= true*/);
+kth_size_t kth_chain_block_total_inputs(kth_block_t block, kth_bool_t with_coinbase /*= true*/);
 
 KTH_EXPORT
-bool_t kth_chain_block_is_extra_coinbases(kth_block_t block);
+kth_bool_t kth_chain_block_is_extra_coinbases(kth_block_t block);
 
 KTH_EXPORT
-bool_t kth_chain_block_is_final(kth_block_t block, uint64_t /*size_t*/ height, uint32_t kth_block_time);
+kth_bool_t kth_chain_block_is_final(kth_block_t block, kth_size_t height, uint32_t kth_block_time);
 
 KTH_EXPORT
-bool_t kth_chain_block_is_distinct_transaction_set(kth_block_t block);
+kth_bool_t kth_chain_block_is_distinct_transaction_set(kth_block_t block);
 
 KTH_EXPORT
-bool_t kth_chain_block_is_valid_coinbase_claim(kth_block_t block, uint64_t /*size_t*/ height);
+kth_bool_t kth_chain_block_is_valid_coinbase_claim(kth_block_t block, kth_size_t height);
 
 KTH_EXPORT
-bool_t kth_chain_block_is_valid_coinbase_script(kth_block_t block, uint64_t /*size_t*/ height);
+kth_bool_t kth_chain_block_is_valid_coinbase_script(kth_block_t block, kth_size_t height);
 
 KTH_EXPORT
-bool_t kth_chain_block_is_internal_double_spend(kth_block_t block);
+kth_bool_t kth_chain_block_is_internal_double_spend(kth_block_t block);
 
 KTH_EXPORT
-bool_t kth_chain_block_is_valid_merkle_root(kth_block_t block);
+kth_bool_t kth_chain_block_is_valid_merkle_root(kth_block_t block);
 
 KTH_EXPORT
-uint8_t const* kth_chain_block_to_data(kth_block_t block, bool_t wire, uint64_t* /*size_t*/ out_size);
+uint8_t const* kth_chain_block_to_data(kth_block_t block, kth_bool_t wire, kth_size_t* out_size);
 
 #ifdef __cplusplus
 } // extern "C"

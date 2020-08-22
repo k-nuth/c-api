@@ -15,37 +15,37 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-get_blocks_t kth_chain_get_blocks_construct_default(void);
+kth_get_blocks_t kth_chain_get_blocks_construct_default(void);
 
 KTH_EXPORT
-get_blocks_t kth_chain_get_blocks_construct(hash_list_t start, kth_hash_t stop);
+kth_get_blocks_t kth_chain_get_blocks_construct(kth_hash_list_t start, kth_hash_t stop);
 
 KTH_EXPORT
-void kth_chain_get_blocks_destruct(get_blocks_t get_b);
+void kth_chain_get_blocks_destruct(kth_get_blocks_t get_b);
 
 KTH_EXPORT
-hash_list_t kth_chain_get_blocks_start_hashes(get_blocks_t get_b);
+kth_hash_list_t kth_chain_get_blocks_start_hashes(kth_get_blocks_t get_b);
 
 KTH_EXPORT
-void kth_chain_get_blocks_set_start_hashes(get_blocks_t get_b, hash_list_t value);
+void kth_chain_get_blocks_set_start_hashes(kth_get_blocks_t get_b, kth_hash_list_t value);
 
 KTH_EXPORT
-kth_hash_t kth_chain_get_blocks_stop_hash(get_blocks_t get_b);
+kth_hash_t kth_chain_get_blocks_stop_hash(kth_get_blocks_t get_b);
 
 KTH_EXPORT
-void kth_chain_get_blocks_stop_hash_out(get_blocks_t get_b, kth_hash_t* out_stop_hash);
+void kth_chain_get_blocks_stop_hash_out(kth_get_blocks_t get_b, kth_hash_t* out_stop_hash);
 
 KTH_EXPORT
-void kth_chain_get_blocks_set_stop_hash(get_blocks_t get_b, kth_hash_t value);
+void kth_chain_get_blocks_set_stop_hash(kth_get_blocks_t get_b, kth_hash_t value);
 
 KTH_EXPORT
-bool_t kth_chain_get_blocks_is_valid(get_blocks_t get_b);
+kth_bool_t kth_chain_get_blocks_is_valid(kth_get_blocks_t get_b);
 
 KTH_EXPORT
-void kth_chain_get_blocks_reset(get_blocks_t get_b);
+void kth_chain_get_blocks_reset(kth_get_blocks_t get_b);
 
 KTH_EXPORT
-uint64_t /*size_t*/ kth_chain_get_blocks_serialized_size(get_blocks_t get_b, uint32_t version);
+kth_size_t kth_chain_get_blocks_serialized_size(kth_get_blocks_t get_b, uint32_t version);
 
 #ifdef __cplusplus
 } // extern "C"

@@ -55,7 +55,7 @@ $ conan install c-api/0.X@kth/stable -o currency=LTC
 #include <kth/capi.h>
 
 int main() {
-    executor_t exec = executor_construct("my_config_file", stdout, stderr);
+    kth_node_t exec = executor_construct("my_config_file", stdout, stderr);
 
     executor_initchain(exec);
     executor_run_wait(exec);
@@ -86,7 +86,7 @@ Includes C standard library stuff, like format conversion specifiers, fixed widt
 Gives access to Knuth C-API features.
 
 ```c
-executor_t exec = executor_construct("my_config_file", stdout, stderr);
+kth_node_t exec = executor_construct("my_config_file", stdout, stderr);
 ```
 Construct a Knuth _executor_ object, which is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.  
 

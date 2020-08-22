@@ -15,13 +15,13 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-word_list_t kth_wallet_word_list_construct(void);
+kth_word_list_t kth_wallet_word_list_construct(void);
 
 KTH_EXPORT
-void kth_wallet_word_list_add_word(word_list_t word_list, const char* word);
+void kth_wallet_word_list_add_word(kth_word_list_t word_list, const char* word);
 
 KTH_EXPORT
-void kth_wallet_word_list_destruct(word_list_t word_list);
+void kth_wallet_word_list_destruct(kth_word_list_t word_list);
 
 #ifdef __cplusplus
 } // extern "C"

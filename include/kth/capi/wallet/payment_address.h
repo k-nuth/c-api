@@ -31,13 +31,13 @@ KTH_EXPORT
 kth_payment_address_t kth_wallet_payment_address_construct_from_string(char const* address);
 
 KTH_EXPORT
-short_kth_hash_t kth_wallet_payment_address_hash(kth_payment_address_t payment_address);
+kth_shorthash_t kth_wallet_payment_address_hash(kth_payment_address_t payment_address);
 
 KTH_EXPORT
 uint8_t kth_wallet_payment_address_version(kth_payment_address_t payment_address);
 
 KTH_EXPORT
-bool_t kth_wallet_payment_address_is_valid(kth_payment_address_t payment_address);
+kth_bool_t kth_wallet_payment_address_is_valid(kth_payment_address_t payment_address);
 
 KTH_EXPORT
 void kth_wallet_payment_address_destruct(kth_payment_address_t payment_address);

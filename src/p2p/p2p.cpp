@@ -10,7 +10,7 @@
 namespace {
 
 inline
-kth::network::p2p& p2p_cast(p2p_t p2p) {
+kth::network::p2p& p2p_cast(kth_p2p_t p2p) {
     return *static_cast<kth::network::p2p*>(p2p);
 }
 
@@ -19,19 +19,19 @@ kth::network::p2p& p2p_cast(p2p_t p2p) {
 // ---------------------------------------------------------------------------
 extern "C" {
 
-uint64_t /*size_t*/ kth_p2p_address_count(p2p_t p2p) {
+kth_size_t kth_p2p_address_count(kth_p2p_t p2p) {
     return p2p_cast(p2p).address_count();
 }
 
-void kth_p2p_stop(p2p_t p2p) {
+void kth_p2p_stop(kth_p2p_t p2p) {
     p2p_cast(p2p).stop();
 }
 
-void kth_p2p_close(p2p_t p2p) {
+void kth_p2p_close(kth_p2p_t p2p) {
     p2p_cast(p2p).close();
 }
 
-bool_t kth_p2p_stopped(p2p_t p2p) {
+kth_bool_t kth_p2p_stopped(kth_p2p_t p2p) {
     return kth::bool_to_int(p2p_cast(p2p).stopped());
 }
 

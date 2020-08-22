@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-KTH_LIST_DECLARE(chain, input_list_t, input_t, input_list)
+KTH_LIST_DECLARE(chain, kth_input_list_t, kth_input_t, input_list)
 
 #ifdef __cplusplus
 } // extern "C"

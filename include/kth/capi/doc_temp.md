@@ -1,12 +1,12 @@
-# Executor
+# Node
 
-Defined in header `<kth/capi/executor_c.h>`
+Defined in header `<kth/capi/node.h>`
 
 Controls the execution of a Knuth crypto node.
 
 ## Construction
 
-`executor_t executor_construct(char const* path, FILE* sout, FILE* serr);`
+`kth_node_t kth_node_construct(char const* path, FILE* sout, FILE* serr);`
 
 ### Parameters:
 - path: file path of the configuration file
@@ -19,46 +19,46 @@ Typical use is to pass `stderr` defined in the standard header `<stdio.h>`.
 
 ### Return value:
 
-An `executor_t` object that is capable to run a Knuth crypto full-node.
+An `kth_node_t` object that is capable to run a Knuth crypto full-node.
 
 ### Notes:
 
 
 
-`executor_t executor_construct_fd(char const* path, int sout_fd, int serr_fd);`
+`kth_node_t kth_node_construct_fd(char const* path, int sout_fd, int serr_fd);`
 
 
 #if defined(_WIN32)
 
-`executor_t executor_construct_handles(char const* path, void* sout, void* serr);`
+`kth_node_t kth_node_construct_handles(char const* path, void* sout, void* serr);`
 
 #endif /* defined(_WIN32) */
 
 ### Destruction
-`void executor_destruct(executor_t exec);`
+`void kth_node_destruct(kth_node_t exec);`
 
-`int executor_initchain(executor_t exec);`
-
-
-`void executor_run(executor_t exec, void* ctx, run_handler_t handler);`
+`int kth_node_initchain(kth_node_t exec);`
 
 
-`void executor_init_and_run(executor_t exec, void* ctx, run_handler_t handler);`
+`void kth_node_run(kth_node_t exec, void* ctx, kth_run_handler_t handler);`
 
 
-`int executor_run_wait(executor_t exec);`
+`void kth_node_init_and_run(kth_node_t exec, void* ctx, kth_run_handler_t handler);`
 
 
-`int executor_init_and_run_wait(executor_t exec);`
+`int kth_node_run_wait(kth_node_t exec);`
 
-`int executor_stop(executor_t exec);`
 
-`int executor_stopped(executor_t exec);`
+`int kth_node_init_and_run_wait(kth_node_t exec);`
 
-`kth_chain_t executor_get_chain(executor_t exec);`
+`int kth_node_stop(kth_node_t exec);`
 
-`p2p_t executor_get_p2p(executor_t exec);`
+`int kth_node_stopped(kth_node_t exec);`
 
-`char const* executor_version(void);`
+`kth_chain_t kth_node_get_chain(kth_node_t exec);`
 
-`int executor_load_config_valid(executor_t exec);`
+`kth_p2p_t kth_node_get_p2p(kth_node_t exec);`
+
+`char const* kth_node_version(void);`
+
+`int kth_node_load_config_valid(kth_node_t exec);`
