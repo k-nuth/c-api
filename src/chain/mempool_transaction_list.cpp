@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #include <kth/capi/chain/mempool_transaction_list.h>
 
 #include <kth/blockchain/interface/safe_chain.hpp>
@@ -14,6 +13,6 @@ KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, mempool_transaction_list_t, kth::block
 
 extern "C" {
 
-KTH_LIST_DEFINE(chain, mempool_transaction_list_t, mempool_transaction_t, mempool_transaction_list, kth::blockchain::mempool_transaction_summary, chain_mempool_transaction_const_cpp)
+KTH_LIST_DEFINE(chain, mempool_transaction_list_t, mempool_ kth_transaction_t, mempool_transaction_list, kth::blockchain::mempool_transaction_summary, kth_chain_mempool_transaction_const_cpp)
 
 } // extern "C"

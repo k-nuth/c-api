@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #ifndef KTH_CAPI_NODE_SETTINGS_H_
 #define KTH_CAPI_NODE_SETTINGS_H_
 
@@ -31,13 +30,13 @@ typedef enum network {
 } network_t;
 
 KTH_EXPORT
-currency_t node_settings_get_currency();
+currency_t kth_node_settings_get_currency();
 
 KTH_EXPORT
-network_t node_settings_get_network(executor_t exec);
+network_t kth_node_settings_get_network(executor_t exec);
 
 KTH_EXPORT
-char const* node_settings_cashaddr_prefix();
+char const* kth_node_settings_cashaddr_prefix();
 
 #ifdef __cplusplus
 } // extern "C"

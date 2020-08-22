@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #ifndef KTH_CAPI_HELPERS_HPP_
 #define KTH_CAPI_HELPERS_HPP_
 
@@ -61,8 +60,8 @@ std::array<detail::remove_cv_t<T>, 32> to_array(T (&x)[32]) {
 }
 
 inline
-hash_t to_hash_t(kth::hash_digest const& x) {
-    // return to_c_array<hash_t>(x);
+kth_hash_t to_hash_t(kth::hash_digest const& x) {
+    // return to_c_array<kth_hash_t>(x);
     return { {x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
               x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15],
               x[16], x[17], x[18], x[19], x[20], x[21], x[22], x[23],
@@ -70,16 +69,16 @@ hash_t to_hash_t(kth::hash_digest const& x) {
 }
 
 inline
-short_hash_t to_short_hash_t(kth::short_hash const& x) {
-    // return to_c_array<short_hash_t>(x);
+short_kth_hash_t to_short_kth_hash_t(kth::short_hash const& x) {
+    // return to_c_array<short_kth_hash_t>(x);
     return { {x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
               x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15],
               x[16], x[17], x[18], x[19]} };
 }
 
 inline
-long_hash_t to_long_hash_t(kth::long_hash const& x) {
-    // return to_c_array<long_hash_t>(x);
+long_kth_hash_t to_long_kth_hash_t(kth::long_hash const& x) {
+    // return to_c_array<long_kth_hash_t>(x);
 
     return { {x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
               x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15],
@@ -107,7 +106,7 @@ constexpr ec_secret_t null_ec_secret = {
     0, 0, 0, 0, 0, 0, 0, 0}};
 
 inline
-kth::hash_digest hash_to_cpp(uint8_t* x) {
+kth::hash_digest kth_hash_to_cpp(uint8_t* x) {
     kth::hash_digest ret;
     std::copy_n(x, ret.size(), std::begin(ret));
     return ret;

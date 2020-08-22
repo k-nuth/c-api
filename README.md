@@ -59,7 +59,7 @@ int main() {
 
     executor_initchain(exec);
     executor_run_wait(exec);
-    chain_t chain = executor_get_chain(exec);
+    kth_chain_t chain = executor_get_chain(exec);
 
     uint64_t height;
     chain_get_last_height(chain, &height);
@@ -115,7 +115,7 @@ In this step, the connections and handshake with the peers will be established, 
 
 This is equivalent to executing: `kth -c my_config_file`.
 ```c
-chain_t chain = executor_get_chain(exec);
+kth_chain_t chain = executor_get_chain(exec);
 ```
 
 Get access to the blockchain query interface (commands and queries).

@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #ifndef KTH_CAPI_EXECUTOR_C_H
 #define KTH_CAPI_EXECUTOR_C_H
 
@@ -71,7 +70,7 @@ KTH_EXPORT
 int executor_stopped(executor_t exec);
 
 KTH_EXPORT
-chain_t executor_get_chain(executor_t exec);
+kth_chain_t executor_get_chain(executor_t exec);
 
 KTH_EXPORT
 p2p_t executor_get_p2p(executor_t exec);

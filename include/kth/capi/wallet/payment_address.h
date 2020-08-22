@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #ifndef KTH_CAPI_WALLET_PAYMENT_ADDRESS_H_
 #define KTH_CAPI_WALLET_PAYMENT_ADDRESS_H_
 
@@ -17,31 +16,31 @@ extern "C" {
 
 #if defined(KTH_CURRENCY_BCH)
 KTH_EXPORT
-void wallet_payment_address_set_cashaddr_prefix(char const* prefix);
+void kth_wallet_payment_address_set_cashaddr_prefix(char const* prefix);
 #endif //KTH_CURRENCY_BCH
 
 KTH_EXPORT
-char* wallet_payment_address_encoded(payment_address_t payment_address);
+char* kth_wallet_payment_address_encoded(kth_payment_address_t payment_address);
 
 #if defined(KTH_CURRENCY_BCH)
 KTH_EXPORT
-char* wallet_payment_address_encoded_cashaddr(payment_address_t payment_address);
+char* kth_wallet_payment_address_encoded_cashaddr(kth_payment_address_t payment_address);
 #endif //KTH_CURRENCY_BCH
 
 KTH_EXPORT
-payment_address_t wallet_payment_address_construct_from_string(char const* address);
+kth_payment_address_t kth_wallet_payment_address_construct_from_string(char const* address);
 
 KTH_EXPORT
-short_hash_t wallet_payment_address_hash(payment_address_t payment_address);
+short_kth_hash_t kth_wallet_payment_address_hash(kth_payment_address_t payment_address);
 
 KTH_EXPORT
-uint8_t wallet_payment_address_version(payment_address_t payment_address);
+uint8_t kth_wallet_payment_address_version(kth_payment_address_t payment_address);
 
 KTH_EXPORT
-bool_t wallet_payment_address_is_valid(payment_address_t payment_address);
+bool_t kth_wallet_payment_address_is_valid(kth_payment_address_t payment_address);
 
 KTH_EXPORT
-void wallet_payment_address_destruct(payment_address_t payment_address);
+void kth_wallet_payment_address_destruct(kth_payment_address_t payment_address);
 
 #ifdef __cplusplus
 } // extern "C"

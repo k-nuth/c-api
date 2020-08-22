@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #include <kth/capi/p2p/p2p.h>
 
 #include <kth/network/p2p.hpp>
@@ -20,19 +19,19 @@ kth::network::p2p& p2p_cast(p2p_t p2p) {
 // ---------------------------------------------------------------------------
 extern "C" {
 
-uint64_t /*size_t*/ p2p_address_count(p2p_t p2p) {
+uint64_t /*size_t*/ kth_p2p_address_count(p2p_t p2p) {
     return p2p_cast(p2p).address_count();
 }
 
-void p2p_stop(p2p_t p2p) {
+void kth_p2p_stop(p2p_t p2p) {
     p2p_cast(p2p).stop();
 }
 
-void p2p_close(p2p_t p2p) {
+void kth_p2p_close(p2p_t p2p) {
     p2p_cast(p2p).close();
 }
 
-bool_t p2p_stopped(p2p_t p2p) {
+bool_t kth_p2p_stopped(p2p_t p2p) {
     return kth::bool_to_int(p2p_cast(p2p).stopped());
 }
 

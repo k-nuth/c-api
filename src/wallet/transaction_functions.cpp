@@ -3,7 +3,6 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-
 #include <kth/capi/wallet/transaction_functions.h>
 
 #include <kth/domain/wallet/payment_address.hpp>
@@ -16,19 +15,19 @@
 // ---------------------------------------------------------------------------
 extern "C" {
 
-error_code_t wallet_tx_encode_with_extra_outputs(
-    point_list_t outputs_to_spend,
-    raw_output_list_t destiny_and_amount,
-    output_list_t extra_outputs,
+error_code_t kth_wallet_tx_encode_with_extra_outputs(
+    kth_point_list_t outputs_to_spend,
+    kth_raw_output_list_t destiny_and_amount,
+    kth_output_list_t extra_outputs,
     uint32_t locktime /*= 0*/,
     uint32_t tx_version /*= 1*/,
     uint8_t script_version /*= 5*/,
-    transaction_t* out_transaction) {
+    kth_transaction_t* out_transaction) {
 
     auto p = kth::domain::wallet::tx_encode(
-                chain_point_list_const_cpp(outputs_to_spend),
-                wallet_raw_output_list_const_cpp(destiny_and_amount),
-                chain_output_list_const_cpp(extra_outputs),
+                kth_chain_point_list_const_cpp(outputs_to_spend),
+                kth_wallet_raw_output_list_const_cpp(destiny_and_amount),
+                kth_chain_output_list_const_cpp(extra_outputs),
                 locktime,
                 tx_version,
                 script_version
@@ -43,17 +42,17 @@ error_code_t wallet_tx_encode_with_extra_outputs(
     return kth::to_c_err(p.first);
 }
 
-error_code_t wallet_tx_encode(
-    point_list_t outputs_to_spend,
-    raw_output_list_t destiny_and_amount,
+error_code_t kth_wallet_tx_encode(
+    kth_point_list_t outputs_to_spend,
+    kth_raw_output_list_t destiny_and_amount,
     uint32_t locktime /*= 0*/,
     uint32_t tx_version /*= 1*/,
     uint8_t script_version /*= 5*/,
-    transaction_t* out_transaction) {
+    kth_transaction_t* out_transaction) {
 
     auto p = kth::domain::wallet::tx_encode(
-                chain_point_list_const_cpp(outputs_to_spend),
-                wallet_raw_output_list_const_cpp(destiny_and_amount),
+                kth_chain_point_list_const_cpp(outputs_to_spend),
+                kth_wallet_raw_output_list_const_cpp(destiny_and_amount),
                 locktime,
                 tx_version,
                 script_version
@@ -71,7 +70,7 @@ error_code_t wallet_tx_encode(
 error_code_t input_signature_old(
     ec_secret_t private_key,    /*32 element byte array*/
     script_t output_script,
-    transaction_t tx,
+    kth_transaction_t tx,
     uint32_t index,
     uint8_t sign_type /*= 0x01*/,
     bool_t anyone_can_pay /*= false*/,
@@ -80,8 +79,8 @@ error_code_t input_signature_old(
 
     auto p = kth::domain::wallet::input_signature_old(
         kth::to_array(private_key.data),
-        chain_script_const_cpp(output_script),
-        chain_transaction_const_cpp(tx),
+        kth_chain_script_const_cpp(output_script),
+        kth_chain_transaction_const_cpp(tx),
         index,
         sign_type,
         kth::int_to_bool(anyone_can_pay)
@@ -100,7 +99,7 @@ error_code_t input_signature_old(
 error_code_t input_signature_btc(
     ec_secret_t private_key,    /*32 element byte array*/
     script_t output_script,
-    transaction_t tx,
+    kth_transaction_t tx,
     uint64_t amount,    
     uint32_t index,
     uint8_t sign_type /*= 0x01*/,
@@ -110,8 +109,8 @@ error_code_t input_signature_btc(
 
     auto p = kth::domain::wallet::input_signature_btc(
         kth::to_array(private_key.data),
-        chain_script_const_cpp(output_script),
-        chain_transaction_const_cpp(tx),
+        kth_chain_script_const_cpp(output_script),
+        kth_chain_transaction_const_cpp(tx),
         amount,
         index,
         sign_type,
@@ -131,7 +130,7 @@ error_code_t input_signature_btc(
 error_code_t input_signature_bch(
     ec_secret_t private_key,    /*32 element byte array*/
     script_t output_script,
-    transaction_t tx,
+    kth_transaction_t tx,
     uint64_t amount,    
     uint32_t index,
     uint8_t sign_type /*= 0x01*/,
@@ -141,8 +140,8 @@ error_code_t input_signature_bch(
 
     auto p = kth::domain::wallet::input_signature_bch(
         kth::to_array(private_key.data),
-        chain_script_const_cpp(output_script),
-        chain_transaction_const_cpp(tx),
+        kth_chain_script_const_cpp(output_script),
+        kth_chain_transaction_const_cpp(tx),
         amount,
         index,
         sign_type,
@@ -161,13 +160,13 @@ error_code_t input_signature_bch(
 
 error_code_t input_set_script(
     script_t script,
-    transaction_t tx,
+    kth_transaction_t tx,
     uint32_t index /*= 0*/,
-    transaction_t* out_transaction) {
+    kth_transaction_t* out_transaction) {
 
     auto p = kth::domain::wallet::input_set(
-                chain_script_const_cpp(script),
-                chain_transaction_const_cpp(tx),
+                kth_chain_script_const_cpp(script),
+                kth_chain_transaction_const_cpp(tx),
                 index
                );
 
@@ -184,16 +183,16 @@ error_code_t input_set_script(
 //     uint8_t* signature, 
 //     uint64_t /*size_t*/ signature_n,
 //     ec_public_t public_key,
-//     transaction_t tx,
+//     kth_transaction_t tx,
 //     uint32_t index /*= 0*/,
-//     transaction_t* out_transaction) {
+//     kth_transaction_t* out_transaction) {
 
 //     kth::data_chunk signature_cpp(signature, std::next(signature, signature_n));
 
 //     auto p = kth::domain::wallet::input_set(
 //                 signature_cpp,
-//                 wallet_ec_public_const_cpp(public_key),
-//                 chain_transaction_const_cpp(tx),
+//                 kth_wallet_ec_public_const_cpp(public_key),
+//                 kth_chain_transaction_const_cpp(tx),
 //                 index
 //                );
 

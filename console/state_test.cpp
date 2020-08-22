@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #include <chrono>
 #include <csignal>
 #include <cstdio>
@@ -42,11 +41,11 @@ void my_set_initial_asset_id(void*  /*ctx*/, keoken_asset_id_t asset_id_initial)
     printf("my_set_initial_asset_id - asset_id_initial: %d\n", asset_id_initial);
 }
 
-void my_create_asset(void*  /*ctx*/, char const* asset_name, keoken_amount_t  /*asset_amount*/, payment_address_t  /*owner*/, uint64_t /*size_t*/  /*block_height*/, hash_t  /*txid*/) {
+void my_create_asset(void*  /*ctx*/, char const* asset_name, keoken_amount_t  /*asset_amount*/, kth_payment_address_t  /*owner*/, uint64_t /*size_t*/  /*block_height*/, kth_hash_t  /*txid*/) {
     printf("my_create_asset - asset_name: %s\n", asset_name);
 }
 
-void my_create_balance_entry(void*  /*ctx*/, keoken_asset_id_t asset_id, keoken_amount_t  /*asset_amount*/, payment_address_t  /*source*/, payment_address_t  /*target*/,  uint64_t /*size_t*/  /*block_height*/, hash_t  /*txid*/) {
+void my_create_balance_entry(void*  /*ctx*/, keoken_asset_id_t asset_id, keoken_amount_t  /*asset_amount*/, kth_payment_address_t  /*source*/, kth_payment_address_t  /*target*/,  uint64_t /*size_t*/  /*block_height*/, kth_hash_t  /*txid*/) {
     printf("my_create_balance_entry - asset_id: %d\n", asset_id);
 }
 
@@ -55,12 +54,12 @@ bool_t my_asset_id_exists(void*  /*ctx*/, keoken_asset_id_t id) {
     return 0;
 }
 
-keoken_amount_t my_get_balance(void*  /*ctx*/, keoken_asset_id_t  /*id*/, payment_address_t  /*addr*/) {
+keoken_amount_t my_get_balance(void*  /*ctx*/, keoken_asset_id_t  /*id*/, kth_payment_address_t  /*addr*/) {
     printf("my_get_balance\n");
     return 0;
 }
 
-get_assets_by_address_list_t my_get_assets_by_address(void*  /*ctx*/, payment_address_t  /*addr*/) {
+get_assets_by_address_list_t my_get_assets_by_address(void*  /*ctx*/, kth_payment_address_t  /*addr*/) {
     printf("my_get_assets_by_address\n");
     return nullptr;
 }
@@ -95,16 +94,16 @@ void my_remove_up_to_state(void* ctx, uint64_t height) {
     keoken_memory_state_remove_up_to(st, height);
 }
 
-void my_create_asset_state(void* ctx, char const* asset_name, keoken_amount_t asset_amount, payment_address_t owner, uint64_t /*size_t*/ block_height, hash_t txid) {
+void my_create_asset_state(void* ctx, char const* asset_name, keoken_amount_t asset_amount, kth_payment_address_t owner, uint64_t /*size_t*/ block_height, kth_hash_t txid) {
     printf("my_create_asset_state - asset_name: %s\n", asset_name);
-    auto owner_enc = wallet_payment_address_encoded(owner);
+    auto owner_enc = kth_wallet_payment_address_encoded(owner);
     printf("my_create_asset_state - owner_enc: %s\n", owner_enc);
 
     auto st = static_cast<keoken_memory_state_t>(ctx);
     keoken_memory_state_create_asset(st, asset_name, asset_amount, owner, block_height, txid);
 }
 
-void my_create_balance_entry_state(void* ctx, keoken_asset_id_t asset_id, keoken_amount_t asset_amount, payment_address_t source, payment_address_t target,  uint64_t /*size_t*/ block_height, hash_t txid) {
+void my_create_balance_entry_state(void* ctx, keoken_asset_id_t asset_id, keoken_amount_t asset_amount, kth_payment_address_t source, kth_payment_address_t target,  uint64_t /*size_t*/ block_height, kth_hash_t txid) {
     printf("my_create_balance_entry_state - asset_id: %d\n", asset_id);
     auto st = static_cast<keoken_memory_state_t>(ctx);
     keoken_memory_state_create_balance_entry(st, asset_id, asset_amount, source, target, block_height, txid);
@@ -116,13 +115,13 @@ bool_t my_asset_id_exists_state(void* ctx, keoken_asset_id_t id) {
     return keoken_memory_state_asset_id_exists(st, id);
 }
 
-keoken_amount_t my_get_balance_state(void* ctx, keoken_asset_id_t id, payment_address_t addr) {
+keoken_amount_t my_get_balance_state(void* ctx, keoken_asset_id_t id, kth_payment_address_t addr) {
     printf("my_get_balance_state\n");
     auto st = static_cast<keoken_memory_state_t>(ctx);
     return keoken_memory_state_get_balance(st, id, addr);
 }
 
-get_assets_by_address_list_t my_get_assets_by_address_state(void* ctx, payment_address_t addr) {
+get_assets_by_address_list_t my_get_assets_by_address_state(void* ctx, kth_payment_address_t addr) {
     printf("my_get_assets_by_address_state\n");
     auto st = static_cast<keoken_memory_state_t>(ctx);
     return keoken_memory_state_get_assets_by_address(st, addr);
@@ -179,7 +178,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
     std::this_thread::sleep_for(std::chrono::seconds(10));
 
 
-    // chain_t chain = executor_get_chain(exec);
+    // kth_chain_t chain = executor_get_chain(exec);
 
     keoken_manager_t keo_manager = executor_get_keoken_manager(exec);
 

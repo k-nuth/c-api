@@ -55,7 +55,7 @@ An `executor_t` object that is capable to run a Knuth crypto full-node.
 
 `int executor_stopped(executor_t exec);`
 
-`chain_t executor_get_chain(executor_t exec);`
+`kth_chain_t executor_get_chain(executor_t exec);`
 
 `p2p_t executor_get_p2p(executor_t exec);`
 

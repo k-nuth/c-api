@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #include <kth/domain/chain/stealth.hpp>
 
 #include <kth/capi/chain/stealth_compact_list.h>
@@ -14,7 +13,7 @@ KTH_LIST_DEFINE_CONVERTERS(chain, stealth_compact_list_t, kth::domain::chain::st
 
 extern "C" {
 
-KTH_LIST_DEFINE(chain, stealth_compact_list_t, stealth_compact_t, stealth_compact_list, kth::domain::chain::stealth_compact, chain_stealth_compact_cpp)
+KTH_LIST_DEFINE(chain, stealth_compact_list_t, stealth_compact_t, stealth_compact_list, kth::domain::chain::stealth_compact, kth_chain_stealth_compact_cpp)
 
 } // extern "C"
 

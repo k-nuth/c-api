@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #ifndef KTH_CAPI_CHAIN_HISTORY_COMPACT_LIST_H_
 #define KTH_CAPI_CHAIN_HISTORY_COMPACT_LIST_H_
 

@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #include <kth/capi/binary.h>
 
 #include <kth/infrastructure/utility/binary.hpp>

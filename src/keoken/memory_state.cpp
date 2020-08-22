@@ -1,21 +1,6 @@
-/**
-* Copyright (c) 2016-2020 Knuth Project developers.
-*
-* This file is part of the Knuth Project.
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <kth/capi/keoken/memory_state.h>
 
@@ -50,22 +35,22 @@ void keoken_memory_state_remove_up_to(keoken_memory_state_t state, uint64_t /*si
     keoken_memory_state_cpp(state).remove_up_to(height);
 }
 
-void keoken_memory_state_create_asset(keoken_memory_state_t state, char const* asset_name, keoken_amount_t asset_amount, payment_address_t owner, uint64_t /*size_t*/ block_height, hash_t txid) {
+void keoken_memory_state_create_asset(keoken_memory_state_t state, char const* asset_name, keoken_amount_t asset_amount, kth_payment_address_t owner, uint64_t /*size_t*/ block_height, kth_hash_t txid) {
     keoken_memory_state_cpp(state).create_asset(
         std::string(asset_name),
         asset_amount,
-        wallet_payment_address_const_cpp(owner),
+        kth_wallet_payment_address_const_cpp(owner),
         block_height,
         kth::to_array(txid.hash)
     );
 }
 
-void keoken_memory_state_create_balance_entry(keoken_memory_state_t state, keoken_asset_id_t asset_id, keoken_amount_t asset_amount, payment_address_t source, payment_address_t target,  uint64_t /*size_t*/ block_height, hash_t txid) {
+void keoken_memory_state_create_balance_entry(keoken_memory_state_t state, keoken_asset_id_t asset_id, keoken_amount_t asset_amount, kth_payment_address_t source, kth_payment_address_t target,  uint64_t /*size_t*/ block_height, kth_hash_t txid) {
     keoken_memory_state_cpp(state).create_balance_entry(
         asset_id,
         asset_amount,
-        wallet_payment_address_const_cpp(source),
-        wallet_payment_address_const_cpp(target),
+        kth_wallet_payment_address_const_cpp(source),
+        kth_wallet_payment_address_const_cpp(target),
         block_height,
         kth::to_array(txid.hash)
     );
@@ -75,11 +60,11 @@ bool_t keoken_memory_state_asset_id_exists(keoken_memory_state_t state, keoken_a
     return kth::bool_to_int(keoken_memory_state_const_cpp(state).asset_id_exists(id));
 }
 
-keoken_amount_t keoken_memory_state_get_balance(keoken_memory_state_t state, keoken_asset_id_t id, payment_address_t addr) {
-    return keoken_memory_state_const_cpp(state).get_balance(id, wallet_payment_address_const_cpp(addr)); 
+keoken_amount_t keoken_memory_state_get_balance(keoken_memory_state_t state, keoken_asset_id_t id, kth_payment_address_t addr) {
+    return keoken_memory_state_const_cpp(state).get_balance(id, kth_wallet_payment_address_const_cpp(addr)); 
 }
 
-get_assets_by_address_list_t keoken_memory_state_get_assets_by_address(keoken_memory_state_t state, payment_address_t addr) {
+get_assets_by_address_list_t keoken_memory_state_get_assets_by_address(keoken_memory_state_t state, kth_payment_address_t addr) {
     auto result = keoken_memory_state_const_cpp(state).get_assets_by_address(wallet_payment_address_const_cpp(addr));
     return kth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }

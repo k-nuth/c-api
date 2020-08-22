@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #include <kth/capi/hash_list.h>
 
 #include <kth/capi/conversions.hpp>
@@ -18,7 +17,7 @@ hash_list_t core_hash_list_construct_default() {
     return new std::vector<kth::hash_digest>();
 }
 
-void core_hash_list_push_back(hash_list_t list, hash_t hash) {
+void core_hash_list_push_back(hash_list_t list, kth_hash_t hash) {
     auto hash_cpp = kth::to_array(hash.hash);
     core_hash_list_cpp(list).push_back(hash_cpp);
 }
@@ -31,12 +30,12 @@ uint64_t /*size_t*/ core_hash_list_count(hash_list_t list) {
     return core_hash_list_const_cpp(list).size();
 }
 
-hash_t core_hash_list_nth(hash_list_t list, uint64_t /*size_t*/ n) {
+kth_hash_t core_hash_list_nth(hash_list_t list, uint64_t /*size_t*/ n) {
     auto const& x = core_hash_list_cpp(list)[n];
     return kth::to_hash_t(x);
 }
 
-void core_hash_list_nth_out(hash_list_t list, uint64_t /*size_t*/ n, hash_t* out_hash) {
+void core_hash_list_nth_out(hash_list_t list, uint64_t /*size_t*/ n, kth_hash_t* out_hash) {
     auto const& x = core_hash_list_cpp(list)[n];
     kth::copy_c_hash(x, out_hash);
 }

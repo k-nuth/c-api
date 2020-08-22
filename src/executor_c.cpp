@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #include <kth/capi/executor_c.h>
 
 #include <cstdio>
@@ -257,7 +256,7 @@ int executor_load_config_valid(executor_t exec) {
     return static_cast<int>(exec->actual.load_config_valid());
 }
 
-chain_t executor_get_chain(executor_t exec) {
+kth_chain_t executor_get_chain(executor_t exec) {
     return &(exec->actual.node().chain());
 }
 
