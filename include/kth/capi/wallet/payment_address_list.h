@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #ifndef KTH_CAPI_WALLET_PAYMENT_ADDRESS_LIST_H_
 #define KTH_CAPI_WALLET_PAYMENT_ADDRESS_LIST_H_
 
@@ -14,7 +13,7 @@
 extern "C" {
 #endif
 
-KTH_LIST_DECLARE(wallet, payment_address_list_t, payment_address_t, payment_address_list)
+KTH_LIST_DECLARE(wallet, kth_payment_address_list_t, kth_payment_address_t, payment_address_list)
 
 #ifdef __cplusplus
 } // extern "C"

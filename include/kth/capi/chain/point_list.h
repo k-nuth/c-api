@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #ifndef KTH_CAPI_CHAIN_POINT_LIST_H_
 #define KTH_CAPI_CHAIN_POINT_LIST_H_
 
@@ -16,7 +15,7 @@
 extern "C" {
 #endif
 
-KTH_LIST_DECLARE(chain, point_list_t, point_t, point_list)
+KTH_LIST_DECLARE(chain, kth_point_list_t, kth_point_t, point_list)
 
 #ifdef __cplusplus
 } // extern "C"

@@ -8,7 +8,7 @@
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
 #include <kth/capi/version.h>
-#include <kth/capi/executor_c.h>
+#include <kth/capi/node.h>
 
 #include <kth/capi/binary.h>
 

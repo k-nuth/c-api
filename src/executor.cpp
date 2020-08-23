@@ -405,7 +405,7 @@ bool executor::verify_directory() {
     }
 
     auto const message = ec.message();
-    LOG_ERROR(LOG_NODE, fmt::format(KTH_INITCHAIN_TRY, directory.string(), message));
+    LOG_ERROR(LOG_NODE, fmt::format(KTH_INITkth_chain_tRY, directory.string(), message));
     return false;
 }
 

@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #include <kth/capi/chain/merkle_block.h>
 
 #include <kth/domain/message/merkle_block.hpp>
@@ -11,53 +10,53 @@
 #include <kth/capi/helpers.hpp>
 #include <kth/capi/type_conversions.h>
 
-KTH_CONV_DEFINE(chain, merkle_block_t, kth::domain::message::merkle_block, merkle_block)
+KTH_CONV_DEFINE(chain, kth_merkleblock_t, kth::domain::message::merkle_block, merkle_block)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
-void chain_merkle_block_destruct(merkle_block_t block) {
-    delete &chain_merkle_block_cpp(block);
+void kth_chain_merkle_block_destruct(kth_merkleblock_t block) {
+    delete &kth_chain_merkle_block_cpp(block);
 }
 
-hash_t chain_merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n) {
+kth_hash_t kth_chain_merkle_block_hash_nth(kth_merkleblock_t block, kth_size_t n) {
     //precondition: n >=0 && n < hashes().size()
 
-    auto* blk = &chain_merkle_block_cpp(block);
+    auto* blk = &kth_chain_merkle_block_cpp(block);
     auto& hash_n = blk->hashes()[n];
     return kth::to_hash_t(hash_n);
 }
 
-void chain_merkle_block_hash_nth_out(merkle_block_t block, uint64_t /*size_t*/ n, hash_t* out_hash) {
+void kth_chain_merkle_block_hash_nth_out(kth_merkleblock_t block, kth_size_t n, kth_hash_t* out_hash) {
     //precondition: n >=0 && n < hashes().size()
 
-    auto* blk = &chain_merkle_block_cpp(block);
+    auto* blk = &kth_chain_merkle_block_cpp(block);
     auto& hash_n = blk->hashes()[n];
     kth::copy_c_hash(hash_n, out_hash);
 }
 
-header_t chain_merkle_block_header(merkle_block_t block) {
-    return &chain_merkle_block_cpp(block).header();
+kth_header_t kth_chain_merkle_block_header(kth_merkleblock_t block) {
+    return &kth_chain_merkle_block_cpp(block).header();
 }
 
-bool_t chain_merkle_block_is_valid(merkle_block_t block) {
-    return kth::bool_to_int(chain_merkle_block_const_cpp(block).is_valid());
+kth_bool_t kth_chain_merkle_block_is_valid(kth_merkleblock_t block) {
+    return kth::bool_to_int(kth_chain_merkle_block_const_cpp(block).is_valid());
 }
 
-uint64_t /*size_t*/ chain_merkle_block_hash_count(merkle_block_t block) {
-    return chain_merkle_block_const_cpp(block).hashes().size();
+kth_size_t kth_chain_merkle_block_hash_count(kth_merkleblock_t block) {
+    return kth_chain_merkle_block_const_cpp(block).hashes().size();
 }
 
-uint64_t /*size_t*/ chain_merkle_block_serialized_size(merkle_block_t block, uint32_t version) {
-    return chain_merkle_block_const_cpp(block).serialized_size(version);
+kth_size_t kth_chain_merkle_block_serialized_size(kth_merkleblock_t block, uint32_t version) {
+    return kth_chain_merkle_block_const_cpp(block).serialized_size(version);
 }
 
-uint64_t /*size_t*/ chain_merkle_block_total_transaction_count(merkle_block_t block) {
-    return chain_merkle_block_const_cpp(block).total_transactions();
+kth_size_t kth_chain_merkleblock_total_transaction_count(kth_merkleblock_t block) {
+    return kth_chain_merkle_block_const_cpp(block).total_transactions();
 }
 
-void chain_merkle_block_reset(merkle_block_t block) {
-    chain_merkle_block_cpp(block).reset();
+void kth_chain_merkle_block_reset(kth_merkleblock_t block) {
+    kth_chain_merkle_block_cpp(block).reset();
 }
 
 } // extern "C"

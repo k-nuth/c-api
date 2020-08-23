@@ -3,7 +3,6 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-
 #include <kth/capi/keoken/wallet/create_transactions.h>
 
 #include <kth/domain/wallet/payment_address.hpp>
@@ -17,20 +16,20 @@
 // ---------------------------------------------------------------------------
 extern "C" {
 
-error_code_t keoken_wallet_tx_encode_create_asset(
-    point_list_t outputs_to_spend,
-    payment_address_t asset_owner,
+kth_error_code_t keoken_wallet_tx_encode_create_asset(
+    kth_point_list_t outputs_to_spend,
+    kth_payment_address_t asset_owner,
     uint64_t utxo_satoshis,
     char const* asset_name,
     keoken_amount_t asset_amount,
     uint32_t locktime /*= 0*/,
     uint32_t tx_version /*= 1*/,
     uint8_t script_version /*= 5*/,
-    transaction_t* out_transaction) {
+    kth_transaction_t* out_transaction) {
 
     auto p = kth::keoken::wallet::tx_encode_create_asset(
-                chain_point_list_const_cpp(outputs_to_spend),
-                wallet_payment_address_const_cpp(asset_owner),
+                kth_chain_point_list_const_cpp(outputs_to_spend),
+                kth_wallet_payment_address_const_cpp(asset_owner),
                 utxo_satoshis,
                 std::string(asset_name),
                 asset_amount,
@@ -48,24 +47,24 @@ error_code_t keoken_wallet_tx_encode_create_asset(
     return kth::to_c_err(p.first);
 }
 
-error_code_t keoken_wallet_tx_encode_send_tokens(
-    point_list_t outputs_to_spend,
-    payment_address_t asset_owner,
+kth_error_code_t keoken_wallet_tx_encode_send_tokens(
+    kth_point_list_t outputs_to_spend,
+    kth_payment_address_t asset_owner,
     uint64_t utxo_satoshis,
-    payment_address_t asset_receiver,
+    kth_payment_address_t asset_receiver,
     uint64_t dust,
     keoken_asset_id_t asset_id,
     keoken_amount_t asset_amount,
     uint32_t locktime /*= 0*/,
     uint32_t tx_version /*= 1*/,
     uint8_t script_version /*= 5*/,
-    transaction_t* out_transaction) {
+    kth_transaction_t* out_transaction) {
 
     auto p = kth::keoken::wallet::tx_encode_send_token(
-                chain_point_list_const_cpp(outputs_to_spend),
-                wallet_payment_address_const_cpp(asset_owner),
+                kth_chain_point_list_const_cpp(outputs_to_spend),
+                kth_wallet_payment_address_const_cpp(asset_owner),
                 utxo_satoshis,
-                wallet_payment_address_const_cpp(asset_receiver),
+                kth_wallet_payment_address_const_cpp(asset_receiver),
                 dust,
                 asset_id,
                 asset_amount,

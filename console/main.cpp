@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #include <chrono>
 #include <csignal>
 #include <cstdio>
@@ -20,7 +19,7 @@
 #include <kth/capi/chain/script.h>
 #include <kth/capi/chain/transaction.h>
 #include <kth/capi/chain/transaction_list.h>
-#include <kth/capi/executor_c.h>
+#include <kth/capi/node.h>
 #include <kth/capi/hash_list.h>
 #include <kth/capi/helpers.hpp>
 #include <kth/capi/wallet/payment_address.h>
@@ -34,15 +33,15 @@
 #include <kth/infrastructure/wallet/hd_private.hpp>
 
 
- void wait_until_block(chain_t chain, size_t desired_height) {
+ void wait_until_block(kth_chain_t chain, size_t desired_height) {
      printf("wait_until_block - 1\n");
 
      uint64_t height;
-     int error = chain_get_last_height(chain, &height);
+     int error = kth_chain_get_last_height(chain, &height);
      //printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
     
      while (error == 0 && height < desired_height) {
-         error = chain_get_last_height(chain, &height);
+         error = kth_chain_get_last_height(chain, &height);
          //printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
         
          if (height < desired_height) {
@@ -108,35 +107,35 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // std::signal(SIGTERM, handle_stop);
 
 
-    auto exec = executor_construct("/home/kth/dev/kth/github/k-nuth/insight/kth.insight/bcc-testnet.cfg", stdout, stderr);
-    //auto exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-    // executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-    //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+    auto exec = kth_node_construct("/home/kth/dev/kth/github/k-nuth/insight/kth.insight/bcc-testnet.cfg", stdout, stderr);
+    //auto exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+    // kth_node_t exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+    //kth_node_t exec = kth_node_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
 
     // printf("**-- 1\n");
-    // int res1 = executor_initchain(exec);
+    // int res1 = kth_node_initchain(exec);
 
     // if (res1 == 0) {
     //     printf("Error initializing files\n");
-    //     executor_destruct(exec);
+    //     kth_node_destruct(exec);
     //     return -1;
     // }
 
     printf("**-- 2aaaaaa\n");
     
-    int res2 = executor_run_wait(exec);
+    int res2 = kth_node_run_wait(exec);
 
     printf("**-- 3\n");
     if (res2 != 0) {
         printf("Error initializing files\n");
-        executor_destruct(exec);
+        kth_node_destruct(exec);
         return -1;
     }
     std::this_thread::sleep_for(std::chrono::seconds(10));
     printf("**-- 4\n");
 
-    chain_t chain = executor_get_chain(exec);
+    kth_chain_t chain = kth_node_get_chain(exec);
         
     wait_until_block(chain, 170);
 
@@ -148,26 +147,26 @@ int main(int /*argc*/, char* /*argv*/[]) {
     auto prevout_hash = kth::to_hash_t(hash_bytes);
 
     uint64_t out_h;
-    auto res = chain_get_block_height(chain, prevout_hash, &out_h);
+    auto res = kth_chain_get_block_height(chain, prevout_hash, &out_h);
     printf("res: %d\n", res);
     printf("out_h: %lu\n", out_h);
 
     printf("**-- 7\n");
 
-    payment_address_list_t addresses = wallet_payment_address_list_construct_default();
-    payment_address_t addr1 = wallet_payment_address_construct_from_string("bchtest:qq6g5362emyqppwx6kwpsl08xkgep7xwkyh9p68qsj");
-    payment_address_t addr2 = wallet_payment_address_construct_from_string("bchtest:qqg2fwfzd4xeywf8h2zajqy77357gk0v7yvsvhd4xu");
-    wallet_payment_address_list_push_back(addresses, addr1);
-    wallet_payment_address_list_push_back(addresses, addr2);
+    kth_payment_address_list_t addresses = kth_wallet_payment_address_list_construct_default();
+    kth_payment_address_t addr1 = kth_wallet_payment_address_construct_from_string("bchtest:qq6g5362emyqppwx6kwpsl08xkgep7xwkyh9p68qsj");
+    kth_payment_address_t addr2 = kth_wallet_payment_address_construct_from_string("bchtest:qqg2fwfzd4xeywf8h2zajqy77357gk0v7yvsvhd4xu");
+    kth_wallet_payment_address_list_push_back(addresses, addr1);
+    kth_wallet_payment_address_list_push_back(addresses, addr2);
     //Copies were pushed, so clean up
-    wallet_payment_address_destruct(addr1);
-    wallet_payment_address_destruct(addr2);
-    transaction_list_t txs = chain_get_mempool_transactions_from_wallets(chain, addresses, 1);
-    wallet_payment_address_list_destruct(addresses);
-    auto tx_count = chain_transaction_list_count(txs);
+    kth_wallet_payment_address_destruct(addr1);
+    kth_wallet_payment_address_destruct(addr2);
+    kth_transaction_list_t txs = kth_chain_get_mempool_transactions_from_wallets(chain, addresses, 1);
+    kth_wallet_payment_address_list_destruct(addresses);
+    auto tx_count = kth_chain_transaction_list_count(txs);
     printf("tx_count: %lu\n", tx_count);
 
-    executor_destruct(exec);
+    kth_node_destruct(exec);
 
     printf("**-- 8\n");
     
@@ -178,7 +177,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 
 
-// transaction_t make_P2PKH_transaction(uint32_t version, uint32_t locktime, std::string const& addr, uint64_t satoshis, uint8_t* sig, size_t sig_n, uint8_t* pubk, size_t pubk_n, hash_t prevout_hash, uint32_t prevout_index, uint32_t sequence) {
+// kth_transaction_t make_P2PKH_transaction(uint32_t version, uint32_t locktime, std::string const& addr, uint64_t satoshis, uint8_t* sig, size_t sig_n, uint8_t* pubk, size_t pubk_n, kth_hash_t prevout_hash, uint32_t prevout_index, uint32_t sequence) {
 //     uint8_t locking_script_data[25];
 //     locking_script_data[0]  = 0x76;   // DUP opcode
 //     locking_script_data[1]  = 0xa9;   // HASH160 opcode
@@ -186,20 +185,20 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //     locking_script_data[23] = 0x88;   // EQUALVERIFY opcode
 //     locking_script_data[24] = 0xac;   // CHECKSIG opcode
 
-//     auto address = wallet_payment_address_construct_from_string(addr.c_str());
+//     auto address = kth_wallet_payment_address_construct_from_string(addr.c_str());
         
-//     if (wallet_payment_address_is_valid(address) == 0) {
+//     if (kth_wallet_payment_address_is_valid(address) == 0) {
 //         std::cout << "Invalid payment address: " << addr << std::endl;
 //     }
 
-//     short_hash_t addr_hash = wallet_payment_address_hash(address);
+//     kth_shorthash_t addr_hash = kth_wallet_payment_address_hash(address);
 //     std::copy_n(static_cast<uint8_t*>(addr_hash.hash), 20, static_cast<uint8_t*>(locking_script_data) + 3);
-//     wallet_payment_address_destruct(address);
+//     kth_wallet_payment_address_destruct(address);
 
 //     //--------------------------------------------------------------------------------------------------------------
-//     script_t locking_script = chain_script_construct(static_cast<uint8_t*>(locking_script_data), 25, 0 /*int bool prefix*/);
+//     kth_script_t locking_script = kth_chain_script_construct(static_cast<uint8_t*>(locking_script_data), 25, 0 /*int bool prefix*/);
 
-//     if (chain_script_is_valid(locking_script) == 0) {
+//     if (kth_chain_script_is_valid(locking_script) == 0) {
 //         std::cout << "Invalid locking script\n";
 //     }
 
@@ -211,25 +210,25 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //     unlocking_script_data[sig_n + 1] = pubk_n;
 //     std::copy_n(pubk, pubk_n, begin(unlocking_script_data) + (sig_n + 2));
     
-//     script_t unlocking_script = chain_script_construct(unlocking_script_data.data(), unlocking_script_data.size(), 0 /*int bool prefix*/);
+//     kth_script_t unlocking_script = kth_chain_script_construct(unlocking_script_data.data(), unlocking_script_data.size(), 0 /*int bool prefix*/);
 
-//     if (chain_script_is_valid(unlocking_script) == 0) {
+//     if (kth_chain_script_is_valid(unlocking_script) == 0) {
 //         std::cout << "Invalid unlocking script\n";
 //     }
 
 //     //--------------------------------------------------------------------------------------------------------------
-//     output_point_t previous_output = chain_output_point_construct_from_hash_index(prevout_hash, prevout_index);
-//     input_t input = chain_input_construct(previous_output, unlocking_script, sequence);
-//     auto inputs = chain_input_list_construct_default();
-//     chain_input_list_push_back(inputs, input);
+//     kth_outputpoint_t previous_output = kth_chain_output_point_construct_from_hash_index(prevout_hash, prevout_index);
+//     kth_input_t input = kth_chain_input_construct(previous_output, unlocking_script, sequence);
+//     auto inputs = kth_chain_input_list_construct_default();
+//     kth_chain_input_list_push_back(inputs, input);
 
 //     //--------------------------------------------------------------------------------------------------------------
-//     auto outputs = chain_output_list_construct_default();
-//     output_t output = chain_output_construct(satoshis, locking_script);
-//     chain_output_list_push_back(outputs, output);
+//     auto outputs = kth_chain_output_list_construct_default();
+//     kth_output_t output = kth_chain_output_construct(satoshis, locking_script);
+//     kth_chain_output_list_push_back(outputs, output);
 //     //--------------------------------------------------------------------------------------------------------------
 
-//     auto tx = chain_transaction_construct(version, locktime, inputs, outputs);
+//     auto tx = kth_chain_transaction_construct(version, locktime, inputs, outputs);
 //     return tx;
 // }
 
@@ -237,8 +236,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 //     //Construye la TX de id: b7749347c9e5b2a38b19fb2ab5a390d04d3368f1113aeb565d5fcf72d0e6391e
 
-//     wallet_payment_address_set_cashaddr_prefix("bitcoincash");   //BCH mainnet
-//     // wallet_payment_address_set_cashaddr_prefix("bchtest");       //BCH testnet
+//     kth_wallet_payment_address_set_cashaddr_prefix("bitcoincash");   //BCH mainnet
+//     // kth_wallet_payment_address_set_cashaddr_prefix("bchtest");       //BCH testnet
 
 //     std::string sig_str = "30440220420e56991b7729105fe427ac474224f2a4152aec97d6b5b1f4d275d4ca7a7a3b022032307c9596ca43a234f89a9f60a01364ad33e3cb62c1d76d212c8969e8593e6341";
 //     std::vector<uint8_t> sig(sig_str.size() / 2);
@@ -268,13 +267,13 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //                     );
 
 //     uint64_t tx_data_n;
-//     uint8_t* tx_data = chain_transaction_to_data(tx, 1 /*int bool wire*/, &tx_data_n);
+//     uint8_t* tx_data = kth_chain_transaction_to_data(tx, 1 /*int bool wire*/, &tx_data_n);
 //     std::cout << "-----------------------------------------------------------------------------\n";
 //     print_hex(tx_data, tx_data_n);
 //     std::cout << "-----------------------------------------------------------------------------\n";
 //     free(tx_data);
 
-//     chain_transaction_destruct(tx);
+//     kth_chain_transaction_destruct(tx);
 //     return 0;
 // }
 
@@ -324,12 +323,12 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //    // -----------------------------------------------------------------------------------------
 //
 //
-//    auto seed = wallet_mnemonics_to_seed(wl);
+//    auto seed = kth_wallet_mnemonics_to_seed(wl);
 //
-//    // ec_priv = wallet_ec_new(seed)
+//    // ec_priv = kth_wallet_ec_new(seed)
 //
-//    auto hd_priv = wallet_hd_new(seed.hash, 64, 76066276);
-//    // auto ec_priv = wallet_hd_private_to_ec(hd_priv);
+//    auto hd_priv = kth_wallet_hd_new(seed.hash, 64, 76066276);
+//    // auto ec_priv = kth_wallet_hd_private_to_ec(hd_priv);
 //
 //
 //    // pubk = kth.wallet_ec_to_public(ec_priv, 1)
@@ -363,32 +362,32 @@ int main(int /*argc*/, char* /*argv*/[]) {
 // bool waiting = true;
 
 
-// // chain_get_last_height()
-// // int chain_get_last_height(chain_t chain, uint64_t* /*size_t*/ height) {
+// // kth_chain_get_last_height()
+// // int kth_chain_get_last_height(kth_chain_t chain, kth_size_t* height) {
 
 
 
 
 
-// executor_t exec;
+// kth_node_t exec;
 // bool stopped = false;
 
 // void handle_stop(int signal) {
 //     std::cout << "handle_stop()\n";
 //     // stop(kth::error::success);
-//     //executor_stop(exec);
-//     //chain_t chain = executor_get_chain(exec);
+//     //kth_node_stop(exec);
+//     //kth_chain_t chain = kth_node_get_chain(exec);
 //     //chain_unsubscribe(chain);
 //     //stopped = true;
-//     executor_stop(exec);
+//     kth_node_stop(exec);
 // }
 
 // int xxx = 0;
 
-// int chain_subscribe_blockchain_handler(executor_t exec, chain_t chain, void* ctx, int error, uint64_t fork_height, block_list_t blocks_incoming, block_list_t blocks_replaced) {
+// int kth_chain_subscribe_blockchain_handler(kth_node_t exec, kth_chain_t chain, void* ctx, int error, uint64_t fork_height, kth_block_list_t blocks_incoming, kth_block_list_t blocks_replaced) {
 //     //printf("chain_subscribe_blockchain_handler error: %d\n", error);
 
-//     if (executor_stopped(exec) == 1 || error == 1) {
+//     if (kth_node_stopped(exec) == 1 || error == 1) {
 //         printf("chain_subscribe_blockchain_handler -- stopping -- error: %d\n", error);
 //         return 0;
 //     }
@@ -396,15 +395,15 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //     //++xxx;
 
 //     //if (xxx >= 3000) {
-//     //    int s = executor_stopped(exec);
+//     //    int s = kth_node_stopped(exec);
 //     //    std::cout << s << std::endl;
 
-//     //    //executor_stop(exec);
-//     //    //executor_close(exec);
+//     //    //kth_node_stop(exec);
+//     //    //kth_node_close(exec);
 
-//     //    s = executor_stopped(exec);
+//     //    s = kth_node_stopped(exec);
 //     //    std::cout << s << std::endl;
-//     //    chain_unsubscribe(chain);
+//     //    kth_chain_unsubscribe(chain);
 //     //}
 
 
@@ -418,34 +417,34 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //     std::signal(SIGTERM, handle_stop);
 
 
-//     exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//     // executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//     //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+//     exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//     // kth_node_t exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//     //kth_node_t exec = kth_node_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
 
 //     printf("**-- 1\n");
-//     int res1 = executor_initchain(exec);
+//     int res1 = kth_node_initchain(exec);
 
 //     if (res1 == 0) {
 //         printf("Error initializing files\n");
-//         executor_destruct(exec);
+//         kth_node_destruct(exec);
 //         return -1;
 //     }
 
 //     printf("**-- 2\n");
     
-//     int res2 = executor_run_wait(exec);
+//     int res2 = kth_node_run_wait(exec);
 
 //     if (res2 != 0) {
 //         printf("Error initializing files\n");
-//         executor_destruct(exec);
+//         kth_node_destruct(exec);
 //         return -1;
 //     }
 //     std::this_thread::sleep_for(std::chrono::seconds(10));
 
 //     printf("**-- 3\n");
 
-//     chain_t chain = executor_get_chain(exec);
+//     kth_chain_t chain = kth_node_get_chain(exec);
         
 //     // fetch_last_height(exec, last_height_fetch_handler);
 //     // wait_until_block(chain, 170);
@@ -453,27 +452,27 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 //     printf("**-- 4\n");
     
-//     chain_subscribe_blockchain(exec, chain, nullptr, chain_subscribe_blockchain_handler);
+//     kth_chain_subscribe_blockchain(exec, chain, nullptr, kth_chain_subscribe_blockchain_handler);
 
 //     printf("**-- 5\n");
     
-//     // while ( ! executor_stopped(exec) ) {
+//     // while ( ! kth_node_stopped(exec) ) {
 //     //while ( ! stopped ) {
-//     while (executor_stopped(exec) == 0) {
+//     while (kth_node_stopped(exec) == 0) {
 //         printf("**-- 6\n");
         
 //         uint64_t height;
-//         int error = chain_get_last_height(chain, &height);
+//         int error = kth_chain_get_last_height(chain, &height);
 //         printf("error: %d, height: %zd\n", error, height);
 
 //         if (height >= 3000) {
-//             int s = executor_stopped(exec);
+//             int s = kth_node_stopped(exec);
 //             std::cout << s << std::endl;
 
-//             executor_stop(exec);
-//             //executor_close(exec);
+//             kth_node_stop(exec);
+//             //kth_node_close(exec);
 
-//             s = executor_stopped(exec);
+//             s = kth_node_stopped(exec);
 //             std::cout << s << std::endl;
 //         }
 
@@ -482,7 +481,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 //     printf("**-- 7\n");
 
-//     executor_destruct(exec);
+//     kth_node_destruct(exec);
 
 //     printf("**-- 8\n");
     
@@ -505,56 +504,56 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 
 
-// kth::domain::message::transaction const& tx_const_cpp2(transaction_t transaction) {
+// kth::domain::message::transaction const& tx_const_cpp2(kth_transaction_t transaction) {
 // 	return *static_cast<kth::domain::message::transaction const*>(transaction);
 // }
 
 // int main(int /*argc*/, char* /*argv*/[]) {
 // //    using namespace std::chrono_literals;
 
-//     executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//     //executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+//     kth_node_t exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//     //kth_node_t exec = kth_node_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
-//     int res1 = executor_initchain(exec);
+//     int res1 = kth_node_initchain(exec);
 
 //     if (res1 == 0) {
 //         printf("Error initializing files\n");
-//         executor_destruct(exec);
+//         kth_node_destruct(exec);
 //         return -1;
 //     }
 
-//     int res2 = executor_run_wait(exec);
+//     int res2 = kth_node_run_wait(exec);
 
 //     if (res2 != 0) {
 //         printf("Error initializing files\n");
-//         executor_destruct(exec);
+//         kth_node_destruct(exec);
 //         return -1;
 //     }
 
 
-//     auto inputs = chain_input_list_construct_default();
+//     auto inputs = kth_chain_input_list_construct_default();
 
-//     auto input0 = chain_input_construct_default();
-//     auto input1 = chain_input_construct_default();
-//     auto input2 = chain_input_construct_default();
-//     chain_input_list_push_back(inputs, input0);
-//     chain_input_list_push_back(inputs, input1);
-//     chain_input_list_push_back(inputs, input2);
-
-
-//     auto outputs = chain_output_list_construct_default();
-//     auto output0 = chain_output_construct_default();
-//     auto output1 = chain_output_construct_default();
-//     auto output2 = chain_output_construct_default();
-//     chain_output_list_push_back(outputs, output0);
-//     chain_output_list_push_back(outputs, output1);
-//     chain_output_list_push_back(outputs, output2);
+//     auto input0 = kth_chain_input_construct_default();
+//     auto input1 = kth_chain_input_construct_default();
+//     auto input2 = kth_chain_input_construct_default();
+//     kth_chain_input_list_push_back(inputs, input0);
+//     kth_chain_input_list_push_back(inputs, input1);
+//     kth_chain_input_list_push_back(inputs, input2);
 
 
-//     auto tr = chain_transaction_construct(1, 1, inputs, outputs);
-//     chain_transaction_destruct(tr);
+//     auto outputs = kth_chain_output_list_construct_default();
+//     auto output0 = kth_chain_output_construct_default();
+//     auto output1 = kth_chain_output_construct_default();
+//     auto output2 = kth_chain_output_construct_default();
+//     kth_chain_output_list_push_back(outputs, output0);
+//     kth_chain_output_list_push_back(outputs, output1);
+//     kth_chain_output_list_push_back(outputs, output2);
 
-//     executor_destruct(exec);
+
+//     auto tr = kth_chain_transaction_construct(1, 1, inputs, outputs);
+//     kth_chain_transaction_destruct(tr);
+
+//     kth_node_destruct(exec);
 
 //     return 0;
 // }
@@ -564,12 +563,12 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //int main(int argc, char* argv[]) {
 //	using namespace std::chrono_literals;
 //
-//    executor_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//	//executor_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+//    kth_node_t exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//	//kth_node_t exec = kth_node_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 //
-//    int res1 = executor_initchain(exec);
+//    int res1 = kth_node_initchain(exec);
 //
-//	int res2 = executor_run_wait(exec);
+//	int res2 = kth_node_run_wait(exec);
 //
 //	size_t height;
 //	get_last_height(exec, &height);
@@ -582,12 +581,12 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //	//kth::hash_digest hash_bytes;
 //	//hex2bin(hash.c_str(), hash_bytes.data());
 //	//std::reverse(hash_bytes.begin(), hash_bytes.end());
-//	//transaction_t tx;
+//	// kth_transaction_t tx;
 //
 //	//size_t index;
 //
-//	////get_transaction(exec, (hash_t)hash.c_str(), false, &tx, &height, &index);
-//	//get_transaction(exec, (hash_t)hash_bytes.data(), false, &tx, &height, &index);
+//	////get_transaction(exec, (kth_hash_t)hash.c_str(), false, &tx, &height, &index);
+//	//get_transaction(exec, (kth_hash_t)hash_bytes.data(), false, &tx, &height, &index);
 //
 //	//auto& txlib = tx_const_cpp2(tx);
 //	//auto data = txlib.to_data();
@@ -603,7 +602,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //
 //	validate_tx(exec, tx, nullptr);
 //
-//	//executor_run(exec, [](int e) {
+//	//kth_node_run(exec, [](int e) {
 //	//	waiting = false;
 //	//});
 //
@@ -618,8 +617,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //	//fetch_last_height(exec, last_height_fetch_handler);
 //
 //
-//    //history_compact_t history;
-//    //point_kind_t xxx = history_compact_get_point_kind(history);
+//    //kth_history_compact_t history;
+//    //kth_point_kind_t xxx = history_compact_get_point_kind(history);
 //
 //	//std::this_thread::sleep_for(5s);
 //
@@ -629,7 +628,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //		//std::cout << "..." << std::endl;
 //	}
 //
-//    executor_destruct(exec);
+//    kth_node_destruct(exec);
 //
 //    return 0;
 //}
@@ -644,13 +643,13 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     printf("hola -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 
-    executor_t exec = executor_construct("c:\\blockchain\\bcc-testnet_insight\\kth-node-bcc-testnet.cfg", stdout, stderr);
+    kth_node_t exec = kth_node_construct("c:\\blockchain\\bcc-testnet_insight\\kth-node-bcc-testnet.cfg", stdout, stderr);
 
-    int config_valid = executor_load_config_valid(exec);
+    int config_valid = kth_node_load_config_valid(exec);
 
     printf("config valid result %i",config_valid);
 
-    executor_destruct(exec);
+    kth_node_destruct(exec);
 
     return 0;
 }*/
@@ -659,13 +658,13 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     printf("hola -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 
-    executor_t exec = executor_construct("c:\\blockchain\\bcc-testnet_insight\\kth-node-bcc-testnet.cfg", stdout, stderr);
+    kth_node_t exec = kth_node_construct("c:\\blockchain\\bcc-testnet_insight\\kth-node-bcc-testnet.cfg", stdout, stderr);
 
 
-    int res1 = executor_initchain(exec);
-    int res2 = executor_run_wait(exec);
+    int res1 = kth_node_initchain(exec);
+    int res2 = kth_node_run_wait(exec);
     
-    chain_t chain = executor_get_chain(exec);
+    kth_chain_t chain = kth_node_get_chain(exec);
 
     wait_until_block(chain, 170);
 
@@ -676,48 +675,48 @@ int main(int /*argc*/, char* /*argv*/[]) {
     kth::data_chunk chunk;
     kth::decode_base16(chunk,raw);
 
-    transaction_t tx = chain_transaction_factory_from_data(1,chunk.data(),chunk.size());
+    kth_transaction_t tx = kth_chain_transaction_factory_from_data(1,chunk.data(),chunk.size());
 
 
-    auto ret = chain_organize_transaction_sync(chain,tx);
+    auto ret = kth_chain_organize_transaction_sync(chain,tx);
 
     printf("organize result %i",ret);
 
-    executor_destruct(exec);
+    kth_node_destruct(exec);
 
     return 0;
 }*/
 
-// void fetch_txns_handler(chain_t chain, void* ctx, error_code ec, hash_list_t txs) {
-//     int txs_count =  chain_hash_list_count(txs);
+// void fetch_txns_handler(kth_chain_t chain, void* ctx, error_code ec, kth_hash_list_t txs) {
+//     int txs_count =  kth_chain_hash_list_count(txs);
 //     printf("Txs count: %d\n", txs_count);
 //     for(int i=0; i<txs_count; i++) {
-//         hash_t tx_hash = chain_hash_list_nth(txs, i);
+//         kth_hash_t tx_hash = kth_chain_hash_list_nth(txs, i);
 //         //print_hex(tx_hash.hash, 32);
 //     }
-//     chain_hash_list_destruct(txs);
+//     kth_chain_hash_list_destruct(txs);
 //     printf("Txs list destroyed\n");
 // }
 
 // int main(int argc, char* argv[]) {
 //     printf("fetch_txns test -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 
-//     executor_t exec = executor_construct("", stdout, stderr);
-//     int res1 = executor_initchain(exec);
-//     int res2 = executor_run_wait(exec);
+//     kth_node_t exec = kth_node_construct("", stdout, stderr);
+//     int res1 = kth_node_initchain(exec);
+//     int res2 = kth_node_run_wait(exec);
 
-//     chain_t chain = executor_get_chain(exec);
+//     kth_chain_t chain = kth_node_get_chain(exec);
 
 //     wait_until_block(chain, 170);
 
 //     std::string address_str = "bitcoincash:qqgekzvw96vq5g57zwdfa5q6g609rrn0ycp33uc325";
-//     auto address = wallet_payment_address_construct_from_string(address_str.c_str());
-//     chain_fetch_confirmed_transactions(chain, nullptr, address, INT_MAX, 0, fetch_txns_handler);
+//     auto address = kth_wallet_payment_address_construct_from_string(address_str.c_str());
+//     kth_chain_fetch_confirmed_transactions(chain, nullptr, address, INT_MAX, 0, fetch_txns_handler);
 
 //     std::this_thread::sleep_for(std::chrono::milliseconds(10000));
 
 //     printf("Shutting down node... -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
-//     executor_destruct(exec);
+//     kth_node_destruct(exec);
 //     printf("fetch_txns test EXITED OK -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 //     return 0;
 // }

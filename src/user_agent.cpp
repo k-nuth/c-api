@@ -5,12 +5,10 @@
 #include <kth/network/user_agent.hpp>
 #include <kth/capi/version.h>
 
-namespace kth {
-namespace network {
+namespace kth::network {
 
 std::string get_user_agent() {
     return "/kth:" KTH_CAPI_VERSION "/";
 }
 
-} // namespace network
-} // namespace kth
+} // namespace kth::network

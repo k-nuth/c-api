@@ -15,31 +15,31 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-hash_t chain_merkle_block_hash_nth(merkle_block_t block, uint64_t /*size_t*/ n);
+kth_hash_t kth_chain_merkle_block_hash_nth(kth_merkleblock_t block, kth_size_t n);
 
 KTH_EXPORT
-void chain_merkle_block_hash_nth_out(merkle_block_t block, uint64_t /*size_t*/ n, hash_t* out_hash);
+void kth_chain_merkle_block_hash_nth_out(kth_merkleblock_t block, kth_size_t n, kth_hash_t* out_hash);
 
 KTH_EXPORT
-header_t chain_merkle_block_header(merkle_block_t block);
+kth_header_t kth_chain_merkle_block_header(kth_merkleblock_t block);
 
 KTH_EXPORT
-bool_t chain_merkle_block_is_valid(merkle_block_t block);
+kth_bool_t kth_chain_merkle_block_is_valid(kth_merkleblock_t block);
 
 KTH_EXPORT
-uint64_t /*size_t*/ chain_merkle_block_hash_count(merkle_block_t block);
+kth_size_t kth_chain_merkle_block_hash_count(kth_merkleblock_t block);
 
 KTH_EXPORT
-uint64_t /*size_t*/ chain_merkle_block_serialized_size(merkle_block_t block, uint32_t version);
+kth_size_t kth_chain_merkle_block_serialized_size(kth_merkleblock_t block, uint32_t version);
 
 KTH_EXPORT
-uint64_t /*size_t*/ chain_merkle_block_total_transaction_count(merkle_block_t block);
+kth_size_t kth_chain_merkleblock_total_transaction_count(kth_merkleblock_t block);
 
 KTH_EXPORT
-void chain_merkle_block_destruct(merkle_block_t block);
+void kth_chain_merkle_block_destruct(kth_merkleblock_t block);
 
 KTH_EXPORT
-void chain_merkle_block_reset(merkle_block_t block);
+void kth_chain_merkle_block_reset(kth_merkleblock_t block);
 
 #ifdef __cplusplus
 } // extern "C"
