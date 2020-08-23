@@ -28,7 +28,7 @@ Install and run Knuth is very easy:
 ```
 $ pip install kthbuild --user --upgrade
 
-$ conan remote add kth https://api.bintray.com/conan/k-nuth/kth
+$ conan config install https://github.com/k-nuth/ci-utils/raw/master/conan/config.zip
 ```
 
 2. Install the appropriate library:
