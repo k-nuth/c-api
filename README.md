@@ -57,18 +57,18 @@ $ conan install c-api/0.X@kth/stable -o currency=LTC --update
 #include <kth/capi.h>
 
 int main() {
-    executor_t exec = executor_construct("my_config_file", stdout, stderr);
+    kth_node_t exec = kth_node_construct("my_config_file", stdout, stderr);
 
-    executor_initchain(exec);
-    executor_run_wait(exec);
-    chain_t chain = executor_get_chain(exec);
+    kth_node_initchain(exec);
+    kth_node_run_wait(exec);
+    kth_chain_t chain = kth_node_get_chain(exec);
 
     uint64_t height;
     chain_get_last_height(chain, &height);
 
     printf("%" PRIu64 "\n", height);
 
-    executor_destruct(exec);
+    kth_node_destruct(exec);
 }
 ```
 
@@ -88,9 +88,9 @@ Includes C standard library stuff, like format conversion specifiers, fixed widt
 Gives access to Knuth C-API features.
 
 ```c
-executor_t exec = executor_construct("my_config_file", stdout, stderr);
+kth_node_t exec = kth_node_construct("my_config_file", stdout, stderr);
 ```
-Construct a Knuth _executor_ object, which is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.  
+Construct a Knuth _kth_node_ object, which is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.  
 
 `"my_config_file"` is the path to the configuration file; in the [config](https://github.com/k-nuth/config) repository you can find some example files.  
 If you pass an empty string (`""`), default configuration will be used.
@@ -100,7 +100,7 @@ You can use any object of type `FILE*`. For example, you can make the Knuth node
 If you pass null pointers (`NULL` or `0`), there will be no logging information.
 
 ```c
-executor_initchain(exec);
+kth_node_initchain(exec);
 ```
 
 Initialize the filesystem database where the _blockchain_ will be stored.  
@@ -109,7 +109,7 @@ You need to have enough disk space to store the blockchain.
 This is equivalent to executing: `kth -i -c my_config_file`.
 
 ```c
-executor_run_wait(exec);
+kth_node_run_wait(exec);
 ```
 
 Run the node.  
@@ -117,7 +117,7 @@ In this step, the connections and handshake with the peers will be established, 
 
 This is equivalent to executing: `kth -c my_config_file`.
 ```c
-chain_t chain = executor_get_chain(exec);
+kth_chain_t chain = kth_node_get_chain(exec);
 ```
 
 Get access to the blockchain query interface (commands and queries).
@@ -132,7 +132,7 @@ printf("%" PRIu64 "\n", height);
 Ask the blockchain what is the height of the last downloaded block and print it in the standard output.
 
 ```c
-executor_destruct(exec);
+kth_node_destruct(exec);
 ```
 
 Destroy the executor object created earlier.  

@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #ifndef KTH_CAPI_EXECUTOR_HPP_
 #define KTH_CAPI_EXECUTOR_HPP_
 
@@ -108,7 +107,7 @@ private:
 #define KTH_INITIALIZING_CHAIN "Please wait while initializing {} directory..."
 #define KTH_INITCHAIN_NEW "Failed to create directory {} with error, '{}'."
 #define KTH_INITCHAIN_EXISTS "Failed because the directory {} already exists."
-#define KTH_INITCHAIN_TRY "Failed to test directory {} with error, '{}'."
+#define KTH_INITkth_chain_tRY "Failed to test directory {} with error, '{}'."
 #define KTH_INITCHAIN_COMPLETE "Completed initialization."
 #define KTH_INITCHAIN_FAILED "Error creating database files."
 

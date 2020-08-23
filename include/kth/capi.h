@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 /**
  * API Users: Include only this header. Direct use of other headers is fragile
  * and unsupported as header organization is subject to change.

@@ -357,10 +357,10 @@ endif()
 
 set(_kth_sources
         src/executor.cpp
-        src/executor_c.cpp
         src/hash_list.cpp
         # src/parser.cpp
         src/binary.cpp
+        src/node.cpp
         src/platform.cpp
         src/string_list.cpp
 
@@ -629,8 +629,8 @@ set(_kth_headers
         kth/capi/binary.h
         kth/capi/conversions.hpp
         kth/capi/helpers.hpp
-        kth/capi/executor_c.h
         kth/capi/hash_list.h
+        kth/capi/node.h
         kth/capi/platform.h
         kth/capi/primitives.h
         kth/capi/version.h

@@ -1,21 +1,6 @@
-/**
-* Copyright (c) 2016-2020 Knuth Project developers.
-*
-* This file is part of the Knuth Project.
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// Copyright (c) 2016-2020 Knuth Project developers.
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <kth/capi/keoken/manager.h>
 
@@ -101,21 +86,21 @@ void keoken_manager_initialize_from_blockchain(keoken_manager_t manager) {
     keoken_manager_cpp(manager).initialize_from_blockchain();
 }
 
-bool_t keoken_manager_initialized(keoken_manager_t manager) {
+kth_bool_t keoken_manager_initialized(keoken_manager_t manager) {
     return kth::bool_to_int(keoken_manager_const_cpp(manager).initialized());
 }
 
-get_assets_by_address_list_t keoken_manager_get_assets_by_address(keoken_manager_t manager, payment_address_t address) {
-    auto result = keoken_manager_const_cpp(manager).get_assets_by_address(wallet_payment_address_const_cpp(address));
+keoken_get_assets_by_address_list_t keoken_manager_get_assets_by_address(keoken_manager_t manager, kth_payment_address_t address) {
+    auto result = keoken_manager_const_cpp(manager).get_assets_by_address(kth_wallet_payment_address_const_cpp(address));
     return kth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
-get_assets_list_t keoken_manager_get_assets(keoken_manager_t manager) {
+keoken_get_assets_list_t keoken_manager_get_assets(keoken_manager_t manager) {
     auto result = keoken_manager_const_cpp(manager).get_assets();
     return kth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
 
-get_all_asset_addresses_list_t keoken_manager_get_all_asset_addresses(keoken_manager_t manager) {
+keoken_get_all_asset_addresses_list_t keoken_manager_get_all_asset_addresses(keoken_manager_t manager) {
     auto result = keoken_manager_const_cpp(manager).get_all_asset_addresses();
     return kth::move_or_copy_and_leak(std::move(result));         //Must be released by caller
 }
