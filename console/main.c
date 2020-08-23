@@ -22,10 +22,10 @@ void history_fetch_handler(int error, history_compact_list_t list) {
 
 int main(int argc, char* argv[]) {
 
-    kth_node_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
+    kth_node_t exec = kth_node_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
 
-    int res1 = executor_initchain(exec);
-    int res2 = executor_run(exec);
+    int res1 = kth_node_initchain(exec);
+    int res2 = kth_node_run(exec);
 
 //    fetch_merkle_block_by_height(exec, 0, NULL);
 
@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
     std::cout << "Waited " << elapsed.count() << " ms\n";
 
 
-    executor_destruct(exec);
+    kth_node_destruct(exec);
 
     return 0;
 }

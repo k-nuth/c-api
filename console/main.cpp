@@ -107,35 +107,35 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // std::signal(SIGTERM, handle_stop);
 
 
-    auto exec = executor_construct("/home/kth/dev/kth/github/k-nuth/insight/kth.insight/bcc-testnet.cfg", stdout, stderr);
-    //auto exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-    // kth_node_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-    //kth_node_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+    auto exec = kth_node_construct("/home/kth/dev/kth/github/k-nuth/insight/kth.insight/bcc-testnet.cfg", stdout, stderr);
+    //auto exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+    // kth_node_t exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+    //kth_node_t exec = kth_node_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
 
     // printf("**-- 1\n");
-    // int res1 = executor_initchain(exec);
+    // int res1 = kth_node_initchain(exec);
 
     // if (res1 == 0) {
     //     printf("Error initializing files\n");
-    //     executor_destruct(exec);
+    //     kth_node_destruct(exec);
     //     return -1;
     // }
 
     printf("**-- 2aaaaaa\n");
     
-    int res2 = executor_run_wait(exec);
+    int res2 = kth_node_run_wait(exec);
 
     printf("**-- 3\n");
     if (res2 != 0) {
         printf("Error initializing files\n");
-        executor_destruct(exec);
+        kth_node_destruct(exec);
         return -1;
     }
     std::this_thread::sleep_for(std::chrono::seconds(10));
     printf("**-- 4\n");
 
-    kth_chain_t chain = executor_get_chain(exec);
+    kth_chain_t chain = kth_node_get_chain(exec);
         
     wait_until_block(chain, 170);
 
@@ -166,7 +166,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
     auto tx_count = kth_chain_transaction_list_count(txs);
     printf("tx_count: %lu\n", tx_count);
 
-    executor_destruct(exec);
+    kth_node_destruct(exec);
 
     printf("**-- 8\n");
     
@@ -375,11 +375,11 @@ int main(int /*argc*/, char* /*argv*/[]) {
 // void handle_stop(int signal) {
 //     std::cout << "handle_stop()\n";
 //     // stop(kth::error::success);
-//     //executor_stop(exec);
-//     //kth_chain_t chain = executor_get_chain(exec);
+//     //kth_node_stop(exec);
+//     //kth_chain_t chain = kth_node_get_chain(exec);
 //     //chain_unsubscribe(chain);
 //     //stopped = true;
-//     executor_stop(exec);
+//     kth_node_stop(exec);
 // }
 
 // int xxx = 0;
@@ -387,7 +387,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 // int kth_chain_subscribe_blockchain_handler(kth_node_t exec, kth_chain_t chain, void* ctx, int error, uint64_t fork_height, kth_block_list_t blocks_incoming, kth_block_list_t blocks_replaced) {
 //     //printf("chain_subscribe_blockchain_handler error: %d\n", error);
 
-//     if (executor_stopped(exec) == 1 || error == 1) {
+//     if (kth_node_stopped(exec) == 1 || error == 1) {
 //         printf("chain_subscribe_blockchain_handler -- stopping -- error: %d\n", error);
 //         return 0;
 //     }
@@ -395,13 +395,13 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //     //++xxx;
 
 //     //if (xxx >= 3000) {
-//     //    int s = executor_stopped(exec);
+//     //    int s = kth_node_stopped(exec);
 //     //    std::cout << s << std::endl;
 
-//     //    //executor_stop(exec);
-//     //    //executor_close(exec);
+//     //    //kth_node_stop(exec);
+//     //    //kth_node_close(exec);
 
-//     //    s = executor_stopped(exec);
+//     //    s = kth_node_stopped(exec);
 //     //    std::cout << s << std::endl;
 //     //    kth_chain_unsubscribe(chain);
 //     //}
@@ -417,34 +417,34 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //     std::signal(SIGTERM, handle_stop);
 
 
-//     exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//     // kth_node_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//     //kth_node_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+//     exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//     // kth_node_t exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//     //kth_node_t exec = kth_node_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
 
 //     printf("**-- 1\n");
-//     int res1 = executor_initchain(exec);
+//     int res1 = kth_node_initchain(exec);
 
 //     if (res1 == 0) {
 //         printf("Error initializing files\n");
-//         executor_destruct(exec);
+//         kth_node_destruct(exec);
 //         return -1;
 //     }
 
 //     printf("**-- 2\n");
     
-//     int res2 = executor_run_wait(exec);
+//     int res2 = kth_node_run_wait(exec);
 
 //     if (res2 != 0) {
 //         printf("Error initializing files\n");
-//         executor_destruct(exec);
+//         kth_node_destruct(exec);
 //         return -1;
 //     }
 //     std::this_thread::sleep_for(std::chrono::seconds(10));
 
 //     printf("**-- 3\n");
 
-//     kth_chain_t chain = executor_get_chain(exec);
+//     kth_chain_t chain = kth_node_get_chain(exec);
         
 //     // fetch_last_height(exec, last_height_fetch_handler);
 //     // wait_until_block(chain, 170);
@@ -456,9 +456,9 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 //     printf("**-- 5\n");
     
-//     // while ( ! executor_stopped(exec) ) {
+//     // while ( ! kth_node_stopped(exec) ) {
 //     //while ( ! stopped ) {
-//     while (executor_stopped(exec) == 0) {
+//     while (kth_node_stopped(exec) == 0) {
 //         printf("**-- 6\n");
         
 //         uint64_t height;
@@ -466,13 +466,13 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //         printf("error: %d, height: %zd\n", error, height);
 
 //         if (height >= 3000) {
-//             int s = executor_stopped(exec);
+//             int s = kth_node_stopped(exec);
 //             std::cout << s << std::endl;
 
-//             executor_stop(exec);
-//             //executor_close(exec);
+//             kth_node_stop(exec);
+//             //kth_node_close(exec);
 
-//             s = executor_stopped(exec);
+//             s = kth_node_stopped(exec);
 //             std::cout << s << std::endl;
 //         }
 
@@ -481,7 +481,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 //     printf("**-- 7\n");
 
-//     executor_destruct(exec);
+//     kth_node_destruct(exec);
 
 //     printf("**-- 8\n");
     
@@ -511,22 +511,22 @@ int main(int /*argc*/, char* /*argv*/[]) {
 // int main(int /*argc*/, char* /*argv*/[]) {
 // //    using namespace std::chrono_literals;
 
-//     kth_node_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//     //kth_node_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+//     kth_node_t exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//     //kth_node_t exec = kth_node_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 
-//     int res1 = executor_initchain(exec);
+//     int res1 = kth_node_initchain(exec);
 
 //     if (res1 == 0) {
 //         printf("Error initializing files\n");
-//         executor_destruct(exec);
+//         kth_node_destruct(exec);
 //         return -1;
 //     }
 
-//     int res2 = executor_run_wait(exec);
+//     int res2 = kth_node_run_wait(exec);
 
 //     if (res2 != 0) {
 //         printf("Error initializing files\n");
-//         executor_destruct(exec);
+//         kth_node_destruct(exec);
 //         return -1;
 //     }
 
@@ -553,7 +553,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //     auto tr = kth_chain_transaction_construct(1, 1, inputs, outputs);
 //     kth_chain_transaction_destruct(tr);
 
-//     executor_destruct(exec);
+//     kth_node_destruct(exec);
 
 //     return 0;
 // }
@@ -563,12 +563,12 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //int main(int argc, char* argv[]) {
 //	using namespace std::chrono_literals;
 //
-//    kth_node_t exec = executor_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//	//kth_node_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
+//    kth_node_t exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
+//	//kth_node_t exec = kth_node_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
 //
-//    int res1 = executor_initchain(exec);
+//    int res1 = kth_node_initchain(exec);
 //
-//	int res2 = executor_run_wait(exec);
+//	int res2 = kth_node_run_wait(exec);
 //
 //	size_t height;
 //	get_last_height(exec, &height);
@@ -602,7 +602,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //
 //	validate_tx(exec, tx, nullptr);
 //
-//	//executor_run(exec, [](int e) {
+//	//kth_node_run(exec, [](int e) {
 //	//	waiting = false;
 //	//});
 //
@@ -628,7 +628,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //		//std::cout << "..." << std::endl;
 //	}
 //
-//    executor_destruct(exec);
+//    kth_node_destruct(exec);
 //
 //    return 0;
 //}
@@ -643,13 +643,13 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     printf("hola -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 
-    kth_node_t exec = executor_construct("c:\\blockchain\\bcc-testnet_insight\\kth-node-bcc-testnet.cfg", stdout, stderr);
+    kth_node_t exec = kth_node_construct("c:\\blockchain\\bcc-testnet_insight\\kth-node-bcc-testnet.cfg", stdout, stderr);
 
-    int config_valid = executor_load_config_valid(exec);
+    int config_valid = kth_node_load_config_valid(exec);
 
     printf("config valid result %i",config_valid);
 
-    executor_destruct(exec);
+    kth_node_destruct(exec);
 
     return 0;
 }*/
@@ -658,13 +658,13 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     printf("hola -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 
-    kth_node_t exec = executor_construct("c:\\blockchain\\bcc-testnet_insight\\kth-node-bcc-testnet.cfg", stdout, stderr);
+    kth_node_t exec = kth_node_construct("c:\\blockchain\\bcc-testnet_insight\\kth-node-bcc-testnet.cfg", stdout, stderr);
 
 
-    int res1 = executor_initchain(exec);
-    int res2 = executor_run_wait(exec);
+    int res1 = kth_node_initchain(exec);
+    int res2 = kth_node_run_wait(exec);
     
-    kth_chain_t chain = executor_get_chain(exec);
+    kth_chain_t chain = kth_node_get_chain(exec);
 
     wait_until_block(chain, 170);
 
@@ -682,7 +682,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     printf("organize result %i",ret);
 
-    executor_destruct(exec);
+    kth_node_destruct(exec);
 
     return 0;
 }*/
@@ -701,11 +701,11 @@ int main(int /*argc*/, char* /*argv*/[]) {
 // int main(int argc, char* argv[]) {
 //     printf("fetch_txns test -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 
-//     kth_node_t exec = executor_construct("", stdout, stderr);
-//     int res1 = executor_initchain(exec);
-//     int res2 = executor_run_wait(exec);
+//     kth_node_t exec = kth_node_construct("", stdout, stderr);
+//     int res1 = kth_node_initchain(exec);
+//     int res2 = kth_node_run_wait(exec);
 
-//     kth_chain_t chain = executor_get_chain(exec);
+//     kth_chain_t chain = kth_node_get_chain(exec);
 
 //     wait_until_block(chain, 170);
 
@@ -716,7 +716,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //     std::this_thread::sleep_for(std::chrono::milliseconds(10000));
 
 //     printf("Shutting down node... -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
-//     executor_destruct(exec);
+//     kth_node_destruct(exec);
 //     printf("fetch_txns test EXITED OK -*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-\n");
 //     return 0;
 // }

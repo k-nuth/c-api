@@ -147,22 +147,24 @@ void copy_c_hash(HashCpp const& in, HashC* out) {
     std::copy_n(in.begin(), in.size(), static_cast<uint8_t*>(out->hash));
 }
 
-template <typename T>
-using home_remove_reference_t = typename std::remove_reference<T>::type;
+// template <typename T>
+// using home_remove_reference_t = typename std::remove_reference<T>::type;
 
 template <typename T> 
-home_remove_reference_t<T>* move_or_copy_and_leak(T&& x) {
-    return new home_remove_reference_t<T>(std::forward<T>(x));
+std::remove_reference_t<T>* move_or_copy_and_leak(T&& x) {
+    return new std::remove_reference_t<T>(std::forward<T>(x));
 }
 
 inline
 int bool_to_int(bool x) {
-    return static_cast<int>(x);
+    // return static_cast<int>(x);
+    return x;
 }
 
 inline
 bool int_to_bool(int x) {
-    return x != 0;
+    // return x != 0;
+    return x;
 }
 
 } // namespace kth

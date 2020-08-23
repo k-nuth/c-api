@@ -12,24 +12,24 @@ int main() {
     std::cout << "Initializing...\n";
 
     // using (var node = new Knuth.Node("node.cfg")) {
-    // auto node = executor_construct_fd("/Users/fernando/dev/kth/cs-api/console/node.cfg", 0, 0);
-    auto node = executor_construct_fd("/Users/fernando/dev/kth/cs-api/console/node_throttling.cfg", 0, 0);
+    // auto node = kth_node_construct_fd("/Users/fernando/dev/kth/cs-api/console/node.cfg", 0, 0);
+    auto node = kth_node_construct_fd("/Users/fernando/dev/kth/cs-api/console/node_throttling.cfg", 0, 0);
     {
         // var result = await node.InitAndRunAsync();
-        // executor_init_and_run(node, handlerPtr, internalRunNodeHandler_);
-        auto result = executor_init_and_run_wait(node);
+        // kth_node_init_and_run(node, handlerPtr, internalRunNodeHandler_);
+        auto result = kth_node_init_and_run_wait(node);
         if (result != 0) {
-            std::cout << "executor_init_and_run_wait failed; error code: " << result << std::endl;
+            std::cout << "kth_node_init_and_run_wait failed; error code: " << result << std::endl;
             std::cout << "sleeping 5 seconds" << std::endl;
             std::this_thread::sleep_for(std::chrono::seconds(5));
         }
-        // executor_close(node);
+        // kth_node_close(node);
 
         std::cout << "main thread: " << std::this_thread::get_id() << std::endl;
 
         std::thread t1([&] {
             std::cout << "t1 thread: " << std::this_thread::get_id() << std::endl;
-            executor_close(node);
+            kth_node_close(node);
         });
         t1.join();        
     }
@@ -50,10 +50,10 @@ int main() {
 
 // int main(int argc, char* argv[]) {
 
-//     kth_node_t exec = executor_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
+//     kth_node_t exec = kth_node_construct("/home/fernando/exec/btc-mainnet.cfg", stdout, stderr);
 
-//     int res1 = executor_initchain(exec);
-//     int res2 = executor_run(exec);
+//     int res1 = kth_node_initchain(exec);
+//     int res2 = kth_node_run(exec);
 
 // //    fetch_merkle_block_by_height(exec, 0, NULL);
 
@@ -69,7 +69,7 @@ int main() {
 //     std::cout << "Waited " << elapsed.count() << " ms\n";
 
 
-//     executor_destruct(exec);
+//     kth_node_destruct(exec);
 
 //     return 0;
 // }

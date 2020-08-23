@@ -150,7 +150,7 @@ bool stopped = false;
 
 void handle_stop(int  /*signal*/) {
     std::cout << "handle_stop()\n";
-    executor_stop(exec);
+    kth_node_stop(exec);
 }
 
 int main(int /*argc*/, char* /*argv*/[]) {
@@ -159,28 +159,28 @@ int main(int /*argc*/, char* /*argv*/[]) {
     std::signal(SIGINT, handle_stop);
     std::signal(SIGTERM, handle_stop);
 
-    exec = executor_construct("cfg1", stdout, stderr);
+    exec = kth_node_construct("cfg1", stdout, stderr);
 
-    // int res1 = executor_initchain(exec);
+    // int res1 = kth_node_initchain(exec);
     // if (res1 == 0) {
     //     printf("Error initializing files\n");
-    //     executor_destruct(exec);
+    //     kth_node_destruct(exec);
     //     return -1;
     // }
 
-    int res2 = executor_run_wait(exec);
+    int res2 = kth_node_run_wait(exec);
 
     if (res2 != 0) {
         printf("Error initializing files\n");
-        executor_destruct(exec);
+        kth_node_destruct(exec);
         return -1;
     }
     std::this_thread::sleep_for(std::chrono::seconds(10));
 
 
-    // kth_chain_t chain = executor_get_chain(exec);
+    // kth_chain_t chain = kth_node_get_chain(exec);
 
-    keoken_manager_t keo_manager = executor_get_keoken_manager(exec);
+    keoken_manager_t keo_manager = kth_node_get_keoken_manager(exec);
 
     keoken_memory_state_t memory_state = keoken_memory_state_construct_default();
     keoken_manager_configure_state(keo_manager
@@ -220,11 +220,11 @@ int main(int /*argc*/, char* /*argv*/[]) {
         printf("amount:     %ld\n", amount);
     }    
 
-    while (executor_stopped(exec) == 0) {
+    while (kth_node_stopped(exec) == 0) {
         printf("sleeping for 10 seconds...\n");
         std::this_thread::sleep_for(std::chrono::seconds(10));
     }
 
-    executor_destruct(exec);
+    kth_node_destruct(exec);
     return 0;
 }
