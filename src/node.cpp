@@ -2,8 +2,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
-#include <kth/capi/executor_c.h>
+#include <kth/capi/node.h>
 
 #include <cstdio>
 #include <memory>
@@ -80,31 +79,31 @@ using handle_sink = typename boost::iostreams::file_descriptor_sink::handle_type
 // ---------------------------------------------------------------------------
 extern "C" {
 
-struct executor {
+struct executor_helper {
 
-    executor(char const* path, FILE* sout, FILE* serr)
+    executor_helper(char const* path, FILE* sout, FILE* serr)
         : sout_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(sout), boost::iostreams::never_close_handle))
         , serr_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(serr), boost::iostreams::never_close_handle))
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
-        , actual(make_config(path), sout_, serr_) 
+        , cpp_executor(make_config(path), sout_, serr_) 
     {}
 
-    executor(char const* path, int sout_fd, int serr_fd)
+    executor_helper(char const* path, int sout_fd, int serr_fd)
         : sout_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(sout_fd), boost::iostreams::never_close_handle))
         , serr_buffer_(boost::iostreams::file_descriptor_sink(fileno_or_devnull(serr_fd), boost::iostreams::never_close_handle))
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
-        , actual(make_config(path), sout_, serr_) 
+        , cpp_executor(make_config(path), sout_, serr_) 
     {}
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
-    executor(char const* path, handle_sink sout, handle_sink serr)
+    executor_helper(char const* path, handle_sink sout, handle_sink serr)
         : sout_buffer_(boost::iostreams::file_descriptor_sink(sout, boost::iostreams::never_close_handle))
         , serr_buffer_(boost::iostreams::file_descriptor_sink(serr, boost::iostreams::never_close_handle))
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
-        , actual(make_config(path), sout_, serr_) 
+        , cpp_executor(make_config(path), sout_, serr_) 
     {}
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
@@ -112,37 +111,37 @@ struct executor {
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> serr_buffer_;
     std::ostream sout_;
     std::ostream serr_;
-    kth::capi::executor actual;
+    kth::capi::executor cpp_executor;
 };
 
-executor_t executor_construct(char const* path, FILE* sout, FILE* serr) {
+kth_node_t kth_node_construct(char const* path, FILE* sout, FILE* serr) {
     // return std::make_unique<executor>(path, sout, serr).release();
-    return new executor(path, sout, serr);
+    return new executor_helper(path, sout, serr);
 }
 
-executor_t executor_construct_fd(char const* path, int sout_fd, int serr_fd) {
+kth_node_t kth_node_construct_fd(char const* path, int sout_fd, int serr_fd) {
     // return std::make_unique<executor>(path, sout_fd, serr_fd).release();
-    return new executor(path, sout_fd, serr_fd);
+    return new executor_helper(path, sout_fd, serr_fd);
 }
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
 
-executor_t executor_construct_handles(char const* path, void* sout, void* serr) {
+kth_node_t kth_node_construct_handles(char const* path, void* sout, void* serr) {
     // return std::make_unique<executor>(path, sout_fd, serr_fd).release();
-    return new executor(path, sout, serr);
+    return new executor_helper(path, sout, serr);
 }
 
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
-void executor_destruct(executor_t exec) {
-    delete exec;
+void kth_node_destruct(kth_node_t node) {
+    delete node;
 }
 
 #if ! defined(KTH_DB_READONLY)
-int executor_initchain(executor_t exec) {
+int kth_node_initchain(kth_node_t node) {
     // TODO(fernando): return error_t to inform error in detail
     try {
-        return kth::bool_to_int(exec->actual.do_initchain());
+        return kth::bool_to_int(node->cpp_executor.do_initchain());
 //    } catch (const std::exception& e) {
 //        return 0;
     } catch (...) {
@@ -151,49 +150,49 @@ int executor_initchain(executor_t exec) {
 }
 #endif // ! defined(KTH_DB_READONLY)
 
-void executor_run(executor_t exec, void* ctx, run_handler_t handler) {
+void kth_node_run(kth_node_t node, void* ctx, kth_run_handler_t handler) {
     try {
-        exec->actual.run([exec, ctx, handler](std::error_code const& ec) {
+        node->cpp_executor.run([node, ctx, handler](std::error_code const& ec) {
             if (handler != nullptr) {
-                handler(exec, ctx, ec.value());
+                handler(node, ctx, ec.value());
             }
         });
     } catch (...) {
-        handler(exec, ctx, 1); // TODO(fernando): return error_t to inform errors in detail
+        handler(node, ctx, 1); // TODO(fernando): return error_t to inform errors in detail
     }
 }
 
 #if ! defined(KTH_DB_READONLY)
-void executor_init_and_run(executor_t exec, void* ctx, run_handler_t handler) {
+void kth_node_init_and_run(kth_node_t node, void* ctx, kth_run_handler_t handler) {
     try {
-        exec->actual.init_and_run([exec, ctx, handler](std::error_code const& ec) {
+        node->cpp_executor.init_and_run([node, ctx, handler](std::error_code const& ec) {
             if (handler != nullptr) {
-                handler(exec, ctx, ec.value());
+                handler(node, ctx, ec.value());
             }
         });
     } catch (...) {
-        handler(exec, ctx, 1); // TODO(fernando): return error_t to inform errors in detail
+        handler(node, ctx, 1); // TODO(fernando): return error_t to inform errors in detail
     }
 }
 
-void executor_init_run_and_wait_for_signal(executor_t exec, void* ctx, run_handler_t handler) {
-    exec->actual.init_run_and_wait_for_signal([exec, ctx, handler](std::error_code const& ec) {
+void kth_node_init_run_and_wait_for_signal(kth_node_t node, void* ctx, kth_run_handler_t handler) {
+    node->cpp_executor.init_run_and_wait_for_signal([node, ctx, handler](std::error_code const& ec) {
         if (handler != nullptr) {
-            handler(exec, ctx, ec.value());
+            handler(node, ctx, ec.value());
         }
     });
 }
 
 #endif // ! defined(KTH_DB_READONLY)
 
-int executor_run_wait(executor_t exec) {
+int kth_node_run_wait(kth_node_t node) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
 
     int res;
     bool run_res = false;
 
     try {
-        run_res = exec->actual.run([&](std::error_code const& ec) {
+        run_res = node->cpp_executor.run([&](std::error_code const& ec) {
             res = ec.value();
             latch.count_down();
         });
@@ -210,7 +209,7 @@ int executor_run_wait(executor_t exec) {
 }
 
 #if ! defined(KTH_DB_READONLY)
-int executor_init_and_run_wait(executor_t exec) {
+int kth_node_init_and_run_wait(kth_node_t node) {
     
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
 
@@ -218,7 +217,7 @@ int executor_init_and_run_wait(executor_t exec) {
     bool run_res = false;
 
     try {
-        run_res = exec->actual.init_and_run([&](std::error_code const& ec) {
+        run_res = node->cpp_executor.init_and_run([&](std::error_code const& ec) {
             res = ec.value();
             latch.count_down();
         });
@@ -236,47 +235,47 @@ int executor_init_and_run_wait(executor_t exec) {
 #endif // ! defined(KTH_DB_READONLY)
 
 
-int executor_stop(executor_t exec) {
-    auto res = static_cast<int>(exec->actual.stop());
+int kth_node_stop(kth_node_t node) {
+    auto res = static_cast<int>(node->cpp_executor.stop());
     return res;
 }
 
-void executor_signal_stop(executor_t exec) {
-    exec->actual.signal_stop();
+void kth_node_signal_stop(kth_node_t node) {
+    node->cpp_executor.signal_stop();
 }
 
-int executor_close(executor_t exec) {
-   return exec->actual.node().close();
+int kth_node_close(kth_node_t node) {
+   return node->cpp_executor.node().close();
 }
 
-int executor_stopped(executor_t exec) {
-    return static_cast<int>(exec->actual.stopped());
+int kth_node_stopped(kth_node_t node) {
+    return static_cast<int>(node->cpp_executor.stopped());
 }
 
-int executor_load_config_valid(executor_t exec) {
-    return static_cast<int>(exec->actual.load_config_valid());
+int kth_node_load_config_valid(kth_node_t node) {
+    return static_cast<int>(node->cpp_executor.load_config_valid());
 }
 
-chain_t executor_get_chain(executor_t exec) {
-    return &(exec->actual.node().chain());
+kth_chain_t kth_node_get_chain(kth_node_t node) {
+    return &(node->cpp_executor.node().chain());
 }
 
-p2p_t executor_get_p2p(executor_t exec) {
-    return &static_cast<kth::network::p2p&>(exec->actual.node());
+kth_p2p_t kth_node_get_p2p(kth_node_t node) {
+    return &static_cast<kth::network::p2p&>(node->cpp_executor.node());
 }
 
-void executor_print_thread_id() {
-    std::cout << std::this_thread::get_id() << std::endl;
+void kth_node_print_thread_id() {
+    std::cout << std::this_thread::get_id() << '\n';
 }
 
 #ifdef KTH_WITH_KEOKEN
-keoken_manager_t executor_get_keoken_manager(executor_t exec) {
-    // return &(exec->actual.node().keoken_manager());
-    return &(exec->actual.keoken_manager());
+keoken_manager_t kth_node_get_keoken_manager(kth_node_t node) {
+    // return &(node->cpp_executor.node().keoken_manager());
+    return &(node->cpp_executor.keoken_manager());
 }
 #endif
 
-char const* executor_version() {
+char const* kth_node_version() {
     return KTH_CAPI_VERSION;
 }
 

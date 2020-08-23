@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #ifndef KTH_CAPI_P2P_P2P_H_
 #define KTH_CAPI_P2P_P2P_H_
 
@@ -14,16 +13,16 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-uint64_t /*size_t*/ p2p_address_count(p2p_t p2p);
+kth_size_t kth_p2p_address_count(kth_p2p_t p2p);
 
 KTH_EXPORT
-void p2p_stop(p2p_t p2p);
+void kth_p2p_stop(kth_p2p_t p2p);
 
 KTH_EXPORT
-void p2p_close(p2p_t p2p);
+void kth_p2p_close(kth_p2p_t p2p);
 
 KTH_EXPORT
-bool_t p2p_stopped(p2p_t p2p);
+kth_bool_t kth_p2p_stopped(kth_p2p_t p2p);
 
 #ifdef __cplusplus
 } // extern "C"

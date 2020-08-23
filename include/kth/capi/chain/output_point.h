@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #ifndef KTH_CAPI_CHAIN_OUTPUT_POINT_H_
 #define KTH_CAPI_CHAIN_OUTPUT_POINT_H_
 
@@ -16,22 +15,22 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-output_point_t chain_output_point_construct(void);
+kth_outputpoint_t kth_chain_output_point_construct(void);
 
 KTH_EXPORT
-output_point_t chain_output_point_construct_from_hash_index(hash_t hash, uint32_t index);
+kth_outputpoint_t kth_chain_output_point_construct_from_hash_index(kth_hash_t hash, uint32_t index);
 
 KTH_EXPORT
-void chain_output_point_destruct(output_point_t op);
+void kth_chain_output_point_destruct(kth_outputpoint_t op);
 
 KTH_EXPORT
-hash_t chain_output_point_get_hash(output_point_t op);
+kth_hash_t kth_chain_output_point_get_hash(kth_outputpoint_t op);
 
 KTH_EXPORT
-void chain_output_point_get_hash_out(output_point_t op, hash_t* out_hash);
+void kth_chain_output_point_get_hash_out(kth_outputpoint_t op, kth_hash_t* out_hash);
 
 KTH_EXPORT
-uint32_t chain_output_point_get_index(output_point_t op);
+uint32_t kth_chain_output_point_get_index(kth_outputpoint_t op);
 
 #ifdef __cplusplus
 } // extern "C"

@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #ifndef KTH_CAPI_HELPERS_HPP_
 #define KTH_CAPI_HELPERS_HPP_
 
@@ -61,8 +60,8 @@ std::array<detail::remove_cv_t<T>, 32> to_array(T (&x)[32]) {
 }
 
 inline
-hash_t to_hash_t(kth::hash_digest const& x) {
-    // return to_c_array<hash_t>(x);
+kth_hash_t to_hash_t(kth::hash_digest const& x) {
+    // return to_c_array<kth_hash_t>(x);
     return { {x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
               x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15],
               x[16], x[17], x[18], x[19], x[20], x[21], x[22], x[23],
@@ -70,16 +69,16 @@ hash_t to_hash_t(kth::hash_digest const& x) {
 }
 
 inline
-short_hash_t to_short_hash_t(kth::short_hash const& x) {
-    // return to_c_array<short_hash_t>(x);
+kth_shorthash_t to_shorthash_t(kth::short_hash const& x) {
+    // return to_c_array<kth_shorthash_t>(x);
     return { {x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
               x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15],
               x[16], x[17], x[18], x[19]} };
 }
 
 inline
-long_hash_t to_long_hash_t(kth::long_hash const& x) {
-    // return to_c_array<long_hash_t>(x);
+kth_longhash_t to_longhash_t(kth::long_hash const& x) {
+    // return to_c_array<kth_longhash_t>(x);
 
     return { {x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
               x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15],
@@ -93,14 +92,14 @@ long_hash_t to_long_hash_t(kth::long_hash const& x) {
 }
 
 inline
-ec_secret_t to_ec_secret_t(kth::hash_digest const& x) {
+kth_ec_secret_t to_ec_secret_t(kth::hash_digest const& x) {
     return { {x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
               x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15],
               x[16], x[17], x[18], x[19], x[20], x[21], x[22], x[23],
               x[24], x[25], x[26], x[27], x[28], x[29], x[30], x[31]} };
 }
 
-constexpr ec_secret_t null_ec_secret = { 
+constexpr kth_ec_secret_t null_ec_secret = { 
     {0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -137,34 +136,35 @@ uint8_t* create_c_array(kth::data_chunk const& arr, N& out_size) {
 }
 
 inline
-error_code_t to_c_err(std::error_code const& ec) {
-    return static_cast<error_code_t>(ec.value());
+kth_error_code_t to_c_err(std::error_code const& ec) {
+    return static_cast<kth_error_code_t>(ec.value());
 }
 
 template <typename HashCpp, typename HashC>
 inline
 void copy_c_hash(HashCpp const& in, HashC* out) {
     //precondition: size of out->hash is greater or equal than in.size()
-    // std::memcpy(static_cast<void*>(out->hash), in.data(), BITCOIN_HASH_SIZE);
     std::copy_n(in.begin(), in.size(), static_cast<uint8_t*>(out->hash));
 }
 
-template <typename T>
-using home_remove_reference_t = typename std::remove_reference<T>::type;
+// template <typename T>
+// using home_remove_reference_t = typename std::remove_reference<T>::type;
 
 template <typename T> 
-home_remove_reference_t<T>* move_or_copy_and_leak(T&& x) {
-    return new home_remove_reference_t<T>(std::forward<T>(x));
+std::remove_reference_t<T>* move_or_copy_and_leak(T&& x) {
+    return new std::remove_reference_t<T>(std::forward<T>(x));
 }
 
 inline
 int bool_to_int(bool x) {
-    return static_cast<int>(x);
+    // return static_cast<int>(x);
+    return x;
 }
 
 inline
 bool int_to_bool(int x) {
-    return x != 0;
+    // return x != 0;
+    return x;
 }
 
 } // namespace kth

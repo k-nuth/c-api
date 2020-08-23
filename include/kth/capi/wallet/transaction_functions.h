@@ -2,7 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
 #ifndef KTH_CAPI_WALLET_TRANSACTION_FUNCTIONS_H_
 #define KTH_CAPI_WALLET_TRANSACTION_FUNCTIONS_H_
 
@@ -14,69 +13,69 @@ extern "C" {
 #endif
 
 // KTH_EXPORT
-// long_hash_t wallet_mnemonics_to_seed(word_list_t mnemonics);
+// kth_longhash_t kth_wallet_mnemonics_to_seed(kth_word_list_t mnemonics);
 
 
 KTH_EXPORT
-error_code_t wallet_tx_encode_with_extra_outputs(
-    point_list_t outputs_to_spend,
-    raw_output_list_t destiny_and_amount,
-    output_list_t extra_outputs,
+kth_error_code_t kth_wallet_tx_encode_with_extra_outputs(
+    kth_point_list_t outputs_to_spend,
+    kth_raw_output_list_t destiny_and_amount,
+    kth_output_list_t extra_outputs,
     uint32_t locktime /*= 0*/,
     uint32_t tx_version /*= 1*/,
     uint8_t script_version /*= 5*/,
-    transaction_t* out_transaction);
+   kth_transaction_t* out_transaction);
 
 KTH_EXPORT
-error_code_t wallet_tx_encode(
-    point_list_t outputs_to_spend,
-    raw_output_list_t destiny_and_amount,
+kth_error_code_t kth_wallet_tx_encode(
+    kth_point_list_t outputs_to_spend,
+    kth_raw_output_list_t destiny_and_amount,
     uint32_t locktime /*= 0*/,
     uint32_t tx_version /*= 1*/,
     uint8_t script_version /*= 5*/,
-    transaction_t* out_transaction);
+   kth_transaction_t* out_transaction);
 
 KTH_EXPORT
-error_code_t input_signature_old(
-    ec_secret_t private_key,
-    script_t output_script,
-    transaction_t tx,
+kth_error_code_t input_signature_old(
+    kth_ec_secret_t private_key,
+    kth_script_t output_script,
+   kth_transaction_t tx,
     uint32_t index,
     uint8_t sign_type /*= 0x01*/,
-    bool_t anyone_can_pay /*= false*/,
+    kth_bool_t anyone_can_pay /*= false*/,
     uint8_t** out_signature,
-    uint64_t* /*size_t*/ out_signature_size);
+    kth_size_t* out_signature_size);
 
 KTH_EXPORT
-error_code_t input_signature_btc(
-    ec_secret_t private_key,
-    script_t output_script,
-    transaction_t tx,
+kth_error_code_t input_signature_btc(
+    kth_ec_secret_t private_key,
+    kth_script_t output_script,
+   kth_transaction_t tx,
     uint64_t amount,
     uint32_t index,
     uint8_t sign_type /*= 0x01*/,
-    bool_t anyone_can_pay /*= false*/,
+    kth_bool_t anyone_can_pay /*= false*/,
     uint8_t** out_signature,
-    uint64_t* /*size_t*/ out_signature_size);
+    kth_size_t* out_signature_size);
 
 KTH_EXPORT
-error_code_t input_signature_bch(
-    ec_secret_t private_key,
-    script_t output_script,
-    transaction_t tx,
+kth_error_code_t input_signature_bch(
+    kth_ec_secret_t private_key,
+    kth_script_t output_script,
+   kth_transaction_t tx,
     uint64_t amount,
     uint32_t index,
     uint8_t sign_type /*= 0x01*/,
-    bool_t anyone_can_pay /*= false*/,
+    kth_bool_t anyone_can_pay /*= false*/,
     uint8_t** out_signature,
-    uint64_t* /*size_t*/ out_signature_size);
+    kth_size_t* out_signature_size);
 
 KTH_EXPORT
-error_code_t input_set(
-    script_t script,
-    transaction_t tx,
+kth_error_code_t input_set(
+    kth_script_t script,
+   kth_transaction_t tx,
     uint32_t index /*= 0*/,
-    transaction_t* out_transaction);
+   kth_transaction_t* out_transaction);
 
 #ifdef __cplusplus
 } // extern "C"
