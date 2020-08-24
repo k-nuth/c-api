@@ -51,7 +51,7 @@ kth_size_t kth_chain_merkle_block_serialized_size(kth_merkleblock_t block, uint3
     return kth_chain_merkle_block_const_cpp(block).serialized_size(version);
 }
 
-kth_size_t kth_chain_merkleblock_total_transaction_count(kth_merkleblock_t block) {
+kth_size_t kth_chain_merkle_block_total_transaction_count(kth_merkleblock_t block) {
     return kth_chain_merkle_block_const_cpp(block).total_transactions();
 }
 

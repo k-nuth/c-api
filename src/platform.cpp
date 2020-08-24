@@ -8,7 +8,7 @@
 // ---------------------------------------------------------------------------
 extern "C" {
 
-void platform_free(void* ptr) {
+void kth_platform_free(void* ptr) {
     free(ptr);
 }
 
