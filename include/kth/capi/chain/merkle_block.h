@@ -33,7 +33,7 @@ KTH_EXPORT
 kth_size_t kth_chain_merkle_block_serialized_size(kth_merkleblock_t block, uint32_t version);
 
 KTH_EXPORT
-kth_size_t kth_chain_merkleblock_total_transaction_count(kth_merkleblock_t block);
+kth_size_t kth_chain_merkle_block_total_transaction_count(kth_merkleblock_t block);
 
 KTH_EXPORT
 void kth_chain_merkle_block_destruct(kth_merkleblock_t block);

@@ -38,7 +38,8 @@ executor::executor(kth::node::configuration const& config, std::ostream& output,
 {
 	
     kth::node::parser metadata(kth::infrastructure::config::settings::mainnet);
-    parse_config_from_file_result_ = metadata.parse_from_file(config_.file, std::cerr);
+    // parse_config_from_file_result_ = metadata.parse_from_file(config_.file, std::cerr);
+    parse_config_from_file_result_ = metadata.parse_from_file(config_.file, error);
   
     config_ = metadata.configured;
 

@@ -7,9 +7,30 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <stdio.h>
+#include <cstdio>
 
-#include <kth/capi/node.h>
+#include <algorithm>
+#include <chrono>
+#include <stdexcept>
+#include <thread>
+
+#include <kth/capi.h>
+#include <kth/infrastructure.hpp>
+#include <kth/capi/helpers.hpp>
+
+inline
+int char2int(char input) {
+    if (input >= '0' && input <= '9') {
+        return input - '0';
+    }
+    if (input >= 'A' && input <= 'F') {
+        return input - 'A' + 10;
+    }
+    if (input >= 'a' && input <= 'f') {
+        return input - 'a' + 10;
+    }
+    throw std::invalid_argument("Invalid input string");
+}
 
 inline
 void hex2bin(const char* src, uint8_t* target) {
@@ -25,28 +46,23 @@ kth_hash_t str_to_hash(const char* str) {
 	kth::hash_digest hash_bytes;
 	hex2bin(str, hash_bytes.data());
 	std::reverse(hash_bytes.begin(), hash_bytes.end());
-    auto prevout_hash = kth::to_hash_t(hash_bytes);
+    auto res = kth::to_hash_t(hash_bytes);
+    return res;
 }
 
-
-
-
-void WaitUntilBlock(kth_node_t node, uint64_t desiredHeight) {
-    ErrorCode error = 0;
-    uint64_t height = 0;
+void WaitUntilBlock(kth_chain_t chain, uint64_t desiredHeight) {
+    kth_error_code_t error;
+    kth_size_t height = 0;
 
     while (error == 0 && height < desiredHeight) {
-        Console.WriteLine($"---> height: {height} desiredHeight: {desiredHeight}");
-        var errorAndHeight = await node.Chain.GetLastHeightAsync();
-
-        error = errorAndHeight.ErrorCode;
-        height = errorAndHeight.Result;
+        printf("---> height: %d desiredHeight: %d", height, desiredHeight);
+        auto error = kth_chain_get_last_height(chain, &height);
 
         if (height < desiredHeight) {
-            await Task.Delay(10000);
+            std::this_thread::sleep_for(std::chrono::milliseconds(10000));
         }
     }
-    Console.WriteLine($"---> height: {height} desiredHeight: {desiredHeight}");
+    printf("---> height: %d desiredHeight: %d", height, desiredHeight);
 }
 
 void DoSomething(kth_node_t node) {
@@ -58,16 +74,28 @@ void DoSomething(kth_node_t node) {
         return;
     }
 
-    WaitUntilBlock(node, FIRST_NON_COINBASE_BLOCK_HEIGHT);
-    string txHashHexStr = "f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16";
-    byte[] hash = Binary.HexStringToByteArray(txHashHexStr);
+    auto chain = kth_node_get_chain(node);
+    WaitUntilBlock(chain, FIRST_NON_COINBASE_BLOCK_HEIGHT);
 
-    var ret = await node.Chain.GetTransactionAsync(hash, true);
-    var x1 = ret.Result;
-    var x2 = ret.Result.Tx;
-    var x3 = ret.Result.Tx.SignatureOperations;
+    auto hash = str_to_hash("f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16");
+    kth_transaction_t out_transaction;
+    kth_size_t out_height;
+    kth_size_t out_index;
+    res = kth_chain_get_transaction(chain, hash, true, &out_transaction, &out_height, &out_index);
 
-    Console.WriteLine($"ret.Result.Tx.SignatureOperations: {ret.Result.Tx.SignatureOperations}");
+    // kth_size_t sigops = kth_chain_transaction_signature_operations(out_transaction);
+    kth_size_t sigops = kth_chain_transaction_signature_operations_bip16_active(out_transaction, true);
+    printf("sigops: %d", sigops);
+
+    // string txHashHexStr = "f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16";
+    // byte[] hash = Binary.HexStringToByteArray(txHashHexStr);
+
+    // var ret = await node.Chain.GetTransactionAsync(hash, true);
+    // var x1 = ret.Result;
+    // var x2 = ret.Result.Tx;
+    // var x3 = ret.Result.Tx.SignatureOperations;
+
+    // Console.WriteLine($"ret.Result.Tx.SignatureOperations: {ret.Result.Tx.SignatureOperations}");
 } 
 
 

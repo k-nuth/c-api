@@ -12,7 +12,7 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-void platform_free(void* ptr);
+void kth_platform_free(void* ptr);
 
 #ifdef __cplusplus
 } // extern "C"
