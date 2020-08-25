@@ -27,3 +27,4 @@ docs/latex
 __pycache__/
 mypkg/
 *.sh
+blockchain/

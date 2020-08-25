@@ -548,7 +548,9 @@ if (WITH_CONSOLE_CAPI)
       )
     else()
       set(_test_console_sources
-          console/main.cpp
+        #   console/main.cpp
+        #   console/main.c
+        console/error_test.cpp
           # console/test_deadlock.cpp
       )
     endif()

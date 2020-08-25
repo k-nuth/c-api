@@ -167,6 +167,23 @@ bool int_to_bool(int x) {
     return x;
 }
 
+inline
+bool witness(int x = 1) {
+#if defined(KTH_CURRENCY_BCH)
+    return false;
+#else
+    return kth::int_to_bool(x);
+#endif    
+}
+
+// template <typename T>
+// inline
+// auto leak_if_success(std::shared_ptr<T> const& ptr, kth::error ec) {
+//     if (ec != kth::error::success) return nullptr;
+//     auto leaked = new T(*ptr);
+//     return leaked;
+// }
+
 } // namespace kth
 
 #endif /* KTH_CAPI_HELPERS_HPP_ */

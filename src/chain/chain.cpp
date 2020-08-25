@@ -157,12 +157,7 @@ kth_error_code_t kth_chain_get_block_header_by_hash(kth_chain_t chain, kth_hash_
 
 #if defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_BLOCKS) || defined(KTH_DB_NEW_FULL)
 void kth_chain_fetch_block_by_height(kth_chain_t chain, void* ctx, kth_size_t height, kth_block_fetch_handler_t handler) {
-#if defined(KTH_CURRENCY_BCH)
-    kth_bool_t witness = 0;
-#else
-    kth_bool_t witness = 1;
-#endif
-    safe_chain(chain).fetch_block(height, kth::int_to_bool(witness), [chain, ctx, handler](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
+    safe_chain(chain).fetch_block(height, kth::witness(), [chain, ctx, handler](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
         if (ec == kth::error::success) {
             auto new_block = new kth::domain::message::block(*block);
             //Note: It is the responsability of the user to release/destruct the object
@@ -174,15 +169,10 @@ void kth_chain_fetch_block_by_height(kth_chain_t chain, void* ctx, kth_size_t he
 }
 
 kth_error_code_t kth_chain_get_block_by_height(kth_chain_t chain, kth_size_t height, kth_block_t* out_block, kth_size_t* out_height) {
-#if defined(KTH_CURRENCY_BCH)
-    kth_bool_t witness = 0;
-#else
-    kth_bool_t witness = 1;
-#endif    
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
-    safe_chain(chain).fetch_block(height, kth::int_to_bool(witness), [&](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
+    safe_chain(chain).fetch_block(height, kth::witness(), [&](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
         if (ec == kth::error::success) {
             //Note: It is the responsability of the user to release/destruct the object
             *out_block = new kth::domain::message::block(*block);
@@ -200,14 +190,9 @@ kth_error_code_t kth_chain_get_block_by_height(kth_chain_t chain, kth_size_t hei
 }
 
 void kth_chain_fetch_block_by_hash(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_block_fetch_handler_t handler) {
-#if defined(KTH_CURRENCY_BCH)
-    kth_bool_t witness = 0;
-#else
-    kth_bool_t witness = 1;
-#endif
     auto hash_cpp = kth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_block(hash_cpp, kth::int_to_bool(witness), [chain, ctx, handler](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
+    safe_chain(chain).fetch_block(hash_cpp, kth::witness(), [chain, ctx, handler](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
         if (ec == kth::error::success) {
             //Note: It is the responsability of the user to release/destruct the object
             auto new_block = new kth::domain::message::block(*block);
@@ -219,17 +204,12 @@ void kth_chain_fetch_block_by_hash(kth_chain_t chain, void* ctx, kth_hash_t hash
 }
 
 kth_error_code_t kth_chain_get_block_by_hash(kth_chain_t chain, kth_hash_t hash, kth_block_t* out_block, kth_size_t* out_height) {
-#if defined(KTH_CURRENCY_BCH)
-    kth_bool_t witness = 0;
-#else
-    kth_bool_t witness = 1;
-#endif    
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     auto hash_cpp = kth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_block(hash_cpp, kth::int_to_bool(witness), [&](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
+    safe_chain(chain).fetch_block(hash_cpp, kth::witness(), [&](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
         if (ec == kth::error::success) {
             //Note: It is the responsability of the user to release/destruct the object
             *out_block = new kth::domain::message::block(*block);
@@ -246,15 +226,13 @@ kth_error_code_t kth_chain_get_block_by_hash(kth_chain_t chain, kth_hash_t hash,
     return res;
 }
 
-void kth_chain_fetch_block_header_byhash_txs_size(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_block_header_txs_size_fetch_handler_t handler) {
-
+void kth_chain_fetch_block_header_by_hash_txs_size(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_block_header_txs_size_fetch_handler_t handler) {
     auto hash_cpp = kth::to_array(hash.hash);
 
     safe_chain(chain).fetch_block_header_txs_size(hash_cpp, [chain, ctx, handler](std::error_code const& ec, kth::domain::message::header::const_ptr header, size_t block_height, const std::shared_ptr<kth::hash_list> tx_hashes, uint64_t block_serialized_size) {
         if (ec == kth::error::success) {
             //Note: It is the user's responsability of the user to release/destruct the object
             auto new_header = new kth::domain::message::header(*header);
-            //Note: It is the user's responsability of the user to release/destruct the object
             auto new_tx_hashes = new kth::hash_list(*tx_hashes);
             handler(chain, ctx, kth::to_c_err(ec), new_header, block_height, new_tx_hashes, block_serialized_size);
         } else {
@@ -274,7 +252,6 @@ kth_error_code_t kth_chain_get_block_header_byhash_txs_size(kth_chain_t chain, k
             //Note: It is the user's responsability of the user to release/destruct the object
             *out_header = new kth::domain::message::header(*header);
             *out_block_height = block_height;
-            //Note: It is the user's responsability of the user to release/destruct the object
             *out_tx_hashes = new kth::hash_list(*tx_hashes);
             *out_serialized_size = block_serialized_size;
         } else {
@@ -448,16 +425,10 @@ kth_error_code_t kth_chain_get_block_hash(kth_chain_t chain, kth_size_t height, 
 #if defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_FULL)
 
 void kth_chain_fetch_transaction(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_bool_t require_confirmed, kth_transaction_fetch_handler_t handler) {
-#if defined(KTH_CURRENCY_BCH)
-    kth_bool_t witness = 0;
-#else
-    kth_bool_t witness = 1;
-#endif    
     //precondition:  [hash, 32] is a valid range
-
     auto hash_cpp = kth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction(hash_cpp, kth::int_to_bool(require_confirmed), kth::int_to_bool(witness), [chain, ctx, handler](std::error_code const& ec, kth::domain::message::transaction::const_ptr transaction, size_t i, size_t h) {
+    safe_chain(chain).fetch_transaction(hash_cpp, kth::int_to_bool(require_confirmed), kth::witness(), [chain, ctx, handler](std::error_code const& ec, kth::domain::message::transaction::const_ptr transaction, size_t i, size_t h) {
         if (ec == kth::error::success) {
             auto new_transaction = new kth::domain::message::transaction(*transaction);
             handler(chain, ctx, kth::to_c_err(ec), new_transaction, i, h);
@@ -468,17 +439,12 @@ void kth_chain_fetch_transaction(kth_chain_t chain, void* ctx, kth_hash_t hash, 
 }
 
 kth_error_code_t kth_chain_get_transaction(kth_chain_t chain, kth_hash_t hash, int require_confirmed, kth_transaction_t* out_transaction, kth_size_t* out_height, kth_size_t* out_index) {
-#if defined(KTH_CURRENCY_BCH)
-    kth_bool_t witness = 0;
-#else
-    kth_bool_t witness = 1;
-#endif    
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     auto hash_cpp = kth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_transaction(hash_cpp, kth::int_to_bool(require_confirmed), kth::int_to_bool(witness), [&](std::error_code const& ec, kth::domain::message::transaction::const_ptr transaction, size_t i, size_t h) {
+    safe_chain(chain).fetch_transaction(hash_cpp, kth::int_to_bool(require_confirmed), kth::witness(), [&](std::error_code const& ec, kth::domain::message::transaction::const_ptr transaction, size_t i, size_t h) {
         if (ec == kth::error::success) {
             *out_transaction = new kth::domain::message::transaction(*transaction);
         } else {
@@ -693,14 +659,9 @@ kth_error_code_t kth_chain_get_stealth(kth_chain_t chain, kth_binary_t filter, u
 
 #if defined(KTH_DB_TRANSACTION_UNCONFIRMED) || defined(KTH_DB_NEW_FULL)
 kth_mempool_transaction_list_t kth_chain_get_mempool_transactions(kth_chain_t chain, kth_payment_address_t address, kth_bool_t use_testnet_rules) {
-#if defined(KTH_CURRENCY_BCH)
-    kth_bool_t witness = 0;
-#else
-    kth_bool_t witness = 1;
-#endif
     auto const& address_cpp = kth_wallet_payment_address_const_cpp(address);
     if (address_cpp) {
-        auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), kth::int_to_bool(use_testnet_rules), kth::int_to_bool(witness));
+        auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), kth::int_to_bool(use_testnet_rules), kth::witness());
         auto ret_txs = new std::vector<kth::blockchain::mempool_transaction_summary>(txs);
         return static_cast<kth_mempool_transaction_list_t>(ret_txs);
     } 
@@ -709,13 +670,8 @@ kth_mempool_transaction_list_t kth_chain_get_mempool_transactions(kth_chain_t ch
 }
 
 kth_transaction_list_t kth_chain_get_mempool_transactions_from_wallets(kth_chain_t chain, kth_payment_address_list_t addresses, kth_bool_t use_testnet_rules) {
-#if defined(KTH_CURRENCY_BCH)
-    kth_bool_t witness = 0;
-#else
-    kth_bool_t witness = 1;
-#endif
     auto const& addresses_cpp = *static_cast<std::vector<kth::domain::wallet::payment_address> const*>(addresses);
-    auto txs = safe_chain(chain).get_mempool_transactions_from_wallets(addresses_cpp, kth::int_to_bool(use_testnet_rules), kth::int_to_bool(witness));
+    auto txs = safe_chain(chain).get_mempool_transactions_from_wallets(addresses_cpp, kth::int_to_bool(use_testnet_rules), kth::witness());
     return kth::move_or_copy_and_leak(std::move(txs));
 }
 #endif // defined(KTH_DB_TRANSACTION_UNCONFIRMED) || defined(KTH_DB_NEW_FULL)
