@@ -99,6 +99,25 @@ typedef struct kth_longhash_t {
 } kth_longhash_t;
 
 
+
+// Currencies --------------------------------------------------------
+
+typedef enum {
+    kth_currency_none,
+    kth_currency_bitcoin,
+    kth_currency_bitcoin_cash,
+    kth_currency_litecoin
+} kth_currency_t;
+
+// Network -----------------------------------------------------------
+typedef enum {
+    kth_network_none,
+    kth_network_mainnet,
+    kth_network_testnet,
+    kth_network_regtest
+} kth_network_t;
+
+
 // Wallet ------------------------------------------------------------
 typedef struct kth_ec_secret_t {
     uint8_t data[KTH_BITCOIN_EC_SECRET_SIZE];

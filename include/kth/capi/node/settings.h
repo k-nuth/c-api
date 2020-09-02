@@ -14,26 +14,11 @@
 extern "C" {
 #endif
 
-typedef enum currency {
-    kth_currency_none,
-    kth_currency_bitcoin,
-    kth_currency_bitcoin_cash,
-    kth_currency_litecoin
-} currency_t;
-
-// settings
-typedef enum network {
-    kth_network_none,
-    kth_network_mainnet,
-    kth_network_testnet,
-    kth_network_regtest
-} network_t;
+KTH_EXPORT
+kth_currency_t kth_node_settings_get_currency();
 
 KTH_EXPORT
-currency_t kth_node_settings_get_currency();
-
-KTH_EXPORT
-network_t kth_node_settings_get_network(kth_node_t exec);
+kth_network_t kth_node_settings_get_network(kth_node_t exec);
 
 KTH_EXPORT
 char const* kth_node_settings_cashaddr_prefix();

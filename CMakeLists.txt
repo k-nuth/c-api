@@ -204,12 +204,6 @@ if (DB_READONLY_MODE)
   add_definitions(-DKTH_DB_READONLY)
 endif()
 
-
-
-
-
-
-
 if (ENABLE_SHARED_CAPI)
   set(ENABLE_SHARED ON)
 endif()
@@ -356,6 +350,8 @@ endif()
 
 set(_kth_sources
         src/executor.cpp
+
+        src/hash.cpp
         src/hash_list.cpp
         # src/parser.cpp
         src/binary.cpp
@@ -388,6 +384,15 @@ set(_kth_sources
         src/chain/transaction.cpp
         src/chain/mempool_transaction.cpp
         src/chain/transaction_list.cpp
+
+        src/config/authority.cpp
+        src/config/blockchain_settings.cpp
+        src/config/checkpoint.cpp
+        src/config/database_settings.cpp
+        src/config/endpoint.cpp
+        src/config/network_settings.cpp
+        src/config/node_settings.cpp
+        src/config/settings.cpp
 
         src/node/settings.cpp
 
@@ -549,8 +554,10 @@ if (WITH_CONSOLE_CAPI)
       set(_test_console_sources
         #   console/main.cpp
         #   console/main.c
-        console/error_test.cpp
+        # console/error_test.cpp
           # console/test_deadlock.cpp
+
+        console/config_test.cpp
       )
     endif()
 

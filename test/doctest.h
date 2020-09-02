@@ -471,15 +471,15 @@ namespace detail
 {
     struct TestSuite
     {
-        const char* m_test_suite;
-        const char* m_description;
+        char const* m_test_suite;
+        char const* m_description;
         bool        m_skip;
         bool        m_may_fail;
         bool        m_should_fail;
         int         m_expected_failures;
         double      m_timeout;
 
-        TestSuite& operator*(const char* in) {
+        TestSuite& operator*(char const* in) {
             m_test_suite = in;
             // clear state
             m_description       = 0;
@@ -530,7 +530,7 @@ namespace doctest
 // - find & friends
 // - push_back/pop_back
 // - assign/insert/erase
-// - relational operators as free functions - taking const char* as one of the params
+// - relational operators as free functions - taking char const* as one of the params
 class DOCTEST_INTERFACE String
 {
     static const unsigned len  = 24;      //!OCLINT avoid private static members
@@ -560,7 +560,7 @@ public:
         setLast();
     }
 
-    String(const char* in);
+    String(char const* in);
 
     String(const String& other) { copy(other); }
 
@@ -597,7 +597,7 @@ public:
         return data.ptr[i];
     }
 
-    const char* c_str() const { return const_cast<String*>(this)->c_str(); } 
+    char const* c_str() const { return const_cast<String*>(this)->c_str(); } 
     char*       c_str() {
         if(isOnStack())
             return reinterpret_cast<char*>(buf);
@@ -616,7 +616,7 @@ public:
         return data.capacity;
     }
 
-    int compare(const char* other, bool no_case = false) const;
+    int compare(char const* other, bool no_case = false) const;
     int compare(const String& other, bool no_case = false) const;
 };
 
@@ -806,7 +806,7 @@ namespace detail
     {};
 
     DOCTEST_INTERFACE void my_memcpy(void* dest, const void* src, unsigned num);
-    DOCTEST_INTERFACE unsigned my_strlen(const char* in);
+    DOCTEST_INTERFACE unsigned my_strlen(char const* in);
 
     DOCTEST_INTERFACE std::ostream* createStream();
     DOCTEST_INTERFACE String getStreamResult(std::ostream*);
@@ -894,7 +894,7 @@ namespace detail
     };
 
     template <typename T>
-    const char* type_to_string() {
+    char const* type_to_string() {
         return "<>";
     }
 } // namespace detail
@@ -978,7 +978,7 @@ String toString(const DOCTEST_REF_WRAP(T) value) {
 
 #ifdef DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING
 DOCTEST_INTERFACE String toString(char* in);
-DOCTEST_INTERFACE String toString(const char* in);
+DOCTEST_INTERFACE String toString(char const* in);
 #endif // DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING
 DOCTEST_INTERFACE String toString(bool in);
 DOCTEST_INTERFACE String toString(float in);
@@ -1219,7 +1219,7 @@ namespace detail
         };
     } // namespace assertType
 
-    DOCTEST_INTERFACE const char* getAssertString(assertType::Enum val);
+    DOCTEST_INTERFACE char const* getAssertString(assertType::Enum val);
 
     // clang-format off
     template<class T>               struct decay_array       { typedef T type; };
@@ -1228,7 +1228,7 @@ namespace detail
 
     template<class T>   struct not_char_pointer              { enum { value = 1 }; };
     template<>          struct not_char_pointer<char*>       { enum { value = 0 }; };
-    template<>          struct not_char_pointer<const char*> { enum { value = 0 }; };
+    template<>          struct not_char_pointer<char const*> { enum { value = 0 }; };
 
     template<class T> struct can_use_op : not_char_pointer<typename decay_array<T>::type> {};
     // clang-format on
@@ -1252,11 +1252,11 @@ namespace detail
 
     struct DOCTEST_INTERFACE SubcaseSignature
     {
-        const char* m_name;
-        const char* m_file;
+        char const* m_name;
+        char const* m_file;
         int         m_line;
 
-        SubcaseSignature(const char* name, const char* file, int line)
+        SubcaseSignature(char const* name, char const* file, int line)
                 : m_name(name)
                 , m_file(file)
                 , m_line(line) {}
@@ -1270,7 +1270,7 @@ namespace detail
         SubcaseSignature m_signature;
         bool             m_entered;
 
-        Subcase(const char* name, const char* file, int line);
+        Subcase(char const* name, char const* file, int line);
         Subcase(const Subcase& other);
         ~Subcase();
 
@@ -1278,7 +1278,7 @@ namespace detail
     };
 
     template <typename L, typename R>
-    String stringifyBinaryExpr(const DOCTEST_REF_WRAP(L) lhs, const char* op,
+    String stringifyBinaryExpr(const DOCTEST_REF_WRAP(L) lhs, char const* op,
                                const DOCTEST_REF_WRAP(R) rhs) {
         return toString(lhs) + op + toString(rhs);
     }
@@ -1368,12 +1368,12 @@ namespace detail
 #define DOCTEST_COMPARISON_RETURN_TYPE bool
 #else // DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING
 #define DOCTEST_COMPARISON_RETURN_TYPE typename traits::enable_if<can_use_op<L>::value || can_use_op<R>::value, bool>::type
-    inline bool eq(const char* lhs, const char* rhs) { return String(lhs) == String(rhs); }
-    inline bool ne(const char* lhs, const char* rhs) { return String(lhs) != String(rhs); }
-    inline bool lt(const char* lhs, const char* rhs) { return String(lhs) <  String(rhs); }
-    inline bool gt(const char* lhs, const char* rhs) { return String(lhs) >  String(rhs); }
-    inline bool le(const char* lhs, const char* rhs) { return String(lhs) <= String(rhs); }
-    inline bool ge(const char* lhs, const char* rhs) { return String(lhs) >= String(rhs); }
+    inline bool eq(char const* lhs, char const* rhs) { return String(lhs) == String(rhs); }
+    inline bool ne(char const* lhs, char const* rhs) { return String(lhs) != String(rhs); }
+    inline bool lt(char const* lhs, char const* rhs) { return String(lhs) <  String(rhs); }
+    inline bool gt(char const* lhs, char const* rhs) { return String(lhs) >  String(rhs); }
+    inline bool le(char const* lhs, char const* rhs) { return String(lhs) <= String(rhs); }
+    inline bool ge(char const* lhs, char const* rhs) { return String(lhs) >= String(rhs); }
 #endif // DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING
 
     template <typename L, typename R> DOCTEST_COMPARISON_RETURN_TYPE eq(const DOCTEST_REF_WRAP(L) lhs, const DOCTEST_REF_WRAP(R) rhs) { return lhs == rhs; }
@@ -1515,10 +1515,10 @@ namespace detail
         // not used for determining uniqueness
         funcType m_test;    // a function pointer to the test case
         String m_full_name; // contains the name (only for templated test cases!) + the template type
-        const char* m_name;       // name of the test case
-        const char* m_type;       // for templated test cases - gets appended to the real name
-        const char* m_test_suite; // the test suite in which the test was added
-        const char* m_description;
+        char const* m_name;       // name of the test case
+        char const* m_type;       // for templated test cases - gets appended to the real name
+        char const* m_test_suite; // the test suite in which the test was added
+        char const* m_description;
         bool        m_skip;
         bool        m_may_fail;
         bool        m_should_fail;
@@ -1526,17 +1526,17 @@ namespace detail
         double      m_timeout;
 
         // fields by which uniqueness of test cases shall be determined
-        const char* m_file; // the file in which the test was registered
+        char const* m_file; // the file in which the test was registered
         unsigned    m_line; // the line where the test was registered
         int m_template_id; // an ID used to distinguish between the different versions of a templated test case
 
-        TestCase(funcType test, const char* file, unsigned line, const TestSuite& test_suite,
-                 const char* type = "", int template_id = -1);
+        TestCase(funcType test, char const* file, unsigned line, const TestSuite& test_suite,
+                 char const* type = "", int template_id = -1);
 
         // for gcc 4.7
         DOCTEST_NOINLINE ~TestCase() {}
 
-        TestCase& operator*(const char* in);
+        TestCase& operator*(char const* in);
 
         template <typename T>
         TestCase& operator*(const T& in) {
@@ -1562,21 +1562,21 @@ namespace detail
 
     DOCTEST_INTERFACE void logTestException(const String& what, bool crash = false);
 
-    DOCTEST_INTERFACE void logAssert(bool passed, const char* decomposition, bool threw,
-                                     const String& exception, const char* expr,
-                                     assertType::Enum assert_type, const char* file, int line);
+    DOCTEST_INTERFACE void logAssert(bool passed, char const* decomposition, bool threw,
+                                     const String& exception, char const* expr,
+                                     assertType::Enum assert_type, char const* file, int line);
 
-    DOCTEST_INTERFACE void logAssertThrows(bool threw, const char* expr,
-                                           assertType::Enum assert_type, const char* file,
+    DOCTEST_INTERFACE void logAssertThrows(bool threw, char const* expr,
+                                           assertType::Enum assert_type, char const* file,
                                            int line);
 
-    DOCTEST_INTERFACE void logAssertThrowsAs(bool threw, bool threw_as, const char* as,
-                                             const String& exception, const char* expr,
-                                             assertType::Enum assert_type, const char* file,
+    DOCTEST_INTERFACE void logAssertThrowsAs(bool threw, bool threw_as, char const* as,
+                                             const String& exception, char const* expr,
+                                             assertType::Enum assert_type, char const* file,
                                              int line);
 
-    DOCTEST_INTERFACE void logAssertNothrow(bool threw, const String& exception, const char* expr,
-                                            assertType::Enum assert_type, const char* file,
+    DOCTEST_INTERFACE void logAssertNothrow(bool threw, const String& exception, char const* expr,
+                                            assertType::Enum assert_type, char const* file,
                                             int line);
 
     DOCTEST_INTERFACE bool isDebuggerActive();
@@ -1608,10 +1608,10 @@ namespace detail
     struct DOCTEST_INTERFACE ResultBuilder
     {
         assertType::Enum m_assert_type;
-        const char*      m_file;
+        char const*      m_file;
         int              m_line;
-        const char*      m_expr;
-        const char*      m_exception_type;
+        char const*      m_expr;
+        char const*      m_exception_type;
 
         Result m_result;
         bool   m_threw;
@@ -1619,8 +1619,8 @@ namespace detail
         bool   m_failed;
         String m_exception;
 
-        ResultBuilder(assertType::Enum assert_type, const char* file, int line, const char* expr,
-                      const char* exception_type = "");
+        ResultBuilder(assertType::Enum assert_type, char const* file, int line, char const* expr,
+                      char const* exception_type = "");
 
         ~ResultBuilder();
 
@@ -1662,8 +1662,8 @@ namespace detail
     } // namespace assertAction
 
     template <int        comparison, typename L, typename R>
-    DOCTEST_NOINLINE int fast_binary_assert(assertType::Enum assert_type, const char* file,
-                                            int line, const char* expr,
+    DOCTEST_NOINLINE int fast_binary_assert(assertType::Enum assert_type, char const* file,
+                                            int line, char const* expr,
                                             const DOCTEST_REF_WRAP(L) lhs,
                                             const DOCTEST_REF_WRAP(R) rhs) {
         ResultBuilder rb(assert_type, file, line, expr);
@@ -1695,8 +1695,8 @@ namespace detail
     }
 
     template <typename L>
-    DOCTEST_NOINLINE int fast_unary_assert(assertType::Enum assert_type, const char* file, int line,
-                                           const char* val_str, const DOCTEST_REF_WRAP(L) val) {
+    DOCTEST_NOINLINE int fast_unary_assert(assertType::Enum assert_type, char const* file, int line,
+                                           char const* val_str, const DOCTEST_REF_WRAP(L) val) {
         ResultBuilder rb(assert_type, file, line, val_str);
 
         rb.m_result.m_passed = !!val;
@@ -1776,7 +1776,7 @@ namespace detail
 
         // always treat char* as a string in this context - no matter
         // if DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING is defined
-        static void convert(std::ostream* stream, const char* in) {
+        static void convert(std::ostream* stream, char const* in) {
             writeStringToStream(stream, String(in));
         }
     };
@@ -1801,7 +1801,7 @@ namespace detail
 
 #ifdef DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING
     DOCTEST_INTERFACE void toStream(std::ostream* stream, char* in);
-    DOCTEST_INTERFACE void toStream(std::ostream* stream, const char* in);
+    DOCTEST_INTERFACE void toStream(std::ostream* stream, char const* in);
 #endif // DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING
     DOCTEST_INTERFACE void toStream(std::ostream* stream, bool in);
     DOCTEST_INTERFACE void toStream(std::ostream* stream, float in);
@@ -1972,12 +1972,12 @@ namespace detail
     class DOCTEST_INTERFACE MessageBuilder
     {
         std::ostream*                     m_stream;
-        const char*                       m_file;
+        char const*                       m_file;
         int                               m_line;
         doctest::detail::assertType::Enum m_severity;
 
     public:
-        MessageBuilder(const char* file, int line, doctest::detail::assertType::Enum severity);
+        MessageBuilder(char const* file, int line, doctest::detail::assertType::Enum severity);
         ~MessageBuilder();
 
         template <typename T>
@@ -1993,8 +1993,8 @@ namespace detail
 
 struct test_suite
 {
-    const char* data;
-    test_suite(const char* in)
+    char const* data;
+    test_suite(char const* in)
             : data(in) {}
     void fill(detail::TestCase& state) const { state.m_test_suite = data; }
     void fill(detail::TestSuite& state) const { state.m_test_suite = data; }
@@ -2002,8 +2002,8 @@ struct test_suite
 
 struct description
 {
-    const char* data;
-    description(const char* in)
+    char const* data;
+    description(char const* in)
             : data(in) {}
     void fill(detail::TestCase& state) const { state.m_description = data; }
     void fill(detail::TestSuite& state) const { state.m_description = data; }
@@ -2086,21 +2086,21 @@ class DOCTEST_INTERFACE Context
 #if !defined(DOCTEST_CONFIG_DISABLE)
     detail::ContextState* p;
 
-    void parseArgs(int argc, const char* const* argv, bool withDefaults = false);
+    void parseArgs(int argc, char const* const* argv, bool withDefaults = false);
 
 #endif // DOCTEST_CONFIG_DISABLE
 
 public:
-    explicit Context(int argc = 0, const char* const* argv = 0);
+    explicit Context(int argc = 0, char const* const* argv = 0);
 
     ~Context();
 
-    void applyCommandLine(int argc, const char* const* argv);
+    void applyCommandLine(int argc, char const* const* argv);
 
-    void addFilter(const char* filter, const char* value);
+    void addFilter(char const* filter, char const* value);
     void clearFilters();
-    void setOption(const char* option, int value);
-    void setOption(const char* option, const char* value);
+    void setOption(char const* option, int value);
+    void setOption(char const* option, char const* value);
 
     bool shouldExit();
 
@@ -2160,7 +2160,7 @@ public:
 #ifdef DOCTEST_CONFIG_WITH_VARIADIC_MACROS
 #define DOCTEST_TYPE_TO_STRING_IMPL(...)                                                           \
     template <>                                                                                    \
-    inline const char* type_to_string<__VA_ARGS__>() {                                             \
+    inline char const* type_to_string<__VA_ARGS__>() {                                             \
         return "<" #__VA_ARGS__ ">";                                                               \
     }
 #define DOCTEST_TYPE_TO_STRING(...)                                                                \
@@ -2173,7 +2173,7 @@ public:
 #else // DOCTEST_CONFIG_WITH_VARIADIC_MACROS
 #define DOCTEST_TYPE_TO_STRING_IMPL(x)                                                             \
     template <>                                                                                    \
-    inline const char* type_to_string<x>() {                                                       \
+    inline char const* type_to_string<x>() {                                                       \
         return "<" #x ">";                                                                         \
     }
 #define DOCTEST_TYPE_TO_STRING(x)                                                                  \
@@ -3336,7 +3336,7 @@ namespace detail
     }
 
     void my_memcpy(void* dest, const void* src, unsigned num) {
-        const char* csrc  = static_cast<const char*>(src);
+        char const* csrc  = static_cast<char const*>(src);
         char*       cdest = static_cast<char*>(dest);
         for(unsigned i = 0; i < num; ++i)
             cdest[i]   = csrc[i];
@@ -3345,8 +3345,8 @@ namespace detail
     // not using std::strlen() because of valgrind errors when optimizations are turned on
     // 'Invalid read of size 4' when the test suite len (with '\0') is not a multiple of 4
     // for details see http://stackoverflow.com/questions/35671155
-    unsigned my_strlen(const char* in) {
-        const char* temp = in;
+    unsigned my_strlen(char const* in) {
+        char const* temp = in;
         while(temp && *temp)
             ++temp;
         return unsigned(temp - in);
@@ -3501,7 +3501,7 @@ void String::copy(const String& other) {
     }
 }
 
-String::String(const char* in) {
+String::String(char const* in) {
     unsigned in_len = detail::my_strlen(in);
     if(in_len <= last) {
         detail::my_memcpy(buf, in, in_len + 1);
@@ -3581,7 +3581,7 @@ String& String::operator=(String&& other) {
 }
 #endif // DOCTEST_CONFIG_WITH_RVALUE_REFERENCES
 
-int String::compare(const char* other, bool no_case) const {
+int String::compare(char const* other, bool no_case) const {
     if(no_case)
         return detail::stricmp(c_str(), other);
     return std::strcmp(c_str(), other);
@@ -3610,8 +3610,8 @@ bool operator==(double lhs, Approx const& rhs) {
 String Approx::toString() const { return String("Approx( ") + doctest::toString(m_value) + " )"; }
 
 #ifdef DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING
-String toString(char* in) { return toString(static_cast<const char*>(in)); }
-String toString(const char* in) { return String("\"") + (in ? in : "{null string}") + "\""; }
+String toString(char* in) { return toString(static_cast<char const*>(in)); }
+String toString(char const* in) { return String("\"") + (in ? in : "{null string}") + "\""; }
 #endif // DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING
 String toString(bool in) { return in ? "true" : "false"; }
 String toString(float in) { return detail::fpToString(in, 5) + "f"; }
@@ -3695,13 +3695,13 @@ String toString(std::nullptr_t) { return "nullptr"; }
 namespace doctest
 {
 bool isRunningInTest() { return false; }
-Context::Context(int, const char* const*) {}
+Context::Context(int, char const* const*) {}
 Context::~Context() {}
-void Context::applyCommandLine(int, const char* const*) {}
-void Context::addFilter(const char*, const char*) {}
+void Context::applyCommandLine(int, char const* const*) {}
+void Context::addFilter(char const*, char const*) {}
 void Context::clearFilters() {}
-void Context::setOption(const char*, int) {}
-void Context::setOption(const char*, const char*) {}
+void Context::setOption(char const*, int) {}
+void Context::setOption(char const*, char const*) {}
 bool Context::shouldExit() { return false; }
 int  Context::run() { return 0; }
 } // namespace doctest
@@ -3735,7 +3735,7 @@ int  Context::run() { return 0; }
 #define DOCTEST_WINDOWS_SAL_IN_OPT
 #endif // _MSC_VER
 extern "C" __declspec(dllimport) void __stdcall OutputDebugStringA(
-        DOCTEST_WINDOWS_SAL_IN_OPT const char*);
+        DOCTEST_WINDOWS_SAL_IN_OPT char const*);
 extern "C" __declspec(dllimport) int __stdcall IsDebuggerPresent();
 #endif // _MSC_VER || __MINGW32__
 
@@ -3783,8 +3783,8 @@ namespace doctest
 {
 namespace detail
 {
-    TestCase::TestCase(funcType test, const char* file, unsigned line, const TestSuite& test_suite,
-                       const char* type, int template_id)
+    TestCase::TestCase(funcType test, char const* file, unsigned line, const TestSuite& test_suite,
+                       char const* type, int template_id)
             : m_test(test)
             , m_name(0)
             , m_type(type)
@@ -3799,7 +3799,7 @@ namespace detail
             , m_line(line)
             , m_template_id(template_id) {}
 
-    TestCase& TestCase::operator*(const char* in) {
+    TestCase& TestCase::operator*(char const* in) {
         m_name = in;
         // make a new name with an appended type for templated test case
         if(m_template_id != -1) {
@@ -3840,7 +3840,7 @@ namespace detail
         return m_template_id < other.m_template_id;
     }
 
-    const char* getAssertString(assertType::Enum val) {
+    char const* getAssertString(assertType::Enum val) {
         switch(val) { //!OCLINT missing default in switch statements
             // clang-format off
             case assertType::DT_WARN                    : return "WARN";
@@ -3942,9 +3942,9 @@ namespace detail
 
     // matching of a string against a wildcard mask (case sensitivity configurable) taken from
     // http://www.emoticode.net/c/simple-wildcard-string-compare-globbing-function.html
-    int wildcmp(const char* str, const char* wild, bool caseSensitive) {
-        const char* cp = 0;
-        const char* mp = 0;
+    int wildcmp(char const* str, char const* wild, bool caseSensitive) {
+        char const* cp = 0;
+        char const* mp = 0;
 
         // rolled my own tolower() to not include more headers
         while((*str) && (*wild != '*')) {
@@ -3980,7 +3980,7 @@ namespace detail
     }
 
     //// C string hash function (djb2) - taken from http://www.cse.yorku.ca/~oz/hash.html
-    //unsigned hashStr(unsigned const char* str) {
+    //unsigned hashStr(unsigned char const* str) {
     //    unsigned long hash = 5381;
     //    char          c;
     //    while((c = *str++))
@@ -3989,7 +3989,7 @@ namespace detail
     //}
 
     // checks if the name matches any of the filters (and can be configured what to do when empty)
-    bool matchesAny(const char* name, const std::vector<String>& filters, int matchEmpty,
+    bool matchesAny(char const* name, const std::vector<String>& filters, int matchEmpty,
                     bool caseSensitive) {
         if(filters.empty() && matchEmpty)
             return true;
@@ -4052,7 +4052,7 @@ namespace detail
         return std::strcmp(m_name, other.m_name) < 0;
     }
 
-    Subcase::Subcase(const char* name, const char* file, int line)
+    Subcase::Subcase(char const* name, char const* file, int line)
             : m_signature(name, file, line)
             , m_entered(false) {
         ContextState* s = contextState;
@@ -4234,7 +4234,7 @@ namespace detail
         if(isatty(STDOUT_FILENO) == false && p->force_colors == false)
             return;
 
-        const char* col = "";
+        char const* col = "";
         // clang-format off
         switch(code) { //!OCLINT missing break in switch statement / unnecessary default statement in covered switch statement
             case Color::Red:         col = "[0;31m"; break;
@@ -4310,7 +4310,7 @@ namespace detail
             return ex.what();
         } catch(std::string& msg) {
             return msg.c_str();
-        } catch(const char* msg) {
+        } catch(char const* msg) {
             return msg;
         } catch(...) {
             return "unknown exception";
@@ -4325,7 +4325,7 @@ namespace detail
 
 #ifdef DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING
     void toStream(std::ostream* stream, char* in) { *stream << in; }
-    void toStream(std::ostream* stream, const char* in) { *stream << in; }
+    void toStream(std::ostream* stream, char const* in) { *stream << in; }
 #endif // DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING
     void toStream(std::ostream* stream, bool in) {
         *stream << std::boolalpha << in << std::noboolalpha;
@@ -4385,7 +4385,7 @@ namespace detail
     struct SignalDefs
     {
         DWORD       id;
-        const char* name;
+        char const* name;
     };
     // There is no 1-1 mapping between signals and windows exceptions.
     // Windows can easily distinguish between SO and SigSegV,
@@ -4449,7 +4449,7 @@ namespace detail
     struct SignalDefs
     {
         int         id;
-        const char* name;
+        char const* name;
     };
     SignalDefs signalDefs[] = {{SIGINT, "SIGINT - Terminal interrupt signal"},
                                {SIGILL, "SIGILL - Illegal instruction signal"},
@@ -4519,10 +4519,10 @@ namespace detail
 #endif // DOCTEST_CONFIG_POSIX_SIGNALS || DOCTEST_CONFIG_WINDOWS_SEH
 
     // depending on the current options this will remove the path of filenames
-    const char* fileForOutput(const char* file) {
+    char const* fileForOutput(char const* file) {
         if(contextState->no_path_in_filenames) {
-            const char* back    = std::strrchr(file, '\\');
-            const char* forward = std::strrchr(file, '/');
+            char const* back    = std::strrchr(file, '\\');
+            char const* forward = std::strrchr(file, '/');
             if(back || forward) {
                 if(back > forward)
                     forward = back;
@@ -4583,7 +4583,7 @@ namespace detail
     void myOutputDebugString(const String&) {}
 #endif // Platform
 
-    const char* getSeparator() {
+    char const* getSeparator() {
         return "===============================================================================\n";
     }
 
@@ -4708,7 +4708,7 @@ namespace detail
         return stream.str().c_str();
     }
 
-    const char* getFailString(assertType::Enum assert_type) {
+    char const* getFailString(assertType::Enum assert_type) {
         if(assert_type & assertType::is_warn) //!OCLINT bitwise operator in conditional
             return "WARNING";
         if(assert_type & assertType::is_check) //!OCLINT bitwise operator in conditional
@@ -4718,8 +4718,8 @@ namespace detail
         return "";
     }
 
-    void logAssert(bool passed, const char* decomposition, bool threw, const String& exception,
-                   const char* expr, assertType::Enum assert_type, const char* file, int line) {
+    void logAssert(bool passed, char const* decomposition, bool threw, const String& exception,
+                   char const* expr, assertType::Enum assert_type, char const* file, int line) {
         char loc[DOCTEST_SNPRINTF_BUFFER_LENGTH];
         DOCTEST_SNPRINTF(loc, DOCTEST_COUNTOF(loc), "%s(%d)", fileForOutput(file),
                          lineForOutput(line));
@@ -4759,8 +4759,8 @@ namespace detail
         printToDebugConsole(String(loc) + msg + info1 + info2 + info3 + context.c_str() + "\n");
     }
 
-    void logAssertThrows(bool threw, const char* expr, assertType::Enum assert_type,
-                         const char* file, int line) {
+    void logAssertThrows(bool threw, char const* expr, assertType::Enum assert_type,
+                         char const* file, int line) {
         char loc[DOCTEST_SNPRINTF_BUFFER_LENGTH];
         DOCTEST_SNPRINTF(loc, DOCTEST_COUNTOF(loc), "%s(%d)", fileForOutput(file),
                          lineForOutput(line));
@@ -4792,8 +4792,8 @@ namespace detail
         printToDebugConsole(String(loc) + msg + info1 + info2 + context.c_str() + "\n");
     }
 
-    void logAssertThrowsAs(bool threw, bool threw_as, const char* as, const String& exception,
-                           const char* expr, assertType::Enum assert_type, const char* file,
+    void logAssertThrowsAs(bool threw, bool threw_as, char const* as, const String& exception,
+                           char const* expr, assertType::Enum assert_type, char const* file,
                            int line) {
         char loc[DOCTEST_SNPRINTF_BUFFER_LENGTH];
         DOCTEST_SNPRINTF(loc, DOCTEST_COUNTOF(loc), "%s(%d)", fileForOutput(file),
@@ -4833,8 +4833,8 @@ namespace detail
         printToDebugConsole(String(loc) + msg + info1 + info2 + info3 + context.c_str() + "\n");
     }
 
-    void logAssertNothrow(bool threw, const String& exception, const char* expr,
-                          assertType::Enum assert_type, const char* file, int line) {
+    void logAssertNothrow(bool threw, const String& exception, char const* expr,
+                          assertType::Enum assert_type, char const* file, int line) {
         char loc[DOCTEST_SNPRINTF_BUFFER_LENGTH];
         DOCTEST_SNPRINTF(loc, DOCTEST_COUNTOF(loc), "%s(%d)", fileForOutput(file),
                          lineForOutput(line));
@@ -4870,8 +4870,8 @@ namespace detail
         printToDebugConsole(String(loc) + msg + info1 + info2 + info3 + context.c_str() + "\n");
     }
 
-    ResultBuilder::ResultBuilder(assertType::Enum assert_type, const char* file, int line,
-                                 const char* expr, const char* exception_type)
+    ResultBuilder::ResultBuilder(assertType::Enum assert_type, char const* file, int line,
+                                 char const* expr, char const* exception_type)
             : m_assert_type(assert_type)
             , m_file(file)
             , m_line(line)
@@ -4939,7 +4939,7 @@ namespace detail
             throwException();
     }
 
-    MessageBuilder::MessageBuilder(const char* file, int line,
+    MessageBuilder::MessageBuilder(char const* file, int line,
                                    doctest::detail::assertType::Enum severity)
             : m_stream(createStream())
             , m_file(file)
@@ -4991,9 +4991,9 @@ namespace detail
     MessageBuilder::~MessageBuilder() { freeStream(m_stream); }
 
     // the implementation of parseFlag()
-    bool parseFlagImpl(int argc, const char* const* argv, const char* pattern) {
+    bool parseFlagImpl(int argc, char const* const* argv, char const* pattern) {
         for(int i = argc - 1; i >= 0; --i) {
-            const char* temp = std::strstr(argv[i], pattern);
+            char const* temp = std::strstr(argv[i], pattern);
             if(temp && my_strlen(temp) == my_strlen(pattern)) {
                 // eliminate strings in which the chars before the option are not '-'
                 bool noBadCharsFound = true; //!OCLINT prefer early exits and continue
@@ -5011,7 +5011,7 @@ namespace detail
     }
 
     // locates a flag on the command line
-    bool parseFlag(int argc, const char* const* argv, const char* pattern) {
+    bool parseFlag(int argc, char const* const* argv, char const* pattern) {
 #ifndef DOCTEST_CONFIG_NO_UNPREFIXED_OPTIONS
         if( ! parseFlagImpl(argc, argv, pattern))
             return parseFlagImpl(argc, argv, pattern + 3); // 3 for "dt-"
@@ -5022,13 +5022,13 @@ namespace detail
     }
 
     // the implementation of parseOption()
-    bool parseOptionImpl(int argc, const char* const* argv, const char* pattern, String& res) {
+    bool parseOptionImpl(int argc, char const* const* argv, char const* pattern, String& res) {
         for(int i = argc - 1; i >= 0; --i) {
-            const char* temp = std::strstr(argv[i], pattern);
+            char const* temp = std::strstr(argv[i], pattern);
             if(temp) { //!OCLINT prefer early exits and continue
                 // eliminate matches in which the chars before the option are not '-'
                 bool        noBadCharsFound = true;
-                const char* curr            = argv[i];
+                char const* curr            = argv[i];
                 while(curr != temp) {
                     if(*curr++ != '-') {
                         noBadCharsFound = false;
@@ -5049,7 +5049,7 @@ namespace detail
     }
 
     // parses an option and returns the string after the '=' character
-    bool parseOption(int argc, const char* const* argv, const char* pattern, String& res,
+    bool parseOption(int argc, char const* const* argv, char const* pattern, String& res,
                      const String& defaultVal = String()) {
         res = defaultVal;
 #ifndef DOCTEST_CONFIG_NO_UNPREFIXED_OPTIONS
@@ -5062,7 +5062,7 @@ namespace detail
     }
 
     // parses a comma separated list of words after a pattern in one of the arguments in argv
-    bool parseCommaSepArgs(int argc, const char* const* argv, const char* pattern,
+    bool parseCommaSepArgs(int argc, char const* const* argv, char const* pattern,
                            std::vector<String>& res) {
         String filtersString;
         if(parseOption(argc, argv, pattern, filtersString)) {
@@ -5088,7 +5088,7 @@ namespace detail
     };
 
     // parses an int/bool option from the command line
-    bool parseIntOption(int argc, const char* const* argv, const char* pattern, optionType type,
+    bool parseIntOption(int argc, char const* const* argv, char const* pattern, optionType type,
                         int& res) {
         String parsedValue;
         if( ! parseOption(argc, argv, pattern, parsedValue))
@@ -5263,7 +5263,7 @@ namespace detail
 
             DOCTEST_PRINTF_COLORED("[doctest] ", Color::Cyan);
             DOCTEST_PRINTF_COLORED("Status: ", Color::None);
-            const char* result = (p->numFailed > 0) ? "FAILURE!\n" : "SUCCESS!\n";
+            char const* result = (p->numFailed > 0) ? "FAILURE!\n" : "SUCCESS!\n";
             DOCTEST_PRINTF_COLORED(result, p->numFailed > 0 ? Color::Red : Color::Green);
         }
 
@@ -5274,17 +5274,17 @@ namespace detail
 
 bool isRunningInTest() { return detail::contextState != 0; }
 
-Context::Context(int argc, const char* const* argv)
+Context::Context(int argc, char const* const* argv)
         : p(new detail::ContextState) {
     parseArgs(argc, argv, true);
 }
 
 Context::~Context() { delete p; }
 
-void Context::applyCommandLine(int argc, const char* const* argv) { parseArgs(argc, argv); }
+void Context::applyCommandLine(int argc, char const* const* argv) { parseArgs(argc, argv); }
 
 // parses args
-void Context::parseArgs(int argc, const char* const* argv, bool withDefaults) {
+void Context::parseArgs(int argc, char const* const* argv, bool withDefaults) {
     using namespace detail;
 
     // clang-format off
@@ -5393,7 +5393,7 @@ void Context::parseArgs(int argc, const char* const* argv, bool withDefaults) {
 }
 
 // allows the user to add procedurally to the filters from the command line
-void Context::addFilter(const char* filter, const char* value) { setOption(filter, value); }
+void Context::addFilter(char const* filter, char const* value) { setOption(filter, value); }
 
 // allows the user to clear all filters from the command line
 void Context::clearFilters() {
@@ -5402,14 +5402,14 @@ void Context::clearFilters() {
 }
 
 // allows the user to override procedurally the int/bool options from the command line
-void Context::setOption(const char* option, int value) {
+void Context::setOption(char const* option, int value) {
     setOption(option, toString(value).c_str());
 }
 
 // allows the user to override procedurally the string options from the command line
-void Context::setOption(const char* option, const char* value) {
+void Context::setOption(char const* option, char const* value) {
     String      argv   = String("-") + option + "=" + value;
-    const char* lvalue = argv.c_str();
+    char const* lvalue = argv.c_str();
     parseArgs(1, &lvalue);
 }
 

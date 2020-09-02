@@ -4,7 +4,9 @@
 
 #include <kth/capi/config/endpoint.h>
 
-infrastructure::config::endpoint endpoint_to_cpp(kth_endpoint const& x) {
+#include <kth/infrastructure/config/endpoint.hpp>
+
+kth::infrastructure::config::endpoint endpoint_to_cpp(kth_endpoint const& x) {
     return {x.host, x.port};
 }
 

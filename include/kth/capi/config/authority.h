@@ -9,7 +9,7 @@
 #include <stdint.h>
 
 typedef struct {
-    char* ip_;
+    char* ip;
     uint16_t port;
 } kth_authority;
 

@@ -13,9 +13,9 @@
 #include <kth/capi/config/authority.h>
 #include <kth/capi/config/endpoint.h>
 
-// BCT_API
-// settings();
-// settings(infrastructure::config::settings context);
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct {
     uint32_t threads;
@@ -67,12 +67,12 @@ typedef struct {
     char** user_agent_blacklist;     //std::vector<std::string>
 } kth_network_settings;
 
-// /// Helpers.
-// asio::duration connect_timeout() const;
-// asio::duration channel_handshake() const;
-// asio::duration channel_heartbeat() const;
-// asio::duration channel_inactivity() const;
-// asio::duration channel_expiration() const;
-// asio::duration channel_germination() const;
+
+KTH_EXPORT
+kth_network_settings kth_config_network_settings_default(kth_network_t net);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif // KTH_CAPI_CONFIG_NETWORK_SETTINGS_H_

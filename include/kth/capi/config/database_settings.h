@@ -9,6 +9,10 @@
 
 #include <kth/capi/primitives.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     char* directory;
     kth_bool_t flush_writes;
@@ -28,8 +32,11 @@ typedef struct {
 
 } kth_database_settings;
 
-// struct KD_API settings {
-    // settings();
-    // settings(infrastructure::config::settings context);
+KTH_EXPORT
+kth_database_settings kth_config_database_settings_default(kth_network_t net);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif // KTH_CAPI_CONFIG_DATABASE_SETTINGS_H_

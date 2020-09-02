@@ -9,9 +9,9 @@
 
 #include <kth/capi/primitives.h>
 
-// BCN_API
-// settings();
-// settings(infrastructure::config::settings context);
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct {
     uint32_t sync_peers;
@@ -22,7 +22,12 @@ typedef struct {
     kth_bool_t compact_blocks_high_bandwidth;
 } kth_node_settings;
 
-// /// Helpers.
-// asio::duration block_latency() const;
+
+KTH_EXPORT
+kth_node_settings kth_config_node_settings_default(kth_network_t network);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif // KTH_CAPI_CONFIG_NODE_SETTINGS_H_

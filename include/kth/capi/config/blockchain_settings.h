@@ -8,15 +8,11 @@
 #include <stdint.h>
 
 #include <kth/capi/primitives.h>
+#include <kth/capi/config/checkpoint.h>
 
-typedef struct {
-    kth_hash_t hash;
-    size_t height;
-} kth_checkpoint;
-
-// BCB_API
-// settings() = default;
-// settings(infrastructure::config::settings context);
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct {
     uint32_t cores;
@@ -69,7 +65,13 @@ typedef struct {
     size_t mempool_max_template_size;
     size_t mempool_size_multiplier;
 #endif
-
 } kth_blockchain_settings;
+
+KTH_EXPORT
+kth_blockchain_settings kth_config_blockchain_settings_default(kth_network_t net);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif // KTH_CAPI_CONFIG_BLOCKCHAIN_SETTINGS_H_

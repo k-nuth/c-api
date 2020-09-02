@@ -5,8 +5,28 @@
 #ifndef KTH_CAPI_CONFIG_SETTINGS_H_
 #define KTH_CAPI_CONFIG_SETTINGS_H_
 
-#include <stdint.h>
+#include <kth/capi/config/blockchain_settings.h>
+#include <kth/capi/config/database_settings.h>
+#include <kth/capi/config/network_settings.h>
+#include <kth/capi/config/node_settings.h>
 
-#include <kth/capi/primitives.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct {
+    kth_node_settings node;
+    kth_blockchain_settings chain;
+    kth_database_settings database;
+    kth_network_settings network;
+} kth_settings;
+
+KTH_EXPORT
+kth_settings kth_config_settings_default(kth_network_t network);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
+
 
 #endif // KTH_CAPI_CONFIG_SETTINGS_H_

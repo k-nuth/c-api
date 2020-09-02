@@ -18,7 +18,7 @@ KTH_EXPORT
 kth_string_list_t kth_core_string_list_construct(void);
 
 KTH_EXPORT
-void kth_core_string_list_push_back(kth_string_list_t string_list, const char* string);
+void kth_core_string_list_push_back(kth_string_list_t string_list, char const* string);
 
 KTH_EXPORT
 void kth_core_string_list_destruct(kth_string_list_t string_list);
