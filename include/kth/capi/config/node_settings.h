@@ -18,10 +18,8 @@ typedef struct {
     uint32_t sync_timeout_seconds;
     uint32_t block_latency_seconds;
     kth_bool_t refresh_transactions;
-
     kth_bool_t compact_blocks_high_bandwidth;
 } kth_node_settings;
-
 
 KTH_EXPORT
 kth_node_settings kth_config_node_settings_default(kth_network_t network);

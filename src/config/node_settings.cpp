@@ -8,22 +8,20 @@
 #include <kth/capi/helpers.hpp>
 #include <kth/node/settings.hpp>
 
-namespace {
+#include <iostream>
 
+namespace {
 template <typename Target, typename Source>
 inline
 Target node_settings_to_common(Source const& x) {
     Target res;
-
     res.sync_peers = x.sync_peers;
     res.sync_timeout_seconds = x.sync_timeout_seconds;
     res.block_latency_seconds = x.block_latency_seconds;
     res.refresh_transactions = x.refresh_transactions;
     res.compact_blocks_high_bandwidth = x.compact_blocks_high_bandwidth;
-
     return res;
 }
-
 }
 
 inline
