@@ -5,6 +5,7 @@
 #ifndef KTH_CAPI_PLATFORM_H
 #define KTH_CAPI_PLATFORM_H
 
+#include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
 
 #ifdef __cplusplus
@@ -13,6 +14,9 @@ extern "C" {
 
 KTH_EXPORT
 void kth_platform_free(void* ptr);
+
+KTH_EXPORT
+char** kth_platform_allocate_array_of_strings(kth_size_t n);
 
 #ifdef __cplusplus
 } // extern "C"

@@ -10,9 +10,20 @@
 
 #include <kth/capi/primitives.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     kth_hash_t hash;
     size_t height;
 } kth_checkpoint;
+
+KTH_EXPORT
+kth_checkpoint* kth_config_checkpoint_allocate_n(kth_size_t n);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif // KTH_CAPI_CONFIG_CHECKPOINT_H_

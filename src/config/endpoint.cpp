@@ -6,6 +6,8 @@
 
 #include <kth/infrastructure/config/endpoint.hpp>
 
+#include <kth/capi/helpers.hpp>
+
 kth::infrastructure::config::endpoint endpoint_to_cpp(kth_endpoint const& x) {
     return {x.host, x.port};
 }
@@ -13,5 +15,8 @@ kth::infrastructure::config::endpoint endpoint_to_cpp(kth_endpoint const& x) {
 // ---------------------------------------------------------------------------
 extern "C" {
 
+kth_endpoint* kth_config_endpoint_allocate_n(kth_size_t n) {
+    return kth::mnew<kth_endpoint>(n);
+}
 
 } // extern "C"

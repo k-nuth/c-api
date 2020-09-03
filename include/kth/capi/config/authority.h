@@ -8,9 +8,22 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <kth/capi/primitives.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     char* ip;
     uint16_t port;
 } kth_authority;
+
+KTH_EXPORT
+kth_authority* kth_config_authority_allocate_n(kth_size_t n);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif // KTH_CAPI_CONFIG_AUTHORITY_H_
