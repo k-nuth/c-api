@@ -14,7 +14,7 @@ extern "C" {
 #endif
 
 typedef struct {
-    char* directory;
+    kth_char_t* directory;
     kth_bool_t flush_writes;
     uint16_t file_growth_rate;
     uint32_t index_start_height;

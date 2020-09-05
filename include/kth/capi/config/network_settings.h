@@ -38,7 +38,7 @@ typedef struct {
     uint32_t channel_expiration_minutes;
     uint32_t channel_germination_seconds;
     uint32_t host_pool_capacity;
-    char* hosts_file;
+    kth_char_t* hosts_file;
     kth_authority self;
 
     size_t blacklist_count;
@@ -51,9 +51,9 @@ typedef struct {
     kth_endpoint* seeds;
 
     // [log]
-    char* debug_file;
-    char* error_file;
-    char* archive_directory;
+    kth_char_t* debug_file;
+    kth_char_t* error_file;
+    kth_char_t* archive_directory;
     size_t rotation_size;
     size_t minimum_free_space;
     size_t maximum_archive_size;

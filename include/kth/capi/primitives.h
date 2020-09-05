@@ -27,6 +27,12 @@ extern "C" {
 typedef int kth_bool_t;
 typedef uint64_t kth_size_t;    // It is std::size_t in the C++ code.
 
+#if defined(_WIN32)
+typedef wchar_t kth_char_t;
+#else
+typedef char kth_char_t;
+#endif
+
 typedef enum point_kind {output = 0, spend = 1} kth_point_kind_t;
 
 typedef struct executor_helper* kth_node_t;
