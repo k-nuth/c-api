@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#include <kth/capi/config/settings.h>
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
 
@@ -16,19 +17,15 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-kth_node_t kth_node_construct(char const* path, FILE* sout, FILE* serr);
+kth_node_t kth_node_construct(kth_settings const* settings, FILE* sout, FILE* serr);
 
 KTH_EXPORT
-kth_node_t kth_node_construct_fd(char const* path, int sout_fd, int serr_fd);
-
+kth_node_t kth_node_construct_fd(kth_settings const* settings, int sout_fd, int serr_fd);
 
 #if defined(_WIN32)
-
 KTH_EXPORT
-kth_node_t kth_node_construct_handles(char const* path, void* sout, void* serr);
-
+kth_node_t kth_node_construct_handles(kth_settings const* settings, void* sout, void* serr);
 #endif /* defined(_WIN32) */
-
 
 KTH_EXPORT
 void kth_node_destruct(kth_node_t node);
@@ -85,9 +82,6 @@ keoken_manager_t kth_node_get_keoken_manager(kth_node_t node);
 
 KTH_EXPORT
 char const* kth_node_version(void);
-
-KTH_EXPORT
-int kth_node_load_config_valid(kth_node_t node);
 
 #ifdef __cplusplus
 } // extern "C"

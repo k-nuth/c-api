@@ -73,8 +73,11 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // std::signal(SIGINT, handle_stop);
     // std::signal(SIGTERM, handle_stop);
 
+    kth_bool_t _ok;
+    char* error_message;
+    kth_settings settings = kth_config_settings_get_from_file("/home/fernando/dev/kth/cs-api/console/node.cfg", &ok, &error_message);
 
-    auto exec = kth_node_construct("/home/kth/dev/kth/github/k-nuth/insight/kth.insight/bcc-testnet.cfg", stdout, stderr);
+    auto exec = kth_node_construct(&settings, stdout, stderr);
     //auto exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
     // kth_node_t exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
     //kth_node_t exec = kth_node_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);

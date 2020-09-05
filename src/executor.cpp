@@ -36,13 +36,6 @@ std::promise<kth::code> executor::stopping_; //NOLINT
 executor::executor(kth::node::configuration const& config, std::ostream& output, std::ostream& error)
     : config_(config), output_(output), error_(error)
 {
-	
-    kth::node::parser metadata(kth::infrastructure::config::settings::mainnet);
-    // parse_config_from_file_result_ = metadata.parse_from_file(config_.file, std::cerr);
-    parse_config_from_file_result_ = metadata.parse_from_file(config_.file, error);
-  
-    config_ = metadata.configured;
-
     auto const& network = config_.network;
     auto const verbose = network.verbose;
 
@@ -139,11 +132,6 @@ keoken_manager_cpp_t const& executor::keoken_manager() const {
     return *keoken_manager_;
 }
 #endif // KTH_WITH_KEOKEN
-
-
-bool executor::load_config_valid() const {
-    return parse_config_from_file_result_;
-}
 
 bool executor::run(kth::handle0 handler) {
 

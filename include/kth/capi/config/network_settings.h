@@ -67,7 +67,6 @@ typedef struct {
     char** user_agent_blacklist;     //std::vector<std::string>
 } kth_network_settings;
 
-
 KTH_EXPORT
 kth_network_settings kth_config_network_settings_default(kth_network_t net);
 

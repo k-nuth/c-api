@@ -24,6 +24,9 @@ typedef struct {
 KTH_EXPORT
 kth_settings kth_config_settings_default(kth_network_t network);
 
+KTH_EXPORT
+kth_settings kth_config_settings_get_from_file(char const* path, kth_bool_t* out_ok, char** out_error_message);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
