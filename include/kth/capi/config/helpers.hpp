@@ -16,7 +16,8 @@ namespace kth::capi::helpers {
 inline
 kth_char_t* path_to_c(std::filesystem::path const& x) {
     kth_char_t* ret = kth::mnew<kth_char_t>(x.native().size() + 1);
-    strcpy(ret, x.c_str());
+    // strcpy(ret, x.c_str());
+    std::copy_n(x.c_str(), x.native().size() + 1, ret);
     return ret;
 }
 
