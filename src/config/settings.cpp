@@ -14,21 +14,8 @@
 #include <kth/node/configuration.hpp>
 #include <kth/node/parser.hpp>
 
-extern "C" {
-
-kth_settings kth_config_settings_default(kth_network_t net) {
-    kth_settings res;
-
-    //TODO(fernando)
-    // res.node = kth_config_node_settings_default(net);
-    // res.chain = kth_config_blockchain_settings_default(net);
-    // res.database = kth_config_database_settings_default(net);
-    // res.network = kth_config_network_settings_default(net);
-
-    return res;
-}
-
-kth_settings kth_config_settings_get_from_file(char const* path, kth_bool_t* out_ok, char** out_error_message) {
+template <typename CharT>
+kth_settings internal_config_settings_get_from_file(CharT const* path, kth_bool_t* out_ok, char** out_error_message) {
     kth::node::parser metadata(kth::infrastructure::config::settings::mainnet);
     auto file = std::filesystem::path(path);
 
@@ -51,6 +38,30 @@ kth_settings kth_config_settings_get_from_file(char const* path, kth_bool_t* out
 
     return res;
 }
+
+extern "C" {
+
+// kth_settings kth_config_settings_default(kth_network_t net) {
+//     kth_settings res;
+
+//     //TODO(fernando)
+//     // res.node = kth_config_node_settings_default(net);
+//     // res.chain = kth_config_blockchain_settings_default(net);
+//     // res.database = kth_config_database_settings_default(net);
+//     // res.network = kth_config_network_settings_default(net);
+
+//     return res;
+// }
+
+kth_settings kth_config_settings_get_from_file(char const* path, kth_bool_t* out_ok, char** out_error_message) {
+    return internal_config_settings_get_from_file(path, out_ok, out_error_message);
+}
+
+#if defined(_WIN32)
+kth_settings kth_config_settings_get_from_fileW(wchar_t const* path, kth_bool_t* out_ok, char** out_error_message) {
+    return internal_config_settings_get_from_file(path, out_ok, out_error_message);
+}
+#endif // defined(_WIN32)
 
 
 } // extern "C"

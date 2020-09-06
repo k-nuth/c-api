@@ -21,11 +21,16 @@ typedef struct {
     kth_network_settings network;
 } kth_settings;
 
-KTH_EXPORT
-kth_settings kth_config_settings_default(kth_network_t network);
+// KTH_EXPORT
+// kth_settings kth_config_settings_default(kth_network_t network);
 
 KTH_EXPORT
 kth_settings kth_config_settings_get_from_file(char const* path, kth_bool_t* out_ok, char** out_error_message);
+
+#if defined(_WIN32)
+KTH_EXPORT
+kth_settings kth_config_settings_get_from_fileW(wchar_t const* path, kth_bool_t* out_ok, char** out_error_message);
+#endif // defined(_WIN32)
 
 #ifdef __cplusplus
 } // extern "C"
