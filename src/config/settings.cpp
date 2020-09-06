@@ -14,8 +14,10 @@
 #include <kth/node/configuration.hpp>
 #include <kth/node/parser.hpp>
 
+namespace detail {
+
 template <typename CharT>
-kth_settings internal_config_settings_get_from_file(CharT const* path, kth_bool_t* out_ok, char** out_error_message) {
+kth_settings config_settings_get_from_file(CharT const* path, kth_bool_t* out_ok, char** out_error_message) {
     kth::node::parser metadata(kth::infrastructure::config::settings::mainnet);
     auto file = std::filesystem::path(path);
 
@@ -39,6 +41,8 @@ kth_settings internal_config_settings_get_from_file(CharT const* path, kth_bool_
     return res;
 }
 
+}
+
 extern "C" {
 
 // kth_settings kth_config_settings_default(kth_network_t net) {
@@ -54,12 +58,12 @@ extern "C" {
 // }
 
 kth_settings kth_config_settings_get_from_file(char const* path, kth_bool_t* out_ok, char** out_error_message) {
-    return internal_config_settings_get_from_file(path, out_ok, out_error_message);
+    return detail::config_settings_get_from_file(path, out_ok, out_error_message);
 }
 
 #if defined(_WIN32)
 kth_settings kth_config_settings_get_from_fileW(wchar_t const* path, kth_bool_t* out_ok, char** out_error_message) {
-    return internal_config_settings_get_from_file(path, out_ok, out_error_message);
+    return detail::config_settings_get_from_file(path, out_ok, out_error_message);
 }
 #endif // defined(_WIN32)
 
