@@ -11,26 +11,6 @@
 
 #include <kth/capi/node.h>
 
-inline
-void hex2bin(const char* src, uint8_t* target) {
-    while ((*src != 0) && (src[1] != 0)) {
-        *(target++) = char2int(*src) * 16 + char2int(src[1]);
-        src += 2;
-    }
-}
-
-inline
-kth_hash_t str_to_hash(const char* str) {
-	// std::string hash = "0000000071966c2b1d065fd446b1e485b2c9d9594acd2007ccbd5441cfc89444";
-	kth::hash_digest hash_bytes;
-	hex2bin(str, hash_bytes.data());
-	std::reverse(hash_bytes.begin(), hash_bytes.end());
-    auto prevout_hash = kth::to_hash_t(hash_bytes);
-}
-
-
-
-
 void WaitUntilBlock(kth_node_t node, uint64_t desiredHeight) {
     ErrorCode error = 0;
     uint64_t height = 0;

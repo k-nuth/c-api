@@ -60,8 +60,6 @@ public:
     keoken_manager_cpp_t& keoken_manager();
 #endif // KTH_WITH_KEOKEN
 
-    bool load_config_valid() const;
-
     bool stopped() const;
 
 private:
@@ -97,7 +95,6 @@ private:
 #endif
 
     kth::handle0 run_handler_;
-    bool parse_config_from_file_result_;
 };
 
 // Localizable messages.

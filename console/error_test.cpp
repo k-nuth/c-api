@@ -18,38 +18,6 @@
 #include <kth/infrastructure.hpp>
 #include <kth/capi/helpers.hpp>
 
-inline
-int char2int(char input) {
-    if (input >= '0' && input <= '9') {
-        return input - '0';
-    }
-    if (input >= 'A' && input <= 'F') {
-        return input - 'A' + 10;
-    }
-    if (input >= 'a' && input <= 'f') {
-        return input - 'a' + 10;
-    }
-    throw std::invalid_argument("Invalid input string");
-}
-
-inline
-void hex2bin(const char* src, uint8_t* target) {
-    while ((*src != 0) && (src[1] != 0)) {
-        *(target++) = char2int(*src) * 16 + char2int(src[1]);
-        src += 2;
-    }
-}
-
-inline
-kth_hash_t str_to_hash(const char* str) {
-	// std::string hash = "0000000071966c2b1d065fd446b1e485b2c9d9594acd2007ccbd5441cfc89444";
-	kth::hash_digest hash_bytes;
-	hex2bin(str, hash_bytes.data());
-	std::reverse(hash_bytes.begin(), hash_bytes.end());
-    auto res = kth::to_hash_t(hash_bytes);
-    return res;
-}
-
 void WaitUntilBlock(kth_chain_t chain, uint64_t desiredHeight) {
     kth_error_code_t error;
     kth_size_t height = 0;

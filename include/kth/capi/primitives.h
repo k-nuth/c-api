@@ -27,6 +27,12 @@ extern "C" {
 typedef int kth_bool_t;
 typedef uint64_t kth_size_t;    // It is std::size_t in the C++ code.
 
+#if defined(_WIN32)
+typedef wchar_t kth_char_t;
+#else
+typedef char kth_char_t;
+#endif
+
 typedef enum point_kind {output = 0, spend = 1} kth_point_kind_t;
 
 typedef struct executor_helper* kth_node_t;
@@ -97,6 +103,25 @@ typedef struct kth_hash_t {
 typedef struct kth_longhash_t {
     uint8_t hash[KTH_BITCOIN_LONG_HASH_SIZE];   //kth::long_hash_size
 } kth_longhash_t;
+
+
+
+// Currencies --------------------------------------------------------
+
+typedef enum {
+    kth_currency_none,
+    kth_currency_bitcoin,
+    kth_currency_bitcoin_cash,
+    kth_currency_litecoin
+} kth_currency_t;
+
+// Network -----------------------------------------------------------
+typedef enum {
+    kth_network_none,
+    kth_network_mainnet,
+    kth_network_testnet,
+    kth_network_regtest
+} kth_network_t;
 
 
 // Wallet ------------------------------------------------------------

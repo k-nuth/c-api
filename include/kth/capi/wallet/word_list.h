@@ -18,7 +18,7 @@ KTH_EXPORT
 kth_word_list_t kth_wallet_word_list_construct(void);
 
 KTH_EXPORT
-void kth_wallet_word_list_add_word(kth_word_list_t word_list, const char* word);
+void kth_wallet_word_list_add_word(kth_word_list_t word_list, char const* word);
 
 KTH_EXPORT
 void kth_wallet_word_list_destruct(kth_word_list_t word_list);

@@ -67,47 +67,17 @@ void print_hex(char const* data, size_t n) {
     printf("\n");
 }
 
-
-void print_hex(uint8_t const* data, size_t n) {
-    while (n != 0) {
-        printf("%2x", *data);
-        ++data;
-        --n;
-    }
-    printf("\n");
-}
-
-inline
-int char2int(char input) {
-    if (input >= '0' && input <= '9') {
-        return input - '0';
-    }
-    if (input >= 'A' && input <= 'F') {
-        return input - 'A' + 10;
-    }
-    if (input >= 'a' && input <= 'f') {
-        return input - 'a' + 10;
-    }
-    throw std::invalid_argument("Invalid input string");
-}
-
-inline
-void hex2bin(const char* src, uint8_t* target) {
-    while ((*src != 0) && (src[1] != 0)) {
-        *(target++) = char2int(*src) * 16 + char2int(src[1]);
-        src += 2;
-    }
-}
-
-
 int main(int /*argc*/, char* /*argv*/[]) {
 //    using namespace std::chrono_literals;
 
     // std::signal(SIGINT, handle_stop);
     // std::signal(SIGTERM, handle_stop);
 
+    kth_bool_t _ok;
+    char* error_message;
+    kth_settings settings = kth_config_settings_get_from_file("/home/fernando/dev/kth/cs-api/console/node.cfg", &ok, &error_message);
 
-    auto exec = kth_node_construct("/home/kth/dev/kth/github/k-nuth/insight/kth.insight/bcc-testnet.cfg", stdout, stderr);
+    auto exec = kth_node_construct(&settings, stdout, stderr);
     //auto exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
     // kth_node_t exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
     //kth_node_t exec = kth_node_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);

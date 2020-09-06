@@ -11,6 +11,7 @@
 #include <type_traits>
 #include <utility>
 
+#include <kth/infrastructure/config/settings.hpp>
 #include <kth/infrastructure/math/hash.hpp>
 
 namespace kth {
@@ -106,7 +107,7 @@ constexpr kth_ec_secret_t null_ec_secret = {
     0, 0, 0, 0, 0, 0, 0, 0}};
 
 inline
-kth::hash_digest hash_to_cpp(uint8_t* x) {
+kth::hash_digest hash_to_cpp(uint8_t const* x) {
     kth::hash_digest ret;
     std::copy_n(x, ret.size(), std::begin(ret));
     return ret;
@@ -119,11 +120,16 @@ T* mnew(std::size_t n = 1) {
 }
 
 inline
-// const char* create_c_str(std::string const& str) {
+// char const* create_c_str(std::string const& str) {
 char* create_c_str(std::string const& str) {
     auto* c_str = mnew<char>(str.size() + 1);
     std::copy_n(str.begin(), str.size() + 1, c_str);
     return c_str;
+}
+
+inline
+std::string create_cpp_str(char* str) {
+    return std::string(str);
 }
 
 template <typename N>
@@ -175,6 +181,33 @@ bool witness(int x = 1) {
     return kth::int_to_bool(x);
 #endif    
 }
+
+inline
+kth::infrastructure::config::settings network_to_cpp(kth_network_t net) {
+    switch (net) {
+        case kth_network_mainnet:
+            return kth::infrastructure::config::settings::mainnet;
+        case kth_network_testnet:
+            return kth::infrastructure::config::settings::testnet;
+        case kth_network_regtest:
+            return kth::infrastructure::config::settings::regtest;
+    }
+    return kth::infrastructure::config::settings::none;
+}
+
+inline
+kth_network_t network_to_c(kth::infrastructure::config::settings net) {
+    switch (net) {
+        case kth::infrastructure::config::settings::mainnet:
+            return kth_network_mainnet;
+        case kth::infrastructure::config::settings::testnet:
+            return kth_network_testnet;
+        case kth::infrastructure::config::settings::regtest:
+            return kth_network_regtest;
+    }
+    return kth_network_none;
+}
+
 
 // template <typename T>
 // inline

@@ -60,5 +60,3 @@ An `kth_node_t` object that is capable to run a Knuth crypto full-node.
 `kth_p2p_t kth_node_get_p2p(kth_node_t exec);`
 
 `char const* kth_node_version(void);`
-
-`int kth_node_load_config_valid(kth_node_t exec);`
