@@ -19,7 +19,7 @@ namespace kth::capi::helpers {
 
 inline
 kth::node::configuration settings_to_cpp(kth_settings const& x) {
-    kth::node::configuration config(kth::infrastructure::config::settings::mainnet);
+    kth::node::configuration config(kth::domain::config::network::mainnet);
     config.node = node_settings_to_cpp(x.node);
     config.chain = blockchain_settings_to_cpp(x.chain);
     config.database = database_settings_to_cpp(x.database);

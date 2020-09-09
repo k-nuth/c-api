@@ -44,13 +44,16 @@ Target blockchain_settings_to_common(Source const& x) {
 #if defined(KTH_CURRENCY_BCH)
     res.bch_uahf = x.bch_uahf;
     res.bch_daa_cw144 = x.bch_daa_cw144;
-    res.bch_monolith = x.bch_monolith;
-    res.bch_magnetic_anomaly = x.bch_magnetic_anomaly;
-    res.bch_great_wall = x.bch_great_wall;
-    res.bch_graviton = x.bch_graviton;
-    res.bch_phonon = x.bch_phonon;
-    res.bch_axion = x.bch_axion;
-    res.axion_activation_time = x.axion_activation_time;
+    res.bch_pythagoras = x.bch_pythagoras;
+    res.bch_euclid = x.bch_euclid;
+    res.bch_pisano = x.bch_pisano;
+    res.bch_mersenne = x.bch_mersenne;
+    res.bch_fermat = x.bch_fermat;
+    res.bch_euler = x.bch_euler;
+    res.euler_activation_time = x.euler_activation_time;
+    res.bch_gauss = x.bch_gauss;
+    res.gauss_activation_time = x.gauss_activation_time;
+
     res.asert_half_life = x.asert_half_life;
 #else
     res.bip141 = x.bip141;
