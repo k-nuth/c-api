@@ -73,8 +73,8 @@ bool executor::init_directory(error_code& ec) {
   
     if (create_directories(directory, ec)) {
         LOG_INFO(LOG_NODE, fmt::format(KTH_INITIALIZING_CHAIN, directory.string()));
-
-        auto const genesis = kth::node::full_node::get_genesis_block(config_.chain);
+        // auto const genesis = kth::node::full_node::get_genesis_block(config_.chain);
+        auto const genesis = kth::node::full_node::get_genesis_block(get_network(config_.network.identifier));
         auto const& settings = config_.database;
         auto const result = data_base(settings).create(genesis);
 
