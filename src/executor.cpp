@@ -73,8 +73,8 @@ bool executor::init_directory(error_code& ec) {
   
     if (create_directories(directory, ec)) {
         LOG_INFO(LOG_NODE, fmt::format(KTH_INITIALIZING_CHAIN, directory.string()));
-
-        auto const genesis = kth::node::full_node::get_genesis_block(config_.chain);
+        // auto const genesis = kth::node::full_node::get_genesis_block(config_.chain);
+        auto const genesis = kth::node::full_node::get_genesis_block(get_network(config_.network.identifier));
         auto const& settings = config_.database;
         auto const result = data_base(settings).create(genesis);
 
@@ -369,13 +369,8 @@ void executor::initialize_output() {
 #endif
 
     LOG_INFO(LOG_NODE, fmt::format(KTH_MICROARCHITECTURE_INIT, KTH_MICROARCHITECTURE_STR));
-
     LOG_INFO(LOG_NODE, fmt::format(KTH_DB_TYPE_INIT, KTH_DB_TYPE));
-
-    LOG_INFO(LOG_NODE, fmt::format(KTH_NETWORK_INIT, 
-            (kth::get_network(config_.network.identifier) == kth::infrastructure::config::settings::testnet ? "Testnet" : "Mainnet"),
-            config_.network.identifier));
-  
+    LOG_INFO(LOG_NODE, fmt::format(KTH_NETWORK_INIT, name(kth::get_network(config_.network.identifier)), config_.network.identifier));
     LOG_INFO(LOG_NODE, fmt::format(KTH_CORES_INIT, kth::thread_ceiling(config_.chain.cores)));
 }
 

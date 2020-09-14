@@ -109,7 +109,6 @@ typedef struct kth_longhash_t {
 // Currencies --------------------------------------------------------
 
 typedef enum {
-    kth_currency_none,
     kth_currency_bitcoin,
     kth_currency_bitcoin_cash,
     kth_currency_litecoin
@@ -117,10 +116,10 @@ typedef enum {
 
 // Network -----------------------------------------------------------
 typedef enum {
-    kth_network_none,
     kth_network_mainnet,
     kth_network_testnet,
-    kth_network_regtest
+    kth_network_regtest,
+    kth_network_testnet4
 } kth_network_t;
 
 
