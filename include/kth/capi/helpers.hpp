@@ -13,6 +13,7 @@
 
 #include <kth/domain/config/network.hpp>
 #include <kth/infrastructure/math/hash.hpp>
+#include <kth/infrastructure/error.hpp>
 
 namespace kth {
 namespace detail {
@@ -212,13 +213,30 @@ kth_network_t network_to_c(kth::domain::config::network net) {
     }
 }
 
-// template <typename T>
-// inline
-// auto leak_if_success(std::shared_ptr<T> const& ptr, kth::error ec) {
-//     if (ec != kth::error::success) return nullptr;
-//     auto leaked = new T(*ptr);
-//     return leaked;
-// }
+template <typename T>
+inline
+std::remove_const_t<T>* leak_if_success(std::shared_ptr<T> const& ptr, std::error_code ec) {
+    if (ec != kth::error::success) return nullptr;
+    using RealT = std::remove_const_t<T>;
+    auto leaked = new RealT(*ptr);
+    return leaked;
+}
+
+template <typename T>
+inline
+std::remove_const_t<T>* leak(std::shared_ptr<T> const& ptr) {
+    if (! ptr) return nullptr;
+    using RealT = std::remove_const_t<T>;
+    auto leaked = new RealT(*ptr);
+    return leaked;
+}
+
+template <typename T>
+inline
+T* leak(T const& ptr) {
+    auto leaked = new T(ptr);
+    return leaked;
+}
 
 } // namespace kth
 

@@ -81,7 +81,9 @@ struct executor_helper {
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
         , cpp_executor_(config, sout_, serr_) 
-    {}
+    {
+        printf("C-API executor_helper 1\n");
+    }
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
     executor_helper(kth::node::configuration const& config, handle_sink sout, handle_sink serr)
@@ -106,7 +108,9 @@ kth_node_t kth_node_construct(kth_settings const* settings, FILE* sout, FILE* se
 }
 
 kth_node_t kth_node_construct_fd(kth_settings const* settings, int sout_fd, int serr_fd) {
+    printf("C-API kth_node_construct_fd 1\n");
     auto cpp = kth::capi::helpers::settings_to_cpp(*settings);
+    printf("C-API kth_node_construct_fd 2\n");
     return new executor_helper(cpp, sout_fd, serr_fd);
 }
 

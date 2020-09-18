@@ -101,10 +101,7 @@ kth_error_code_t kth_chain_get_block_height(kth_chain_t chain, kth_hash_t hash, 
 
 void kth_chain_fetch_block_header_by_height(kth_chain_t chain, void* ctx, kth_size_t height, kth_block_header_fetch_handler_t handler) {
     safe_chain(chain).fetch_block_header(height, [chain, ctx, handler](std::error_code const& ec, kth::domain::message::header::ptr header, size_t h) {
-        auto new_header = new kth::domain::message::header(*header);
-//        auto new_header = std::make_unique(*header).release();
-        //Note: It is the responsability of the user to release/destruct the object
-        handler(chain, ctx, kth::to_c_err(ec), new_header, h);
+        handler(chain, ctx, kth::to_c_err(ec), kth::leak(header), h);
     });
 }
 
@@ -113,9 +110,7 @@ kth_error_code_t kth_chain_get_block_header_by_height(kth_chain_t chain, kth_siz
     kth_error_code_t res;
 
     safe_chain(chain).fetch_block_header(height, [&](std::error_code const& ec, kth::domain::message::header::ptr header, size_t h) {
-        *out_header = new kth::domain::message::header(*header);
-        //Note: It is the responsability of the user to release/destruct the object
-
+        *out_header = kth::leak(header);
         *out_height = h;
         res = kth::to_c_err(ec);
         latch.count_down();
@@ -126,14 +121,12 @@ kth_error_code_t kth_chain_get_block_header_by_height(kth_chain_t chain, kth_siz
 }       
 
 void kth_chain_fetch_block_header_by_hash(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_block_header_fetch_handler_t handler) {
-
     auto hash_cpp = kth::to_array(hash.hash);
-
     safe_chain(chain).fetch_block_header(hash_cpp, [chain, ctx, handler](std::error_code const& ec, kth::domain::message::header::ptr header, size_t h) {
-        auto new_header = new kth::domain::message::header(*header);
-        //Note: It is the responsability of the user to release/destruct the object
-        handler(chain, ctx, kth::to_c_err(ec), new_header, h);
+        handler(chain, ctx, kth::to_c_err(ec), kth::leak(header), h);
     });
+
+    printf("kth_chain_fetch_block_header_by_hash 1\n");
 }
 
 kth_error_code_t kth_chain_get_block_header_by_hash(kth_chain_t chain, kth_hash_t hash, kth_header_t* out_header, kth_size_t* out_height) {
@@ -143,9 +136,7 @@ kth_error_code_t kth_chain_get_block_header_by_hash(kth_chain_t chain, kth_hash_
     auto hash_cpp = kth::to_array(hash.hash);
 
     safe_chain(chain).fetch_block_header(hash_cpp, [&](std::error_code const& ec, kth::domain::message::header::ptr header, size_t h) {
-        *out_header = new kth::domain::message::header(*header);
-        //Note: It is the responsability of the user to release/destruct the object
-
+        *out_header = kth::leak(header);
         *out_height = h;
         res = kth::to_c_err(ec);
         latch.count_down();
@@ -158,13 +149,7 @@ kth_error_code_t kth_chain_get_block_header_by_hash(kth_chain_t chain, kth_hash_
 #if defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_BLOCKS) || defined(KTH_DB_NEW_FULL)
 void kth_chain_fetch_block_by_height(kth_chain_t chain, void* ctx, kth_size_t height, kth_block_fetch_handler_t handler) {
     safe_chain(chain).fetch_block(height, kth::witness(), [chain, ctx, handler](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
-        if (ec == kth::error::success) {
-            auto new_block = new kth::domain::message::block(*block);
-            //Note: It is the responsability of the user to release/destruct the object
-            handler(chain, ctx, kth::to_c_err(ec), new_block, h);
-        } else {
-            handler(chain, ctx, kth::to_c_err(ec), nullptr, h);
-        }
+        handler(chain, ctx, kth::to_c_err(ec), kth::leak(block), h);
     });
 }
 
@@ -174,8 +159,7 @@ kth_error_code_t kth_chain_get_block_by_height(kth_chain_t chain, kth_size_t hei
 
     safe_chain(chain).fetch_block(height, kth::witness(), [&](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
         if (ec == kth::error::success) {
-            //Note: It is the responsability of the user to release/destruct the object
-            *out_block = new kth::domain::message::block(*block);
+            *out_block = kth::leak(block);
         } else {
             *out_block = nullptr;
         }
@@ -191,15 +175,8 @@ kth_error_code_t kth_chain_get_block_by_height(kth_chain_t chain, kth_size_t hei
 
 void kth_chain_fetch_block_by_hash(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_block_fetch_handler_t handler) {
     auto hash_cpp = kth::to_array(hash.hash);
-
     safe_chain(chain).fetch_block(hash_cpp, kth::witness(), [chain, ctx, handler](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
-        if (ec == kth::error::success) {
-            //Note: It is the responsability of the user to release/destruct the object
-            auto new_block = new kth::domain::message::block(*block);
-            handler(chain, ctx, kth::to_c_err(ec), new_block, h);
-        } else {
-            handler(chain, ctx, kth::to_c_err(ec), nullptr, h);
-        }
+        handler(chain, ctx, kth::to_c_err(ec), kth::leak(block), h);
     });
 }
 
@@ -211,8 +188,7 @@ kth_error_code_t kth_chain_get_block_by_hash(kth_chain_t chain, kth_hash_t hash,
 
     safe_chain(chain).fetch_block(hash_cpp, kth::witness(), [&](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
         if (ec == kth::error::success) {
-            //Note: It is the responsability of the user to release/destruct the object
-            *out_block = new kth::domain::message::block(*block);
+            *out_block = kth::leak(block);
         } else {
             *out_block = nullptr;
         }
@@ -229,15 +205,8 @@ kth_error_code_t kth_chain_get_block_by_hash(kth_chain_t chain, kth_hash_t hash,
 void kth_chain_fetch_block_header_by_hash_txs_size(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_block_header_txs_size_fetch_handler_t handler) {
     auto hash_cpp = kth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_block_header_txs_size(hash_cpp, [chain, ctx, handler](std::error_code const& ec, kth::domain::message::header::const_ptr header, size_t block_height, const std::shared_ptr<kth::hash_list> tx_hashes, uint64_t block_serialized_size) {
-        if (ec == kth::error::success) {
-            //Note: It is the user's responsability of the user to release/destruct the object
-            auto new_header = new kth::domain::message::header(*header);
-            auto new_tx_hashes = new kth::hash_list(*tx_hashes);
-            handler(chain, ctx, kth::to_c_err(ec), new_header, block_height, new_tx_hashes, block_serialized_size);
-        } else {
-            handler(chain, ctx, kth::to_c_err(ec), nullptr, 0, nullptr, 0);
-        }
+    safe_chain(chain).fetch_block_header_txs_size(hash_cpp, [chain, ctx, handler](std::error_code const& ec, kth::domain::message::header::const_ptr header, size_t block_height, std::shared_ptr<kth::hash_list> tx_hashes, uint64_t block_serialized_size) {
+        handler(chain, ctx, kth::to_c_err(ec), kth::leak(header), block_height, kth::leak(tx_hashes), block_serialized_size);
     });
 }
 
@@ -247,20 +216,11 @@ kth_error_code_t kth_chain_get_block_header_byhash_txs_size(kth_chain_t chain, k
 
     auto hash_cpp = kth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_block_header_txs_size(hash_cpp, [&](std::error_code const& ec, kth::domain::message::header::const_ptr header, size_t block_height, const std::shared_ptr<kth::hash_list> tx_hashes, uint64_t block_serialized_size) {
-        if (ec == kth::error::success) {
-            //Note: It is the user's responsability of the user to release/destruct the object
-            *out_header = new kth::domain::message::header(*header);
-            *out_block_height = block_height;
-            *out_tx_hashes = new kth::hash_list(*tx_hashes);
-            *out_serialized_size = block_serialized_size;
-        } else {
-            *out_header = nullptr;
-            *out_block_height = 0;
-            *out_tx_hashes = nullptr;
-            *out_serialized_size = 0;
-        }
-
+    safe_chain(chain).fetch_block_header_txs_size(hash_cpp, [&](std::error_code const& ec, kth::domain::message::header::const_ptr header, size_t block_height, std::shared_ptr<kth::hash_list> tx_hashes, uint64_t block_serialized_size) {
+        *out_header = kth::leak(header);
+        *out_block_height = block_height;
+        *out_tx_hashes = kth::leak(tx_hashes);
+        *out_serialized_size = block_serialized_size;
         res = kth::to_c_err(ec);
         latch.count_down();
     });
@@ -271,9 +231,7 @@ kth_error_code_t kth_chain_get_block_header_byhash_txs_size(kth_chain_t chain, k
 
 void kth_chain_fetch_merkle_block_by_height(kth_chain_t chain, void* ctx, kth_size_t height, kth_merkleblock_fetch_handler_t handler) {
     safe_chain(chain).fetch_merkle_block(height, [chain, ctx, handler](std::error_code const& ec, kth::domain::message::merkle_block::const_ptr block, size_t h) {
-        auto new_block = new kth::domain::message::merkle_block(*block);
-        //Note: It is the responsibility of the user to release/destruct the object
-        handler(chain, ctx, kth::to_c_err(ec), new_block, h);
+        handler(chain, ctx, kth::to_c_err(ec), kth::leak(block), h);
     });
 }
 
@@ -282,9 +240,7 @@ kth_error_code_t kth_chain_get_merkle_block_by_height(kth_chain_t chain, kth_siz
     kth_error_code_t res;
 
     safe_chain(chain).fetch_merkle_block(height, [&](std::error_code const& ec, kth::domain::message::merkle_block::const_ptr block, size_t h) {
-        *out_block = new kth::domain::message::merkle_block(*block);
-        //Note: It is the responsability of the user to release/destruct the object
-
+        *out_block = kth::leak(block);
         *out_height = h;
         res = kth::to_c_err(ec);
         latch.count_down();
@@ -296,10 +252,8 @@ kth_error_code_t kth_chain_get_merkle_block_by_height(kth_chain_t chain, kth_siz
 
 void kth_chain_fetch_merkle_block_by_hash(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_merkleblock_fetch_handler_t handler) {
     auto hash_cpp = kth::to_array(hash.hash);
-
     safe_chain(chain).fetch_merkle_block(hash_cpp, [chain, ctx, handler](std::error_code const& ec, kth::domain::message::merkle_block::const_ptr block, size_t h) {
-        auto new_block = new kth::domain::message::merkle_block(*block);
-        handler(chain, ctx, kth::to_c_err(ec), new_block, h);
+        handler(chain, ctx, kth::to_c_err(ec), kth::leak(block), h);
     });
 }
 
@@ -310,8 +264,7 @@ kth_error_code_t kth_chain_get_merkle_block_by_hash(kth_chain_t chain, kth_hash_
     auto hash_cpp = kth::to_array(hash.hash);
 
     safe_chain(chain).fetch_merkle_block(hash_cpp, [&](std::error_code const& ec, kth::domain::message::merkle_block::const_ptr block, size_t h) {
-        //Note: It is the responsability of the user to release/destruct the object
-        *out_block = new kth::domain::message::merkle_block(*block);
+        *out_block = kth::leak(block);
         *out_height = h;
         res = kth::to_c_err(ec);
         latch.count_down();
@@ -324,9 +277,7 @@ kth_error_code_t kth_chain_get_merkle_block_by_hash(kth_chain_t chain, kth_hash_
 
 void kth_chain_fetch_compact_block_by_height(kth_chain_t chain, void* ctx, kth_size_t height, kth_compactblock_fetch_handler_t handler) {
     safe_chain(chain).fetch_compact_block(height, [chain, ctx, handler](std::error_code const& ec, kth::domain::message::compact_block::const_ptr block, size_t h) {
-        auto new_block = new kth::domain::message::compact_block(*block);
-        //Note: It is the responsibility of the user to release/destruct the object
-        handler(chain, ctx, kth::to_c_err(ec), new_block, h);
+        handler(chain, ctx, kth::to_c_err(ec), kth::leak(block), h);
     });
 }
 
@@ -335,9 +286,7 @@ kth_error_code_t kth_chain_get_compact_block_by_height(kth_chain_t chain, kth_si
     kth_error_code_t res;
 
     safe_chain(chain).fetch_compact_block(height, [&](std::error_code const& ec, kth::domain::message::compact_block::const_ptr block, size_t h) {
-        *out_block = new kth::domain::message::compact_block(*block);
-        //Note: It is the responsability of the user to release/destruct the object
-
+        *out_block = kth::leak(block);
         *out_height = h;
         res = kth::to_c_err(ec);
         latch.count_down();
@@ -351,9 +300,7 @@ void kth_chain_fetch_compact_block_by_hash(kth_chain_t chain, void* ctx, kth_has
     auto hash_cpp = kth::to_array(hash.hash);
 
     safe_chain(chain).fetch_compact_block(hash_cpp, [chain, ctx, handler](std::error_code const& ec, kth::domain::message::compact_block::const_ptr block, size_t h) {
-        auto new_block = new kth::domain::message::compact_block(*block);
-        //Note: It is the responsibility of the user to release/destruct the object
-        handler(chain, ctx, kth::to_c_err(ec), new_block, h);
+        handler(chain, ctx, kth::to_c_err(ec), kth::leak(block), h);
     });
 }
 
@@ -364,8 +311,7 @@ kth_error_code_t kth_chain_get_compact_block_by_hash(kth_chain_t chain, kth_hash
     auto hash_cpp = kth::to_array(hash.hash);
 
     safe_chain(chain).fetch_compact_block(hash_cpp, [&](std::error_code const& ec, kth::domain::message::compact_block::const_ptr block, size_t h) {
-        //Note: It is the responsability of the user to release/destruct the object
-        *out_block = new kth::domain::message::compact_block(*block);
+        *out_block = kth::leak(block);
         *out_height = h;
         res = kth::to_c_err(ec);
         latch.count_down();
@@ -427,14 +373,8 @@ kth_error_code_t kth_chain_get_block_hash(kth_chain_t chain, kth_size_t height, 
 void kth_chain_fetch_transaction(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_bool_t require_confirmed, kth_transaction_fetch_handler_t handler) {
     //precondition:  [hash, 32] is a valid range
     auto hash_cpp = kth::to_array(hash.hash);
-
     safe_chain(chain).fetch_transaction(hash_cpp, kth::int_to_bool(require_confirmed), kth::witness(), [chain, ctx, handler](std::error_code const& ec, kth::domain::message::transaction::const_ptr transaction, size_t i, size_t h) {
-        if (ec == kth::error::success) {
-            auto new_transaction = new kth::domain::message::transaction(*transaction);
-            handler(chain, ctx, kth::to_c_err(ec), new_transaction, i, h);
-        } else {
-            handler(chain, ctx, kth::to_c_err(ec), nullptr, i, h);
-        }
+        handler(chain, ctx, kth::to_c_err(ec), kth::leak(transaction), i, h);
     });
 }
 
@@ -445,12 +385,7 @@ kth_error_code_t kth_chain_get_transaction(kth_chain_t chain, kth_hash_t hash, i
     auto hash_cpp = kth::to_array(hash.hash);
 
     safe_chain(chain).fetch_transaction(hash_cpp, kth::int_to_bool(require_confirmed), kth::witness(), [&](std::error_code const& ec, kth::domain::message::transaction::const_ptr transaction, size_t i, size_t h) {
-        if (ec == kth::error::success) {
-            *out_transaction = new kth::domain::message::transaction(*transaction);
-        } else {
-            *out_transaction = nullptr;
-        }
-
+        *out_transaction = kth::leak(transaction);
         *out_height = h;
         *out_index = i;
         res = kth::to_c_err(ec);
@@ -491,13 +426,11 @@ kth_error_code_t kth_chain_get_transaction_position(kth_chain_t chain, kth_hash_
 
 
 #if (defined(KTH_DB_LEGACY) && defined(KTH_DB_SPENDS)) || defined(KTH_DB_NEW_FULL)
-//It is the user's responsibility to release the input point returned in the callback
 void kth_chain_fetch_spend(kth_chain_t chain, void* ctx, kth_outputpoint_t op, kth_spend_fetch_handler_t handler) {
     auto* outpoint_cpp = static_cast<kth::domain::chain::output_point*>(op);
 
     safe_chain(chain).fetch_spend(*outpoint_cpp, [chain, ctx, handler](std::error_code const& ec, kth::domain::chain::input_point input_point) {
-        auto new_input_point = new kth::domain::chain::input_point(input_point);
-        handler(chain, ctx, kth::to_c_err(ec), new_input_point);
+        handler(chain, ctx, kth::to_c_err(ec), kth::leak(input_point));
     });
 }
 
@@ -508,7 +441,7 @@ kth_error_code_t kth_chain_get_spend(kth_chain_t chain, kth_outputpoint_t op, kt
     auto* outpoint_cpp = static_cast<kth::domain::chain::output_point*>(op);
 
     safe_chain(chain).fetch_spend(*outpoint_cpp, [&](std::error_code const& ec, kth::domain::chain::input_point input_point) {
-        *out_input_point = new kth::domain::chain::input_point(input_point);
+        *out_input_point = kth::leak(input_point);
         res = kth::to_c_err(ec);
         latch.count_down();
     });
@@ -519,25 +452,18 @@ kth_error_code_t kth_chain_get_spend(kth_chain_t chain, kth_outputpoint_t op, kt
 #endif // defined(KTH_DB_LEGACY) && defined(KTH_DB_SPENDS) || defined(KTH_DB_NEW_FULL)
 
 #if (defined(KTH_DB_LEGACY) && defined(KTH_DB_HISTORY)) || defined(KTH_DB_NEW_FULL)
-//It is the user's responsibility to release the history returned in the callback
 void kth_chain_fetch_history(kth_chain_t chain, void* ctx, kth_payment_address_t address, kth_size_t limit, kth_size_t from_height, kth_history_fetch_handler_t handler) {
-    // auto const& address_cpp = kth_wallet_payment_address_const_cpp(address);
-
     safe_chain(chain).fetch_history(kth_wallet_payment_address_const_cpp(address), limit, from_height, [chain, ctx, handler](std::error_code const& ec, kth::domain::chain::history_compact::list history) {
-        auto new_history = new kth::domain::chain::history_compact::list(history);
-        handler(chain, ctx, kth::to_c_err(ec), new_history);
+        handler(chain, ctx, kth::to_c_err(ec), kth::leak(history));
     });
 }
 
-//It is the user's responsibility to release the history returned in the callback
 kth_error_code_t kth_chain_get_history(kth_chain_t chain, kth_payment_address_t address, kth_size_t limit, kth_size_t from_height, history_compact_list_t* out_history) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
-    // auto const& address_cpp = kth_wallet_payment_address_const_cpp(address);
-
     safe_chain(chain).fetch_history(kth_wallet_payment_address_const_cpp(address), limit, from_height, [&](std::error_code const& ec, kth::domain::chain::history_compact::list history) {
-        *out_history = new kth::domain::chain::history_compact::list(history);
+        *out_history = kth::leak(history);
         res = kth::to_c_err(ec);
         latch.count_down();
     });
@@ -553,9 +479,7 @@ void kth_chain_fetch_confirmed_transactions(kth_chain_t chain, void* ctx, kth_pa
     // auto const& address_cpp = kth_wallet_payment_address_const_cpp(address);
 
     safe_chain(chain).fetch_confirmed_transactions(kth_wallet_payment_address_const_cpp(address), max, start_height, [chain, ctx, handler](std::error_code const& ec, const std::vector<kth::hash_digest>& txs) {
-        //It is the user's responsibility to release this allocated memory
-        auto new_txs = new kth::hash_list(txs);
-        handler(chain, ctx, kth::to_c_err(ec), new_txs);
+        handler(chain, ctx, kth::to_c_err(ec), kth::leak(txs));
     });
 }
 
@@ -566,8 +490,7 @@ kth_error_code_t kth_chain_get_confirmed_transactions(kth_chain_t chain, kth_pay
     // auto const& address_cpp = kth_wallet_payment_address_const_cpp(address);
 
     safe_chain(chain).fetch_confirmed_transactions(kth_wallet_payment_address_const_cpp(address), max, start_height, [&](std::error_code const& ec, const std::vector<kth::hash_digest>& txs) {
-        //It is the user's responsibility to release this allocated memory
-        *out_tx_hashes = new kth::hash_list(txs);
+        *out_tx_hashes = kth::leak(txs);
         res = kth::to_c_err(ec);
         latch.count_down();
     });
@@ -581,11 +504,10 @@ kth_error_code_t kth_chain_get_confirmed_transactions(kth_chain_t chain, kth_pay
 #if defined(KTH_DB_STEALTH)
 void kth_chain_fetch_stealth(kth_chain_t chain, void* ctx, kth_binary_t filter, uint64_t from_height, kth_stealth_fetch_handler_t handler) {
 	auto* filter_cpp_ptr = static_cast<kth::binary const*>(filter);
-	kth::binary const& filter_cpp  = *filter_cpp_ptr;
+	kth::binary const& filter_cpp = *filter_cpp_ptr;
 
     safe_chain(chain).fetch_stealth(filter_cpp, from_height, [chain, ctx, handler](std::error_code const& ec, kth::domain::chain::stealth_compact::list stealth) {
-        auto new_stealth = new kth::domain::chain::stealth_compact::list(stealth);
-        handler(chain, ctx, kth::to_c_err(ec), new_stealth);
+        handler(chain, ctx, kth::to_c_err(ec), kth::leak(stealth));
     });
 } 
 
@@ -597,7 +519,7 @@ kth_error_code_t kth_chain_get_stealth(kth_chain_t chain, kth_binary_t filter, u
 	kth::binary const& filter_cpp  = *filter_cpp_ptr;
 
     safe_chain(chain).fetch_stealth(filter_cpp, from_height, [&](std::error_code const& ec, kth::domain::chain::stealth_compact::list stealth) {
-        *out_list = new kth::domain::chain::stealth_compact::list(stealth);
+        *out_list = kth::leak(stealth);
         res = kth::to_c_err(ec);
         latch.count_down();
     });
@@ -620,7 +542,7 @@ kth_error_code_t kth_chain_get_stealth(kth_chain_t chain, kth_binary_t filter, u
 //    });
 //}
 //
-////It is the user's responsibility to release the history returned in the callback
+
 //kth_error_code_t kth_chain_get_block_locator(kth_chain_t chain, kth_block_indexes_t heights, kth_get_headers_ptr_t* out_headers) {
 //    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
 //    kth_error_code_t res;
@@ -662,7 +584,7 @@ kth_mempool_transaction_list_t kth_chain_get_mempool_transactions(kth_chain_t ch
     auto const& address_cpp = kth_wallet_payment_address_const_cpp(address);
     if (address_cpp) {
         auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), kth::int_to_bool(use_testnet_rules), kth::witness());
-        auto ret_txs = new std::vector<kth::blockchain::mempool_transaction_summary>(txs);
+        auto ret_txs = kth::leak(txs);
         return static_cast<kth_mempool_transaction_list_t>(ret_txs);
     } 
     auto ret_txs = new std::vector<kth::blockchain::mempool_transaction_summary>();
@@ -732,12 +654,7 @@ void kth_chain_subscribe_blockchain(kth_node_t exec, kth_chain_t chain, void* ct
 
 void kth_chain_subscribe_transaction(kth_node_t exec, kth_chain_t chain, void* ctx, kth_subscribe_transaction_handler_t handler) {
     safe_chain(chain).subscribe_transaction([exec, chain, ctx, handler](std::error_code const& ec, kth::transaction_const_ptr tx) {
-        kth_transaction_t new_tx = nullptr;
-        if (tx) {
-            new_tx = new kth::domain::message::transaction(*tx);
-        }
-        auto res = handler(exec, chain, ctx, kth::to_c_err(ec), new_tx);
-        return res;
+        return handler(exec, chain, ctx, kth::to_c_err(ec), kth::leak(tx));
     });
 }
 
@@ -791,7 +708,6 @@ int kth_chain_organize_transaction_sync(kth_chain_t chain, kth_transaction_t tra
 
 //-------------------------------------------------------------------------
 
-////It is the user's responsibility to release the transaction returned
 // kth_transaction_t kth_chain_hex_to_tx(char const* tx_hex) {
 //
 //    static auto const version = kth::domain::message::version::level::canonical;
