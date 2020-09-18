@@ -36,8 +36,11 @@ std::promise<kth::code> executor::stopping_; //NOLINT
 executor::executor(kth::node::configuration const& config, std::ostream& output, std::ostream& error)
     : config_(config), output_(output), error_(error)
 {
+    printf("C-API executor::executor 1\n");
     auto const& network = config_.network;
     auto const verbose = network.verbose;
+
+    printf("C-API executor::executor 2\n");
 
 //TODO(fernando): implement this for spdlog and binlog
 #if defined(KTH_LOG_LIBRARY_BOOST)
