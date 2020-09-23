@@ -45,17 +45,17 @@ kth_settings config_settings_get_from_file(CharT const* path, kth_bool_t* out_ok
 
 extern "C" {
 
-// kth_settings kth_config_settings_default(kth_network_t net) {
-//     kth_settings res;
+kth_settings kth_config_settings_default(kth_network_t net) {
+    kth_settings res;
 
-//     //TODO(fernando)
-//     // res.node = kth_config_node_settings_default(net);
-//     // res.chain = kth_config_blockchain_settings_default(net);
-//     // res.database = kth_config_database_settings_default(net);
-//     // res.network = kth_config_network_settings_default(net);
+    //TODO(fernando)
+    // res.node = kth_config_node_settings_default(net);
+    // res.chain = kth_config_blockchain_settings_default(net);
+    // res.database = kth_config_database_settings_default(net);
+    // res.network = kth_config_network_settings_default(net);
 
-//     return res;
-// }
+    return res;
+}
 
 kth_settings kth_config_settings_get_from_file(char const* path, kth_bool_t* out_ok, char** out_error_message) {
     return detail::config_settings_get_from_file(path, out_ok, out_error_message);

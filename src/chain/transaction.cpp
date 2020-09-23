@@ -71,7 +71,7 @@ uint32_t kth_chain_transaction_locktime(kth_transaction_t transaction) {
     return kth_chain_transaction_const_cpp(transaction).locktime();
 }
 
-kth_size_t kth_chain_transaction_serialized_size(kth_transaction_t transaction, int wire /*= true*/) {
+kth_size_t kth_chain_transaction_serialized_size(kth_transaction_t transaction, kth_bool_t wire /*= true*/) {
     return kth_chain_transaction_const_cpp(transaction).serialized_size(wire);
 }
 
@@ -146,7 +146,7 @@ kth_input_list_t kth_chain_transaction_inputs(kth_transaction_t transaction) {
     return kth_chain_input_list_construct_from_cpp(tx.inputs()); // TODO(fernando): transaction::inputs() is deprecated... check how to do it better...
 }
 
-uint8_t* kth_chain_transaction_to_data(kth_transaction_t transaction, kth_bool_t wire, kth_size_t* out_size) {
+uint8_t const* kth_chain_transaction_to_data(kth_transaction_t transaction, kth_bool_t wire, kth_size_t* out_size) {
     auto tx_data = kth_chain_transaction_const_cpp(transaction).to_data(wire);
     return kth::create_c_array(tx_data, *out_size);
 }

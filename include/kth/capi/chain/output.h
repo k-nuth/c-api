@@ -24,10 +24,10 @@ KTH_EXPORT
 void kth_chain_output_destruct(kth_output_t output);
 
 KTH_EXPORT
-int kth_chain_output_is_valid(kth_output_t output);
+kth_bool_t kth_chain_output_is_valid(kth_output_t output);
 
 KTH_EXPORT
-kth_size_t kth_chain_output_serialized_size(kth_output_t output, kth_bool_t wire /*= true*/);
+kth_size_t kth_chain_output_serialized_size(kth_output_t output, kth_bool_t wire); //wire = true
 
 KTH_EXPORT
 uint64_t kth_chain_output_value(kth_output_t output);
@@ -42,9 +42,8 @@ KTH_EXPORT
 kth_payment_address_t kth_chain_output_payment_address(kth_output_t output, kth_bool_t use_testnet_rules);
 
 KTH_EXPORT
-uint8_t* kth_chain_output_to_data(kth_output_t output, kth_bool_t wire, kth_size_t* out_size);
+uint8_t const* kth_chain_output_to_data(kth_output_t output, kth_bool_t wire, kth_size_t* out_size);
 
-//KTH_EXPORT
 //uint32_t kth_chain_output_get_index(kth_output_t output);
 
 #ifdef __cplusplus

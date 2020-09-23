@@ -53,7 +53,7 @@ typedef void* kth_block_list_t;
 typedef void* kth_compactblock_t;
 typedef void* kth_header_t;
 typedef void* kth_history_compact_t;
-typedef void* history_compact_list_t;
+typedef void* kth_history_compact_list_t;
 
 typedef void* kth_input_t;
 typedef void* kth_input_list_t;
@@ -163,7 +163,7 @@ typedef void (*kth_blockhash_timestamp_fetch_handler_t)(kth_chain_t, void*, kth_
 typedef void (*kth_block_height_fetch_handler_t)(kth_chain_t, void*, kth_error_code_t, kth_size_t);
 typedef void (*kth_block_header_fetch_handler_t)(kth_chain_t, void*, kth_error_code_t, kth_header_t, kth_size_t);
 typedef void (*kth_compactblock_fetch_handler_t)(kth_chain_t, void*, kth_error_code_t, kth_compactblock_t, kth_size_t);
-typedef void (*kth_history_fetch_handler_t)(kth_chain_t, void*, kth_error_code_t, history_compact_list_t);
+typedef void (*kth_history_fetch_handler_t)(kth_chain_t, void*, kth_error_code_t, kth_history_compact_list_t);
 typedef void (*kth_last_height_fetch_handler_t)(kth_chain_t, void*, kth_error_code_t, kth_size_t);
 typedef void (*kth_merkleblock_fetch_handler_t)(kth_chain_t, void*, kth_error_code_t, kth_merkleblock_t, kth_size_t);
 typedef void (*kth_output_fetch_handler_t)(kth_chain_t, void*, kth_error_code_t, kth_output_t output);

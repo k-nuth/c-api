@@ -10,7 +10,7 @@
 #include <chrono>
 #include <thread>
 
-void history_fetch_handler(int error, history_compact_list_t list) {
+void history_fetch_handler(int error, kth_history_compact_list_t list) {
     // printf("C callback (history_fetch_handler) called\n");
     // printf("Calling Python callback\n");
 

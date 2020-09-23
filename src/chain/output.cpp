@@ -25,7 +25,7 @@ void kth_chain_output_destruct(kth_output_t output) {
     delete &kth_chain_output_cpp(output);
 }
 
-int kth_chain_output_is_valid(kth_output_t output) {
+kth_bool_t kth_chain_output_is_valid(kth_output_t output) {
     return kth::bool_to_int(kth_chain_output_const_cpp(output).is_valid());
 }
 

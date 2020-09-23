@@ -15,7 +15,7 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-kth_transaction_t kth_chain_transaction_factory_from_data(uint32_t version, uint8_t* data, uint64_t n);
+kth_transaction_t kth_chain_transaction_factory_from_data(uint32_t version, uint8_t* data, kth_size_t n);
 
 KTH_EXPORT
 kth_transaction_t kth_chain_transaction_construct_default(void);
@@ -27,7 +27,7 @@ KTH_EXPORT
 void kth_chain_transaction_destruct(kth_transaction_t transaction);
 
 KTH_EXPORT
-int kth_chain_transaction_is_valid(kth_transaction_t transaction);
+kth_bool_t kth_chain_transaction_is_valid(kth_transaction_t transaction);
 
 KTH_EXPORT
 uint32_t kth_chain_transaction_version(kth_transaction_t transaction);
@@ -51,7 +51,7 @@ KTH_EXPORT
 uint32_t kth_chain_transaction_locktime(kth_transaction_t transaction);
 
 KTH_EXPORT
-kth_size_t kth_chain_transaction_serialized_size(kth_transaction_t transaction, int wire /*= true*/);
+kth_size_t kth_chain_transaction_serialized_size(kth_transaction_t transaction, kth_bool_t wire); //wire = true
 
 KTH_EXPORT
 uint64_t kth_chain_transaction_fees(kth_transaction_t transaction);
@@ -102,7 +102,7 @@ KTH_EXPORT
 kth_input_list_t kth_chain_transaction_inputs(kth_transaction_t transaction);
 
 KTH_EXPORT
-uint8_t* kth_chain_transaction_to_data(kth_transaction_t transaction, kth_bool_t wire, kth_size_t* out_size);
+uint8_t const* kth_chain_transaction_to_data(kth_transaction_t transaction, kth_bool_t wire, kth_size_t* out_size);
 
 #ifdef __cplusplus
 } // extern "C"
