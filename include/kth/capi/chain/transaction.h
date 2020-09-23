@@ -42,10 +42,10 @@ KTH_EXPORT
 void kth_chain_transaction_hash_out(kth_transaction_t transaction, kth_hash_t* out_hash);
 
 KTH_EXPORT
-kth_hash_t kth_chain_transaction_hash_sigkth_hash_type(kth_transaction_t transaction, uint32_t sigkth_hash_type);
+kth_hash_t kth_chain_transaction_hash_sighash_type(kth_transaction_t transaction, uint32_t sighash_type);
 
 KTH_EXPORT
-void kth_chain_transaction_hash_sigkth_hash_type_out(kth_transaction_t transaction, uint32_t sigkth_hash_type, kth_hash_t* out_hash);
+void kth_chain_transaction_hash_sighash_type_out(kth_transaction_t transaction, uint32_t sighash_type, kth_hash_t* out_hash);
 
 KTH_EXPORT
 uint32_t kth_chain_transaction_locktime(kth_transaction_t transaction);

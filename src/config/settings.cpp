@@ -18,7 +18,7 @@ namespace detail {
 
 template <typename CharT>
 kth_settings config_settings_get_from_file(CharT const* path, kth_bool_t* out_ok, char** out_error_message) {
-    kth::node::parser metadata(kth::infrastructure::config::settings::mainnet);
+    kth::node::parser metadata(kth::domain::config::network::mainnet);
     auto file = std::filesystem::path(path);
 
     std::ostringstream stream;

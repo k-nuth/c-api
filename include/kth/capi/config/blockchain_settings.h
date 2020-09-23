@@ -42,15 +42,19 @@ typedef struct {
 #if defined(KTH_CURRENCY_BCH)
     kth_bool_t bch_uahf;
     kth_bool_t bch_daa_cw144;
-    kth_bool_t bch_monolith;
-    kth_bool_t bch_magnetic_anomaly;
-    kth_bool_t bch_great_wall;
-    kth_bool_t bch_graviton;
-    kth_bool_t bch_phonon;      // 2020-May
-    kth_bool_t bch_axion;       // 2020-Nov
+    kth_bool_t bch_pythagoras;
+    kth_bool_t bch_euclid;
+    kth_bool_t bch_pisano;
+    kth_bool_t bch_mersenne;
+    kth_bool_t bch_fermat;      // 2020-May
+    kth_bool_t bch_euler;       // 2020-Nov
+    kth_bool_t bch_gauss;     // 2021-May
         
     //2020-Nov-15 hard fork, defaults to 1605441600: Nov 15, 2020 12:00:00 UTC protocol upgrade
-    uint64_t axion_activation_time;
+    uint64_t euler_activation_time;
+
+    //2021-May-15 hard fork, defaults to 1621080000: May 15, 2021 12:00:00 UTC protocol upgrade
+    uint64_t gauss_activation_time;
 
     // The half life for the ASERTi3-2d DAA. For every (asert_half_life) seconds behind schedule the blockchain gets, difficulty is cut in half. 
     // Doubled if blocks are ahead of schedule.

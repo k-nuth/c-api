@@ -57,13 +57,13 @@ void kth_chain_transaction_hash_out(kth_transaction_t transaction, kth_hash_t* o
     kth::copy_c_hash(hash_cpp, out_hash);
 }
 
-kth_hash_t kth_chain_transaction_hash_sigkth_hash_type(kth_transaction_t transaction, uint32_t sigkth_hash_type) {
-    auto const& hash_cpp = kth_chain_transaction_const_cpp(transaction).hash(sigkth_hash_type != 0u);
+kth_hash_t kth_chain_transaction_hash_sighash_type(kth_transaction_t transaction, uint32_t sighash_type) {
+    auto const& hash_cpp = kth_chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
     return kth::to_hash_t(hash_cpp);
 }
 
-void kth_chain_transaction_hash_sigkth_hash_type_out(kth_transaction_t transaction, uint32_t sigkth_hash_type, kth_hash_t* out_hash) {
-    auto const& hash_cpp = kth_chain_transaction_const_cpp(transaction).hash(sigkth_hash_type != 0u);
+void kth_chain_transaction_hash_sighash_type_out(kth_transaction_t transaction, uint32_t sighash_type, kth_hash_t* out_hash) {
+    auto const& hash_cpp = kth_chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
     kth::copy_c_hash(hash_cpp, out_hash);
 }
 

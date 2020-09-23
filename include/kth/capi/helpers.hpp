@@ -11,14 +11,15 @@
 #include <type_traits>
 #include <utility>
 
-#include <kth/infrastructure/config/settings.hpp>
+#include <kth/domain/config/network.hpp>
 #include <kth/infrastructure/math/hash.hpp>
+#include <kth/infrastructure/error.hpp>
 
 namespace kth {
 namespace detail {
 
-template <typename T>
-using remove_cv_t = typename std::remove_cv<T>::type;
+// template <typename T>
+// using remove_cv_t = typename std::remove_cv<T>::type;
 
 // template <typename T, std::size_t N, std::size_t... I>
 // constexpr
@@ -49,9 +50,9 @@ using remove_cv_t = typename std::remove_cv<T>::type;
 
 template <typename T>
 constexpr
-std::array<detail::remove_cv_t<T>, 32> to_array(T (&x)[32]) {
+std::array<std::remove_cv_t<T>, 32> to_array(T (&x)[32]) {
     // return detail::to_array_impl(x, std::make_index_sequence<N>{});
-    // return std::array<detail::remove_cv_t<T>, 32> {{
+    // return std::array<std::remove_cv_t<T>, 32> {{
         
     return {{
         x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
@@ -183,39 +184,59 @@ bool witness(int x = 1) {
 }
 
 inline
-kth::infrastructure::config::settings network_to_cpp(kth_network_t net) {
+kth::domain::config::network network_to_cpp(kth_network_t net) {
     switch (net) {
-        case kth_network_mainnet:
-            return kth::infrastructure::config::settings::mainnet;
         case kth_network_testnet:
-            return kth::infrastructure::config::settings::testnet;
+            return kth::domain::config::network::testnet;
         case kth_network_regtest:
-            return kth::infrastructure::config::settings::regtest;
+            return kth::domain::config::network::regtest;
+        case kth_network_testnet4:
+            return kth::domain::config::network::testnet4;
+        default:
+        case kth_network_mainnet:
+            return kth::domain::config::network::mainnet;
     }
-    return kth::infrastructure::config::settings::none;
 }
 
 inline
-kth_network_t network_to_c(kth::infrastructure::config::settings net) {
+kth_network_t network_to_c(kth::domain::config::network net) {
     switch (net) {
-        case kth::infrastructure::config::settings::mainnet:
-            return kth_network_mainnet;
-        case kth::infrastructure::config::settings::testnet:
+        case kth::domain::config::network::testnet:
             return kth_network_testnet;
-        case kth::infrastructure::config::settings::regtest:
+        case kth::domain::config::network::regtest:
             return kth_network_regtest;
+        case kth::domain::config::network::testnet4:
+            return kth_network_testnet4;
+        default:
+        case kth::domain::config::network::mainnet:
+            return kth_network_mainnet;
     }
-    return kth_network_none;
 }
 
+template <typename T>
+inline
+std::remove_const_t<T>* leak_if_success(std::shared_ptr<T> const& ptr, std::error_code ec) {
+    if (ec != kth::error::success) return nullptr;
+    using RealT = std::remove_const_t<T>;
+    auto leaked = new RealT(*ptr);
+    return leaked;
+}
 
-// template <typename T>
-// inline
-// auto leak_if_success(std::shared_ptr<T> const& ptr, kth::error ec) {
-//     if (ec != kth::error::success) return nullptr;
-//     auto leaked = new T(*ptr);
-//     return leaked;
-// }
+template <typename T>
+inline
+std::remove_const_t<T>* leak(std::shared_ptr<T> const& ptr) {
+    if (! ptr) return nullptr;
+    using RealT = std::remove_const_t<T>;
+    auto leaked = new RealT(*ptr);
+    return leaked;
+}
+
+template <typename T>
+inline
+T* leak(T const& ptr) {
+    auto leaked = new T(ptr);
+    return leaked;
+}
 
 } // namespace kth
 

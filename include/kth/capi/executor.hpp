@@ -129,7 +129,7 @@ private:
 #define KTH_CRYPTOCURRENCY_INIT "Currency: {} - {}"
 #define KTH_MICROARCHITECTURE_INIT "Compiled for microarchitecture: {}"
 #define KTH_DB_TYPE_INIT "Database type: {}"
-#define KTH_NETWORK_INIT "Network: {} ({})"
+#define KTH_NETWORK_INIT "Network: {0} ({1} - {1:#x})"
 #define KTH_CORES_INIT "Configured to use {} cores"
 
 
