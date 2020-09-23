@@ -48,7 +48,7 @@ char const* kth_chain_script_to_string(kth_script_t script, uint32_t active_fork
 }
 
 // TODO(fernando): Move this logic elsewhere (this does not go in a wrapper like c-api)
-char* kth_chain_script_type(kth_script_t script) {
+char const* kth_chain_script_type(kth_script_t script) {
     auto script_pattern = kth_chain_script_const_cpp(script).pattern();
     std::string type = "non_standard";
     switch(script_pattern) {
