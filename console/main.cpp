@@ -22,9 +22,9 @@
 #include <kth/capi/node.h>
 #include <kth/capi/hash_list.h>
 #include <kth/capi/helpers.hpp>
+#include <kth/capi/string_list.h>
 #include <kth/capi/wallet/payment_address.h>
 #include <kth/capi/wallet/wallet.h>
-#include <kth/capi/wallet/word_list.h>
 #include <kth/capi/wallet/payment_address_list.h>
 
 #include <kth/domain/message/transaction.hpp>
@@ -248,7 +248,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
 // }
 
 //int main(int argc, char* argv[]) {
-//    auto wl = word_list_construct();
+    
+//    auto wl = kth_core_string_list_construct();
 //
 //    // -----------------------------------------------------------------------------------------
 //    // Copay Fernando
@@ -256,18 +257,18 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //    // c8e30a6df5fb13257d5044e0c2a9546681f20c7318c676e5cb616c98df20f4d83f119fd03ef2061511008e022c8c28450ff1fa2d3a83df04818313a7b9996023
 //    // 15LdCdQoXio4tYAtPd8v2cvdrzrtoHYyaW
 //
-//    word_list_add_word(wl, "genre");
-//    word_list_add_word(wl, "salon");
-//    word_list_add_word(wl, "chuckle");
-//    word_list_add_word(wl, "oval");
-//    word_list_add_word(wl, "finish");
-//    word_list_add_word(wl, "loan");
-//    word_list_add_word(wl, "crystal");
-//    word_list_add_word(wl, "delay");
-//    word_list_add_word(wl, "mixed");
-//    word_list_add_word(wl, "erupt");
-//    word_list_add_word(wl, "clown");
-//    word_list_add_word(wl, "horn");
+//    kth_core_string_list_push_back(wl, "genre");
+//    kth_core_string_list_push_back(wl, "salon");
+//    kth_core_string_list_push_back(wl, "chuckle");
+//    kth_core_string_list_push_back(wl, "oval");
+//    kth_core_string_list_push_back(wl, "finish");
+//    kth_core_string_list_push_back(wl, "loan");
+//    kth_core_string_list_push_back(wl, "crystal");
+//    kth_core_string_list_push_back(wl, "delay");
+//    kth_core_string_list_push_back(wl, "mixed");
+//    kth_core_string_list_push_back(wl, "erupt");
+//    kth_core_string_list_push_back(wl, "clown");
+//    kth_core_string_list_push_back(wl, "horn");
 //
 //
 //    // -----------------------------------------------------------------------------------------
@@ -275,21 +276,21 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //    // https://iancoleman.io/bip39/
 //    // e0b6ebf43ebcaa428f59a1f9241019ba4c083a1c05d988677c8bf28ec6505ae07286515a9bb0bf98d836f582a94f29fc92bbe9a0a5805ce6dc4756a439ebd1d9
 //
-//    // word_list_add_word(wl, "car");
-//    // word_list_add_word(wl, "slab");
-//    // word_list_add_word(wl, "tail");
-//    // word_list_add_word(wl, "dirt");
-//    // word_list_add_word(wl, "wife");
-//    // word_list_add_word(wl, "custom");
-//    // word_list_add_word(wl, "front");
-//    // word_list_add_word(wl, "shield");
-//    // word_list_add_word(wl, "diet");
-//    // word_list_add_word(wl, "pear");
-//    // word_list_add_word(wl, "skull");
-//    // word_list_add_word(wl, "vapor");
-//    // word_list_add_word(wl, "gorilla");
-//    // word_list_add_word(wl, "token");
-//    // word_list_add_word(wl, "yard");
+//    // kth_core_string_list_push_back(wl, "car");
+//    // kth_core_string_list_push_back(wl, "slab");
+//    // kth_core_string_list_push_back(wl, "tail");
+//    // kth_core_string_list_push_back(wl, "dirt");
+//    // kth_core_string_list_push_back(wl, "wife");
+//    // kth_core_string_list_push_back(wl, "custom");
+//    // kth_core_string_list_push_back(wl, "front");
+//    // kth_core_string_list_push_back(wl, "shield");
+//    // kth_core_string_list_push_back(wl, "diet");
+//    // kth_core_string_list_push_back(wl, "pear");
+//    // kth_core_string_list_push_back(wl, "skull");
+//    // kth_core_string_list_push_back(wl, "vapor");
+//    // kth_core_string_list_push_back(wl, "gorilla");
+//    // kth_core_string_list_push_back(wl, "token");
+//    // kth_core_string_list_push_back(wl, "yard");
 //    // -----------------------------------------------------------------------------------------
 //
 //
@@ -320,7 +321,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //    // print(addr_str)
 //
 //
-//    word_list_destruct(wl);
+//    kth_core_string_list_destruct(wl);
 //
 //
 //}

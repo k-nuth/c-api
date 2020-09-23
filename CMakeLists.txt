@@ -405,7 +405,6 @@ set(_kth_sources
         src/wallet/raw_output_list.cpp
         src/wallet/transaction_functions.cpp
         src/wallet/wallet.cpp
-        src/wallet/word_list.cpp
 
         # src/user_agent.cpp
 )
@@ -552,7 +551,9 @@ if (WITH_CONSOLE_CAPI)
       )
     else()
       set(_test_console_sources
-          console/main.cpp
+        # console/test_wallet.cpp
+        console/test_header_hash.cpp
+        #   console/main.cpp
         #   console/main.c
         # console/error_test.cpp
           # console/test_deadlock.cpp
@@ -679,7 +680,6 @@ set(_kth_headers
         kth/capi/wallet/payment_address.h
         kth/capi/wallet/payment_address_list.h
         kth/capi/wallet/wallet.h
-        kth/capi/wallet/word_list.h
 )
 
 if (WITH_KEOKEN)

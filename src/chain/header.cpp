@@ -77,7 +77,6 @@ uint32_t kth_chain_header_bits(kth_header_t header) {
     return kth_chain_header_const_cpp(header).bits();
 }
 
-//Note: user of the function has to release the resource (memory) manually
 char const* kth_chain_header_proof_str(kth_header_t header) {
     std::string proof_str = kth_chain_header_const_cpp(header).proof().str();
     return kth::create_c_str(proof_str);

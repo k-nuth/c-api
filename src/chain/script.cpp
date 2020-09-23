@@ -42,7 +42,6 @@ kth_size_t kth_chain_script_serialized_size(kth_script_t script, kth_bool_t pref
     return kth_chain_script_const_cpp(script).serialized_size(kth::int_to_bool(prefix));
 }
 
-//Note: user of the function has to release the resource (memory) manually
 char* kth_chain_script_to_string(kth_script_t script, uint32_t active_forks) {
     auto str = kth_chain_script_const_cpp(script).to_string(active_forks);
     return kth::create_c_str(str);

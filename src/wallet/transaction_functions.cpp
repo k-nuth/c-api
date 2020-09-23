@@ -78,7 +78,7 @@ kth_error_code_t input_signature_old(
     kth_size_t* out_signature_size) {
 
     auto p = kth::domain::wallet::input_signature_old(
-        kth::to_array(private_key.data),
+        kth::to_array(private_key.hash),
         kth_chain_script_const_cpp(output_script),
         kth_chain_transaction_const_cpp(tx),
         index,
@@ -108,7 +108,7 @@ kth_error_code_t input_signature_btc(
     kth_size_t* out_signature_size) {
 
     auto p = kth::domain::wallet::input_signature_btc(
-        kth::to_array(private_key.data),
+        kth::to_array(private_key.hash),
         kth_chain_script_const_cpp(output_script),
         kth_chain_transaction_const_cpp(tx),
         amount,
@@ -139,7 +139,7 @@ kth_error_code_t input_signature_bch(
     kth_size_t* out_signature_size) {
 
     auto p = kth::domain::wallet::input_signature_bch(
-        kth::to_array(private_key.data),
+        kth::to_array(private_key.hash),
         kth_chain_script_const_cpp(output_script),
         kth_chain_transaction_const_cpp(tx),
         amount,

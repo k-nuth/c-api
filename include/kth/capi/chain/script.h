@@ -35,15 +35,12 @@ kth_size_t kth_chain_script_satoshi_content_size(kth_script_t script);
 KTH_EXPORT
 kth_size_t kth_chain_script_serialized_size(kth_script_t script, kth_bool_t prefix);
 
-//Note: user of the function has to release the resource (memory) manually
 KTH_EXPORT
 char* kth_chain_script_to_string(kth_script_t script, uint32_t active_forks);
 
-//Note: user of the function has to release the resource (memory) manually
 KTH_EXPORT
 char* kth_chain_script_type(kth_script_t script);
 
-//Note: user of the function has to release the resource (memory) manually
 KTH_EXPORT
 uint8_t* kth_chain_script_to_data(kth_script_t script, kth_bool_t prefix, kth_size_t* out_size);
 

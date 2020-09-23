@@ -13,7 +13,7 @@ extern "C" {
 #endif
 
 // KTH_EXPORT
-// kth_longhash_t kth_wallet_mnemonics_to_seed(kth_word_list_t mnemonics);
+// kth_longhash_t kth_wallet_mnemonics_to_seed(kth_string_list_t mnemonics);
 
 
 KTH_EXPORT
