@@ -17,7 +17,7 @@ kth_script_t kth_chain_script_construct_default() {
 }
 
 // script::script(const data_chunk& encoded, bool prefix)
-kth_script_t kth_chain_script_construct(uint8_t* encoded, uint64_t n, kth_bool_t prefix) {
+kth_script_t kth_chain_script_construct(uint8_t* encoded, kth_size_t n, kth_bool_t prefix) {
     kth::data_chunk encoded_cpp(encoded, std::next(encoded, n));
     return new kth::domain::chain::script(encoded_cpp, kth::int_to_bool(prefix));
 }
@@ -42,7 +42,7 @@ kth_size_t kth_chain_script_serialized_size(kth_script_t script, kth_bool_t pref
     return kth_chain_script_const_cpp(script).serialized_size(kth::int_to_bool(prefix));
 }
 
-char* kth_chain_script_to_string(kth_script_t script, uint32_t active_forks) {
+char const* kth_chain_script_to_string(kth_script_t script, uint32_t active_forks) {
     auto str = kth_chain_script_const_cpp(script).to_string(active_forks);
     return kth::create_c_str(str);
 }
@@ -67,7 +67,7 @@ char* kth_chain_script_type(kth_script_t script) {
     return kth::create_c_str(type);
 }
 
-uint8_t* kth_chain_script_to_data(kth_script_t script, kth_bool_t prefix, kth_size_t* out_size) {
+uint8_t const* kth_chain_script_to_data(kth_script_t script, kth_bool_t prefix, kth_size_t* out_size) {
     auto script_data = kth_chain_script_const_cpp(script).to_data(kth::int_to_bool(prefix));
     return kth::create_c_array(script_data, *out_size);
 }

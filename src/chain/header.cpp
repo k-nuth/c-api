@@ -53,7 +53,7 @@ void kth_chain_header_destruct(kth_header_t header) {
     delete &kth_chain_header_cpp(header);
 }
 
-int kth_chain_header_is_valid(kth_header_t header) {
+kth_bool_t kth_chain_header_is_valid(kth_header_t header) {
     return kth::bool_to_int(kth_chain_header_const_cpp(header).is_valid());
 }
 

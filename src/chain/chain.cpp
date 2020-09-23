@@ -458,7 +458,7 @@ void kth_chain_fetch_history(kth_chain_t chain, void* ctx, kth_payment_address_t
     });
 }
 
-kth_error_code_t kth_chain_get_history(kth_chain_t chain, kth_payment_address_t address, kth_size_t limit, kth_size_t from_height, history_compact_list_t* out_history) {
+kth_error_code_t kth_chain_get_history(kth_chain_t chain, kth_payment_address_t address, kth_size_t limit, kth_size_t from_height, kth_history_compact_list_t* out_history) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 

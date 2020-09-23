@@ -120,7 +120,6 @@ uint64_t kth_chain_block_reward(kth_block_t block, kth_size_t height) {
 //uint256_t kth_chain_block_proof(kth_block_t block) {}
 //hash_digest kth_chain_block_generate_merkle_root(kth_block_t block) {}
 
-////Note: The user is responsible for the resource release
 //kth_hash_t kth_chain_block_generate_merkle_root(kth_block_t block) {
 //    auto hash_cpp = kth_chain_block_const_cpp(block).generate_merkle_root();
 //    uint8_t* ret = (uint8_t*)malloc(hash_cpp.size() * sizeof(uint8_t));
