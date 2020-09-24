@@ -362,7 +362,11 @@ set(_kth_sources
         src/chain/block.cpp
         src/chain/block_indexes.cpp
         src/chain/block_list.cpp
-        src/chain/chain.cpp
+        
+        src/chain/chain_async.cpp
+        src/chain/chain_other.cpp
+        src/chain/chain_sync.cpp
+
         src/chain/compact_block.cpp
         src/chain/get_blocks.cpp
         src/chain/get_headers.cpp

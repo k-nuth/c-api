@@ -14,7 +14,8 @@
 
 #include <kth/capi/chain/block.h>
 #include <kth/capi/chain/block_list.h>
-#include <kth/capi/chain/chain.h>
+#include <kth/capi/chain/chain_async.h>
+#include <kth/capi/chain/chain_sync.h>
 #include <kth/capi/chain/compact_block.h>
 #include <kth/capi/chain/header.h>
 #include <kth/capi/chain/history_compact.h>

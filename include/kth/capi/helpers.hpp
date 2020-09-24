@@ -154,11 +154,6 @@ void copy_c_hash(HashCpp const& in, HashC* out) {
     std::copy_n(in.begin(), in.size(), static_cast<uint8_t*>(out->hash));
 }
 
-// template <typename T>
-// using home_remove_reference_t = typename std::remove_reference<T>::type;
-// template <typename T>
-// using remove_const_reference_t = std::remove_const_t<std::remove_reference_t<T>>
-
 template <typename T> 
 std::decay_t<T>* move_or_copy_and_leak(T&& x) {
     return new std::decay_t<T>(std::forward<T>(x));
@@ -238,6 +233,19 @@ inline
 T* leak(T const& ptr) {
     auto leaked = new T(ptr);
     return leaked;
+}
+
+template <typename T>
+inline
+std::remove_const_t<T>* leak_if(std::shared_ptr<T> const& ptr, bool leak = true) {
+    if (! ptr) return nullptr;
+
+    if (leak) {
+        using RealT = std::remove_const_t<T>;
+        auto leaked = new RealT(*ptr);
+        return leaked;
+    }
+    return *ptr;
 }
 
 } // namespace kth
