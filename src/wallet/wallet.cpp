@@ -24,41 +24,60 @@ kth::ec_secret new_key(kth::data_chunk const& seed) {
 // ---------------------------------------------------------------------------
 extern "C" {
 
-kth_longhash_t kth_wallet_mnemonics_to_seed(kth_word_list_t mnemonics) {
+kth_longhash_t kth_wallet_mnemonics_to_seed(kth_string_list_t mnemonics) {
     auto const& mnemonics_cpp = *static_cast<std::vector<std::string> const*>(mnemonics);
     auto hash_cpp = kth::infrastructure::wallet::decode_mnemonic(mnemonics_cpp);
     return kth::to_longhash_t(hash_cpp);
 }
 
+void kth_wallet_mnemonics_to_seed_out(kth_string_list_t mnemonics, kth_longhash_t* out_hash) {
+    auto const& mnemonics_cpp = *static_cast<std::vector<std::string> const*>(mnemonics);
+    auto hash_cpp = kth::infrastructure::wallet::decode_mnemonic(mnemonics_cpp);
+    kth::copy_c_hash(hash_cpp, out_hash);
+}
+
 //TODO(fernando): return error code and use output parameters
-kth_ec_secret_t kth_wallet_ec_new(uint8_t* seed, uint64_t n) {
+kth_hd_private_t kth_wallet_hd_new(kth_longhash_t seed, uint32_t version /* = 76066276*/) {
+    kth::data_chunk seed_cpp(seed.hash, std::next(seed.hash, KTH_BITCOIN_LONG_HASH_SIZE));
+    auto const prefixes = kth::infrastructure::wallet::to_prefixes(version, 0);
+    auto* res = new kth::infrastructure::wallet::hd_private(seed_cpp, prefixes);
+    return res;
 
-    if (n < KTH_BITCOIN_MINIMUM_SEED_SIZE) return kth::null_ec_secret;
+//     if (seed.size() < minimum_seed_size)
+//     {
+//         error << BX_HD_NEW_SHORT_SEED << std::endl;
+//         return console_result::failure;
+//     }
 
-    kth::data_chunk seed_cpp(seed, std::next(seed, n));
+//     // We require the private version, but public is unused here.
+//     auto const prefixes = bc::wallet::hd_private::to_prefixes(version, 0);
+//     const bc::wallet::hd_private private_key(seed, prefixes);
 
-    // if (seed_cpp.size() < minimum_seed_size)
-    // {
-    //     error << BX_EC_NEW_SHORT_SEED << std::endl;
-    //     return console_result::failure;
-    // }
+//     if ( ! private_key)
+//     {
+//         error << BX_HD_NEW_INVALID_KEY << std::endl;
+//         return console_result::failure;
+//     }
 
-    kth::ec_secret secret(new_key(seed_cpp));
-    // if (secret == null_hash)
-    // {
-    //     error << BX_EC_NEW_INVALID_KEY << std::endl;
-    //     return console_result::failure;
-    // }
+//     output << private_key << std::endl;
+//     return console_result::okay;
+}
 
-    // return secret;
-
+//TODO(fernando): return error code and use output parameters
+kth_ec_secret_t kth_wallet_hd_private_to_ec(kth_hd_private_t key) {
+    auto const& key_cpp = *static_cast<kth::infrastructure::wallet::hd_private const*>(key);
+    kth::ec_secret secret = key_cpp.secret();
     return kth::to_ec_secret_t(secret);
+}
 
+void kth_wallet_hd_private_to_ec_out(kth_hd_private_t key, kth_ec_secret_t* out_secret) {
+    auto const& key_cpp = *static_cast<kth::infrastructure::wallet::hd_private const*>(key);
+    kth::ec_secret secret = key_cpp.secret();
+    kth::copy_c_hash(secret, out_secret);
 }
 
 kth_ec_public_t kth_wallet_ec_to_public(kth_ec_secret_t secret, kth_bool_t uncompressed) {
-    
-    auto secret_cpp = kth::to_array(secret.data);
+    auto secret_cpp = kth::to_array(secret.hash);
     bool uncompressed_cpp = kth::int_to_bool(uncompressed);
     
     kth::ec_compressed point;
@@ -70,133 +89,5 @@ kth_payment_address_t kth_wallet_ec_to_address(kth_ec_public_t point, uint32_t v
     kth::domain::wallet::ec_public const& point_cpp = *static_cast<kth::domain::wallet::ec_public const*>(point);
     return new kth::domain::wallet::payment_address(point_cpp, version);
 }
-
-//TODO(fernando): implement ec-to-wif
-
-// console_result hd_new::invoke(std::ostream& output, std::ostream& error)
-// {
-//     // Bound parameters.
-//     auto const version = get_version_option();
-//     const data_chunk& seed = get_seed_argument();
-
-//     if (seed.size() < minimum_seed_size)
-//     {
-//         error << BX_HD_NEW_SHORT_SEED << std::endl;
-//         return console_result::failure;
-//     }
-
-//     // We require the private version, but public is unused here.
-//     auto const prefixes = bc::wallet::hd_private::to_prefixes(version, 0);
-//     const bc::wallet::hd_private private_key(seed, prefixes);
-
-//     if ( ! private_key)
-//     {
-//         error << BX_HD_NEW_INVALID_KEY << std::endl;
-//         return console_result::failure;
-//     }
-
-//     output << private_key << std::endl;
-//     return console_result::okay;
-// }
-
-//TODO(fernando): return error code and use output parameters
-kth_hd_private_t kth_wallet_hd_new(uint8_t* seed, uint64_t n, uint32_t version /* = 76066276*/) {
-
-//     if (seed.size() < minimum_seed_size)
-//     {
-//         error << BX_HD_NEW_SHORT_SEED << std::endl;
-//         return console_result::failure;
-//     }
-
-//     // We require the private version, but public is unused here.
-//     auto const prefixes = bc::wallet::hd_private::to_prefixes(version, 0);
-//     const bc::wallet::hd_private private_key(seed, prefixes);
-
-//     if ( ! private_key)
-//     {
-//         error << BX_HD_NEW_INVALID_KEY << std::endl;
-//         return console_result::failure;
-//     }
-
-//     output << private_key << std::endl;
-//     return console_result::okay;
-
-    // printf("C++ kth_wallet_hd_new - 1\n");
-    if (n < KTH_BITCOIN_MINIMUM_SEED_SIZE) return nullptr;
-
-    // printf("C++ kth_wallet_hd_new - 2\n");
-
-    kth::data_chunk seed_cpp(seed, std::next(seed, n));
-
-    // printf("C++ kth_wallet_hd_new - 3\n");
-
-
-    // We require the private version, but public is unused here.
-    auto const prefixes = kth::infrastructure::wallet::to_prefixes(version, 0);
-    // printf("C++ kth_wallet_hd_new - 4\n");
-
-    // kth::infrastructure::wallet::hd_private const private_key(seed_cpp, prefixes);
-    auto* res = new kth::infrastructure::wallet::hd_private(seed_cpp, prefixes);
-
-    // printf("C++ kth_wallet_hd_new - 5\n");
-
-    return res;
-}
-
-
-// console_result hd_to_ec::invoke(std::ostream& output, std::ostream& error)
-// {
-//     // Bound parameters.
-//     auto const& key = get_hd_key_argument();
-//     auto const private_version = get_secret_version_option();
-//     auto const public_version = get_public_version_option();
-
-//     auto const key_version = key.version();
-//     if (key_version != private_version && key_version != public_version)
-//     {
-//         output << "ERROR_VERSION" << std::endl;
-//         return console_result::failure;
-//     }
-
-//     if (key.version() == private_version)
-//     {
-//         auto const prefixes = bc::wallet::hd_private::to_prefixes(
-//             key.version(), public_version);
-
-//         // Create the private key from hd_key and the public version.
-//         auto const private_key = bc::wallet::hd_private(key, prefixes);
-//         if (private_key)
-//         {
-//             output << encode_base16(private_key.secret()) << std::endl;
-//             return console_result::okay;
-//         }
-//     }
-//     else
-//     {
-//         // Create the public key from hd_key and the public version.
-//         auto const public_key = bc::wallet::hd_public(key, public_version);
-//         if (public_key)
-//         {
-//             output << bc::wallet::ec_public(public_key) << std::endl;
-//             return console_result::okay;
-//         }
-//     }
-
-//     output << "ERROR_VKEY" << std::endl;
-//     return console_result::failure;
-// }
-
-
-//TODO(fernando): return error code and use output parameters
-kth_ec_secret_t kth_wallet_hd_private_to_ec(kth_hd_private_t key) {
-    auto const& key_cpp = *static_cast<kth::infrastructure::wallet::hd_private const*>(key);
-    kth::ec_secret secret = key_cpp.secret();
-    return kth::to_ec_secret_t(secret);
-}
-
-
-//void long_hash_destroy(kth_longhash_t ptr) {
-//    free(ptr);
-//}
 
 } // extern "C"

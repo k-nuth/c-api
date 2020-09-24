@@ -138,11 +138,11 @@ void kth_node_run(kth_node_t node, void* ctx, kth_run_handler_t handler) {
     try {
         node->cpp_executor_.run([node, ctx, handler](std::error_code const& ec) {
             if (handler != nullptr) {
-                handler(node, ctx, ec.value());
+                handler(node, ctx, kth::to_c_err(ec));
             }
         });
     } catch (...) {
-        handler(node, ctx, 1); // TODO(fernando): return error_t to inform errors in detail
+        handler(node, ctx, kth_ec_unknown);
     }
 }
 
@@ -151,18 +151,18 @@ void kth_node_init_and_run(kth_node_t node, void* ctx, kth_run_handler_t handler
     try {
         node->cpp_executor_.init_and_run([node, ctx, handler](std::error_code const& ec) {
             if (handler != nullptr) {
-                handler(node, ctx, ec.value());
+                handler(node, ctx, kth::to_c_err(ec));
             }
         });
     } catch (...) {
-        handler(node, ctx, 1); // TODO(fernando): return error_t to inform errors in detail
+        handler(node, ctx, kth_ec_unknown);
     }
 }
 
 void kth_node_init_run_and_wait_for_signal(kth_node_t node, void* ctx, kth_run_handler_t handler) {
     node->cpp_executor_.init_run_and_wait_for_signal([node, ctx, handler](std::error_code const& ec) {
         if (handler != nullptr) {
-            handler(node, ctx, ec.value());
+            handler(node, ctx, kth::to_c_err(ec));
         }
     });
 }

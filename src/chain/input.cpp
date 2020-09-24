@@ -60,7 +60,7 @@ kth_outputpoint_t kth_chain_input_previous_output(kth_input_t input) {
     return &(kth_chain_input_cpp(input).previous_output());
 }
 
-uint8_t* kth_chain_input_to_data(kth_input_t input, kth_bool_t wire, kth_size_t* out_size) {
+uint8_t const* kth_chain_input_to_data(kth_input_t input, kth_bool_t wire, kth_size_t* out_size) {
     auto input_data = kth_chain_input_const_cpp(input).to_data(kth::int_to_bool(wire));
     return kth::create_c_array(input_data, *out_size);
 }

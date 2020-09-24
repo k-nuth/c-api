@@ -53,7 +53,7 @@ void kth_chain_header_destruct(kth_header_t header) {
     delete &kth_chain_header_cpp(header);
 }
 
-int kth_chain_header_is_valid(kth_header_t header) {
+kth_bool_t kth_chain_header_is_valid(kth_header_t header) {
     return kth::bool_to_int(kth_chain_header_const_cpp(header).is_valid());
 }
 
@@ -77,7 +77,6 @@ uint32_t kth_chain_header_bits(kth_header_t header) {
     return kth_chain_header_const_cpp(header).bits();
 }
 
-//Note: user of the function has to release the resource (memory) manually
 char const* kth_chain_header_proof_str(kth_header_t header) {
     std::string proof_str = kth_chain_header_const_cpp(header).proof().str();
     return kth::create_c_str(proof_str);

@@ -24,13 +24,13 @@ KTH_EXPORT
 void kth_chain_input_destruct(kth_input_t input);
 
 KTH_EXPORT
-int kth_chain_input_is_valid(kth_input_t input);
+kth_bool_t kth_chain_input_is_valid(kth_input_t input);
 
 KTH_EXPORT
 kth_bool_t kth_chain_input_is_final(kth_input_t input);
 
 KTH_EXPORT
-kth_size_t kth_chain_input_serialized_size(kth_input_t input, kth_bool_t wire /* = true*/);
+kth_size_t kth_chain_input_serialized_size(kth_input_t input, kth_bool_t wire); //wire = true
 
 KTH_EXPORT
 uint32_t kth_chain_input_sequence(kth_input_t input);
@@ -45,7 +45,7 @@ KTH_EXPORT
 kth_outputpoint_t kth_chain_input_previous_output(kth_input_t input);
 
 KTH_EXPORT
-uint8_t* kth_chain_input_to_data(kth_input_t input, kth_bool_t wire, kth_size_t* out_size);
+uint8_t const* kth_chain_input_to_data(kth_input_t input, kth_bool_t wire, kth_size_t* out_size);
 
 #ifdef __cplusplus
 } // extern "C"

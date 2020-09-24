@@ -16,7 +16,7 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-kth_header_t kth_chain_header_factory_from_data(uint32_t version, uint8_t* data, uint64_t n);
+kth_header_t kth_chain_header_factory_from_data(uint32_t version, uint8_t* data, kth_size_t n);
 
 KTH_EXPORT
 kth_size_t kth_chain_header_satoshi_fixed_size(uint32_t version);
@@ -40,7 +40,7 @@ KTH_EXPORT
 void kth_chain_header_destruct(kth_header_t header);
 
 KTH_EXPORT
-int kth_chain_header_is_valid(kth_header_t header);
+kth_bool_t kth_chain_header_is_valid(kth_header_t header);
 
 KTH_EXPORT
 uint32_t kth_chain_header_version(kth_header_t header);

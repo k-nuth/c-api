@@ -21,13 +21,13 @@ KTH_EXPORT
 kth_block_t kth_chain_block_construct(kth_header_t header, kth_transaction_list_t transactions);
 
 KTH_EXPORT
-kth_block_t kth_chain_block_factory_from_data(uint32_t version, uint8_t* data, uint64_t n);
+kth_block_t kth_chain_block_factory_from_data(uint32_t version, uint8_t* data, kth_size_t n);
 
 KTH_EXPORT
 void kth_chain_block_destruct(kth_block_t block);
 
 KTH_EXPORT
-int kth_chain_block_is_valid(kth_block_t block);
+kth_bool_t kth_chain_block_is_valid(kth_block_t block);
 
 KTH_EXPORT
 kth_header_t kth_chain_block_header(kth_block_t block);
@@ -51,17 +51,14 @@ kth_size_t kth_chain_block_transaction_count(kth_block_t block);
 KTH_EXPORT
 kth_transaction_t kth_chain_block_transaction_nth(kth_block_t block, kth_size_t n);
 
-//KTH_EXPORT
 //kth_transaction_t kth_chain_block_transactions(kth_block_t block, kth_size_t* n);
-//
-//KTH_EXPORT
 //kth_transaction_t kth_chain_block_transaction_next(kth_transaction_t transaction);
 
 KTH_EXPORT
 kth_size_t kth_chain_block_serialized_size(kth_block_t block, uint32_t version);
 
-KTH_EXPORT
 /*static*/
+KTH_EXPORT
 uint64_t kth_chain_block_subsidy(kth_size_t height);
 
 KTH_EXPORT
@@ -73,7 +70,6 @@ uint64_t kth_chain_block_claim(kth_block_t block);
 KTH_EXPORT
 uint64_t kth_chain_block_reward(kth_block_t block, kth_size_t height);
 
-//Note: The user is responsible for the resource release
 KTH_EXPORT
 kth_hash_t kth_chain_block_generate_merkle_root(kth_block_t block);
 
@@ -87,7 +83,7 @@ KTH_EXPORT
 kth_size_t kth_chain_block_signature_operations_bip16_active(kth_block_t block, kth_bool_t bip16_active);
 
 KTH_EXPORT
-kth_size_t kth_chain_block_total_inputs(kth_block_t block, kth_bool_t with_coinbase /*= true*/);
+kth_size_t kth_chain_block_total_inputs(kth_block_t block, kth_bool_t with_coinbase); //with_coinbase = true
 
 KTH_EXPORT
 kth_bool_t kth_chain_block_is_extra_coinbases(kth_block_t block);

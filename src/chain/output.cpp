@@ -25,7 +25,7 @@ void kth_chain_output_destruct(kth_output_t output) {
     delete &kth_chain_output_cpp(output);
 }
 
-int kth_chain_output_is_valid(kth_output_t output) {
+kth_bool_t kth_chain_output_is_valid(kth_output_t output) {
     return kth::bool_to_int(kth_chain_output_const_cpp(output).is_valid());
 }
 
@@ -55,7 +55,7 @@ kth_payment_address_t kth_chain_output_payment_address(kth_output_t output, kth_
     return new kth::domain::wallet::payment_address(payment_address);
 }
 
-uint8_t* kth_chain_output_to_data(kth_output_t output, kth_bool_t wire, kth_size_t* out_size) {
+uint8_t const* kth_chain_output_to_data(kth_output_t output, kth_bool_t wire, kth_size_t* out_size) {
     auto output_data = kth_chain_output_const_cpp(output).to_data(kth::int_to_bool(wire));
     return kth::create_c_array(output_data, *out_size);
 }
