@@ -53,9 +53,6 @@ char const* kth_chain_block_proof_str(kth_block_t block);
 KTH_EXPORT
 kth_transaction_list_t kth_chain_block_transactions(kth_block_t block);
 
-// KTH_EXPORT
-// kth_transaction_list_t kth_chain_block_transactions_ref(kth_block_t block);
-
 KTH_EXPORT
 kth_size_t kth_chain_block_serialized_size(kth_block_t block, uint32_t version);
 

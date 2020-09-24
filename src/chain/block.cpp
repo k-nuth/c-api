@@ -80,18 +80,18 @@ char const* kth_chain_block_proof_str(kth_block_t block) {
 //     return &tx_n;
 // }
 
-kth_transaction_list_t kth_chain_block_transactions(kth_block_t block) {
-    auto const& block_cpp = kth_chain_block_const_cpp(block);
-    return kth::move_or_copy_and_leak(block_cpp.transactions());
-    // auto const& txs = block_cpp.transactions();
-    // // return new std::remove_reference_t<T>(std::forward<T>(x));
-    // return new kth::domain::message::transaction::list(txs);
-}
-
-// kth_transaction_list_t kth_chain_block_transactions_ref(kth_block_t block) {
-//     auto& block_cpp = kth_chain_block_cpp(block);
-//     return kth_chain_transaction_list_construct_from_cpp(block_cpp.transactions()); // TODO(fernando): block::transactions() is deprecated... check how to do it better...
+// kth_transaction_list_t kth_chain_block_transactions(kth_block_t block) {
+//     auto const& block_cpp = kth_chain_block_const_cpp(block);
+//     return kth::move_or_copy_and_leak(block_cpp.transactions());
+//     // auto const& txs = block_cpp.transactions();
+//     // // return new std::remove_reference_t<T>(std::forward<T>(x));
+//     // return new kth::domain::message::transaction::list(txs);
 // }
+
+kth_transaction_list_t kth_chain_block_transactions(kth_block_t block) {
+    auto& block_cpp = kth_chain_block_cpp(block);
+    return kth_chain_transaction_list_construct_from_cpp(block_cpp.transactions()); // TODO(fernando): block::transactions() is deprecated... check how to do it better...
+}
 
 // -----------------------
 

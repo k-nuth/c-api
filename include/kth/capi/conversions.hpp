@@ -40,8 +40,8 @@ KTH_CONV_DECLARE(wallet, kth_payment_address_t, kth::domain::wallet::payment_add
 // KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_block_list_t, kth::domain::message::block, block_list)
 KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_input_list_t, kth::domain::chain::input, input_list)
 KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_output_list_t, kth::domain::chain::output, output_list)
-KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_transaction_list_t, kth::domain::message::transaction, transaction_list)
-// KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_transaction_list_t, kth::domain::chain::transaction, transaction_list)
+// KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_transaction_list_t, kth::domain::message::transaction, transaction_list)
+KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_transaction_list_t, kth::domain::chain::transaction, transaction_list)
 KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(core, kth_hash_list_t, kth::hash_digest, hash_list)
 
 
