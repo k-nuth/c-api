@@ -33,6 +33,13 @@ kth::domain::message::transaction::const_ptr tx_shared(kth_transaction_t tx) {
     return kth::domain::message::transaction::const_ptr(tx_new);
 }
 
+// inline
+// kth::domain::chain::transaction::const_ptr tx_shared(kth_transaction_t tx) {
+//     auto const& tx_ref = *static_cast<kth::domain::chain::transaction const*>(tx);
+//     auto* tx_new = new kth::domain::chain::transaction(tx_ref);
+//     return kth::domain::chain::transaction::const_ptr(tx_new);
+// }
+
 inline
 kth::domain::message::block::const_ptr block_shared(kth_block_t block) {
     auto const& block_ref = *static_cast<kth::domain::message::block const*>(block);

@@ -156,10 +156,12 @@ void copy_c_hash(HashCpp const& in, HashC* out) {
 
 // template <typename T>
 // using home_remove_reference_t = typename std::remove_reference<T>::type;
+// template <typename T>
+// using remove_const_reference_t = std::remove_const_t<std::remove_reference_t<T>>
 
 template <typename T> 
-std::remove_reference_t<T>* move_or_copy_and_leak(T&& x) {
-    return new std::remove_reference_t<T>(std::forward<T>(x));
+std::decay_t<T>* move_or_copy_and_leak(T&& x) {
+    return new std::decay_t<T>(std::forward<T>(x));
 }
 
 inline
