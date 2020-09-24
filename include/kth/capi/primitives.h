@@ -125,12 +125,11 @@ typedef enum {
 
 // Wallet ------------------------------------------------------------
 typedef struct kth_ec_secret_t {
-    uint8_t data[KTH_BITCOIN_EC_SECRET_SIZE];
+    uint8_t hash[KTH_BITCOIN_EC_SECRET_SIZE];
 } kth_ec_secret_t;
 
 typedef void* kth_ec_public_t;
 typedef void* kth_hd_private_t;
-typedef void* kth_word_list_t;
 // Wallet (end) -------------------------------------------------------
 
 // Keoken -------------------------------------------------------------
@@ -154,7 +153,7 @@ typedef void* keoken_get_all_asset_addresses_list_t;
 
 
 // Callback signatures ------------------------------------------------
-typedef void (*kth_run_handler_t)(kth_node_t, void*, int);
+typedef void (*kth_run_handler_t)(kth_node_t, void*, kth_error_code_t);
 typedef void (*kth_stealth_fetch_handler_t)(kth_chain_t, void*, kth_error_code_t, kth_stealth_compact_list_t);
 typedef void (*kth_block_fetch_handler_t)(kth_chain_t, void*, kth_error_code_t, kth_block_t, kth_size_t);
 typedef void (*kth_block_header_txs_size_fetch_handler_t)(kth_chain_t, void*, kth_error_code_t, kth_header_t, kth_size_t, kth_hash_list_t, uint64_t);

@@ -45,14 +45,16 @@ char const* kth_chain_block_proof(kth_block_t block);
 KTH_EXPORT
 char const* kth_chain_block_proof_str(kth_block_t block);
 
-KTH_EXPORT
-kth_size_t kth_chain_block_transaction_count(kth_block_t block);
+
+// deprecated -> removed
+// kth_size_t kth_chain_block_transaction_count(kth_block_t block);
+// kth_transaction_t kth_chain_block_transaction_nth(kth_block_t block, kth_size_t n);
 
 KTH_EXPORT
-kth_transaction_t kth_chain_block_transaction_nth(kth_block_t block, kth_size_t n);
+kth_transaction_list_t kth_chain_block_transactions(kth_block_t block);
 
-//kth_transaction_t kth_chain_block_transactions(kth_block_t block, kth_size_t* n);
-//kth_transaction_t kth_chain_block_transaction_next(kth_transaction_t transaction);
+// KTH_EXPORT
+// kth_transaction_list_t kth_chain_block_transactions_ref(kth_block_t block);
 
 KTH_EXPORT
 kth_size_t kth_chain_block_serialized_size(kth_block_t block, uint32_t version);

@@ -36,7 +36,8 @@
 
 #include <kth/capi/p2p/p2p.h>
 
+#include <kth/capi/string_list.h>
+
 #include <kth/capi/wallet/wallet.h>
-#include <kth/capi/wallet/word_list.h>
 
 #endif /* KTH_CAPI_CAPI_H_ */

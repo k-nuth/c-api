@@ -21,9 +21,11 @@
 #include <kth/capi/node.h>
 #include <kth/capi/hash_list.h>
 #include <kth/capi/helpers.hpp>
+
+#include <kth/capi/string_list.h>
+
 #include <kth/capi/wallet/payment_address.h>
 #include <kth/capi/wallet/wallet.h>
-#include <kth/capi/wallet/word_list.h>
 
 #include <kth/capi/keoken/get_assets_data.h>
 #include <kth/capi/keoken/get_assets_list.h>
