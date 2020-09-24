@@ -44,6 +44,7 @@ KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_transaction_list_t, kth::domain::
 // KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_transaction_list_t, kth::domain::chain::transaction, transaction_list)
 KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(core, kth_hash_list_t, kth::hash_digest, hash_list)
 
+
 KTH_LIST_DECLARE_CONVERTERS(chain, kth_block_list_t, kth::domain::message::block, block_list)
 KTH_LIST_DECLARE_CONVERTERS(chain, kth_point_list_t, kth::domain::chain::point, point_list)
 KTH_LIST_DECLARE_CONVERTERS(chain, kth_input_list_t, kth::domain::chain::input, input_list)
