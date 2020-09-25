@@ -84,8 +84,6 @@ int main(int argc, char* argv[]) {
     kth_wallet_mnemonics_to_seed_out(wl, &seed_c);
     auto seed = longhash_to_cpp(seed_c)
 
-
-
     // hd_private const m(seed, hd_private::mainnet);
     // auto const m0h = m.derive_private(hd_first_hardened_key);
     // auto const m0h1 = m0h.derive_private(1);
