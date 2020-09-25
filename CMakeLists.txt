@@ -544,7 +544,6 @@ _group_sources(kth-c-api "${CMAKE_CURRENT_LIST_DIR}")
 # Console
 #==============================================================================
 
-
 if (WITH_CONSOLE_CAPI)
   #add_executable(test-console-twos
   #        console/main.c)
@@ -555,8 +554,8 @@ if (WITH_CONSOLE_CAPI)
       )
     else()
       set(_test_console_sources
-        # console/test_wallet.cpp
-        console/test_header_hash.cpp
+        console/test_wallet.cpp
+        # console/test_header_hash.cpp
         #   console/main.cpp
         #   console/main.c
         # console/error_test.cpp
