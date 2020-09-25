@@ -58,10 +58,8 @@ kth_bool_t kth_chain_is_stale(kth_chain_t chain);
 
 
 
-//KTH_EXPORT
 //void kth_chain_fetch_stealth(const binary& filter, kth_size_t from_height, stealth_fetch_handler handler);
 
-// KTH_EXPORT
 // void kth_chain_fetch_block_locator(kth_chain_t chain, void* ctx, kth_block_indexes_t heights, kth_block_locator_fetch_handler_t handler);
 
 // KTH_EXPORT
