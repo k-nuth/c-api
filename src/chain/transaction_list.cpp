@@ -7,12 +7,21 @@
 #include <kth/capi/chain/transaction.h>
 #include <kth/capi/conversions.hpp>
 
-
-KTH_LIST_DEFINE_CONVERTERS(chain, kth_transaction_list_t, kth::domain::message::transaction, transaction_list)
-KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, kth_transaction_list_t, kth::domain::message::transaction, transaction_list)
+KTH_LIST_DEFINE_CONVERTERS(chain, kth_transaction_list_t, kth::domain::chain::transaction, transaction_list)
+KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, kth_transaction_list_t, kth::domain::chain::transaction, transaction_list)
 
 extern "C" {
 
-KTH_LIST_DEFINE(chain, kth_transaction_list_t, kth_transaction_t, transaction_list, kth::domain::message::transaction, kth_chain_transaction_const_cpp)
+KTH_LIST_DEFINE(chain, kth_transaction_list_t, kth_transaction_t, transaction_list, kth::domain::chain::transaction, kth_chain_transaction_const_cpp)
 
 } // extern "C"
+
+
+// KTH_LIST_DEFINE_CONVERTERS(chain, kth_transaction_list_t, kth::domain::message::transaction, transaction_list)
+// KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, kth_transaction_list_t, kth::domain::message::transaction, transaction_list)
+
+// extern "C" {
+
+// KTH_LIST_DEFINE(chain, kth_transaction_list_t, kth_transaction_t, transaction_list, kth::domain::message::transaction, kth_chain_transaction_const_cpp)
+
+// } // extern "C"
