@@ -544,7 +544,6 @@ _group_sources(kth-c-api "${CMAKE_CURRENT_LIST_DIR}")
 # Console
 #==============================================================================
 
-
 if (WITH_CONSOLE_CAPI)
   #add_executable(test-console-twos
   #        console/main.c)

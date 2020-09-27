@@ -34,15 +34,6 @@
 
 void print_hex(uint8_t const* data, size_t n) {
     while (n != 0) {
-        // auto xxx = *data;
-        // int ixxx = xxx;
-
-        // printf("%02x\n", xxx);
-        // fflush(stdout);
-        // printf("%02x\n", ixxx);
-        // fflush(stdout);
-
-        // printf("%02x", (int)*data);
         printf("%02x", *data);
         ++data;
         --n;
@@ -58,6 +49,8 @@ kth::long_hash longhash_to_cpp(uint8_t const* x) {
 }
 
 int main(int argc, char* argv[]) {
+    using kth::infrastructure::wallet::hd_private;
+    using kth::infrastructure::wallet::hd_first_hardened_key;
 
    // car slab tail dirt wife custom front shield diet pear skull vapor gorilla token yard
    // https://iancoleman.io/bip39/
@@ -82,9 +75,54 @@ int main(int argc, char* argv[]) {
 
     kth_longhash_t seed_c;
     kth_wallet_mnemonics_to_seed_out(wl, &seed_c);
-    auto seed = longhash_to_cpp(seed_c)
+    auto seed_hash = longhash_to_cpp(seed_c.hash);
+    kth::data_chunk seed(std::begin(seed_hash), std::end(seed_hash));
 
-    // hd_private const m(seed, hd_private::mainnet);
+    std::cout << "seed: ";
+    print_hex(seed.data(), seed.size());
+
+    hd_private const m(seed, hd_private::mainnet);
+    auto const m44h = m.derive_private(44 + hd_first_hardened_key);
+    // auto const m44h0h = m44h.derive_private(0 + hd_first_hardened_key);
+    // auto const m44h0h0h = m44h0h.derive_private(0 + hd_first_hardened_key);
+    // auto const m44h0h0h0 = m44h0h0h.derive_private(0);
+    auto const m44h145h = m44h.derive_private(145 + hd_first_hardened_key);
+    auto const m44h145h0h = m44h145h.derive_private(0 + hd_first_hardened_key);
+    auto const m44h145h0h0 = m44h145h0h.derive_private(0);
+
+    std::cout << "BIP32 Root Key:                      " << m.encoded() << std::endl;
+    std::cout << "BIP44 Account Extended Private Key: " << m44h145h0h.encoded() << std::endl;
+    std::cout << "BIP44 Account Extended Public Key:  " << m44h145h0h.to_public().encoded() << std::endl;
+
+    std::cout << "BIP32 Account Extended Private Key: " << m44h145h0h0.encoded() << std::endl;
+    std::cout << "BIP32 Account Extended Public Key:  " << m44h145h0h0.to_public().encoded() << std::endl;
+
+    // print addresses
+    // auto key = m44h145h0h0;
+    for (size_t i = 0; i < 20; ++i) {
+        auto key = m44h145h0h0.derive_private(i);
+        auto secret = key.secret();
+        kth::ec_compressed point;
+        kth::secret_to_public(point, secret);
+        kth::domain::wallet::ec_public ecp(point);
+        kth::domain::wallet::payment_address pa(ecp);
+
+        // std::cout << pa.encoded() << std::endl;
+        std::cout << pa.encoded_cashaddr() << std::endl;
+
+        // // auto hd_priv = kth_wallet_hd_new(seed, 76066276);
+        // kth_ec_secret_t ec_priv;
+        // kth_wallet_hd_private_to_ec_out(key, &ec_priv);
+        // auto pubk = kth_wallet_ec_to_public(ec_priv, 1);
+        // auto addr = kth_wallet_ec_to_address(pubk, 0);
+        // auto* addr_str = kth_wallet_payment_address_encoded(addr);
+
+    }
+    
+
+    std::cout << std::endl;
+
+
     // auto const m0h = m.derive_private(hd_first_hardened_key);
     // auto const m0h1 = m0h.derive_private(1);
     // auto const m0h12h = m0h1.derive_private(2 + hd_first_hardened_key);
