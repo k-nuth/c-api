@@ -19,6 +19,7 @@
 #include <kth/capi/chain/script.h>
 #include <kth/capi/chain/transaction.h>
 #include <kth/capi/chain/transaction_list.h>
+#include <kth/capi/hash.h>
 #include <kth/capi/node.h>
 #include <kth/capi/hash_list.h>
 #include <kth/capi/helpers.hpp>
@@ -73,7 +74,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // std::signal(SIGINT, handle_stop);
     // std::signal(SIGTERM, handle_stop);
 
-    kth_bool_t _ok;
+    kth_bool_t ok;
     char* error_message;
     kth_settings settings = kth_config_settings_get_from_file("/home/fernando/dev/kth/cs-api/console/node.cfg", &ok, &error_message);
 
@@ -111,10 +112,13 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     
 	std::string hash = "0000000071966c2b1d065fd446b1e485b2c9d9594acd2007ccbd5441cfc89444";
-	kth::hash_digest hash_bytes;
-	hex2bin(hash.c_str(), hash_bytes.data());
-	std::reverse(hash_bytes.begin(), hash_bytes.end());
-    auto prevout_hash = kth::to_hash_t(hash_bytes);
+	// kth::hash_digest hash_bytes;
+	// hex2bin(hash.c_str(), hash_bytes.data());
+	// std::reverse(hash_bytes.begin(), hash_bytes.end());
+    // auto prevout_hash = kth::to_hash_t(hash_bytes);
+
+    auto prevout_hash = kth_str_to_hash(hash.c_str());
+
 
     uint64_t out_h;
     auto res = kth_chain_get_block_height(chain, prevout_hash, &out_h);
