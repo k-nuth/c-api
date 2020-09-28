@@ -24,7 +24,7 @@ void WaitUntilBlock(kth_chain_t chain, uint64_t desiredHeight) {
 
     while (error == 0 && height < desiredHeight) {
         printf("---> height: %d desiredHeight: %d", height, desiredHeight);
-        auto error = kth_chain_get_last_height(chain, &height);
+        auto error = kth_chain_sync_last_height(chain, &height);
 
         if (height < desiredHeight) {
             std::this_thread::sleep_for(std::chrono::milliseconds(10000));
@@ -49,7 +49,7 @@ void DoSomething(kth_node_t node) {
     kth_transaction_t out_transaction;
     kth_size_t out_height;
     kth_size_t out_index;
-    res = kth_chain_get_transaction(chain, hash, true, &out_transaction, &out_height, &out_index);
+    res = kth_chain_sync_transaction(chain, hash, true, &out_transaction, &out_height, &out_index);
 
     // kth_size_t sigops = kth_chain_transaction_signature_operations(out_transaction);
     kth_size_t sigops = kth_chain_transaction_signature_operations_bip16_active(out_transaction, true);
