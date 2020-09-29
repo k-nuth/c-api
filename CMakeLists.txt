@@ -218,7 +218,10 @@ else()
     message( STATUS "knuthbuildinfo doent exists")
 endif()
 
-
+#TODO(fernando): enable sanitizers
+# -fsanitize=memory
+# set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address -fsanitize=undefined")
+# set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address -fsanitize=undefined")
 
 # Check dependencies.
 #==============================================================================
@@ -554,9 +557,9 @@ if (WITH_CONSOLE_CAPI)
       )
     else()
       set(_test_console_sources
-        console/test_wallet.cpp
+        # console/test_wallet.cpp
         # console/test_header_hash.cpp
-        #   console/main.cpp
+          console/main.cpp
         #   console/main.c
         # console/error_test.cpp
           # console/test_deadlock.cpp

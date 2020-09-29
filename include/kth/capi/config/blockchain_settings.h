@@ -22,10 +22,9 @@ typedef struct {
     uint64_t minimum_output_satoshis;
     uint32_t notify_limit_hours;
     uint32_t reorganization_limit;
-    
     size_t checkpoint_count;
     kth_checkpoint* checkpoints;
-
+    kth_bool_t fix_checkpoints;
     kth_bool_t allow_collisions;
     kth_bool_t easy_blocks;
     kth_bool_t retarget;
@@ -48,7 +47,7 @@ typedef struct {
     kth_bool_t bch_mersenne;
     kth_bool_t bch_fermat;      // 2020-May
     kth_bool_t bch_euler;       // 2020-Nov
-    kth_bool_t bch_gauss;     // 2021-May
+    kth_bool_t bch_gauss;       // 2021-May
         
     //2020-Nov-15 hard fork, defaults to 1605441600: Nov 15, 2020 12:00:00 UTC protocol upgrade
     uint64_t euler_activation_time;

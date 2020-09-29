@@ -46,10 +46,10 @@ void print_hex(uint8_t const* data, size_t n) {
 
 void wait_until_block(kth_chain_t chain, size_t desired_height) {
     uint64_t height;
-    int error = kth_chain_get_last_height(chain, &height);
+    int error = kth_chain_sync_last_height(chain, &height);
 
     while (error == 0 && height < desired_height) {
-        error = kth_chain_get_last_height(chain, &height);
+        error = kth_chain_sync_last_height(chain, &height);
     
         if (height < desired_height) {
             std::this_thread::sleep_for(std::chrono::seconds(10));
@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
 
     kth_header_t header;
     kth_size_t height;
-    auto res = kth_chain_get_block_header_by_height(chain, 2300, &header, &height);
+    auto res = kth_chain_sync_block_header_by_height(chain, 2300, &header, &height);
     kth_hash_t hash = kth_chain_header_hash(header);
     print_hex(hash.hash, 32);
 
