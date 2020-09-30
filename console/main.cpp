@@ -19,6 +19,7 @@
 #include <kth/capi/chain/script.h>
 #include <kth/capi/chain/transaction.h>
 #include <kth/capi/chain/transaction_list.h>
+#include <kth/capi/hash.h>
 #include <kth/capi/node.h>
 #include <kth/capi/hash_list.h>
 #include <kth/capi/helpers.hpp>
@@ -109,9 +110,38 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // auto exec = kth_node_construct(settings, stdout, stderr);
 
 
-    // printf("**-- 1\n");
-    // int res1 = kth_node_initchain(exec);
+    
+	// std::string hash = "0000000071966c2b1d065fd446b1e485b2c9d9594acd2007ccbd5441cfc89444";
+	// // kth::hash_digest hash_bytes;
+	// // hex2bin(hash.c_str(), hash_bytes.data());
+	// // std::reverse(hash_bytes.begin(), hash_bytes.end());
+    // // auto prevout_hash = kth::to_hash_t(hash_bytes);
 
+    // auto prevout_hash = kth_str_to_hash(hash.c_str());
+
+
+    // uint64_t out_h;
+    // auto res = kth_chain_get_block_height(chain, prevout_hash, &out_h);
+    // printf("res: %d\n", res);
+    // printf("out_h: %lu\n", out_h);
+
+    // printf("**-- 7\n");
+
+    // kth_payment_address_list_t addresses = kth_wallet_payment_address_list_construct_default();
+    // kth_payment_address_t addr1 = kth_wallet_payment_address_construct_from_string("bchtest:qq6g5362emyqppwx6kwpsl08xkgep7xwkyh9p68qsj");
+    // kth_payment_address_t addr2 = kth_wallet_payment_address_construct_from_string("bchtest:qqg2fwfzd4xeywf8h2zajqy77357gk0v7yvsvhd4xu");
+    // kth_wallet_payment_address_list_push_back(addresses, addr1);
+    // kth_wallet_payment_address_list_push_back(addresses, addr2);
+    // //Copies were pushed, so clean up
+    // kth_wallet_payment_address_destruct(addr1);
+    // kth_wallet_payment_address_destruct(addr2);
+    // kth_transaction_list_t txs = kth_chain_get_mempool_transactions_from_wallets(chain, addresses, 1);
+    // kth_wallet_payment_address_list_destruct(addresses);
+    // auto tx_count = kth_chain_transaction_list_count(txs);
+    // printf("tx_count: %lu\n", tx_count);
+    // printf("**-- 1\n");
+
+    // int res1 = kth_node_initchain(exec);
     // if (res1 == 0) {
     //     printf("Error initializing files\n");
     //     kth_node_destruct(exec);
