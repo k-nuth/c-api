@@ -32,12 +32,6 @@ uint8_t const* kth_core_binary_blocks(kth_binary_t binary, kth_size_t* out_n);
 KTH_EXPORT
 char* kth_core_binary_encoded(kth_binary_t binary);
 
-//KTH_EXPORT
-//void word_list_add_word(kth_word_list_t word_list, char const* word);
-
-//KTH_EXPORT
-//void word_list_destruct(kth_word_list_t word_list);
-
 #ifdef __cplusplus
 } // extern "C"
 #endif

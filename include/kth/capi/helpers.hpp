@@ -48,6 +48,13 @@ namespace detail {
 //     return detail::to_c_array_impl<R>(x, std::make_index_sequence<N>{});
 // }
 
+#if defined(_WIN32)
+using kth_string_t = std::wstring;
+#else
+using kth_string_t = std::string;
+#endif
+
+
 template <typename T>
 constexpr
 std::array<std::remove_cv_t<T>, 32> to_array(T (&x)[32]) {
@@ -120,17 +127,19 @@ T* mnew(std::size_t n = 1) {
     return static_cast<T*>(malloc(sizeof(T) * n));
 }
 
+
+template <typename StrT>
 inline
-// char const* create_c_str(std::string const& str) {
-char* create_c_str(std::string const& str) {
-    auto* c_str = mnew<char>(str.size() + 1);
-    std::copy_n(str.begin(), str.size() + 1, c_str);
+auto* create_c_str(StrT const& str) {
+    auto* c_str = mnew<typename StrT::value_type>(str.size() + 1);
+    std::copy_n(str.c_str(), str.size() + 1, c_str);
     return c_str;
 }
 
+template <typename CharT>
 inline
-std::string create_cpp_str(char* str) {
-    return std::string(str);
+std::basic_string<CharT> create_cpp_str(CharT* str) {
+    return std::basic_string<CharT>(str);
 }
 
 template <typename N>

@@ -1,7 +1,9 @@
 <!-- <a target="_blank" href="http://semver.org">![Version][badge.version]</a> -->
 <!-- <a target="_blank" href="https://cirrus-ci.com/github/k-nuth/c-api">![Build Status][badge.Cirrus]</a> -->
 
-# C API <a target="_blank" href="https://github.com/k-nuth/c-api/releases">![Github Releases][badge.release]</a> <a target="_blank" href="https://travis-ci.org/k-nuth/c-api">![Build status][badge.Travis]</a> <a target="_blank" href="https://ci.appveyor.com/projects/k-nuth/c-api">![Build Status][badge.Appveyor]</a> <a href="#">![CPP][badge.cpp]</a> <a target="_blank" href="https://t.me/knuth_cash">![Telegram][badge.telegram]</a> <a target="_blank" href="https://k-nuth.slack.com/">![Slack][badge.slack]</a>
+<img width="200px" src="https://raw.githubusercontent.com/k-nuth/misc/master/images/KTH-and-C.svg" />
+
+# C API <a target="_blank" href="https://github.com/k-nuth/c-api/releases">![Github Releases][badge.release]</a> <a target="_blank" href="https://travis-ci.org/k-nuth/c-api">![Build status][badge.Travis]</a> <a target="_blank" href="https://ci.appveyor.com/projects/k-nuth/c-api">![Build Status][badge.Appveyor]</a> <a href="#">![C][badge.c]</a> <a target="_blank" href="https://t.me/knuth_cash">![Telegram][badge.telegram]</a> <a target="_blank" href="https://k-nuth.slack.com/">![Slack][badge.slack]</a>
 
 > Bitcoin full node as a C Programming Language library
 
@@ -26,20 +28,20 @@ Install and run Knuth is very easy:
 ```
 $ pip install kthbuild --user --upgrade
 
-$ conan remote add kth https://api.bintray.com/conan/k-nuth/kth
+$ conan config install https://github.com/k-nuth/ci-utils/raw/master/conan/config.zip
 ```
 
 2. Install the appropriate library:
 
 ```
 # For Bitcoin Cash (default)
-$ conan install c-api/0.X@kth/stable -o currency=BCH 
+$ conan install c-api/0.X@kth/stable -o currency=BCH --update
 
 # For Bitcoin
-$ conan install c-api/0.X@kth/stable -o currency=BTC
+$ conan install c-api/0.X@kth/stable -o currency=BTC --update
 
 # For Litecoin
-$ conan install c-api/0.X@kth/stable -o currency=LTC
+$ conan install c-api/0.X@kth/stable -o currency=LTC --update
 ```
 
 (`0.X` is an alias for our latest uploaded package)
@@ -55,18 +57,18 @@ $ conan install c-api/0.X@kth/stable -o currency=LTC
 #include <kth/capi.h>
 
 int main() {
-    kth_node_t exec = kth_node_construct("my_config_file", stdout, stderr);
+    kth_node_t node = kth_node_construct("my_config_file", stdout, stderr);
 
-    kth_node_initchain(exec);
-    kth_node_run_wait(exec);
-    kth_chain_t chain = kth_node_get_chain(exec);
+    kth_node_initchain(node);
+    kth_node_run_wait(node);
+    kth_chain_t chain = kth_node_get_chain(node);
 
     uint64_t height;
     chain_get_last_height(chain, &height);
 
     printf("%" PRIu64 "\n", height);
 
-    kth_node_destruct(exec);
+    kth_node_destruct(node);
 }
 ```
 
@@ -86,9 +88,9 @@ Includes C standard library stuff, like format conversion specifiers, fixed widt
 Gives access to Knuth C-API features.
 
 ```c
-kth_node_t exec = kth_node_construct("my_config_file", stdout, stderr);
+kth_node_t node = kth_node_construct("my_config_file", stdout, stderr);
 ```
-Construct a Knuth _kth_node_ object, which is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.  
+Construct a Knuth _node_ object, which is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.  
 
 `"my_config_file"` is the path to the configuration file; in the [config](https://github.com/k-nuth/config) repository you can find some example files.  
 If you pass an empty string (`""`), default configuration will be used.
@@ -98,7 +100,7 @@ You can use any object of type `FILE*`. For example, you can make the Knuth node
 If you pass null pointers (`NULL` or `0`), there will be no logging information.
 
 ```c
-kth_node_initchain(exec);
+kth_node_initchain(node);
 ```
 
 Initialize the filesystem database where the _blockchain_ will be stored.  
@@ -107,7 +109,7 @@ You need to have enough disk space to store the blockchain.
 This is equivalent to executing: `kth -i -c my_config_file`.
 
 ```c
-kth_node_run_wait(exec);
+kth_node_run_wait(node);
 ```
 
 Run the node.  
@@ -115,7 +117,7 @@ In this step, the connections and handshake with the peers will be established, 
 
 This is equivalent to executing: `kth -c my_config_file`.
 ```c
-kth_chain_t chain = kth_node_get_chain(exec);
+kth_chain_t chain = kth_node_get_chain(node);
 ```
 
 Get access to the blockchain query interface (commands and queries).
@@ -130,10 +132,10 @@ printf("%" PRIu64 "\n", height);
 Ask the blockchain what is the height of the last downloaded block and print it in the standard output.
 
 ```c
-kth_node_destruct(exec);
+kth_node_destruct(node);
 ```
 
-Destroy the executor object created earlier.  
+Destroy the node object created earlier.  
 (We are in land of _The C Programming Language_, there is no automatic handling of resources here, you have to do it manually.)
 
 ### Build and run:
@@ -167,10 +169,6 @@ $ ./hello_knuth
 
 For more more detailed instructions, please refer to our [documentation](https://kth.cash/docs/).
 
-## About this library
-
-This library can be used stand-alone, but it is probably convenient for you to use one of our main projects, [look over here](https://github.com/k-nuth/kth/).
-
 ## Issues
 
 Each of our modules has its own Github repository, but in case you want to create an issue, please do so in our [main repository](https://github.com/k-nuth/kth/issues).
@@ -182,7 +180,7 @@ Each of our modules has its own Github repository, but in case you want to creat
 [badge.Cirrus]: https://api.cirrus-ci.com/github/k-nuth/c-api.svg?branch=master
 [badge.version]: https://badge.fury.io/gh/k-nuth%2Fkth-c-api.svg
 [badge.release]: https://img.shields.io/github/release/k-nuth/c-api.svg
-[badge.cpp]: https://img.shields.io/badge/C++-17-blue.svg?style=flat&logo=c%2B%2B
+[badge.c]: https://img.shields.io/badge/C-11-blue.svg?style=flat&logo=c
 [badge.telegram]: https://img.shields.io/badge/telegram-badge-blue.svg?logo=telegram
 [badge.slack]: https://img.shields.io/badge/slack-badge-orange.svg?logo=slack
 

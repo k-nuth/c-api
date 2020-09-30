@@ -61,7 +61,6 @@ executor::executor(kth::node::configuration const& config, std::ostream& output,
 
     kth::log::stream console_out(&output_, null_deleter());
     kth::log::stream console_err(&error_, null_deleter());
-
     kth::log::initialize(debug_file, error_file, console_out, console_err, verbose);
 #endif
 }

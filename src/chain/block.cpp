@@ -55,38 +55,10 @@ void kth_chain_block_hash_out(kth_block_t block, kth_hash_t* out_hash) {
     kth::copy_c_hash(hash_cpp, out_hash);
 }
 
-//deprecated
-char const* kth_chain_block_proof(kth_block_t block) {
-    auto proof_str = kth_chain_block_const_cpp(block).proof().str();
-    auto* proof_c_str = static_cast<char*>(malloc((proof_str.size() + 1) * sizeof(char)));
-    std::copy_n(proof_str.begin(), proof_str.size() + 1, proof_c_str);
-    return proof_c_str;
-}
-
 char const* kth_chain_block_proof_str(kth_block_t block) {
     auto proof_str = kth_chain_block_const_cpp(block).proof().str();
     return kth::create_c_str(proof_str);
 }
-
-// kth_size_t kth_chain_block_transaction_count(kth_block_t block) {
-//     return kth_chain_block_const_cpp(block).transactions().size();
-// }
-
-//  kth_transaction_t kth_chain_block_transaction_nth(kth_block_t block, kth_size_t n) {
-//     //precondition: n >=0 && n < transactions().size()
-
-//     auto* blk = &kth_chain_block_cpp(block);
-//     auto& tx_n = blk->transactions()[n];
-//     return &tx_n;
-// }
-
-// kth_transaction_list_t kth_chain_block_transactions(kth_block_t block) {
-//     auto const& block_cpp = kth_chain_block_const_cpp(block);
-//     return kth::move_or_copy_and_leak(block_cpp.transactions());
-//     // auto const& txs = block_cpp.transactions();
-//     // // return new std::remove_reference_t<T>(std::forward<T>(x));
-//     // return new kth::domain::message::transaction::list(txs);
-// }
 
 kth_transaction_list_t kth_chain_block_transactions(kth_block_t block) {
     auto& block_cpp = kth_chain_block_cpp(block);

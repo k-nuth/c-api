@@ -17,27 +17,27 @@
 namespace detail {
 
 template <typename CharT>
-kth_settings config_settings_get_from_file(CharT const* path, kth_bool_t* out_ok, char** out_error_message) {
+kth_bool_t config_settings_get_from_file(CharT const* path, kth_settings* out_settings, char** out_error_message) {
     kth::node::parser metadata(kth::domain::config::network::mainnet);
     auto file = std::filesystem::path(path);
 
     std::ostringstream stream;
     bool ok = metadata.parse_from_file(file, stream);
-    *out_ok = ok;
 
-    kth_settings res;
-    if (ok) {
-        auto const& config = metadata.configured;
-        res.node = kth::capi::helpers::node_settings_to_c(config.node);
-        res.chain = kth::capi::helpers::blockchain_settings_to_c(config.chain);
-        res.database = kth::capi::helpers::database_settings_to_c(config.database);
-        res.network = kth::capi::helpers::network_settings_to_c(config.network);
-    } else {
+    if ( ! ok) {
         auto error_string = stream.str();
         *out_error_message = kth::mnew<char>(error_string.size() + 1);
-        std::copy_n(std::begin(error_string), std::size(error_string) + 1, *out_error_message);
+        std::copy_n(error_string.c_str(), std::size(error_string) + 1, *out_error_message);
+        return ok;
     }
-    return res;
+
+    out_settings = new kth_settings;
+    auto const& config = metadata.configured;
+    out_settings->node = kth::capi::helpers::node_settings_to_c(config.node);
+    out_settings->chain = kth::capi::helpers::blockchain_settings_to_c(config.chain);
+    out_settings->database = kth::capi::helpers::database_settings_to_c(config.database);
+    out_settings->network = kth::capi::helpers::network_settings_to_c(config.network);
+    return ok;
 }
 
 }
@@ -53,14 +53,14 @@ kth_settings kth_config_settings_default(kth_network_t net) {
     return res;
 }
 
-kth_settings kth_config_settings_get_from_file(char const* path, kth_bool_t* out_ok, char** out_error_message) {
-    auto res = detail::config_settings_get_from_file(path, out_ok, out_error_message);
+kth_bool_t kth_config_settings_get_from_file(char const* path, kth_settings* out_settings, char** out_error_message) {
+    auto res = detail::config_settings_get_from_file(path, out_settings, out_error_message);
     return res;
 }
 
 #if defined(_WIN32)
-kth_settings kth_config_settings_get_from_fileW(wchar_t const* path, kth_bool_t* out_ok, char** out_error_message) {
-    auto res = detail::config_settings_get_from_file(path, out_ok, out_error_message);
+kth_bool_t kth_config_settings_get_from_fileW(wchar_t const* path, kth_settings* out_settings, char** out_error_message) {
+    auto res = detail::config_settings_get_from_file(path, out_settings, out_error_message);
     return res;
 }
 #endif // defined(_WIN32)

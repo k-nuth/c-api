@@ -107,7 +107,8 @@ kth_node_t kth_node_construct(kth_settings const* settings, FILE* sout, FILE* se
 
 kth_node_t kth_node_construct_fd(kth_settings const* settings, int sout_fd, int serr_fd) {
     auto cpp = kth::capi::helpers::settings_to_cpp(*settings);
-    return new executor_helper(cpp, sout_fd, serr_fd);
+    auto res = new executor_helper(cpp, sout_fd, serr_fd);
+    return res;
 }
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
