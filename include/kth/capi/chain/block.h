@@ -38,17 +38,8 @@ kth_hash_t kth_chain_block_hash(kth_block_t block);
 KTH_EXPORT
 void kth_chain_block_hash_out(kth_block_t block, kth_hash_t* out_hash);
 
-//deprecated
-KTH_EXPORT
-char const* kth_chain_block_proof(kth_block_t block);
-
 KTH_EXPORT
 char const* kth_chain_block_proof_str(kth_block_t block);
-
-
-// deprecated -> removed
-// kth_size_t kth_chain_block_transaction_count(kth_block_t block);
-// kth_transaction_t kth_chain_block_transaction_nth(kth_block_t block, kth_size_t n);
 
 KTH_EXPORT
 kth_transaction_list_t kth_chain_block_transactions(kth_block_t block);

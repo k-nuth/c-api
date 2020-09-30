@@ -30,7 +30,6 @@ void kth_platform_print_string(char* str);
 KTH_EXPORT
 char* kth_platform_allocate_and_copy_string_at(char** ptr, kth_size_t offset, char const* str);
 
-
 #ifdef __cplusplus
 } // extern "C"
 #endif

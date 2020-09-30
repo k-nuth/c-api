@@ -68,88 +68,94 @@ void print_hex(char const* data, size_t n) {
 }
 
 
-int main(int /*argc*/, char* /*argv*/[]) {
-    kth_bool_t ok;
-    char* error_message;
-    // kth_settings settings = kth_config_settings_get_from_file("/home/fernando/dev/kth/cs-api/console/node.cfg", &ok, &error_message);
-    kth_settings settings = kth_config_settings_get_from_file("/Users/fernando/dev/kth/cs-api/console/node.cfg", &ok, &error_message);
-}
-
 // int main(int /*argc*/, char* /*argv*/[]) {
-// //    using namespace std::chrono_literals;
-
-//     // std::signal(SIGINT, handle_stop);
-//     // std::signal(SIGTERM, handle_stop);
-
 //     kth_bool_t ok;
 //     char* error_message;
-//     kth_settings settings = kth_config_settings_get_from_file("/home/fernando/dev/kth/cs-api/console/node.cfg", &ok, &error_message);
-
-//     auto exec = kth_node_construct(&settings, stdout, stderr);
-//     //auto exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//     // kth_node_t exec = kth_node_construct("/home/FERFER/exec/btc-mainnet.cfg", stdout, stderr);
-//     //kth_node_t exec = kth_node_construct("/home/fernando/exec/btc-mainnet.cfg", nullptr, nullptr);
-
-
-//     // printf("**-- 1\n");
-//     // int res1 = kth_node_initchain(exec);
-
-//     // if (res1 == 0) {
-//     //     printf("Error initializing files\n");
-//     //     kth_node_destruct(exec);
-//     //     return -1;
-//     // }
-
-//     printf("**-- 2aaaaaa\n");
-    
-//     int res2 = kth_node_run_wait(exec);
-
-//     printf("**-- 3\n");
-//     if (res2 != 0) {
-//         printf("Error initializing files\n");
-//         kth_node_destruct(exec);
-//         return -1;
-//     }
-//     std::this_thread::sleep_for(std::chrono::seconds(10));
-//     printf("**-- 4\n");
-
-//     kth_chain_t chain = kth_node_get_chain(exec);
-        
-//     wait_until_block(chain, 170);
-
-    
-// 	std::string hash = "0000000071966c2b1d065fd446b1e485b2c9d9594acd2007ccbd5441cfc89444";
-// 	kth::hash_digest hash_bytes;
-// 	hex2bin(hash.c_str(), hash_bytes.data());
-// 	std::reverse(hash_bytes.begin(), hash_bytes.end());
-//     auto prevout_hash = kth::to_hash_t(hash_bytes);
-
-//     uint64_t out_h;
-//     auto res = kth_chain_sync_block_height(chain, prevout_hash, &out_h);
-//     printf("res: %d\n", res);
-//     printf("out_h: %lu\n", out_h);
-
-//     printf("**-- 7\n");
-
-//     kth_payment_address_list_t addresses = kth_wallet_payment_address_list_construct_default();
-//     kth_payment_address_t addr1 = kth_wallet_payment_address_construct_from_string("bchtest:qq6g5362emyqppwx6kwpsl08xkgep7xwkyh9p68qsj");
-//     kth_payment_address_t addr2 = kth_wallet_payment_address_construct_from_string("bchtest:qqg2fwfzd4xeywf8h2zajqy77357gk0v7yvsvhd4xu");
-//     kth_wallet_payment_address_list_push_back(addresses, addr1);
-//     kth_wallet_payment_address_list_push_back(addresses, addr2);
-//     //Copies were pushed, so clean up
-//     kth_wallet_payment_address_destruct(addr1);
-//     kth_wallet_payment_address_destruct(addr2);
-//     kth_transaction_list_t txs = kth_chain_sync_mempool_transactions_from_wallets(chain, addresses, 1);
-//     kth_wallet_payment_address_list_destruct(addresses);
-//     auto tx_count = kth_chain_transaction_list_count(txs);
-//     printf("tx_count: %lu\n", tx_count);
-
-//     kth_node_destruct(exec);
-
-//     printf("**-- 8\n");
-    
-//     return 0;
+//     // kth_settings settings = kth_config_settings_get_from_file("/home/fernando/dev/kth/cs-api/console/node.cfg", &ok, &error_message);
+//     // kth_settings settings = kth_config_settings_get_from_file("/Users/fernando/dev/kth/cs-api/console/node.cfg", &ok, &error_message);
+//     kth_settings settings = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\console\\node_win.cfg", &ok, &error_message);
 // }
+
+int main(int /*argc*/, char* /*argv*/[]) {
+//    using namespace std::chrono_literals;
+
+    // std::signal(SIGINT, handle_stop);
+    // std::signal(SIGTERM, handle_stop);
+
+    kth_settings settings;
+    char* error_message;
+    // kth_bool_t ok = kth_config_settings_get_from_file("/home/fernando/dev/kth/cs-api/console/node.cfg", &settings, &error_message);
+    // kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\console\\node_win.cfg", &settings, &error_message);
+    kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\tests\\bch\\config\\invalid.cfg", &settings, &error_message);
+
+    if ( ! ok) {
+        printf("error: %s", error_message);
+        return -1;
+    }
+
+    auto exec = kth_node_construct_fd(&settings, 0, 0);
+    // auto exec = kth_node_construct(&settings, stdout, stderr);
+
+
+    // printf("**-- 1\n");
+    // int res1 = kth_node_initchain(exec);
+
+    // if (res1 == 0) {
+    //     printf("Error initializing files\n");
+    //     kth_node_destruct(exec);
+    //     return -1;
+    // }
+
+    // printf("**-- 2aaaaaa\n");
+    
+    // int res2 = kth_node_run_wait(exec);
+
+    // printf("**-- 3\n");
+    // if (res2 != 0) {
+    //     printf("Error initializing files\n");
+    //     kth_node_destruct(exec);
+    //     return -1;
+    // }
+    // std::this_thread::sleep_for(std::chrono::seconds(10));
+    // printf("**-- 4\n");
+
+    // kth_chain_t chain = kth_node_get_chain(exec);
+        
+    // wait_until_block(chain, 170);
+
+    
+	// std::string hash = "0000000071966c2b1d065fd446b1e485b2c9d9594acd2007ccbd5441cfc89444";
+	// kth::hash_digest hash_bytes;
+	// hex2bin(hash.c_str(), hash_bytes.data());
+	// std::reverse(hash_bytes.begin(), hash_bytes.end());
+    // auto prevout_hash = kth::to_hash_t(hash_bytes);
+
+    // uint64_t out_h;
+    // auto res = kth_chain_sync_block_height(chain, prevout_hash, &out_h);
+    // printf("res: %d\n", res);
+    // printf("out_h: %lu\n", out_h);
+
+    // printf("**-- 7\n");
+
+    // kth_payment_address_list_t addresses = kth_wallet_payment_address_list_construct_default();
+    // kth_payment_address_t addr1 = kth_wallet_payment_address_construct_from_string("bchtest:qq6g5362emyqppwx6kwpsl08xkgep7xwkyh9p68qsj");
+    // kth_payment_address_t addr2 = kth_wallet_payment_address_construct_from_string("bchtest:qqg2fwfzd4xeywf8h2zajqy77357gk0v7yvsvhd4xu");
+    // kth_wallet_payment_address_list_push_back(addresses, addr1);
+    // kth_wallet_payment_address_list_push_back(addresses, addr2);
+    // //Copies were pushed, so clean up
+    // kth_wallet_payment_address_destruct(addr1);
+    // kth_wallet_payment_address_destruct(addr2);
+    // kth_transaction_list_t txs = kth_chain_sync_mempool_transactions_from_wallets(chain, addresses, 1);
+    // kth_wallet_payment_address_list_destruct(addresses);
+    // auto tx_count = kth_chain_transaction_list_count(txs);
+    // printf("tx_count: %lu\n", tx_count);
+
+    kth_node_destruct(exec);
+
+    printf("**-- 8\n");
+    
+    return 0;
+}
 
 
 

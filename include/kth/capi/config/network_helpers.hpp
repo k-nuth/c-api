@@ -54,12 +54,12 @@ Target network_settings_to_common(Source const& x) {
 
 inline
 std::vector<std::string> string_list_to_cpp(char** data, size_t size) {
-    return kth::capi::helpers::list_to_cpp(data, size, kth::create_cpp_str);
+    return kth::capi::helpers::list_to_cpp(data, size, kth::create_cpp_str<char>);
 }
 
 inline
 char** string_list_to_c(std::vector<std::string> const& data, size_t& out_size) {
-    return kth::capi::helpers::list_to_c(data, out_size, kth::create_c_str);
+    return kth::capi::helpers::list_to_c(data, out_size, kth::create_c_str<std::string>);
 }
 
 inline

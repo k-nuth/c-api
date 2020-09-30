@@ -64,7 +64,7 @@ typedef struct {
     kth_bool_t use_ipv6;
 
     size_t user_agent_blacklist_count;
-    char** user_agent_blacklist;     //std::vector<std::string>
+    char** user_agent_blacklist;
 } kth_network_settings;
 
 KTH_EXPORT
