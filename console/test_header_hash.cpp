@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
     kth_bool_t ok;
     char* error_message;
     kth_settings settings = kth_config_settings_get_from_file("/home/fernando/testnet4/testnet4.cfg", &ok, &error_message);
-    auto node = kth_node_construct(&settings, stdout, stderr);
+    auto node = kth_node_construct(settings, stdout, stderr);
     int runres = kth_node_run_wait(node);
     auto chain = kth_node_get_chain(node);
 

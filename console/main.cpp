@@ -82,19 +82,31 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // std::signal(SIGINT, handle_stop);
     // std::signal(SIGTERM, handle_stop);
 
-    kth_settings settings;
+
+    auto pa = kth_wallet_payment_address_construct_from_string("1KcSdYdo4LJj2n5iHt5Hn3WEJQ6wWyPU3n");
+    auto valid = kth_wallet_payment_address_is_valid(pa);
+    auto address_str = kth_wallet_payment_address_encoded(pa);
+    auto cash_address_str = kth_wallet_payment_address_encoded_cashaddr(pa);
+    std::cout << address_str << std::endl;
+    std::cout << cash_address_str << std::endl;
+
+
+
+    kth_settings* settings;
     char* error_message;
     // kth_bool_t ok = kth_config_settings_get_from_file("/home/fernando/dev/kth/cs-api/console/node.cfg", &settings, &error_message);
     // kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\console\\node_win.cfg", &settings, &error_message);
-    kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\tests\\bch\\config\\invalid.cfg", &settings, &error_message);
+    // kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\tests\\bch\\config\\invalid.cfg", &settings, &error_message);
+    kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\tests\\bch\\config\\mainnet.cfg", &settings, &error_message);
 
     if ( ! ok) {
         printf("error: %s", error_message);
         return -1;
     }
 
-    auto exec = kth_node_construct_fd(&settings, 0, 0);
-    // auto exec = kth_node_construct(&settings, stdout, stderr);
+    // auto exec = kth_node_construct_fd(settings, 0, 0);
+    auto exec = kth_node_construct_fd(settings, -1, -1);
+    // auto exec = kth_node_construct(settings, stdout, stderr);
 
 
     // printf("**-- 1\n");
