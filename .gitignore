@@ -28,3 +28,4 @@ __pycache__/
 mypkg/
 *.sh
 blockchain/
+build_release/
