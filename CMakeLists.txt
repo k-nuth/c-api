@@ -218,7 +218,10 @@ else()
     message( STATUS "knuthbuildinfo doent exists")
 endif()
 
-
+#TODO(fernando): enable sanitizers
+# -fsanitize=memory
+# set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address -fsanitize=undefined")
+# set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address -fsanitize=undefined")
 
 # Check dependencies.
 #==============================================================================

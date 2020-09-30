@@ -26,7 +26,6 @@ endpoint endpoint_to_cpp(kth_endpoint const& x) {
 inline
 kth_endpoint endpoint_to_c(endpoint const& x) {
     return {kth::create_c_str(x.scheme()), kth::create_c_str(x.host()), x.port()};
-
 }
 
 inline

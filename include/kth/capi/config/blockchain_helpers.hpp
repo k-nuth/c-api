@@ -14,7 +14,6 @@
 
 namespace kth::capi::helpers {
 
-
 namespace {
 
 template <typename Target, typename Source>
@@ -28,6 +27,7 @@ Target blockchain_settings_to_common(Source const& x) {
     res.minimum_output_satoshis = x.minimum_output_satoshis;
     res.notify_limit_hours = x.notify_limit_hours;
     res.reorganization_limit = x.reorganization_limit;
+    res.fix_checkpoints = x.fix_checkpoints;
     res.allow_collisions = x.allow_collisions;
     res.easy_blocks = x.easy_blocks;
     res.retarget = x.retarget;
@@ -50,10 +50,9 @@ Target blockchain_settings_to_common(Source const& x) {
     res.bch_mersenne = x.bch_mersenne;
     res.bch_fermat = x.bch_fermat;
     res.bch_euler = x.bch_euler;
-    res.euler_activation_time = x.euler_activation_time;
     res.bch_gauss = x.bch_gauss;
+    res.euler_activation_time = x.euler_activation_time;
     res.gauss_activation_time = x.gauss_activation_time;
-
     res.asert_half_life = x.asert_half_life;
 #else
     res.bip141 = x.bip141;
