@@ -17,7 +17,7 @@
 namespace detail {
 
 template <typename CharT>
-kth_bool_t config_settings_get_from_file(CharT const* path, kth_settings* out_settings, char** out_error_message) {
+kth_bool_t config_settings_get_from_file(CharT const* path, kth_settings** out_settings, char** out_error_message) {
     kth::node::parser metadata(kth::domain::config::network::mainnet);
     auto file = std::filesystem::path(path);
 
@@ -31,12 +31,12 @@ kth_bool_t config_settings_get_from_file(CharT const* path, kth_settings* out_se
         return ok;
     }
 
-    out_settings = new kth_settings;
+    *out_settings = new kth_settings;
     auto const& config = metadata.configured;
-    out_settings->node = kth::capi::helpers::node_settings_to_c(config.node);
-    out_settings->chain = kth::capi::helpers::blockchain_settings_to_c(config.chain);
-    out_settings->database = kth::capi::helpers::database_settings_to_c(config.database);
-    out_settings->network = kth::capi::helpers::network_settings_to_c(config.network);
+    (*out_settings)->node = kth::capi::helpers::node_settings_to_c(config.node);
+    (*out_settings)->chain = kth::capi::helpers::blockchain_settings_to_c(config.chain);
+    (*out_settings)->database = kth::capi::helpers::database_settings_to_c(config.database);
+    (*out_settings)->network = kth::capi::helpers::network_settings_to_c(config.network);
     return ok;
 }
 
@@ -53,13 +53,13 @@ kth_settings kth_config_settings_default(kth_network_t net) {
     return res;
 }
 
-kth_bool_t kth_config_settings_get_from_file(char const* path, kth_settings* out_settings, char** out_error_message) {
+kth_bool_t kth_config_settings_get_from_file(char const* path, kth_settings** out_settings, char** out_error_message) {
     auto res = detail::config_settings_get_from_file(path, out_settings, out_error_message);
     return res;
 }
 
 #if defined(_WIN32)
-kth_bool_t kth_config_settings_get_from_fileW(wchar_t const* path, kth_settings* out_settings, char** out_error_message) {
+kth_bool_t kth_config_settings_get_from_fileW(wchar_t const* path, kth_settings** out_settings, char** out_error_message) {
     auto res = detail::config_settings_get_from_file(path, out_settings, out_error_message);
     return res;
 }
