@@ -29,6 +29,12 @@ kth_endpoint endpoint_to_c(endpoint const& x) {
 }
 
 inline
+void endpoint_delete(kth_endpoint& x) {
+    free(x.scheme);
+    free(x.host);
+}
+
+inline
 std::vector<endpoint> endpoint_list_to_cpp(kth_endpoint const* data, size_t n) {
     return kth::capi::helpers::list_to_cpp(data, n, endpoint_to_cpp);
 }
@@ -36,6 +42,11 @@ std::vector<endpoint> endpoint_list_to_cpp(kth_endpoint const* data, size_t n) {
 inline
 kth_endpoint* endpoint_list_to_c(std::vector<endpoint> const& data, size_t& out_size) {
     return kth::capi::helpers::list_to_c(data, out_size, endpoint_to_c);
+}
+
+inline
+void endpoint_list_delete(kth_endpoint* list, size_t n) {
+    list_c_delete(list, n, endpoint_delete);
 }
 
 }

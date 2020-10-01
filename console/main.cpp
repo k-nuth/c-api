@@ -96,9 +96,9 @@ int main(int /*argc*/, char* /*argv*/[]) {
     kth_settings* settings;
     char* error_message;
     // kth_bool_t ok = kth_config_settings_get_from_file("/home/fernando/dev/kth/cs-api/console/node.cfg", &settings, &error_message);
-    // kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\console\\node_win.cfg", &settings, &error_message);
+    kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\console\\node_win.cfg", &settings, &error_message);
     // kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\tests\\bch\\config\\invalid.cfg", &settings, &error_message);
-    kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\tests\\bch\\config\\mainnet.cfg", &settings, &error_message);
+    // kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\tests\\bch\\config\\mainnet.cfg", &settings, &error_message);
 
     if ( ! ok) {
         printf("error: %s", error_message);
@@ -192,6 +192,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // auto tx_count = kth_chain_transaction_list_count(txs);
     // printf("tx_count: %lu\n", tx_count);
 
+    kth_config_settings_destruct(settings);
     kth_node_destruct(exec);
 
     printf("**-- 8\n");

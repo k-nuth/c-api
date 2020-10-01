@@ -50,6 +50,11 @@ kth_database_settings database_settings_to_c(kth::database::settings const& x) {
     return res;
 }
 
+inline
+void database_settings_delete(kth_database_settings* x) {
+    free(x->directory);
+}
+
 } // namespace kth::capi::helpers
 
 #endif // KTH_CAPI_CONFIG_DATABASE_HELPERS_HPP_

@@ -29,6 +29,11 @@ kth_authority authority_to_c(authority const& x) {
 }
 
 inline
+void authority_delete(kth_authority& x) {
+    free(x.ip);
+}
+
+inline
 std::vector<authority> authority_list_to_cpp(kth_authority const* data, size_t n) {
     return kth::capi::helpers::list_to_cpp(data, n, authority_to_cpp);
 }
@@ -36,6 +41,11 @@ std::vector<authority> authority_list_to_cpp(kth_authority const* data, size_t n
 inline
 kth_authority* authority_list_to_c(std::vector<authority> const& data, size_t& out_size) {
     return kth::capi::helpers::list_to_c(data, out_size, authority_to_c);
+}
+
+inline
+void authority_list_delete(kth_authority* list, size_t n) {
+    list_c_delete(list, n, authority_delete);
 }
 
 }

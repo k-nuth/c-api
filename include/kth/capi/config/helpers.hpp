@@ -20,7 +20,6 @@ kth_char_t* path_to_c(std::filesystem::path const& x) {
     return ret;
 }
 
-// template <typename Target, typename Source, typename Transformation>
 template <typename Source, typename Transformation>
 inline
 auto list_to_cpp(Source const* data, size_t n, Transformation transform) {
@@ -37,7 +36,16 @@ auto list_to_cpp(Source const* data, size_t n, Transformation transform) {
     return res;
 }
 
-// template <typename Target, typename Source, typename Transformation>
+template <typename Source, typename Deleter>
+inline
+auto list_c_delete(Source* data, size_t n, Deleter deleter) {
+    for (size_t i = 0; i < n; ++i) {
+        auto xxx = data[i];
+        deleter(data[i]);
+    }
+    free(data);
+}
+
 template <typename Source, typename Transformation>
 inline
 auto* list_to_c(std::vector<Source> const& data, size_t& out_size, Transformation transform) {

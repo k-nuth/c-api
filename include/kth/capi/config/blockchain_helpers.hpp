@@ -84,6 +84,11 @@ kth_blockchain_settings blockchain_settings_to_c(kth::blockchain::settings const
     return res;
 }
 
+inline
+void blockchain_settings_delete(kth_blockchain_settings* x) {
+    kth::capi::helpers::checkpoint_list_delete(x->checkpoints, x->checkpoint_count);
+}
+
 } // namespace kth::capi::helpers
 
 #endif // KTH_CAPI_CONFIG_BLOCKCHAIN_HELPERS_HPP_

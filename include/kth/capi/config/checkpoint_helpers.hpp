@@ -29,6 +29,12 @@ kth_checkpoint checkpoint_to_c(checkpoint const& x) {
 }
 
 inline
+void checkpoint_delete(kth_checkpoint&) {
+    //do nothing
+}
+
+
+inline
 std::vector<checkpoint> checkpoint_list_to_cpp(kth_checkpoint const* data, size_t n) {
     return kth::capi::helpers::list_to_cpp(data, n, checkpoint_to_cpp);
 }
@@ -36,6 +42,11 @@ std::vector<checkpoint> checkpoint_list_to_cpp(kth_checkpoint const* data, size_
 inline
 kth_checkpoint* checkpoint_list_to_c(std::vector<checkpoint> const& data, size_t& out_size) {
     return kth::capi::helpers::list_to_c(data, out_size, checkpoint_to_c);
+}
+
+inline
+void checkpoint_list_delete(kth_checkpoint* list, size_t n) {
+    list_c_delete(list, n, checkpoint_delete);
 }
 
 }

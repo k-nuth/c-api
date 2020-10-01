@@ -32,6 +32,9 @@ KTH_EXPORT
 kth_bool_t kth_config_settings_get_from_fileW(wchar_t const* path, kth_settings** out_settings, char** out_error_message);
 #endif // defined(_WIN32)
 
+KTH_EXPORT
+void kth_config_settings_destruct(void* settings);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

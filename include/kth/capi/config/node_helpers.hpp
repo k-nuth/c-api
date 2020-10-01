@@ -37,6 +37,11 @@ kth_node_settings node_settings_to_c(kth::node::settings const& x) {
     return node_settings_to_common<kth_node_settings>(x);
 }
 
+inline
+void node_settings_delete(kth_node_settings*) {
+    //do nothing
+}
+
 } // namespace kth::capi::helpers
 
 #endif // KTH_CAPI_CONFIG_NODE_HELPERS_HPP_

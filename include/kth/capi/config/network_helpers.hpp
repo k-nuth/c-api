@@ -63,6 +63,11 @@ char** string_list_to_c(std::vector<std::string> const& data, size_t& out_size) 
 }
 
 inline
+void string_list_delete(char** data, size_t n) {
+    return kth::capi::helpers::list_c_delete(data, n, free);
+}
+
+inline
 kth::network::settings network_settings_to_cpp(kth_network_settings const& x) {
     auto res = network_settings_to_common<kth::network::settings>(x);
     res.hosts_file = x.hosts_file;
@@ -92,6 +97,20 @@ kth_network_settings network_settings_to_c(kth::network::settings const& x) {
     res.statistics_server = kth::capi::helpers::authority_to_c(x.statistics_server);
     res.user_agent_blacklist = string_list_to_c(x.user_agent_blacklist, res.user_agent_blacklist_count);
     return res;
+}
+
+inline
+void network_settings_delete(kth_network_settings* x) {
+    free(x->hosts_file);
+    free(x->debug_file);
+    free(x->error_file);
+    free(x->archive_directory);
+    kth::capi::helpers::authority_delete(x->self);
+    kth::capi::helpers::authority_list_delete(x->blacklists, x->blacklist_count);
+    kth::capi::helpers::endpoint_list_delete(x->peers, x->peer_count);
+    kth::capi::helpers::endpoint_list_delete(x->seeds, x->seed_count);
+    kth::capi::helpers::authority_delete(x->statistics_server);
+    string_list_delete(x->user_agent_blacklist, x->user_agent_blacklist_count);
 }
 
 } // namespace kth::capi::helpers

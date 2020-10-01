@@ -65,5 +65,14 @@ kth_bool_t kth_config_settings_get_from_fileW(wchar_t const* path, kth_settings*
 }
 #endif // defined(_WIN32)
 
+void kth_config_settings_destruct(void* settings_par) {
+    //TODO(fernando): delete the inner data members.
+    auto settings = static_cast<kth_settings*>(settings_par);
+    kth::capi::helpers::node_settings_delete(&settings->node);
+    kth::capi::helpers::blockchain_settings_delete(&settings->chain);
+    kth::capi::helpers::database_settings_delete(&settings->database);
+    kth::capi::helpers::network_settings_delete(&settings->network);
+    delete settings;
+}
 
 } // extern "C"
