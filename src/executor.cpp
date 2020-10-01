@@ -237,7 +237,7 @@ bool executor::init_run_and_wait_for_signal(kth::handle0 handler) {
 
     // The callback may be returned on the same thread.
     node_->start(std::bind(&executor::handle_started, this, _1));
-
+    
     // Wait for stop.
     stopping_.get_future().wait();
 
@@ -253,25 +253,6 @@ bool executor::init_run_and_wait_for_signal(kth::handle0 handler) {
     return true;
 }
 #endif // ! defined(KTH_DB_READONLY)
-
-// bool executor::run_wait(kth::handle0 handler) {
-
-//     run(std::move(handler));
-
-//     // Wait for stop.
-//     stopping_.get_future().wait();
-
-//     LOG_INFO(LOG_NODE, KTH_NODE_STOPPING);
-
-//     // Close must be called from main thread.
-//     if (node_->close()) {
-//         LOG_INFO(LOG_NODE, KTH_NODE_STOPPED);
-//     } else {
-//         LOG_INFO(LOG_NODE, KTH_NODE_STOP_FAIL);
-//     }
-
-//     return true;
-// }
 
 // Handle the completion of the start sequence and begin the run sequence.
 void executor::handle_started(kth::code const& ec) {

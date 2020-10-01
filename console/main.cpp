@@ -106,8 +106,8 @@ int main(int /*argc*/, char* /*argv*/[]) {
     }
 
     // auto exec = kth_node_construct_fd(settings, 0, 0);
-    auto exec = kth_node_construct_fd(settings, -1, -1);
-    // auto exec = kth_node_construct(settings, stdout, stderr);
+    // auto exec = kth_node_construct_fd(settings, -1, -1);
+    auto exec = kth_node_construct(settings, stdout, stderr);
 
 
     
@@ -151,19 +151,20 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // printf("**-- 2aaaaaa\n");
     
     // int res2 = kth_node_run_wait(exec);
+    int res2 = kth_node_init_and_run_wait(exec);
 
-    // printf("**-- 3\n");
-    // if (res2 != 0) {
-    //     printf("Error initializing files\n");
-    //     kth_node_destruct(exec);
-    //     return -1;
-    // }
-    // std::this_thread::sleep_for(std::chrono::seconds(10));
-    // printf("**-- 4\n");
+    printf("**-- 3\n");
+    if (res2 != 0) {
+        printf("Error initializing files\n");
+        kth_node_destruct(exec);
+        return -1;
+    }
+    std::this_thread::sleep_for(std::chrono::seconds(10));
+    printf("**-- 4\n");
 
-    // kth_chain_t chain = kth_node_get_chain(exec);
+    kth_chain_t chain = kth_node_get_chain(exec);
         
-    // wait_until_block(chain, 170);
+    wait_until_block(chain, 170);
 
     
 	// std::string hash = "0000000071966c2b1d065fd446b1e485b2c9d9594acd2007ccbd5441cfc89444";
