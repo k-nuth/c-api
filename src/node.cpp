@@ -11,10 +11,10 @@
 #include <boost/thread/latch.hpp>
 
 #include <kth/capi/config/settings_helper.hpp>
-#include <kth/capi/executor.hpp>
 #include <kth/capi/helpers.hpp>
 #include <kth/capi/version.h>
 
+#include <kth/node/executor/executor.hpp>
 #include <kth/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 
 
@@ -161,11 +161,15 @@ void kth_node_init_and_run(kth_node_t node, void* ctx, kth_run_handler_t handler
 }
 
 void kth_node_init_run_and_wait_for_signal(kth_node_t node, void* ctx, kth_run_handler_t handler) {
+    std::cout << "kth_node_init_run_and_wait_for_signal 1" << std::endl;
     node->cpp_executor_.init_run_and_wait_for_signal([node, ctx, handler](std::error_code const& ec) {
+        std::cout << "kth_node_init_run_and_wait_for_signal 2" << std::endl;
         if (handler != nullptr) {
+            std::cout << "kth_node_init_run_and_wait_for_signal 3" << std::endl;
             handler(node, ctx, kth::to_c_err(ec));
         }
     });
+    std::cout << "kth_node_init_run_and_wait_for_signal 4" << std::endl;
 }
 
 #endif // ! defined(KTH_DB_READONLY)

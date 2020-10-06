@@ -95,8 +95,9 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     kth_settings* settings;
     char* error_message;
-    // kth_bool_t ok = kth_config_settings_get_from_file("/home/fernando/dev/kth/cs-api/console/node.cfg", &settings, &error_message);
-    kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\console\\node_win.cfg", &settings, &error_message);
+    kth_bool_t ok = kth_config_settings_get_from_file("/home/fernando/dev/kth/cs-api/console/node.cfg", &settings, &error_message);
+    // kth_bool_t ok = kth_config_settings_get_from_file("/Users/fernando/dev/kth/cs-api/console/node_macos.cfg", &settings, &error_message);
+    // kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\console\\node_win.cfg", &settings, &error_message);
     // kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\tests\\bch\\config\\invalid.cfg", &settings, &error_message);
     // kth_bool_t ok = kth_config_settings_get_from_file("C:\\development\\kth\\cs-api\\tests\\bch\\config\\mainnet.cfg", &settings, &error_message);
 

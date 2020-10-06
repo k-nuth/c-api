@@ -85,23 +85,17 @@ set(KTH_PROJECT_VERSION "-" CACHE STRING "Specify the Knuth Project Version.")
 set(MICROARCHITECTURE "x86_64" CACHE STRING "Specify the Microarchitecture (x86_64|...).")
 message( STATUS "Knuth: Compiling for ${MICROARCHITECTURE}")
 add_definitions(-DKTH_MICROARCHITECTURE=${MICROARCHITECTURE})
-add_definitions(-DKTH_MICROARCHITECTURE_STR="${MICROARCHITECTURE}")
+# add_definitions(-DKTH_MICROARCHITECTURE_STR="${MICROARCHITECTURE}")
 
 
 set(CURRENCY "BCH" CACHE STRING "Specify the Cryptocurrency (BCH|BTC|LTC).")
 
 if (${CURRENCY} STREQUAL "BCH")
   add_definitions(-DKTH_CURRENCY_BCH)
-  add_definitions(-DKTH_CURRENCY_SYMBOL_STR="BCH")
-  add_definitions(-DKTH_CURRENCY_STR="Bitcoin Cash")
 elseif (${CURRENCY} STREQUAL "BTC")
   add_definitions(-DKTH_CURRENCY_BTC)
-  add_definitions(-DKTH_CURRENCY_SYMBOL_STR="BTC")
-  add_definitions(-DKTH_CURRENCY_STR="Bitcoin Legacy")
 elseif (${CURRENCY} STREQUAL "LTC")
   add_definitions(-DKTH_CURRENCY_LTC)
-  add_definitions(-DKTH_CURRENCY_SYMBOL_STR="LTC")
-  add_definitions(-DKTH_CURRENCY_STR="Litecoin")
 else()
   message(FATAL_ERROR "Invalid Cryptocurrency: ${CURRENCY}")
 endif()
@@ -352,8 +346,6 @@ else()
 endif()
 
 set(_kth_sources
-        src/executor.cpp
-
         src/hash.cpp
         src/hash_list.cpp
         # src/parser.cpp
@@ -416,12 +408,12 @@ set(_kth_sources
         # src/user_agent.cpp
 )
 
-if (ENABLE_SHARED)
-  set(_kth_sources
-    ${_kth_sources}
-    src/user_agent.cpp
-  )
-endif()
+# if (ENABLE_SHARED)
+#   set(_kth_sources
+#     ${_kth_sources}
+#     src/user_agent.cpp
+#   )
+# endif()
 
 if (WITH_KEOKEN)
   set(_kth_sources
@@ -443,30 +435,21 @@ add_library(kth-c-api ${MODE}
         ${_kth_sources}
 )
 
-if (NOT ENABLE_SHARED)
-  add_library(kth-c-api-version ${MODE}
-    src/user_agent.cpp
-  )
+# if (NOT ENABLE_SHARED)
+#   add_library(kth-c-api-version ${MODE}
+#     src/user_agent.cpp
+#   )
 
-  if (ENABLE_POSITION_INDEPENDENT_CODE) 
-    set_property(TARGET kth-c-api-version PROPERTY POSITION_INDEPENDENT_CODE ON)
-  endif(ENABLE_POSITION_INDEPENDENT_CODE)
+#   if (ENABLE_POSITION_INDEPENDENT_CODE) 
+#     set_property(TARGET kth-c-api-version PROPERTY POSITION_INDEPENDENT_CODE ON)
+#   endif(ENABLE_POSITION_INDEPENDENT_CODE)
 
-  target_compile_definitions(kth-c-api-version PUBLIC -DKTH_PROJECT_VERSION="${KTH_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
+#   target_compile_definitions(kth-c-api-version PUBLIC -DKTH_PROJECT_VERSION="${KTH_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
 
-  target_include_directories(kth-c-api-version PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>)
-
-
-  # set(CAPI_VERSION_LIBS ${CAPIVERSION_LIBS} "kth-network")
-  # target_link_libraries(kth-c-api-version PUBLIC ${CAPIVERSION_LIBS})
-
-  # if (NOT NO_CONAN_AT_ALL)
-  #   target_link_libraries(kth-c-api-version PUBLIC ${CONAN_LIBS})
-  # endif()
-
-endif()
+#   target_include_directories(kth-c-api-version PUBLIC
+#     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+#     $<INSTALL_INTERFACE:include>)
+# endif()
 
 
 if (ENABLE_POSITION_INDEPENDENT_CODE) 
@@ -501,9 +484,9 @@ endif()
 
 if (NOT USE_CONAN)
   set(DEP_LIBS ${DEP_LIBS} "kth-node")
-  if (NOT ENABLE_SHARED)
-    set(DEP_LIBS ${DEP_LIBS} "kth-c-api-version")
-  endif()
+#   if (NOT ENABLE_SHARED)
+#     set(DEP_LIBS ${DEP_LIBS} "kth-c-api-version")
+#   endif()
 
   target_link_libraries(kth-c-api PUBLIC ${DEP_LIBS})
 endif()
@@ -512,15 +495,11 @@ endif()
 
 
 if (NOT NO_CONAN_AT_ALL)
-  if (NOT ENABLE_SHARED)
-    set(CONAN_LIBS ${CONAN_LIBS} "kth-c-api-version")
-  endif()
+#   if (NOT ENABLE_SHARED)
+#     set(CONAN_LIBS ${CONAN_LIBS} "kth-c-api-version")
+#   endif()
   target_link_libraries(kth-c-api PUBLIC ${CONAN_LIBS})
 endif()
-
-# if (NOT ENABLE_SHARED)
-#   target_link_libraries(kth-c-api PUBLIC kth-c-api-version)
-# endif()
 
 if (USE_CONAN)
   if (MINGW)
@@ -622,15 +601,15 @@ endif()
 #        LIBRARY DESTINATION lib
 #)
 
-if (NOT ENABLE_SHARED)
-  install(TARGETS kth-c-api-version
-          EXPORT kth-c-api-version
-          LIBRARY DESTINATION "lib"
-          ARCHIVE DESTINATION "lib"
-          RUNTIME DESTINATION "lib"
-          COMPONENT library
-          )
-endif()
+# if (NOT ENABLE_SHARED)
+#   install(TARGETS kth-c-api-version
+#           EXPORT kth-c-api-version
+#           LIBRARY DESTINATION "lib"
+#           ARCHIVE DESTINATION "lib"
+#           RUNTIME DESTINATION "lib"
+#           COMPONENT library
+#           )
+# endif()
 
 install(TARGETS kth-c-api
         EXPORT kth-c-api
@@ -704,11 +683,11 @@ endforeach()
 #==============================================================================
 include(CMakePackageConfigHelpers)
 
-if (NOT ENABLE_SHARED)
-  export(EXPORT kth-c-api-version
-          FILE "${CMAKE_CURRENT_BINARY_DIR}/kth-c-api-versionTargets.cmake")
-  export(PACKAGE kth-c-api-version)
-endif()
+# if (NOT ENABLE_SHARED)
+#   export(EXPORT kth-c-api-version
+#           FILE "${CMAKE_CURRENT_BINARY_DIR}/kth-c-api-versionTargets.cmake")
+#   export(PACKAGE kth-c-api-version)
+# endif()
 
 export(EXPORT kth-c-api
         FILE "${CMAKE_CURRENT_BINARY_DIR}/kth-c-apiTargets.cmake")
@@ -721,11 +700,11 @@ elseif (WIN32)
 endif()
 
 
-if (NOT ENABLE_SHARED)
-  install(EXPORT kth-c-api-version
-          FILE kth-c-api-versionTargets.cmake
-          DESTINATION ${_config_package_location})
-endif()
+# if (NOT ENABLE_SHARED)
+#   install(EXPORT kth-c-api-version
+#           FILE kth-c-api-versionTargets.cmake
+#           DESTINATION ${_config_package_location})
+# endif()
 
 install(EXPORT kth-c-api
         FILE kth-c-apiTargets.cmake
