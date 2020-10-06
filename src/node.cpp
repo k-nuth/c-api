@@ -62,6 +62,10 @@ using handle_sink = typename boost::iostreams::file_descriptor_sink::handle_type
 
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
+std::string version() {
+    return "Node C lib v" KTH_CAPI_VERSION;
+}
+
 // ---------------------------------------------------------------------------
 extern "C" {
 
@@ -97,7 +101,7 @@ struct executor_helper {
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> serr_buffer_;
     std::ostream sout_;
     std::ostream serr_;
-    kth::capi::executor cpp_executor_;
+    kth::node::executor cpp_executor_;
 };
 
 kth_node_t kth_node_construct(kth_settings const* settings, FILE* sout, FILE* serr) {
@@ -126,43 +130,41 @@ void kth_node_destruct(kth_node_t node) {
 int kth_node_initchain(kth_node_t node) {
     // TODO(fernando): return error_t to inform error in detail
     try {
-        return kth::bool_to_int(node->cpp_executor_.do_initchain());
-//    } catch (const std::exception& e) {
-//        return 0;
+        return kth::bool_to_int(node->cpp_executor_.do_initchain(version()));
     } catch (...) {
         return 0;
     }
 }
 #endif // ! defined(KTH_DB_READONLY)
 
-void kth_node_run(kth_node_t node, void* ctx, kth_run_handler_t handler) {
-    try {
-        node->cpp_executor_.run([node, ctx, handler](std::error_code const& ec) {
-            if (handler != nullptr) {
-                handler(node, ctx, kth::to_c_err(ec));
-            }
-        });
-    } catch (...) {
-        handler(node, ctx, kth_ec_unknown);
-    }
-}
+// void kth_node_run(kth_node_t node, void* ctx, kth_run_handler_t handler) {
+//     try {
+//         node->cpp_executor_.run([node, ctx, handler](std::error_code const& ec) {
+//             if (handler != nullptr) {
+//                 handler(node, ctx, kth::to_c_err(ec));
+//             }
+//         });
+//     } catch (...) {
+//         handler(node, ctx, kth_ec_unknown);
+//     }
+// }
 
 #if ! defined(KTH_DB_READONLY)
-void kth_node_init_and_run(kth_node_t node, void* ctx, kth_run_handler_t handler) {
-    try {
-        node->cpp_executor_.init_and_run([node, ctx, handler](std::error_code const& ec) {
-            if (handler != nullptr) {
-                handler(node, ctx, kth::to_c_err(ec));
-            }
-        });
-    } catch (...) {
-        handler(node, ctx, kth_ec_unknown);
-    }
-}
+// void kth_node_init_and_run(kth_node_t node, void* ctx, kth_run_handler_t handler) {
+//     try {
+//         node->cpp_executor_.init_and_run([node, ctx, handler](std::error_code const& ec) {
+//             if (handler != nullptr) {
+//                 handler(node, ctx, kth::to_c_err(ec));
+//             }
+//         });
+//     } catch (...) {
+//         handler(node, ctx, kth_ec_unknown);
+//     }
+// }
 
 void kth_node_init_run_and_wait_for_signal(kth_node_t node, void* ctx, kth_run_handler_t handler) {
     std::cout << "kth_node_init_run_and_wait_for_signal 1" << std::endl;
-    node->cpp_executor_.init_run_and_wait_for_signal([node, ctx, handler](std::error_code const& ec) {
+    node->cpp_executor_.init_run_and_wait_for_signal(version(), [node, ctx, handler](std::error_code const& ec) {
         std::cout << "kth_node_init_run_and_wait_for_signal 2" << std::endl;
         if (handler != nullptr) {
             std::cout << "kth_node_init_run_and_wait_for_signal 3" << std::endl;
@@ -174,60 +176,60 @@ void kth_node_init_run_and_wait_for_signal(kth_node_t node, void* ctx, kth_run_h
 
 #endif // ! defined(KTH_DB_READONLY)
 
-int kth_node_run_wait(kth_node_t node) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+// int kth_node_run_wait(kth_node_t node) {
+//     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
 
-    int res;
-    bool run_res = false;
+//     int res;
+//     bool run_res = false;
 
-    try {
-        run_res = node->cpp_executor_.run([&](std::error_code const& ec) {
-            res = ec.value();
-            latch.count_down();
-        });
-    } catch (...) {
-        run_res = false;
-    }
+//     try {
+//         run_res = node->cpp_executor_.run([&](std::error_code const& ec) {
+//             res = ec.value();
+//             latch.count_down();
+//         });
+//     } catch (...) {
+//         run_res = false;
+//     }
 
-    if (run_res) {
-        latch.count_down_and_wait();
-        return res;
-    }
+//     if (run_res) {
+//         latch.count_down_and_wait();
+//         return res;
+//     }
 
-    return 1; // TODO(fernando): return error_t to inform errors in detail
-}
+//     return 1; // TODO(fernando): return error_t to inform errors in detail
+// }
 
 #if ! defined(KTH_DB_READONLY)
-int kth_node_init_and_run_wait(kth_node_t node) {
+// int kth_node_init_and_run_wait(kth_node_t node) {
     
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+//     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
 
-    int res;
-    bool run_res = false;
+//     int res;
+//     bool run_res = false;
 
-    try {
-        run_res = node->cpp_executor_.init_and_run([&](std::error_code const& ec) {
-            res = ec.value();
-            latch.count_down();
-        });
-    } catch (...) {
-        run_res = false;
-    }
+//     try {
+//         run_res = node->cpp_executor_.init_and_run([&](std::error_code const& ec) {
+//             res = ec.value();
+//             latch.count_down();
+//         });
+//     } catch (...) {
+//         run_res = false;
+//     }
 
-    if (run_res) {
-        latch.count_down_and_wait();
-        return res;
-    }
+//     if (run_res) {
+//         latch.count_down_and_wait();
+//         return res;
+//     }
 
-    return 1; // TODO(fernando): return error_t to inform errors in detail
-}
+//     return 1; // TODO(fernando): return error_t to inform errors in detail
+// }
 #endif // ! defined(KTH_DB_READONLY)
 
 
-int kth_node_stop(kth_node_t node) {
-    auto res = static_cast<int>(node->cpp_executor_.stop());
-    return res;
-}
+// int kth_node_stop(kth_node_t node) {
+//     auto res = static_cast<int>(node->cpp_executor_.stop());
+//     return res;
+// }
 
 void kth_node_signal_stop(kth_node_t node) {
     node->cpp_executor_.signal_stop();

@@ -35,27 +35,27 @@ KTH_EXPORT
 int kth_node_initchain(kth_node_t node);
 #endif // ! defined(KTH_DB_READONLY)
 
-KTH_EXPORT
-void kth_node_run(kth_node_t node, void* ctx, kth_run_handler_t handler);
+// KTH_EXPORT
+// void kth_node_run(kth_node_t node, void* ctx, kth_run_handler_t handler);
 
 #if ! defined(KTH_DB_READONLY)
-KTH_EXPORT
-void kth_node_init_and_run(kth_node_t node, void* ctx, kth_run_handler_t handler);
+// KTH_EXPORT
+// void kth_node_init_and_run(kth_node_t node, void* ctx, kth_run_handler_t handler);
 
 KTH_EXPORT
 void kth_node_init_run_and_wait_for_signal(kth_node_t node, void* ctx, kth_run_handler_t handler);
 #endif // ! defined(KTH_DB_READONLY)
 
-KTH_EXPORT
-int kth_node_run_wait(kth_node_t node);
+// KTH_EXPORT
+// int kth_node_run_wait(kth_node_t node);
 
-#if ! defined(KTH_DB_READONLY)
-KTH_EXPORT
-int kth_node_init_and_run_wait(kth_node_t node);
-#endif // ! defined(KTH_DB_READONLY)
+// #if ! defined(KTH_DB_READONLY)
+// KTH_EXPORT
+// int kth_node_init_and_run_wait(kth_node_t node);
+// #endif // ! defined(KTH_DB_READONLY)
 
-KTH_EXPORT
-int kth_node_stop(kth_node_t node);
+// KTH_EXPORT
+// int kth_node_stop(kth_node_t node);
 
 KTH_EXPORT
 void kth_node_signal_stop(kth_node_t node);

@@ -404,8 +404,6 @@ set(_kth_sources
         src/wallet/raw_output_list.cpp
         src/wallet/transaction_functions.cpp
         src/wallet/wallet.cpp
-
-        # src/user_agent.cpp
 )
 
 # if (ENABLE_SHARED)
