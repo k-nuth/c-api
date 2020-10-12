@@ -163,15 +163,11 @@ int kth_node_initchain(kth_node_t node) {
 // }
 
 void kth_node_init_run_and_wait_for_signal(kth_node_t node, void* ctx, kth_run_handler_t handler) {
-    std::cout << "kth_node_init_run_and_wait_for_signal 1" << std::endl;
     node->cpp_executor_.init_run_and_wait_for_signal(version(), [node, ctx, handler](std::error_code const& ec) {
-        std::cout << "kth_node_init_run_and_wait_for_signal 2" << std::endl;
         if (handler != nullptr) {
-            std::cout << "kth_node_init_run_and_wait_for_signal 3" << std::endl;
             handler(node, ctx, kth::to_c_err(ec));
         }
     });
-    std::cout << "kth_node_init_run_and_wait_for_signal 4" << std::endl;
 }
 
 #endif // ! defined(KTH_DB_READONLY)
