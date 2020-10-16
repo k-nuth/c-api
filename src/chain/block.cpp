@@ -12,7 +12,6 @@
 
 KTH_CONV_DEFINE(chain, kth_block_t, kth::domain::message::block, block)
 
-
 // ---------------------------------------------------------------------------
 extern "C" {
 

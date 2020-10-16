@@ -108,7 +108,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     // auto exec = kth_node_construct_fd(settings, 0, 0);
     // auto exec = kth_node_construct_fd(settings, -1, -1);
-    auto exec = kth_node_construct(settings, stdout, stderr);
+    auto exec = kth_node_construct(settings, 1);
 
 
     

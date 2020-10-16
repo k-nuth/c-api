@@ -17,15 +17,7 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-kth_node_t kth_node_construct(kth_settings const* settings, FILE* sout, FILE* serr);
-
-KTH_EXPORT
-kth_node_t kth_node_construct_fd(kth_settings const* settings, int sout_fd, int serr_fd);
-
-#if defined(_WIN32)
-KTH_EXPORT
-kth_node_t kth_node_construct_handles(kth_settings const* settings, void* sout, void* serr);
-#endif /* defined(_WIN32) */
+kth_node_t kth_node_construct(kth_settings const* settings, kth_bool_t stdout_enabled);
 
 KTH_EXPORT
 void kth_node_destruct(kth_node_t node);

@@ -35,7 +35,7 @@ typedef char kth_char_t;
 
 typedef enum point_kind {output = 0, spend = 1} kth_point_kind_t;
 
-typedef struct executor_helper* kth_node_t;
+typedef void* kth_node_t;
 typedef void* kth_chain_t;
 typedef void* kth_p2p_t;
 
