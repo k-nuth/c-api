@@ -5,11 +5,12 @@
 #ifndef KTH_CAPI_CONFIG_HELPERS_HPP_
 #define KTH_CAPI_CONFIG_HELPERS_HPP_
 
-#include <vector>
 #include <filesystem>
 #include <type_traits>
+#include <vector>
 
 #include <kth/capi/helpers.hpp>
+#include <kth/infrastructure/path.hpp>
 
 namespace kth::capi::helpers {
 
