@@ -25,10 +25,25 @@ namespace kth {
 
 namespace capi {
 
+struct deleter_printer2 {
+    int id;
+    deleter_printer2(int id)
+        : id(id) 
+    {
+        std::cout << "deleter_printer2 id: " << id << std::endl;
+    }
+    ~deleter_printer2() {
+        std::cout << "~deleter_printer2 id: " << id << std::endl;
+    }
+};
+
+
 class executor {
 public:
 
     executor(kth::node::configuration const& config, std::ostream& output, std::ostream& error);
+
+    ~executor();
 
     executor(executor const&) = delete;
     void operator=(executor const&) = delete;
@@ -84,17 +99,23 @@ private:
     // Termination state.
     static std::promise<kth::code> stopping_;
 
-//    parser& metadata_;
+    deleter_printer2 dp1 = 1;
     kth::node::configuration config_;
+    deleter_printer2 dp2 = 2;
     std::ostream& output_;
+    deleter_printer2 dp3 = 3;
     std::ostream& error_;
+    deleter_printer2 dp4 = 4;
     
     kth::node::full_node::ptr node_;
+    deleter_printer2 dp5 = 5;
+
 #ifdef KTH_WITH_KEOKEN
     std::unique_ptr<keoken_manager_cpp_t> keoken_manager_;
 #endif
 
     kth::handle0 run_handler_;
+    deleter_printer2 dp6 = 6;
 };
 
 // Localizable messages.

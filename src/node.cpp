@@ -65,6 +65,18 @@ using handle_sink = typename boost::iostreams::file_descriptor_sink::handle_type
 // ---------------------------------------------------------------------------
 extern "C" {
 
+struct deleter_printer {
+    int id;
+    deleter_printer(int id)
+        : id(id) 
+    {
+        std::cout << "deleter_printer id: " << id << std::endl;
+    }
+    ~deleter_printer() {
+        std::cout << "~deleter_printer id: " << id << std::endl;
+    }
+};
+
 struct executor_helper {
 
     executor_helper(kth::node::configuration const& config, FILE* sout, FILE* serr)
@@ -81,7 +93,9 @@ struct executor_helper {
         , sout_(&sout_buffer_)
         , serr_(&serr_buffer_)
         , cpp_executor_(config, sout_, serr_) 
-    {}
+    {
+        std::cout << "executor_helper(int sout_fd, int serr_fd)" << std::endl;
+    }
 
 #ifdef BOOST_IOSTREAMS_WINDOWS
     executor_helper(kth::node::configuration const& config, handle_sink sout, handle_sink serr)
@@ -93,11 +107,21 @@ struct executor_helper {
     {}
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
+    ~executor_helper() {
+        std::cout << "~executor_helper 1" << std::endl;
+    }
+
+    deleter_printer dp1 = 1;
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> sout_buffer_;
+    deleter_printer dp2 = 2;
     boost::iostreams::stream_buffer<boost::iostreams::file_descriptor_sink> serr_buffer_;
+    deleter_printer dp3 = 3;
     std::ostream sout_;
+    deleter_printer dp4 = 4;
     std::ostream serr_;
+    deleter_printer dp5 = 5;
     kth::capi::executor cpp_executor_;
+    deleter_printer dp6 = 6;
 };
 
 kth_node_t kth_node_construct(kth_settings const* settings, FILE* sout, FILE* serr) {
@@ -119,7 +143,9 @@ kth_node_t kth_node_construct_handles(kth_settings const* settings, void* sout, 
 #endif /* BOOST_IOSTREAMS_WINDOWS */
 
 void kth_node_destruct(kth_node_t node) {
+    std::cout << "kth_node_destruct 1" << std::endl;
     delete node;
+    std::cout << "kth_node_destruct 2" << std::endl;
 }
 
 #if ! defined(KTH_DB_READONLY)

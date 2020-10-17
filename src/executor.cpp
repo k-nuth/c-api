@@ -33,6 +33,11 @@ static constexpr int directory_not_found = 2;
 
 std::promise<kth::code> executor::stopping_; //NOLINT
 
+
+executor::~executor() {
+    std::cout << "executor::~executor" << std::endl;
+}
+
 executor::executor(kth::node::configuration const& config, std::ostream& output, std::ostream& error)
     : config_(config), output_(output), error_(error)
 {
@@ -237,7 +242,9 @@ bool executor::init_run_and_wait_for_signal(kth::handle0 handler) {
 
     // The callback may be returned on the same thread.
     node_->start(std::bind(&executor::handle_started, this, _1));
-    
+
+    std::cout << "node is stopping ..." << std::endl;
+
     // Wait for stop.
     stopping_.get_future().wait();
 
@@ -245,10 +252,14 @@ bool executor::init_run_and_wait_for_signal(kth::handle0 handler) {
 
     // Close must be called from main thread.
     if (node_->close()) {
+        std::cout << "node is stopped OK ..." << std::endl;
+
         LOG_INFO(LOG_NODE, KTH_NODE_STOPPED);
     } else {
+        std::cout << "node is stopped FAIL ..." << std::endl;
         LOG_INFO(LOG_NODE, KTH_NODE_STOP_FAIL);
     }
+    std::cout << "node is stopped" << std::endl;
 
     return true;
 }
