@@ -70,10 +70,10 @@ void string_list_delete(char** data, size_t n) {
 inline
 kth::network::settings network_settings_to_cpp(kth_network_settings const& x) {
     auto res = network_settings_to_common<kth::network::settings>(x);
-    res.hosts_file = fs::u8path(x.hosts_file);
-    res.debug_file = fs::u8path(x.debug_file);
-    res.error_file = fs::u8path(x.error_file);
-    res.archive_directory = fs::u8path(x.archive_directory);
+    res.hosts_file = kth::path(x.hosts_file);
+    res.debug_file = kth::path(x.debug_file);
+    res.error_file = kth::path(x.error_file);
+    res.archive_directory = kth::path(x.archive_directory);
     res.self = kth::capi::helpers::authority_to_cpp(x.self);
     res.blacklists = kth::capi::helpers::authority_list_to_cpp(x.blacklists, x.blacklist_count);
     res.peers = kth::capi::helpers::endpoint_list_to_cpp(x.peers, x.peer_count);
