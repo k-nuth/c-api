@@ -196,8 +196,12 @@ kth::domain::config::network network_to_cpp(kth_network_t net) {
             return kth::domain::config::network::testnet;
         case kth_network_regtest:
             return kth::domain::config::network::regtest;
+#if defined(KTH_CURRENCY_BCH)
         case kth_network_testnet4:
             return kth::domain::config::network::testnet4;
+        case kth_network_scalenet:
+            return kth::domain::config::network::scalenet;
+#endif
         default:
         case kth_network_mainnet:
             return kth::domain::config::network::mainnet;
@@ -211,8 +215,12 @@ kth_network_t network_to_c(kth::domain::config::network net) {
             return kth_network_testnet;
         case kth::domain::config::network::regtest:
             return kth_network_regtest;
+#if defined(KTH_CURRENCY_BCH)            
         case kth::domain::config::network::testnet4:
             return kth_network_testnet4;
+        case kth::domain::config::network::scalenet:
+            return kth_network_scalenet;
+#endif            
         default:
         case kth::domain::config::network::mainnet:
             return kth_network_mainnet;

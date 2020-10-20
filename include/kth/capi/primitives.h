@@ -116,10 +116,13 @@ typedef enum {
 
 // Network -----------------------------------------------------------
 typedef enum {
-    kth_network_mainnet,
-    kth_network_testnet,
-    kth_network_regtest,
-    kth_network_testnet4
+      kth_network_mainnet
+    , kth_network_testnet
+    , kth_network_regtest
+#if defined(KTH_CURRENCY_BCH)
+    , kth_network_testnet4
+    , kth_network_scalenet
+#endif    
 } kth_network_t;
 
 
