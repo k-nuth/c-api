@@ -27,9 +27,42 @@ kth_block_t kth_chain_block_construct(kth_header_t header, kth_transaction_list_
 }
 
 kth_block_t kth_chain_block_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
-    kth::data_chunk data_cpp(data, std::next(data, n));
-    auto block = kth::domain::create<kth::domain::message::block>(version, data_cpp);
-    return kth::move_or_copy_and_leak(std::move(block));
+
+    auto start = std::chrono::high_resolution_clock::now();
+        kth::data_chunk data_cpp(data, std::next(data, n));
+    auto end = std::chrono::high_resolution_clock::now();
+    auto data_chunk_time_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+
+    start = std::chrono::high_resolution_clock::now();
+        auto block = kth::domain::create<kth::domain::message::block>(version, data_cpp);
+    end = std::chrono::high_resolution_clock::now();
+    auto create_time_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+
+    start = std::chrono::high_resolution_clock::now();
+        auto res = kth::move_or_copy_and_leak(std::move(block));
+    end = std::chrono::high_resolution_clock::now();
+    auto leak_time_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+
+
+    std::cout << "kth_chain_block_factory_from_data data_chunk: " 
+              << data_chunk_time_ns << " ns - " 
+              << (data_chunk_time_ns / 1'000'000'000.0) << " secs." << std::endl;
+
+    std::cout << "kth_chain_block_factory_from_data create_time_ns: " 
+              << create_time_ns << " ns - " 
+              << (create_time_ns / 1'000'000'000.0) << " secs." << std::endl;
+
+    auto deserialize_time_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(block.validation.end_deserialize - block.validation.start_deserialize).count();
+    std::cout << "kth_chain_block_factory_from_data deserialize_time_ns: " 
+              << deserialize_time_ns << " ns - " 
+              << (deserialize_time_ns / 1'000'000'000.0) << " secs." << std::endl;
+
+    std::cout << "kth_chain_block_factory_from_data leak_time_ns: " 
+              << leak_time_ns << " ns - " 
+              << (leak_time_ns / 1'000'000'000.0) << " secs." << std::endl;
+
+    return res;
+
 }
 
 void kth_chain_block_destruct(kth_block_t block) {

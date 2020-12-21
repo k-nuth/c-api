@@ -534,16 +534,16 @@ if (WITH_CONSOLE_CAPI)
       )
     else()
       set(_test_console_sources
-        # console/test_wallet.cpp
-        # console/test_header_hash.cpp
-          console/main.cpp
-        #   console/main.c
-        # console/error_test.cpp
+          # console/test_wallet.cpp
+          # console/test_header_hash.cpp
+          # console/main.cpp
+          # console/main.c
+          # console/error_test.cpp
           # console/test_deadlock.cpp
-
-        # console/config_test.cpp
-        # console/platform_test.cpp
-      )
+          # console/config_test.cpp
+          # console/platform_test.cpp
+          console/bch-bench.cpp
+          )
     endif()
 
   add_executable(test_console ${_test_console_sources})

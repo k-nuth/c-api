@@ -414,16 +414,48 @@ kth_transaction_list_t kth_chain_sync_mempool_transactions_from_wallets(kth_chai
 // Organizers.
 //-------------------------------------------------------------------------
 
-int kth_chain_sync_organize_block(kth_chain_t chain, kth_block_t block) {
+int kth_chain_sync_organize_block(kth_chain_t chain, kth_block_t block, kth_size_t& block_to_cpp_ns, kth_size_t& pre_latch_ns, kth_size_t& organize_ns) {
+
+    // auto start = std::chrono::high_resolution_clock::now();
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
+    // auto end = std::chrono::high_resolution_clock::now();
+    // auto latch_time_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
 
-    safe_chain(chain).organize(block_shared(block), [&](std::error_code const& ec) {
+
+    auto start = std::chrono::high_resolution_clock::now();
+    auto block_cpp = block_shared(block);
+    auto end = std::chrono::high_resolution_clock::now();
+    block_to_cpp_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+
+    // std::cout << "Block to C++: " 
+    //           << block_to_cpp_ns << " ns - " 
+    //           << (block_to_cpp_ns / 1'000'000'000.0) << " secs." << std::endl;
+
+    start = std::chrono::high_resolution_clock::now();
+    // safe_chain(chain).organize(block_shared(block), [&](std::error_code const& ec) {
+    safe_chain(chain).organize(block_cpp, [&](std::error_code const& ec) {
+
+        auto end_pre_latch = std::chrono::high_resolution_clock::now();
+        pre_latch_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end_pre_latch - start).count();
+
+        // std::cout << "kth_chain_sync_organize_block - pre_latch_ns: " 
+        //         << pre_latch_ns << " ns - " 
+        //         << (pre_latch_ns / 1'000'000'000.0) << " secs." << std::endl;
+
         res = kth::to_c_err(ec);
         latch.count_down();
     });
 
     latch.count_down_and_wait();
+
+    end = std::chrono::high_resolution_clock::now();
+    organize_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+
+    // std::cout << "kth_chain_sync_organize_block - organize_ns: " 
+    //           << organize_ns << " ns - " 
+    //           << (organize_ns / 1'000'000'000.0) << " secs." << std::endl;
+
     return res;
 }
 

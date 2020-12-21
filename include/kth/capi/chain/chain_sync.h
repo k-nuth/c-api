@@ -106,7 +106,8 @@ kth_transaction_list_t kth_chain_sync_mempool_transactions_from_wallets(kth_chai
 // Organizers.
 //-------------------------------------------------------------------------
 KTH_EXPORT
-int kth_chain_sync_organize_block(kth_chain_t chain, kth_block_t block);
+// int kth_chain_sync_organize_block(kth_chain_t chain, kth_block_t block);
+int kth_chain_sync_organize_block(kth_chain_t chain, kth_block_t block, kth_size_t& block_to_cpp_ns, kth_size_t& pre_latch_ns, kth_size_t& organize_ns);
 
 KTH_EXPORT
 int kth_chain_sync_organize_transaction(kth_chain_t chain, kth_transaction_t transaction);
