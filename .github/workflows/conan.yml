@@ -1,0 +1,215 @@
+name: Conan
+
+on: [push]
+
+jobs:
+  master:
+    name: Master
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Master Build
+        shell: bash
+        run: |
+          echo "Stable packages are published in Release branches"
+
+  wait-for-dependencies:
+    name: Wait for dependencies (modules)
+    if: github.ref == 'refs/heads/dev' || 
+        startsWith(github.ref, 'refs/heads/testci') ||
+        startsWith(github.ref, 'refs/heads/release') ||
+        startsWith(github.ref, 'refs/heads/hotfix')
+
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        if: startsWith(github.ref, 'refs/heads/testci') ||
+            startsWith(github.ref, 'refs/heads/release') ||
+            startsWith(github.ref, 'refs/heads/hotfix')
+
+        with:
+          submodules: true
+      - uses: actions/setup-python@v1
+        if: startsWith(github.ref, 'refs/heads/testci') ||
+            startsWith(github.ref, 'refs/heads/release') ||
+            startsWith(github.ref, 'refs/heads/hotfix')
+        with:
+          python-version: "3.8"
+
+      - name: Install software
+        if: startsWith(github.ref, 'refs/heads/testci') ||
+            startsWith(github.ref, 'refs/heads/release') ||
+            startsWith(github.ref, 'refs/heads/hotfix')
+        run: |
+          chmod +x ci_utils/.travis/install.sh
+          ./ci_utils/.travis/install.sh
+        shell: bash
+
+      - name: Wait for dependencies (modules)
+        if: startsWith(github.ref, 'refs/heads/testci') ||
+            startsWith(github.ref, 'refs/heads/release') ||
+            startsWith(github.ref, 'refs/heads/hotfix')
+        env:
+          CONAN_GCC_VERSIONS: 10
+          CONAN_DOCKER_IMAGE: conanio/gcc10
+
+        shell: bash
+        run: |
+          conan user
+          conan remote list
+          conan remote add kthbuild_kth_temp_ https://api.bintray.com/conan/k-nuth/kth || true
+          conan remote list
+          # echo "KTH_REPO_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $1}')" >> $GITHUB_ENV
+          export KTH_REPO_NAME=$(echo '${{ github.repository }}')
+          echo "My repo name is $KTH_REPO_NAME"
+          python ci_utils/wait_for_deps.py
+
+      - name: Dummy Step for dev branch
+        if: github.ref == 'refs/heads/dev'
+        shell: bash
+        run: |
+          echo "Nothing to do!"
+
+  generate-matrix:
+    name: Generate Job Matrix
+    needs: wait-for-dependencies
+    runs-on: ubuntu-20.04
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Generate Job Matrix
+        id: set-matrix
+        # env:
+        #   MATRIX: '{"config": [{"name": "Linux GCC 10","compiler": "GCC","version": "10","os": "ubuntu-20.04"},{"name": "Linux GCC 9","compiler": "GCC","version": "9","os": "ubuntu-20.04"},{"name": "Linux GCC 8","compiler": "GCC","version": "8","os": "ubuntu-20.04"},{"name": "macOS apple-clang 12","compiler": "apple-clang","version": "12","os": "macos-10.15"}]}'
+        run: |
+          MATRIX=$(cat ./ci_utils/.github/matrix.json)
+          echo "${MATRIX}"
+          echo "::set-output name=matrix::${MATRIX}"
+          # JSON=$(cat ./ci_utils/.github/matrix.json)
+          # echo "::set-output name=${JSON//'%'/'%25'}"
+          
+  builds:
+    needs: generate-matrix
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
+    name: ${{ matrix.config.name }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+  
+      - name: Install Dependencies
+        run: |
+          chmod +x ci_utils/.travis/install.sh
+          ./ci_utils/.travis/install.sh
+        shell: bash
+  
+      - name: Settting Linux EnvVars
+        if: ${{ matrix.config.compiler == 'GCC' }}
+        shell: bash
+        run: |
+          echo "CONAN_GCC_VERSIONS=${{ matrix.config.version }}" >> $GITHUB_ENV
+          echo "CONAN_DOCKER_IMAGE=conanio/gcc${{ matrix.config.version }}" >> $GITHUB_ENV
+
+      - name: Settting macOS EnvVars
+        if: ${{ matrix.config.compiler == 'apple-clang' }}
+        shell: bash
+        run: |
+          echo "CONAN_APPLE_CLANG_VERSIONS=${{ matrix.config.version }}.0" >> $GITHUB_ENV
+
+      - name: Build
+        env:
+          CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
+          CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
+          CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
+        shell: bash
+        run: |
+          echo ${{ matrix.config.compiler }}
+          echo ${BPT_MATRIX}
+          echo ${CONAN_STABLE_BRANCH_PATTERN}
+          echo ${CONAN_GCC_VERSIONS}
+          echo ${CONAN_APPLE_CLANG_VERSIONS}
+          echo ${CONAN_DOCKER_IMAGE}
+          echo ${CONAN_LOGIN_USERNAME}
+
+          export KTH_BRANCH=$(echo '${{ github.ref }}' | awk -F '/' '{print $3}')
+          echo "My branch name is $KTH_BRANCH"
+
+          chmod +x ci_utils/.travis/run.sh
+          ./ci_utils/.travis/run.sh
+ 
+  static-checks:
+    needs: wait-for-dependencies
+    name: Static Checks
+    if: github.ref == 'refs/heads/dev' || 
+        startsWith(github.ref, 'refs/heads/testci') ||
+        startsWith(github.ref, 'refs/heads/release') || 
+        startsWith(github.ref, 'refs/heads/hotfix')
+
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Static Checks
+        shell: bash
+        run: |
+          echo ${{github.ref}}
+
+  upload-aliases:
+    name: Upload Aliases
+    needs: [builds, static-checks]
+    if: github.ref == 'refs/heads/dev' || 
+        startsWith(github.ref, 'refs/heads/testci') ||
+        startsWith(github.ref, 'refs/heads/release') || 
+        startsWith(github.ref, 'refs/heads/hotfix') ||
+        startsWith(github.ref, 'refs/heads/feature') 
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+
+      - name: Install Dependencies
+        run: |
+          chmod +x ci_utils/.travis/install.sh
+          ./ci_utils/.travis/install.sh
+        shell: bash
+
+      - name: Upload Aliases
+        env:
+          CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
+          CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
+        shell: bash
+        run: |
+
+          # echo "REPO_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $1}')" >> $GITHUB_ENV
+          REPO_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')
+          echo "My repo name is $REPO_NAME"
+
+          export KTH_BRANCH=$(echo '${{ github.ref }}' | awk -F '/' '{print $3}')
+          echo "My branch name is $KTH_BRANCH"
+
+          eval $(python ci_utils/set_envvars_and_files.py)
+          # conan remote add kthbuild_kth_temp_ https://api.bintray.com/conan/k-nuth/kth
+          conan user
+          conan user ${CONAN_LOGIN_USERNAME} -r kthbuild_kth_temp_ -p ${CONAN_PASSWORD}
+          conan user
+          echo "conan alias ${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL} ${REPO_NAME}/${KTH_CONAN_VERSION}@kth/${KTH_CONAN_CHANNEL}"
+          conan alias "${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL}" "${REPO_NAME}/${KTH_CONAN_VERSION}@kth/${KTH_CONAN_CHANNEL}"
+          echo "conan upload ${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL} --all -r kthbuild_kth_temp_"
+          conan upload "${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL}" --all -r kthbuild_kth_temp_        
+
+
+
+# References:
+  # https://github.com/radareorg/radare2
