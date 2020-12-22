@@ -3,7 +3,7 @@
 
 <img width="200px" src="https://raw.githubusercontent.com/k-nuth/misc/master/images/KTH-and-C.svg" />
 
-# C API <a target="_blank" href="https://github.com/k-nuth/c-api/releases">![Github Releases][badge.release]</a> <a target="_blank" href="https://travis-ci.org/k-nuth/c-api">![Build status][badge.Travis]</a> <a target="_blank" href="https://ci.appveyor.com/projects/k-nuth/c-api">![Build Status][badge.Appveyor]</a> <a href="#">![C][badge.c]</a> <a target="_blank" href="https://t.me/knuth_cash">![Telegram][badge.telegram]</a> <a target="_blank" href="https://k-nuth.slack.com/">![Slack][badge.slack]</a>
+# C API <a target="_blank" href="https://github.com/k-nuth/c-api/releases">![Github Releases][badge.release]</a> <a target="_blank" href="https://github.com/k-nuth/c-api/actions">![Build status][badge.GithubActions]</a> <a target="_blank" href="https://ci.appveyor.com/projects/k-nuth/c-api">![Build Status][badge.Appveyor]</a> <a href="#">![C][badge.c]</a> <a target="_blank" href="https://t.me/knuth_cash">![Telegram][badge.telegram]</a> <a target="_blank" href="https://k-nuth.slack.com/">![Slack][badge.slack]</a>
 
 > Bitcoin full node as a C Programming Language library
 
@@ -178,6 +178,7 @@ Each of our modules has its own Github repository, but in case you want to creat
 [badge.Travis]: https://travis-ci.org/k-nuth/c-api.svg?branch=master
 [badge.Appveyor]: https://ci.appveyor.com/api/projects/status/github/k-nuth/c-api?svg=true&branch=master
 [badge.Cirrus]: https://api.cirrus-ci.com/github/k-nuth/c-api.svg?branch=master
+[badge.GithubActions]: https://github.com/k-nuth/c-api/workflows/Build%20and%20Test/badge.svg
 [badge.version]: https://badge.fury.io/gh/k-nuth%2Fkth-c-api.svg
 [badge.release]: https://img.shields.io/github/release/k-nuth/c-api.svg
 [badge.c]: https://img.shields.io/badge/C-11-blue.svg?style=flat&logo=c
