@@ -127,6 +127,34 @@ T* mnew(std::size_t n = 1) {
     return static_cast<T*>(malloc(sizeof(T) * n));
 }
 
+inline
+std::size_t c_str_len(char const* str) {
+    return std::strlen(str);
+}
+
+inline
+std::size_t c_str_len(wchar_t const* str) {
+    return std::wcslen(str);
+}
+
+inline
+char* c_str_cpy(char* dest, char const* src) {
+    return strcpy(dest, src);
+}
+
+inline
+wchar_t* c_str_cpy(wchar_t* dest, wchar_t const* src) {
+    return wcscpy(dest, src);
+}
+
+template <typename CharT>
+inline
+CharT* allocate_and_copy_c_str(CharT const* str) {
+    auto size = c_str_len(str);
+    auto* c_str = mnew<CharT>(size + 1);
+    c_str_cpy(c_str, str);
+    return c_str;
+}
 
 template <typename StrT>
 inline
@@ -138,7 +166,7 @@ auto* create_c_str(StrT const& str) {
 
 template <typename CharT>
 inline
-std::basic_string<CharT> create_cpp_str(CharT* str) {
+std::basic_string<CharT> create_cpp_str(CharT const* str) {
     return std::basic_string<CharT>(str);
 }
 
