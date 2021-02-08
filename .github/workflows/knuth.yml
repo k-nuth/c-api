@@ -186,10 +186,10 @@ jobs:
 
           Write-Host "******* github.ref *********"
           Write-Host ${{ github.ref }}
-          Write-Host ${{ github.ref }}.Split("/")
-          Write-Host ${{ github.ref }}.Split("/")[2]
+          Write-Host "${{ github.ref }}".Split("/")
+          Write-Host "${{ github.ref }}".Split("/")[2]
 
-          $KTH_BRANCH = ${{ github.ref }}.Split("/")[2]
+          $KTH_BRANCH = "${{ github.ref }}".Split("/")[2]
 
           # export KTH_BRANCH=$(echo '${{ github.ref }}' | awk -F '/' '{print $3}')
           Write-Host "My branch name is $KTH_BRANCH"
