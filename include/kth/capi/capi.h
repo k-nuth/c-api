@@ -35,6 +35,8 @@
 #include <kth/capi/chain/transaction.h>
 #include <kth/capi/chain/transaction_list.h>
 
+#include <kth/capi/libconfig/libconfig.h>
+
 #include <kth/capi/p2p/p2p.h>
 
 #include <kth/capi/string_list.h>
