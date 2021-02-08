@@ -184,15 +184,18 @@ jobs:
           # echo %CONAN_VISUAL_RUNTIMES%
           # echo %CONAN_LOGIN_USERNAME%
 
+          Write-Host "CONAN_VISUAL_VERSIONS: ${CONAN_VISUAL_VERSIONS}"
+          Write-Host "CONAN_VISUAL_RUNTIMES: ${CONAN_VISUAL_RUNTIMES}"
+
           Write-Host "******* github.ref *********"
           Write-Host ${{ github.ref }}
           Write-Host "${{ github.ref }}".Split("/")
           Write-Host "${{ github.ref }}".Split("/")[2]
 
-          $KTH_BRANCH = "${{ github.ref }}".Split("/")[2]
+          $Env:KTH_BRANCH = "${{ github.ref }}".Split("/")[2]
 
           # export KTH_BRANCH=$(echo '${{ github.ref }}' | awk -F '/' '{print $3}')
-          Write-Host "My branch name is $KTH_BRANCH"
+          Write-Host "My branch name is $Env:KTH_BRANCH"
 
           $a = python ci_utils/set_envvars_and_files.py
           Write-Host "******* set_envvars_and_files.py *********"
