@@ -178,16 +178,21 @@ jobs:
         shell: powershell
         run: |
           # echo ${{ matrix.config.compiler }}
-          echo %BPT_MATRIX%
-          echo %CONAN_STABLE_BRANCH_PATTERN%
-          echo %CONAN_VISUAL_VERSIONS%
-          echo %CONAN_VISUAL_RUNTIMES%
-          echo %CONAN_LOGIN_USERNAME%
+          # echo %BPT_MATRIX%
+          # echo %CONAN_STABLE_BRANCH_PATTERN%
+          # echo %CONAN_VISUAL_VERSIONS%
+          # echo %CONAN_VISUAL_RUNTIMES%
+          # echo %CONAN_LOGIN_USERNAME%
+
+          Write-Host "******* github.ref *********"
+          Write-Host ${{ github.ref }}
+
 
           # export KTH_BRANCH=$(echo '${{ github.ref }}' | awk -F '/' '{print $3}')
           # echo "My branch name is $KTH_BRANCH"
 
           $a = python ci_utils/set_envvars_and_files.py
+          Write-Host "******* set_envvars_and_files.py *********"
           Write-Host $a
           Invoke-Expression $a
 
