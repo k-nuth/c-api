@@ -175,7 +175,7 @@ jobs:
           CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
           CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
           CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
-        shell: ps
+        shell: powershell
         run: |
           # echo ${{ matrix.config.compiler }}
           echo %BPT_MATRIX%
