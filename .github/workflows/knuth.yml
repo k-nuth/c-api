@@ -1,4 +1,4 @@
-name: Conan
+name: Knuth
 
 on: [push]
 
@@ -107,12 +107,24 @@ jobs:
         with:
           python-version: "3.8"
   
-      - name: Install Dependencies
+      - name: Install Dependencies (Unix)
+        if: ${{ matrix.config.compiler != 'Visual Studio' }}
         run: |
           chmod +x ci_utils/.travis/install.sh
           ./ci_utils/.travis/install.sh
         shell: bash
-  
+
+      - name: Install Dependencies (Windows)
+        if: ${{ matrix.config.compiler == 'Visual Studio' }}
+        run: |
+          set PATH=%PYTHON%;%PYTHON%/Scripts/;%PATH%;
+          python.exe --version
+          python.exe -m pip install --upgrade pip > NUL
+          pip.exe install conan_package_tools==0.34.2 > NUL
+          pip.exe install kthbuild --upgrade > NUL
+          conan user # It creates the conan data directory
+        shell: cmd
+
       - name: Settting Linux EnvVars
         if: ${{ matrix.config.compiler == 'GCC' }}
         shell: bash
