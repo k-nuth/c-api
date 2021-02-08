@@ -87,6 +87,13 @@ message( STATUS "Knuth: Compiling for ${MICROARCHITECTURE}")
 add_definitions(-DKTH_MICROARCHITECTURE=${MICROARCHITECTURE})
 # add_definitions(-DKTH_MICROARCHITECTURE_STR="${MICROARCHITECTURE}")
 
+set(MARCH_ID "" CACHE STRING "Specify the Microarchitecture ID (x86_64|...).")
+message( STATUS "Knuth: Compiling for Microarchitecture ID ${MARCH_ID}")
+add_definitions(-DKTH_MARCH_ID=${MARCH_ID})
+
+message( STATUS "Knuth: CONAN_CXX_FLAGS ${CONAN_CXX_FLAGS}")
+message( STATUS "Knuth: CONAN_C_FLAGS ${CONAN_C_FLAGS}")
+
 
 set(CURRENCY "BCH" CACHE STRING "Specify the Cryptocurrency (BCH|BTC|LTC).")
 
