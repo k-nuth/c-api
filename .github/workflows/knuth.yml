@@ -145,7 +145,8 @@ jobs:
           echo "CONAN_VISUAL_VERSIONS=${{ matrix.config.version }}" >> $GITHUB_ENV
           echo "CONAN_VISUAL_RUNTIMES=MD" >> $GITHUB_ENV
 
-      - name: Build
+      - name: Build (Unix)
+        if: ${{ matrix.config.compiler != 'Visual Studio' }}
         env:
           CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
           CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
@@ -167,7 +168,46 @@ jobs:
 
           chmod +x ci_utils/.travis/run.sh
           ./ci_utils/.travis/run.sh
- 
+
+      - name: Build (Windows)
+        if: ${{ matrix.config.compiler == 'Visual Studio' }}
+        env:
+          CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
+          CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
+          CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
+        shell: ps
+        run: |
+          # echo ${{ matrix.config.compiler }}
+          echo %BPT_MATRIX%
+          echo %CONAN_STABLE_BRANCH_PATTERN%
+          echo %CONAN_VISUAL_VERSIONS%
+          echo %CONAN_VISUAL_RUNTIMES%
+          echo %CONAN_LOGIN_USERNAME%
+
+          # export KTH_BRANCH=$(echo '${{ github.ref }}' | awk -F '/' '{print $3}')
+          # echo "My branch name is $KTH_BRANCH"
+
+          $a = python ci_utils/set_envvars_and_files.py
+          Write-Host $a
+          Invoke-Expression $a
+
+          $ErrorActionPreference = 'SilentlyContinue'
+          conan remote add kth https://api.bintray.com/conan/k-nuth/kth
+          $ErrorActionPreference = 'Continue'
+
+          # conan info . --only None
+          # conan info . --only None -s compiler=gcc -s compiler.version=5 -s compiler.libcxx=libstdc++
+          python ci_utils/process_conan_reqs.py
+
+          $ErrorActionPreference = 'SilentlyContinue'
+          conan remove "*" -f
+          conan remote remove kth
+          conan remote remove kthbuild_kth_temp_
+          $ErrorActionPreference = 'Continue'
+
+          #- PowerShell .\.appveyor\build.ps1
+          python build.py
+
   static-checks:
     needs: wait-for-dependencies
     name: Static Checks
