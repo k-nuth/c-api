@@ -393,6 +393,8 @@ set(_kth_sources
         src/config/node_settings.cpp
         src/config/settings.cpp
 
+        src/libconfig/libconfig.cpp
+
         src/node/settings.cpp
 
         src/p2p/p2p.cpp
@@ -536,13 +538,14 @@ if (WITH_CONSOLE_CAPI)
       set(_test_console_sources
         # console/test_wallet.cpp
         # console/test_header_hash.cpp
-          console/main.cpp
-        #   console/main.c
+        # console/main.cpp
+        # console/main.c
+        # console/print_headers.cpp
         # console/error_test.cpp
-          # console/test_deadlock.cpp
-
+        # console/test_deadlock.cpp
         # console/config_test.cpp
         # console/platform_test.cpp
+        console/test_libconfig.cpp
       )
     endif()
 
