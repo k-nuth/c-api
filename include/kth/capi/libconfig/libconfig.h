@@ -30,8 +30,9 @@ typedef enum {
 typedef struct {
     kth_libconfig_log_library_t log_library;
     kth_bool_t use_libmdbx;
-    char const* version;
-    char const* microarchitecture;
+    kth_char_t const* version;
+    kth_char_t const* microarchitecture;
+    kth_char_t const* microarchitecture_id;
     kth_currency_t currency;
     kth_bool_t mempool;
     kth_libconfig_db_mode_t db_mode;
