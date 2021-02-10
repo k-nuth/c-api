@@ -131,17 +131,9 @@ jobs:
           python.exe --version
           cmake --version
           python.exe -m pip install --upgrade pip
-          pip.exe install conan --upgrade
           pip.exe install conan_package_tools==0.34.2
+          pip.exe install kthbuild --upgrade
           conan user
-
-    #   CMAKE_TOOLSET: Visual Studio 15 2017 Win64
-    #   BOOST_ROOT: C:\Libraries\boost_1_69_0
-
-    # - FLAVOR: Visual Studio 2019
-    #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    #   CMAKE_TOOLSET: Visual Studio 16 2019
-
         shell: cmd
 
       - name: Settting EnvVars (Linux)
