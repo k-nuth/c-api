@@ -1,6 +1,6 @@
-name: Knuth
+name: Build and Test
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   master:
@@ -100,6 +100,16 @@ jobs:
       matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
     name: ${{ matrix.config.name }}
     steps:
+      - name: Set git to use LF (Windows)
+        if: ${{ matrix.config.compiler == 'Visual Studio' }}
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf          
+          # git config --global --edit
+          # git config --global core.autocrlf true
+          # git config --global --edit
+
+
       - uses: actions/checkout@v2
         with:
           submodules: true
@@ -119,9 +129,10 @@ jobs:
         run: |
           set PATH=%PYTHON%;%PYTHON%/Scripts/;%PATH%;
           python.exe --version
-          python.exe -m pip install --upgrade pip > NUL
-          pip.exe install conan_package_tools==0.34.2 > NUL
-          pip.exe install kthbuild --upgrade > NUL
+          cmake --version
+          python.exe -m pip install --upgrade pip
+          pip.exe install conan_package_tools==0.34.2
+          pip.exe install kthbuild --upgrade
           conan user
         shell: cmd
 
@@ -140,10 +151,12 @@ jobs:
 
       - name: Settting EnvVars (Windows)
         if: ${{ matrix.config.compiler == 'Visual Studio' }}
-        shell: bash
+        # shell: bash
+        shell: powershell
         run: |
-          echo "CONAN_VISUAL_VERSIONS=${{ matrix.config.version }}" >> $GITHUB_ENV
-          echo "CONAN_VISUAL_RUNTIMES=${{ matrix.config.msvc_runtime }}" >> $GITHUB_ENV
+          echo "CONAN_VISUAL_VERSIONS=${{ matrix.config.version }}" >> $Env:GITHUB_ENV
+          echo "CONAN_VISUAL_RUNTIMES=${{ matrix.config.msvc_runtime }}" >> $Env:GITHUB_ENV
+          # echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $env:GITHUB_ENV
 
       - name: Build (Unix)
         if: ${{ matrix.config.compiler != 'Visual Studio' }}
@@ -180,8 +193,8 @@ jobs:
           # echo %CONAN_STABLE_BRANCH_PATTERN%
           # echo %CONAN_LOGIN_USERNAME%
 
-          Write-Host "CONAN_VISUAL_VERSIONS: ${CONAN_VISUAL_VERSIONS}"
-          Write-Host "CONAN_VISUAL_RUNTIMES: ${CONAN_VISUAL_RUNTIMES}"
+          Write-Host "CONAN_VISUAL_VERSIONS: $Env:CONAN_VISUAL_VERSIONS"
+          Write-Host "CONAN_VISUAL_RUNTIMES: $Env:CONAN_VISUAL_RUNTIMES"
 
           $Env:KTH_BRANCH = "${{ github.ref }}".Split("/")[2]
           Write-Host "My branch name is $Env:KTH_BRANCH"
