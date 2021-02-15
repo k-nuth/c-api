@@ -125,6 +125,12 @@ typedef enum {
 #endif    
 } kth_network_t;
 
+// Start Modules -----------------------------------------------------
+typedef enum {
+      kth_start_modules_all
+    , kth_start_modules_just_chain
+    , kth_start_modules_just_p2p
+} kth_start_modules_t;
 
 // Wallet ------------------------------------------------------------
 typedef struct kth_ec_secret_t {
