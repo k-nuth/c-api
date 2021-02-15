@@ -10,10 +10,11 @@
 #include <kth/infrastructure/math/elliptic_curve.hpp>
 #include <kth/domain/wallet/ec_public.hpp>
 #include <kth/infrastructure/wallet/hd_private.hpp>
-#include <kth/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 
 #include <kth/domain/wallet/payment_address.hpp>
 #include <kth/capi/helpers.hpp>
+
+#include <kth/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 
 
 kth::ec_secret new_key(kth::data_chunk const& seed) {
