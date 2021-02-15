@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2020 Knuth Project developers.
+// Copyright (c) 2016-2021 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -14,6 +14,7 @@
 #include <kth/domain/config/network.hpp>
 #include <kth/infrastructure/math/hash.hpp>
 #include <kth/infrastructure/error.hpp>
+#include <kth/node/full_node.hpp>
 
 namespace kth {
 namespace detail {
@@ -252,6 +253,18 @@ kth_network_t network_to_c(kth::domain::config::network net) {
         default:
         case kth::domain::config::network::mainnet:
             return kth_network_mainnet;
+    }
+}
+
+inline
+kth::node::start_modules start_modules_to_cpp(kth_start_modules_t mods) {
+    switch (mods) {
+        case kth_start_modules_all:
+            return kth::node::start_modules::all;
+        case kth_start_modules_just_chain:
+            return kth::node::start_modules::just_chain;
+        case kth_start_modules_just_p2p:
+            return kth::node::start_modules::just_p2p;
     }
 }
 

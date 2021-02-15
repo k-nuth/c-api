@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2020 Knuth Project developers.
+// Copyright (c) 2016-2021 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,10 +10,11 @@
 #include <kth/infrastructure/math/elliptic_curve.hpp>
 #include <kth/domain/wallet/ec_public.hpp>
 #include <kth/infrastructure/wallet/hd_private.hpp>
-#include <kth/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 
 #include <kth/domain/wallet/payment_address.hpp>
 #include <kth/capi/helpers.hpp>
+
+#include <kth/infrastructure/wallet/mnemonic.hpp>  //Warning, put it after boost headers
 
 
 kth::ec_secret new_key(kth::data_chunk const& seed) {

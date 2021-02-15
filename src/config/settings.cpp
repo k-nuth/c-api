@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2020 Knuth Project developers.
+// Copyright (c) 2016-2021 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -37,6 +37,7 @@ kth_bool_t config_settings_get_from_file(CharT const* path, kth_settings** out_s
     (*out_settings)->chain = kth::capi::helpers::blockchain_settings_to_c(config.chain);
     (*out_settings)->database = kth::capi::helpers::database_settings_to_c(config.database);
     (*out_settings)->network = kth::capi::helpers::network_settings_to_c(config.network);
+
     return ok;
 }
 

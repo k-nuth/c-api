@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2020 Knuth Project developers.
+// Copyright (c) 2016-2021 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -77,11 +77,14 @@ int kth_node_initchain(kth_node_t node) {
 //     }
 // }
 
-void kth_node_init_run_and_wait_for_signal(kth_node_t node, void* ctx, kth_run_handler_t handler) {
-    kth_node_cpp(node).init_run_and_wait_for_signal(version(), [node, ctx, handler](std::error_code const& ec) {
-        if (handler != nullptr) {
-            handler(node, ctx, kth::to_c_err(ec));
-        }
+void kth_node_init_run_and_wait_for_signal(kth_node_t node, void* ctx, kth_start_modules_t mods, kth_run_handler_t handler) {
+    kth_node_cpp(node).init_run_and_wait_for_signal(
+        version(), 
+        kth::start_modules_to_cpp(mods),
+        [node, ctx, handler](std::error_code const& ec) {
+            if (handler != nullptr) {
+                handler(node, ctx, kth::to_c_err(ec));
+            }
     });
 }
 

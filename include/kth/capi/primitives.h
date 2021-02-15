@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2020 Knuth Project developers.
+// Copyright (c) 2016-2021 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -125,6 +125,12 @@ typedef enum {
 #endif    
 } kth_network_t;
 
+// Start Modules -----------------------------------------------------
+typedef enum {
+      kth_start_modules_all
+    , kth_start_modules_just_chain
+    , kth_start_modules_just_p2p
+} kth_start_modules_t;
 
 // Wallet ------------------------------------------------------------
 typedef struct kth_ec_secret_t {
