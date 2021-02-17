@@ -3,7 +3,7 @@
 
 <img width="200px" src="https://raw.githubusercontent.com/k-nuth/misc/master/images/KTH-and-C.svg" />
 
-# C API <a target="_blank" href="https://github.com/k-nuth/c-api/releases">![Github Releases][badge.release]</a> <a target="_blank" href="https://github.com/k-nuth/c-api/actions">![Build status][badge.GithubActions]</a> <a target="_blank" href="https://ci.appveyor.com/projects/k-nuth/c-api">![Build Status][badge.Appveyor]</a> <a href="#">![C][badge.c]</a> <a target="_blank" href="https://t.me/knuth_cash">![Telegram][badge.telegram]</a> <a target="_blank" href="https://k-nuth.slack.com/">![Slack][badge.slack]</a>
+# C API <a target="_blank" href="https://github.com/k-nuth/c-api/releases">![Github Releases][badge.release]</a> <a target="_blank" href="https://github.com/k-nuth/c-api/actions">![Build status][badge.GithubActions]</a> <a href="#">![C][badge.c]</a> <a target="_blank" href="https://t.me/knuth_cash">![Telegram][badge.telegram]</a> <a target="_blank" href="https://k-nuth.slack.com/">![Slack][badge.slack]</a>
 
 > Bitcoin full node as a C Programming Language library
 
