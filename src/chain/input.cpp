@@ -27,6 +27,12 @@ void kth_chain_input_destruct(kth_input_t input) {
     delete &kth_chain_input_cpp(input);
 }
 
+kth_input_t kth_chain_input_factory_from_data(uint8_t* data, uint64_t n) {
+    kth::data_chunk data_cpp(data, std::next(data, n));
+    auto input = kth::domain::create<kth::domain::chain::input>(data_cpp);
+    return kth::move_or_copy_and_leak(std::move(input));
+}
+
 kth_bool_t kth_chain_input_is_valid(kth_input_t input) {
     return kth::bool_to_int(kth_chain_input_const_cpp(input).is_valid());
 }
