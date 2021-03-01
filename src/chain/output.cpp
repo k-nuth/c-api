@@ -25,6 +25,12 @@ void kth_chain_output_destruct(kth_output_t output) {
     delete &kth_chain_output_cpp(output);
 }
 
+kth_output_t kth_chain_output_factory_from_data(uint8_t* data, uint64_t n) {
+    kth::data_chunk data_cpp(data, std::next(data, n));
+    auto output = kth::domain::create<kth::domain::chain::output>(data_cpp);
+    return kth::move_or_copy_and_leak(std::move(output));
+}
+
 kth_bool_t kth_chain_output_is_valid(kth_output_t output) {
     return kth::bool_to_int(kth_chain_output_const_cpp(output).is_valid());
 }
