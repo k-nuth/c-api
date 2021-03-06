@@ -19,12 +19,11 @@ typedef struct {
     uint16_t file_growth_rate;
     uint32_t index_start_height;
 
-#ifdef KTH_DB_NEW
+#if defined(KTH_DB_NEW) || defined(KTH_DB_NEW_BLOCKS) || defined(KTH_DB_NEW_FULL)
     uint32_t reorg_pool_limit;
     uint64_t db_max_size;
     kth_bool_t safe_mode;
-#endif // KTH_DB_NEW
-
+#endif
 
 // #ifdef KTH_DB_UNSPENT_LEGACY
     uint32_t cache_capacity;
