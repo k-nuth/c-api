@@ -42,7 +42,7 @@ typedef struct {
     kth_authority self;
 
     size_t blacklist_count;
-    kth_authority* blacklists;
+    kth_authority* blacklist;
 
     size_t peer_count;
     kth_endpoint* peers;
