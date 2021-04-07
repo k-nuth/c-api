@@ -47,9 +47,9 @@ auto list_c_delete(Source* data, size_t n, Deleter deleter) {
     free(data);
 }
 
-template <typename Source, typename Transformation>
+template <typename Source, typename UnsignedInt, typename Transformation>
 inline
-auto* list_to_c(std::vector<Source> const& data, size_t& out_size, Transformation transform) {
+auto* list_to_c(std::vector<Source> const& data, UnsignedInt& out_size, Transformation transform) {
     using Target = std::invoke_result_t<Transformation, Source const&>;
 
     out_size = data.size();
@@ -59,7 +59,7 @@ auto* list_to_c(std::vector<Source> const& data, size_t& out_size, Transformatio
     auto* f = ret;
     for (auto&& x : data) {
         *f = transform(x);
-        ++f;        
+        ++f;
     }
     return ret;
 }
