@@ -80,7 +80,7 @@ void kth_node_signal_stop(kth_node_t node) {
 }
 
 int kth_node_close(kth_node_t node) {
-   return kth_node_cpp(node).node().close();
+   return kth_node_cpp(node).close();
 }
 
 int kth_node_stopped(kth_node_t node) {
