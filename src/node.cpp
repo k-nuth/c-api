@@ -53,18 +53,6 @@ int kth_node_initchain(kth_node_t node) {
 #endif // ! defined(KTH_DB_READONLY)
 
 #if ! defined(KTH_DB_READONLY)
-// void kth_node_init_and_run(kth_node_t node, void* ctx, kth_run_handler_t handler) {
-//     try {
-//         kth_node_cpp(node).init_and_run([node, ctx, handler](std::error_code const& ec) {
-//             if (handler != nullptr) {
-//                 handler(node, ctx, kth::to_c_err(ec));
-//             }
-//         });
-//     } catch (...) {
-//         handler(node, ctx, kth_ec_unknown);
-//     }
-// }
-
 void kth_node_init_run_and_wait_for_signal(kth_node_t node, void* ctx, kth_start_modules_t mods, kth_run_handler_t handler) {
     kth_node_cpp(node).init_run_and_wait_for_signal(
         version(),
