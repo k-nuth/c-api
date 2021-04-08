@@ -52,18 +52,6 @@ int kth_node_initchain(kth_node_t node) {
 }
 #endif // ! defined(KTH_DB_READONLY)
 
-// void kth_node_run(kth_node_t node, void* ctx, kth_run_handler_t handler) {
-//     try {
-//         kth_node_cpp(node).run([node, ctx, handler](std::error_code const& ec) {
-//             if (handler != nullptr) {
-//                 handler(node, ctx, kth::to_c_err(ec));
-//             }
-//         });
-//     } catch (...) {
-//         handler(node, ctx, kth_ec_unknown);
-//     }
-// }
-
 #if ! defined(KTH_DB_READONLY)
 // void kth_node_init_and_run(kth_node_t node, void* ctx, kth_run_handler_t handler) {
 //     try {
@@ -89,61 +77,6 @@ void kth_node_init_run_and_wait_for_signal(kth_node_t node, void* ctx, kth_start
 }
 
 #endif // ! defined(KTH_DB_READONLY)
-
-// int kth_node_run_wait(kth_node_t node) {
-//     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
-
-//     int res;
-//     bool run_res = false;
-
-//     try {
-//         run_res = kth_node_cpp(node).run([&](std::error_code const& ec) {
-//             res = ec.value();
-//             latch.count_down();
-//         });
-//     } catch (...) {
-//         run_res = false;
-//     }
-
-//     if (run_res) {
-//         latch.count_down_and_wait();
-//         return res;
-//     }
-
-//     return 1; // TODO(fernando): return error_t to inform errors in detail
-// }
-
-#if ! defined(KTH_DB_READONLY)
-// int kth_node_init_and_run_wait(kth_node_t node) {
-
-//     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
-
-//     int res;
-//     bool run_res = false;
-
-//     try {
-//         run_res = kth_node_cpp(node).init_and_run([&](std::error_code const& ec) {
-//             res = ec.value();
-//             latch.count_down();
-//         });
-//     } catch (...) {
-//         run_res = false;
-//     }
-
-//     if (run_res) {
-//         latch.count_down_and_wait();
-//         return res;
-//     }
-
-//     return 1; // TODO(fernando): return error_t to inform errors in detail
-// }
-#endif // ! defined(KTH_DB_READONLY)
-
-
-// int kth_node_stop(kth_node_t node) {
-//     auto res = static_cast<int>(kth_node_cpp(node).stop());
-//     return res;
-// }
 
 void kth_node_signal_stop(kth_node_t node) {
     kth_node_cpp(node).signal_stop();
