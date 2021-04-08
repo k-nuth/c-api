@@ -64,6 +64,15 @@ void kth_node_init_run_and_wait_for_signal(kth_node_t node, void* ctx, kth_start
     });
 }
 
+void kth_node_init_run(kth_node_t node, void* ctx, kth_start_modules_t mods, kth_run_handler_t handler) {
+    kth_node_cpp(node).init_run(version(), kth::start_modules_to_cpp(mods),
+        [node, ctx, handler](std::error_code const& ec) {
+            if (handler != nullptr) {
+                handler(node, ctx, kth::to_c_err(ec));
+            }
+    });
+}
+
 #endif // ! defined(KTH_DB_READONLY)
 
 void kth_node_signal_stop(kth_node_t node) {
