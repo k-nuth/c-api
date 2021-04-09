@@ -58,7 +58,7 @@ jobs:
           conan user
           conan remote list
           conan remote add kthbuild_kth_temp_ https://api.bintray.com/conan/k-nuth/kth || true
-          conan remote add kthbuild_kth_temp_new_ https://knuth.jfrog.io/artifactory/api/conan/knuth || true
+          # conan remote add kthbuild_kth_temp_new_ https://knuth.jfrog.io/artifactory/api/conan/knuth || true
           conan remote list
           # echo "KTH_REPO_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $1}')" >> $GITHUB_ENV
           export KTH_REPO_NAME=$(echo '${{ github.repository }}')
@@ -211,7 +211,7 @@ jobs:
 
           $ErrorActionPreference = 'SilentlyContinue'
           conan remote add kth https://api.bintray.com/conan/k-nuth/kth
-          conan remote add kth_new https://knuth.jfrog.io/artifactory/api/conan/knuth
+          # conan remote add kth_new https://knuth.jfrog.io/artifactory/api/conan/knuth
 
           $ErrorActionPreference = 'Continue'
 
@@ -223,8 +223,8 @@ jobs:
           conan remove "*" -f
           conan remote remove kth
           conan remote remove kthbuild_kth_temp_
-          conan remote remove kthbuild_kth_temp_new_
-          conan remote remove kth_new
+          # conan remote remove kthbuild_kth_temp_new_
+          # conan remote remove kth_new
           $ErrorActionPreference = 'Continue'
 
           python build.py
@@ -288,19 +288,16 @@ jobs:
           conan user
           conan user ${CONAN_LOGIN_USERNAME} -r kthbuild_kth_temp_ -p ${CONAN_PASSWORD}
           conan user
-          conan user ${CONAN_LOGIN_USERNAME_NEW} -r kthbuild_kth_temp_new_ -p ${CONAN_PASSWORD_NEW}
-          conan user
-
-          conan user -p APXrfUfpXEGhci2EEeVE1NWJwU -r kth_new info@kth.cash
-
+          # conan user ${CONAN_LOGIN_USERNAME_NEW} -r kthbuild_kth_temp_new_ -p ${CONAN_PASSWORD_NEW}
+          # conan user
 
           echo "conan alias ${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL} ${REPO_NAME}/${KTH_CONAN_VERSION}@kth/${KTH_CONAN_CHANNEL}"
           conan alias "${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL}" "${REPO_NAME}/${KTH_CONAN_VERSION}@kth/${KTH_CONAN_CHANNEL}"
           echo "conan upload ${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL} --all -r kthbuild_kth_temp_"
           conan upload "${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL}" --all -r kthbuild_kth_temp_
 
-          echo "conan upload ${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL} --all -r kthbuild_kth_temp_new_"
-          conan upload "${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL}" --all -r kthbuild_kth_temp_new_
+          # echo "conan upload ${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL} --all -r kthbuild_kth_temp_new_"
+          # conan upload "${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL}" --all -r kthbuild_kth_temp_new_
 
 
 
