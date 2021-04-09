@@ -33,6 +33,9 @@ void kth_node_init_run_and_wait_for_signal(kth_node_t node, void* ctx, kth_start
 
 KTH_EXPORT
 void kth_node_init_run(kth_node_t node, void* ctx, kth_start_modules_t mods, kth_run_handler_t handler);
+
+KTH_EXPORT
+kth_error_code_t kth_node_init_run_sync(kth_node_t node, kth_start_modules_t mods);
 #endif // ! defined(KTH_DB_READONLY)
 
 KTH_EXPORT

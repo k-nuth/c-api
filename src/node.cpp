@@ -73,6 +73,21 @@ void kth_node_init_run(kth_node_t node, void* ctx, kth_start_modules_t mods, kth
     });
 }
 
+kth_error_code_t kth_node_init_run_sync(kth_node_t node, kth_start_modules_t mods) {
+    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    kth_error_code_t res;
+
+    kth_node_cpp(node).init_run(version(), kth::start_modules_to_cpp(mods),
+        [&](std::error_code const& ec) {
+            res = kth::to_c_err(ec);
+            latch.count_down();
+        }
+    );
+
+    latch.count_down_and_wait();
+    return res;
+}
+
 #endif // ! defined(KTH_DB_READONLY)
 
 void kth_node_signal_stop(kth_node_t node) {
@@ -80,7 +95,7 @@ void kth_node_signal_stop(kth_node_t node) {
 }
 
 int kth_node_close(kth_node_t node) {
-   return kth_node_cpp(node).close();
+    return kth_node_cpp(node).close();
 }
 
 int kth_node_stopped(kth_node_t node) {
