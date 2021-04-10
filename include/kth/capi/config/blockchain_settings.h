@@ -22,7 +22,7 @@ typedef struct {
     uint64_t minimum_output_satoshis;
     uint32_t notify_limit_hours;
     uint32_t reorganization_limit;
-    size_t checkpoint_count;
+    kth_size_t checkpoint_count;
     kth_checkpoint* checkpoints;
     kth_bool_t fix_checkpoints;
     kth_bool_t allow_collisions;
@@ -65,8 +65,8 @@ typedef struct {
 #endif //KTH_CURRENCY_BCH
 
 #if defined(KTH_WITH_MEMPOOL)
-    size_t mempool_max_template_size;
-    size_t mempool_size_multiplier;
+    kth_size_t mempool_max_template_size;
+    kth_size_t mempool_size_multiplier;
 #endif
 } kth_blockchain_settings;
 

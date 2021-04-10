@@ -40,7 +40,7 @@ std::vector<checkpoint> checkpoint_list_to_cpp(kth_checkpoint const* data, size_
 }
 
 inline
-kth_checkpoint* checkpoint_list_to_c(std::vector<checkpoint> const& data, size_t& out_size) {
+kth_checkpoint* checkpoint_list_to_c(std::vector<checkpoint> const& data, kth_size_t& out_size) {
     return kth::capi::helpers::list_to_c(data, out_size, checkpoint_to_c);
 }
 

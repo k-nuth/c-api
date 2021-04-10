@@ -75,7 +75,7 @@ kth::network::settings network_settings_to_cpp(kth_network_settings const& x) {
     res.error_file = kth::path(x.error_file);
     res.archive_directory = kth::path(x.archive_directory);
     res.self = kth::capi::helpers::authority_to_cpp(x.self);
-    res.blacklists = kth::capi::helpers::authority_list_to_cpp(x.blacklists, x.blacklist_count);
+    res.blacklist = kth::capi::helpers::authority_list_to_cpp(x.blacklist, x.blacklist_count);
     res.peers = kth::capi::helpers::endpoint_list_to_cpp(x.peers, x.peer_count);
     res.seeds = kth::capi::helpers::endpoint_list_to_cpp(x.seeds, x.seed_count);
     res.statistics_server = kth::capi::helpers::authority_to_cpp(x.statistics_server);
@@ -91,7 +91,7 @@ kth_network_settings network_settings_to_c(kth::network::settings const& x) {
     res.error_file = kth::capi::helpers::path_to_c(x.error_file);
     res.archive_directory = kth::capi::helpers::path_to_c(x.archive_directory);
     res.self = kth::capi::helpers::authority_to_c(x.self);
-    res.blacklists = kth::capi::helpers::authority_list_to_c(x.blacklists, res.blacklist_count);
+    res.blacklist = kth::capi::helpers::authority_list_to_c(x.blacklist, res.blacklist_count);
     res.peers = kth::capi::helpers::endpoint_list_to_c(x.peers, res.peer_count);
     res.seeds = kth::capi::helpers::endpoint_list_to_c(x.seeds, res.seed_count);
     res.statistics_server = kth::capi::helpers::authority_to_c(x.statistics_server);
@@ -106,7 +106,7 @@ void network_settings_delete(kth_network_settings* x) {
     free(x->error_file);
     free(x->archive_directory);
     kth::capi::helpers::authority_delete(x->self);
-    kth::capi::helpers::authority_list_delete(x->blacklists, x->blacklist_count);
+    kth::capi::helpers::authority_list_delete(x->blacklist, x->blacklist_count);
     kth::capi::helpers::endpoint_list_delete(x->peers, x->peer_count);
     kth::capi::helpers::endpoint_list_delete(x->seeds, x->seed_count);
     kth::capi::helpers::authority_delete(x->statistics_server);
