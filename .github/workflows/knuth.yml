@@ -58,7 +58,6 @@ jobs:
           conan user
           conan remote list
           conan remote add kthbuild_kth_temp_ https://api.bintray.com/conan/k-nuth/kth || true
-          # conan remote add kthbuild_kth_temp_new_ https://knuth.jfrog.io/artifactory/api/conan/knuth || true
           conan remote list
           # echo "KTH_REPO_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $1}')" >> $GITHUB_ENV
           export KTH_REPO_NAME=$(echo '${{ github.repository }}')
@@ -163,9 +162,7 @@ jobs:
         if: ${{ matrix.config.compiler != 'Visual Studio' }}
         env:
           CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
-          CONAN_LOGIN_USERNAME_NEW: ${{ secrets.CONAN_LOGIN_USERNAME_NEW }}
           CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
-          CONAN_PASSWORD_NEW: ${{ secrets.CONAN_PASSWORD_NEW }}
           CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
         shell: bash
         run: |
@@ -176,7 +173,6 @@ jobs:
           echo ${CONAN_APPLE_CLANG_VERSIONS}
           echo ${CONAN_DOCKER_IMAGE}
           echo ${CONAN_LOGIN_USERNAME}
-          echo ${CONAN_LOGIN_USERNAME_NEW}
 
           export KTH_BRANCH=$(echo '${{ github.ref }}' | awk -F '/' '{print $3}')
           echo "My branch name is $KTH_BRANCH"
@@ -188,9 +184,7 @@ jobs:
         if: ${{ matrix.config.compiler == 'Visual Studio' }}
         env:
           CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
-          CONAN_LOGIN_USERNAME_NEW: ${{ secrets.CONAN_LOGIN_USERNAME_NEW }}
           CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
-          CONAN_PASSWORD_NEW: ${{ secrets.CONAN_PASSWORD_NEW }}
           CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
         shell: powershell
         run: |
@@ -211,8 +205,6 @@ jobs:
 
           $ErrorActionPreference = 'SilentlyContinue'
           conan remote add kth https://api.bintray.com/conan/k-nuth/kth
-          # conan remote add kth_new https://knuth.jfrog.io/artifactory/api/conan/knuth
-
           $ErrorActionPreference = 'Continue'
 
           # conan info . --only None
@@ -223,8 +215,6 @@ jobs:
           conan remove "*" -f
           conan remote remove kth
           conan remote remove kthbuild_kth_temp_
-          # conan remote remove kthbuild_kth_temp_new_
-          # conan remote remove kth_new
           $ErrorActionPreference = 'Continue'
 
           python build.py
@@ -270,9 +260,7 @@ jobs:
       - name: Upload Aliases
         env:
           CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
-          CONAN_LOGIN_USERNAME_NEW: ${{ secrets.CONAN_LOGIN_USERNAME_NEW }}
           CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
-          CONAN_PASSWORD_NEW: ${{ secrets.CONAN_PASSWORD_NEW }}
         shell: bash
         run: |
 
@@ -288,18 +276,10 @@ jobs:
           conan user
           conan user ${CONAN_LOGIN_USERNAME} -r kthbuild_kth_temp_ -p ${CONAN_PASSWORD}
           conan user
-          # conan user ${CONAN_LOGIN_USERNAME_NEW} -r kthbuild_kth_temp_new_ -p ${CONAN_PASSWORD_NEW}
-          # conan user
-
           echo "conan alias ${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL} ${REPO_NAME}/${KTH_CONAN_VERSION}@kth/${KTH_CONAN_CHANNEL}"
           conan alias "${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL}" "${REPO_NAME}/${KTH_CONAN_VERSION}@kth/${KTH_CONAN_CHANNEL}"
           echo "conan upload ${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL} --all -r kthbuild_kth_temp_"
           conan upload "${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL}" --all -r kthbuild_kth_temp_
-
-          # echo "conan upload ${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL} --all -r kthbuild_kth_temp_new_"
-          # conan upload "${REPO_NAME}/0.X@kth/${KTH_CONAN_CHANNEL}" --all -r kthbuild_kth_temp_new_
-
-
 
 
 
