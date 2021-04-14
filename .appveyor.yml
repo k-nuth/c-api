@@ -47,7 +47,7 @@ test_script:
   # - git describe
   # - git describe master
   # - git describe origin
-  # - python ci_utils/print_version.py 
+  # - python ci_utils/print_version.py
 
   # - git config core.autocrlf
   # - python crlf.py
@@ -66,7 +66,7 @@ test_script:
         conan user
 
         $ErrorActionPreference = 'SilentlyContinue'
-        conan remote add kth_temp https://api.bintray.com/conan/k-nuth/kth
+        conan remote add kth_temp https://knuth.jfrog.io/artifactory/api/conan/knuth
         $ErrorActionPreference = 'Continue'
 
         # python ci_utils/wait_for_deps.py domain
@@ -79,7 +79,7 @@ test_script:
       Invoke-Expression $a
 
       $ErrorActionPreference = 'SilentlyContinue'
-      conan remote add kth https://api.bintray.com/conan/k-nuth/kth
+      conan remote add kth https://knuth.jfrog.io/artifactory/api/conan/knuth
       $ErrorActionPreference = 'Continue'
 
       # conan info . --only None
@@ -142,14 +142,14 @@ for:
         # - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
         # - MINGW_CONFIGURATIONS: "6@x86_64@seh@posix"
         # - MINGW_CONFIGURATIONS: "5@x86_64@seh@posix"
-        # - MINGW_CONFIGURATIONS: "4.9@x86_64@seh@posix" 
+        # - MINGW_CONFIGURATIONS: "4.9@x86_64@seh@posix"
   -
     branches:
       only:
         - master
     test_script:
       - echo "Stable packages are published in Release branches"
-    install: 
+    install:
       - echo "Stable packages are published in Release branches"
 
 # matrix:
