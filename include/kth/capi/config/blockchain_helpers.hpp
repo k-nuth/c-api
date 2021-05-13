@@ -19,7 +19,7 @@ namespace {
 template <typename Target, typename Source>
 Target blockchain_settings_to_common(Source const& x) {
     Target res;
-    
+
     res.cores = x.cores;
     res.priority = x.priority;
     res.byte_fee_satoshis = x.byte_fee_satoshis;
@@ -50,9 +50,8 @@ Target blockchain_settings_to_common(Source const& x) {
     res.bch_mersenne = x.bch_mersenne;
     res.bch_fermat = x.bch_fermat;
     res.bch_euler = x.bch_euler;
-    res.bch_gauss = x.bch_gauss;
-    // res.euler_activation_time = x.euler_activation_time;
-    res.gauss_activation_time = x.gauss_activation_time;
+    // res.bch_gauss = x.bch_gauss;
+    // res.gauss_activation_time = x.gauss_activation_time;
     res.asert_half_life = x.asert_half_life;
 #else
     res.bip141 = x.bip141;
