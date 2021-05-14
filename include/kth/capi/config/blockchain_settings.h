@@ -47,15 +47,16 @@ typedef struct {
     kth_bool_t bch_mersenne;
     kth_bool_t bch_fermat;      // 2020-May
     kth_bool_t bch_euler;       // 2020-Nov
-    kth_bool_t bch_gauss;       // 2021-May
-        
-    //2020-Nov-15 hard fork, defaults to 1605441600: Nov 15, 2020 12:00:00 UTC protocol upgrade
-    uint64_t euler_activation_time;
+                                // 2021-May no Hard Fork
+    // kth_bool_t bch_gauss;    // ????-???
 
-    //2021-May-15 hard fork, defaults to 1621080000: May 15, 2021 12:00:00 UTC protocol upgrade
-    uint64_t gauss_activation_time;
+    // //2020-Nov-15 hard fork, defaults to 1605441600: Nov 15, 2020 12:00:00 UTC protocol upgrade
+    // uint64_t euler_activation_time;
 
-    // The half life for the ASERTi3-2d DAA. For every (asert_half_life) seconds behind schedule the blockchain gets, difficulty is cut in half. 
+    // //????-???-?? hard fork, defaults to ??????????: ??? ??, ???? 12:00:00 UTC protocol upgrade
+    // uint64_t gauss_activation_time;
+
+    // The half life for the ASERTi3-2d DAA. For every (asert_half_life) seconds behind schedule the blockchain gets, difficulty is cut in half.
     // Doubled if blocks are ahead of schedule.
     uint64_t asert_half_life;   //two days
 #else
