@@ -4,6 +4,7 @@
 
 import os
 from conans import CMake
+from conans.errors import ConanInvalidConfiguration
 from kthbuild import option_on_off, march_conan_manip, pass_march_to_compiler
 from kthbuild import KnuthConanFile
 
@@ -89,6 +90,10 @@ class KnuthCAPIConan(KnuthConanFile):
     @property
     def is_keoken(self):
         return self.options.currency == "BCH" and self.options.get_safe("keoken")
+
+    def validate(self):
+        if self.settings.os == "Linux" and self.settings.compiler == "gcc" and self.settings.compiler.libcxx == "libstdc++":
+            raise ConanInvalidConfiguration("We just support GCC C++11ABI.\n**** Please run `conan profile update settings.compiler.libcxx=libstdc++11 default`")
 
     def requirements(self):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
