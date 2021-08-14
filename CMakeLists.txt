@@ -364,7 +364,7 @@ set(_kth_sources
         src/chain/block.cpp
         src/chain/block_indexes.cpp
         src/chain/block_list.cpp
-        
+
         src/chain/chain_async.cpp
         src/chain/chain_other.cpp
         src/chain/chain_sync.cpp
@@ -447,7 +447,7 @@ add_library(kth-c-api ${MODE}
 #     src/user_agent.cpp
 #   )
 
-#   if (ENABLE_POSITION_INDEPENDENT_CODE) 
+#   if (ENABLE_POSITION_INDEPENDENT_CODE)
 #     set_property(TARGET kth-c-api-version PROPERTY POSITION_INDEPENDENT_CODE ON)
 #   endif(ENABLE_POSITION_INDEPENDENT_CODE)
 
@@ -459,7 +459,7 @@ add_library(kth-c-api ${MODE}
 # endif()
 
 
-if (ENABLE_POSITION_INDEPENDENT_CODE) 
+if (ENABLE_POSITION_INDEPENDENT_CODE)
   set_property(TARGET kth-c-api PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif(ENABLE_POSITION_INDEPENDENT_CODE)
 
@@ -733,4 +733,3 @@ install(
         "${CMAKE_CURRENT_BINARY_DIR}/kth-c-apiConfigVersion.cmake"
         DESTINATION ${_config_package_location})
 
-        
