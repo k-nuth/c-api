@@ -370,6 +370,8 @@ set(_kth_sources
         src/chain/chain_sync.cpp
 
         src/chain/compact_block.cpp
+        src/chain/double_spend_proof.cpp
+        src/chain/double_spend_proof_spender.cpp
         src/chain/get_blocks.cpp
         src/chain/get_headers.cpp
         src/chain/header.cpp
@@ -645,6 +647,8 @@ set(_kth_headers
         kth/capi/chain/block_list.h
         kth/capi/chain/chain.h
         kth/capi/chain/compact_block.h
+        kth/capi/chain/double_spend_proof.h
+        kth/capi/chain/double_spend_proof_spender.h
         kth/capi/chain/get_blocks.h
         kth/capi/chain/get_headers.h
         kth/capi/chain/header.h

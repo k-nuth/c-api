@@ -113,13 +113,13 @@ void kth_chain_async_merkle_block_by_hash(kth_chain_t chain, void* ctx, kth_hash
     });
 }
 
-void kth_chain_async_compact_block_by_height(kth_chain_t chain, void* ctx, kth_size_t height, kth_compactblock_fetch_handler_t handler) {
+void kth_chain_async_compact_block_by_height(kth_chain_t chain, void* ctx, kth_size_t height, kth_compact_block_fetch_handler_t handler) {
     safe_chain(chain).fetch_compact_block(height, [chain, ctx, handler](std::error_code const& ec, kth::domain::message::compact_block::const_ptr block, size_t h) {
         handler(chain, ctx, kth::to_c_err(ec), kth::leak(block), h);
     });
 }
 
-void kth_chain_async_compact_block_by_hash(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_compactblock_fetch_handler_t handler) {
+void kth_chain_async_compact_block_by_hash(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_compact_block_fetch_handler_t handler) {
     auto hash_cpp = kth::to_array(hash.hash);
 
     safe_chain(chain).fetch_compact_block(hash_cpp, [chain, ctx, handler](std::error_code const& ec, kth::domain::message::compact_block::const_ptr block, size_t h) {
@@ -179,7 +179,7 @@ void kth_chain_async_history(kth_chain_t chain, void* ctx, kth_payment_address_t
 
 
 #if defined(KTH_DB_TRANSACTION_UNCONFIRMED) || defined(KTH_DB_NEW_FULL)
-void kth_chain_async_confirmed_transactions(kth_chain_t chain, void* ctx, kth_payment_address_t address, uint64_t max, uint64_t start_height, kth_transactions_by_addres_fetch_handler_t handler) {
+void kth_chain_async_confirmed_transactions(kth_chain_t chain, void* ctx, kth_payment_address_t address, uint64_t max, uint64_t start_height, kth_transactions_by_address_fetch_handler_t handler) {
     // auto const& address_cpp = kth_wallet_payment_address_const_cpp(address);
 
     safe_chain(chain).fetch_confirmed_transactions(kth_wallet_payment_address_const_cpp(address), max, start_height, [chain, ctx, handler](std::error_code const& ec, const std::vector<kth::hash_digest>& txs) {

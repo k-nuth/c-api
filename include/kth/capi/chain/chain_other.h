@@ -21,6 +21,9 @@ KTH_EXPORT
 void kth_chain_subscribe_transaction(kth_node_t exec, kth_chain_t chain, void* ctx, kth_subscribe_transaction_handler_t handler);
 
 KTH_EXPORT
+void kth_chain_subscribe_double_spend_proof(kth_node_t exec, kth_chain_t chain, void* ctx, kth_subscribe_double_spend_proof_handler_t handler);
+
+KTH_EXPORT
 void kth_chain_unsubscribe(kth_chain_t chain);
     
 // Validation.

@@ -99,6 +99,12 @@ void kth_chain_subscribe_transaction(kth_node_t exec, kth_chain_t chain, void* c
     });
 }
 
+void kth_chain_subscribe_double_spend_proof(kth_node_t exec, kth_chain_t chain, void* ctx, kth_subscribe_double_spend_proof_handler_t handler) {
+    safe_chain(chain).kth_chain_subscribe_double_spend_proof([exec, chain, ctx, handler](std::error_code const& ec, kth::double_spend_proof_const_ptr dsp) {
+        return handler(exec, chain, ctx, kth::to_c_err(ec), kth::leak(dsp));
+    });
+}
+
 void kth_chain_unsubscribe(kth_chain_t chain) {
     safe_chain(chain).unsubscribe();
 }
