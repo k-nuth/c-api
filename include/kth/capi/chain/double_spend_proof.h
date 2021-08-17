@@ -15,13 +15,13 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-kth_outputpoint_t kth_chain_double_spend_proof_out_point(kth_double_spend_proof_t dsp);
+kth_outputpoint_const_t kth_chain_double_spend_proof_out_point(kth_double_spend_proof_t dsp);
 
 KTH_EXPORT
-kth_double_spend_proof_spender_t kth_chain_double_spend_proof_spender1(kth_double_spend_proof_t dsp);
+kth_double_spend_proof_spender_const_t kth_chain_double_spend_proof_spender1(kth_double_spend_proof_t dsp);
 
 KTH_EXPORT
-kth_double_spend_proof_spender_t kth_chain_double_spend_proof_spender2(kth_double_spend_proof_t dsp);
+kth_double_spend_proof_spender_const_t kth_chain_double_spend_proof_spender2(kth_double_spend_proof_t dsp);
 
 KTH_EXPORT
 kth_hash_t kth_chain_double_spend_proof_hash(kth_double_spend_proof_t dsp);
