@@ -364,12 +364,14 @@ set(_kth_sources
         src/chain/block.cpp
         src/chain/block_indexes.cpp
         src/chain/block_list.cpp
-        
+
         src/chain/chain_async.cpp
         src/chain/chain_other.cpp
         src/chain/chain_sync.cpp
 
         src/chain/compact_block.cpp
+        src/chain/double_spend_proof.cpp
+        src/chain/double_spend_proof_spender.cpp
         src/chain/get_blocks.cpp
         src/chain/get_headers.cpp
         src/chain/header.cpp
@@ -447,7 +449,7 @@ add_library(kth-c-api ${MODE}
 #     src/user_agent.cpp
 #   )
 
-#   if (ENABLE_POSITION_INDEPENDENT_CODE) 
+#   if (ENABLE_POSITION_INDEPENDENT_CODE)
 #     set_property(TARGET kth-c-api-version PROPERTY POSITION_INDEPENDENT_CODE ON)
 #   endif(ENABLE_POSITION_INDEPENDENT_CODE)
 
@@ -459,7 +461,7 @@ add_library(kth-c-api ${MODE}
 # endif()
 
 
-if (ENABLE_POSITION_INDEPENDENT_CODE) 
+if (ENABLE_POSITION_INDEPENDENT_CODE)
   set_property(TARGET kth-c-api PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif(ENABLE_POSITION_INDEPENDENT_CODE)
 
@@ -645,6 +647,8 @@ set(_kth_headers
         kth/capi/chain/block_list.h
         kth/capi/chain/chain.h
         kth/capi/chain/compact_block.h
+        kth/capi/chain/double_spend_proof.h
+        kth/capi/chain/double_spend_proof_spender.h
         kth/capi/chain/get_blocks.h
         kth/capi/chain/get_headers.h
         kth/capi/chain/header.h
@@ -733,4 +737,3 @@ install(
         "${CMAKE_CURRENT_BINARY_DIR}/kth-c-apiConfigVersion.cmake"
         DESTINATION ${_config_package_location})
 
-        

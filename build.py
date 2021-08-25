@@ -18,8 +18,24 @@ if __name__ == "__main__":
         if settings["build_type"] == "Release" \
                 and (not "compiler.runtime" in settings or xor(options["%s:shared" % name] == True, settings["compiler.runtime"] == "MT")):
 
+            print(settings["compiler"])
+            print("compiler.libcxx" in settings)
+
+            if settings["compiler"] == "gcc":
+                # if settings.get_safe("compiler.libcxx") is None:
+                # print("****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!")
+                # print(settings["compiler.libcxx"])
+                # print("****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!")
+
+                settings["compiler.libcxx"] = "libstdc++11"
+
+                print("****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!")
+                print(settings["compiler.libcxx"])
+                print("****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!****!!!!")
+
+
             copy_env_vars(env_vars)
-                
+
             if os.getenv('KTH_RUN_TESTS', 'false') == 'true':
                 options["%s:tests" % name] = "True"
 

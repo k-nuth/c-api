@@ -51,10 +51,10 @@ void kth_chain_async_merkle_block_by_hash(kth_chain_t chain, void* ctx, kth_hash
 
 // Compact Block ---------------------------------------------------------------------
 KTH_EXPORT
-void kth_chain_async_compact_block_by_height(kth_chain_t chain, void* ctx, kth_size_t height, kth_compactblock_fetch_handler_t handler);
+void kth_chain_async_compact_block_by_height(kth_chain_t chain, void* ctx, kth_size_t height, kth_compact_block_fetch_handler_t handler);
 
 KTH_EXPORT
-void kth_chain_async_compact_block_by_hash(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_compactblock_fetch_handler_t handler);
+void kth_chain_async_compact_block_by_hash(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_compact_block_fetch_handler_t handler);
 
 #endif // defined(KTH_DB_LEGACY) || KTH_DB_NEW_BLOCKS || defined(KTH_DB_NEW_FULL)
 
@@ -82,7 +82,7 @@ void kth_chain_async_history(kth_chain_t chain, void* ctx, kth_payment_address_t
 
 #if defined(KTH_DB_TRANSACTION_UNCONFIRMED) || defined(KTH_DB_NEW_FULL)
 KTH_EXPORT
-void kth_chain_async_confirmed_transactions(kth_chain_t chain, void* ctx, kth_payment_address_t address, uint64_t max, uint64_t start_height, kth_transactions_by_addres_fetch_handler_t handler);
+void kth_chain_async_confirmed_transactions(kth_chain_t chain, void* ctx, kth_payment_address_t address, uint64_t max, uint64_t start_height, kth_transactions_by_address_fetch_handler_t handler);
 #endif
 
 #if defined(KTH_DB_STEALTH)

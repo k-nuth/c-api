@@ -55,10 +55,10 @@ kth_error_code_t kth_chain_sync_merkle_block_by_hash(kth_chain_t chain, kth_hash
 
 // Compact Block ---------------------------------------------------------------------
 KTH_EXPORT
-kth_error_code_t kth_chain_sync_compact_block_by_height(kth_chain_t chain, kth_size_t height, kth_compactblock_t* out_block, kth_size_t* out_height);
+kth_error_code_t kth_chain_sync_compact_block_by_height(kth_chain_t chain, kth_size_t height, kth_compact_block_t* out_block, kth_size_t* out_height);
 
 KTH_EXPORT
-kth_error_code_t kth_chain_sync_compact_block_by_hash(kth_chain_t chain, kth_hash_t hash, kth_compactblock_t* out_block, kth_size_t* out_height);
+kth_error_code_t kth_chain_sync_compact_block_by_hash(kth_chain_t chain, kth_hash_t hash, kth_compact_block_t* out_block, kth_size_t* out_height);
 #endif // defined(KTH_DB_LEGACY) || KTH_DB_NEW_BLOCKS || defined(KTH_DB_NEW_FULL)
 
 
