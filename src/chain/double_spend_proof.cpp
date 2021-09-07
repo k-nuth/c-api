@@ -31,6 +31,11 @@ kth_hash_t kth_chain_double_spend_proof_hash(kth_double_spend_proof_t dsp) {
     return kth::to_hash_t(hash_cpp);
 }
 
+void kth_chain_double_spend_proof_hash_out(kth_double_spend_proof_t dsp, kth_hash_t* out_hash) {
+    auto const& hash_cpp = kth_chain_double_spend_proof_const_cpp(dsp).hash();
+    kth::copy_c_hash(hash_cpp, out_hash);
+}
+
 kth_bool_t kth_chain_double_spend_proof_is_valid(kth_double_spend_proof_t dsp) {
     return kth::bool_to_int(kth_chain_double_spend_proof_const_cpp(dsp).is_valid());
 }

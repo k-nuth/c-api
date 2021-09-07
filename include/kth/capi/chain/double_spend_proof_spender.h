@@ -27,10 +27,19 @@ KTH_EXPORT
 kth_hash_t kth_chain_double_spend_proof_spender_prev_outs_hash(kth_double_spend_proof_spender_const_t spender);
 
 KTH_EXPORT
+void kth_chain_double_spend_proof_spender_prev_outs_hash_out(kth_double_spend_proof_spender_const_t dsp, kth_hash_t* out_hash);
+
+KTH_EXPORT
 kth_hash_t kth_chain_double_spend_proof_spender_sequence_hash(kth_double_spend_proof_spender_const_t spender);
 
 KTH_EXPORT
+void kth_chain_double_spend_proof_spender_sequence_hash_out(kth_double_spend_proof_spender_const_t dsp, kth_hash_t* out_hash);
+
+KTH_EXPORT
 kth_hash_t kth_chain_double_spend_proof_spender_outputs_hash(kth_double_spend_proof_spender_const_t spender);
+
+KTH_EXPORT
+void kth_chain_double_spend_proof_spender_outputs_hash_out(kth_double_spend_proof_spender_const_t dsp, kth_hash_t* out_hash);
 
 KTH_EXPORT
 uint8_t const* kth_chain_double_spend_proof_spender_push_data(kth_double_spend_proof_spender_const_t spender, kth_size_t* out_size);
