@@ -27,6 +27,9 @@ KTH_EXPORT
 kth_hash_t kth_chain_double_spend_proof_hash(kth_double_spend_proof_t dsp);
 
 KTH_EXPORT
+void kth_chain_double_spend_proof_hash_out(kth_double_spend_proof_t dsp, kth_hash_t* out_hash);
+
+KTH_EXPORT
 kth_bool_t kth_chain_double_spend_proof_is_valid(kth_double_spend_proof_t dsp);
 
 KTH_EXPORT

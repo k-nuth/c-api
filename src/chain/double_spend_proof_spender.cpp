@@ -31,15 +31,32 @@ kth_hash_t kth_chain_double_spend_proof_spender_prev_outs_hash(kth_double_spend_
     return kth::to_hash_t(hash_cpp);
 }
 
+void kth_chain_double_spend_proof_spender_prev_outs_hash_out(kth_double_spend_proof_spender_const_t spender, kth_hash_t* out_hash) {
+    auto const& hash_cpp = kth_chain_double_spend_proof_spender_const_cpp(spender).prev_outs_hash;
+    kth::copy_c_hash(hash_cpp, out_hash);
+}
+
 kth_hash_t kth_chain_double_spend_proof_spender_sequence_hash(kth_double_spend_proof_spender_const_t spender) {
     auto const& hash_cpp = kth_chain_double_spend_proof_spender_const_cpp(spender).sequence_hash;
     return kth::to_hash_t(hash_cpp);
 }
 
+void kth_chain_double_spend_proof_spender_sequence_hash_out(kth_double_spend_proof_spender_const_t spender, kth_hash_t* out_hash) {
+    auto const& hash_cpp = kth_chain_double_spend_proof_spender_const_cpp(spender).sequence_hash;
+    kth::copy_c_hash(hash_cpp, out_hash);
+}
+
+
 kth_hash_t kth_chain_double_spend_proof_spender_outputs_hash(kth_double_spend_proof_spender_const_t spender) {
     auto const& hash_cpp = kth_chain_double_spend_proof_spender_const_cpp(spender).outputs_hash;
     return kth::to_hash_t(hash_cpp);
 }
+
+void kth_chain_double_spend_proof_spender_outputs_hash_out(kth_double_spend_proof_spender_const_t spender, kth_hash_t* out_hash) {
+    auto const& hash_cpp = kth_chain_double_spend_proof_spender_const_cpp(spender).outputs_hash;
+    kth::copy_c_hash(hash_cpp, out_hash);
+}
+
 
 uint8_t const* kth_chain_double_spend_proof_spender_push_data(kth_double_spend_proof_spender_const_t spender, kth_size_t* out_size) {
     auto const& data = kth_chain_double_spend_proof_spender_const_cpp(spender).push_data;
