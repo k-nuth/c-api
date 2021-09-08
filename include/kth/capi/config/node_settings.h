@@ -19,6 +19,7 @@ typedef struct {
     uint32_t block_latency_seconds;
     kth_bool_t refresh_transactions;
     kth_bool_t compact_blocks_high_bandwidth;
+    kth_bool_t ds_proofs_enabled;
 } kth_node_settings;
 
 KTH_EXPORT

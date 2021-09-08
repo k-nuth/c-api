@@ -14,6 +14,7 @@
 namespace kth::capi::helpers {
 
 namespace {
+
 template <typename Target, typename Source>
 inline
 Target node_settings_to_common(Source const& x) {
@@ -23,9 +24,11 @@ Target node_settings_to_common(Source const& x) {
     res.block_latency_seconds = x.block_latency_seconds;
     res.refresh_transactions = x.refresh_transactions;
     res.compact_blocks_high_bandwidth = x.compact_blocks_high_bandwidth;
+    res.ds_proofs_enabled = x.ds_proofs_enabled;
     return res;
 }
-}
+
+} //namespace
 
 inline
 kth::node::settings node_settings_to_cpp(kth_node_settings const& x) {
