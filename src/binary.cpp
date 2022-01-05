@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -23,7 +23,7 @@ kth_binary_t kth_core_binary_construct_string(char const* string) {
 }
 
 kth_binary_t kth_core_binary_construct_blocks(kth_size_t bits_size, uint8_t* blocks, kth_size_t n) {
-    kth::data_slice blocks_cpp(blocks, blocks + n); 
+    kth::data_slice blocks_cpp(blocks, blocks + n);
     return new kth::binary(bits_size, blocks_cpp);
 }
 

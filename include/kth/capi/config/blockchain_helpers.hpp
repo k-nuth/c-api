@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -50,8 +50,12 @@ Target blockchain_settings_to_common(Source const& x) {
     res.bch_mersenne = x.bch_mersenne;
     res.bch_fermat = x.bch_fermat;
     res.bch_euler = x.bch_euler;
+
+    res.gauss_activation_time = x.gauss_activation_time;
+    res.descartes_activation_time = x.descartes_activation_time;
     // res.bch_gauss = x.bch_gauss;
-    // res.gauss_activation_time = x.gauss_activation_time;
+    // res.bch_descartes = x.bch_descartes;
+
     res.asert_half_life = x.asert_half_life;
 #else
     res.bip141 = x.bip141;

@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -197,7 +197,7 @@ void kth_chain_async_stealth(kth_chain_t chain, void* ctx, kth_binary_t filter, 
     safe_chain(chain).fetch_stealth(filter_cpp, from_height, [chain, ctx, handler](std::error_code const& ec, kth::domain::chain::stealth_compact::list stealth) {
         handler(chain, ctx, kth::to_c_err(ec), kth::leak(stealth));
     });
-} 
+}
 #endif // defined(KTH_DB_STEALTH)
 
 // Organizers.

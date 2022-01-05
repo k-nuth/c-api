@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -25,7 +25,7 @@ kth_libconfig_t kth_libconfig_get() {
 
 #if defined(KTH_USE_LIBMDBX)
     res.use_libmdbx = 1;
-#else 
+#else
     res.use_libmdbx = 0;
 #endif
 
@@ -37,7 +37,7 @@ kth_libconfig_t kth_libconfig_get() {
 
 #if defined(KTH_WITH_MEMPOOL)
     res.mempool = 1;
-#else 
+#else
     res.mempool = 0;
 #endif
 
@@ -53,13 +53,13 @@ kth_libconfig_t kth_libconfig_get() {
 
 #if defined(KTH_DB_READONLY)
     res.db_readonly = 1;
-#else 
+#else
     res.db_readonly = 0;
 #endif
 
 #if defined(DEBUG)
     res.debug_mode = 1;
-#else 
+#else
     res.debug_mode = 0;
 #endif
 

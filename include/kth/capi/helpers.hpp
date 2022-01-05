@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -61,7 +61,7 @@ constexpr
 std::array<std::remove_cv_t<T>, 32> to_array(T (&x)[32]) {
     // return detail::to_array_impl(x, std::make_index_sequence<N>{});
     // return std::array<std::remove_cv_t<T>, 32> {{
-        
+
     return {{
         x[0],  x[1],  x[2],  x[3],  x[4],  x[5],  x[6], x[7],
         x[8],  x[9],  x[10], x[11], x[12], x[13], x[14], x[15],
@@ -97,7 +97,7 @@ kth_longhash_t to_longhash_t(kth::long_hash const& x) {
               x[32], x[33], x[34], x[35], x[36], x[37], x[38], x[39],
               x[40], x[41], x[42], x[43], x[44], x[45], x[46], x[47],
               x[48], x[49], x[50], x[51], x[52], x[53], x[54], x[55],
-              x[56], x[57], x[58], x[59], x[60], x[61], x[62], x[63]} };              
+              x[56], x[57], x[58], x[59], x[60], x[61], x[62], x[63]} };
 
 }
 
@@ -109,7 +109,7 @@ kth_ec_secret_t to_ec_secret_t(kth::hash_digest const& x) {
               x[24], x[25], x[26], x[27], x[28], x[29], x[30], x[31]} };
 }
 
-constexpr kth_ec_secret_t null_ec_secret = { 
+constexpr kth_ec_secret_t null_ec_secret = {
     {0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -192,7 +192,7 @@ void copy_c_hash(HashCpp const& in, HashC* out) {
     std::copy_n(in.begin(), in.size(), static_cast<uint8_t*>(out->hash));
 }
 
-template <typename T> 
+template <typename T>
 std::decay_t<T>* move_or_copy_and_leak(T&& x) {
     return new std::decay_t<T>(std::forward<T>(x));
 }
@@ -215,7 +215,7 @@ bool witness(int x = 1) {
     return false;
 #else
     return kth::int_to_bool(x);
-#endif    
+#endif
 }
 
 inline
@@ -244,12 +244,12 @@ kth_network_t network_to_c(kth::domain::config::network net) {
             return kth_network_testnet;
         case kth::domain::config::network::regtest:
             return kth_network_regtest;
-#if defined(KTH_CURRENCY_BCH)            
+#if defined(KTH_CURRENCY_BCH)
         case kth::domain::config::network::testnet4:
             return kth_network_testnet4;
         case kth::domain::config::network::scalenet:
             return kth_network_scalenet;
-#endif            
+#endif
         default:
         case kth::domain::config::network::mainnet:
             return kth_network_mainnet;

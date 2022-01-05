@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -48,7 +48,7 @@ kth_size_t kth_chain_output_signature_operations(kth_output_t output) {
     kth_bool_t bip141_active = 0;
 #else
     kth_bool_t bip141_active = 1;
-#endif   
+#endif
     return kth_chain_output_const_cpp(output).signature_operations(kth::int_to_bool(bip141_active));
 }
 

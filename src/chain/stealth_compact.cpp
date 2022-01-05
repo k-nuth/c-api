@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -17,7 +17,7 @@ extern "C" {
 
 kth_hash_t kth_chain_stealth_compact_get_ephemeral_public_key_hash(kth_stealth_compact_t stealth) {
     auto const& hash_cpp = kth_chain_stealth_compact_cpp(stealth).ephemeral_public_key_hash;
-    return kth::to_hash_t(hash_cpp); 
+    return kth::to_hash_t(hash_cpp);
 }
 
 void kth_chain_stealth_compact_get_ephemeral_public_key_hash_out(kth_stealth_compact_t stealth, kth_hash_t* out_epk_hash) {

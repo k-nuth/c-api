@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -48,7 +48,7 @@ kth::domain::message::block::const_ptr block_shared(kth_block_t block) {
 
 inline
 kth_block_t cast_block(kth::domain::message::block const& x) {
-    return const_cast<kth::domain::message::block*>(&x);    
+    return const_cast<kth::domain::message::block*>(&x);
 }
 
 } /* end of anonymous namespace */

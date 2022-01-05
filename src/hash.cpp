@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -13,7 +13,7 @@ namespace {
 
 inline
 int char2int(char input) {
-    // precondition: 
+    // precondition:
     if (input >= '0' && input <= '9') {
         return input - '0';
     }
@@ -33,7 +33,7 @@ void hex2bin(char const* src, uint8_t* target) {
         *(target++) = char2int(*src) * 16 + char2int(src[1]);
         src += 2;
     }
-}    
+}
 
 }
 

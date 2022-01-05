@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -142,7 +142,7 @@ keoken_get_all_asset_addresses_list_t my_get_all_asset_addresses_state(void* ctx
 }
 
 
-    
+
 
 
 
@@ -186,7 +186,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     keoken_memory_state_t memory_state = keoken_memory_state_construct_default();
     keoken_manager_configure_state(keo_manager
-                           , memory_state 
+                           , memory_state
                            , my_set_initial_asset_id_state
                            , my_reset_state
                            , my_remove_up_to_state
@@ -220,7 +220,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
         printf("asset_id:   %d\n", asset_id);
         printf("asset_name: %s\n", asset_name);
         printf("amount:     %ld\n", amount);
-    }    
+    }
 
     while (kth_node_stopped(exec) == 0) {
         printf("sleeping for 10 seconds...\n");

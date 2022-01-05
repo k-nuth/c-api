@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -61,7 +61,7 @@ kth_bool_t keoken_memory_state_asset_id_exists(keoken_memory_state_t state, keok
 }
 
 keoken_amount_t keoken_memory_state_get_balance(keoken_memory_state_t state, keoken_asset_id_t id, kth_payment_address_t addr) {
-    return keoken_memory_state_const_cpp(state).get_balance(id, kth_wallet_payment_address_const_cpp(addr)); 
+    return keoken_memory_state_const_cpp(state).get_balance(id, kth_wallet_payment_address_const_cpp(addr));
 }
 
 keoken_get_assets_by_address_list_t keoken_memory_state_get_assets_by_address(keoken_memory_state_t state, kth_payment_address_t addr) {

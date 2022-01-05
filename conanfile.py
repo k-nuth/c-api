@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2021 Knuth Project developers.
+# Copyright (c) 2016-2022 Knuth Project developers.
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -70,7 +70,7 @@ class KnuthCAPIConan(KnuthConanFile):
         "cmake_export_compile_commands": False,
         "log": "spdlog",
         "use_libmdbx": False,
-        
+
     }
 
     generators = "cmake"
@@ -121,7 +121,7 @@ class KnuthCAPIConan(KnuthConanFile):
                 self.options.db = "full"
 
         self.options["*"].keoken = self.is_keoken
-        
+
         self.options["*"].db_readonly = self.options.db_readonly
         self.output.info("Compiling with read-only DB: %s" % (self.options.db_readonly,))
 
