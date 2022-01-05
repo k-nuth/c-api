@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -50,7 +50,7 @@ void wait_until_block(kth_chain_t chain, size_t desired_height) {
 
     while (error == 0 && height < desired_height) {
         error = kth_chain_sync_last_height(chain, &height);
-    
+
         if (height < desired_height) {
             std::this_thread::sleep_for(std::chrono::seconds(10));
         }

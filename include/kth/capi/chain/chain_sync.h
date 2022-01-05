@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -62,7 +62,7 @@ kth_error_code_t kth_chain_sync_compact_block_by_hash(kth_chain_t chain, kth_has
 #endif // defined(KTH_DB_LEGACY) || KTH_DB_NEW_BLOCKS || defined(KTH_DB_NEW_FULL)
 
 
-#if defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_FULL) 
+#if defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_FULL)
 // Transaction ---------------------------------------------------------------------
 KTH_EXPORT
 kth_error_code_t kth_chain_sync_transaction(kth_chain_t chain, kth_hash_t hash, int require_confirmed, kth_transaction_t* out_transaction, kth_size_t* out_height, kth_size_t* out_index);
@@ -72,13 +72,13 @@ kth_error_code_t kth_chain_sync_transaction_position(kth_chain_t chain, kth_hash
 #endif
 
 
-#if (defined(KTH_DB_LEGACY) && defined(KTH_DB_SPENDS)) || defined(KTH_DB_NEW_FULL) 
+#if (defined(KTH_DB_LEGACY) && defined(KTH_DB_SPENDS)) || defined(KTH_DB_NEW_FULL)
 // Spend ---------------------------------------------------------------------
 KTH_EXPORT
 kth_error_code_t kth_chain_sync_spend(kth_chain_t chain, kth_outputpoint_t op, kth_inputpoint_t* out_input_point);
 #endif
 
-#if (defined(KTH_DB_LEGACY) && defined(KTH_DB_HISTORY)) || defined(KTH_DB_NEW_FULL) 
+#if (defined(KTH_DB_LEGACY) && defined(KTH_DB_HISTORY)) || defined(KTH_DB_NEW_FULL)
 // History ---------------------------------------------------------------------
 KTH_EXPORT
 kth_error_code_t kth_chain_sync_history(kth_chain_t chain, kth_payment_address_t address, kth_size_t limit, kth_size_t from_height, kth_history_compact_list_t* out_history);
@@ -102,7 +102,7 @@ kth_mempool_transaction_list_t kth_chain_sync_mempool_transactions(kth_chain_t c
 
 KTH_EXPORT
 kth_transaction_list_t kth_chain_sync_mempool_transactions_from_wallets(kth_chain_t chain, kth_payment_address_list_t addresses, kth_bool_t use_testnet_rules);
-    
+
 // Organizers.
 //-------------------------------------------------------------------------
 KTH_EXPORT

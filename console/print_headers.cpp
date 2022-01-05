@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -40,15 +40,15 @@
      uint64_t height;
      int error = kth_chain_sync_last_height(chain, &height);
      //printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
-    
+
      while (error == 0 && height < desired_height) {
          error = kth_chain_sync_last_height(chain, &height);
          //printf("wait_until_block; desired_height: %zd, error: %d, height: %zd\n", desired_height, error, height);
-        
+
          if (height < desired_height) {
              //printf("wait_until_block - 2\n");
              // time.sleep(1)
-            
+
              // std::this_thread::sleep_for(10s);
              std::this_thread::sleep_for(std::chrono::seconds(10));
 
@@ -102,7 +102,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
     kth_size_t height;
     auto res = kth_chain_sync_last_height(chain, &height);
 
-    
+
 	// // std::string hash = "0000000071966c2b1d065fd446b1e485b2c9d9594acd2007ccbd5441cfc89444";
 	// // // kth::hash_digest hash_bytes;
 	// // // hex2bin(hash.c_str(), hash_bytes.data());
@@ -141,7 +141,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // // }
 
     // // printf("**-- 2aaaaaa\n");
-    
+
     // // int res2 = kth_node_run_wait(exec);
     // int res2 = kth_node_init_and_run_wait(exec);
 
@@ -155,10 +155,10 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // printf("**-- 4\n");
 
     // kth_chain_t chain = kth_node_get_chain(exec);
-        
+
     // wait_until_block(chain, 170);
 
-    
+
 	// // std::string hash = "0000000071966c2b1d065fd446b1e485b2c9d9594acd2007ccbd5441cfc89444";
 	// // kth::hash_digest hash_bytes;
 	// // hex2bin(hash.c_str(), hash_bytes.data());
@@ -189,7 +189,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // kth_node_destruct(exec);
 
     // printf("**-- 8\n");
-    
+
     return 0;
 }
 
@@ -242,7 +242,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 // 	return 1;
 // }
-    
+
 // int main(int /*argc*/, char* /*argv*/[]) {
 // //    using namespace std::chrono_literals;
 
@@ -265,7 +265,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //     }
 
 //     printf("**-- 2\n");
-    
+
 //     int res2 = kth_node_run_wait(exec);
 
 //     if (res2 != 0) {
@@ -278,22 +278,22 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //     printf("**-- 3\n");
 
 //     kth_chain_t chain = kth_node_get_chain(exec);
-        
+
 //     // fetch_last_height(exec, last_height_fetch_handler);
 //     // wait_until_block(chain, 170);
 
 
 //     printf("**-- 4\n");
-    
+
 //     kth_chain_subscribe_blockchain(exec, chain, nullptr, kth_chain_subscribe_blockchain_handler);
 
 //     printf("**-- 5\n");
-    
+
 //     // while ( ! kth_node_stopped(exec) ) {
 //     //while ( ! stopped ) {
 //     while (kth_node_stopped(exec) == 0) {
 //         printf("**-- 6\n");
-        
+
 //         uint64_t height;
 //         int error = kth_chain_sync_last_height(chain, &height);
 //         printf("error: %d, height: %zd\n", error, height);
@@ -317,7 +317,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //     kth_node_destruct(exec);
 
 //     printf("**-- 8\n");
-    
+
 //     return 0;
 // }
 
@@ -496,7 +496,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
     int res1 = kth_node_initchain(exec);
     int res2 = kth_node_run_wait(exec);
-    
+
     kth_chain_t chain = kth_node_get_chain(exec);
 
     wait_until_block(chain, 170);
@@ -504,7 +504,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 
 
     std::string raw = "0200000001ffecbd2b832ea847a7da905a40d5abaff8323cc18ff3121532f6fe781ce79f6e000000008b483045022100a26515b4bb5f3eb0259c0cc0806b4d8096f91a801ee9b15ced76f2537f7de94b02205becd631fe0ae232e4453f1b4a8a5375e4caec62e3971dbfe5a6d86b2538dcf64141044636673164f4b636d560cb4192cb07aa62054154f1a7a99a694b235f8fba56950b34e6ab55d58991470a13ca59330bc6339a2f72eb6f9204a64a1a538ddff4fbffffffff0290d00300000000001976a9144913233162944e9239637f998235d76e1601b1cf88ac80d1f008000000001976a914cc1d800e7f83edd96a0340a4e269b2956f636e3f88ac00000000";
-    
+
     kth::data_chunk chunk;
     kth::decode_base16(chunk,raw);
 

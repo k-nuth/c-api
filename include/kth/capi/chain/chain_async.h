@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -59,7 +59,7 @@ void kth_chain_async_compact_block_by_hash(kth_chain_t chain, void* ctx, kth_has
 #endif // defined(KTH_DB_LEGACY) || KTH_DB_NEW_BLOCKS || defined(KTH_DB_NEW_FULL)
 
 
-#if defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_FULL) 
+#if defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_FULL)
 // Transaction ---------------------------------------------------------------------
 KTH_EXPORT
 void kth_chain_async_transaction(kth_chain_t chain, void* ctx, kth_hash_t hash, int require_confirmed, kth_transaction_fetch_handler_t handler);
@@ -69,12 +69,12 @@ void kth_chain_async_transaction_position(kth_chain_t chain, void* ctx, kth_hash
 #endif //KTH_DB_LEGACY || defined(KTH_DB_NEW_FULL)
 
 
-#if (defined(KTH_DB_LEGACY) && defined(KTH_DB_SPENDS)) || defined(KTH_DB_NEW_FULL) 
+#if (defined(KTH_DB_LEGACY) && defined(KTH_DB_SPENDS)) || defined(KTH_DB_NEW_FULL)
 KTH_EXPORT
 void kth_chain_async_spend(kth_chain_t chain, void* ctx, kth_outputpoint_t op, kth_spend_fetch_handler_t handler);
 #endif
 
-#if (defined(KTH_DB_LEGACY) && defined(KTH_DB_HISTORY)) || defined(KTH_DB_NEW_FULL) 
+#if (defined(KTH_DB_LEGACY) && defined(KTH_DB_HISTORY)) || defined(KTH_DB_NEW_FULL)
 KTH_EXPORT
 void kth_chain_async_history(kth_chain_t chain, void* ctx, kth_payment_address_t address, kth_size_t limit, kth_size_t from_height, kth_history_fetch_handler_t handler);
 #endif
@@ -89,7 +89,7 @@ void kth_chain_async_confirmed_transactions(kth_chain_t chain, void* ctx, kth_pa
 KTH_EXPORT
 void kth_chain_async_stealth(kth_chain_t chain, void* ctx, kth_binary_t filter, uint64_t from_height, kth_stealth_fetch_handler_t handler);
 #endif
-    
+
 // Organizers.
 //-------------------------------------------------------------------------
 

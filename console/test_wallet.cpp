@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -118,7 +118,7 @@ int main(int argc, char* argv[]) {
         // auto* addr_str = kth_wallet_payment_address_encoded(addr);
 
     }
-    
+
 
     std::cout << std::endl;
 
@@ -164,7 +164,7 @@ int main(int argc, char* argv[]) {
 //     print_hex(seed.hash, 64);
 
 //     auto hd_priv = kth_wallet_hd_new(seed, 76066276);
-    
+
 //     kth_ec_secret_t ec_priv;
 //     kth_wallet_hd_private_to_ec_out(hd_priv, &ec_priv);
 

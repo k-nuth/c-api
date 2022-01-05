@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -100,7 +100,7 @@ kth_error_code_t input_signature_btc(
     kth_ec_secret_t private_key,    /*32 element byte array*/
     kth_script_t output_script,
     kth_transaction_t tx,
-    uint64_t amount,    
+    uint64_t amount,
     uint32_t index,
     uint8_t sign_type /*= 0x01*/,
     kth_bool_t anyone_can_pay /*= false*/,
@@ -131,7 +131,7 @@ kth_error_code_t input_signature_bch(
     kth_ec_secret_t private_key,    /*32 element byte array*/
     kth_script_t output_script,
     kth_transaction_t tx,
-    uint64_t amount,    
+    uint64_t amount,
     uint32_t index,
     uint8_t sign_type /*= 0x01*/,
     kth_bool_t anyone_can_pay /*= false*/,
@@ -180,7 +180,7 @@ kth_error_code_t input_set_script(
 }
 
 // kth_error_code_t input_set_signature(
-//     uint8_t* signature, 
+//     uint8_t* signature,
 //     kth_size_t signature_n,
 //     kth_ec_public_t public_key,
 //     kth_transaction_t tx,
@@ -209,7 +209,7 @@ kth_error_code_t input_set_script(
 
 // BC_API std::pair<error::kth_error_code_t, chain::transaction> input_set(data_chunk const& signature,
 //                                                                     wallet::ec_public const& public_key,
-//                                                                     chain::transaction const& tx, 
+//                                                                     chain::transaction const& tx,
 //                                                                      uint32_t index = 0);
 
 

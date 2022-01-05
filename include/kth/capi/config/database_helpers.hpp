@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -18,7 +18,7 @@ namespace {
 template <typename Target, typename Source>
 Target database_settings_to_common(Source const& x) {
     Target res;
-    
+
     res.flush_writes = x.flush_writes;
     res.file_growth_rate = x.file_growth_rate;
     res.index_start_height = x.index_start_height;

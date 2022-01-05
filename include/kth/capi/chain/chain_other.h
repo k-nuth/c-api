@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -25,7 +25,7 @@ void kth_chain_subscribe_ds_proof(kth_node_t exec, kth_chain_t chain, void* ctx,
 
 KTH_EXPORT
 void kth_chain_unsubscribe(kth_chain_t chain);
-    
+
 // Validation.
 //-------------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ void kth_chain_transaction_validate(kth_chain_t chain, void* ctx, kth_transactio
 
 KTH_EXPORT
 void kth_chain_transaction_validate_sequential(kth_chain_t chain, void* ctx, kth_transaction_t tx, kth_validate_tx_handler_t handler);
- 
+
 
 // Queries.
 //-------------------------------------------------------------------------

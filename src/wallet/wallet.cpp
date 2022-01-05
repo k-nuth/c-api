@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -80,7 +80,7 @@ void kth_wallet_hd_private_to_ec_out(kth_hd_private_t key, kth_ec_secret_t* out_
 kth_ec_public_t kth_wallet_ec_to_public(kth_ec_secret_t secret, kth_bool_t uncompressed) {
     auto secret_cpp = kth::to_array(secret.hash);
     bool uncompressed_cpp = kth::int_to_bool(uncompressed);
-    
+
     kth::ec_compressed point;
     kth::secret_to_public(point, secret_cpp);
     return new kth::domain::wallet::ec_public(point, !uncompressed_cpp);

@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -15,15 +15,15 @@ extern "C" {
 #endif
 
 typedef enum {
-    kth_libconfig_log_library_boost = 0, 
-    kth_libconfig_log_library_spdlog = 1, 
-    kth_libconfig_log_library_binlog = 2, 
+    kth_libconfig_log_library_boost = 0,
+    kth_libconfig_log_library_spdlog = 1,
+    kth_libconfig_log_library_binlog = 2,
 } kth_libconfig_log_library_t;
 
 typedef enum {
-    kth_libconfig_db_mode_legacy = 0, 
-    kth_libconfig_db_mode_pruned = 1, 
-    kth_libconfig_db_mode_normal = 2, 
+    kth_libconfig_db_mode_legacy = 0,
+    kth_libconfig_db_mode_pruned = 1,
+    kth_libconfig_db_mode_normal = 2,
     kth_libconfig_db_mode_full_indexed = 3
 } kth_libconfig_db_mode_t;
 

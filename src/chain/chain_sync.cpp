@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2021 Knuth Project developers.
+// Copyright (c) 2016-2022 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -96,7 +96,7 @@ kth_error_code_t kth_chain_sync_block_header_by_height(kth_chain_t chain, kth_si
 
     latch.count_down_and_wait();
     return res;
-}       
+}
 
 kth_error_code_t kth_chain_sync_block_header_by_hash(kth_chain_t chain, kth_hash_t hash, kth_header_t* out_header, kth_size_t* out_height) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
@@ -383,7 +383,7 @@ kth_error_code_t kth_chain_sync_stealth(kth_chain_t chain, kth_binary_t filter, 
         res = kth::to_c_err(ec);
         latch.count_down();
     });
-    
+
     latch.count_down_and_wait();
     return res;
 }
@@ -398,7 +398,7 @@ kth_mempool_transaction_list_t kth_chain_sync_mempool_transactions(kth_chain_t c
         auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), kth::int_to_bool(use_testnet_rules), kth::witness());
         auto ret_txs = kth::leak(txs);
         return static_cast<kth_mempool_transaction_list_t>(ret_txs);
-    } 
+    }
     auto ret_txs = new std::vector<kth::blockchain::mempool_transaction_summary>();
     return static_cast<kth_mempool_transaction_list_t>(ret_txs);
 }
