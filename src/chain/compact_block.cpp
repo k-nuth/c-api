@@ -25,11 +25,11 @@ kth_size_t kth_chain_compact_block_serialized_size(kth_compact_block_t block, ui
     return kth_chain_compact_block_const_cpp(block).serialized_size(version);
 }
 
-kth_size_t kth_chain_compactblock_transaction_count(kth_compact_block_t block) {
+kth_size_t kth_chain_compact_block_transaction_count(kth_compact_block_t block) {
     return kth_chain_compact_block_const_cpp(block).transactions().size();
 }
 
- kth_transaction_t kth_chain_compactblock_transaction_nth(kth_compact_block_t block, kth_size_t n) {
+ kth_transaction_t kth_chain_compact_block_transaction_nth(kth_compact_block_t block, kth_size_t n) {
     //precondition: n >=0 && n < transactions().size()
 
     auto* blk = &kth_chain_compact_block_cpp(block);
