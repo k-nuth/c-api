@@ -158,6 +158,7 @@ class KnuthCAPIConan(KnuthConanFile):
         cmake.definitions["DB_READONLY_MODE"] = option_on_off(self.options.db_readonly)
         cmake.definitions["LOG_LIBRARY"] = self.options.log
         cmake.definitions["USE_LIBMDBX"] = option_on_off(self.options.use_libmdbx)
+        cmake.definitions["CONAN_DISABLE_CHECK_COMPILER"] = option_on_off(True)
 
         cmake.configure(source_dir=self.source_folder)
         if not self.options.cmake_export_compile_commands:
