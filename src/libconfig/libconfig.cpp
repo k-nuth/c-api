@@ -30,7 +30,6 @@ kth_libconfig_t kth_libconfig_get() {
 #endif
 
     res.version = KTH_CAPI_VERSION;
-    res.microarchitecture = KTH_STR(KTH_MICROARCHITECTURE);
     res.microarchitecture_id = KTH_STR(KTH_MARCH_ID);
 
     res.currency = kth_node_settings_get_currency();

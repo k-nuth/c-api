@@ -25,14 +25,13 @@ class KnuthCAPIConan(KnuthConanFile):
         "tests": [True, False],
         "console": [True, False],       #TODO(fernando): move to kthbuild
 
-        "microarchitecture": "ANY",
-        "fix_march": [True, False],
         "march_id": "ANY",
+        "march_strategy": ["download_if_possible", "optimized", "download_or_fail"],
 
         "no_compilation": [True, False],
         "currency": ['BCH', 'BTC', 'LTC'],
         "verbose": [True, False],
-        "keoken": [True, False],
+        # "keoken": [True, False],
         "mempool": [True, False],
 
         "db": ['legacy', 'legacy_full', 'pruned', 'default', 'full'],
@@ -52,14 +51,15 @@ class KnuthCAPIConan(KnuthConanFile):
         "tests": False,
         "console": False,
 
-        "microarchitecture": "_DUMMY_",
-        "fix_march": False,
         "march_id": "_DUMMY_",
+        "march_strategy": "download_if_possible",
 
         "no_compilation": False,
         "currency": "BCH",
         "verbose": False,
-        "keoken": False,
+
+        # "keoken": False,
+
         "mempool": False,
         "db": "default",
         "db_readonly": False,
@@ -70,7 +70,6 @@ class KnuthCAPIConan(KnuthConanFile):
         "cmake_export_compile_commands": False,
         "log": "spdlog",
         "use_libmdbx": False,
-
     }
 
     generators = "cmake"
@@ -87,13 +86,12 @@ class KnuthCAPIConan(KnuthConanFile):
         #     return self.options.shared
         return self.options.shared
 
-    @property
-    def is_keoken(self):
-        return self.options.currency == "BCH" and self.options.get_safe("keoken")
+    # @property
+    # def is_keoken(self):
+    #     return self.options.currency == "BCH" and self.options.get_safe("keoken")
 
     def validate(self):
-        if self.settings.os == "Linux" and self.settings.compiler == "gcc" and self.settings.compiler.libcxx == "libstdc++":
-            raise ConanInvalidConfiguration("We just support GCC C++11ABI.\n**** Please run `conan profile update settings.compiler.libcxx=libstdc++11 default`")
+        KnuthConanFile.validate(self)
 
     def requirements(self):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
@@ -109,18 +107,18 @@ class KnuthCAPIConan(KnuthConanFile):
             self.settings.remove("compiler")
             self.settings.remove("build_type")
 
-        if self.options.keoken and self.options.currency != "BCH":
-            self.output.warn("For the moment Keoken is only enabled for BCH. Building without Keoken support...")
-            del self.options.keoken
-        else:
-            self.options["*"].keoken = self.options.keoken
+        # if self.options.keoken and self.options.currency != "BCH":
+        #     self.output.warn("For the moment Keoken is only enabled for BCH. Building without Keoken support...")
+        #     del self.options.keoken
+        # else:
+        #     self.options["*"].keoken = self.options.keoken
 
-        if self.is_keoken:
-            if self.options.db == "pruned" or self.options.db == "default":
-                self.output.warn("Keoken mode requires db=full and your configuration is db=%s, it has been changed automatically..." % (self.options.db,))
-                self.options.db = "full"
+        # if self.is_keoken:
+        #     if self.options.db == "pruned" or self.options.db == "default":
+        #         self.output.warn("Keoken mode requires db=full and your configuration is db=%s, it has been changed automatically..." % (self.options.db,))
+        #         self.options.db = "full"
 
-        self.options["*"].keoken = self.is_keoken
+        # self.options["*"].keoken = self.is_keoken
 
         self.options["*"].db_readonly = self.options.db_readonly
         self.output.info("Compiling with read-only DB: %s" % (self.options.db_readonly,))
@@ -153,7 +151,9 @@ class KnuthCAPIConan(KnuthConanFile):
         cmake.definitions["WITH_CONSOLE"] = option_on_off(self.options.console)
         cmake.definitions["WITH_CONSOLE_CAPI"] = option_on_off(self.options.console)
 
-        cmake.definitions["WITH_KEOKEN"] = option_on_off(self.is_keoken)
+        # cmake.definitions["WITH_KEOKEN"] = option_on_off(self.is_keoken)
+        cmake.definitions["WITH_KEOKEN"] = option_on_off(False)
+
         cmake.definitions["WITH_MEMPOOL"] = option_on_off(self.options.mempool)
         cmake.definitions["DB_READONLY_MODE"] = option_on_off(self.options.db_readonly)
         cmake.definitions["LOG_LIBRARY"] = self.options.log

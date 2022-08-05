@@ -31,7 +31,6 @@ typedef struct {
     kth_libconfig_log_library_t log_library;
     kth_bool_t use_libmdbx;
     char const* version;
-    char const* microarchitecture;
     char const* microarchitecture_id;
     kth_currency_t currency;
     kth_bool_t mempool;
