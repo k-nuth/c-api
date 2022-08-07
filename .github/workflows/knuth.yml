@@ -130,8 +130,9 @@ jobs:
           python.exe --version
           cmake --version
           python.exe -m pip install --upgrade pip
-          pip.exe install conan_package_tools==0.35.1
+          pip.exe install conan_package_tools==0.38.0
           pip.exe install kthbuild --upgrade
+          pip.exe install conan==1.49.0
           conan user
         shell: cmd
 
@@ -140,7 +141,7 @@ jobs:
         shell: bash
         run: |
           echo "CONAN_GCC_VERSIONS=${{ matrix.config.version }}" >> $GITHUB_ENV
-          echo "CONAN_DOCKER_IMAGE=conanio/gcc${{ matrix.config.version }}" >> $GITHUB_ENV
+          echo "CONAN_DOCKER_IMAGE=conanio/gcc${{ matrix.config.version }}${{ matrix.config.docker_suffix }}" >> $GITHUB_ENV
 
       - name: Settting EnvVars (macOS)
         if: ${{ matrix.config.compiler == 'apple-clang' }}
@@ -167,7 +168,7 @@ jobs:
           CONAN_LOGIN_USERNAME_TAO: ${{ secrets.CONAN_LOGIN_USERNAME_TAO }}
           CONAN_PASSWORD_TAO: ${{ secrets.CONAN_PASSWORD_TAO }}
           CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
-          CONAN_BUILD_POLICY: "missing"
+          # CONAN_BUILD_POLICY: "missing"
         shell: bash
         run: |
           echo ${{ matrix.config.compiler }}
@@ -180,7 +181,7 @@ jobs:
           echo ${CONAN_LOGIN_USERNAME_UPLOAD_REPO}
           echo ${CONAN_LOGIN_USERNAME_TAO}
           echo ${CONAN_DOCKER_ENTRY_SCRIPT}
-          echo ${CONAN_BUILD_POLICY}
+          # echo ${CONAN_BUILD_POLICY}
 
           export KTH_BRANCH=$(echo '${{ github.ref }}' | awk -F '/' '{print $3}')
           echo "My branch name is $KTH_BRANCH"
@@ -198,7 +199,7 @@ jobs:
           CONAN_LOGIN_USERNAME_TAO: ${{ secrets.CONAN_LOGIN_USERNAME_TAO }}
           CONAN_PASSWORD_TAO: ${{ secrets.CONAN_PASSWORD_TAO }}
           CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
-          CONAN_BUILD_POLICY: "missing"
+          # CONAN_BUILD_POLICY: "missing"
 
         shell: powershell
         run: |
@@ -209,7 +210,7 @@ jobs:
 
           Write-Host "CONAN_VISUAL_VERSIONS: $Env:CONAN_VISUAL_VERSIONS"
           Write-Host "CONAN_VISUAL_RUNTIMES: $Env:CONAN_VISUAL_RUNTIMES"
-          Write-Host "CONAN_BUILD_POLICY: $Env:CONAN_BUILD_POLICY"
+          # Write-Host "CONAN_BUILD_POLICY: $Env:CONAN_BUILD_POLICY"
 
           $Env:KTH_BRANCH = "${{ github.ref }}".Split("/")[2]
           Write-Host "My branch name is $Env:KTH_BRANCH"
@@ -280,7 +281,7 @@ jobs:
           CONAN_PASSWORD_UPLOAD_REPO: ${{ secrets.CONAN_PASSWORD_UPLOAD_REPO }}
           CONAN_LOGIN_USERNAME_TAO: ${{ secrets.CONAN_LOGIN_USERNAME_TAO }}
           CONAN_PASSWORD_TAO: ${{ secrets.CONAN_PASSWORD_TAO }}
-          CONAN_BUILD_POLICY: "missing"
+          # CONAN_BUILD_POLICY: "missing"
         shell: bash
         run: |
 
