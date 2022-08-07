@@ -4,8 +4,9 @@ on: [push, pull_request]
 
 jobs:
   master:
-    name: Master
-    if: github.ref == 'refs/heads/master'
+    name: Master and Dev
+    if: github.ref == 'refs/heads/master' ||
+        github.ref == 'refs/heads/dev'
     runs-on: ubuntu-20.04
     steps:
       - name: Master Build
@@ -15,7 +16,7 @@ jobs:
 
   wait-for-dependencies:
     name: Wait for dependencies (modules)
-    if: github.ref == 'refs/heads/dev' ||
+    if: github.ref == 'refs/heads/devX' ||
         startsWith(github.ref, 'refs/heads/testci') ||
         startsWith(github.ref, 'refs/heads/release') ||
         startsWith(github.ref, 'refs/heads/hotfix')
@@ -65,7 +66,7 @@ jobs:
           python ci_utils/wait_for_deps.py
 
       - name: Dummy Step for dev branch
-        if: github.ref == 'refs/heads/dev'
+        if: github.ref == 'refs/heads/devX'
         shell: bash
         run: |
           echo "Nothing to do!"
@@ -238,7 +239,7 @@ jobs:
   static-checks:
     needs: wait-for-dependencies
     name: Static Checks
-    if: github.ref == 'refs/heads/dev' ||
+    if: github.ref == 'refs/heads/devX' ||
         startsWith(github.ref, 'refs/heads/testci') ||
         startsWith(github.ref, 'refs/heads/release') ||
         startsWith(github.ref, 'refs/heads/hotfix')
@@ -253,7 +254,7 @@ jobs:
   upload-aliases:
     name: Upload Aliases
     needs: [builds, static-checks]
-    if: github.ref == 'refs/heads/dev' ||
+    if: github.ref == 'refs/heads/devX' ||
         startsWith(github.ref, 'refs/heads/testci') ||
         startsWith(github.ref, 'refs/heads/release') ||
         startsWith(github.ref, 'refs/heads/hotfix') ||
@@ -281,7 +282,7 @@ jobs:
           CONAN_PASSWORD_UPLOAD_REPO: ${{ secrets.CONAN_PASSWORD_UPLOAD_REPO }}
           CONAN_LOGIN_USERNAME_TAO: ${{ secrets.CONAN_LOGIN_USERNAME_TAO }}
           CONAN_PASSWORD_TAO: ${{ secrets.CONAN_PASSWORD_TAO }}
-          # CONAN_BUILD_POLICY: "missing"
+          CONAN_BUILD_POLICY: "missing"
         shell: bash
         run: |
 
