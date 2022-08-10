@@ -13,7 +13,6 @@ int main(int argc, char* argv[]) {
     std::cout << "log_library:          " << config.log_library << '\n';
     std::cout << "use_libmdbx:          " << config.use_libmdbx << '\n';
     std::cout << "version:              " << config.version << '\n';
-    std::cout << "microarchitecture:    " << config.microarchitecture << '\n';
     std::cout << "microarchitecture_id: " << config.microarchitecture_id << '\n';
     std::cout << "currency:             " << config.currency << '\n';
     std::cout << "mempool:              " << config.mempool << '\n';
