@@ -546,7 +546,8 @@ if (WITH_CONSOLE_CAPI)
         # console/test_deadlock.cpp
         # console/config_test.cpp
         # console/platform_test.cpp
-        console/test_libconfig.cpp
+        # console/test_libconfig.cpp
+        console/main_744727.cpp
       )
     endif()
 
