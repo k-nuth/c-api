@@ -178,7 +178,7 @@ Each of our modules has its own Github repository, but in case you want to creat
 [badge.Travis]: https://travis-ci.org/k-nuth/c-api.svg?branch=master
 [badge.Appveyor]: https://ci.appveyor.com/api/projects/status/github/k-nuth/c-api?svg=true&branch=master
 [badge.Cirrus]: https://api.cirrus-ci.com/github/k-nuth/c-api.svg?branch=master
-[badge.GithubActions]: https://github.com/k-nuth/c-api/workflows/Build%20and%20Test/badge.svg
+[badge.GithubActions]: https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fk-nuth%2Fc-api%2Fbadge&style=for-the-badge
 [badge.version]: https://badge.fury.io/gh/k-nuth%2Fkth-c-api.svg
 [badge.release]: https://img.shields.io/github/v/release/k-nuth/c-api?display_name=tag&style=for-the-badge&color=A8B9CC&logo=c
 [badge.c]: https://img.shields.io/badge/C-11-blue.svg?style=flat&logo=c
