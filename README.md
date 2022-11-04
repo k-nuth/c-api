@@ -180,7 +180,7 @@ Each of our modules has its own Github repository, but in case you want to creat
 [badge.Cirrus]: https://api.cirrus-ci.com/github/k-nuth/c-api.svg?branch=master
 [badge.GithubActions]: https://github.com/k-nuth/c-api/workflows/Build%20and%20Test/badge.svg
 [badge.version]: https://badge.fury.io/gh/k-nuth%2Fkth-c-api.svg
-[badge.release]: https://img.shields.io/github/release/k-nuth/c-api.svg
+[badge.release]: https://img.shields.io/github/v/release/k-nuth/c-api?display_name=tag&style=for-the-badge&color=A8B9CC&logo=c
 [badge.c]: https://img.shields.io/badge/C-11-blue.svg?style=flat&logo=c
 [badge.telegram]: https://img.shields.io/badge/telegram-badge-blue.svg?logo=telegram
 [badge.slack]: https://img.shields.io/badge/slack-badge-orange.svg?logo=slack
