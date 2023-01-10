@@ -56,11 +56,6 @@ kth_p2p_t kth_node_get_p2p(kth_node_t node);
 KTH_EXPORT
 void kth_node_print_thread_id();
 
-#ifdef KTH_WITH_KEOKEN
-KTH_EXPORT
-keoken_manager_t kth_node_get_keoken_manager(kth_node_t node);
-#endif
-
 KTH_EXPORT
 char const* kth_node_version(void);
 

@@ -132,25 +132,6 @@ typedef void* kth_ec_public_t;
 typedef void* kth_hd_private_t;
 // Wallet (end) -------------------------------------------------------
 
-// Keoken -------------------------------------------------------------
-#ifdef KTH_WITH_KEOKEN
-// Keoken Primitives
-typedef uint32_t keoken_asset_id_t;
-typedef int64_t keoken_amount_t;
-
-typedef void* keoken_manager_t;
-typedef void* keoken_memory_state_t;
-
-// Keoken DTOs
-typedef void* keoken_get_assets_by_address_data_t;
-typedef void* keoken_get_assets_data_t;
-typedef void* keoken_get_all_asset_addresses_data_t;
-typedef void* keoken_get_assets_by_address_list_t;
-typedef void* keoken_get_assets_list_t;
-typedef void* keoken_get_all_asset_addresses_list_t;
-
-#endif //KTH_WITH_KEOKEN
-
 
 // Callback signatures ------------------------------------------------
 typedef void (*kth_run_handler_t)(kth_node_t, void*, kth_error_code_t);

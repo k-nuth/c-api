@@ -46,4 +46,3 @@ compact_blocks_high_bandwidth = true
 # RPC-CONFG
 zmq_publisher_port = 5556
 rpc_port = 18332
-keoken_genesis_height = 0

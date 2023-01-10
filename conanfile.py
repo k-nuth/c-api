@@ -31,7 +31,6 @@ class KnuthCAPIConan(KnuthConanFile):
         "no_compilation": [True, False],
         "currency": ['BCH', 'BTC', 'LTC'],
         "verbose": [True, False],
-        # "keoken": [True, False],
         "mempool": [True, False],
 
         "db": ['legacy', 'legacy_full', 'pruned', 'default', 'full'],
@@ -57,8 +56,6 @@ class KnuthCAPIConan(KnuthConanFile):
         "no_compilation": False,
         "currency": "BCH",
         "verbose": False,
-
-        # "keoken": False,
 
         "mempool": False,
         "db": "default",
@@ -86,10 +83,6 @@ class KnuthCAPIConan(KnuthConanFile):
         #     return self.options.shared
         return self.options.shared
 
-    # @property
-    # def is_keoken(self):
-    #     return self.options.currency == "BCH" and self.options.get_safe("keoken")
-
     def validate(self):
         KnuthConanFile.validate(self)
 
@@ -106,19 +99,6 @@ class KnuthCAPIConan(KnuthConanFile):
         if self.options.no_compilation or (self.settings.compiler == None and self.settings.arch == 'x86_64' and self.settings.os in ('Linux', 'Windows', 'Macos')):
             self.settings.remove("compiler")
             self.settings.remove("build_type")
-
-        # if self.options.keoken and self.options.currency != "BCH":
-        #     self.output.warn("For the moment Keoken is only enabled for BCH. Building without Keoken support...")
-        #     del self.options.keoken
-        # else:
-        #     self.options["*"].keoken = self.options.keoken
-
-        # if self.is_keoken:
-        #     if self.options.db == "pruned" or self.options.db == "default":
-        #         self.output.warn("Keoken mode requires db=full and your configuration is db=%s, it has been changed automatically..." % (self.options.db,))
-        #         self.options.db = "full"
-
-        # self.options["*"].keoken = self.is_keoken
 
         self.options["*"].db_readonly = self.options.db_readonly
         self.output.info("Compiling with read-only DB: %s" % (self.options.db_readonly,))
@@ -150,9 +130,6 @@ class KnuthCAPIConan(KnuthConanFile):
 
         cmake.definitions["WITH_CONSOLE"] = option_on_off(self.options.console)
         cmake.definitions["WITH_CONSOLE_CAPI"] = option_on_off(self.options.console)
-
-        # cmake.definitions["WITH_KEOKEN"] = option_on_off(self.is_keoken)
-        cmake.definitions["WITH_KEOKEN"] = option_on_off(False)
 
         cmake.definitions["WITH_MEMPOOL"] = option_on_off(self.options.mempool)
         cmake.definitions["DB_READONLY_MODE"] = option_on_off(self.options.db_readonly)

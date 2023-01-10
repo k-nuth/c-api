@@ -101,14 +101,6 @@ endif()
 
 message(STATUS "Knuth: Cryptocurrency: ${CURRENCY}")
 
-# Implement --with-keoken and declare WITH_KEOKEN.
-#------------------------------------------------------------------------------
-option(WITH_KEOKEN "Keoken enabled." OFF)
-if (WITH_KEOKEN)
-  message(STATUS "Knuth: Keoken enabled")
-  add_definitions(-DKTH_WITH_KEOKEN)
-endif()
-
 # Implement --with-mempool and declare WITH_MEMPOOL.
 #------------------------------------------------------------------------------
 option(WITH_MEMPOOL "Mempool enabled." OFF)
@@ -416,22 +408,6 @@ set(_kth_sources
 #   )
 # endif()
 
-if (WITH_KEOKEN)
-  set(_kth_sources
-    ${_kth_sources}
-    src/keoken/get_all_asset_addresses_data.cpp
-    src/keoken/get_all_asset_addresses_list.cpp
-    src/keoken/get_assets_by_address_data.cpp
-    src/keoken/get_assets_by_address_list.cpp
-    src/keoken/get_assets_data.cpp
-    src/keoken/get_assets_list.cpp
-    src/keoken/manager.cpp
-    src/keoken/memory_state.cpp
-    src/keoken/wallet/create_transactions.cpp
-  )
-endif()
-
-
 add_library(kth-c-api ${MODE}
         ${_kth_sources}
 )
@@ -531,25 +507,19 @@ if (WITH_CONSOLE_CAPI)
   #add_executable(test-console-twos
   #        console/main.c)
 
-    if (WITH_KEOKEN)
-      set(_test_console_sources
-          console/state_test.cpp
-      )
-    else()
-      set(_test_console_sources
-        # console/test_wallet.cpp
-        # console/test_header_hash.cpp
-        # console/main.cpp
-        # console/main.c
-        # console/print_headers.cpp
-        # console/error_test.cpp
-        # console/test_deadlock.cpp
-        # console/config_test.cpp
-        # console/platform_test.cpp
-        # console/test_libconfig.cpp
-        console/main_744727.cpp
-      )
-    endif()
+    set(_test_console_sources
+      # console/test_wallet.cpp
+      # console/test_header_hash.cpp
+      # console/main.cpp
+      # console/main.c
+      # console/print_headers.cpp
+      # console/error_test.cpp
+      # console/test_deadlock.cpp
+      # console/config_test.cpp
+      # console/platform_test.cpp
+      # console/test_libconfig.cpp
+      console/main_744727.cpp
+    )
 
   add_executable(test_console ${_test_console_sources})
 
@@ -671,13 +641,6 @@ set(_kth_headers
         kth/capi/wallet/payment_address_list.h
         kth/capi/wallet/wallet.h
 )
-
-if (WITH_KEOKEN)
-  set(_kth_headers
-    ${_kth_headers}
-    kth/capi/keoken/manager.h
-  )
-endif()
 
 foreach (_header ${_kth_headers})
   get_filename_component(_directory "${_header}" DIRECTORY)

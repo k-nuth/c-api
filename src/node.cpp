@@ -114,13 +114,6 @@ void kth_node_print_thread_id() {
     std::cout << std::this_thread::get_id() << '\n';
 }
 
-#ifdef KTH_WITH_KEOKEN
-keoken_manager_t kth_node_get_keoken_manager(kth_node_t node) {
-    // return &(kth_node_cpp(node).node().keoken_manager());
-    return &(kth_node_cpp(node).keoken_manager());
-}
-#endif
-
 char const* kth_node_version() {
     return KTH_CAPI_VERSION;
 }
