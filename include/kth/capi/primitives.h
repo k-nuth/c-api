@@ -113,6 +113,7 @@ typedef enum {
 #if defined(KTH_CURRENCY_BCH)
     , kth_network_testnet4
     , kth_network_scalenet
+    , kth_network_chipnet
 #endif
 } kth_network_t;
 
