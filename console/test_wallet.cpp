@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
         kth::domain::wallet::payment_address pa(ecp);
 
         // std::cout << pa.encoded() << std::endl;
-        std::cout << pa.encoded_cashaddr() << std::endl;
+        std::cout << pa.encoded_cashaddr(false) << std::endl;
 
         // // auto hd_priv = kth_wallet_hd_new(seed, 76066276);
         // kth_ec_secret_t ec_priv;

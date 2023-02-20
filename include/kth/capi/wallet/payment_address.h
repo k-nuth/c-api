@@ -20,18 +20,21 @@ void kth_wallet_payment_address_set_cashaddr_prefix(char const* prefix);
 #endif //KTH_CURRENCY_BCH
 
 KTH_EXPORT
-char* kth_wallet_payment_address_encoded(kth_payment_address_t payment_address);
+char* kth_wallet_payment_address_encoded_legacy(kth_payment_address_t payment_address);
 
 #if defined(KTH_CURRENCY_BCH)
 KTH_EXPORT
-char* kth_wallet_payment_address_encoded_cashaddr(kth_payment_address_t payment_address);
+char* kth_wallet_payment_address_encoded_cashaddr(kth_payment_address_t payment_address, kth_bool_t token_aware);
 #endif //KTH_CURRENCY_BCH
 
 KTH_EXPORT
 kth_payment_address_t kth_wallet_payment_address_construct_from_string(char const* address);
 
 KTH_EXPORT
-kth_shorthash_t kth_wallet_payment_address_hash(kth_payment_address_t payment_address);
+kth_shorthash_t kth_wallet_payment_address_hash20(kth_payment_address_t payment_address);
+
+KTH_EXPORT
+kth_hash_t kth_wallet_payment_address_hash32(kth_payment_address_t payment_address);
 
 KTH_EXPORT
 uint8_t kth_wallet_payment_address_version(kth_payment_address_t payment_address);

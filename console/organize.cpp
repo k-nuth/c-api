@@ -1,7 +1,7 @@
 // printf "[requires]\nc-api/0.X@kth/stable\n[options]\nc-api:shared=True\n[imports]\ninclude/kth, *.h -> ./include/kth\ninclude/kth, *.hpp -> ./include/kth\nlib, *.so -> ./lib\n" > conanfile.txt
 // conan install .
-// g++ -std=c++17 -O3 -Iinclude -c organize.cpp
-// g++ -std=c++17 -O3 -Llib -o organize organize.o -lkth-c-api
+// g++ -std=c++20 -O3 -Iinclude -c organize.cpp
+// g++ -std=c++20 -O3 -Llib -o organize organize.o -lkth-c-api
 // export LD_LIBRARY_PATH=/home/fernando/organize/lib
 
 #include <atomic>
