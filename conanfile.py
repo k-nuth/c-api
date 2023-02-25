@@ -3,8 +3,8 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 import os
-from conans import CMake
-from conans.errors import ConanInvalidConfiguration
+from conan import CMake
+from conan.errors import ConanInvalidConfiguration
 from kthbuild import option_on_off, march_conan_manip, pass_march_to_compiler
 from kthbuild import KnuthConanFile
 
@@ -69,11 +69,11 @@ class KnuthCAPIConan(KnuthConanFile):
         "use_libmdbx": False,
     }
 
-    generators = "cmake"
+    # generators = "cmake"
     exports = "conan_*", "ci_utils/*"
     exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "kth-c-apiConfig.cmake.in", "knuthbuildinfo.cmake","include/*", "test/*", "console/*"
     package_files = "build/lkth-c-api.so"
-    build_policy = "missing"
+    # build_policy = "missing"
 
     @property
     def is_shared(self):
@@ -85,6 +85,8 @@ class KnuthCAPIConan(KnuthConanFile):
 
     def validate(self):
         KnuthConanFile.validate(self)
+        if self.info.settings.compiler.cppstd:
+            check_min_cppstd(self, "20")
 
     def requirements(self):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
@@ -120,6 +122,16 @@ class KnuthCAPIConan(KnuthConanFile):
         self.info.options.console = "ANY"
         self.info.options.no_compilation = "ANY"
 
+    def layout(self):
+        cmake_layout(self)
+
+    def generate(self):
+        tc = CMakeToolchain(self)
+        # tc.variables["CMAKE_VERBOSE_MAKEFILE"] = True
+        tc.generate()
+        tc = CMakeDeps(self)
+        tc.generate()
+
     def build(self):
         cmake = self.cmake_basis()
 
@@ -137,7 +149,8 @@ class KnuthCAPIConan(KnuthConanFile):
         cmake.definitions["USE_LIBMDBX"] = option_on_off(self.options.use_libmdbx)
         cmake.definitions["CONAN_DISABLE_CHECK_COMPILER"] = option_on_off(True)
 
-        cmake.configure(source_dir=self.source_folder)
+        # cmake.configure(source_dir=self.source_folder)
+        cmake.configure()
         if not self.options.cmake_export_compile_commands:
             cmake.build()
             if self.options.tests:
