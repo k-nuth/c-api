@@ -18,6 +18,7 @@ KTH_EXPORT
 kth_output_t kth_chain_output_construct_default(void);
 
 KTH_EXPORT
+// kth_output_t kth_chain_output_construct(uint64_t value, kth_script_t script, kth_token_data_t token_data);
 kth_output_t kth_chain_output_construct(uint64_t value, kth_script_t script);
 
 KTH_EXPORT

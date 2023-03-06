@@ -374,6 +374,8 @@ set(_kth_sources
         src/chain/mempool_transaction.cpp
         src/chain/transaction_list.cpp
 
+        # src/chain/token_data.cpp
+
         src/config/authority.cpp
         src/config/blockchain_settings.cpp
         src/config/checkpoint.cpp
@@ -617,6 +619,8 @@ set(_kth_headers
         kth/capi/chain/mempool_transaction.h
         kth/capi/chain/transaction.h
         kth/capi/chain/transaction_list.h
+
+        # kth/capi/chain/token_data.h
 
         kth/capi/node/settings.h
 
