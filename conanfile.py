@@ -3,7 +3,7 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 import os
-from conan import CMake
+from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
 from conan.errors import ConanInvalidConfiguration
 from kthbuild import option_on_off, march_conan_manip, pass_march_to_compiler
 from kthbuild import KnuthConanFile
@@ -126,30 +126,28 @@ class KnuthCAPIConan(KnuthConanFile):
         cmake_layout(self)
 
     def generate(self):
-        tc = CMakeToolchain(self)
+        tc = self.cmake_toolchain_basis()
         # tc.variables["CMAKE_VERBOSE_MAKEFILE"] = True
+        #TODO(fernando): check and compare "shared" logic with the one in kthbuild
+        tc.variables["ENABLE_SHARED"] = option_on_off(self.is_shared)
+        tc.variables["ENABLE_SHARED_CAPI"] = option_on_off(self.is_shared)
+        # tc.variables["ENABLE_POSITION_INDEPENDENT_CODE"] = option_on_off(self.fPIC_enabled)
+
+        tc.variables["WITH_CONSOLE"] = option_on_off(self.options.console)
+        tc.variables["WITH_CONSOLE_CAPI"] = option_on_off(self.options.console)
+
+        tc.variables["WITH_MEMPOOL"] = option_on_off(self.options.mempool)
+        tc.variables["DB_READONLY_MODE"] = option_on_off(self.options.db_readonly)
+        tc.variables["LOG_LIBRARY"] = self.options.log
+        tc.variables["USE_LIBMDBX"] = option_on_off(self.options.use_libmdbx)
+        tc.variables["CONAN_DISABLE_CHECK_COMPILER"] = option_on_off(True)
+
         tc.generate()
         tc = CMakeDeps(self)
         tc.generate()
 
     def build(self):
-        cmake = self.cmake_basis()
-
-        #TODO(fernando): check and compare "shared" logic with the one in kthbuild
-        cmake.definitions["ENABLE_SHARED"] = option_on_off(self.is_shared)
-        cmake.definitions["ENABLE_SHARED_CAPI"] = option_on_off(self.is_shared)
-        # cmake.definitions["ENABLE_POSITION_INDEPENDENT_CODE"] = option_on_off(self.fPIC_enabled)
-
-        cmake.definitions["WITH_CONSOLE"] = option_on_off(self.options.console)
-        cmake.definitions["WITH_CONSOLE_CAPI"] = option_on_off(self.options.console)
-
-        cmake.definitions["WITH_MEMPOOL"] = option_on_off(self.options.mempool)
-        cmake.definitions["DB_READONLY_MODE"] = option_on_off(self.options.db_readonly)
-        cmake.definitions["LOG_LIBRARY"] = self.options.log
-        cmake.definitions["USE_LIBMDBX"] = option_on_off(self.options.use_libmdbx)
-        cmake.definitions["CONAN_DISABLE_CHECK_COMPILER"] = option_on_off(True)
-
-        # cmake.configure(source_dir=self.source_folder)
+        cmake = CMake(self)
         cmake.configure()
         if not self.options.cmake_export_compile_commands:
             cmake.build()
