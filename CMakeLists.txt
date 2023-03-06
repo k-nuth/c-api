@@ -2,7 +2,7 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.15)
 
 project(kth-c-api VERSION 0 LANGUAGES CXX C)
 
