@@ -73,8 +73,8 @@ if (USE_LIBMDBX)
   add_definitions(-DKTH_USE_LIBMDBX)
 endif()
 
-set(KTH_PROJECT_VERSION "-" CACHE STRING "Specify the Knuth Project Version.")
-# message(${KTH_PROJECT_VERSION})
+# set(KTH_PROJECT_VERSION "-" CACHE STRING "Specify the Knuth Project Version.")
+# # message(${KTH_PROJECT_VERSION})
 
 set(MARCH_ID "" CACHE STRING "Specify the Microarchitecture ID (x86_64|...).")
 message( STATUS "Knuth: Compiling for Microarchitecture ID ${MARCH_ID}")
@@ -249,11 +249,11 @@ find_package(kth-node REQUIRED)
 #==============================================================================
 include(CheckCXXCompilerFlag)
 
-# Including common functions
+# Knuth tools
 #------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/ci_utils/cmake)
-
 include(KnuthTools)
+
 
 
 # set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -s")
@@ -434,7 +434,7 @@ endif(ENABLE_POSITION_INDEPENDENT_CODE)
 
 #set_target_properties(kth-c-api PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
-target_compile_definitions(kth-c-api PUBLIC -DKTH_PROJECT_VERSION="${KTH_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
+# target_compile_definitions(kth-c-api PUBLIC -DKTH_PROJECT_VERSION="${KTH_PROJECT_VERSION}") #TODO(fernando): manage with Conan????
 target_compile_definitions(kth-c-api PUBLIC -DKTH_EXPORTS)
 
 target_include_directories(kth-c-api PUBLIC

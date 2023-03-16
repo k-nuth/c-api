@@ -3,15 +3,22 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 import os
+<<<<<<< Updated upstream
 from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
 from conan.errors import ConanInvalidConfiguration
+=======
+from conan import ConanFile
+from conan.tools.build.cppstd import check_min_cppstd
+from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
+from conan.tools.files import copy #, apply_conandata_patches, export_conandata_patches, get, rm, rmdir
+>>>>>>> Stashed changes
 from kthbuild import option_on_off, march_conan_manip, pass_march_to_compiler
-from kthbuild import KnuthConanFile
+from kthbuild import KnuthConanFileV2
 
-class KnuthCAPIConan(KnuthConanFile):
-    def recipe_dir(self):
-        return os.path.dirname(os.path.abspath(__file__))
+required_conan_version = ">=2.0"
 
+
+class KnuthCAPIConan(KnuthConanFileV2):
     name = "c-api"
     # version = get_version()
     license = "http://www.boost.org/users/license.html"
@@ -25,7 +32,7 @@ class KnuthCAPIConan(KnuthConanFile):
         "tests": [True, False],
         "console": [True, False],       #TODO(fernando): move to kthbuild
 
-        "march_id": "ANY",
+        "march_id": ["ANY"],
         "march_strategy": ["download_if_possible", "optimized", "download_or_fail"],
 
         "no_compilation": [True, False],
@@ -36,9 +43,8 @@ class KnuthCAPIConan(KnuthConanFile):
         "db": ['legacy', 'legacy_full', 'pruned', 'default', 'full'],
         "db_readonly": [True, False],
 
-        "cxxflags": "ANY",
-        "cflags": "ANY",
-        "glibcxx_supports_cxx11_abi": "ANY",
+        "cxxflags": ["ANY"],
+        "cflags": ["ANY"],
         "cmake_export_compile_commands": [True, False],
         "log": ["boost", "spdlog", "binlog"],
         "use_libmdbx": [True, False],
@@ -50,7 +56,6 @@ class KnuthCAPIConan(KnuthConanFile):
         "tests": False,
         "console": False,
 
-        "march_id": "_DUMMY_",
         "march_strategy": "download_if_possible",
 
         "no_compilation": False,
@@ -61,17 +66,19 @@ class KnuthCAPIConan(KnuthConanFile):
         "db": "default",
         "db_readonly": False,
 
-        "cxxflags": "_DUMMY_",
-        "cflags": "_DUMMY_",
-        "glibcxx_supports_cxx11_abi": "_DUMMY_",
         "cmake_export_compile_commands": False,
         "log": "spdlog",
         "use_libmdbx": False,
     }
 
     # generators = "cmake"
+<<<<<<< Updated upstream
     exports = "conan_*", "ci_utils/*"
     exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "kth-c-apiConfig.cmake.in", "knuthbuildinfo.cmake","include/*", "test/*", "console/*"
+=======
+    # exports = "conan_*", "ci_utils/*"
+    exports_sources = "src/*", "CMakeLists.txt", "ci_utils/cmake/*", "cmake/*", "kth-c-apiConfig.cmake.in", "knuthbuildinfo.cmake","include/*", "test/*", "console/*"
+>>>>>>> Stashed changes
     package_files = "build/lkth-c-api.so"
     # build_policy = "missing"
 
@@ -84,19 +91,23 @@ class KnuthCAPIConan(KnuthConanFile):
         return self.options.shared
 
     def validate(self):
+<<<<<<< Updated upstream
         KnuthConanFile.validate(self)
         if self.info.settings.compiler.cppstd:
             check_min_cppstd(self, "20")
+=======
+        KnuthConanFileV2.validate(self)
+>>>>>>> Stashed changes
 
     def requirements(self):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
             self.requires("node/0.X@%s/%s" % (self.user, self.channel))
 
     def config_options(self):
-        KnuthConanFile.config_options(self)
+        KnuthConanFileV2.config_options(self)
 
     def configure(self):
-        KnuthConanFile.configure(self)
+        KnuthConanFileV2.configure(self)
 
         if self.options.no_compilation or (self.settings.compiler == None and self.settings.arch == 'x86_64' and self.settings.os in ('Linux', 'Windows', 'Macos')):
             self.settings.remove("compiler")
@@ -117,7 +128,7 @@ class KnuthCAPIConan(KnuthConanFile):
 
 
     def package_id(self):
-        KnuthConanFile.package_id(self)
+        KnuthConanFileV2.package_id(self)
 
         self.info.options.console = "ANY"
         self.info.options.no_compilation = "ANY"
@@ -136,6 +147,7 @@ class KnuthCAPIConan(KnuthConanFile):
         tc.variables["WITH_CONSOLE"] = option_on_off(self.options.console)
         tc.variables["WITH_CONSOLE_CAPI"] = option_on_off(self.options.console)
 
+<<<<<<< Updated upstream
         tc.variables["WITH_MEMPOOL"] = option_on_off(self.options.mempool)
         tc.variables["DB_READONLY_MODE"] = option_on_off(self.options.db_readonly)
         tc.variables["LOG_LIBRARY"] = self.options.log
@@ -149,6 +161,25 @@ class KnuthCAPIConan(KnuthConanFile):
     def build(self):
         cmake = CMake(self)
         cmake.configure()
+=======
+        # tc.variables["WITH_KEOKEN"] = option_on_off(self.is_keoken)
+        tc.variables["WITH_KEOKEN"] = option_on_off(False)
+
+        tc.variables["WITH_MEMPOOL"] = option_on_off(self.options.mempool)
+        tc.variables["DB_READONLY_MODE"] = option_on_off(self.options.db_readonly)
+        tc.variables["LOG_LIBRARY"] = self.options.log
+        tc.variables["USE_LIBMDBX"] = option_on_off(self.options.use_libmdbx)
+        tc.variables["CONAN_DISABLE_CHECK_COMPILER"] = option_on_off(True)
+
+        tc.generate()
+        tc = CMakeDeps(self)
+        tc.generate()
+
+    def build(self):
+        cmake = CMake(self)
+        cmake.configure()
+
+>>>>>>> Stashed changes
         if not self.options.cmake_export_compile_commands:
             cmake.build()
             if self.options.tests:
