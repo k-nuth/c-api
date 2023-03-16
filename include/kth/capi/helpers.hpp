@@ -230,6 +230,8 @@ kth::domain::config::network network_to_cpp(kth_network_t net) {
             return kth::domain::config::network::testnet4;
         case kth_network_scalenet:
             return kth::domain::config::network::scalenet;
+        case kth_network_chipnet:
+            return kth::domain::config::network::chipnet;
 #endif
         default:
         case kth_network_mainnet:
@@ -249,6 +251,8 @@ kth_network_t network_to_c(kth::domain::config::network net) {
             return kth_network_testnet4;
         case kth::domain::config::network::scalenet:
             return kth_network_scalenet;
+        case kth::domain::config::network::chipnet:
+            return kth_network_chipnet;
 #endif
         default:
         case kth::domain::config::network::mainnet:
@@ -266,6 +270,8 @@ kth::node::start_modules start_modules_to_cpp(kth_start_modules_t mods) {
         case kth_start_modules_just_p2p:
             return kth::node::start_modules::just_p2p;
     }
+
+    return kth::node::start_modules::all;
 }
 
 template <typename T>

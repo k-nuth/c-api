@@ -23,19 +23,19 @@ jobs:
 
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: startsWith(github.ref, 'refs/heads/testci') ||
             startsWith(github.ref, 'refs/heads/release') ||
             startsWith(github.ref, 'refs/heads/hotfix')
 
         with:
           submodules: true
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v4
         if: startsWith(github.ref, 'refs/heads/testci') ||
             startsWith(github.ref, 'refs/heads/release') ||
             startsWith(github.ref, 'refs/heads/hotfix')
         with:
-          python-version: "3.8"
+          python-version: "3.10"
 
       - name: Install software
         if: startsWith(github.ref, 'refs/heads/testci') ||
@@ -78,7 +78,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
 
@@ -110,12 +110,12 @@ jobs:
           # git config --global core.autocrlf true
           # git config --global --edit
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.8"
+          python-version: "3.10"
 
       - name: Install Dependencies (Unix)
         if: ${{ matrix.config.compiler != 'Visual Studio' }}
@@ -131,7 +131,7 @@ jobs:
           python.exe --version
           cmake --version
           python.exe -m pip install --upgrade pip
-          pip.exe install conan_package_tools==0.38.0
+          pip.exe install conan_package_tools==0.39.0
           pip.exe install kthbuild --upgrade
           pip.exe install conan==1.49.0
           conan user
@@ -169,6 +169,7 @@ jobs:
           CONAN_LOGIN_USERNAME_TAO: ${{ secrets.CONAN_LOGIN_USERNAME_TAO }}
           CONAN_PASSWORD_TAO: ${{ secrets.CONAN_PASSWORD_TAO }}
           CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
+          CONAN_DISABLE_STRICT_MODE: 1          # Remove after implementing Conan v2
           # CONAN_BUILD_POLICY: "missing"
         shell: bash
         run: |
@@ -200,6 +201,7 @@ jobs:
           CONAN_LOGIN_USERNAME_TAO: ${{ secrets.CONAN_LOGIN_USERNAME_TAO }}
           CONAN_PASSWORD_TAO: ${{ secrets.CONAN_PASSWORD_TAO }}
           CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
+          CONAN_DISABLE_STRICT_MODE: 1          # Remove after implementing Conan v2
           # CONAN_BUILD_POLICY: "missing"
 
         shell: powershell
@@ -261,12 +263,12 @@ jobs:
         startsWith(github.ref, 'refs/heads/feature')
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.8"
+          python-version: "3.10"
 
       - name: Install Dependencies
         run: |

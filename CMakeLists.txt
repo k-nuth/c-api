@@ -2,19 +2,15 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.15)
 
-# kth-c-api
-#==============================================================================
-project(kth-c-api
-        VERSION 0
-        LANGUAGES CXX C)
+project(kth-c-api VERSION 0 LANGUAGES CXX C)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-# Check for baseline language coverage in the compiler for the C++17 standard.
+# Check for baseline language coverage in the compiler for the C++20 standard.
 #------------------------------------------------------------------------------
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Process options.
@@ -22,12 +18,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Implement --use-conan
 #------------------------------------------------------------------------------
-option(USE_CONAN "Use Conan Build Tool." OFF)
-option(NO_CONAN_AT_ALL "Conan totally disabled." OFF)
+# option(USE_CONAN "Use Conan Build Tool." OFF)
+# option(NO_CONAN_AT_ALL "Conan totally disabled." OFF)
 
-if (NO_CONAN_AT_ALL)
-  set(USE_CONAN OFF)
-endif()
+# if (NO_CONAN_AT_ALL)
+#   set(USE_CONAN OFF)
+# endif()
 
 # Inherit --enable-shared and define BOOST_TEST_DYN_LINK.
 #------------------------------------------------------------------------------
@@ -195,13 +191,13 @@ endif()
 
 # set(WITH_CONSOLE_CAPI ON)
 
-# Conan infrastructure
-#==============================================================================
-if(EXISTS ${CMAKE_SOURCE_DIR}/ci_utils/cmake/knuthbuildinfo.cmake)
-    include(${CMAKE_SOURCE_DIR}/ci_utils/cmake/knuthbuildinfo.cmake)
-else()
-    message( STATUS "knuthbuildinfo doent exists")
-endif()
+# # Conan infrastructure
+# #==============================================================================
+# if(EXISTS ${CMAKE_SOURCE_DIR}/ci_utils/cmake/knuthbuildinfo.cmake)
+#     include(${CMAKE_SOURCE_DIR}/ci_utils/cmake/knuthbuildinfo.cmake)
+# else()
+#     message( STATUS "knuthbuildinfo doent exists")
+# endif()
 
 #TODO(fernando): enable sanitizers
 # -fsanitize=memory
@@ -211,41 +207,42 @@ endif()
 # Check dependencies.
 #==============================================================================
 #------------------------------------------------------------------------------
-if (NO_CONAN_AT_ALL)
-  # Require Boost of at least version 1.56.0 and output ${boost_CPPFLAGS/LDFLAGS}.
-  #------------------------------------------------------------------------------
-  if (NOT ENABLE_SHARED)
-    set(Boost_USE_STATIC_LIBS ON)
-  endif()
+# if (NO_CONAN_AT_ALL)
+#   # Require Boost of at least version 1.56.0 and output ${boost_CPPFLAGS/LDFLAGS}.
+#   #------------------------------------------------------------------------------
+#   if (NOT ENABLE_SHARED)
+#     set(Boost_USE_STATIC_LIBS ON)
+#   endif()
 
-  if (MSVC)
-    find_package(
-      Boost 1.56.0 REQUIRED
-      COMPONENTS atomic chrono date_time filesystem iostreams locale log log_setup program_options regex system thread unit_test_framework
-    )
-  else()
-    find_package(
-      Boost 1.56.0 REQUIRED
-      COMPONENTS chrono date_time filesystem iostreams locale log program_options regex system thread unit_test_framework
-    )
-  endif()
-endif()
+#   if (MSVC)
+#     find_package(
+#       Boost 1.56.0 REQUIRED
+#       COMPONENTS atomic chrono date_time filesystem iostreams locale log log_setup program_options regex system thread unit_test_framework
+#     )
+#   else()
+#     find_package(
+#       Boost 1.56.0 REQUIRED
+#       COMPONENTS chrono date_time filesystem iostreams locale log program_options regex system thread unit_test_framework
+#     )
+#   endif()
+# endif()
 
-if (NOT USE_CONAN)
-  ## Require kth-consensus of at least version 2.0.0 and output ${kth_consensus_CPPFLAGS/LIBS/PKG}.
-  ##------------------------------------------------------------------------------
-  #if (WITH_CONSENSUS)
-  #  if (NOT TARGET kth-consensus)
-  #    find_package(kth-consensus 2.0.0 REQUIRED)
-  #  endif()
-  #endif()
+# if (NOT USE_CONAN)
+#   ## Require kth-consensus of at least version 2.0.0 and output ${kth_consensus_CPPFLAGS/LIBS/PKG}.
+#   ##------------------------------------------------------------------------------
+#   #if (WITH_CONSENSUS)
+#   #  if (NOT TARGET kth-consensus)
+#   #    find_package(kth-consensus 2.0.0 REQUIRED)
+#   #  endif()
+#   #endif()
 
-  # Require kth-node of at least version 0 and output ${kth_node_CPPFLAGS/LIBS/PKG}.
-  #------------------------------------------------------------------------------
-  if (NOT TARGET kth-node)
-    find_package(kth-node 0 REQUIRED)
-  endif()
-endif()
+#   # Require kth-node of at least version 0 and output ${kth_node_CPPFLAGS/LIBS/PKG}.
+#   #------------------------------------------------------------------------------
+#   if (NOT TARGET kth-node)
+#     find_package(kth-node 0 REQUIRED)
+#   endif()
+# endif()
+find_package(kth-node REQUIRED)
 
 
 # Set flags.
@@ -377,6 +374,8 @@ set(_kth_sources
         src/chain/mempool_transaction.cpp
         src/chain/transaction_list.cpp
 
+        # src/chain/token_data.cpp
+
         src/config/authority.cpp
         src/config/blockchain_settings.cpp
         src/config/checkpoint.cpp
@@ -459,30 +458,32 @@ if (NOT MSVC)
   target_compile_definitions(kth-c-api PUBLIC -DSYSCONFDIR=\"${SYSCONFDIR}\")
 endif()
 
-if (NOT USE_CONAN)
-  set(DEP_LIBS ${DEP_LIBS} "kth-node")
-#   if (NOT ENABLE_SHARED)
-#     set(DEP_LIBS ${DEP_LIBS} "kth-c-api-version")
-#   endif()
+# if (NOT USE_CONAN)
+#   set(DEP_LIBS ${DEP_LIBS} "kth-node")
+# #   if (NOT ENABLE_SHARED)
+# #     set(DEP_LIBS ${DEP_LIBS} "kth-c-api-version")
+# #   endif()
 
-  target_link_libraries(kth-c-api PUBLIC ${DEP_LIBS})
-endif()
+#   target_link_libraries(kth-c-api PUBLIC ${DEP_LIBS})
+# endif()
+set(DEP_LIBS ${DEP_LIBS} "kth-node")
+target_link_libraries(kth-c-api PUBLIC ${DEP_LIBS})
 
 # lib/libkth-c-api-version
 
 
-if (NOT NO_CONAN_AT_ALL)
-#   if (NOT ENABLE_SHARED)
-#     set(CONAN_LIBS ${CONAN_LIBS} "kth-c-api-version")
-#   endif()
-  target_link_libraries(kth-c-api PUBLIC ${CONAN_LIBS})
-endif()
+# if (NOT NO_CONAN_AT_ALL)
+# #   if (NOT ENABLE_SHARED)
+# #     set(CONAN_LIBS ${CONAN_LIBS} "kth-c-api-version")
+# #   endif()
+#   # target_link_libraries(kth-c-api PUBLIC ${CONAN_LIBS})
+# endif()
 
-if (USE_CONAN)
+# if (USE_CONAN)
   if (MINGW)
     target_link_libraries(kth-c-api PUBLIC ws2_32 wsock32) #TODO(fernando): manage with Conan
   endif()
-endif()
+# endif()
 
 
 
@@ -539,28 +540,14 @@ endif()
 
 # Tests
 #==============================================================================
+if (WITH_TESTS)
+    enable_testing()
+    find_package(Catch2 3 REQUIRED)
 
-# if (WITH_TESTS)
-#   enable_testing()
-# endif()
-
-  # local: test/kth_node_cint_test
-  #------------------------------------------------------------------------------
- if (WITH_TESTS)
-   add_executable(queries
-           test/queries.cpp)
-   target_link_libraries(queries PUBLIC kth-c-api)
-   #_group_sources(queries "${CMAKE_CURRENT_LIST_DIR}/test")
-
-   #_add_tests(kth_node_cint_test
-   #        configuration_tests
-   #        node_tests
-   #       header_queue_tests
-   #        performance_tests
-   #        reservation_tests
-   #        reservations_tests
-   #        settings_tests)
- endif()
+    add_executable(queries
+      test/queries.cpp)
+    target_link_libraries(queries PUBLIC kth-c-api)
+endif()
 
 
 
@@ -632,6 +619,8 @@ set(_kth_headers
         kth/capi/chain/mempool_transaction.h
         kth/capi/chain/transaction.h
         kth/capi/chain/transaction_list.h
+
+        # kth/capi/chain/token_data.h
 
         kth/capi/node/settings.h
 

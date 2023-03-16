@@ -103,6 +103,7 @@ typedef enum error_code {
     kth_ec_spend_exceeds_value = 40,
     kth_ec_transaction_embedded_sigop_limit = 55,
     kth_ec_sequence_locked = 78,
+    kth_ec_transaction_version_out_of_range = 87,
 
     // connect input
     kth_ec_invalid_script = 39,

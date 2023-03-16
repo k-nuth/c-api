@@ -17,8 +17,10 @@ kth_output_t kth_chain_output_construct_default() {
     return new kth::domain::chain::output();
 }
 
+//kth_output_t kth_chain_output_construct(uint64_t value, kth_script_t script, kth_token_data_t token_data) {
 kth_output_t kth_chain_output_construct(uint64_t value, kth_script_t script) {
-    return new kth::domain::chain::output(value, kth_chain_script_const_cpp(script));
+    // return new kth::domain::chain::output(value, kth_chain_script_const_cpp(script), kth_chain_token_data_const_cpp(token_data));
+    return new kth::domain::chain::output(value, kth_chain_script_const_cpp(script), std::nullopt);
 }
 
 void kth_chain_output_destruct(kth_output_t output) {
