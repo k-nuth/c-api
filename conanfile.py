@@ -3,24 +3,16 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 import os
-<<<<<<< Updated upstream
-from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
-from conan.errors import ConanInvalidConfiguration
-=======
 from conan import ConanFile
 from conan.tools.build.cppstd import check_min_cppstd
 from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
-from conan.tools.files import copy #, apply_conandata_patches, export_conandata_patches, get, rm, rmdir
->>>>>>> Stashed changes
-from kthbuild import option_on_off, march_conan_manip, pass_march_to_compiler
-from kthbuild import KnuthConanFileV2
+from conan.tools.files import copy
+from kthbuild import KnuthConanFileV2, option_on_off
 
 required_conan_version = ">=2.0"
 
-
 class KnuthCAPIConan(KnuthConanFileV2):
     name = "c-api"
-    # version = get_version()
     license = "http://www.boost.org/users/license.html"
     url = "https://github.com/k-nuth/c-api"
     description = "Bitcoin Full Node Library with C interface"
@@ -31,18 +23,14 @@ class KnuthCAPIConan(KnuthConanFileV2):
         "fPIC": [True, False],
         "tests": [True, False],
         "console": [True, False],       #TODO(fernando): move to kthbuild
-
         "march_id": ["ANY"],
         "march_strategy": ["download_if_possible", "optimized", "download_or_fail"],
-
         "no_compilation": [True, False],
         "currency": ['BCH', 'BTC', 'LTC'],
         "verbose": [True, False],
         "mempool": [True, False],
-
         "db": ['legacy', 'legacy_full', 'pruned', 'default', 'full'],
         "db_readonly": [True, False],
-
         "cxxflags": ["ANY"],
         "cflags": ["ANY"],
         "cmake_export_compile_commands": [True, False],
@@ -55,32 +43,22 @@ class KnuthCAPIConan(KnuthConanFileV2):
         "fPIC": True,
         "tests": False,
         "console": False,
-
         "march_strategy": "download_if_possible",
-
         "no_compilation": False,
         "currency": "BCH",
         "verbose": False,
-
         "mempool": False,
         "db": "default",
         "db_readonly": False,
-
         "cmake_export_compile_commands": False,
         "log": "spdlog",
         "use_libmdbx": False,
     }
 
-    # generators = "cmake"
-<<<<<<< Updated upstream
-    exports = "conan_*", "ci_utils/*"
-    exports_sources = "src/*", "CMakeLists.txt", "cmake/*", "kth-c-apiConfig.cmake.in", "knuthbuildinfo.cmake","include/*", "test/*", "console/*"
-=======
-    # exports = "conan_*", "ci_utils/*"
-    exports_sources = "src/*", "CMakeLists.txt", "ci_utils/cmake/*", "cmake/*", "kth-c-apiConfig.cmake.in", "knuthbuildinfo.cmake","include/*", "test/*", "console/*"
->>>>>>> Stashed changes
-    package_files = "build/lkth-c-api.so"
-    # build_policy = "missing"
+    exports_sources = "src/*", "CMakeLists.txt", "ci_utils/cmake/*", "cmake/*", "knuthbuildinfo.cmake","include/*", "test/*", "console/*"
+
+    def _is_legacy_db(self):
+        return self.options.db == "legacy" or self.options.db == "legacy_full"
 
     @property
     def is_shared(self):
@@ -91,17 +69,35 @@ class KnuthCAPIConan(KnuthConanFileV2):
         return self.options.shared
 
     def validate(self):
-<<<<<<< Updated upstream
-        KnuthConanFile.validate(self)
+        KnuthConanFileV2.validate(self)
         if self.info.settings.compiler.cppstd:
             check_min_cppstd(self, "20")
-=======
-        KnuthConanFileV2.validate(self)
->>>>>>> Stashed changes
 
     def requirements(self):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
-            self.requires("node/0.X@%s/%s" % (self.user, self.channel))
+            self.requires("infrastructure/0.25.0")
+            self.requires("domain/0.30.0")
+            self.requires("database/0.29.0")
+            # if self.options.consensus:
+            self.requires("consensus/0.24.0")
+
+            self.requires("blockchain/0.28.0")
+            self.requires("network/0.33.0@")
+            self.requires("node/0.34.0")
+
+            self.requires("boost/1.81.0")
+            self.requires("fmt/9.1.0")
+            self.requires("spdlog/1.11.0")
+
+            if not self._is_legacy_db():
+                if self.options.use_libmdbx:
+                    self.requires("libmdbx/0.7.0@kth/stable")
+                    self.output.info("Using libmdbx for DB management")
+                else:
+                    self.requires("lmdb/0.9.29")
+                    self.output.info("Using lmdb for DB management")
+            else:
+                self.output.info("Using legacy DB")
 
     def config_options(self):
         KnuthConanFileV2.config_options(self)
@@ -147,7 +143,6 @@ class KnuthCAPIConan(KnuthConanFileV2):
         tc.variables["WITH_CONSOLE"] = option_on_off(self.options.console)
         tc.variables["WITH_CONSOLE_CAPI"] = option_on_off(self.options.console)
 
-<<<<<<< Updated upstream
         tc.variables["WITH_MEMPOOL"] = option_on_off(self.options.mempool)
         tc.variables["DB_READONLY_MODE"] = option_on_off(self.options.db_readonly)
         tc.variables["LOG_LIBRARY"] = self.options.log
@@ -161,45 +156,34 @@ class KnuthCAPIConan(KnuthConanFileV2):
     def build(self):
         cmake = CMake(self)
         cmake.configure()
-=======
-        # tc.variables["WITH_KEOKEN"] = option_on_off(self.is_keoken)
-        tc.variables["WITH_KEOKEN"] = option_on_off(False)
-
-        tc.variables["WITH_MEMPOOL"] = option_on_off(self.options.mempool)
-        tc.variables["DB_READONLY_MODE"] = option_on_off(self.options.db_readonly)
-        tc.variables["LOG_LIBRARY"] = self.options.log
-        tc.variables["USE_LIBMDBX"] = option_on_off(self.options.use_libmdbx)
-        tc.variables["CONAN_DISABLE_CHECK_COMPILER"] = option_on_off(True)
-
-        tc.generate()
-        tc = CMakeDeps(self)
-        tc.generate()
-
-    def build(self):
-        cmake = CMake(self)
-        cmake.configure()
-
->>>>>>> Stashed changes
         if not self.options.cmake_export_compile_commands:
             cmake.build()
             if self.options.tests:
                 cmake.test()
 
+    # def package(self):
+    #     self.copy("*.h", dst="include", src="include")
+    #     self.copy("*.hpp", dst="include", src="include")
+    #     self.copy("*.ipp", dst="include", src="include")
+    #     self.copy("*.lib", dst="lib", keep_path=False)
+    #     self.copy("*.dll", dst="bin", keep_path=False)
+    #     self.copy("*.dylib*", dst="lib", keep_path=False)
+    #     self.copy("*.so", dst="lib", keep_path=False)
+    #     self.copy("*.a", dst="lib", keep_path=False)
+
     def package(self):
-        self.copy("*.h", dst="include", src="include")
-        self.copy("*.hpp", dst="include", src="include")
-        self.copy("*.ipp", dst="include", src="include")
-        self.copy("*.lib", dst="lib", keep_path=False)
-        self.copy("*.dll", dst="bin", keep_path=False)
-        self.copy("*.dylib*", dst="lib", keep_path=False)
-        self.copy("*.so", dst="lib", keep_path=False)
-        self.copy("*.a", dst="lib", keep_path=False)
+        cmake = CMake(self)
+        cmake.install()
+        # rmdir(self, os.path.join(self.package_folder, "lib", "cmake"))
+        # rmdir(self, os.path.join(self.package_folder, "lib", "pkgconfig"))
+        # rmdir(self, os.path.join(self.package_folder, "res"))
+        # rmdir(self, os.path.join(self.package_folder, "share"))
 
     def package_info(self):
         self.cpp_info.includedirs = ['include']
 
         if self.is_shared:
-            self.cpp_info.libs = ["kth-c-api"]
+            self.cpp_info.libs = ["c-api"]
         else:
-            self.cpp_info.libs = ["kth-c-api", "kth-c-api-version"]
+            self.cpp_info.libs = ["c-api", "c-api-version"]
 
