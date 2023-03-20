@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2022 Knuth Project developers.
+// Copyright (c) 2016-2023 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
         kth::domain::wallet::payment_address pa(ecp);
 
         // std::cout << pa.encoded() << std::endl;
-        std::cout << pa.encoded_cashaddr() << std::endl;
+        std::cout << pa.encoded_cashaddr(false) << std::endl;
 
         // // auto hd_priv = kth_wallet_hd_new(seed, 76066276);
         // kth_ec_secret_t ec_priv;

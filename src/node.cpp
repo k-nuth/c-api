@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2022 Knuth Project developers.
+// Copyright (c) 2016-2023 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -113,13 +113,6 @@ kth_p2p_t kth_node_get_p2p(kth_node_t node) {
 void kth_node_print_thread_id() {
     std::cout << std::this_thread::get_id() << '\n';
 }
-
-#ifdef KTH_WITH_KEOKEN
-keoken_manager_t kth_node_get_keoken_manager(kth_node_t node) {
-    // return &(kth_node_cpp(node).node().keoken_manager());
-    return &(kth_node_cpp(node).keoken_manager());
-}
-#endif
 
 char const* kth_node_version() {
     return KTH_CAPI_VERSION;
