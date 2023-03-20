@@ -9,17 +9,6 @@
 
 Knuth is a high performance implementation of the Bitcoin protocol focused on users requiring extra performance and flexibility, what makes it the best platform for wallets, exchanges, block explorers and miners.
 
-## Multiple cryptos
-
-Knuth supports the following cryptocurrencies in the same code base:
-- [Bitcoin Cash (BCH)](https://www.bitcoincash.org/)
-- [Bitcoin (BTC)](https://bitcoin.org/)
-- [Litecoin (LTC)](https://litecoin.org/)
-
-Choosing a cryptocurrency is just as simple as changing a switch in our build system, [take a look here](#getting-started).
-
-Also, given its modular design and beautiful code, Knuth allows you to implement other cryptocurrencies with very few code changes.
-
 ## Getting started
 
 Install and run Knuth is very easy:
@@ -34,14 +23,7 @@ $ conan config install https://github.com/k-nuth/ci-utils/raw/master/conan/confi
 2. Install the appropriate library:
 
 ```
-# For Bitcoin Cash (default)
-$ conan install c-api/0.X@kth/stable -o currency=BCH --update
-
-# For Bitcoin
-$ conan install c-api/0.X@kth/stable -o currency=BTC --update
-
-# For Litecoin
-$ conan install c-api/0.X@kth/stable -o currency=LTC --update
+$ conan install c-api/0.X@kth/stable --update
 ```
 
 (`0.X` is an alias for our latest uploaded package)
