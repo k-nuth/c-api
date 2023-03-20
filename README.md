@@ -17,16 +17,14 @@ Install and run Knuth is very easy:
 ```
 $ pip install kthbuild --user --upgrade
 
-$ conan config install https://github.com/k-nuth/ci-utils/raw/master/conan/config.zip
+$ conan config install https://github.com/k-nuth/ci-utils/raw/master/conan/config2023.zip
 ```
 
 2. Install the appropriate library:
 
 ```
-$ conan install c-api/0.X@kth/stable --update
+$ conan install --requires=c-api/0.33.0 --update
 ```
-
-(`0.X` is an alias for our latest uploaded package)
 
 ### "Hello, Knuth!":
 ```c
@@ -72,20 +70,20 @@ Gives access to Knuth C-API features.
 ```c
 kth_node_t node = kth_node_construct("my_config_file", stdout, stderr);
 ```
-Construct a Knuth _node_ object, which is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.  
+Construct a Knuth _node_ object, which is necessary to run the node, interact with the blockchain, with the P2P peers and other components of the API.
 
-`"my_config_file"` is the path to the configuration file; in the [config](https://github.com/k-nuth/config) repository you can find some example files.  
+`"my_config_file"` is the path to the configuration file; in the [config](https://github.com/k-nuth/config) repository you can find some example files.
 If you pass an empty string (`""`), default configuration will be used.
 
-`stdout` and `stderr` are pointers to the standard output and standard error streams. These are used to tell the Knuth node where to print the logs.   
-You can use any object of type `FILE*`. For example, you can make the Knuth node redirect the logs to a file.  
+`stdout` and `stderr` are pointers to the standard output and standard error streams. These are used to tell the Knuth node where to print the logs.
+You can use any object of type `FILE*`. For example, you can make the Knuth node redirect the logs to a file.
 If you pass null pointers (`NULL` or `0`), there will be no logging information.
 
 ```c
 kth_node_initchain(node);
 ```
 
-Initialize the filesystem database where the _blockchain_ will be stored.  
+Initialize the filesystem database where the _blockchain_ will be stored.
 You need to have enough disk space to store the blockchain.
 
 This is equivalent to executing: `kth -i -c my_config_file`.
@@ -94,7 +92,7 @@ This is equivalent to executing: `kth -i -c my_config_file`.
 kth_node_run_wait(node);
 ```
 
-Run the node.  
+Run the node.
 In this step, the connections and handshake with the peers will be established, and the initial process of downloading blocks will start. Once this stage has finished, the node will begin to receive transactions and blocks through the P2P network.
 
 This is equivalent to executing: `kth -c my_config_file`.
@@ -117,7 +115,7 @@ Ask the blockchain what is the height of the last downloaded block and print it 
 kth_node_destruct(node);
 ```
 
-Destroy the node object created earlier.  
+Destroy the node object created earlier.
 (We are in land of _The C Programming Language_, there is no automatic handling of resources here, you have to do it manually.)
 
 ### Build and run:
@@ -127,7 +125,7 @@ _Note: Here we are building the code using the GNU Compiler Collection (GCC) on 
 To build and run the code example, first you have to create a tool file called `conanfile.txt` in orded to manage the dependencies of the code:
 
 ```sh
-$ printf "[requires]\nc-api/0.X@kth/stable\n[options]\nc-api:shared=True\n[imports]\ninclude/kth, *.h -> ./include/kth\ninclude/kth, *.hpp -> ./include/kth\nlib, *.so -> ./lib\n" > conanfile.txt
+$ printf "[requires]\nc-api/0.33.0\n[options]\nc-api:shared=True\n[imports]\ninclude/kth, *.h -> ./include/kth\ninclude/kth, *.hpp -> ./include/kth\nlib, *.so -> ./lib\n" > conanfile.txt
 ```
 
 Then, run the following command to bring the dependencies to the local directory:
