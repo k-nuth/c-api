@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2022 Knuth Project developers.
+// Copyright (c) 2016-2023 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -87,7 +87,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
     auto pa = kth_wallet_payment_address_construct_from_string("1KcSdYdo4LJj2n5iHt5Hn3WEJQ6wWyPU3n");
     auto valid = kth_wallet_payment_address_is_valid(pa);
     auto address_str = kth_wallet_payment_address_encoded(pa);
-    auto cash_address_str = kth_wallet_payment_address_encoded_cashaddr(pa);
+    auto cash_address_str = kth_wallet_payment_address_encoded_cashaddr(pa, false);
     std::cout << address_str << std::endl;
     std::cout << cash_address_str << std::endl;
 
@@ -220,7 +220,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
 //         std::cout << "Invalid payment address: " << addr << std::endl;
 //     }
 
-//     kth_shorthash_t addr_hash = kth_wallet_payment_address_hash(address);
+//     kth_shorthash_t addr_hash = kth_wallet_payment_address_hash20(address);
 //     std::copy_n(static_cast<uint8_t*>(addr_hash.hash), 20, static_cast<uint8_t*>(locking_script_data) + 3);
 //     kth_wallet_payment_address_destruct(address);
 

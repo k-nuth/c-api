@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2022 Knuth Project developers.
+// Copyright (c) 2016-2023 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -103,6 +103,7 @@ typedef enum error_code {
     kth_ec_spend_exceeds_value = 40,
     kth_ec_transaction_embedded_sigop_limit = 55,
     kth_ec_sequence_locked = 78,
+    kth_ec_transaction_version_out_of_range = 87,
 
     // connect input
     kth_ec_invalid_script = 39,

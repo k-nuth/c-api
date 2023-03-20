@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2022 Knuth Project developers.
+// Copyright (c) 2016-2023 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -61,6 +61,7 @@ typedef void* kth_input_list_t;
 typedef void* kth_inputpoint_t;
 typedef void* kth_merkleblock_t;
 typedef void* kth_script_t;
+typedef void* kth_token_data_t;
 typedef void* kth_output_t;
 typedef void* kth_output_list_t;
 typedef void* kth_outputpoint_t;
@@ -113,6 +114,7 @@ typedef enum {
 #if defined(KTH_CURRENCY_BCH)
     , kth_network_testnet4
     , kth_network_scalenet
+    , kth_network_chipnet
 #endif
 } kth_network_t;
 
@@ -131,25 +133,6 @@ typedef struct kth_ec_secret_t {
 typedef void* kth_ec_public_t;
 typedef void* kth_hd_private_t;
 // Wallet (end) -------------------------------------------------------
-
-// Keoken -------------------------------------------------------------
-#ifdef KTH_WITH_KEOKEN
-// Keoken Primitives
-typedef uint32_t keoken_asset_id_t;
-typedef int64_t keoken_amount_t;
-
-typedef void* keoken_manager_t;
-typedef void* keoken_memory_state_t;
-
-// Keoken DTOs
-typedef void* keoken_get_assets_by_address_data_t;
-typedef void* keoken_get_assets_data_t;
-typedef void* keoken_get_all_asset_addresses_data_t;
-typedef void* keoken_get_assets_by_address_list_t;
-typedef void* keoken_get_assets_list_t;
-typedef void* keoken_get_all_asset_addresses_list_t;
-
-#endif //KTH_WITH_KEOKEN
 
 
 // Callback signatures ------------------------------------------------

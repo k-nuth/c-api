@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2022 Knuth Project developers.
+// Copyright (c) 2016-2023 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -29,22 +29,27 @@ kth_payment_address_t kth_wallet_payment_address_construct_from_string(char cons
 }
 
 //User is responsible for releasing return value memory
-char* kth_wallet_payment_address_encoded(kth_payment_address_t payment_address) {
-    std::string str = kth_wallet_payment_address_const_cpp(payment_address).encoded();
+char* kth_wallet_payment_address_encoded_legacy(kth_payment_address_t payment_address) {
+    std::string str = kth_wallet_payment_address_const_cpp(payment_address).encoded_legacy();
     return kth::create_c_str(str);
 }
 
 #if defined(KTH_CURRENCY_BCH)
 //User is responsible for releasing return value memory
-char* kth_wallet_payment_address_encoded_cashaddr(kth_payment_address_t payment_address) {
-    std::string str = kth_wallet_payment_address_const_cpp(payment_address).encoded_cashaddr();
+char* kth_wallet_payment_address_encoded_cashaddr(kth_payment_address_t payment_address, kth_bool_t token_aware) {
+    std::string str = kth_wallet_payment_address_const_cpp(payment_address).encoded_cashaddr(token_aware);
     return kth::create_c_str(str);
 }
 #endif //KTH_CURRENCY_BCH
 
-kth_shorthash_t kth_wallet_payment_address_hash(kth_payment_address_t payment_address) {
-    auto const& hash_cpp = kth_wallet_payment_address_const_cpp(payment_address).hash();
+kth_shorthash_t kth_wallet_payment_address_hash20(kth_payment_address_t payment_address) {
+    auto hash_cpp = kth_wallet_payment_address_const_cpp(payment_address).hash20();
     return kth::to_shorthash_t(hash_cpp);
+}
+
+kth_hash_t kth_wallet_payment_address_hash32(kth_payment_address_t payment_address) {
+    auto hash_cpp = kth_wallet_payment_address_const_cpp(payment_address).hash32();
+    return kth::to_hash_t(hash_cpp);
 }
 
 uint8_t kth_wallet_payment_address_version(kth_payment_address_t payment_address) {
