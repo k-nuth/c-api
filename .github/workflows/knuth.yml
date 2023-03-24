@@ -58,7 +58,7 @@ jobs:
         run: |
           conan user
           conan remote list
-          conan remote add kthbuild_kth_temp_ https://knuth.jfrog.io/artifactory/api/conan/knuth || true
+          conan remote add kthbuild_kth_temp_ https://packages.kth.cash/api/ || true
           conan remote list
           # echo "KTH_REPO_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $1}')" >> $GITHUB_ENV
           export KTH_REPO_NAME=$(echo '${{ github.repository }}')
@@ -223,7 +223,7 @@ jobs:
           Invoke-Expression $a
 
           $ErrorActionPreference = 'SilentlyContinue'
-          conan remote add kth https://knuth.jfrog.io/artifactory/api/conan/knuth
+          conan remote add kth https://packages.kth.cash/api/
           $ErrorActionPreference = 'Continue'
 
           # conan info . --only None
@@ -296,7 +296,7 @@ jobs:
           echo "My branch name is $KTH_BRANCH"
 
           eval $(python ci_utils/set_envvars_and_files.py)
-          # conan remote add kthbuild_kth_temp_ https://knuth.jfrog.io/artifactory/api/conan/knuth
+          # conan remote add kthbuild_kth_temp_ https://packages.kth.cash/api/
           conan user
           conan user ${CONAN_LOGIN_USERNAME} -r kthbuild_kth_temp_ -p ${CONAN_PASSWORD}
           conan user
