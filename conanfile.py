@@ -75,15 +75,15 @@ class KnuthCAPIConan(KnuthConanFileV2):
 
     def requirements(self):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
-            self.requires("infrastructure/0.26.0")
-            self.requires("domain/0.31.0")
-            self.requires("database/0.30.0")
+            self.requires("infrastructure/0.23.0")
+            self.requires("domain/0.25.0")
+            self.requires("database/0.28.0")
             # if self.options.consensus:
-            self.requires("consensus/0.25.0")
+            self.requires("consensus/0.23.0")
 
-            self.requires("blockchain/0.29.0")
-            self.requires("network/0.34.0@")
-            self.requires("node/0.35.0")
+            self.requires("blockchain/0.27.0")
+            self.requires("network/0.32.0@")
+            self.requires("node/0.32.0")
 
             self.requires("boost/1.81.0")
             self.requires("fmt/9.1.0")
