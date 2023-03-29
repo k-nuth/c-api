@@ -4,9 +4,9 @@ name: Build and Test
 on:
   push:
     branches:
-      - main   # tagged latest
-      - master # tagged latest
-      - dev    # tagged test
+#       - main   # tagged latest
+#       - master # tagged latest
+#       - dev    # tagged test
       - init
     tags:
       - v* # semver release
