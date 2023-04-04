@@ -5,7 +5,7 @@ on:
   push:
     branches:
 #       - main   # tagged latest
-#       - master # tagged latest
+      - master # tagged latest
 #       - dev    # tagged test
       - init
     tags:
@@ -19,8 +19,20 @@ env:
   CONAN_REMOTE_URL: https://packages.kth.cash/api/
 
 jobs:
+  master:
+    name: Master and Dev
+    if: github.event_name != 'pull_request' &&
+        (github.ref == 'refs/heads/master' ||
+        github.ref == 'refs/heads/dev')
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Master Build
+        shell: bash
+        run: |
+          echo "Stable packages are published in Release branches"
 
   check:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     outputs:
       permitted: ${{ steps.check.outputs.permitted }}
@@ -32,6 +44,7 @@ jobs:
           permission: write
 
   setup:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     outputs:
       build-version: ${{ steps.version.outputs.build-version }}
@@ -76,6 +89,7 @@ jobs:
   #       run: docker push ${{ env.name }}:${{ steps.version.outputs.version }}
 
   generate-matrix:
+    if: github.event_name == 'pull_request'
     name: Generate Job Matrix
     runs-on: ubuntu-20.04
     outputs:
