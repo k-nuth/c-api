@@ -83,7 +83,7 @@ class KnuthCAPIConan(KnuthConanFileV2):
 
             # self.requires("blockchain/0.27.0")
             # self.requires("network/0.32.0@")
-            self.requires("node/0.32.0")
+            self.requires("node/0.32.0", transitive_headers=True, transitive_libs=True)
 
             # self.requires("boost/1.81.0")
             # self.requires("fmt/9.1.0")
