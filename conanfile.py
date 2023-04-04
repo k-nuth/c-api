@@ -75,29 +75,7 @@ class KnuthCAPIConan(KnuthConanFileV2):
 
     def requirements(self):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
-            # self.requires("infrastructure/0.23.0")
-            # self.requires("domain/0.25.0")
-            # self.requires("database/0.28.0")
-            # # if self.options.consensus:
-            # self.requires("consensus/0.23.0")
-
-            # self.requires("blockchain/0.27.0")
-            # self.requires("network/0.32.0@")
             self.requires("node/0.32.0", transitive_headers=True, transitive_libs=True)
-
-            # self.requires("boost/1.81.0")
-            # self.requires("fmt/9.1.0")
-            # self.requires("spdlog/1.11.0")
-
-            # if not self._is_legacy_db():
-            #     if self.options.use_libmdbx:
-            #         self.requires("libmdbx/0.7.0@kth/stable")
-            #         self.output.info("Using libmdbx for DB management")
-            #     else:
-            #         self.requires("lmdb/0.9.29")
-            #         self.output.info("Using lmdb for DB management")
-            # else:
-            #     self.output.info("Using legacy DB")
 
     def config_options(self):
         KnuthConanFileV2.config_options(self)

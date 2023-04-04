@@ -128,21 +128,7 @@ endif()
 
 message(STATUS "Knuth: Cryptocurrency: ${CURRENCY}")
 
-# find_package(infrastructure REQUIRED)
-# find_package(domain REQUIRED)
-
-# find_package(database REQUIRED)
-# if (WITH_CONSENSUS)
-#   find_package(consensus REQUIRED)
-# endif()
-# find_package(blockchain REQUIRED)
-# find_package(network REQUIRED)
 find_package(node REQUIRED)
-
-# find_package(fmt 9.1.0 REQUIRED)
-# find_package(spdlog 1.10.0 REQUIRED)
-# find_package(lmdb 0.9.29 REQUIRED)
-# find_package(Boost 1.81.0 COMPONENTS boost REQUIRED)
 
 include(CheckCXXCompilerFlag)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/ci_utils/cmake)
@@ -353,17 +339,7 @@ if (NOT MSVC)
   target_compile_definitions(${PROJECT_NAME} PUBLIC -DSYSCONFDIR=\"${SYSCONFDIR}\")
 endif()
 
-# target_link_libraries(${PROJECT_NAME} PUBLIC infrastructure::infrastructure)
-# target_link_libraries(${PROJECT_NAME} PUBLIC domain::domain)
-# target_link_libraries(${PROJECT_NAME} PUBLIC database::database)
-# target_link_libraries(${PROJECT_NAME} PUBLIC blockchain::blockchain)
-# target_link_libraries(${PROJECT_NAME} PUBLIC network::network)
 target_link_libraries(${PROJECT_NAME} PUBLIC node::node)
-
-# target_link_libraries(${PROJECT_NAME} PUBLIC fmt::fmt)
-# target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
-# target_link_libraries(${PROJECT_NAME} PUBLIC lmdb::lmdb)
-# target_link_libraries(${PROJECT_NAME} PUBLIC Boost::boost)
 
 if (MINGW)
   target_link_libraries(${PROJECT_NAME} PUBLIC ws2_32 wsock32)
