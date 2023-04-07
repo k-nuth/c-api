@@ -395,7 +395,7 @@ kth_error_code_t kth_chain_sync_stealth(kth_chain_t chain, kth_binary_t filter, 
 kth_mempool_transaction_list_t kth_chain_sync_mempool_transactions(kth_chain_t chain, kth_payment_address_t address, kth_bool_t use_testnet_rules) {
     auto const& address_cpp = kth_wallet_payment_address_const_cpp(address);
     if (address_cpp) {
-        auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded(), kth::int_to_bool(use_testnet_rules), kth::witness());
+        auto txs = safe_chain(chain).get_mempool_transactions(address_cpp.encoded_cashaddr(false), kth::int_to_bool(use_testnet_rules), kth::witness());
         auto ret_txs = kth::leak(txs);
         return static_cast<kth_mempool_transaction_list_t>(ret_txs);
     }
