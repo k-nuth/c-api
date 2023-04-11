@@ -339,7 +339,7 @@ kth_error_code_t kth_chain_sync_history(kth_chain_t chain, kth_payment_address_t
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
-    safe_chain(chain).fetch_history(kth_wallet_payment_address_const_cpp(address), limit, from_height, [&](std::error_code const& ec, kth::domain::chain::history_compact::list history) {
+    safe_chain(chain).fetch_history(kth_wallet_payment_address_const_cpp(address).hash20(), limit, from_height, [&](std::error_code const& ec, kth::domain::chain::history_compact::list history) {
         *out_history = kth::leak(history);
         res = kth::to_c_err(ec);
         latch.count_down();
@@ -356,9 +356,7 @@ kth_error_code_t kth_chain_sync_confirmed_transactions(kth_chain_t chain, kth_pa
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
-    // auto const& address_cpp = kth_wallet_payment_address_const_cpp(address);
-
-    safe_chain(chain).fetch_confirmed_transactions(kth_wallet_payment_address_const_cpp(address), max, start_height, [&](std::error_code const& ec, const std::vector<kth::hash_digest>& txs) {
+    safe_chain(chain).fetch_confirmed_transactions(kth_wallet_payment_address_const_cpp(address).hash20(), max, start_height, [&](std::error_code const& ec, const std::vector<kth::hash_digest>& txs) {
         *out_tx_hashes = kth::leak(txs);
         res = kth::to_c_err(ec);
         latch.count_down();
