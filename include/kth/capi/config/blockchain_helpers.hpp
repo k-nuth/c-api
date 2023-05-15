@@ -51,11 +51,12 @@ Target blockchain_settings_to_common(Source const& x) {
     res.bch_fermat = x.bch_fermat;
     res.bch_euler = x.bch_euler;
     res.bch_gauss = x.bch_gauss;
+    res.bch_descartes = x.bch_descartes;
 
-    res.descartes_activation_time = x.descartes_activation_time;
     res.lobachevski_activation_time = x.lobachevski_activation_time;
-    // res.bch_descartes = x.bch_descartes;
+    res.galois_activation_time = x.galois_activation_time;
     // res.bch_lobachevski = x.bch_lobachevski;
+    // res.bch_galois = x.bch_galois;
 
     res.asert_half_life = x.asert_half_life;
 #else
