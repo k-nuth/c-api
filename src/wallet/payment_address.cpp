@@ -12,8 +12,6 @@
 
 KTH_CONV_DEFINE(wallet, kth_payment_address_t, kth::domain::wallet::payment_address, payment_address)
 
-//TODO(fernando): payment_address has to be in the wallet API
-
 // ---------------------------------------------------------------------------
 extern "C" {
 
