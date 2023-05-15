@@ -30,3 +30,4 @@ mypkg/
 blockchain/
 build_release/
 .DS_Store
+CMakeUserPresets.json

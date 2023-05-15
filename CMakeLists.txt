@@ -360,7 +360,8 @@ if (WITH_CONSOLE_CAPI)
       # console/config_test.cpp
       # console/platform_test.cpp
       # console/test_libconfig.cpp
-      console/main_744727.cpp
+      # console/main_744727.cpp
+      console/main_payment_addr_cash_aware.cpp
     )
 
   add_executable(test_console ${_test_console_sources})
