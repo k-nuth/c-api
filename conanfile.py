@@ -75,7 +75,7 @@ class KnuthCAPIConan(KnuthConanFileV2):
 
     def requirements(self):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
-            self.requires("node/0.34.0", transitive_headers=True, transitive_libs=True)
+            self.requires("node/0.35.0", transitive_headers=True, transitive_libs=True)
 
     def build_requirements(self):
         if self.options.tests:
