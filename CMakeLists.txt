@@ -226,6 +226,10 @@ set(kth_sources
 
         src/p2p/p2p.cpp
 
+        src/wallet/elliptic_curve.cpp
+        src/wallet/hd_public.cpp
+        src/wallet/hd_private.cpp
+
         src/wallet/payment_address.cpp
         src/wallet/payment_address_list.cpp
         # src/wallet/ec_public.cpp
@@ -351,6 +355,7 @@ _group_sources(${PROJECT_NAME} "${CMAKE_CURRENT_LIST_DIR}")
 if (WITH_CONSOLE_CAPI)
     set(_test_console_sources
       # console/test_wallet.cpp
+      console/test_wallet.c
       # console/test_header_hash.cpp
       # console/main.cpp
       # console/main.c
@@ -361,7 +366,7 @@ if (WITH_CONSOLE_CAPI)
       # console/platform_test.cpp
       # console/test_libconfig.cpp
       # console/main_744727.cpp
-      console/main_payment_addr_cash_aware.cpp
+      # console/main_payment_addr_cash_aware.cpp
     )
 
   add_executable(test_console ${_test_console_sources})

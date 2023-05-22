@@ -18,11 +18,14 @@ extern "C" {
 #define KTH_BITCOIN_HASH_SIZE 32
 #define KTH_BITCOIN_LONG_HASH_SIZE 64
 
-#define KTH_BITCOIN_EC_SECRET_SIZE 32
-
 #define KTH_BITCOIN_MINIMUM_SEED_BITS 128
 #define KTH_BITCOIN_BYTE_BITS 8
 #define KTH_BITCOIN_MINIMUM_SEED_SIZE (KTH_BITCOIN_MINIMUM_SEED_BITS / KTH_BITCOIN_BYTE_BITS)
+
+#define KTH_WALLET_HD_PUBLIC_MAINNET 76067358
+#define KTH_WALLET_HD_PUBLIC_TESTNET 70617039
+#define KTH_WALLET_HD_PRIVATE_MAINNET 326702167824577054
+#define KTH_WALLET_HD_PRIVATE_TESTNET 303293221666392015
 
 typedef int kth_bool_t;
 typedef uint64_t kth_size_t;    // It is std::size_t in the C++ code.
@@ -125,14 +128,6 @@ typedef enum {
     , kth_start_modules_just_p2p
 } kth_start_modules_t;
 
-// Wallet ------------------------------------------------------------
-typedef struct kth_ec_secret_t {
-    uint8_t hash[KTH_BITCOIN_EC_SECRET_SIZE];
-} kth_ec_secret_t;
-
-typedef void* kth_ec_public_t;
-typedef void* kth_hd_private_t;
-// Wallet (end) -------------------------------------------------------
 
 
 // Callback signatures ------------------------------------------------

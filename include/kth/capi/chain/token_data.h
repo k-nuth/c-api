@@ -15,7 +15,7 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-kth_token_data_t kth_chain_token_data_construct_default();
+kth_token_data_t kth_chain_token_data_construct_default(void);
 
 // KTH_EXPORT
 // kth_token_data_t kth_chain_token_data_construct();
