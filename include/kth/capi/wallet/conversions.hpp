@@ -13,10 +13,11 @@
 #include <kth/capi/wallet/hd_lineage.h>
 
 #include <kth/infrastructure/wallet/hd_public.hpp>
+#include <kth/domain/wallet/ec_private.hpp>
 
 namespace detail {
 
-// C++ -> C
+// C++ -> C ---------------------------------------------------------
 inline
 kth_hd_chain_code_t to_hd_chain_code_t(std::array<uint8_t, KTH_HD_CHAIN_CODE_SIZE> const& x) {
     kth_hd_chain_code_t result;
@@ -38,13 +39,34 @@ kth_ec_compressed_t to_ec_compressed_t(std::array<uint8_t, KTH_EC_COMPRESSED_SIZ
     return result;
 }
 
-kth_ec_secret_t to_kth_ec_secret_t(kth::ec_secret const& secret) {
+inline
+kth_ec_uncompressed_t to_ec_uncompressed_t(kth::ec_uncompressed const& obj) {
+    kth_ec_uncompressed_t res;
+    std::copy_n(obj.begin(), obj.size(), res.data);
+    return res;
+}
+
+inline
+kth_ec_secret_t to_ec_secret_t(kth::ec_secret const& secret) {
     kth_ec_secret_t result;
     std::copy(secret.begin(), secret.end(), result.hash);
     return result;
 }
 
-// C++ -> C
+inline
+kth_wif_uncompressed_t to_wif_uncompressed_t(kth::domain::wallet::wif_uncompressed const& wif) {
+    kth_wif_uncompressed_t result;
+    std::copy(wif.begin(), wif.end(), result.data);
+    return result;
+}
+
+inline
+kth_wif_compressed_t to_wif_compressed_t(kth::domain::wallet::wif_compressed const& wif) {
+    kth_wif_compressed_t result;
+    std::copy(wif.begin(), wif.end(), result.data);
+    return result;
+}
+
 inline
 kth_hd_lineage_t to_hd_lineage_t(kth::infrastructure::wallet::hd_lineage const& lineage_cpp) {
     kth_hd_lineage_t lineage_c;
@@ -55,7 +77,7 @@ kth_hd_lineage_t to_hd_lineage_t(kth::infrastructure::wallet::hd_lineage const& 
     return lineage_c;
 }
 
-// C -> C++
+// C -> C++ ---------------------------------------------------------
 inline
 std::array<uint8_t, KTH_HD_CHAIN_CODE_SIZE> from_hd_chain_code_t(kth_hd_chain_code_t const& x) {
     std::array<uint8_t, KTH_HD_CHAIN_CODE_SIZE> result;
@@ -77,9 +99,34 @@ std::array<uint8_t, KTH_EC_COMPRESSED_SIZE> from_ec_compressed_t(kth_ec_compress
     return result;
 }
 
-kth::ec_secret to_ec_secret(kth_ec_secret_t const& secret_c) {
+inline
+kth::ec_uncompressed from_ec_uncompressed_t(kth_ec_uncompressed_t const& x) {
+    kth::ec_uncompressed result;
+    std::copy(std::begin(x.data), std::end(x.data), result.begin());
+    return result;
+}
+
+inline
+kth::ec_secret from_ec_secret_t(kth_ec_secret_t const& secret_c) {
     kth::ec_secret result;
     std::copy(std::begin(secret_c.hash), std::end(secret_c.hash), result.begin());
+    return result;
+}
+
+inline
+kth::domain::wallet::wif_uncompressed from_wif_uncompressed_t(kth_wif_uncompressed_t const& wif) {
+    // return kth::domain::wallet::wif_uncompressed(wif.data, wif.data + KTH_WIF_UNCOMPRESSED_SIZE);
+    kth::domain::wallet::wif_uncompressed result;
+    std::copy(std::begin(wif.data), std::end(wif.data), result.begin());
+    return result;
+
+}
+
+inline
+kth::domain::wallet::wif_compressed from_wif_compressed_t(kth_wif_compressed_t const& wif) {
+    // return kth::domain::wallet::wif_compressed(wif.data, wif.data + KTH_WIF_COMPRESSED_SIZE);
+    kth::domain::wallet::wif_compressed result;
+    std::copy(std::begin(wif.data), std::end(wif.data), result.begin());
     return result;
 }
 

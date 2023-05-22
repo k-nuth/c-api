@@ -226,13 +226,14 @@ set(kth_sources
 
         src/p2p/p2p.cpp
 
+        src/wallet/ec_private.cpp
+        src/wallet/ec_public.cpp
         src/wallet/elliptic_curve.cpp
         src/wallet/hd_public.cpp
         src/wallet/hd_private.cpp
 
         src/wallet/payment_address.cpp
         src/wallet/payment_address_list.cpp
-        # src/wallet/ec_public.cpp
         src/wallet/raw_output.cpp
         src/wallet/raw_output_list.cpp
         src/wallet/transaction_functions.cpp

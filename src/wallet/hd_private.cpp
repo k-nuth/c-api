@@ -2,7 +2,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <kth/infrastructure/wallet/hd_private.hpp>
+#include <kth/capi/wallet/hd_private.h>
+
+#include <kth/capi/conversions.hpp>
+#include <kth/capi/helpers.hpp>
+
+#include <kth/capi/wallet/conversions.hpp>
 
 KTH_CONV_DEFINE(wallet, kth_hd_private_t, kth::infrastructure::wallet::hd_private, hd_private)
 
@@ -37,11 +42,15 @@ kth_hd_private_t kth_wallet_hd_private_construct_string_with_prefix(char const* 
     return new kth::infrastructure::wallet::hd_private(std::string(encoded), prefix);
 }
 
+kth_hd_private_t kth_wallet_hd_private_construct_string_with_prefixes(char const* encoded, uint64_t prefixes) {
+    return new kth::infrastructure::wallet::hd_private(std::string(encoded), prefixes);
+}
+
 void kth_wallet_hd_private_destruct(kth_hd_private_t hd_private) {
     delete &kth_wallet_hd_private_cpp(hd_private);
 }
 
-char const* kth_wallet_hd_private_encoded(kth_hd_private_t hd_private) {
+char* kth_wallet_hd_private_encoded(kth_hd_private_t hd_private) {
     std::string encoded = kth_wallet_hd_private_const_cpp(hd_private).encoded();
     return kth::create_c_str(encoded);
 }

@@ -39,7 +39,7 @@ KTH_EXPORT
 kth_bool_t kth_wallet_hd_public_is_valid(kth_hd_public_t hd_public);
 
 KTH_EXPORT
-char const* kth_wallet_hd_public_encoded(kth_hd_public_t hd_public);
+char* kth_wallet_hd_public_encoded(kth_hd_public_t hd_public);
 
 KTH_EXPORT
 kth_hd_chain_code_t kth_wallet_hd_public_chain_code(kth_hd_public_t hd_public);

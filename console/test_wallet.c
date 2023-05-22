@@ -23,11 +23,10 @@
 #include <kth/capi/wallet/payment_address.h>
 #include <kth/capi/wallet/wallet.h>
 #include <kth/capi/wallet/payment_address_list.h>
-
-// #include <kth/domain/message/transaction.hpp>
-
-// #include <kth/infrastructure/utility/binary.hpp>
-// #include <kth/infrastructure/wallet/hd_private.hpp>
+#include <kth/capi/wallet/hd_private.h>
+#include <kth/capi/wallet/hd_public.h>
+#include <kth/capi/wallet/elliptic_curve.h>
+#include <kth/capi/wallet/ec_public.h>
 
 void print_hex(uint8_t const* data, size_t n) {
     while (n != 0) {
@@ -37,6 +36,10 @@ void print_hex(uint8_t const* data, size_t n) {
     }
     printf("\n");
 }
+
+#define MAINNET_P2KH 0x00
+#define MAINNET_P2SH 0x05
+
 
 int main(int argc, char* argv[]) {
 
@@ -67,19 +70,11 @@ int main(int argc, char* argv[]) {
     printf("seed: ");
     print_hex(seed_c.hash, sizeof(seed_c));
 
-    // hd_private const m(seed, hd_private::mainnet);
-    // auto const m44h = m.derive_private(44 + KTH_HD_FIRST_HARDENED_KEY);
-    // auto const m44h145h = m44h.derive_private(145 + KTH_HD_FIRST_HARDENED_KEY);
-    // auto const m44h145h0h = m44h145h.derive_private(0 + KTH_HD_FIRST_HARDENED_KEY);
-    // auto const m44h145h0h0 = m44h145h0h.derive_private(0);
-
     kth_hd_private_t m = kth_wallet_hd_private_construct_with_seed(seed_c.hash, sizeof(seed_c), KTH_WALLET_HD_PRIVATE_MAINNET);
     kth_hd_private_t m44h = kth_wallet_hd_private_derive_private(m, 44 + KTH_HD_FIRST_HARDENED_KEY);
     kth_hd_private_t m44h145h = kth_wallet_hd_private_derive_private(m44h, 145 + KTH_HD_FIRST_HARDENED_KEY);
     kth_hd_private_t m44h145h0h = kth_wallet_hd_private_derive_private(m44h145h, 0 + KTH_HD_FIRST_HARDENED_KEY);
     kth_hd_private_t m44h145h0h0 = kth_wallet_hd_private_derive_private(m44h145h0h, 0);
-
-
 
     printf("BIP32 Root Key:                     %s\n", kth_wallet_hd_private_encoded(m));
     printf("BIP44 Account Extended Private Key: %s\n", kth_wallet_hd_private_encoded(m44h145h0h));
@@ -89,36 +84,14 @@ int main(int argc, char* argv[]) {
 
     // print addresses
     for (size_t i = 0; i < 20; ++i) {
-        // auto key = m44h145h0h0.derive_private(i);
-        // auto secret = key.secret();
-
         kth_hd_private_t key = kth_wallet_hd_private_derive_private(m44h145h0h0, i);
         kth_ec_secret_t secret = kth_wallet_hd_private_secret(key);
-        kth::ec_compressed point;
-        kth::secret_to_public(point, secret);
-
-        kth_wallet_secret_to_public
-
-
-        kth::domain::wallet::ec_public ecp(point);
-        kth::domain::wallet::payment_address pa(ecp);
-
-        // std::cout << pa.encoded() << std::endl;
-        std::cout << pa.encoded_cashaddr(false) << std::endl;
-
-        // // auto hd_priv = kth_wallet_hd_new(seed, 76066276);
-        // kth_ec_secret_t ec_priv;
-        // kth_wallet_hd_private_to_ec_out(key, &ec_priv);
-        // auto pubk = kth_wallet_ec_to_public(ec_priv, 1);
-        // auto addr = kth_wallet_ec_to_address(pubk, 0);
-        // auto* addr_str = kth_wallet_payment_address_encoded(addr);
-
+        kth_ec_compressed_t point;
+        kth_wallet_secret_to_public(&point, secret);
+        kth_ec_public_t ecp = kth_wallet_ec_public_construct_from_point(&point, 1);
+        kth_payment_address_t pa = kth_wallet_ec_public_to_payment_address(ecp, MAINNET_P2KH);
+        printf("%s\n", kth_wallet_payment_address_encoded_cashaddr(pa, 0));
     }
 
     printf("\n");
 }
-
-
-    // auto const m44h0h = m44h.derive_private(0 + hd_first_hardened_key);
-    // auto const m44h0h0h = m44h0h.derive_private(0 + hd_first_hardened_key);
-    // auto const m44h0h0h0 = m44h0h0h.derive_private(0);

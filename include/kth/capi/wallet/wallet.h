@@ -8,6 +8,8 @@
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
 
+#include <kth/capi/wallet/primitives.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif

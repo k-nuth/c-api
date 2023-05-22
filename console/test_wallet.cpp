@@ -101,10 +101,25 @@ int main(int argc, char* argv[]) {
     // auto key = m44h145h0h0;
     for (size_t i = 0; i < 20; ++i) {
         auto key = m44h145h0h0.derive_private(i);
+
+        std::cout << "i: " << i << " - Private key: " << key.encoded() << std::endl;
+        std::cout << "i: " << i << " - Public key: " << key.to_public().encoded() << std::endl;
+
         auto secret = key.secret();
+
+
         kth::ec_compressed point;
         kth::secret_to_public(point, secret);
+
+        std::cout << "i: " << i << " - secret: ";
+        print_hex(secret.data(), secret.size());
+        std::cout << "i: " << i << " - point: ";
+        print_hex(point.data(), point.size());
+
         kth::domain::wallet::ec_public ecp(point);
+
+        std::cout << "i: " << i << " - ecp: " << ecp.encoded() << std::endl;
+
         kth::domain::wallet::payment_address pa(ecp);
 
         // std::cout << pa.encoded() << std::endl;

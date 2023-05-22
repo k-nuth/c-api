@@ -122,6 +122,14 @@ kth::hash_digest hash_to_cpp(uint8_t const* x) {
     return ret;
 }
 
+
+inline
+kth::short_hash short_hash_to_cpp(uint8_t const* x) {
+    kth::short_hash ret;
+    std::copy_n(x, ret.size(), std::begin(ret));
+    return ret;
+}
+
 template <typename T>
 inline
 T* mnew(std::size_t n = 1) {

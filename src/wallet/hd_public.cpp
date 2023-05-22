@@ -13,10 +13,6 @@ KTH_CONV_DEFINE(wallet, kth_hd_public_t, kth::infrastructure::wallet::hd_public,
 
 extern "C" {
 
-void kth_wallet_hd_public_destruct(kth_hd_public_t hd_public) {
-    delete &kth_wallet_hd_public_cpp(hd_public);
-}
-
 kth_hd_public_t kth_wallet_hd_public_construct_string(char const* encoded) {
     return new kth::infrastructure::wallet::hd_public(std::string(encoded));
 }
@@ -37,8 +33,12 @@ kth_hd_public_t kth_wallet_hd_public_construct_default() {
     return new kth::infrastructure::wallet::hd_public();
 }
 
+void kth_wallet_hd_public_destruct(kth_hd_public_t hd_public) {
+    delete &kth_wallet_hd_public_cpp(hd_public);
+}
+
 // Serializer.
-char const* kth_wallet_hd_public_encoded(kth_hd_public_t hd_public) {
+char* kth_wallet_hd_public_encoded(kth_hd_public_t hd_public) {
     std::string encoded = kth_wallet_hd_public_const_cpp(hd_public).encoded();
     return kth::create_c_str(encoded);
 }

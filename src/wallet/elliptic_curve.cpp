@@ -13,7 +13,7 @@ extern "C" {
 
 kth_bool_t kth_wallet_secret_to_public(kth_ec_compressed_t* out, kth_ec_secret_t secret) {
     kth::ec_compressed out_cpp;
-    auto secret_cpp = detail::to_ec_secret(secret);
+    auto secret_cpp = detail::from_ec_secret_t(secret);
     bool success = kth::secret_to_public(out_cpp, secret_cpp);
 
     if (success) {
