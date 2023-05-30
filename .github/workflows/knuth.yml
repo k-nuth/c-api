@@ -95,13 +95,13 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
+      - name: Download matrix configuration
+        run: |
+          curl -O https://raw.githubusercontent.com/k-nuth/ci-utils/master/.github/matrix.json
       - name: Generate Job Matrix
         id: set-matrix
         run: |
-          MATRIX=$(cat ./ci_utils/.github/matrix.json)
+          MATRIX=$(cat ./matrix.json)
           echo "${MATRIX}"
           echo "matrix=${MATRIX}" >> $GITHUB_OUTPUT
 
