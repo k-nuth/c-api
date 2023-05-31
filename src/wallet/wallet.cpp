@@ -6,6 +6,8 @@
 #include <kth/capi/wallet/wallet.h>
 
 #include <kth/capi/primitives.h>
+#include <kth/capi/wallet/primitives.h>
+#include <kth/capi/wallet/conversions.hpp>
 
 #include <kth/infrastructure/math/elliptic_curve.hpp>
 #include <kth/domain/wallet/ec_public.hpp>
@@ -68,7 +70,7 @@ kth_hd_private_t kth_wallet_hd_new(kth_longhash_t seed, uint32_t version /* = 76
 kth_ec_secret_t kth_wallet_hd_private_to_ec(kth_hd_private_t key) {
     auto const& key_cpp = *static_cast<kth::infrastructure::wallet::hd_private const*>(key);
     kth::ec_secret secret = key_cpp.secret();
-    return kth::to_ec_secret_t(secret);
+    return detail::to_ec_secret_t(secret);
 }
 
 void kth_wallet_hd_private_to_ec_out(kth_hd_private_t key, kth_ec_secret_t* out_secret) {
