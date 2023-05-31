@@ -114,8 +114,33 @@ void kth_node_print_thread_id() {
     std::cout << std::this_thread::get_id() << '\n';
 }
 
-char const* kth_node_version() {
+char const* kth_node_capi_version() {
     return KTH_CAPI_VERSION;
+}
+
+char const* kth_node_cppapi_version() {
+    return kth::node::version();
+}
+
+char const* kth_node_microarchitecture() {
+    // I can use .data() because the string is comming from a null-terminated string
+    return kth::node::microarchitecture().data();
+}
+
+char const* kth_node_march_names() {
+    return kth::node::march_names().data();
+}
+
+char const* kth_node_currency_symbol() {
+    return kth::node::currency_symbol().data();
+}
+
+char const* kth_node_currency() {
+    return kth::node::currency().data();
+}
+
+char const* kth_node_db_type() {
+    return kth::node::db_type().data();
 }
 
 } // extern "C"
