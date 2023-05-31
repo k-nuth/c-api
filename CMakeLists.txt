@@ -30,6 +30,8 @@ option(DB_NEW_BLOCKS "DB Blocks New enabled." OFF)
 option(DB_NEW_FULL "DB New Full enabled." OFF)
 option(DB_READONLY_MODE "Readonly DB mode enabled." OFF)
 
+option(GLOBAL_BUILD "" OFF)
+
 if (WITH_MEMPOOL)
   message(STATUS "Knuth: Mempool enabled")
   add_definitions(-DKTH_WITH_MEMPOOL)
@@ -128,7 +130,11 @@ endif()
 
 message(STATUS "Knuth: Cryptocurrency: ${CURRENCY}")
 
-find_package(node REQUIRED)
+
+if (NOT GLOBAL_BUILD)
+  find_package(node REQUIRED)
+endif()
+
 
 include(CheckCXXCompilerFlag)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/ci_utils/cmake)
