@@ -362,7 +362,7 @@ _group_sources(${PROJECT_NAME} "${CMAKE_CURRENT_LIST_DIR}")
 if (WITH_CONSOLE_CAPI)
     set(_test_console_sources
       # console/test_wallet.cpp
-      console/test_wallet.c
+      # console/test_wallet.c
       # console/test_header_hash.cpp
       # console/main.cpp
       # console/main.c
