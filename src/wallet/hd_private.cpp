@@ -29,7 +29,7 @@ kth_hd_private_t kth_wallet_hd_private_construct_with_prefixes(kth_hd_key_t cons
     return new kth::infrastructure::wallet::hd_private(detail::from_hd_key_t(*private_key), prefixes);
 }
 
-kth_hd_private_t kth_wallet_hd_private_construct_with_seed(uint8_t const* seed, size_t size, uint64_t prefixes) {
+kth_hd_private_t kth_wallet_hd_private_construct_with_seed(uint8_t const* seed, kth_size_t size, uint64_t prefixes) {
     kth::data_chunk const seed_chunk(seed, seed + size);
     return new kth::infrastructure::wallet::hd_private(seed_chunk, prefixes);
 }
