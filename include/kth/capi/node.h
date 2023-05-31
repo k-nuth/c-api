@@ -57,7 +57,26 @@ KTH_EXPORT
 void kth_node_print_thread_id();
 
 KTH_EXPORT
-char const* kth_node_version(void);
+char const* kth_node_capi_version(void);
+
+KTH_EXPORT
+char const* kth_node_cppapi_version(void);
+
+KTH_EXPORT
+char const* kth_node_microarchitecture(void);
+
+KTH_EXPORT
+char const* kth_node_march_names(void);
+
+KTH_EXPORT
+char const* kth_node_currency_symbol(void);
+
+KTH_EXPORT
+char const* kth_node_currency(void);
+
+KTH_EXPORT
+char const* kth_node_db_type(void);
+
 
 #ifdef __cplusplus
 } // extern "C"
