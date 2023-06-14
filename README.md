@@ -23,7 +23,7 @@ $ conan config install https://github.com/k-nuth/ci-utils/raw/master/conan/confi
 2. Install the appropriate library:
 
 ```
-$ conan install --requires=c-api/0.36.0 --update
+$ conan install --requires=c-api/0.37.0 --update
 ```
 
 ### "Hello, Knuth!":
@@ -125,7 +125,7 @@ _Note: Here we are building the code using the GNU Compiler Collection (GCC) on 
 To build and run the code example, first you have to create a tool file called `conanfile.txt` in orded to manage the dependencies of the code:
 
 ```sh
-$ printf "[requires]\nc-api/0.36.0\n[options]\nc-api:shared=True\n[imports]\ninclude/kth, *.h -> ./include/kth\ninclude/kth, *.hpp -> ./include/kth\nlib, *.so -> ./lib\n" > conanfile.txt
+$ printf "[requires]\nc-api/0.37.0\n[options]\nc-api:shared=True\n[imports]\ninclude/kth, *.h -> ./include/kth\ninclude/kth, *.hpp -> ./include/kth\nlib, *.so -> ./lib\n" > conanfile.txt
 ```
 
 Then, run the following command to bring the dependencies to the local directory:
