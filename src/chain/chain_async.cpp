@@ -78,7 +78,6 @@ void kth_chain_async_block_header_by_hash(kth_chain_t chain, void* ctx, kth_hash
     });
 }
 
-#if defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_BLOCKS) || defined(KTH_DB_NEW_FULL)
 void kth_chain_async_block_by_height(kth_chain_t chain, void* ctx, kth_size_t height, kth_block_fetch_handler_t handler) {
     safe_chain(chain).fetch_block(height, kth::witness(), [chain, ctx, handler](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
         handler(chain, ctx, kth::to_c_err(ec), kth::leak(block), h);
@@ -127,8 +126,6 @@ void kth_chain_async_compact_block_by_hash(kth_chain_t chain, void* ctx, kth_has
     });
 }
 
-#endif // defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_BLOCKS) || defined(KTH_DB_NEW_FULL)
-
 void kth_chain_async_block_by_height_timestamp(kth_chain_t chain, void* ctx, kth_size_t height, kth_blockhash_timestamp_fetch_handler_t handler) {
     safe_chain(chain).fetch_block_hash_timestamp(height, [chain, ctx, handler](std::error_code const& ec, kth::hash_digest const& hash, uint32_t timestamp, size_t h) {
         if (ec == kth::error::success) {
@@ -138,8 +135,6 @@ void kth_chain_async_block_by_height_timestamp(kth_chain_t chain, void* ctx, kth
         }
     });
 }
-
-#if defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_FULL)
 
 void kth_chain_async_transaction(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_bool_t require_confirmed, kth_transaction_fetch_handler_t handler) {
     //precondition:  [hash, 32] is a valid range
@@ -156,10 +151,7 @@ void kth_chain_async_transaction_position(kth_chain_t chain, void* ctx, kth_hash
         handler(chain, ctx, kth::to_c_err(ec), position, height);
     });
 }
-#endif // defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_FULL)
 
-
-#if (defined(KTH_DB_LEGACY) && defined(KTH_DB_SPENDS)) || defined(KTH_DB_NEW_FULL)
 void kth_chain_async_spend(kth_chain_t chain, void* ctx, kth_outputpoint_t op, kth_spend_fetch_handler_t handler) {
     auto* outpoint_cpp = static_cast<kth::domain::chain::output_point*>(op);
 
@@ -167,36 +159,27 @@ void kth_chain_async_spend(kth_chain_t chain, void* ctx, kth_outputpoint_t op, k
         handler(chain, ctx, kth::to_c_err(ec), kth::leak(input_point));
     });
 }
-#endif // defined(KTH_DB_LEGACY) && defined(KTH_DB_SPENDS) || defined(KTH_DB_NEW_FULL)
 
-#if (defined(KTH_DB_LEGACY) && defined(KTH_DB_HISTORY)) || defined(KTH_DB_NEW_FULL)
 void kth_chain_async_history(kth_chain_t chain, void* ctx, kth_payment_address_t address, kth_size_t limit, kth_size_t from_height, kth_history_fetch_handler_t handler) {
     safe_chain(chain).fetch_history(kth_wallet_payment_address_const_cpp(address).hash20(), limit, from_height, [chain, ctx, handler](std::error_code const& ec, kth::domain::chain::history_compact::list history) {
         handler(chain, ctx, kth::to_c_err(ec), kth::leak(history));
     });
 }
-#endif // defined(KTH_DB_LEGACY) && defined(KTH_DB_HISTORY) || defined(KTH_DB_NEW_FULL)
 
-
-#if defined(KTH_DB_TRANSACTION_UNCONFIRMED) || defined(KTH_DB_NEW_FULL)
 void kth_chain_async_confirmed_transactions(kth_chain_t chain, void* ctx, kth_payment_address_t address, uint64_t max, uint64_t start_height, kth_transactions_by_address_fetch_handler_t handler) {
     safe_chain(chain).fetch_confirmed_transactions(kth_wallet_payment_address_const_cpp(address).hash20(), max, start_height, [chain, ctx, handler](std::error_code const& ec, const std::vector<kth::hash_digest>& txs) {
         handler(chain, ctx, kth::to_c_err(ec), kth::leak(txs));
     });
 }
-#endif // defined(KTH_DB_TRANSACTION_UNCONFIRMED) || defined(KTH_DB_NEW_FULL)
 
+// void kth_chain_async_stealth(kth_chain_t chain, void* ctx, kth_binary_t filter, uint64_t from_height, kth_stealth_fetch_handler_t handler) {
+// 	auto* filter_cpp_ptr = static_cast<kth::binary const*>(filter);
+// 	kth::binary const& filter_cpp = *filter_cpp_ptr;
 
-#if defined(KTH_DB_STEALTH)
-void kth_chain_async_stealth(kth_chain_t chain, void* ctx, kth_binary_t filter, uint64_t from_height, kth_stealth_fetch_handler_t handler) {
-	auto* filter_cpp_ptr = static_cast<kth::binary const*>(filter);
-	kth::binary const& filter_cpp = *filter_cpp_ptr;
-
-    safe_chain(chain).fetch_stealth(filter_cpp, from_height, [chain, ctx, handler](std::error_code const& ec, kth::domain::chain::stealth_compact::list stealth) {
-        handler(chain, ctx, kth::to_c_err(ec), kth::leak(stealth));
-    });
-}
-#endif // defined(KTH_DB_STEALTH)
+//     safe_chain(chain).fetch_stealth(filter_cpp, from_height, [chain, ctx, handler](std::error_code const& ec, kth::domain::chain::stealth_compact::list stealth) {
+//         handler(chain, ctx, kth::to_c_err(ec), kth::leak(stealth));
+//     });
+// }
 
 // Organizers.
 //-------------------------------------------------------------------------

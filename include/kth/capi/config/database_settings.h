@@ -15,19 +15,10 @@ extern "C" {
 
 typedef struct {
     kth_char_t* directory;
-    kth_bool_t flush_writes;
-    uint16_t file_growth_rate;
-    uint32_t index_start_height;
-
-#if defined(KTH_DB_NEW) || defined(KTH_DB_NEW_BLOCKS) || defined(KTH_DB_NEW_FULL)
     uint32_t reorg_pool_limit;
     uint64_t db_max_size;
     kth_bool_t safe_mode;
-#endif
-
-// #ifdef KTH_DB_UNSPENT_LEGACY
     uint32_t cache_capacity;
-// #endif // KTH_DB_UNSPENT_LEGACY
 
 } kth_database_settings;
 

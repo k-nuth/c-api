@@ -115,7 +115,6 @@ kth_error_code_t kth_chain_sync_block_header_by_hash(kth_chain_t chain, kth_hash
     return res;
 }
 
-#if defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_BLOCKS) || defined(KTH_DB_NEW_FULL)
 kth_error_code_t kth_chain_sync_block_by_height(kth_chain_t chain, kth_size_t height, kth_block_t* out_block, kth_size_t* out_height) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
@@ -241,9 +240,6 @@ kth_error_code_t kth_chain_sync_compact_block_by_hash(kth_chain_t chain, kth_has
     return res;
 }
 
-
-#endif // defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_BLOCKS) || defined(KTH_DB_NEW_FULL)
-
 kth_error_code_t kth_chain_sync_block_by_height_timestamp(kth_chain_t chain, kth_size_t height, kth_hash_t* out_hash, uint32_t* out_timestamp) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
@@ -277,7 +273,6 @@ kth_error_code_t kth_chain_sync_block_hash(kth_chain_t chain, kth_size_t height,
     return kth_ec_success;
 }
 
-#if defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_FULL)
 kth_error_code_t kth_chain_sync_transaction(kth_chain_t chain, kth_hash_t hash, int require_confirmed, kth_transaction_t* out_transaction, kth_size_t* out_height, kth_size_t* out_index) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
@@ -294,7 +289,6 @@ kth_error_code_t kth_chain_sync_transaction(kth_chain_t chain, kth_hash_t hash, 
 
     latch.count_down_and_wait();
     return res;
-
 }
 
 kth_error_code_t kth_chain_sync_transaction_position(kth_chain_t chain, kth_hash_t hash, int require_confirmed, kth_size_t* out_position, kth_size_t* out_height) {
@@ -313,10 +307,7 @@ kth_error_code_t kth_chain_sync_transaction_position(kth_chain_t chain, kth_hash
     latch.count_down_and_wait();
     return res;
 }
-#endif // defined(KTH_DB_LEGACY) || defined(KTH_DB_NEW_FULL)
 
-
-#if (defined(KTH_DB_LEGACY) && defined(KTH_DB_SPENDS)) || defined(KTH_DB_NEW_FULL)
 kth_error_code_t kth_chain_sync_spend(kth_chain_t chain, kth_outputpoint_t op, kth_inputpoint_t* out_input_point) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
@@ -332,9 +323,7 @@ kth_error_code_t kth_chain_sync_spend(kth_chain_t chain, kth_outputpoint_t op, k
     latch.count_down_and_wait();
     return res;
 }
-#endif // defined(KTH_DB_LEGACY) && defined(KTH_DB_SPENDS) || defined(KTH_DB_NEW_FULL)
 
-#if (defined(KTH_DB_LEGACY) && defined(KTH_DB_HISTORY)) || defined(KTH_DB_NEW_FULL)
 kth_error_code_t kth_chain_sync_history(kth_chain_t chain, kth_payment_address_t address, kth_size_t limit, kth_size_t from_height, kth_history_compact_list_t* out_history) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
@@ -348,10 +337,7 @@ kth_error_code_t kth_chain_sync_history(kth_chain_t chain, kth_payment_address_t
     latch.count_down_and_wait();
     return res;
 }
-#endif // defined(KTH_DB_LEGACY) && defined(KTH_DB_HISTORY) || defined(KTH_DB_NEW_FULL)
 
-
-#if defined(KTH_DB_TRANSACTION_UNCONFIRMED) || defined(KTH_DB_NEW_FULL)
 kth_error_code_t kth_chain_sync_confirmed_transactions(kth_chain_t chain, kth_payment_address_t address, uint64_t max, uint64_t start_height, kth_hash_list_t* out_tx_hashes) {
     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
@@ -365,31 +351,26 @@ kth_error_code_t kth_chain_sync_confirmed_transactions(kth_chain_t chain, kth_pa
     latch.count_down_and_wait();
     return res;
 }
-#endif // defined(KTH_DB_TRANSACTION_UNCONFIRMED) || defined(KTH_DB_NEW_FULL)
 
+// kth_error_code_t kth_chain_sync_stealth(kth_chain_t chain, kth_binary_t filter, uint64_t from_height, kth_stealth_compact_list_t* out_list) {
+//     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+//     kth_error_code_t res;
 
-#if defined(KTH_DB_STEALTH)
-kth_error_code_t kth_chain_sync_stealth(kth_chain_t chain, kth_binary_t filter, uint64_t from_height, kth_stealth_compact_list_t* out_list) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
-    kth_error_code_t res;
+// 	auto* filter_cpp_ptr = static_cast<kth::binary const*>(filter);
+// 	kth::binary const& filter_cpp  = *filter_cpp_ptr;
 
-	auto* filter_cpp_ptr = static_cast<kth::binary const*>(filter);
-	kth::binary const& filter_cpp  = *filter_cpp_ptr;
+//     safe_chain(chain).fetch_stealth(filter_cpp, from_height, [&](std::error_code const& ec, kth::domain::chain::stealth_compact::list stealth) {
+//         *out_list = kth::leak(stealth);
+//         res = kth::to_c_err(ec);
+//         latch.count_down();
+//     });
 
-    safe_chain(chain).fetch_stealth(filter_cpp, from_height, [&](std::error_code const& ec, kth::domain::chain::stealth_compact::list stealth) {
-        *out_list = kth::leak(stealth);
-        res = kth::to_c_err(ec);
-        latch.count_down();
-    });
-
-    latch.count_down_and_wait();
-    return res;
-}
-#endif // defined(KTH_DB_STEALTH)
+//     latch.count_down_and_wait();
+//     return res;
+// }
 
 // ------------------------------------------------------------------
 
-#if defined(KTH_DB_TRANSACTION_UNCONFIRMED) || defined(KTH_DB_NEW_FULL)
 kth_mempool_transaction_list_t kth_chain_sync_mempool_transactions(kth_chain_t chain, kth_payment_address_t address, kth_bool_t use_testnet_rules) {
     auto const& address_cpp = kth_wallet_payment_address_const_cpp(address);
     if (address_cpp) {
@@ -406,8 +387,6 @@ kth_transaction_list_t kth_chain_sync_mempool_transactions_from_wallets(kth_chai
     auto txs = safe_chain(chain).get_mempool_transactions_from_wallets(addresses_cpp, kth::int_to_bool(use_testnet_rules), kth::witness());
     return kth::move_or_copy_and_leak(std::move(txs));
 }
-#endif // defined(KTH_DB_TRANSACTION_UNCONFIRMED) || defined(KTH_DB_NEW_FULL)
-
 
 // Organizers.
 //-------------------------------------------------------------------------

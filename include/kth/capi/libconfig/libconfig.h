@@ -34,7 +34,7 @@ typedef struct {
     char const* microarchitecture_id;
     kth_currency_t currency;
     kth_bool_t mempool;
-    kth_libconfig_db_mode_t db_mode;
+    // kth_libconfig_db_mode_t db_mode;
     kth_bool_t db_readonly;
     kth_bool_t debug_mode;
 } kth_libconfig_t;

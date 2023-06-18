@@ -19,18 +19,10 @@ template <typename Target, typename Source>
 Target database_settings_to_common(Source const& x) {
     Target res;
 
-    res.flush_writes = x.flush_writes;
-    res.file_growth_rate = x.file_growth_rate;
-    res.index_start_height = x.index_start_height;
-
-#ifdef KTH_DB_NEW
     res.reorg_pool_limit = x.reorg_pool_limit;
     res.db_max_size = x.db_max_size;
     res.safe_mode = x.safe_mode;
-#endif // KTH_DB_NEW
-
     res.cache_capacity = x.cache_capacity;
-
     return res;
 }
 

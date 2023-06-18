@@ -40,15 +40,13 @@ kth_libconfig_t kth_libconfig_get() {
     res.mempool = 0;
 #endif
 
-#if defined(KTH_DB_LEGACY)
-    res.db_mode = kth_libconfig_db_mode_legacy;
-#elif defined(KTH_DB_NEW_FULL)
-    res.db_mode = kth_libconfig_db_mode_full_indexed;
-#elif defined(KTH_DB_NEW_BLOCKS)
-    res.db_mode = kth_libconfig_db_mode_normal;
-#elif defined(KTH_DB_NEW)
-    res.db_mode = kth_libconfig_db_mode_pruned;
-#endif
+// #if defined(KTH_DB_NEW_FULL)
+//     res.db_mode = kth_libconfig_db_mode_full_indexed;
+// #elif defined(KTH_DB_NEW_BLOCKS)
+//     res.db_mode = kth_libconfig_db_mode_normal;
+// #elif defined(KTH_DB_NEW)
+//     res.db_mode = kth_libconfig_db_mode_pruned;
+// #endif
 
 #if defined(KTH_DB_READONLY)
     res.db_readonly = 1;
