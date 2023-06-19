@@ -139,8 +139,8 @@ char const* kth_node_currency() {
     return kth::node::currency().data();
 }
 
-char const* kth_node_db_type() {
-    return kth::node::db_type().data();
+char const* kth_node_db_type(kth_db_mode_t mode) {
+    return kth::node::db_type(kth::capi::helpers::db_mode_converter(mode)).data();
 }
 
 } // extern "C"

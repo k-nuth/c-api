@@ -13,12 +13,23 @@
 
 namespace kth::capi::helpers {
 
+inline
+kth::database::db_mode_type db_mode_converter(kth_db_mode_t c_mode) {
+    return kth::database::db_mode_type(c_mode);
+}
+
+inline
+kth_db_mode_t db_mode_converter(kth::database::db_mode_type cpp_mode) {
+    return kth_db_mode_t(cpp_mode);
+}
+
 namespace {
 
 template <typename Target, typename Source>
 Target database_settings_to_common(Source const& x) {
     Target res;
 
+    res.db_mode = db_mode_converter(x.db_mode);
     res.reorg_pool_limit = x.reorg_pool_limit;
     res.db_max_size = x.db_max_size;
     res.safe_mode = x.safe_mode;

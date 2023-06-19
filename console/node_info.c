@@ -14,6 +14,4 @@ int main(int argc, char* argv[]) {
     printf("March names: %s\n", kth_node_march_names());
     printf("Currency symbol: %s\n", kth_node_currency_symbol());
     printf("Currency: %s\n", kth_node_currency());
-    printf("DB type: %s\n", kth_node_db_type());
-
 }

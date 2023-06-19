@@ -129,6 +129,14 @@ typedef enum {
 } kth_start_modules_t;
 
 
+// DB Modes -----------------------------------------------------------
+
+typedef enum {
+    kth_db_mode_pruned = 0,
+    kth_db_mode_normal = 1,
+    kth_db_mode_full_indexed = 2
+} kth_db_mode_t;
+
 
 // Callback signatures ------------------------------------------------
 typedef void (*kth_run_handler_t)(kth_node_t, void*, kth_error_code_t);

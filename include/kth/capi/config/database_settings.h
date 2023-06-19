@@ -15,6 +15,7 @@ extern "C" {
 
 typedef struct {
     kth_char_t* directory;
+    kth_db_mode_t db_mode;
     uint32_t reorg_pool_limit;
     uint64_t db_max_size;
     kth_bool_t safe_mode;

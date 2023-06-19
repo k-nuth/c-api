@@ -75,7 +75,7 @@ KTH_EXPORT
 char const* kth_node_currency(void);
 
 KTH_EXPORT
-char const* kth_node_db_type(void);
+char const* kth_node_db_type(kth_db_mode_t mode);
 
 
 #ifdef __cplusplus
