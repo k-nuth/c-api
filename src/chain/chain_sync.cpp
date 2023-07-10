@@ -88,7 +88,7 @@ kth_error_code_t kth_chain_sync_block_header_by_height(kth_chain_t chain, kth_si
     kth_error_code_t res;
 
     safe_chain(chain).fetch_block_header(height, [&](std::error_code const& ec, kth::domain::message::header::ptr header, size_t h) {
-        *out_header = kth::leak(header);
+        *out_header = kth::leak_if_success(header, ec);
         *out_height = h;
         res = kth::to_c_err(ec);
         latch.count_down();
@@ -105,7 +105,7 @@ kth_error_code_t kth_chain_sync_block_header_by_hash(kth_chain_t chain, kth_hash
     auto hash_cpp = kth::to_array(hash.hash);
 
     safe_chain(chain).fetch_block_header(hash_cpp, [&](std::error_code const& ec, kth::domain::message::header::ptr header, size_t h) {
-        *out_header = kth::leak(header);
+        *out_header = kth::leak_if_success(header, ec);
         *out_height = h;
         res = kth::to_c_err(ec);
         latch.count_down();
@@ -121,7 +121,7 @@ kth_error_code_t kth_chain_sync_block_by_height(kth_chain_t chain, kth_size_t he
 
     safe_chain(chain).fetch_block(height, kth::witness(), [&](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
         if (ec == kth::error::success) {
-            *out_block = kth::leak(block);
+            *out_block = kth::leak_if_success(block, ec);
         } else {
             *out_block = nullptr;
         }
@@ -143,7 +143,7 @@ kth_error_code_t kth_chain_sync_block_by_hash(kth_chain_t chain, kth_hash_t hash
 
     safe_chain(chain).fetch_block(hash_cpp, kth::witness(), [&](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
         if (ec == kth::error::success) {
-            *out_block = kth::leak(block);
+            *out_block = kth::leak_if_success(block, ec);
         } else {
             *out_block = nullptr;
         }
@@ -164,9 +164,9 @@ kth_error_code_t kth_chain_sync_block_header_byhash_txs_size(kth_chain_t chain, 
     auto hash_cpp = kth::to_array(hash.hash);
 
     safe_chain(chain).fetch_block_header_txs_size(hash_cpp, [&](std::error_code const& ec, kth::domain::message::header::const_ptr header, size_t block_height, std::shared_ptr<kth::hash_list> tx_hashes, uint64_t block_serialized_size) {
-        *out_header = kth::leak(header);
+        *out_header = kth::leak_if_success(header, ec);
         *out_block_height = block_height;
-        *out_tx_hashes = kth::leak(tx_hashes);
+        *out_tx_hashes = kth::leak_if_success(tx_hashes, ec);
         *out_serialized_size = block_serialized_size;
         res = kth::to_c_err(ec);
         latch.count_down();
@@ -181,7 +181,7 @@ kth_error_code_t kth_chain_sync_merkle_block_by_height(kth_chain_t chain, kth_si
     kth_error_code_t res;
 
     safe_chain(chain).fetch_merkle_block(height, [&](std::error_code const& ec, kth::domain::message::merkle_block::const_ptr block, size_t h) {
-        *out_block = kth::leak(block);
+        *out_block = kth::leak_if_success(block, ec);
         *out_height = h;
         res = kth::to_c_err(ec);
         latch.count_down();
@@ -198,7 +198,7 @@ kth_error_code_t kth_chain_sync_merkle_block_by_hash(kth_chain_t chain, kth_hash
     auto hash_cpp = kth::to_array(hash.hash);
 
     safe_chain(chain).fetch_merkle_block(hash_cpp, [&](std::error_code const& ec, kth::domain::message::merkle_block::const_ptr block, size_t h) {
-        *out_block = kth::leak(block);
+        *out_block = kth::leak_if_success(block, ec);
         *out_height = h;
         res = kth::to_c_err(ec);
         latch.count_down();
@@ -213,7 +213,7 @@ kth_error_code_t kth_chain_sync_compact_block_by_height(kth_chain_t chain, kth_s
     kth_error_code_t res;
 
     safe_chain(chain).fetch_compact_block(height, [&](std::error_code const& ec, kth::domain::message::compact_block::const_ptr block, size_t h) {
-        *out_block = kth::leak(block);
+        *out_block = kth::leak_if_success(block, ec);
         *out_height = h;
         res = kth::to_c_err(ec);
         latch.count_down();
@@ -230,7 +230,7 @@ kth_error_code_t kth_chain_sync_compact_block_by_hash(kth_chain_t chain, kth_has
     auto hash_cpp = kth::to_array(hash.hash);
 
     safe_chain(chain).fetch_compact_block(hash_cpp, [&](std::error_code const& ec, kth::domain::message::compact_block::const_ptr block, size_t h) {
-        *out_block = kth::leak(block);
+        *out_block = kth::leak_if_success(block, ec);
         *out_height = h;
         res = kth::to_c_err(ec);
         latch.count_down();
@@ -280,7 +280,7 @@ kth_error_code_t kth_chain_sync_transaction(kth_chain_t chain, kth_hash_t hash, 
     auto hash_cpp = kth::to_array(hash.hash);
 
     safe_chain(chain).fetch_transaction(hash_cpp, kth::int_to_bool(require_confirmed), kth::witness(), [&](std::error_code const& ec, kth::domain::message::transaction::const_ptr transaction, size_t i, size_t h) {
-        *out_transaction = kth::leak(transaction);
+        *out_transaction = kth::leak_if_success(transaction, ec);
         *out_height = h;
         *out_index = i;
         res = kth::to_c_err(ec);
@@ -315,7 +315,7 @@ kth_error_code_t kth_chain_sync_spend(kth_chain_t chain, kth_outputpoint_t op, k
     auto* outpoint_cpp = static_cast<kth::domain::chain::output_point*>(op);
 
     safe_chain(chain).fetch_spend(*outpoint_cpp, [&](std::error_code const& ec, kth::domain::chain::input_point input_point) {
-        *out_input_point = kth::leak(input_point);
+        *out_input_point = kth::leak_if_success(input_point, ec);
         res = kth::to_c_err(ec);
         latch.count_down();
     });
@@ -329,7 +329,7 @@ kth_error_code_t kth_chain_sync_history(kth_chain_t chain, kth_payment_address_t
     kth_error_code_t res;
 
     safe_chain(chain).fetch_history(kth_wallet_payment_address_const_cpp(address).hash20(), limit, from_height, [&](std::error_code const& ec, kth::domain::chain::history_compact::list history) {
-        *out_history = kth::leak(history);
+        *out_history = kth::leak_if_success(history, ec);
         res = kth::to_c_err(ec);
         latch.count_down();
     });
@@ -343,7 +343,7 @@ kth_error_code_t kth_chain_sync_confirmed_transactions(kth_chain_t chain, kth_pa
     kth_error_code_t res;
 
     safe_chain(chain).fetch_confirmed_transactions(kth_wallet_payment_address_const_cpp(address).hash20(), max, start_height, [&](std::error_code const& ec, const std::vector<kth::hash_digest>& txs) {
-        *out_tx_hashes = kth::leak(txs);
+        *out_tx_hashes = kth::leak_if_success(txs, ec);
         res = kth::to_c_err(ec);
         latch.count_down();
     });
@@ -360,7 +360,7 @@ kth_error_code_t kth_chain_sync_confirmed_transactions(kth_chain_t chain, kth_pa
 // 	kth::binary const& filter_cpp  = *filter_cpp_ptr;
 
 //     safe_chain(chain).fetch_stealth(filter_cpp, from_height, [&](std::error_code const& ec, kth::domain::chain::stealth_compact::list stealth) {
-//         *out_list = kth::leak(stealth);
+//         *out_list = kth::leak_if_success(stealth, ec);
 //         res = kth::to_c_err(ec);
 //         latch.count_down();
 //     });

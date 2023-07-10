@@ -293,6 +293,15 @@ std::remove_const_t<T>* leak_if_success(std::shared_ptr<T> const& ptr, std::erro
 
 template <typename T>
 inline
+T* leak_if_success(T const& ptr, std::error_code ec) {
+    if (ec != kth::error::success) return nullptr;
+    auto leaked = new T(ptr);
+    return leaked;
+}
+
+
+template <typename T>
+inline
 std::remove_const_t<T>* leak(std::shared_ptr<T> const& ptr) {
     if (! ptr) return nullptr;
     using RealT = std::remove_const_t<T>;
@@ -306,6 +315,8 @@ T* leak(T const& ptr) {
     auto leaked = new T(ptr);
     return leaked;
 }
+
+
 
 template <typename T>
 inline
