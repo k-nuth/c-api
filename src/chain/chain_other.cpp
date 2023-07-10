@@ -95,13 +95,13 @@ void kth_chain_subscribe_blockchain(kth_node_t exec, kth_chain_t chain, void* ct
 
 void kth_chain_subscribe_transaction(kth_node_t exec, kth_chain_t chain, void* ctx, kth_subscribe_transaction_handler_t handler) {
     safe_chain(chain).subscribe_transaction([exec, chain, ctx, handler](std::error_code const& ec, kth::transaction_const_ptr tx) {
-        return handler(exec, chain, ctx, kth::to_c_err(ec), kth::leak(tx));
+        return handler(exec, chain, ctx, kth::to_c_err(ec), kth::leak_if_success(tx, ec));
     });
 }
 
 void kth_chain_subscribe_ds_proof(kth_node_t exec, kth_chain_t chain, void* ctx, kth_subscribe_ds_proof_handler_t handler) {
     safe_chain(chain).subscribe_ds_proof([exec, chain, ctx, handler](std::error_code const& ec, kth::double_spend_proof_const_ptr dsp) {
-        return handler(exec, chain, ctx, kth::to_c_err(ec), kth::leak(dsp));
+        return handler(exec, chain, ctx, kth::to_c_err(ec), kth::leak_if_success(dsp, ec));
     });
 }
 

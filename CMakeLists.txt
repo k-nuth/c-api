@@ -320,7 +320,8 @@ if (WITH_CONSOLE_CAPI)
       # console/test_libconfig.cpp
       # console/main_744727.cpp
       # console/main_payment_addr_cash_aware.cpp
-      console/node_info.c
+      # console/node_info.c
+      console/get_block.c
     )
 
   add_executable(test_console ${_test_console_sources})
