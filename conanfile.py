@@ -163,9 +163,5 @@ class KnuthCAPIConan(KnuthConanFileV2):
 
     def package_info(self):
         self.cpp_info.includedirs = ['include']
-
-        if self.is_shared:
-            self.cpp_info.libs = ["c-api"]
-        else:
-            self.cpp_info.libs = ["c-api", "c-api-version"]
+        self.cpp_info.libs = ["c-api"]
 
