@@ -21,16 +21,16 @@ KTH_EXPORT
 kth_hd_public_t kth_wallet_hd_public_construct_default(void);
 
 KTH_EXPORT
-kth_hd_public_t kth_wallet_hd_public_construct(kth_hd_key_t const* public_key);
+kth_hd_public_t kth_wallet_hd_public_construct_key(kth_hd_key_t const* public_key);
 
 KTH_EXPORT
-kth_hd_public_t kth_wallet_hd_public_construct_with_prefix(kth_hd_key_t const* public_key, uint32_t prefix);
+kth_hd_public_t kth_wallet_hd_public_construct_key_prefix(kth_hd_key_t const* public_key, uint32_t prefix);
 
 KTH_EXPORT
 kth_hd_public_t kth_wallet_hd_public_construct_string(char const* encoded);
 
 KTH_EXPORT
-kth_hd_public_t kth_wallet_hd_public_construct_string_with_prefix(char const* encoded, uint32_t prefix);
+kth_hd_public_t kth_wallet_hd_public_construct_string_prefix(char const* encoded, uint32_t prefix);
 
 KTH_EXPORT
 void kth_wallet_hd_public_destruct(kth_hd_public_t hd_public);

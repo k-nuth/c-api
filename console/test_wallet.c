@@ -64,13 +64,14 @@ int main(int argc, char* argv[]) {
     kth_core_string_list_push_back(wl, "token");
     kth_core_string_list_push_back(wl, "yard");
 
+
     kth_longhash_t seed_c;
     kth_wallet_mnemonics_to_seed_out(wl, &seed_c);
 
     printf("seed: ");
     print_hex(seed_c.hash, sizeof(seed_c));
 
-    kth_hd_private_t m = kth_wallet_hd_private_construct_with_seed(seed_c.hash, sizeof(seed_c), KTH_WALLET_HD_PRIVATE_MAINNET);
+    kth_hd_private_t m = kth_wallet_hd_private_construct_seed(seed_c.hash, sizeof(seed_c), KTH_WALLET_HD_PRIVATE_MAINNET);
     kth_hd_private_t m44h = kth_wallet_hd_private_derive_private(m, 44 + KTH_HD_FIRST_HARDENED_KEY);
     kth_hd_private_t m44h145h = kth_wallet_hd_private_derive_private(m44h, 145 + KTH_HD_FIRST_HARDENED_KEY);
     kth_hd_private_t m44h145h0h = kth_wallet_hd_private_derive_private(m44h145h, 0 + KTH_HD_FIRST_HARDENED_KEY);

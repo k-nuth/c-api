@@ -13,6 +13,10 @@ KTH_CONV_DEFINE(wallet, kth_hd_public_t, kth::infrastructure::wallet::hd_public,
 
 extern "C" {
 
+kth_hd_public_t kth_wallet_hd_public_construct_default() {
+    return new kth::infrastructure::wallet::hd_public();
+}
+
 kth_hd_public_t kth_wallet_hd_public_construct_string(char const* encoded) {
     return new kth::infrastructure::wallet::hd_public(std::string(encoded));
 }
@@ -29,12 +33,13 @@ kth_hd_public_t kth_wallet_hd_public_construct_key_prefix(kth_hd_key_t const* pu
     return new kth::infrastructure::wallet::hd_public(detail::from_hd_key_t(*public_key), prefix);
 }
 
-kth_hd_public_t kth_wallet_hd_public_construct_default() {
-    return new kth::infrastructure::wallet::hd_public();
-}
-
 void kth_wallet_hd_public_destruct(kth_hd_public_t hd_public) {
     delete &kth_wallet_hd_public_cpp(hd_public);
+}
+
+kth_bool_t kth_wallet_hd_public_is_valid(kth_hd_public_t hd_public) {
+    bool valid = kth_wallet_hd_public_const_cpp(hd_public);
+    return kth::bool_to_int(valid);
 }
 
 // Serializer.
