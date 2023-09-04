@@ -35,6 +35,8 @@ kth_ec_public_t kth_wallet_ec_to_public(kth_ec_secret_t secret, kth_bool_t uncom
 KTH_EXPORT
 kth_payment_address_t kth_wallet_ec_to_address(kth_ec_public_t point, uint32_t version);
 
+KTH_EXPORT
+kth_longhash_t kth_wallet_seed_from_int(uint64_t entropy, uint32_t bit_length);
 
 // KTH_EXPORT
 // kth_longhash_t kth_wallet_mnemonics_to_seed(kth_string_list_t mnemonics);

@@ -93,4 +93,48 @@ kth_payment_address_t kth_wallet_ec_to_address(kth_ec_public_t point, uint32_t v
     return new kth::domain::wallet::payment_address(point_cpp, version);
 }
 
+kth_longhash_t kth_wallet_seed_from_int(uint64_t entropy, uint32_t bit_length) {
+    // std::cout << "entropy: " << entropy << std::endl;
+    // std::cout << "bit_length: " << bit_length << std::endl;
+
+    constexpr size_t byte_bits = 8u;
+    // constexpr size_t bit_length = 192u; // 512u;
+    constexpr size_t max_uint8 = 0xFFu;
+
+    auto const entropy32 = static_cast<uint32_t>(entropy);
+    std::mt19937 twister(entropy32);
+
+    auto const pseudo_random_fill = [&twister](kth::data_chunk& out) {
+        // uniform_int_distribution is undefined for sizes < 16 bits.
+        std::uniform_int_distribution<uint16_t> distribution(0, max_uint8);
+
+        auto const fill = [&distribution, &twister](uint8_t byte) {
+            return distribution(twister);
+        };
+
+        std::transform(out.begin(), out.end(), out.begin(), fill);
+    };
+
+    size_t const fill_seed_size = bit_length / byte_bits;
+
+    kth::data_chunk seed(fill_seed_size);
+    pseudo_random_fill(seed);
+
+    // typedef struct kth_longhash_t {
+    //     uint8_t hash[64];
+    // } kth_longhash_t;
+
+    // kth_longhash_t mide 64 bytes, pero el seed es de 24 bytes
+    //TODO: se podría haber llenado al revés
+    kth_longhash_t res {};
+    for (size_t i = 0; i < fill_seed_size; ++i) {
+        res.hash[i] = seed[i];
+    }
+    return res;
+
+
+    // long_hash hash_cpp;
+    // return kth::to_longhash_t(hash_cpp);
+}
+
 } // extern "C"

@@ -308,7 +308,7 @@ _group_sources(${PROJECT_NAME} "${CMAKE_CURRENT_LIST_DIR}")
 if (WITH_CONSOLE_CAPI)
     set(_test_console_sources
       # console/test_wallet.cpp
-      # console/test_wallet.c
+      console/test_wallet.c
       # console/test_header_hash.cpp
       # console/main.cpp
       # console/main.c
@@ -321,7 +321,7 @@ if (WITH_CONSOLE_CAPI)
       # console/main_744727.cpp
       # console/main_payment_addr_cash_aware.cpp
       # console/node_info.c
-      console/get_block.c
+      # console/get_block.c
     )
 
   add_executable(test_console ${_test_console_sources})
