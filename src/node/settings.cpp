@@ -12,7 +12,10 @@
 #include <kth/capi/helpers.hpp>
 
 #include <kth/domain/multi_crypto_support.hpp>
+
+#if ! defined(__EMSCRIPTEN__)
 #include <kth/network/p2p.hpp>
+#endif
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -21,6 +24,7 @@ kth_currency_t kth_node_settings_get_currency() {
     return static_cast<kth_currency_t>(static_cast<int>(kth::get_currency()));
 }
 
+#if ! defined(__EMSCRIPTEN__)
 kth_network_t kth_node_settings_get_network(kth_node_t exec) {
 
     kth_p2p_t p2p_node = kth_node_get_p2p(exec);
@@ -32,6 +36,7 @@ kth_network_t kth_node_settings_get_network(kth_node_t exec) {
 
     return static_cast<kth_network_t>(static_cast<int>(kth::get_network(id, is_chipnet)));
 }
+#endif
 
 char const* kth_node_settings_cashaddr_prefix() {
 #if defined(KTH_CURRENCY_BCH)

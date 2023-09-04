@@ -9,7 +9,11 @@
 
 #include <kth/capi/config/blockchain_helpers.hpp>
 #include <kth/capi/config/database_helpers.hpp>
+
+#if ! defined(__EMSCRIPTEN__)
 #include <kth/capi/config/network_helpers.hpp>
+#endif
+
 #include <kth/capi/config/node_helpers.hpp>
 #include <kth/node/configuration.hpp>
 #include <kth/node/parser.hpp>
@@ -36,7 +40,9 @@ kth_bool_t config_settings_get_from_file(CharT const* path, kth_settings** out_s
     (*out_settings)->node = kth::capi::helpers::node_settings_to_c(config.node);
     (*out_settings)->chain = kth::capi::helpers::blockchain_settings_to_c(config.chain);
     (*out_settings)->database = kth::capi::helpers::database_settings_to_c(config.database);
+#if ! defined(__EMSCRIPTEN__)
     (*out_settings)->network = kth::capi::helpers::network_settings_to_c(config.network);
+#endif
 
     return ok;
 }
@@ -72,7 +78,9 @@ void kth_config_settings_destruct(void* settings_par) {
     kth::capi::helpers::node_settings_delete(&settings->node);
     kth::capi::helpers::blockchain_settings_delete(&settings->chain);
     kth::capi::helpers::database_settings_delete(&settings->database);
+#if ! defined(__EMSCRIPTEN__)
     kth::capi::helpers::network_settings_delete(&settings->network);
+#endif
     delete settings;
 }
 

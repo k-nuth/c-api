@@ -9,7 +9,11 @@
 
 #include <kth/capi/config/blockchain_helpers.hpp>
 #include <kth/capi/config/database_helpers.hpp>
+
+#if ! defined(__EMSCRIPTEN__)
 #include <kth/capi/config/network_helpers.hpp>
+#endif
+
 #include <kth/capi/config/node_helpers.hpp>
 #include <kth/capi/config/helpers.hpp>
 #include <kth/capi/helpers.hpp>
@@ -23,7 +27,9 @@ kth::node::configuration settings_to_cpp(kth_settings const& x) {
     config.node = node_settings_to_cpp(x.node);
     config.chain = blockchain_settings_to_cpp(x.chain);
     config.database = database_settings_to_cpp(x.database);
+#if ! defined(__EMSCRIPTEN__)
     config.network = network_settings_to_cpp(x.network);
+#endif
     return config;
 }
 
