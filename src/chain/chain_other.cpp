@@ -4,9 +4,10 @@
 
 #include <kth/capi/chain/chain_other.h>
 #include <cstdio>
+#include <latch>
 #include <memory>
 
-#include <boost/thread/latch.hpp>
+// #include <boost/thread/latch.hpp>
 
 #include <kth/domain/message/block.hpp>
 #include <kth/domain/message/header.hpp>
@@ -195,7 +196,7 @@ kth_bool_t kth_chain_is_stale(kth_chain_t chain) {
 //
 
 //kth_error_code_t kth_chain_get_block_locator(kth_chain_t chain, kth_block_indexes_t heights, kth_get_headers_ptr_t* out_headers) {
-//    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+//    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
 //    kth_error_code_t res;
 //
 //    auto const& heights_cpp = kth_chain_block_indexes_const_cpp(heights);
@@ -207,7 +208,7 @@ kth_bool_t kth_chain_is_stale(kth_chain_t chain) {
 //        latch.count_down();
 //    });
 //
-//    latch.count_down_and_wait();
+//    latch.wait();
 //    return res;
 //}
 

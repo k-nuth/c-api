@@ -9,6 +9,8 @@
 
 #include <kth/capi/wallet/conversions.hpp>
 
+#include <kth/infrastructure/wallet/hd_private.hpp>
+
 KTH_CONV_DEFINE(wallet, kth_hd_private_t, kth::infrastructure::wallet::hd_private, hd_private)
 
 extern "C" {

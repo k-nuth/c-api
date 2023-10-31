@@ -5,10 +5,11 @@
 #include <kth/capi/node.h>
 
 #include <cstdio>
+#include <latch>
 #include <memory>
 
 #include <boost/iostreams/device/file_descriptor.hpp>
-#include <boost/thread/latch.hpp>
+// #include <boost/thread/latch.hpp>
 
 #include <kth/capi/config/settings_helper.hpp>
 #include <kth/capi/helpers.hpp>
@@ -74,7 +75,7 @@ void kth_node_init_run(kth_node_t node, void* ctx, kth_start_modules_t mods, kth
 }
 
 kth_error_code_t kth_node_init_run_sync(kth_node_t node, kth_start_modules_t mods) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     kth_node_cpp(node).init_run(version(), kth::start_modules_to_cpp(mods),
@@ -84,7 +85,7 @@ kth_error_code_t kth_node_init_run_sync(kth_node_t node, kth_start_modules_t mod
         }
     );
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
@@ -107,7 +108,11 @@ kth_chain_t kth_node_get_chain(kth_node_t node) {
 }
 
 kth_p2p_t kth_node_get_p2p(kth_node_t node) {
+#if ! defined(__EMSCRIPTEN__)
     return &static_cast<kth::network::p2p&>(kth_node_cpp(node).node());
+#else
+    return nullptr;
+#endif
 }
 
 void kth_node_print_thread_id() {

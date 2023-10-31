@@ -168,7 +168,7 @@ set(kth_sources
         src/config/checkpoint.cpp
         src/config/database_settings.cpp
         src/config/endpoint.cpp
-        src/config/network_settings.cpp
+
         src/config/node_settings.cpp
         src/config/settings.cpp
 
@@ -176,7 +176,7 @@ set(kth_sources
 
         src/node/settings.cpp
 
-        src/p2p/p2p.cpp
+
 
         src/wallet/ec_private.cpp
         src/wallet/ec_public.cpp
@@ -191,6 +191,14 @@ set(kth_sources
         src/wallet/transaction_functions.cpp
         src/wallet/wallet.cpp
 )
+
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+  set(kth_sources
+    ${kth_sources}
+    src/config/network_settings.cpp
+    src/p2p/p2p.cpp
+  )
+endif()
 
 set(kth_headers
   include/kth/capi/list_creator.h
@@ -253,7 +261,7 @@ set(kth_headers
   include/kth/capi/config/blockchain_settings.h
   include/kth/capi/config/endpoint.h
   include/kth/capi/config/database_helpers.hpp
-  include/kth/capi/config/network_settings.h
+
   include/kth/capi/config/authority_helpers.hpp
   include/kth/capi/config/settings.h
   include/kth/capi/config/authority.h
@@ -264,11 +272,20 @@ set(kth_headers
   include/kth/capi/config/checkpoint_helpers.hpp
   include/kth/capi/config/database_settings.h
   include/kth/capi/config/blockchain_helpers.hpp
-  include/kth/capi/config/network_helpers.hpp
   include/kth/capi/config/node_settings.h
   include/kth/capi/config/node_helpers.hpp
   include/kth/capi.h
 )
+
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+  set(kth_headers
+    ${kth_headers}
+    include/kth/capi/config/network_settings.h
+    include/kth/capi/config/network_helpers.hpp
+
+  )
+endif()
+
 
 add_library(${PROJECT_NAME} ${MODE} ${kth_sources} ${kth_headers})
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})

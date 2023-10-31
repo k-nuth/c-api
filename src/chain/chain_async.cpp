@@ -4,9 +4,10 @@
 
 #include <kth/capi/chain/chain_async.h>
 #include <cstdio>
+#include <latch>
 #include <memory>
 
-#include <boost/thread/latch.hpp>
+// #include <boost/thread/latch.hpp>
 
 #include <kth/domain/message/block.hpp>
 #include <kth/domain/message/header.hpp>

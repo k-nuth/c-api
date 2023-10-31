@@ -4,9 +4,10 @@
 
 #include <kth/capi/chain/chain_sync.h>
 #include <cstdio>
+#include <latch>
 #include <memory>
 
-#include <boost/thread/latch.hpp>
+// #include <boost/thread/latch.hpp>
 
 #include <kth/domain/message/block.hpp>
 #include <kth/domain/message/header.hpp>
@@ -54,7 +55,7 @@ kth::domain::message::block::const_ptr block_shared(kth_block_t block) {
 extern "C" {
 
 kth_error_code_t kth_chain_sync_last_height(kth_chain_t chain, kth_size_t* out_height) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
 
     kth_error_code_t res;
     safe_chain(chain).fetch_last_height([&](std::error_code const& ec, size_t h) {
@@ -63,12 +64,12 @@ kth_error_code_t kth_chain_sync_last_height(kth_chain_t chain, kth_size_t* out_h
        latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_block_height(kth_chain_t chain, kth_hash_t hash, kth_size_t* out_height) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     auto hash_cpp = kth::to_array(hash.hash);
@@ -79,12 +80,12 @@ kth_error_code_t kth_chain_sync_block_height(kth_chain_t chain, kth_hash_t hash,
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_block_header_by_height(kth_chain_t chain, kth_size_t height, kth_header_t* out_header, kth_size_t* out_height) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     safe_chain(chain).fetch_block_header(height, [&](std::error_code const& ec, kth::domain::message::header::ptr header, size_t h) {
@@ -94,12 +95,12 @@ kth_error_code_t kth_chain_sync_block_header_by_height(kth_chain_t chain, kth_si
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_block_header_by_hash(kth_chain_t chain, kth_hash_t hash, kth_header_t* out_header, kth_size_t* out_height) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     auto hash_cpp = kth::to_array(hash.hash);
@@ -111,12 +112,12 @@ kth_error_code_t kth_chain_sync_block_header_by_hash(kth_chain_t chain, kth_hash
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_block_by_height(kth_chain_t chain, kth_size_t height, kth_block_t* out_block, kth_size_t* out_height) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     safe_chain(chain).fetch_block(height, kth::witness(), [&](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
@@ -131,12 +132,12 @@ kth_error_code_t kth_chain_sync_block_by_height(kth_chain_t chain, kth_size_t he
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_block_by_hash(kth_chain_t chain, kth_hash_t hash, kth_block_t* out_block, kth_size_t* out_height) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     auto hash_cpp = kth::to_array(hash.hash);
@@ -153,12 +154,12 @@ kth_error_code_t kth_chain_sync_block_by_hash(kth_chain_t chain, kth_hash_t hash
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_block_header_byhash_txs_size(kth_chain_t chain, kth_hash_t hash, kth_header_t* out_header, uint64_t* out_block_height, kth_hash_list_t* out_tx_hashes, uint64_t* out_serialized_size) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     auto hash_cpp = kth::to_array(hash.hash);
@@ -172,12 +173,12 @@ kth_error_code_t kth_chain_sync_block_header_byhash_txs_size(kth_chain_t chain, 
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_merkle_block_by_height(kth_chain_t chain, kth_size_t height, kth_merkleblock_t* out_block, kth_size_t* out_height) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     safe_chain(chain).fetch_merkle_block(height, [&](std::error_code const& ec, kth::domain::message::merkle_block::const_ptr block, size_t h) {
@@ -187,12 +188,12 @@ kth_error_code_t kth_chain_sync_merkle_block_by_height(kth_chain_t chain, kth_si
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_merkle_block_by_hash(kth_chain_t chain, kth_hash_t hash, kth_merkleblock_t* out_block, kth_size_t* out_height) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     auto hash_cpp = kth::to_array(hash.hash);
@@ -204,12 +205,12 @@ kth_error_code_t kth_chain_sync_merkle_block_by_hash(kth_chain_t chain, kth_hash
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_compact_block_by_height(kth_chain_t chain, kth_size_t height, kth_compact_block_t* out_block, kth_size_t* out_height) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     safe_chain(chain).fetch_compact_block(height, [&](std::error_code const& ec, kth::domain::message::compact_block::const_ptr block, size_t h) {
@@ -219,12 +220,12 @@ kth_error_code_t kth_chain_sync_compact_block_by_height(kth_chain_t chain, kth_s
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_compact_block_by_hash(kth_chain_t chain, kth_hash_t hash, kth_compact_block_t* out_block, kth_size_t* out_height) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     auto hash_cpp = kth::to_array(hash.hash);
@@ -236,12 +237,12 @@ kth_error_code_t kth_chain_sync_compact_block_by_hash(kth_chain_t chain, kth_has
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_block_by_height_timestamp(kth_chain_t chain, kth_size_t height, kth_hash_t* out_hash, uint32_t* out_timestamp) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     safe_chain(chain).fetch_block_hash_timestamp(height, [&](std::error_code const& ec, kth::hash_digest const& hash, uint32_t timestamp, size_t h) {
@@ -257,7 +258,7 @@ kth_error_code_t kth_chain_sync_block_by_height_timestamp(kth_chain_t chain, kth
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
@@ -274,7 +275,7 @@ kth_error_code_t kth_chain_sync_block_hash(kth_chain_t chain, kth_size_t height,
 }
 
 kth_error_code_t kth_chain_sync_transaction(kth_chain_t chain, kth_hash_t hash, int require_confirmed, kth_transaction_t* out_transaction, kth_size_t* out_height, kth_size_t* out_index) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     auto hash_cpp = kth::to_array(hash.hash);
@@ -287,12 +288,12 @@ kth_error_code_t kth_chain_sync_transaction(kth_chain_t chain, kth_hash_t hash, 
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_transaction_position(kth_chain_t chain, kth_hash_t hash, int require_confirmed, kth_size_t* out_position, kth_size_t* out_height) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     auto hash_cpp = kth::to_array(hash.hash);
@@ -304,12 +305,12 @@ kth_error_code_t kth_chain_sync_transaction_position(kth_chain_t chain, kth_hash
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_spend(kth_chain_t chain, kth_outputpoint_t op, kth_inputpoint_t* out_input_point) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     auto* outpoint_cpp = static_cast<kth::domain::chain::output_point*>(op);
@@ -320,12 +321,12 @@ kth_error_code_t kth_chain_sync_spend(kth_chain_t chain, kth_outputpoint_t op, k
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_history(kth_chain_t chain, kth_payment_address_t address, kth_size_t limit, kth_size_t from_height, kth_history_compact_list_t* out_history) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     safe_chain(chain).fetch_history(kth_wallet_payment_address_const_cpp(address).hash20(), limit, from_height, [&](std::error_code const& ec, kth::domain::chain::history_compact::list history) {
@@ -334,12 +335,12 @@ kth_error_code_t kth_chain_sync_history(kth_chain_t chain, kth_payment_address_t
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 kth_error_code_t kth_chain_sync_confirmed_transactions(kth_chain_t chain, kth_payment_address_t address, uint64_t max, uint64_t start_height, kth_hash_list_t* out_tx_hashes) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     safe_chain(chain).fetch_confirmed_transactions(kth_wallet_payment_address_const_cpp(address).hash20(), max, start_height, [&](std::error_code const& ec, const std::vector<kth::hash_digest>& txs) {
@@ -348,12 +349,12 @@ kth_error_code_t kth_chain_sync_confirmed_transactions(kth_chain_t chain, kth_pa
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 // kth_error_code_t kth_chain_sync_stealth(kth_chain_t chain, kth_binary_t filter, uint64_t from_height, kth_stealth_compact_list_t* out_list) {
-//     boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+//     std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
 //     kth_error_code_t res;
 
 // 	auto* filter_cpp_ptr = static_cast<kth::binary const*>(filter);
@@ -365,7 +366,7 @@ kth_error_code_t kth_chain_sync_confirmed_transactions(kth_chain_t chain, kth_pa
 //         latch.count_down();
 //     });
 
-//     latch.count_down_and_wait();
+//     latch.wait();
 //     return res;
 // }
 
@@ -392,7 +393,7 @@ kth_transaction_list_t kth_chain_sync_mempool_transactions_from_wallets(kth_chai
 //-------------------------------------------------------------------------
 
 int kth_chain_sync_organize_block(kth_chain_t chain, kth_block_t block) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     safe_chain(chain).organize(block_shared(block), [&](std::error_code const& ec) {
@@ -400,12 +401,12 @@ int kth_chain_sync_organize_block(kth_chain_t chain, kth_block_t block) {
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 
 int kth_chain_sync_organize_transaction(kth_chain_t chain, kth_transaction_t transaction) {
-    boost::latch latch(2); //Note: workaround to fix an error on some versions of Boost.Threads
+    std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
     safe_chain(chain).organize(tx_shared(transaction), [&](std::error_code const& ec) {
@@ -413,7 +414,7 @@ int kth_chain_sync_organize_transaction(kth_chain_t chain, kth_transaction_t tra
         latch.count_down();
     });
 
-    latch.count_down_and_wait();
+    latch.wait();
     return res;
 }
 

@@ -11,7 +11,10 @@
 #include <kth/capi/config/endpoint_helpers.hpp>
 #include <kth/capi/config/helpers.hpp>
 #include <kth/capi/helpers.hpp>
+
+#if ! defined(__EMSCRIPTEN__)
 #include <kth/network/settings.hpp>
+#endif
 
 namespace kth::capi::helpers {
 
