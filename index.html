@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WASM Test</title>
+</head>
+<body>
+    <script src="ems.js"></script>
+    <script>
+        // // Glue JS functions to WASM functions
+        // let Module = {
+        //     onRuntimeInitialized: function() {
+        //         console.log("WASM Module loaded");
+        //     },
+        //     print: function(text) {
+        //         console.log(text);
+        //     }
+        // };
+
+
+        Module.onRuntimeInitialized = function() {
+            let a = 2147483647;
+            let b = 100;
+            let resultWasm = Module._suma(a, b);
+            let resultJs = a + b;
+
+            console.log(`Resultado de suma WASM (${a},${b}) = ${resultWasm}`);
+            console.log(`Resultado de suma JS   (${a},${b}) = ${resultJs}`);
+            Module._print_fmt(a, b);
+            Module._print_unordered(1)
+            Module._print_unordered(2)
+            Module._print_unordered(3)
+
+            document.body.innerHTML += `Resultado de suma WASM (${a},${b}) = ${resultWasm}<br>`;
+            document.body.innerHTML += `Resultado de suma JS   (${a},${b}) = ${resultJs}<br>`;
+        };
+    </script>
+</body>
+</html>
