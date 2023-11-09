@@ -20,7 +20,7 @@ KTH_EXPORT
 kth_payment_address_t kth_wallet_payment_address_construct_from_string(char const* address);
 
 KTH_EXPORT
-kth_payment_address_t kth_wallet_payment_address_construct_from_hash(kth_shorthash_t const* hash, uint8_t version);
+kth_payment_address_t kth_wallet_payment_address_construct_from_short_hash(kth_shorthash_t const* hash, uint8_t version);
 
 KTH_EXPORT
 kth_payment_address_t kth_wallet_payment_address_construct_from_public(kth_ec_public_t point, uint8_t version);
