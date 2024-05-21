@@ -79,7 +79,7 @@ class KnuthCAPIConan(KnuthConanFileV2):
 
     def build_requirements(self):
         if self.options.tests:
-            self.test_requires("catch2/3.3.2")
+            self.test_requires("catch2/3.6.0")
 
     def config_options(self):
         KnuthConanFileV2.config_options(self)
