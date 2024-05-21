@@ -289,6 +289,13 @@ endif()
 
 add_library(${PROJECT_NAME} ${MODE} ${kth_sources} ${kth_headers})
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+# if(NOT CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+#   add_library(${PROJECT_NAME} ${MODE} ${kth_sources} ${kth_headers})
+#   add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+# else()
+#   add_executable(${PROJECT_NAME} wasm/main.c ${kth_sources} ${kth_headers})
+# endif()
+
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX CXX_STANDARD 20 CXX_STANDARD_REQUIRED TRUE)
 
 
@@ -324,7 +331,7 @@ _group_sources(${PROJECT_NAME} "${CMAKE_CURRENT_LIST_DIR}")
 
 if (WITH_CONSOLE_CAPI)
     set(_test_console_sources
-      # console/test_wallet.cpp
+      console/test_wallet.cpp
       # console/test_wallet.c
       # console/test_header_hash.cpp
       # console/main.cpp
@@ -338,7 +345,8 @@ if (WITH_CONSOLE_CAPI)
       # console/main_744727.cpp
       # console/main_payment_addr_cash_aware.cpp
       # console/node_info.c
-      console/get_block.c
+      # console/get_block.c
+      # console/test_wallet_secp256k1.cpp
     )
 
   add_executable(test_console ${_test_console_sources})
