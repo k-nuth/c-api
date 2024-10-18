@@ -17,6 +17,7 @@ class KnuthCAPIConan(KnuthConanFileV2):
     url = "https://github.com/k-nuth/c-api"
     description = "Bitcoin Full Node Library with C interface"
     settings = "os", "compiler", "build_type", "arch"
+    package_type = "library"
 
     options = {
         "shared": [True, False],
