@@ -37,8 +37,8 @@ char const* kth_chain_operation_to_string(kth_operation_t operation, uint32_t ac
 KTH_EXPORT
 uint8_t const* kth_chain_operation_to_data(kth_operation_t operation, kth_size_t* out_size);
 
-KTH_EXPORT
-kth_bool_t kth_chain_operation_from_data_mutable(kth_operation_t operation, uint8_t const* data, kth_size_t n);
+// KTH_EXPORT
+// kth_bool_t kth_chain_operation_from_data_mutable(kth_operation_t operation, uint8_t const* data, kth_size_t n);
 
 KTH_EXPORT
 kth_bool_t kth_chain_operation_from_string_mutable(kth_operation_t operation, char const* value);

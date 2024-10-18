@@ -46,19 +46,14 @@ uint8_t const* kth_chain_operation_to_data(kth_operation_t operation, kth_size_t
     return kth::create_c_array(operation_data, *out_size);
 }
 
-kth_bool_t kth_chain_operation_from_data_mutable(kth_operation_t operation, uint8_t const* data, kth_size_t n) {
-    kth::data_chunk data_cpp(data, std::next(data, n));
-    auto& op_cpp = kth_chain_operation_cpp(operation);
-    auto const res = kth::domain::entity_from_data(op_cpp, data_cpp);
-    return kth::bool_to_int(res);
-}
+// kth_bool_t kth_chain_operation_from_data_mutable(kth_operation_t operation, uint8_t const* data, kth_size_t n) {
+//     kth::data_chunk data_cpp(data, std::next(data, n));
+//     auto& op_cpp = kth_chain_operation_cpp(operation);
+//     auto const res = kth::domain::entity_from_data(op_cpp, data_cpp);
+//     return kth::bool_to_int(res);
+// }
 
 kth_bool_t kth_chain_operation_from_string_mutable(kth_operation_t operation, char const* value) {
-
-    // auto script = new kth::domain::chain::script();
-    // script->from_string(std::string(str));
-    // return script;
-
     auto& op_cpp = kth_chain_operation_cpp(operation);
     auto const res = op_cpp.from_string(std::string(value));
     return kth::bool_to_int(res);

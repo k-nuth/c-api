@@ -18,8 +18,12 @@ extern "C" {
 
 kth_transaction_t kth_chain_transaction_factory_from_data(uint8_t* data, kth_size_t n) {
     kth::data_chunk data_cpp(data, std::next(data, n));
-    auto tx = kth::domain::create<kth::domain::chain::transaction>(data_cpp);
-    return kth::move_or_copy_and_leak(std::move(tx));
+    kth::byte_reader reader(data_cpp);
+    auto obj = kth::domain::chain::transaction::from_data(reader, true);
+    if ( ! obj) {
+        return nullptr;
+    }
+    return kth::move_or_copy_and_leak(std::move(obj.value()));
 }
 
 kth_transaction_t kth_chain_transaction_construct_default() {
@@ -58,15 +62,15 @@ void kth_chain_transaction_hash_out(kth_transaction_t transaction, kth_hash_t* o
     kth::copy_c_hash(hash_cpp, out_hash);
 }
 
-kth_hash_t kth_chain_transaction_hash_sighash_type(kth_transaction_t transaction, uint32_t sighash_type) {
-    auto const& hash_cpp = kth_chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
-    return kth::to_hash_t(hash_cpp);
-}
+// kth_hash_t kth_chain_transaction_hash_sighash_type(kth_transaction_t transaction, uint32_t sighash_type) {
+//     auto const& hash_cpp = kth_chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
+//     return kth::to_hash_t(hash_cpp);
+// }
 
-void kth_chain_transaction_hash_sighash_type_out(kth_transaction_t transaction, uint32_t sighash_type, kth_hash_t* out_hash) {
-    auto const& hash_cpp = kth_chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
-    kth::copy_c_hash(hash_cpp, out_hash);
-}
+// void kth_chain_transaction_hash_sighash_type_out(kth_transaction_t transaction, uint32_t sighash_type, kth_hash_t* out_hash) {
+//     auto const& hash_cpp = kth_chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
+//     kth::copy_c_hash(hash_cpp, out_hash);
+// }
 
 uint32_t kth_chain_transaction_locktime(kth_transaction_t transaction) {
     return kth_chain_transaction_const_cpp(transaction).locktime();
