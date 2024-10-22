@@ -28,7 +28,7 @@ kth_block_t kth_chain_block_construct(kth_header_t header, kth_transaction_list_
 
 kth_block_t kth_chain_block_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
     kth::data_chunk data_cpp(data, std::next(data, n));
-    auto block = kth::domain::create<kth::domain::message::block>(version, data_cpp);
+    auto block = kth::domain::create_old<kth::domain::message::block>(data_cpp, version);
     return kth::move_or_copy_and_leak(std::move(block));
 }
 
