@@ -60,6 +60,60 @@ kth_libconfig_t kth_libconfig_get() {
     res.debug_mode = 0;
 #endif
 
+    res.architecture =
+#if defined(__x86_64__)
+        "x86_64";
+#elif defined(__aarch64__)
+        "ARM64";
+#else
+        "Unknown";
+#endif
+
+    res.os_name =
+#if defined(_WIN32)
+        "Windows";
+#elif defined(__linux__)
+        "Linux";
+#elif defined(__APPLE__)
+        "macOS";
+#elif defined(__FreeBSD__)
+        "FreeBSD";
+#elif defined(__NetBSD__)
+        "NetBSD";
+#elif defined(__OpenBSD__)
+        "OpenBSD";
+#else
+        "Unknown";
+#endif
+
+    res.compiler_name =
+#if defined(__GNUC__)
+        "GCC";
+#elif defined(__clang__)
+        "Clang";
+#elif defined(_MSC_VER)
+        "MSVC";
+#else
+        "Unknown";
+#endif
+
+    res.compiler_version = KTH_STR(__VERSION__);
+
+    res.optimization_level =
+#if defined(__OPTIMIZE__)
+        "-O2";
+#elif defined(__OPTIMIZE_SIZE__)
+        "-Os";
+#else
+        "-O0";
+#endif
+
+#ifdef KTK_CAPI_BUILD_TIMESTAMP
+    res.build_timestamp = uint32_t(KTK_CAPI_BUILD_TIMESTAMP);
+#else
+    res.build_timestamp = 0;
+#endif
+
     return res;
 }
 

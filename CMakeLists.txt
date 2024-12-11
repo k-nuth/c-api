@@ -76,6 +76,13 @@ endif()
 
 message(STATUS "Knuth: Cryptocurrency: ${CURRENCY}")
 
+# --------------------------------------------------------------------------------
+string(TIMESTAMP KTK_CAPI_BUILD_TIMESTAMP "%s" UTC)
+message(STATUS "KTK_CAPI_BUILD_TIMESTAMP: ${KTK_CAPI_BUILD_TIMESTAMP}")
+add_definitions(-DKTK_CAPI_BUILD_TIMESTAMP=${KTK_CAPI_BUILD_TIMESTAMP})
+# --------------------------------------------------------------------------------
+
+
 
 if (NOT GLOBAL_BUILD)
   find_package(node REQUIRED)

@@ -29,6 +29,13 @@ typedef struct {
     kth_bool_t mempool;
     kth_bool_t db_readonly;
     kth_bool_t debug_mode;
+
+    char const* architecture;          // x86_64, ARM64
+    char const* os_name;               // Linux, Windows, macOS
+    char const* compiler_name;         // GCC, Clang, MSVC
+    char const* compiler_version;      // ej. "12.2.0"
+    char const* optimization_level;    // -O2, -O3
+    uint32_t build_timestamp;          // Epoch time
 } kth_libconfig_t;
 
 KTH_EXPORT
