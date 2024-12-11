@@ -201,7 +201,62 @@ typedef enum error_code {
     kth_ec_op_check_sequence_verify4,
     kth_ec_op_check_sequence_verify5,
     kth_ec_op_check_sequence_verify6,
-    kth_ec_op_check_sequence_verify7
+    kth_ec_op_check_sequence_verify7,
+
+    // operation failed
+    kth_ec_operation_failed_0,
+    kth_ec_operation_failed_1,
+    kth_ec_operation_failed_2,
+    kth_ec_operation_failed_3,
+    kth_ec_operation_failed_4,
+    kth_ec_operation_failed_5,
+    kth_ec_operation_failed_6,
+    kth_ec_operation_failed_7,
+    kth_ec_operation_failed_8,
+    kth_ec_operation_failed_9,
+
+    kth_ec_operation_failed_10,
+    kth_ec_operation_failed_11,
+    kth_ec_operation_failed_12,
+    kth_ec_operation_failed_13,
+    kth_ec_operation_failed_14,
+    kth_ec_operation_failed_15,
+    kth_ec_operation_failed_16,
+    kth_ec_operation_failed_17,
+    kth_ec_operation_failed_18,
+    kth_ec_operation_failed_19,
+
+    kth_ec_operation_failed_20,
+    kth_ec_operation_failed_21,
+    kth_ec_operation_failed_22,
+    kth_ec_operation_failed_23,
+    kth_ec_operation_failed_24,
+    kth_ec_operation_failed_25,
+    kth_ec_operation_failed_26,
+    kth_ec_operation_failed_27,
+    kth_ec_operation_failed_28,
+    kth_ec_operation_failed_29,
+    kth_ec_operation_failed_30,
+
+    // Added out of order (bip147).
+    kth_ec_op_check_multisig_verify8,
+
+    // TX creation
+    kth_ec_invalid_output,
+    kth_ec_lock_time_conflict,
+    kth_ec_input_index_out_of_range,
+    kth_ec_input_sign_failed,
+
+    // Mining
+    kth_ec_low_benefit_transaction,
+    kth_ec_duplicate_transaction,
+    kth_ec_double_spend_mempool,
+    kth_ec_double_spend_blockchain,
+
+    // Numeric operations
+    kth_ec_overflow,
+    kth_ec_underflow,
+    kth_ec_out_of_range
 } kth_error_code_t;
 
 #ifdef __cplusplus
