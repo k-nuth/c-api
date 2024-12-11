@@ -258,7 +258,6 @@ set(kth_headers
   include/kth/capi/hash_list.h
   include/kth/capi/type_conversions.h
   include/kth/capi/error.h
-  include/kth/capi/doc_temp.md
   include/kth/capi/hash.h
   include/kth/capi/version.h
   include/kth/capi/visibility.h
