@@ -36,6 +36,13 @@ typedef struct {
     char const* compiler_version;      // ej. "12.2.0"
     char const* optimization_level;    // -O2, -O3
     uint32_t build_timestamp;          // Epoch time
+    char const* endianness;            // little, big
+
+    struct {
+        uint8_t size_int;
+        uint8_t size_long;
+        uint8_t size_pointer;
+    } type_sizes;
 } kth_libconfig_t;
 
 KTH_EXPORT
