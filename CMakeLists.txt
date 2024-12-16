@@ -133,6 +133,7 @@ set(kth_sources
         src/hash_list.cpp
         src/binary.cpp
         src/node.cpp
+        src/node_info.cpp
         src/platform.cpp
         src/string_list.cpp
 
