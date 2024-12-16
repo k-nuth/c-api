@@ -21,6 +21,12 @@ typedef enum {
 } kth_libconfig_log_library_t;
 
 typedef struct {
+    uint8_t size_int;
+    uint8_t size_long;
+    uint8_t size_pointer;
+} kth_libconfig_type_sizes_t;
+
+typedef struct {
     kth_libconfig_log_library_t log_library;
     kth_bool_t use_libmdbx;
     char const* version;
@@ -38,11 +44,8 @@ typedef struct {
     uint32_t build_timestamp;          // Epoch time
     char const* endianness;            // little, big
 
-    struct {
-        uint8_t size_int;
-        uint8_t size_long;
-        uint8_t size_pointer;
-    } type_sizes;
+    kth_libconfig_type_sizes_t type_sizes;
+
 } kth_libconfig_t;
 
 KTH_EXPORT
