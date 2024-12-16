@@ -51,13 +51,13 @@ kth_hash_t kth_str_to_hash(char const* str) {
 char* kth_hash_to_str(kth_hash_t hash) {
     size_t n = std::size(hash.hash);
     auto* ret = kth::mnew<char>(n * 2 + 1);
-    ret[n * 2] = 0;
+    ret[n * 2] = '\0';
 
     --n;
     auto* f = ret;
     while (true) {
         auto b = hash.hash[n];
-        sprintf(f, "%02x", b);
+        snprintf(f, 3, "%02x", b);
         f += 2;
         if (n == 0) break;
         --n;
