@@ -28,7 +28,12 @@ extern "C" {
 #define KTH_WALLET_HD_PRIVATE_TESTNET 303293221666392015
 
 typedef int kth_bool_t;
-typedef uint64_t kth_size_t;    // It is std::size_t in the C++ code.
+
+#if defined(__EMSCRIPTEN__)
+typedef uint32_t kth_size_t;    // It is std::size_t in the C++ code.
+#else
+typedef uint64_t kth_size_t;
+#endif
 
 #if defined(_WIN32)
 typedef wchar_t kth_char_t;
