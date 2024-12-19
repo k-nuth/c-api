@@ -25,7 +25,7 @@ KTH_EXPORT
 void kth_chain_output_destruct(kth_output_t output);
 
 KTH_EXPORT
-kth_output_t kth_chain_output_factory_from_data(uint8_t* data, uint64_t n);
+kth_output_t kth_chain_output_factory_from_data(uint8_t* data, kth_size_t n);
 
 KTH_EXPORT
 kth_bool_t kth_chain_output_is_valid(kth_output_t output);

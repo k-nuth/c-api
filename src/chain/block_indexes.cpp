@@ -6,11 +6,12 @@
 
 #include <kth/capi/conversions.hpp>
 
-KTH_LIST_DEFINE_CONVERTERS(chain, kth_block_indexes_t, uint64_t, block_indexes)
-KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, kth_block_indexes_t, uint64_t, block_indexes)
+KTH_LIST_DEFINE_CONVERTERS(chain, kth_block_indexes_t, kth_size_t, block_indexes)
+
+KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, kth_block_indexes_t, kth_size_t, block_indexes)
 
 extern "C" {
 
-KTH_LIST_DEFINE_VALUE(chain, kth_block_indexes_t, uint64_t, block_indexes, uint64_t, uint64_t)
+KTH_LIST_DEFINE_VALUE(chain, kth_block_indexes_t, kth_size_t, block_indexes, kth_size_t, kth_size_t)
 
 } // extern "C"
