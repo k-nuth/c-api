@@ -15,7 +15,7 @@ KTH_CONV_DEFINE(chain, kth_transaction_t, kth::domain::message::transaction, tra
 // ---------------------------------------------------------------------------
 extern "C" {
 
- kth_transaction_t kth_chain_transaction_factory_from_data(uint32_t version, uint8_t* data, uint64_t n) {
+ kth_transaction_t kth_chain_transaction_factory_from_data(uint32_t version, uint8_t* data, kth_size_t n) {
     kth::data_chunk data_cpp(data, std::next(data, n));
     auto tx = kth::domain::create<kth::domain::message::transaction>(version, data_cpp);
     return kth::move_or_copy_and_leak(std::move(tx));
