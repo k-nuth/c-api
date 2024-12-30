@@ -9,7 +9,6 @@
 
 #include <kth/domain/message/transaction.hpp>
 
-
 KTH_CONV_DEFINE(chain, kth_block_t, kth::domain::message::block, block)
 
 // ---------------------------------------------------------------------------

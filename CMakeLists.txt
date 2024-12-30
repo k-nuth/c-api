@@ -159,6 +159,9 @@ set(kth_sources
         src/chain/input_list.cpp
         src/chain/mempool_transaction_list.cpp
         src/chain/merkle_block.cpp
+        src/chain/opcode.cpp
+        src/chain/operation.cpp
+        src/chain/operation_list.cpp
         src/chain/output.cpp
         src/chain/output_list.cpp
         src/chain/output_point.cpp
@@ -222,6 +225,9 @@ set(kth_headers
   include/kth/capi/chain/stealth_compact.h
   include/kth/capi/chain/history_compact_list.h
   include/kth/capi/chain/stealth_compact_list.h
+  include/kth/capi/chain/opcode.h
+  include/kth/capi/chain/operation_list.h
+  include/kth/capi/chain/operation.h
   include/kth/capi/chain/output_point.h
   include/kth/capi/chain/point_list.h
   include/kth/capi/chain/header.h
@@ -236,6 +242,7 @@ set(kth_headers
   include/kth/capi/chain/merkle_block.h
   include/kth/capi/chain/block.h
   include/kth/capi/chain/mempool_transaction.h
+  include/kth/capi/chain/rule_fork.h
   include/kth/capi/chain/script.h
   include/kth/capi/chain/get_headers.h
   include/kth/capi/chain/double_spend_proof.h

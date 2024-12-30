@@ -36,6 +36,7 @@ KTH_CONV_DECLARE(chain, kth_point_t, kth::domain::chain::point, point)
 KTH_CONV_DECLARE(chain, kth_mempool_transaction_t, kth::blockchain::mempool_transaction_summary, mempool_transaction)
 KTH_CONV_DECLARE(chain, kth_history_compact_t, kth::domain::chain::history_compact, history_compact)
 KTH_CONV_DECLARE(chain, kth_stealth_compact_t, kth::domain::chain::stealth_compact, stealth_compact)
+KTH_CONV_DECLARE(chain, kth_operation_t, kth::domain::machine::operation, operation)
 
 //Note: kth_block_list_t created with this function has not have to destruct it...
 // KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_block_list_t, kth::domain::message::block, block_list)
@@ -44,7 +45,7 @@ KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_output_list_t, kth::domain::chain
 // KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_transaction_list_t, kth::domain::message::transaction, transaction_list)
 KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(chain, kth_transaction_list_t, kth::domain::chain::transaction, transaction_list)
 KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(core, kth_hash_list_t, kth::hash_digest, hash_list)
-
+KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP_CONST(chain, kth_operation_list_t, kth::domain::machine::operation, operation_list)
 
 KTH_LIST_DECLARE_CONVERTERS(chain, kth_block_list_t, kth::domain::message::block, block_list)
 KTH_LIST_DECLARE_CONVERTERS(chain, kth_point_list_t, kth::domain::chain::point, point_list)
@@ -54,6 +55,8 @@ KTH_LIST_DECLARE_CONVERTERS(chain, kth_output_list_t, kth::domain::chain::output
 KTH_LIST_DECLARE_CONVERTERS(chain, kth_transaction_list_t, kth::domain::chain::transaction, transaction_list)
 KTH_LIST_DECLARE_CONVERTERS(core, kth_hash_list_t, kth::hash_digest, hash_list)
 KTH_LIST_DECLARE_CONVERTERS(chain, kth_block_indexes_t, kth_size_t, block_indexes)
+
+KTH_LIST_DECLARE_CONVERTERS(chain, kth_operation_list_t, kth::domain::machine::operation, operation_list)
 
 // Wallet.
 // ------------------------------------------------------------------------------------

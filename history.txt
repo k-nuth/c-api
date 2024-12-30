@@ -1,0 +1,3277 @@
+    1  brew install zsh
+    2  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    3  echo >> /Users/fernando/.zprofile\n    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/fernando/.zprofile\n    eval "$(/opt/homebrew/bin/brew shellenv)"
+    4  brew
+    5  exit
+    6  brew install zsh
+    7  zsh --version
+    8  chsh -s $(which zsh)
+    9  exit
+   10  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+   11  exit
+   12  mkdir dev
+   13  cd dev
+   14  cd
+   15  ssh-keygen -t ed25519 -C "fpelliccioni@gmail.com"
+   16  cd .ssh
+   17  la
+   18  ls
+   19  cat id_ed25519.pub
+   20  ls
+   21  ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+   22  vi ~/.ssh/config
+   23  ssh-add -l
+   24  cd
+   25  cd dev
+   26  git clone git@github.com:fpelliccioni/mrdocs.git
+   27  cd mrdocs
+   28  git remote add upstream https://github.com/cppalliance/mrdocs.git
+   29  git fetch upstream
+   30  git rebase upstream/develop
+   31  git push
+   32  mkdir third-party\ncd third-party
+   33  ls
+   34  git clone https://github.com/fmtlib/fmt --branch 10.2.1 --depth 1 \ncd fmt\ncmake -S . -B ./build -DCMAKE_BUILD_TYPE=Release -D FMT_DOC=OFF -D FMT_TEST=OFF \ncmake --build ./build --config Release \ncmake --install ./build --prefix ./install \ncd ..\n
+   35  brew install cmake
+   36  rm -rf fmt
+   37  git clone https://github.com/fmtlib/fmt --branch 10.2.1 --depth 1 \ncd fmt\ncmake -S . -B ./build -DCMAKE_BUILD_TYPE=Release -D FMT_DOC=OFF -D FMT_TEST=OFF \ncmake --build ./build --config Release \ncmake --install ./build --prefix ./install \ncd ..\n
+   38  g++ --version
+   39  curl -LJO https://github.com/svaarala/duktape/releases/download/v2.7.0/duktape-2.7.0.tar.xz
+   40  tar -xf duktape-2.7.0.tar.xz\ncp ../mrdocs/third-party/duktape/CMakeLists.txt ./duktape-2.7.0/CMakeLists.txt\ncp ../mrdocs/third-party/duktape/duktapeConfig.cmake.in ./duktape-2.7.0/duktapeConfig.cmake.in\ncd duktape-2.7.0
+   41  cd 
+   42  cd dev
+   43  ks
+   44  ls
+   45  rm -rf mrdocs
+   46  mkdir cppalliance
+   47  cd cppalliance
+   48  git clone git@github.com:fpelliccioni/mrdocs.git
+   49  mkdir third-party\ncd third-party
+   50  git clone https://github.com/fmtlib/fmt --branch 10.2.1 --depth 1\ncd fmt\ncmake -S . -B ./build -DCMAKE_BUILD_TYPE=Release -D FMT_DOC=OFF -D FMT_TEST=OFF\ncmake --build ./build --config Release\ncmake --install ./build --prefix ./install\ncd ..
+   51  ls
+   52  curl -LJO https://github.com/svaarala/duktape/releases/download/v2.7.0/duktape-2.7.0.tar.xz
+   53  tar -xf duktape-2.7.0.tar.xz\ncp ../mrdocs/third-party/duktape/CMakeLists.txt ./duktape-2.7.0/CMakeLists.txt\ncp ../mrdocs/third-party/duktape/duktapeConfig.cmake.in ./duktape-2.7.0/duktapeConfig.cmake.in\ncd duktape-2.7.0
+   54  sed -i 's/#define DUK_F_DLL_BUILD/#undef DUK_F_DLL_BUILD/g' "src/duk_config.h"
+   55  sed -i '' 's/#define DUK_F_DLL_BUILD/#undef DUK_F_DLL_BUILD/g' "src/duk_config.h"\n
+   56  clear
+   57  cmake -S . -B ./build -DCMAKE_BUILD_TYPE=Release\ncmake --build ./build --config Release\ncmake --install ./build --prefix ./install
+   58  cd ..
+   59  git clone https://github.com/GNOME/libxml2 --branch v2.12.6 --depth 1\ncd libxml2\ncmake -S . -B ./build -DCMAKE_BUILD_TYPE=Release -DLIBXML2_WITH_PROGRAMS=ON -DLIBXML2_WITH_FTP=OFF -DLIBXML2_WITH_HTTP=OFF -DLIBXML2_WITH_ICONV=OFF -DLIBXML2_WITH_LEGACY=OFF -DLIBXML2_WITH_LZMA=OFF -DLIBXML2_WITH_ZLIB=OFF -DLIBXML2_WITH_ICU=OFF -DLIBXML2_WITH_TESTS=OFF -DLIBXML2_WITH_HTML=ON -DLIBXML2_WITH_C14N=ON -DLIBXML2_WITH_CATALOG=ON -DLIBXML2_WITH_DEBUG=ON -DLIBXML2_WITH_ISO8859X=ON -DLIBXML2_WITH_MEM_DEBUG=OFF -DLIBXML2_WITH_MODULES=ON -DLIBXML2_WITH_OUTPUT=ON -DLIBXML2_WITH_PATTERN=ON -DLIBXML2_WITH_PUSH=ON -DLIBXML2_WITH_PYTHON=OFF -DLIBXML2_WITH_READER=ON -DLIBXML2_WITH_REGEXPS=ON -DLIBXML2_WITH_SAX1=ON -DLIBXML2_WITH_SCHEMAS=ON -DLIBXML2_WITH_SCHEMATRON=ON -DLIBXML2_WITH_THREADS=ON -DLIBXML2_WITH_THREAD_ALLOC=OFF -DLIBXML2_WITH_TREE=ON -DLIBXML2_WITH_VALID=ON -DLIBXML2_WITH_WRITER=ON -DLIBXML2_WITH_XINCLUDE=ON -DLIBXML2_WITH_XPATH=ON -DLIBXML2_WITH_XPTR=ON\ncmake --build ./build --config Release\ncmake --install ./build --prefix ./install\ncd ..
+   60  mkdir -p llvm-project \ncd llvm-project\ngit init \ngit remote add origin https://github.com/llvm/llvm-project.git 
+   61  git fetch --depth 1 origin e1065370aaacb1b1cb48e77d37d376bf024f4a39
+   62  git checkout FETCH_HEAD
+   63  cp ../../mrdocs/third-party/llvm/CMakePresets.json ./llvm
+   64  cp ../../mrdocs/third-party/llvm/CMakeUserPresets.json ./llvm/CMakeUserPresets.json
+   65  cd llvm\ncmake -S . -B ./build --preset=release-unix
+   66  cmake --build ./build --config Release --parallel 16
+   67  cmake --install ./build --prefix ../install
+   68  cd ../..
+   69  ls
+   70  cd llvm-project
+   71  ls
+   72  cd install
+   73  ls
+   74  cd ..
+   75  export CXX="./install/bin/clang++"\nexport CC="./install/bin/clang"
+   76  $CXX --version
+   77  cmake -G Ninja  \\n  -S runtimes  \\n  -B build-libcxx  \\n  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind"  \\n  -DCMAKE_INSTALL_PREFIX="$(pwd)/install"
+   78  brew install ninja
+   79  clear
+   80  cmake -G Ninja  \\n  -S runtimes  \\n  -B build-libcxx  \\n  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind"  \\n  -DCMAKE_INSTALL_PREFIX="$(pwd)/install"
+   81  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang --version
+   82  cmake -G Ninja  \\n  -S runtimes  \\n  -B build-libcxx  \\n  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind"  \\n  -DCMAKE_INSTALL_PREFIX="$(pwd)/install"
+   83  pwd
+   84  cmake -G Ninja  \\n  -S runtimes  \\n  -B build-libcxx  \\n  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind"  \\n  -DCMAKE_INSTALL_PREFIX="$(pwd)/install"
+   85  cd
+   86  echo 'int main() { return 0; }' > test.c\n/Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang test.c -o test\n
+   87  cd dev 
+   88  cd cppalliance/mrdocs
+   89  cd ..
+   90  cd third-party
+   91  cd llvm-project
+   92  cat ../../mrdocs/third-party/llvm/CMakePresets.json
+   93  cat ../../mrdocs/third-party/llvm/CMakeUserPresets.json
+   94  code ./../mrdocs/third-party/llvm/CMakePresets.json
+   95  code
+   96  code ./../mrdocs/third-party/llvm/CMakePresets.json
+   97  code ../mrdocs/third-party/llvm/CMakePresets.json
+   98  code ../../mrdocs/third-party/llvm/CMakePresets.json
+   99  sed -i '' 's/"LLVM_TARGETS_TO_BUILD": "X86"/"LLVM_TARGETS_TO_BUILD": "AArch64;X86"/g' ./llvm/CMakePresets.json
+  100  code ./llvm/CMakePresets.json
+  101  cd
+  102  clang
+  103  clang --version
+  104  v
+  105  clang test.c -o test
+  106  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang test.c -o test
+  107  cd dev 
+  108  cd cppalliance
+  109  ls
+  110  cd third-party
+  111  ls
+  112  rm -rf llvm-project
+  113  xcrun --show-sdk-path
+  114  mkdir -p llvm-project\ncd llvm-project\ngit init\ngit remote add origin https://github.com/llvm/llvm-project.git\ngit fetch --depth 1 origin e1065370aaacb1b1cb48e77d37d376bf024f4a39\ngit checkout FETCH_HEAD\n
+  115  cp ../../mrdocs/third-party/llvm/CMakePresets.json ./llvm\ncp ../../mrdocs/third-party/llvm/CMakeUserPresets.json ./llvm/CMakeUserPresets.json\n
+  116  cat ./llvm/CMakePresets.json
+  117  sed -i '' 's/"LLVM_TARGETS_TO_BUILD": "X86"/"LLVM_TARGETS_TO_BUILD": "AArch64;X86"/g' ./llvm/CMakePresets.json
+  118  cat ./llvm/CMakePresets.json
+  119  cd llvm\ncmake -S . -B ./build --preset=release-unix\n
+  120  exit
+  121  echo $CXX
+  122  cd dev
+  123  cd cppalliance/third-party/llvm-project
+  124  cd llvm\ncmake -S . -B ./build --preset=release-unix\n
+  125  cmake --build ./build --config Release --parallel 16
+  126  cmake --install ./build --prefix ../install
+  127  cd ../..
+  128  cd llvm-project
+  129  export CXX="./install/bin/clang++"\nexport CC="./install/bin/clang"
+  130  cd
+  131  clang test.c -o test
+  132  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang test.c -o test
+  133  clang test.c -o test
+  134  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang test.c -o test
+  135  xcrun --show-sdk-path\n
+  136  cd
+  137  cd dev
+  138  cd cppalliance/third-party/llvm-project
+  139  cd llvm\ncmake -S . -B ./build --preset=release-unix -DCMAKE_OSX_SYSROOT=$(xcrun --show-sdk-path)\n
+  140  cmake --build ./build --config Release --parallel 16
+  141  cd
+  142  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang test.c -o test
+  143  cd dev
+  144  cd cppalliance/third-party/llvm-project
+  145  cmake --install ./build --prefix ../install
+  146  cd llvm
+  147  cmake --install ./build --prefix ../install
+  148  cd
+  149  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang test.c -o test
+  150  cd 
+  151  cd \n-- Up-to-date: /Users/fernando/dev/cppalliance/third-party/llvm-project/llvm/../install/
+  152  cd /Users/fernando/dev/cppalliance/third-party/llvm-project/llvm/../install/
+  153  cd ..
+  154  rm -rf install
+  155  cd llvm
+  156  cmake --install ./build --prefix ../install
+  157  cd
+  158  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang test.c -o test
+  159  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang test.c -o test -v\n
+  160  cd dev
+  161  cd cppalliance/third-party
+  162  cd llvm-project
+  163  cd llvm
+  164  rm -rf build
+  165  rm -rf ../install
+  166  [200~xcrun --show-sdk-path~
+  167  xcrun --show-sdk-path
+  168  cmake -S . -B ./build --preset=release-unix -DCMAKE_OSX_SYSROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+  169  exit
+  170  cd dev
+  171  cd cppalliance/third-party/llvm-project/llvm
+  172  cmake -S . -B ./build --preset=release-unix -DCMAKE_OSX_SYSROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+  173  cmake --build ./build --config Release --parallel 16
+  174  cmake --install ./build --prefix ../install
+  175  cd
+  176  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang test.c -o test\n./test
+  177  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang test.c -o test -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -L/Library/Developer/CommandLineTools/usr/lib -Wl,-syslibroot,/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk\n
+  178  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang --print-target-triple\n
+  179  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang test.c -o test -v\n
+  180  cd /Users/fernando/dev/cppalliance/third-party/llvm-project/install/lib/clang/20\n
+  181  vi clang.cfg
+  182  cd ..
+  183  find . -name "clang.cfg"
+  184  cd /Users/fernando/dev/cppalliance/third-party/llvm-project/install/lib/clang/20\n
+  185  vi clang.cfg
+  186  cd
+  187  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang test.c -o test\n./test\n
+  188  cd de
+  189  cd dev 
+  190  cd cppalliance/third-party/llvm-project
+  191  cd llvm
+  192  rm -rf ./build ../install
+  193  /usr/bin/ld -v\n
+  194  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang --print-search-dirs\n
+  195  rm -rf ./build ../install
+  196  ake -S . -B ./build --preset=release-unix \\n  -DDEFAULT_SYSROOT="$(xcrun --show-sdk-path)" \\n  -DCMAKE_OSX_SYSROOT="$(xcrun --show-sdk-path)"\n
+  197  cmake -S . -B ./build --preset=release-unix \\n  -DDEFAULT_SYSROOT="$(xcrun --show-sdk-path)" \\n  -DCMAKE_OSX_SYSROOT="$(xcrun --show-sdk-path)"\n
+  198  echo $CXX
+  199  cmake --build ./build --config Release --parallel 16\ncmake --install ./build --prefix ../install\n
+  200  cd
+  201  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/bin/clang test.c -o test\n./test\n
+  202  cd dev
+  203  cd cppalliance/third-party/llvm-project
+  204  \nexport CXX="./install/bin/clang++"\nexport CC="./install/bin/clang"
+  205  export CXX="./install/bin/clang++"\nexport CC="./install/bin/clang"\n\ncmake -G Ninja  \\n  -S runtimes  \\n  -B build-libcxx  \\n  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind"  \\n  -DCMAKE_INSTALL_PREFIX="$(pwd)/install"\n\n
+  206  ninja -C build-libcxx cxx cxxabi unwind
+  207  ninja -C build-libcxx install-cxx install-cxxabi install-unwind
+  208  cd
+  209  cd dev
+  210  cd cppalliance
+  211  git clone git@github.com:fpelliccioni/mrdocs-helpers.git
+  212  cd mrdocs-helpers
+  213  code .
+  214  cd
+  215  cd dev
+  216  cd cppalliance/third-party/llvm-project/install
+  217  l;s
+  218  ls
+  219  ssh fernando@192.168.68.60
+  220  cd .ssh
+  221  ls
+  222  cat id_ed25519.pub
+  223  exit
+  224  ssh fernando@192.168.68.60
+  225  pwd
+  226  cd
+  227  cd dev
+  228  cd cppalliance/third-party
+  229  ls
+  230  git clone https://github.com/microsoft/vcpkg.git -b master \ncd vcpkg
+  231  echo $CXX
+  232  exit
+  233  cd dev
+  234  cd cppalliance/third-party
+  235  cd vcpkg
+  236  ./bootstrap-vcpkg.sh
+  237  ./vcpkg install fmt
+  238  ./vcpkg install duktape
+  239  ./vcpkg install fmt
+  240  brew install pkg-config\n
+  241  ./vcpkg install fmt
+  242  ./vcpkg install duktape
+  243  ./vcpkg install libxml2[tools]
+  244  ./vcpkg install "libxml2[tools]"
+  245  cd
+  246  cd dev
+  247  cd cppalliance/mrdocs
+  248  export BUILD_TYPE=Release\n# export BUILD_TYPE=Debug\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport THIRD_PARTY_ROOT=/home/fernando/dev/cppalliance/third-party\nexport VCPKG_ROOT=$THIRD_PARTY_ROOT/vcpkg\n
+  249  cd\ncd dev/cppalliance/mrdocs\n\nrm -rf build\ncmake -B build \\n    -D CMAKE_BUILD_TYPE=$BUILD_TYPE  \\n    -D CMAKE_EXPORT_COMPILE_COMMANDS=ON  \\n    -D MRDOCS_BUILD_DOCS=OFF \\n    -D LLVM_ROOT=$LLVM_ROOT  \\n    -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \\n    -D BUILD_TESTING=OFF \\n    -D MRDOCS_BUILD_DOCS=OFF\ncd build
+  250  cd ..
+  251  cd third-party
+  252  pwd
+  253  export BUILD_TYPE=Release\n# export BUILD_TYPE=Debug\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport THIRD_PARTY_ROOT=/Users/fernando/dev/cppalliance/third-party\nexport VCPKG_ROOT=$THIRD_PARTY_ROOT/vcpkg\n
+  254  cd
+  255  cd\ncd dev/cppalliance/mrdocs\n\nrm -rf build\ncmake -B build \\n    -D CMAKE_BUILD_TYPE=$BUILD_TYPE  \\n    -D CMAKE_EXPORT_COMPILE_COMMANDS=ON  \\n    -D MRDOCS_BUILD_DOCS=OFF \\n    -D LLVM_ROOT=$LLVM_ROOT  \\n    -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \\n    -D BUILD_TESTING=OFF \\n    -D MRDOCS_BUILD_DOCS=OFF\ncd build
+  256  cmake --build . -j 16
+  257  git branch
+  258  git checkout feat/tagfiles-doxygen-generation
+  259  cd\ncd dev/cppalliance/mrdocs\n\nrm -rf build\ncmake -B build \\n    -D CMAKE_BUILD_TYPE=$BUILD_TYPE  \\n    -D CMAKE_EXPORT_COMPILE_COMMANDS=ON  \\n    -D MRDOCS_BUILD_DOCS=OFF \\n    -D LLVM_ROOT=$LLVM_ROOT  \\n    -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \\n    -D BUILD_TESTING=OFF \\n    -D MRDOCS_BUILD_DOCS=OFF\ncd build
+  260  cmake --build . -j 32
+  261  cd
+  262  cd dev
+  263  cd cppalliance
+  264  git clone --branch develop --recurse-submodules https://github.com/boostorg/boost.git boost-root
+  265  cd boost-root
+  266  pwd
+  267  cd ..
+  268  cd mrdocs
+  269  code .
+  270  cd build
+  271  cmake --build . -j 16
+  272  ssh fernando@192.168.68.60
+  273  git commit --amend --no-edit\ngit push origin feat/tagfiles-doxygen-generation  --force
+  274  git config --global user.name "Fernando Pelliccioni"\ngit config --global user.email "fpelliccioni@gmail.com"\n
+  275  git commit --amend --reset-author
+  276  git status
+  277  git push origin feat/tagfiles-doxygen-generation  --force
+  278  git commit --amend --no-edit\ngit push origin feat/tagfiles-doxygen-generation  --force
+  279  git fetch upstream
+  280  cd ..
+  281  git remote -v
+  282  git remote add upstream https://github.com/cppalliance/mrdocs.git
+  283  git fetch upstream
+  284  git status
+  285  git checkout develop
+  286  git rebase upstream/develop
+  287  git push
+  288  git checkout -b feat/tagfiles-doxygen-generation-new
+  289  git log -1 --oneline\n
+  290  cd\ncd dev/cppalliance/mrdocs\n\nrm -rf build\ncmake -B build \\n    -D CMAKE_BUILD_TYPE=$BUILD_TYPE  \\n    -D CMAKE_EXPORT_COMPILE_COMMANDS=ON  \\n    -D MRDOCS_BUILD_DOCS=OFF \\n    -D LLVM_ROOT=$LLVM_ROOT  \\n    -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \\n    -D BUILD_TESTING=OFF \\n    -D MRDOCS_BUILD_DOCS=OFF\ncd build
+  291  cmake --build . -j 16
+  292  make
+  293  cmake --build . -j 16
+  294  pwd
+  295  cd
+  296  cd dev
+  297  cd cppalliance
+  298  ls
+  299  cd boost-root
+  300  cd libs
+  301  ls
+  302  cd url
+  303  ls
+  304  pwd
+  305  \nexport MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url-simple\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs-adoc.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\n# export CXX="clang++"\n# export CC="clang"
+  306  cd\nrm -rf $PROJECT_BUILD_DIR\n
+  307  cd $PROJECT_SOURCE_DIR\n
+  308  export MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\n
+  309  cd\nrm -rf $PROJECT_BUILD_DIR\ncd $PROJECT_SOURCE_DIR\n
+  310  mkdir $PROJECT_BUILD_DIR\n
+  311  cd $PROJECT_BUILD_DIR\n
+  312  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1
+  313  ssh fernando@192.168.68.60
+  314  cd $MR_DOCS
+  315  cd
+  316  cd dev
+  317  cd cppalliance/mrdocs
+  318  cd share
+  319  ls
+  320  cd mrdocs
+  321  ls
+  322  cd $PROJECT_BUILD_DIR
+  323  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1
+  324  export BUILD_TYPE=Release\n# export BUILD_TYPE=Debug\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport THIRD_PARTY_ROOT=/Users/fernando/dev/cppalliance/third-party\nexport VCPKG_ROOT=$THIRD_PARTY_ROOT/vcpkg\nexport BOOST_ROOT=/Users/fernando/dev/cppalliance/boost-root\n
+  325  cd\ncd dev/cppalliance/mrdocs\n\nrm -rf build\ncmake -B build \\n    -D CMAKE_BUILD_TYPE=$BUILD_TYPE  \\n    -D CMAKE_EXPORT_COMPILE_COMMANDS=ON  \\n    -D MRDOCS_BUILD_DOCS=OFF \\n    -D LLVM_ROOT=$LLVM_ROOT  \\n    -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \\n    -D BUILD_TESTING=OFF \\n    -D MRDOCS_BUILD_DOCS=OFF\ncd build
+  326  cmake --version
+  327  cd ..
+  328  cd share/mrdocs
+  329  ls
+  330  echo $LLVM_ROOT
+  331  cd $LLVM_ROOT
+  332  ls
+  333  cd include
+  334  ls
+  335  cd c++
+  336  ls
+  337  cd ..
+  338  cd mrdocs
+  339  cd build
+  340  cmake --build . -j 16
+  341  \nexport BUILD_TYPE=Release\n# export BUILD_TYPE=Debug\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport THIRD_PARTY_ROOT=/Users/fernando/dev/cppalliance/third-party\nexport VCPKG_ROOT=$THIRD_PARTY_ROOT/vcpkg\nexport BOOST_ROOT=/Users/fernando/dev/cppalliance/boost-root
+  342  \ncd\ncd dev/cppalliance/mrdocs\n\nrm -rf build\ncmake -B build \\n    -D CMAKE_BUILD_TYPE=$BUILD_TYPE  \\n    -D CMAKE_EXPORT_COMPILE_COMMANDS=ON  \\n    -D MRDOCS_BUILD_DOCS=OFF \\n    -D LLVM_ROOT=$LLVM_ROOT  \\n    -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \\n    -D BUILD_TESTING=OFF \\n    -D MRDOCS_BUILD_DOCS=OFF\ncd build\n
+  343  cmake --build . -j 16\n
+  344  cmake --install .
+  345  sudo cmake --install .
+  346  cd ..
+  347  cd share/mrdocs
+  348  ls
+  349  ls /usr/local/share/mrdocs/
+  350  mkdir clang
+  351  mkdir libcxx
+  352  cd clang
+  353  cp -R /usr/local/share/mrdocs/clang .
+  354  ls
+  355  cd clang
+  356  ls
+  357  cd ../
+  358  mv clang/* .
+  359  ls
+  360  rmdir clang
+  361  cd ..
+  362  cd libcxx
+  363  cp -R /usr/local/share/mrdocs/libcxx/* .
+  364  ls
+  365  cd ..
+  366  cd build
+  367  cmake --build . -j 16\n
+  368  _DIR=$PROJECT_SOURCE_DIR/build-docs\n\nexport MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"
+  369  \ncd\nrm -rf $PROJECT_BUILD_DIR\ncd $PROJECT_SOURCE_DIR\nmkdir $PROJECT_BUILD_DIR\ncd $PROJECT_BUILD_DIR
+  370  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1
+  371  cmake --build . -j 16\n
+  372  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1
+  373  cmake --build . -j 16\n
+  374  ssh fernando@144.91.106.158
+  375  cd dev
+  376  mkdir kth
+  377  cd kth
+  378  mkdir flipstarter
+  379  cd flipstarter
+  380  git clone git@gitlab.com:fpelliccioni/backend.git
+  381  cd .ssh
+  382  cat id_ed25519.pub
+  383  git clone git@gitlab.com:fpelliccioni/backend.git
+  384  exit
+  385  git clone git@gitlab.com:fpelliccioni/frontend.git
+  386  cd backend
+  387  cursor .
+  388  cd ../frontend
+  389  cursor .
+  390  git push
+  391  cd ../backend
+  392  git push
+  393  git status
+  394  git log
+  395  git push
+  396  cd ../frontend/
+  397  cursor .
+  398  ssh fernando@144.91.106.158
+  399  cmake --build . -j 16\n
+  400  pwd
+  401  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1
+  402  cd
+  403  cd dev
+  404  cd cppalliance
+  405  ls
+  406  cd mrdocs-helpers
+  407  cursor .
+  408  export MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"
+  409  exit
+  410  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1
+  411  ls
+  412  cat reference.tag.xml
+  413  cmake --build . -j 16\n
+  414  exit
+  415  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1
+  416  cmake --build . -j 16\n
+  417  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1
+  418  cmake --build . -j 16\n
+  419  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1
+  420  cmake --build . -j 16\n
+  421  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1
+  422  pwd
+  423  ls
+  424  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path=""
+  425  cmake --build . -j 16\n
+  426  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path=""
+  427  cmake --build . -j 16\n
+  428  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path=""
+  429  cmake --build . -j 16\n
+  430  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path=""
+  431  ls
+  432  rm reference.tag.xml
+  433  echo $MRDOCS_OUTPUT
+  434  export MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc
+  435  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path=""
+  436  ls
+  437  cd docs
+  438  ls
+  439  cd reference
+  440  ls
+  441  cd adoc
+  442  ls
+  443  cat reference.adoc
+  444  cmake --build . -j 16\n
+  445  cd ..
+  446  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  447  ls
+  448  cmake --build . -j 16\n
+  449  cma
+  450  cmake --build . -j 16\n
+  451  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  452  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  453  cmake --build . -j 16\n
+  454  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="xml" --concurrency=1 
+  455  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  456  echo $MRDOCS_OUTPUT
+  457  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="xml" --concurrency=1 
+  458  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  459  cmake --build . -j 16\n
+  460  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  461  cmake --build . -j 16\n
+  462  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  463  cls
+  464  ls
+  465  cd docs/reference/adoc
+  466  ls
+  467  rm reference.xml
+  468  cmake --build . -j 16\n
+  469  cd ..
+  470  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  471  cmake --build . -j 16\n
+  472  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  473  ls
+  474  cd build
+  475  ls
+  476  cd ..
+  477  ls
+  478  find . -name "reference*"
+  479  cat /Users/fernando/dev/cppalliance/boost-root/libs/url/doc/reference.tag.xml
+  480  ls
+  481  cd docs
+  482  ls
+  483  cd reference/adoc
+  484  ls
+  485  cd ..
+  486  cmake --build . -j 16\n
+  487  make
+  488  cmake --build . -j 16\n
+  489  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  490  ls
+  491  find . -name "reference*"
+  492  cat /Users/fernando/dev/cppalliance/boost-root/libs/url/doc/reference.tag.xml
+  493  rm /Users/fernando/dev/cppalliance/boost-root/libs/url/doc/reference.tag.xml
+  494  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  495  cat /Users/fernando/dev/cppalliance/boost-root/libs/url/doc/reference.tag.xml
+  496  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  497  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  498  ls
+  499  cd docs/reference/adoc
+  500  ls
+  501  cd boost
+  502  ls
+  503  cmake --build . -j 16\n
+  504  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  505  cmake --build . -j 16\n
+  506  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  507  cat /Users/fernando/dev/cppalliance/boost-root/libs/url/doc/reference.tag.xml
+  508  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  509  cmake --build . -j 16\n
+  510  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  511  cmake --build . -j 16\n
+  512  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  513  cmake --build . -j 16\n
+  514  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  515  cmake --build . -j 16\n
+  516  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  517  cmake --build . -j 16\n
+  518  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  519  cmake --build . -j 16\n
+  520  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  521  cmake --build . -j 16\n
+  522  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  523  cat /Users/fernando/dev/cppalliance/boost-root/libs/url/doc/reference.tag.xml
+  524  cmake --build . -j 16\n
+  525  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  526  cat /Users/fernando/dev/cppalliance/boost-root/libs/url/doc/reference.tag.xml
+  527  cmake --build . -j 16\n
+  528  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+  529  cat /Users/fernando/dev/cppalliance/boost-root/libs/url/doc/reference.tag.xml
+  530  git status
+  531  git log
+  532  git branch -m feat/tagfiles-doxygen-generation feat/tagfiles-doxygen-generation-old\n
+  533  feat/tagfiles-doxygen-generation
+  534  git checkout feat/tagfiles-doxygen-generation
+  535  git checkout feat/tagfiles-doxygen-generation-old
+  536  git branch -m feat/tagfiles-doxygen-generation feat/tagfiles-doxygen-generation-original-pr-old\n
+  537  git checkout feat/tagfiles-doxygen-generation
+  538  git log
+  539  git branch -m feat/tagfiles-doxygen-generation-new feat/tagfiles-doxygen-generation\n
+  540  git branch -D feat/tagfiles-doxygen-generation
+  541  git checkout feat/tagfiles-doxygen-generation-old
+  542  git branch -D feat/tagfiles-doxygen-generation
+  543  git log
+  544  git branch -m feat/tagfiles-doxygen-generation-new feat/tagfiles-doxygen-generation\n
+  545  git checkout feat/tagfiles-doxygen-generation
+  546  git lo
+  547  git log
+  548  git push --force origin feat/tagfiles-doxygen-generation\n
+  549  git commit --amend --no-edit\ngit push origin feat/tagfiles-doxygen-generation  --force
+  550  ssh fernando@192.168.68.76
+  551  python --version
+  552  exit
+  553  python --version
+  554  where python
+  555  find / -name "python"
+  556  python3 --version
+  557  vi .zshrc
+  558  mate
+  559  alias
+  560  lsa
+  561  l
+  562  alias
+  563  la
+  564  ls
+  565  alias
+  566  vi .zshrc
+  567  source ~/.zshrc\n
+  568  python --version
+  569  pip install conan --user
+  570  pip3 --version
+  571  vi .zshrc
+  572  source ~/.zshrc\n
+  573  pip3 --version
+  574  pip install conan --user
+  575  pip3 install --upgrade pip
+  576  clang --version
+  577  pwd
+  578  ssh fernando@192.168.68.60
+  579  cd dev
+  580  cd cppalliance/mrdocs
+  581  python ./util/generate-yaml-schema.py
+  582  git status
+  583  cursor .
+  584  git diff
+  585  git status
+  586  python ./util/generate-yaml-schema.py
+  587  git commit --amend --no-edit\ngit push origin feat/tagfiles-doxygen-generation  --force
+  588  git fetch upstream
+  589  git status
+  590  git rebase upstream/develop
+  591  git status
+  592  git log
+  593  git push origin feat/tagfiles-doxygen-generation  --force
+  594  ssh fernando@192.168.68.76
+  595  cd 
+  596  cd dev
+  597  mkdir kth
+  598  cd kth
+  599  ls
+  600  git clone git@github.com:k-nuth/kth.git kth-master-simple
+  601  cd kth-master-simple
+  602  git checkout feat/update-modules
+  603  git submodule init
+  604  git submodule update
+  605  cursor .
+  606  ./helpers/build_release_linux.sh
+  607  conan
+  608  python --version
+  609  pip install conan --user
+  610  find ~ -name "conan"
+  611  code ~/.zshrc
+  612  cd
+  613  source ~/.zshrc\n
+  614  cd kth
+  615  cd kth-master-simple
+  616  ./helpers/build_release_linux.sh
+  617  conan profile detect
+  618  cursor ~/.conan2/profiles/default
+  619  ./helpers/build_release_linux.sh
+  620  pip install kthbuild --user
+  621  ./helpers/build_release_linux.sh
+  622  cd secp256k1
+  623  git checkout master
+  624  git pull
+  625  cd ..
+  626  ./helpers/build_release_linux.sh
+  627  find . -name "secp256k1*"
+  628  ./helpers/build_release_linux.sh
+  629  ssh fernando@192.168.68.76
+  630  ssh fernando@192.168.68.54
+  631  ctest -R "payment address token address from string" --output-on-failure --test-dir build/build/Release/domain\n
+  632  ./helpers/build_release_linux.sh
+  633  ctest -R "payment address token address from string" --output-on-failure --test-dir build/build/Release/domain\n
+  634  ./helpers/build_release_linux.sh
+  635  ctest -R "payment address token address from string" --output-on-failure --test-dir build/build/Release/domain\n
+  636  ./helpers/build_release_linux.sh
+  637  ctest -R "payment address token address from string" --output-on-failure --test-dir build/build/Release/domain\n
+  638  ./helpers/build_release_linux.sh
+  639  ctest -R "payment address token address from string" --output-on-failure --test-dir build/build/Release/domain\n
+  640  ./helpers/build_release_linux.sh
+  641  ctest -R "payment address token address from string" --output-on-failure --test-dir build/build/Release/domain\n
+  642  ./helpers/build_release_linux.sh
+  643  ctest -R "payment address token address from string" --output-on-failure --test-dir build/build/Release/domain\n
+  644  ctest --output-on-failure --test-dir build/build/Release/domain
+  645  ctest -R "message verify message compressed expected" --output-on-failure --test-dir build/build/Release/domain\n
+  646  ./helpers/build_release_linux.sh
+  647  ctest -R "message verify message compressed expected" --output-on-failure --test-dir build/build/Release/domain\n
+  648  ./helpers/build_release_linux.sh
+  649  ctest -R "message verify message compressed expected" --output-on-failure --test-dir build/build/Release/domain\n
+  650  ./helpers/build_release_linux.sh
+  651  ctest -R "message verify message compressed expected" --output-on-failure --test-dir build/build/Release/domain\n
+  652  ./helpers/build_release_linux.sh
+  653  ctest -R "message verify message compressed expected" --output-on-failure --test-dir build/build/Release/domain\n
+  654  ./helpers/build_release_linux.sh
+  655  ctest -R "message verify message compressed expected" --output-on-failure --test-dir build/build/Release/domain\n
+  656  ./helpers/build_release_linux.sh
+  657  ctest -R "message verify message compressed expected" --output-on-failure --test-dir build/build/Release/domain\n
+  658  ./helpers/build_release_linux.sh
+  659  ctest -R "message verify message compressed expected" --output-on-failure --test-dir build/build/Release/domain\n
+  660  ./helpers/build_release_linux.sh
+  661  ctest -R "message verify message compressed expected" --output-on-failure --test-dir build/build/Release/domain\n
+  662  ctest -R "message verify message uncompressed expected" --output-on-failure --test-dir build/build/Release/domain\n
+  663  ./helpers/build_release_linux.sh
+  664  ctest -R "message verify message uncompressed expected" --output-on-failure --test-dir build/build/Release/domain\n
+  665  ./helpers/build_release_linux.sh
+  666  ctest -R "message verify message uncompressed expected" --output-on-failure --test-dir build/build/Release/domain\n
+  667  ctest --output-on-failure --test-dir build/build/Release/domain
+  668  ctest -R "payment address token address from string" --output-on-failure --test-dir build/build/Release/domain\n
+  669  ./helpers/build_release_linux.sh
+  670  ctest -R "payment address token address from string" --output-on-failure --test-dir build/build/Release/domain\n
+  671  ctest --output-on-failure --test-dir build/build/Release/domain
+  672  ./helpers/build_release_linux.sh
+  673  ctest --output-on-failure --test-dir build/build/Release/domain
+  674  ctest -R "payment_address construct secret valid expected" --output-on-failure --test-dir build/build/Release/domain\n
+  675  ./helpers/build_release_linux.sh
+  676  ctest -R "payment_address construct secret valid expected" --output-on-failure --test-dir build/build/Release/domain\n
+  677  ./helpers/build_release_linux.sh
+  678  ctest -R "payment_address construct secret valid expected" --output-on-failure --test-dir build/build/Release/domain\n
+  679  ./helpers/build_release_linux.sh
+  680  ctest -R "payment_address construct secret valid expected" --output-on-failure --test-dir build/build/Release/domain\n
+  681  ./helpers/build_release_linux.sh
+  682  ctest -R "payment_address construct secret valid expected" --output-on-failure --test-dir build/build/Release/domain\n
+  683  ./helpers/build_release_linux.sh
+  684  ctest -R "payment_address construct secret valid expected" --output-on-failure --test-dir build/build/Release/domain\n
+  685  ctest --output-on-failure --test-dir build/build/Release/domain
+  686  ./helpers/build_release_linux.sh
+  687  git status
+  688  cd infrastructure
+  689  git status
+  690  cd ../do
+  691  cd ..
+  692  cd domain
+  693  git status
+  694  git checkout fix/payment-address
+  695  cd ../
+  696  cd infrastructure
+  697  git checkout fix/payment-address
+  698  cd ../
+  699  cd c-api
+  700  git checkout fix/payment-address
+  701  cd ..
+  702  ./helpers/build_release_linux.sh
+  703  ./helpers/prepare_pr.sh "feat/improve-type-system"
+  704  cd infrastructure
+  705  git stash
+  706  cd ..
+  707  ./helpers/prepare_pr.sh "feat/improve-type-system"
+  708  cd infrastructure
+  709  git stash pop
+  710  gh
+  711  brew install gh\n
+  712  gh auth login\n
+  713  cd ..
+  714  ./helpers/finalize_pr.sh "feat/improve-type-system" "feat: improve type system"
+  715  ./helpers/merge_pr.sh "feat/improve-type-system"
+  716  git status
+  717  cd domain
+  718  git status
+  719  git log
+  720  cd ..
+  721  ./helpers/prepare_pr.sh "fix/unit-tests"
+  722  cd database
+  723  git stash
+  724  cd ../blockchain
+  725  git stash
+  726  cd ../
+  727  ./helpers/prepare_pr.sh "fix/unit-tests"
+  728  cd database
+  729  git stash pop
+  730  cd ../blockchain
+  731  git stash pop
+  732  cd ..
+  733  ./helpers/finalize_pr.sh "fix/unit-tests" "fix: unit tests"
+  734  ./helpers/merge_pr.sh "fix/unit-tests"
+  735  ./helpers/prepare_pr.sh "feat/improve-build-system"
+  736  cd con
+  737  cd consensus
+  738  git stash
+  739  cd ..
+  740  ./helpers/prepare_pr.sh "feat/improve-build-system"
+  741  cd consensus
+  742  git stash pop
+  743  cd ..
+  744  ./helpers/finalize_pr.sh "feat/improve-build-system" "feat: improve build system"
+  745  ./helpers/merge_pr.sh "feat/improve-build-system"
+  746  ./helpers/build_release_linux.sh
+  747  cd domain
+  748  git commit --amend --no-edit\ngit push origin fix/payment-address  --force
+  749  cd ..
+  750  ./helpers/build_release_linux.sh
+  751  ctest --output-on-failure --test-dir build/build/Release/domain
+  752  cd domain
+  753  git commit --amend --no-edit\ngit push origin fix/payment-address  --force
+  754  cd ..
+  755  ./helpers/merge_pr.sh "fix/payment-address"
+  756  cd domain
+  757  git status
+  758  cd ..
+  759  cd do
+  760  cd domain
+  761  git status
+  762  git stash
+  763  cd ..
+  764  ./helpers/prepare_pr.sh "feat/improve-type-system"
+  765  cd domain
+  766  git stash pop
+  767  ./helpers/finalize_pr.sh "feat/improve-type-system" "feat: improve type system"
+  768  cd ..
+  769  ./helpers/finalize_pr.sh "feat/improve-type-system" "feat: improve type system"
+  770  ./helpers/merge_pr.sh "feat/improve-type-system"
+  771  ./helpers/build_release_linux.sh
+  772  ctest --output-on-failure --test-dir build/build/Release/domain
+  773  ./helpers/build_release_linux.sh
+  774  cd domain
+  775  git stat
+  776  git status
+  777  cd ..
+  778  ./helpers/prepare_pr.sh "feat/code-modernization"
+  779  cd do
+  780  cd domain
+  781  git stash
+  782  cd ../
+  783  ./helpers/prepare_pr.sh "feat/code-modernization"
+  784  cd domain
+  785  git stash pop
+  786  cd ..
+  787  ./helpers/finalize_pr.sh "feat/code-modernization" "feat: code modernization"
+  788  ./helpers/merge_pr.sh "feat/code-modernization"
+  789  ./helpers/build_release_linux.sh
+  790  ssh fernando@192.168.68.98
+  791  cd .ssh
+  792  cat id_ed25519.pub
+  793  ssh fernando@192.168.68.98
+  794  cd
+  795  cd dev
+  796  cd kth/kth-master-simple
+  797  ./helpers/prepare_pr.sh "feat/cpp23"
+  798  cd infrastructure
+  799  cd ..
+  800  cd ci_utils
+  801  git status
+  802  git stash
+  803  git checkout master
+  804  git pull
+  805  git checkout -b "feat/cpp23"
+  806  git status
+  807  git stash pop
+  808  git commit -m "feat: support c++23 features"
+  809  git status
+  810  git add .
+  811  git commit -m "feat: support c++23 features"
+  812  git push
+  813  git push --set-upstream origin feat/cpp23
+  814  git checkout master
+  815  git pull
+  816  cd ..
+  817  ./helpers/update_submodules.sh
+  818  cd domain
+  819  git status
+  820  cd ..
+  821  ./helpers/finalize_pr.sh "feat/cpp23" "feat: support c++23 features"
+  822  ./helpers/merge_pr.sh "feat/cpp23"
+  823  cd c-api
+  824  git status
+  825  git log
+  826  cd include
+  827  cd ../
+  828  cd infrastructure
+  829  cd ..
+  830  cd kth-master-simple
+  831  ./helpers/finalize_pr.sh "feat/cpp23" "feat: support c++23 features"
+  832  ./helpers/merge_pr.sh "feat/cpp23"
+  833  cd c-api
+  834  gh pr merge --help
+  835  cd ..
+  836  ./helpers/merge_pr.sh "feat/cpp23"
+  837  ./helpers/prepare_pr.sh "feat/cpp23" "domain"
+  838  ./helpers/prepare_pr.sh "feat/cpp23" "domain, database"
+  839  ./helpers/prepare_pr.sh "feat/cpp23" "domain database"
+  840  ./helpers/prepare_pr.sh "feat/cpp23" "domain"
+  841  cd domain
+  842  git status
+  843  git stash
+  844  cd ..
+  845  ./helpers/prepare_pr.sh "feat/cpp23" "domain"
+  846  cd domain
+  847  git status
+  848  git stash
+  849  git submodule update
+  850  git status
+  851  cd ../
+  852  ./helpers/prepare_pr.sh "feat/cpp23" "domain"
+  853  cd domain
+  854  git submodule update --remote
+  855  git status
+  856  cd ../
+  857  ./helpers/finalize_pr.sh "feat/cpp23" "feat: support c++23 features" "domain"
+  858  ./helpers/merge_pr.sh "feat/cpp23" "domain"
+  859  exit
+  860  cd ..
+  861  git clone git@github.com:k-nuth/js-wasm-private.git
+  862  git clone git@github.com:k-nuth/js-wasm.git
+  863  cd js-wasm-private
+  864  cursor .
+  865  git checkout feat/third-not-async
+  866  ./helpers/clean.sh
+  867  ./helpers/clean-js.sh
+  868  ./helpers/build.sh
+  869  ssh fernando@192.168.68.98
+  870  ssh fernando@192.168.68.54
+  871  cd .conan2
+  872  cd profiles
+  873  cp default
+  874  cp default em2
+  875  cursor .
+  876  cd ..
+  877  git clone https://github.com/conan-io/conan-center-index.git
+  878  cd conan-center-index
+  879  cursor .
+  880  cd ..
+  881  mkdir conan
+  882  mv conan-center-index conan
+  883  cd conan
+  884  git clone git@github.com:fpelliccioni/cci-upgrader.git
+  885  cd cci-upgrader
+  886  cursor .
+  887  python emsdk.py
+  888  ls
+  889  python emsdk.py
+  890  cd ..
+  891  ls
+  892  cd conan-center-index
+  893  cursor .
+  894  git remote -v
+  895  cd ..
+  896  mv conan-center-index conan-center-index-upstream
+  897  git clone git@github.com:fpelliccioni/conan-center-index.git
+  898  cd conan-center-index
+  899  git remote add upstream https://github.com/conan-io/conan-center-index.git
+  900  git fetch upstream
+  901  git rebase upstream/master
+  902  git push
+  903  git checkout -b feat/emsdk-3.1.72
+  904  cursor .
+  905  cd ..
+  906  cd conan-center-index-upstream
+  907  cursor .
+  908  cd ../conan-center-index
+  909  git status
+  910  git add .
+  911  git commit -m "[emsdk] bump to 3.1.72"\n
+  912  git push
+  913  git push --set-upstream origin feat/emsdk-3.1.72
+  914  cd 
+  915  cd dev
+  916  cd kth/js-wasm-private
+  917  ./helpers/build.sh
+  918  pwd
+  919  cd ..
+  920  ls
+  921  cd kth-master-simple
+  922  cd ..
+  923  cd js-wasm-private
+  924  ./helpers/build.sh
+  925  cd
+  926  cd .conan2/profiles
+  927  ls
+  928  cd
+  929  cd dev
+  930  cd kth
+  931  cd js-wasm-private
+  932  ./helpers/build.sh
+  933  pip install kthbuild --user --upgrade
+  934  conan config install https://github.com/k-nuth/ci-utils/raw/master/conan/config2023.zip
+  935  conan remote list
+  936  conan remote add kth https://packages.kth.cash/api
+  937  ./helpers/build.sh
+  938  ./helpers/build.sh/Users/fernando/.conan2/p/emsdk7274ce025c32d/p/bin/upstream/emscripten/emcc
+  939  /Users/fernando/.conan2/p/emsdk7274ce025c32d/p/bin/upstream/emscripten/emcc --version
+  940  git status
+  941  git checkout -b feat/bump-c-api-0-50-0
+  942  git push
+  943  git push --set-upstream origin feat/bump-c-api-0-50-0
+  944  ssh fernando@192.168.68.54
+  945  cd
+  946  cd dev
+  947  cd kth
+  948  cd ..
+  949  cd conan/conan-center-index
+  950  cursor .
+  951  git commit --amend --no-edit\ngit push origin feat/emsdk-3.1.72  --force
+  952  exit
+  953  pwd
+  954  ./helpers/build.sh
+  955  cd 
+  956  ls
+  957  cd dev
+  958  ks
+  959  ls
+  960  cd conan
+  961  ls
+  962  cd conan-center-index
+  963  ls
+  964  cd ..
+  965  cd cci-upgrader
+  966  ls
+  967  cd emsdk_versions
+  968  ls
+  969  cd ..
+  970  cd conan-center-index
+  971  cursor .
+  972  cd
+  973  cd Downloads
+  974  wget https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.bz2
+  975  curl https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.bz2
+  976  cd Downloads/c
+  977  cd Downloads/
+  978  cd gmp-6.3.0
+  979  ls
+  980  cursor .
+  981  exit
+  982  cd
+  983  cd dev
+  984  cd kth
+  985  cd kth-master-simple
+  986  cd infrastructure
+  987  cd ../
+  988  ./helpers/prepare_pr.sh "feat/bump-fmt-spdlog" "infrastructure"
+  989  cd infrastructure
+  990  git stash
+  991  cd ..
+  992  ./helpers/prepare_pr.sh "feat/bump-fmt-spdlog" "infrastructure"
+  993  cd infrastructure
+  994  git stash pop
+  995  ./helpers/finalize_pr.sh "feat/bump-fmt-spdlog" "feat: bump fmt and spdlog" "infrastructure"
+  996  cd ..
+  997  ./helpers/finalize_pr.sh "feat/bump-fmt-spdlog" "feat: bump fmt and spdlog" "infrastructure"
+  998  ./helpers/merge_pr.sh "feat/cpp23" "infrastructure"
+  999  ./helpers/merge_pr.sh "feat/bump-fmt-spdlog" "infrastructure"
+ 1000  ./helpers/build.sh
+ 1001  ./helpers/build_release_linux.sh
+ 1002  cd ci_utils
+ 1003  git status
+ 1004  git checkout -b feat/replace-conan-center-url
+ 1005  git add .
+ 1006  git commit -m "feat: replace conan-center url"
+ 1007  git push
+ 1008  git push --set-upstream origin feat/replace-conan-center-url
+ 1009  cd ..
+ 1010  ./helpers/prepare_pr.sh "feat/replace-conan-center-url"
+ 1011  ./helpers/update_submodules.sh
+ 1012  ./helpers/finalize_pr.sh "feat/replace-conan-center-url" "feat: replace conan center url"
+ 1013  ./helpers/merge_pr.sh "feat/replace-conan-center-url"
+ 1014  ./helpers/build_release_linux.sh
+ 1015  cd infrastructure
+ 1016  git stash
+ 1017  cd ..
+ 1018  ./helpers/prepare_pr.sh "fix/emscripten-workaround" "infrastructure"
+ 1019  cd infrastructure
+ 1020  git stash pop
+ 1021  git add .
+ 1022  ./helpers/finalize_pr.sh "fix/emscripten-workaround" "fix: workaround for emscripten 3.1.72 and fmt lib" "infrastructure"
+ 1023  cd ..
+ 1024  ./helpers/finalize_pr.sh "fix/emscripten-workaround" "fix: workaround for emscripten 3.1.72 and fmt lib" "infrastructure"
+ 1025  cd ..
+ 1026  cd kth-master-simple
+ 1027  ./helpers/merge_pr.sh "fix/emscripten-workaround" "infrastructure"
+ 1028  cd infrastructure
+ 1029  cd ..
+ 1030  ./helpers/build_release_linux.sh
+ 1031  cd
+ 1032  cd dev
+ 1033  cd cppalliance/mrdocs
+ 1034  cmake --build . -j 16\n
+ 1035  cd build
+ 1036  cmake --build . -j 16\n
+ 1037  export MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc
+ 1038  \ncd\nrm -rf $PROJECT_BUILD_DIR\ncd $PROJECT_SOURCE_DIR\nmkdir $PROJECT_BUILD_DIR\ncd $PROJECT_BUILD_DIR\n
+ 1039  cd $PROJECT_BUILD_DIR\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc\n
+ 1040  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1
+ 1041  ls
+ 1042  cd docs
+ 1043  ls
+ 1044  cd reference
+ 1045  ls
+ 1046  cd adoc
+ 1047  ls
+ 1048  cd ..
+ 1049  ls
+ 1050  pwd
+ 1051  cd build-docs
+ 1052  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1
+ 1053  ls
+ 1054  cd docs
+ 1055  ls
+ 1056  cd reference
+ 1057  ls
+ 1058  cd adoc
+ 1059  ls
+ 1060  cd ..
+ 1061  cmake --build . -j 16\n
+ 1062  cd ..
+ 1063  cd build
+ 1064  cmake --build . -j 16\n
+ 1065  ls
+ 1066  cd ..
+ 1067  cd build-docs
+ 1068  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1
+ 1069  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1070  ls
+ 1071  cd docs
+ 1072  ls
+ 1073  cd reference
+ 1074  ls
+ 1075  cd adoc
+ 1076  ls
+ 1077  cd ..
+ 1078  ls
+ 1079  cd ..
+ 1080  ls
+ 1081  cd doc
+ 1082  ls
+ 1083  cd ..
+ 1084  cd build-docs
+ 1085  rm ../doc/reference.tag.xml
+ 1086  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1087  cat ../doc/reference.tag.xml
+ 1088  rm ../doc/reference.tag.xml
+ 1089  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1090  cat ../doc/reference.tag.xml
+ 1091  cmake --build . -j 16\n
+ 1092  cat ../doc/reference.tag.xml
+ 1093  cmake --build . -j 16\n
+ 1094  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1095  cmake --build . -j 16\n
+ 1096  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1097  cmake --build . -j 16\n
+ 1098  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1099  echo $MRDOCS_OUTPUT
+ 1100  ls /Users/fernando/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc
+ 1101  rm -rf docs
+ 1102  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1103  export MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc/
+ 1104  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1105  echo $MRDOCS_OUTPUT
+ 1106  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1107  cmake --build . -j 16\n
+ 1108  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1109  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1110  echo $MRDOCS_OUTPUT
+ 1111  export MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc
+ 1112  ls
+ 1113  export MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc
+ 1114  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1115  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1116  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1117  cmake --build . -j 16\n
+ 1118  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1119  cmake --build . -j 16\n
+ 1120  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1121  cmake --build . -j 16\n
+ 1122  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1123  cmake --build . -j 16\n
+ 1124  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1125  ls
+ 1126  cd docs
+ 1127  ls
+ 1128  cd reference
+ 1129  ls
+ 1130  cd adoc
+ 1131  ls
+ 1132  cd reference
+ 1133  ls
+ 1134  cd ..
+ 1135  rm docs
+ 1136  rm -rf docs
+ 1137  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1138  cd docs
+ 1139  ls
+ 1140  cd reference/adoc
+ 1141  ls
+ 1142  cd ..
+ 1143  rm -rf docs
+ 1144  ls
+ 1145  rm -rf *
+ 1146  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1147  echo $MRDOCS_OUTPUT
+ 1148  ls /Users/fernando/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc
+ 1149  cmake --build . -j 16\n
+ 1150  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1151  cmake --build . -j 16\n
+ 1152  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1153  cd docs/reference/adoc
+ 1154  ls
+ 1155  cd ..
+ 1156  cmake --build . -j 16\n
+ 1157  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="true" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1158  rm -rf docs
+ 1159  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1160  ls
+ 1161  export MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc/
+ 1162  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1163  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1164  echo $MRDOCS_OUTPUT
+ 1165  mkdir $MRDOCS_OUTPUT
+ 1166  mkdir -p $MRDOCS_OUTPUT
+ 1167  cd docs/reference/adoc
+ 1168  ls
+ 1169  cd ..
+ 1170  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1171  cmake --build . -j 16\n
+ 1172  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1173  ls
+ 1174  cd docs/reference/adoc/reference
+ 1175  ls
+ 1176  cd ..
+ 1177  cmake --build . -j 16\n
+ 1178  ls
+ 1179  rm -rf reference
+ 1180  cd ..
+ 1181  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1182  ls
+ 1183  cd ..
+ 1184  ls
+ 1185  cd docs/reference/adoc/
+ 1186  ls
+ 1187  cd ..
+ 1188  export MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc/reference.adoc
+ 1189  echo $MRDOCS_OUTPUT
+ 1190  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1191  cmake --build . -j 16\n
+ 1192  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1193  cmake --build . -j 16\n
+ 1194  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1195  cd ..
+ 1196  git commit --amend --no-edit\ngit push origin feat/tagfiles-doxygen-generation  --force
+ 1197  cmake --build . -j 16\n
+ 1198  git commit --amend --no-edit\ngit push origin feat/tagfiles-doxygen-generation  --force
+ 1199  cd ..
+ 1200  cd
+ 1201  vi ~/.conan2/profiles/ems2
+ 1202  cd Downloads/LLVM-19.1.0-macOS-ARM64/bin
+ 1203  ls
+ 1204  ./clang --version
+ 1205  brew install clang\n
+ 1206  brew install llvm\n
+ 1207  echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
+ 1208  source ~/.zshrc\n
+ 1209  cd
+ 1210  clang --version
+ 1211  vi ~/.conan2/profiles/ems2
+ 1212  cd dev
+ 1213  cd kth
+ 1214  conan remove "*"
+ 1215  ls
+ 1216  cd js-wasm-private
+ 1217  cursor .
+ 1218  ./helpers/build.sh
+ 1219  vi ~/.conan2/profiles/ems2
+ 1220  ./helpers/build.sh
+ 1221  cd /Users/fernando/.conan2/p/b/gmpe6ebf9e6f3003/
+ 1222  ls
+ 1223  cd b
+ 1224  ls
+ 1225  cd src
+ 1226  ls
+ 1227  cursor .
+ 1228  ls
+ 1229  cd ..
+ 1230  ls
+ 1231  cd ..
+ 1232  ls
+ 1233  find . -name "config.log"
+ 1234  cursor ./b/build-release/config.log
+ 1235  cd
+ 1236  cd 
+ 1237  cd dev/cppalliance/boost-root
+ 1238  cd libs/url/build-docs
+ 1239  cd 
+ 1240  cd ls
+ 1241  cd dev
+ 1242  ls
+ 1243  cd conan
+ 1244  cd conan-center-index
+ 1245  git remote -v
+ 1246  cd recipes/emsdk
+ 1247  conan remove "*"
+ 1248  vi .zshrc
+ 1249  exit
+ 1250  source ~/.zshrc\n
+ 1251  conan remove "*"
+ 1252  pwd
+ 1253  exit
+ 1254  /Users/fernando/.conan2/p/emsdk7274ce025c32d/p/bin/upstream/bin/clang --version
+ 1255  cd
+ 1256  cd dev
+ 1257  cd conan-center-index
+ 1258  ls
+ 1259  cd ..
+ 1260  cd kth/js-wasm
+ 1261  cd ../js-wasm-private
+ 1262  cd dev
+ 1263  cd conan-center-index
+ 1264  conan remove "*"
+ 1265  cd recipes/emsdk
+ 1266  cursor .
+ 1267  ls
+ 1268  pwd
+ 1269  cd all
+ 1270  ls
+ 1271  cd ..
+ 1272  git status
+ 1273  cd ..
+ 1274  pwd
+ 1275  cd ..
+ 1276  ls
+ 1277  exit
+ 1278  vi .zshrc
+ 1279  cd dev
+ 1280  cd conan-center-index
+ 1281  git 
+ 1282  git remote -v
+ 1283  cd ..
+ 1284  cd kth
+ 1285  cd kth-master-simple
+ 1286  cd ..
+ 1287  rm -rf conan-center-index
+ 1288  git clone git@github.com:fpelliccioni/conan-center-index.git
+ 1289  cd conan-center-index
+ 1290  node --version
+ 1291  nvm
+ 1292  cd recipes
+ 1293  cd ..
+ 1294  git checkout -b feat/emsdk-3.1.72
+ 1295  cd recipes/emsdk
+ 1296  cursor .
+ 1297  git pull
+ 1298  git remote -v
+ 1299  conan
+ 1300  conan create conanfile.py --version 3.1.50 --build=missing
+ 1301  ls
+ 1302  cd all
+ 1303  conan create conanfile.py --version 3.1.50 --build=missing
+ 1304  conan profile detect
+ 1305  cd .conan2/profiles
+ 1306  ls
+ 1307  mv default apple-clang
+ 1308  conan profile detect
+ 1309  vi default
+ 1310  cat apple-clang
+ 1311  cat default
+ 1312  exit
+ 1313  conan remove "*"
+ 1314  conan create conanfile.py --version 3.1.50 --build=missing
+ 1315  brew install certifi\n
+ 1316  python3 -m certifi\n
+ 1317  conan create conanfile.py --version 3.1.50 --build=missing
+ 1318  brew reinstall python\n
+ 1319  python3 -m certifi\n
+ 1320  conan create conanfile.py --version 3.1.50 --build=missing
+ 1321  export SSL_CERT_FILE=$(python3 -m certifi)\n
+ 1322  conan create conanfile.py --version 3.1.50 --build=missing
+ 1323  ./helpers/build.sh
+ 1324  npm
+ 1325  nvm
+ 1326  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash\n
+ 1327  exit
+ 1328  nvm
+ 1329  exit
+ 1330  cd dev
+ 1331  cd kth/js-wasm-private
+ 1332  nvm install 18
+ 1333  ./helpers/build.sh
+ 1334  cd tools/wasm-generator
+ 1335  rm -rf yarn.lock node_modules
+ 1336  node --version
+ 1337  yarn
+ 1338  npm install -g yarn\n
+ 1339  yarn
+ 1340  cd ../
+ 1341  cd ..
+ 1342  yarn
+ 1343  ./helpers/build.sh
+ 1344  cursor .
+ 1345  ./helpers/build.sh
+ 1346  yarn test
+ 1347  ./helpers/build.sh
+ 1348  ./helpers/clean.sh
+ 1349  ./helpers/build.sh
+ 1350  yarn test
+ 1351  ./helpers/build.sh
+ 1352  yarn test
+ 1353  ./helpers/build.sh
+ 1354  yarn test
+ 1355  ./helpers/build.sh
+ 1356  cursor ..
+ 1357  conan create conanfile.py --version 3.1.58 --build=missing
+ 1358  vi ~/.conan2/profiles/ems2
+ 1359  ./helpers/build.sh
+ 1360  yarn test
+ 1361  rm -rf node_modules yarn.lock
+ 1362  yarn
+ 1363  ./helpers/build.sh
+ 1364  git status
+ 1365  git checkout -b feat/modernize
+ 1366  ./helpers/build.sh
+ 1367  conan remove "*"
+ 1368  ./helpers/build.sh
+ 1369  conan create conanfile.py --version 3.1.60 --build=missing
+ 1370  vi ~/.conan2/profiles/ems2
+ 1371  conan remove "*"
+ 1372  ./helpers/build.sh
+ 1373  conan create conanfile.py --version 3.1.64 --build=missing
+ 1374  conan create conanfile.py --version 3.1.66 --build=missing
+ 1375  conan remove "*"
+ 1376  ./helpers/build.sh
+ 1377  vi ~/.conan2/profiles/ems2
+ 1378  ./helpers/build.sh
+ 1379  yarn
+ 1380  yarn test
+ 1381  ./helpers/build.sh
+ 1382  yarn test
+ 1383  ./helpers/build.sh
+ 1384  yarn test
+ 1385  TERM=dumb yarn test
+ 1386  ./helpers/build.sh
+ 1387  TERM=dumb yarn test
+ 1388  cd Downloads
+ 1389  cd archive
+ 1390  cursor .
+ 1391  exit
+ 1392  ./helpers/build.sh
+ 1393  TERM=dumb yarn test
+ 1394  ./helpers/build.sh
+ 1395  TERM=dumb yarn test
+ 1396  ./helpers/build.sh
+ 1397  cd Downloads/archive
+ 1398  cursor .
+ 1399  exit
+ 1400  ./helpers/build.sh
+ 1401  TERM=dumb yarn test
+ 1402  ./helpers/build.sh
+ 1403  TERM=dumb yarn test
+ 1404  ./
+ 1405  ./helpers/build.sh
+ 1406  yarn test
+ 1407  cd ..
+ 1408  mkdir ts-declare-test\ncd ts-declare-test\nnpm init -y\nnpm install typescript --save-dev\nnpx tsc --init\n
+ 1409  cursor .
+ 1410  npx tsc\n
+ 1411  ls
+ 1412  cd dist
+ 1413  ls
+ 1414  cat  index.js
+ 1415  cd ..
+ 1416  cd 
+ 1417  cd Downloads
+ 1418  cd archive
+ 1419  cursor .
+ 1420  cd
+ 1421  cd dev
+ 1422  node --version
+ 1423  cd kth
+ 1424  cd js-wasm-private
+ 1425  ./helpers/build.sh
+ 1426  yarn test
+ 1427  ./helpers/build.sh
+ 1428  yarn test
+ 1429  ./helpers/build.sh
+ 1430  yarn test
+ 1431  ./helpers/build.sh
+ 1432  yarn test
+ 1433  ./helpers/build.sh
+ 1434  yarn test
+ 1435  ./helpers/build.sh
+ 1436  yarn test
+ 1437  ./helpers/build.sh
+ 1438  yarn test
+ 1439  rm -rf build
+ 1440  ./helpers/build.sh
+ 1441  cd helpers
+ 1442  ls
+ 1443  cp ~/.conan2/profiles/ems2
+ 1444  cp ~/.conan2/profiles/ems2 .
+ 1445  git diff
+ 1446  git statys
+ 1447  git status
+ 1448  git diff > cambios.patch\n
+ 1449  cp cambios.patch ~/dev/kth/js-wasm-private/helpers
+ 1450  cd ..
+ 1451  pwd
+ 1452  git branch
+ 1453  git checkout -b feat/fourth-async
+ 1454  git push
+ 1455  git push --set-upstream origin feat/fourth-async
+ 1456  git checkout master
+ 1457  git branch -D feat/fourth-async
+ 1458  git checkout feat/third-not-async
+ 1459  git checkout -b feat/fourth-async
+ 1460  git push
+ 1461  git push --set-upstream origin feat/fourth-async
+ 1462  git pull
+ 1463  cd ../js-wasm
+ 1464  ls
+ 1465  find . -name "kth.wasm"
+ 1466  cp ../js-wasm-private/bin/kth.* ./src
+ 1467  cp ../js-wasm-private/bin/kth.* ./examples/address-converter
+ 1468  cp ../js-wasm-private/bin/kth.* ./examples/address-generator
+ 1469  cursor .
+ 1470  rm -rf yarn.lock node_modules
+ 1471  yarn
+ 1472  yarn test
+ 1473  cd ..
+ 1474  git checkout git@github.com:k-nuth/k-nuth.github.io.git
+ 1475  git clone git@github.com:k-nuth/k-nuth.github.io.git
+ 1476  cd k-nuth.github.io
+ 1477  cursor .
+ 1478  find . -name "kth.wasm"
+ 1479  cd ../js-wasm-private
+ 1480  ./helpers/build.sh
+ 1481  yarn test
+ 1482  ./helpers/build.sh
+ 1483  yarn test
+ 1484  TERM=dumb yarn test
+ 1485  yarn test
+ 1486  ./helpers/build.sh
+ 1487  yarn test
+ 1488  ./helpers/build.sh
+ 1489  yarn test
+ 1490  ./helpers/build.sh
+ 1491  yarn test
+ 1492  ./helpers/build.sh
+ 1493  yarn test
+ 1494  ./helpers/build.sh
+ 1495  yarn test
+ 1496  TERM=dumb yarn test
+ 1497  ./helpers/build.sh
+ 1498  yarn test
+ 1499  ./helpers/build.sh
+ 1500  cd ../js-wasm
+ 1501  git status
+ 1502  git checkout -b fix/payment-address
+ 1503  cp ../js-wasm-private/bin/kth.* ./examples/address-generator
+ 1504  cp ../js-wasm-private/bin/kth.* ./examples/address-converter
+ 1505  cp ../js-wasm-private/bin/kth.* ./src
+ 1506  yarn test
+ 1507  git checkout master
+ 1508  git pull
+ 1509  yarn test
+ 1510  git checkout -b feat/add-more-libconfig-options
+ 1511  git checkout master
+ 1512  git checkout -b release/2-1-0
+ 1513  yarn
+ 1514  git checkout master
+ 1515  git tag -a v2.1.0 -m "Release v2.1.0"\n
+ 1516  git tag -d v2.1.0\n
+ 1517  git pull
+ 1518  git tag -a v2.1.0 -m "Release v2.1.0"\n
+ 1519  git push --tags\n
+ 1520  cd ../k-nuth.github.io
+ 1521  ls
+ 1522  cp ../js-wasm/src/kth.* .
+ 1523  cursor .
+ 1524  cd
+ 1525  cd dev
+ 1526  cd cppalliance/mrdocs
+ 1527  git checkout develop
+ 1528  git fetch upstream
+ 1529  git rebase upstream/master
+ 1530  git rebase upstream/develop
+ 1531  git log
+ 1532  git checkout -b feat/normalize-relative-path-options
+ 1533  cursor .
+ 1534  exit
+ 1535  cd
+ 1536  \nexport BUILD_TYPE=Release\n# export BUILD_TYPE=Debug\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport THIRD_PARTY_ROOT=/Users/fernando/dev/cppalliance/third-party\nexport VCPKG_ROOT=$THIRD_PARTY_ROOT/vcpkg\nexport BOOST_ROOT=/Users/fernando/dev/cppalliance/boost-root\n# export CXX="$LLVM_ROOT/bin/clang++"\n# export CC="$LLVM_ROOT/bin/clang"
+ 1537  cd\ncd dev/cppalliance/mrdocs\n\nrm -rf build\ncmake -B build \\n    -D CMAKE_BUILD_TYPE=$BUILD_TYPE  \\n    -D CMAKE_EXPORT_COMPILE_COMMANDS=ON  \\n    -D MRDOCS_BUILD_DOCS=OFF \\n    -D LLVM_ROOT=$LLVM_ROOT  \\n    -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \\n    -D BUILD_TESTING=OFF \\n    -D MRDOCS_BUILD_DOCS=OFF\ncd build
+ 1538  cmake --build . -j 16
+ 1539  \nexport MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc
+ 1540  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 1541  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 
+ 1542  cmake --build . -j 16
+ 1543  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 
+ 1544  cmake --build . -j 16
+ 1545  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 
+ 1546  ls
+ 1547  cd docs
+ 1548  ls
+ 1549  cd ..
+ 1550  find . -name "reference.tag.xml"
+ 1551  cmake --build . -j 16
+ 1552  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 
+ 1553  cmake --build . -j 16
+ 1554  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 
+ 1555  cmake --build . -j 16
+ 1556  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 
+ 1557  cmake --build . -j 16
+ 1558  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 
+ 1559  cmake --build . -j 16
+ 1560  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 
+ 1561  cmake --build . -j 16
+ 1562  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 
+ 1563  cmake --build . -j 16
+ 1564  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 
+ 1565  cmake --build . -j 16
+ 1566  cursor /Users/fernando/dev/cppalliance/mrdocs/build/src/lib/Lib/PublicSettings.cpp
+ 1567  cmake --build . -j 16
+ 1568  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 
+ 1569  cmake --build . -j 16
+ 1570  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 
+ 1571  git push
+ 1572  git push --set-upstream origin feat/normalize-relative-path-options
+ 1573  git commit --amend --no-edit\ngit push origin feat/normalize-relative-path-options  --force
+ 1574  cmake --build . -j 16
+ 1575  git commit --amend --no-edit\ngit push origin feat/normalize-relative-path-options  --force
+ 1576  git checkout fpelliccioni:feat/tagfiles-doxygen-generation
+ 1577  git checkout feat/tagfiles-doxygen-generation
+ 1578  git fetch upstream
+ 1579  git rebase upstream/develop
+ 1580  git status
+ 1581  git diff
+ 1582  git stash
+ 1583  git rebase upstream/develop
+ 1584  cursor .
+ 1585  git rebase --continue
+ 1586  cd build
+ 1587  git log
+ 1588  cmake --build . -j 16
+ 1589  git commit --amend --no-edit\ngit push origin feat/tagfiles-doxygen-generation  --force
+ 1590  cd dev
+ 1591  cd kth
+ 1592  git clone git@github.com:k-nuth/js-native.git
+ 1593  git clone git@github.com:k-nuth/js-api.git
+ 1594  cd js-native
+ 1595  cursor .
+ 1596  node --version
+ 1597  git checkout -b feat/copyright-2024
+ 1598  git checkout master
+ 1599  git pull
+ 1600  git checkout -b feat/bump-c-api
+ 1601  yarn
+ 1602  npm install
+ 1603  python
+ 1604  where python
+ 1605  where python3
+ 1606  cd /usr/bin/
+ 1607  ls -lh py*
+ 1608  sudo ln -s /usr/bin/python3 /usr/local/bin/python\n
+ 1609  where python
+ 1610  which python\n
+ 1611  vi zshr
+ 1612  vi .zshrc
+ 1613  exit
+ 1614  source ~/.zshrc\n
+ 1615  which python\n
+ 1616  exit
+ 1617  exut
+ 1618  exit
+ 1619  which python\n
+ 1620  cd dev
+ 1621  cd kth/js-native
+ 1622  npm install
+ 1623  python
+ 1624  python3
+ 1625  where python3
+ 1626  /usr/bin/python3 --version
+ 1627  /usr/bin/python3 
+ 1628  /usr/local/bin/python3 --version
+ 1629  /opt/homebrew/bin/python3 --version
+ 1630  where python
+ 1631  /usr/local/bin/python
+ 1632  cd /usr/local/bin/
+ 1633  ls -l py*
+ 1634  ls -l python*
+ 1635  pwd
+ 1636  /usr/local/bin/python
+ 1637  /usr/bin/python3
+ 1638  xcode-select --install\n
+ 1639  sudo xcode-select --reset\n
+ 1640  xcode-select -p\n
+ 1641  /usr/local/bin/python --version\n
+ 1642  sudo rm /usr/local/bin/python\nsudo ln -s /usr/bin/python3 /usr/local/bin/python\n
+ 1643  /usr/local/bin/python --version\n
+ 1644  python --version\n
+ 1645  where python3
+ 1646  cd
+ 1647  cd dev
+ 1648  cd kth
+ 1649  cd js-native
+ 1650  cursor .
+ 1651  npm install
+ 1652  cd .conan2
+ 1653  cd profiles
+ 1654  ls
+ 1655  vi default
+ 1656  ls
+ 1657  cat apple-clang
+ 1658  vi default
+ 1659  npm install
+ 1660  conan remove "*"
+ 1661  cd
+ 1662  cd dev
+ 1663  cd conan-center-index/recipes/emsdk/all
+ 1664  conan create conanfile.py --version 3.1.66 --build=missing
+ 1665  cd
+ 1666  cd dev
+ 1667  cd kth/js-native
+ 1668  npm install
+ 1669  cat ~/.conan2/profiles/default
+ 1670  npm install
+ 1671  cd
+ 1672  cd .conan2
+ 1673  cd profiles
+ 1674  cp default clang
+ 1675  cat default
+ 1676  cp apple-clang default
+ 1677  cat default
+ 1678  vi apple-clang
+ 1679  npm install
+ 1680  rm -rf full_deploy
+ 1681  npm install
+ 1682  rm -rf full_deploy
+ 1683  npm install
+ 1684  rm deps
+ 1685  rm -rf deps
+ 1686  ./helpers/build.sh
+ 1687  npm install
+ 1688  clang++ --version
+ 1689  ./helpers/build_and_test.sh
+ 1690  npm install -g node-pre-gyp\n
+ 1691  ./helpers/build_and_test.sh
+ 1692  git push
+ 1693  git push --set-upstream origin feat/bump-c-api
+ 1694  git checkout master
+ 1695  git stash
+ 1696  git checkout master
+ 1697  git pull
+ 1698  git checkout -b feat/cpp-23
+ 1699  git stash pop
+ 1700  cursor .
+ 1701  git checkout master
+ 1702  git pull
+ 1703  cursor .
+ 1704  git checkout -b release/1.6.0
+ 1705  npm install
+ 1706  git status
+ 1707  yarn 
+ 1708  git checkout master
+ 1709  git checkout -b ci/macos-14-runner
+ 1710  conan remote list
+ 1711  git checkout master
+ 1712  git checkout -b ci/conan-center-2
+ 1713  git log
+ 1714  git push
+ 1715  git checkout master
+ 1716  git pull
+ 1717  cd ../
+ 1718  cd js-api
+ 1719  cursor .
+ 1720  npm install
+ 1721  cursor ../js-wasm
+ 1722  cursor ../js-native
+ 1723  export MACOSX_DEPLOYMENT_TARGET=14.0
+ 1724  npm install
+ 1725  yarn
+ 1726  yarnt est
+ 1727  yarn test
+ 1728  cursor ../js-wasm
+ 1729  yarn test
+ 1730  git status
+ 1731  git checkout -b feat/bump-js-native
+ 1732  git checkout master
+ 1733  git pull
+ 1734  clang --version
+ 1735  where clang
+ 1736  /usr/bin/clang --version
+ 1737  git checkout -b ci/debug-apple-clang
+ 1738  cd ../js-native
+ 1739  git checkout -b fix/clang-compiler-option
+ 1740  cursor .
+ 1741  npm install
+ 1742  yarn
+ 1743  git commit --amend --no-edit\ngit push origin fix/clang-compiler-option  --force
+ 1744  cd ..
+ 1745  cd js-api
+ 1746  npm install
+ 1747  yarn
+ 1748  git commit --amend --no-edit\ngit push origin ci/debug-apple-clang  --force
+ 1749  git checkout master
+ 1750  git stash
+ 1751  git checkout master
+ 1752  git pull
+ 1753  npm install
+ 1754  yarn
+ 1755  git checkout -b release/2.6.0
+ 1756  cd
+ 1757  cd dev
+ 1758  cd cppalliance
+ 1759  cd mrdocs
+ 1760  python util/generate-yaml-schema.py
+ 1761  python3 util/generate-yaml-schema.py
+ 1762  git status
+ 1763  cursor .
+ 1764  git commit --amend --no-edit\ngit push origin feat/tagfiles-doxygen-generation  --force
+ 1765  git fetch upstream
+ 1766  git rebase upstream/develop
+ 1767  git status
+ 1768  git push origin feat/tagfiles-doxygen-generation  --force
+ 1769  cd build
+ 1770  cmake --build . -j 16
+ 1771  cd
+ 1772  cd dev
+ 1773  cd cppalliance
+ 1774  ls
+ 1775  cd mrdocs-helpers
+ 1776  cursor .
+ 1777  \nexport MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc
+ 1778  cd\nrm -rf $PROJECT_BUILD_DIR\ncd $PROJECT_SOURCE_DIR\nmkdir $PROJECT_BUILD_DIR\ncd $PROJECT_BUILD_DIR\n
+ 1779  ls
+ 1780  cat $MRDOCS_OUTPUT
+ 1781  echo $MRDOCS_OUTPUT
+ 1782  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1
+ 1783  ls
+ 1784  cmake --build . -j 16
+ 1785  rm -rf *
+ 1786  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1
+ 1787  rm -rf *
+ 1788  cmake --build . -j 16
+ 1789  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1
+ 1790  cmake --build . -j 16
+ 1791  rm -rf *
+ 1792  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1
+ 1793  cd ../
+ 1794  vi .github/workflows/ci.yml
+ 1795  rm .github/workflows/ci.yml
+ 1796  vi .github/workflows/ci.yml
+ 1797  git commit --amend --no-edit\ngit push origin feat/tagfiles-doxygen-generation  --force
+ 1798  cd build
+ 1799  cmake --build . -j 16
+ 1800  python3 util/generate-yaml-schema.py
+ 1801  cd ../
+ 1802  python3 util/generate-yaml-schema.py
+ 1803  git commit --amend --no-edit\ngit push origin feat/tagfiles-doxygen-generation  --force
+ 1804  find . -name "*.py"
+ 1805  cursor $MRDOCS_CONFIG
+ 1806  ls
+ 1807  cd docs/reference/adoc
+ 1808  ls
+ 1809  pwd
+ 1810  cd Downloads
+ 1811  ls
+ 1812  ls *.xml
+ 1813  pwd
+ 1814  exit
+ 1815  export REF_TAGFILE=/Users/fernando/Downloads/boost-url-doxygen.tag.xml\nexport GEN_TAGFILE=/Users/fernando/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc/reference.tag.xml\n
+ 1816  python3 util/compare_tagfiles.py $REF_TAGFILE $GEN_TAGFILE
+ 1817  cd ..
+ 1818  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1
+ 1819  python3 util/compare_tagfiles.py $REF_TAGFILE $GEN_TAGFILE
+ 1820  cd dev
+ 1821  cd kth/js-api
+ 1822  git checkout master
+ 1823  git pull
+ 1824  git checkout 633cc98b2fda27cd364df405a14e7c09d97c5d53
+ 1825  git tag -a v2.5.0 -m "Release v2.5.0"\n
+ 1826  git checkout master
+ 1827  git tag -a v2.6.0 -m "Release v2.6.0"\n
+ 1828  git push --tags\n
+ 1829  exit
+ 1830  cd ../
+ 1831  cd ..
+ 1832  cd conan-center-index
+ 1833  git checkout master
+ 1834  git pull
+ 1835  git fetch upstream
+ 1836  git remote -v
+ 1837  git remote add upstream https://github.com/conan-io/conan-center-index.git
+ 1838  git fetch upstream
+ 1839  git rebase upstream/master
+ 1840  git status
+ 1841  git stash
+ 1842  git rebase upstream/master
+ 1843  git stash pop
+ 1844  git status
+ 1845  cursor .
+ 1846  cd Downloads
+ 1847  sha256sum emsdk-3.1.73.tar.gz
+ 1848  xit
+ 1849  exit
+ 1850  pwd
+ 1851  git checkout -b feat/emsdk-3.1.73
+ 1852  git push
+ 1853  git push --set-upstream origin feat/emsdk-3.1.73
+ 1854  cd ..
+ 1855  cd kth
+ 1856  git clone git@github.com:k-nuth/cs-api.git
+ 1857  cd cs-api
+ 1858  cursor .
+ 1859  ./build.sh
+ 1860  git checkout -b feat/bump-c-api
+ 1861  git push
+ 1862  git push --set-upstream origin feat/bump-c-api
+ 1863  git checkout master
+ 1864  git stash
+ 1865  git pull
+ 1866  git stash pop
+ 1867  git stash
+ 1868  git checkout master
+ 1869  git pull
+ 1870  git stash pop
+ 1871  git checkout -b feat/cpp-23
+ 1872  git checkout master
+ 1873  git pull
+ 1874  git checkout -b feat/copyright-2024
+ 1875  git checkout master
+ 1876  git pull
+ 1877  cursor ../js-api
+ 1878  ./build.sh
+ 1879  git checkout -b feat/payment-address-tests
+ 1880  git push
+ 1881  git push --set-upstream origin feat/payment-address-tests
+ 1882  git checkout master
+ 1883  git pull
+ 1884  git tag -a v0.23.0 -m "Release v0.23.0"\n
+ 1885  git push --tags\n
+ 1886  ./build.sh
+ 1887  git checkout -b feat/add-readme
+ 1888  git push
+ 1889  git push --set-upstream origin feat/add-readme
+ 1890  git checkout master
+ 1891  git pull
+ 1892  git checkout -b feat/improve-readme
+ 1893  git push
+ 1894  git push --set-upstream origin feat/improve-readme
+ 1895  git checkout master
+ 1896  git checkout -b feat/re-order-files
+ 1897  git push
+ 1898  git push --set-upstream origin feat/re-order-files
+ 1899  git checkout master
+ 1900  git pull
+ 1901  git tag -a v0.23.1 -m "Release v0.23.1"\n
+ 1902  git push --tags\n
+ 1903  cd ..
+ 1904  cd kth-master-simple
+ 1905  git checkout master
+ 1906  git status
+ 1907  git stash
+ 1908  git checkout master
+ 1909  git pull
+ 1910  git stash pop
+ 1911  cursor .
+ 1912  cd c-api
+ 1913  git pull
+ 1914  cursor .
+ 1915  cursor ../
+ 1916  cursor ../../js-api
+ 1917  exit
+ 1918  pwd
+ 1919  cd ..
+ 1920  find . -name "build_antora.sh"
+ 1921  cd ./boost-root/libs/url/doc/
+ 1922  ls
+ 1923  git status
+ 1924  cd ..
+ 1925  ls
+ 1926  cd ..
+ 1927  ls
+ 1928  cd url
+ 1929  cd doc/tagfiles
+ 1930  ls
+ 1931  cp boost-url-doxygen.tag.xml $HOME/
+ 1932  cd ..
+ 1933  ls
+ 1934  cd build-docs
+ 1935  ls
+ 1936  cd docs/reference/adoc
+ 1937  ls
+ 1938  cd ..
+ 1939  ls
+ 1940  cd ..
+ 1941  cd doc
+ 1942  ls
+ 1943  git statys
+ 1944  git status
+ 1945  cd ..
+ 1946  git status
+ 1947  cd doc/reference-output
+ 1948  ls
+ 1949  cd ..
+ 1950  rm -rf doc/reference-output
+ 1951  git status
+ 1952  rm -rf doc/reference.tag.xml
+ 1953  cd doc
+ 1954  ls
+ 1955  cd tagfiles
+ 1956  ls
+ 1957  cp ../../build-docs/docs/reference/adoc/reference.tag.xml .
+ 1958  ls
+ 1959  mv reference.tag.xml boost-url-doxygen.tag.xml
+ 1960  ls
+ 1961  cat boost-url-doxygen.tag.xml
+ 1962  cd ..
+ 1963  ./build_antora.sh
+ 1964  cp $HOME/boost-url-doxygen.tag.xml .
+ 1965  ./build_antora.sh
+ 1966  cat boost-url-doxygen.tag.xml
+ 1967  ./build_antora.sh
+ 1968  cd ..
+ 1969  ls
+ 1970  ./doc/build_antora.sh
+ 1971  cd doc
+ 1972  ./build_antora.sh
+ 1973  d ..
+ 1974  cd ..
+ 1975  cursor .
+ 1976  cd /Users/fernando/dev/cppalliance/boost-root/libs/url
+ 1977  git status
+ 1978  cd /Users/fernando/dev/cppalliance/boost-root/libs/url
+ 1979  git status
+ 1980  git submodule init
+ 1981  git submodule update --init --recursive
+ 1982  find . -name "local-playbook.yml"
+ 1983  cd doc
+ 1984  git status
+ 1985  git stash
+ 1986  cd ..
+ 1987  git checkout develop
+ 1988  git pull
+ 1989  cd doc
+ 1990  cp ../../build-docs/docs/reference/adoc/reference.tag.xml .
+ 1991  cd ..
+ 1992  cd build-docs
+ 1993  ls
+ 1994  cd docs/reference/adoc
+ 1995  ls
+ 1996  cd ..
+ 1997  ls
+ 1998  cd ..
+ 1999  cd doc
+ 2000  cd tagfiles
+ 2001  cd ..
+ 2002  ./build_antora.sh
+ 2003  git status
+ 2004  cd tagfiles
+ 2005  ;s
+ 2006  ls
+ 2007  cat boost-url-doxygen.tag.xml
+ 2008  cd ..
+ 2009  ./build_antora.sh
+ 2010  git status
+ 2011  ./build_antora.sh
+ 2012  cd ..
+ 2013  git rev-parse --show-toplevel
+ 2014  git clean -fd
+ 2015  git status
+ 2016  cd doc
+ 2017  ./build_antora.sh
+ 2018  node --version
+ 2019  ./build_antora.sh
+ 2020  find . -name "node_modules"
+ 2021  rm -rf node_modules
+ 2022  ./build_antora.sh
+ 2023  cd /Users/fernando/dev/cppalliance/boost-root/libs/url\ngit rev-parse --is-inside-work-tree
+ 2024  cd /Users/fernando/dev/cppalliance/boost-root/libs/url/doc\nnpx antora --clean local-playbook.yml --stacktrace --log-level all\n
+ 2025  sudo chmod -R u+rw /Users/fernando/dev/cppalliance/boost-root\n
+ 2026  cd /Users/fernando/dev/cppalliance/boost-root/libs/url/doc\nnpx antora --clean local-playbook.yml --stacktrace --log-level all\n
+ 2027  git clean -xfd\nnpm ci\n
+ 2028  ./build_antora.sh\n
+ 2029  git branch -vv\n
+ 2030  git reset --hard origin/develop\ngit clean -xfd\n
+ 2031  ./build_antora.sh\n
+ 2032  rm -rf node_modules\nnpm ci\n
+ 2033  npx antora --clean local-playbook.yml --stacktrace --log-level all\n
+ 2034  npx antora local-playbook.yml --stacktrace --log-level all\n
+ 2035  DEBUG=git npx antora local-playbook.yml\n
+ 2036  npx antora local-playbook.yml --stacktrace --log-level all\n
+ 2037  cd /Users/fernando/dev/cppalliance/
+ 2038  mv boost-root boost-root-backup
+ 2039  git clone https://github.com/boostorg/boost-root.git
+ 2040  git clone --recursive https://github.com/boostorg/boost.git boost-clean
+ 2041  cd boost-clean/libs/url
+ 2042  cd doc\nrm -rf node_modules\nnpm ci
+ 2043  npx antora --clean local-playbook.yml --stacktrace --log-level all\n
+ 2044  git checkout -b test-branch\n
+ 2045  cat .git\n
+ 2046  cd ..
+ 2047  cat .git\n
+ 2048  git fsck\n
+ 2049  cursor .
+ 2050  cd doc
+ 2051  npx antora --clean local-playbook.yml --stacktrace --log-level all\n
+ 2052  ./build_antora.sh\n
+ 2053  chmod +x build_antora.sh
+ 2054  ./build_antora.sh\n
+ 2055  echo $BOOST_ROOT
+ 2056  export BOOST_SRC_DIR=/Users/fernando/dev/cppalliance/boost-clean\n
+ 2057  ./build_antora.sh\n
+ 2058  cd tagfiles
+ 2059  cp $HOME/boost-url-doxygen.tag.xml .
+ 2060  mv reference.tag.xml boost-url-doxygen.tag.xml
+ 2061  git status
+ 2062  cat .git\n
+ 2063  cat boost-url-doxygen.tag.xml
+ 2064  cp ../../build-docs/docs/reference/adoc/reference.tag.xml .
+ 2065  cd
+ 2066  cd dev
+ 2067  cd cppalliance
+ 2068  mv boost-root-backup boost-root
+ 2069  cd boost-root
+ 2070  cd libs/url
+ 2071  ls
+ 2072  export MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc\n# export CXX="clang++"\n# export CC="clang"
+ 2073  cd\nrm -rf $PROJECT_BUILD_DIR\ncd $PROJECT_SOURCE_DIR\nmkdir $PROJECT_BUILD_DIR\ncd $PROJECT_BUILD_DIR
+ 2074  cd $PROJECT_BUILD_DIR\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc\n# export MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc/\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc/reference.adoc\n
+ 2075  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1
+ 2076  cd ..
+ 2077  cd boost-clean/libs/url/doc/tagfiles
+ 2078  cd dev
+ 2079  cd cppalliance/boost-clean
+ 2080  cd ..
+ 2081  cd boost-root
+ 2082  cd libs/url
+ 2083  ls
+ 2084  cd build-docs/docs
+ 2085  ls
+ 2086  cd reference/adoc
+ 2087  ls
+ 2088  cd ..
+ 2089  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 2090  cd build-docs/docs/reference/adoc
+ 2091  ls
+ 2092  cd ..
+ 2093  find . -name "reference*"
+ 2094  rm -rf build-docs
+ 2095  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 2096  cd\nrm -rf $PROJECT_BUILD_DIR\ncd $PROJECT_SOURCE_DIR\nmkdir $PROJECT_BUILD_DIR\ncd $PROJECT_BUILD_DIR
+ 2097  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 2098  ls
+ 2099  s /Users/fernando/dev/cppalliance/boost-root/libs/url/doc/
+ 2100  ls /Users/fernando/dev/cppalliance/boost-root/libs/url/doc/
+ 2101  export MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc
+ 2102  cd ..
+ 2103  cd build
+ 2104  cd ..
+ 2105  cd build-docs
+ 2106  ls
+ 2107  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 2108  echo $MRDOCS_OUTPUT
+ 2109  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1
+ 2110  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 2111  vi $MRDOCS_CONFIG
+ 2112  cd ..
+ 2113  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 2114  cmake --build . -j 16
+ 2115  pwd
+ 2116  \nexport BUILD_TYPE=Release\n# export BUILD_TYPE=Debug\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport THIRD_PARTY_ROOT=/Users/fernando/dev/cppalliance/third-party\nexport VCPKG_ROOT=$THIRD_PARTY_ROOT/vcpkg\nexport BOOST_ROOT=/Users/fernando/dev/cppalliance/boost-root
+ 2117  cd\ncd dev/cppalliance/mrdocs\n\nrm -rf build\ncmake -B build \\n    -D CMAKE_BUILD_TYPE=$BUILD_TYPE  \\n    -D CMAKE_EXPORT_COMPILE_COMMANDS=ON  \\n    -D MRDOCS_BUILD_DOCS=OFF \\n    -D LLVM_ROOT=$LLVM_ROOT  \\n    -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \\n    -D BUILD_TESTING=OFF \\n    -D MRDOCS_BUILD_DOCS=OFF\ncd build
+ 2118  cmake --build . -j 16
+ 2119  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output=$MRDOCS_OUTPUT --multipage="false" --generate="adoc" --concurrency=1 --tagfile-path="reference.tag.xml"
+ 2120  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile="reference.tag.xml"
+ 2121  cd build-docs/docs/reference/adoc
+ 2122  ls
+ 2123  cd libs/url/doc/tagfiles
+ 2124  ls
+ 2125  cp $HOME/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc/reference.tag.xml .
+ 2126  ls
+ 2127  mv reference.tag.xml boost-url-doxygen.tag.xml
+ 2128  cat boost-url-doxygen.tag.xml
+ 2129  cd ..
+ 2130  ./build_antora.sh\n
+ 2131  export BOOST_SRC_DIR=/Users/fernando/dev/cppalliance/boost-clean\n
+ 2132  ./build_antora.sh\n
+ 2133  cat tagfiles/boost-url-doxygen.tag.xml
+ 2134  cp $HOME/boost-url-doxygen.tag.xml tagfiles
+ 2135  ./build_antora.sh\n
+ 2136  cat tagfiles/boost-url-doxygen.tag.xml
+ 2137  git status
+ 2138  cp $HOME/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc/reference.tag.xml tagfiles
+ 2139  mv tagfiles/reference.tag.xml tagfiles/boost-url-doxygen.tag.xml
+ 2140  cd ..
+ 2141  cursor .
+ 2142  cd doc
+ 2143  ./build_antora.sh\n
+ 2144  cd /Users/fernando/dev/cppalliance/boost-clean/libs/url\ngit rev-parse --is-inside-work-tree\n
+ 2145  npx antora --clean local-playbook.yml --stacktrace --log-level all
+ 2146  ./build_antora.sh\n
+ 2147  cd /Users/fernando/dev/cppalliance/boost-clean/libs/url\ngit init\n
+ 2148  cd /Users/fernando/Library/Caches/
+ 2149  ls
+ 2150  rm antora
+ 2151  rm -rf antora
+ 2152  ./build_antora.sh\n
+ 2153  cd /Users/fernando/dev/cppalliance/boost-clean\ngit submodule deinit -f libs/url\nrm -rf .git/modules/libs/url\ngit rm -f libs/url\n
+ 2154  cd libs/type_erasure
+ 2155  cd ..
+ 2156  cd /Users/fernando/dev/cppalliance/boost-clean/libs/url
+ 2157  cd /Users/fernando/dev/cppalliance\ngit clone https://github.com/boostorg/url.git boost-url\n
+ 2158  export BOOST_SRC_DIR=/Users/fernando/dev/cppalliance/boost-clean\n
+ 2159  cd boost-url
+ 2160  ls
+ 2161  cursor .
+ 2162  cd doc
+ 2163  ./build_antora.sh\n
+ 2164  cp $HOME/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc/reference.tag.xml tagfiles
+ 2165  cd tagfiles
+ 2166  ls
+ 2167  cp boost-url-doxygen.tag.xml $HOME/
+ 2168  mv reference.tag.xml boost-url-doxygen.tag.xml
+ 2169  cd ..
+ 2170  ./build_antora.sh\n
+ 2171  cd tagfiles
+ 2172  ls
+ 2173  cp $HOME/boost-url-doxygen.tag.xml tagfiles
+ 2174  ls
+ 2175  rm tagfiles
+ 2176  cd ..
+ 2177  cp $HOME/boost-url-doxygen.tag.xml tagfiles
+ 2178  ./build_antora.sh\n
+ 2179  mv tagfiles/reference.tag.xml tagfiles/boost-url-doxygen.tag.xml
+ 2180  cp $HOME/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc/reference.tag.xml tagfiles
+ 2181  cp tagfiles/reference.tag.xml tagfiles/boost-url-doxygen.tag.xml
+ 2182  ./build_antora.sh\n
+ 2183  cp $HOME/boost-url-doxygen.tag.xml tagfiles
+ 2184  exit
+ 2185  cd ..
+ 2186  ls
+ 2187  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile="reference.tag.xml"
+ 2188  cmake --build . -j 16
+ 2189  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile="reference.tag.xml"
+ 2190  cat docs/reference/adoc/reference.tag.xml
+ 2191  cp $HOME/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc/reference.tag.xml tagfiles
+ 2192  cmake --build . -j 16
+ 2193  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile="reference.tag.xml"
+ 2194  cp $HOME/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc/reference.tag.xml tagfiles
+ 2195  cmake --build . -j 16
+ 2196  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1 --tagfile="reference.tag.xml"
+ 2197  cp $HOME/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc/reference.tag.xml tagfiles
+ 2198  cmake --build . -j 16
+ 2199  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1 --tagfile="reference.tag.xml"
+ 2200  rm -rf *
+ 2201  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1 --tagfile="reference.tag.xml"
+ 2202  cp $HOME/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc/reference.tag.xml tagfiles
+ 2203  cmake --build . -j 16
+ 2204  cp $HOME/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc/reference.tag.xml tagfiles
+ 2205  cmake --build . -j 16
+ 2206  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1 --tagfile="reference.tag.xml"
+ 2207  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1 --tagfile="reference.tag.xml"
+ 2208  cmake --build . -j 16
+ 2209  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1 --tagfile="reference.tag.xml"
+ 2210  cp $HOME/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc/reference.tag.xml tagfiles
+ 2211  cmake --build . -j 16
+ 2212  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1 --tagfile="reference.tag.xml"
+ 2213  cp $HOME/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc/reference.tag.xml tagfiles
+ 2214  cmake --build . -j 16
+ 2215  cp $HOME/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc/reference.tag.xml tagfiles
+ 2216  ./build_antora.sh\n
+ 2217  cp tagfiles/reference.tag.xml tagfiles/boost-url-doxygen.tag.xml
+ 2218  ./build_antora.sh\n
+ 2219  cp $HOME/boost-url-doxygen.tag.xml tagfiles
+ 2220  cmake --build . -j 16
+ 2221  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1 --tagfile="reference.tag.xml"
+ 2222  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1 --tagfile="reference.tag.xml"
+ 2223  cp $HOME/dev/cppalliance/boost-root/libs/url/build-docs/docs/reference/adoc/reference.tag.xml tagfiles
+ 2224  cp $HOME/boost-url-doxygen.tag.xml tagfiles
+ 2225  cp tagfiles/reference.tag.xml tagfiles/boost-url-doxygen.tag.xml
+ 2226  ./build_antora.sh\n
+ 2227  pwd
+ 2228  cd ..
+ 2229  cp -R boost-url boost-url-new
+ 2230  cd boost-url
+ 2231  cd doc
+ 2232  cp $HOME/boost-url-doxygen.tag.xml tagfiles
+ 2233  ./build_antora.sh\n
+ 2234  diff -rq /Users/fernando/dev/cppalliance/boost-url/doc/build/site /Users/fernando/dev/cppalliance/boost-url-new/doc/build/site\n
+ 2235  code --diff /Users/fernando/dev/cppalliance/boost-url/doc/build/site/search-index.js and /Users/fernando/dev/cppalliance/boost-url-new/doc/build/site/search-index.js
+ 2236  code
+ 2237  cursor --diff /Users/fernando/dev/cppalliance/boost-url/doc/build/site/search-index.js and /Users/fernando/dev/cppalliance/boost-url-new/doc/build/site/search-index.js
+ 2238  cat /Users/fernando/dev/cppalliance/boost-url/doc/build/site/search-index.js
+ 2239  cursor --diff /Users/fernando/dev/cppalliance/boost-url/doc/build/site/search-index.js /Users/fernando/dev/cppalliance/boost-url-new/doc/build/site/search-index.js
+ 2240  cursor --diff /Users/fernando/dev/cppalliance/boost-url/doc/build/site/url/concepts/Rule.html /Users/fernando/dev/cppalliance/boost-url-new/doc/build/site/url/concepts/Rule.html
+ 2241  cursor --diff /Users/fernando/dev/cppalliance/boost-url/doc/build/site/url/concepts/StringToken.html /Users/fernando/dev/cppalliance/boost-url-new/doc/build/site/url/concepts/StringToken.html
+ 2242  git status
+ 2243  git commit --amend --no-edit\ngit push origin feat/tagfiles-doxygen-generation  --force
+ 2244  ssh fernando@192.168.68.98
+ 2245  cd dev/kth/js-native
+ 2246  git status
+ 2247  git checkout master
+ 2248  git pull
+ 2249  cursor .
+ 2250  cd ../js-wasm
+ 2251  git pul
+ 2252  git pull
+ 2253  cursor .
+ 2254  cd ../js-wasm-private
+ 2255  git pull
+ 2256  cursor .
+ 2257  cd ../
+ 2258  cd kth-master-simple/c-api
+ 2259  cursor .
+ 2260  cd ..
+ 2261  ./helpers/build_release_linux.sh
+ 2262  cd infrastructure
+ 2263  git status
+ 2264  git pull
+ 2265  git diff
+ 2266  git stash
+ 2267  cd ..
+ 2268  ./helpers/build_release_linux.sh
+ 2269  cursor .
+ 2270  ./helpers/build_release_linux.sh
+ 2271  clang++ --version
+ 2272  git status
+ 2273  cd blockchain
+ 2274  git status
+ 2275  git pull
+ 2276  cd ../
+ 2277  git status
+ 2278  cd blockchain
+ 2279  git status
+ 2280  git pull
+ 2281  cd ../
+ 2282  git status
+ 2283  cd consensus
+ 2284  git pull
+ 2285  cd ../
+ 2286  git status
+ 2287  cd database
+ 2288  git pull
+ 2289  cd ../domain
+ 2290  git status
+ 2291  git pull
+ 2292  cd ..
+ 2293  git statys
+ 2294  git status
+ 2295  cd infrastructure
+ 2296  git status
+ 2297  git pull
+ 2298  cd ../network
+ 2299  git pull
+ 2300  cd ../node
+ 2301  git pull
+ 2302  cd../node-e
+ 2303  cd ../node-exe
+ 2304  git pull
+ 2305  cd ..
+ 2306  git status
+ 2307  cd secp256k1
+ 2308  goit pull
+ 2309  git pull
+ 2310  cd ..
+ 2311  ./helpers/build_release_linux.sh
+ 2312  cd c-api
+ 2313  git checkout -b feat/build-info
+ 2314  git push
+ 2315  git push --set-upstream origin feat/build-info
+ 2316  git checkout master
+ 2317  git pull
+ 2318  ssh fernando@192.168.68.98
+ 2319  cursor .
+ 2320  git checkout -b feat/copyright-2024
+ 2321  git push
+ 2322  git push --set-upstream origin feat/copyright-2024
+ 2323  git pull
+ 2324  git push --set-upstream origin feat/copyright-2024
+ 2325  git checkout master
+ 2326  git pull
+ 2327  git checkout -b feat/copyright-2024-b
+ 2328  git checkout master
+ 2329  git pull
+ 2330  ssh fernando@192.168.68.98
+ 2331  cd dev
+ 2332  cd kth
+ 2333  cd kth-master-simple/c-api
+ 2334  git checkout -b fix/build
+ 2335  git status
+ 2336  git add CMakeLists.txt
+ 2337  git push
+ 2338  git push --set-upstream origin fix/build
+ 2339  exit
+ 2340  cd dev
+ 2341  cd kth
+ 2342  cd js-wasm-private
+ 2343  cursor .
+ 2344  conan remove "*"
+ 2345  n
+ 2346  rm -rf node_modules
+ 2347  yarn install
+ 2348  ./helpers/build.sh
+ 2349  yarn test
+ 2350  ./helpers/build.sh
+ 2351  yarn test
+ 2352  clang --version
+ 2353  echo | clang -dM -E -\n
+ 2354  cd dev
+ 2355  cd kth/kth-master-simple/
+ 2356  ./helpers/build.sh
+ 2357  ./helpers/build_release_linux.sh
+ 2358  ./build/build/Release/c-api/test_console
+ 2359  conan remove "*"
+ 2360  ./helpers/build.sh
+ 2361  yarn test
+ 2362  conan remove "c-api/*"
+ 2363  ./helpers/build.sh
+ 2364  echo | /Users/fernando/.conan2/p/b/emsdk5de0e832682c5/p/bin/upstream/emscripten/em++ -dM -E -
+ 2365  cd c-api
+ 2366  git checkout master
+ 2367  git stash
+ 2368  git checkout master
+ 2369  git pull
+ 2370  git stash pop
+ 2371  cd ..
+ 2372  ./helpers/build_release_linux.sh
+ 2373  ./build/build/Release/c-api/test_console
+ 2374  ./helpers/build_release_linux.sh
+ 2375  ./build/build/Release/c-api/test_console
+ 2376  cd c-api
+ 2377  git checkout -b feat/build-info-more
+ 2378  git status
+ 2379  git push
+ 2380  git push --set-upstream origin feat/build-info-more
+ 2381  ssh fernando@192.168.68.98
+ 2382  git checkout master
+ 2383  git pull
+ 2384  ssh fernando@192.168.68.98
+ 2385  cd ../
+ 2386  cd ..
+ 2387  cd js-wasm-private
+ 2388  cursor
+ 2389  cursor .
+ 2390  ./helpers/build.sh
+ 2391  yarn test
+ 2392  cursor .
+ 2393  yarn test
+ 2394  rm -rf node_modules
+ 2395  yarn
+ 2396  ./helpers/build.sh
+ 2397  npm install
+ 2398  git status
+ 2399  cd ../js-wasm
+ 2400  git pull
+ 2401  ls
+ 2402  cd src
+ 2403  ls
+ 2404  cd ..
+ 2405  ls
+ 2406  cp ../js-wasm-private/bin/kth.* ./src
+ 2407  git status
+ 2408  cursor .
+ 2409  git checkout -b feat/bump-c-api
+ 2410  yarn
+ 2411  yarn test
+ 2412  cp ../js-wasm-private/types/* ./types
+ 2413  yarn test
+ 2414  git status
+ 2415  git push
+ 2416  git checkout master
+ 2417  git pull
+ 2418  git tag -a v2.2.0 -m "Release v2.2.0"
+ 2419  git push --tags\n
+ 2420  cd ../js-native
+ 2421  git pull
+ 2422  cursor .
+ 2423  cursor ../js-wasm-private
+ 2424  cd ../js-wasm-private
+ 2425  ./helpers/build.sh
+ 2426  asdasdsaasdasd
+ 2427  ads
+ 2428  as
+ 2429  das
+ 2430  d
+ 2431  asd
+ 2432  asdas
+ 2433  dasd
+ 2434  as
+ 2435  das
+ 2436  dsa
+ 2437  da
+ 2438  sd
+ 2439  as
+ 2440  ls
+ 2441  ls -l
+ 2442  wc
+ 2443  wc conanfile.py
+ 2444  ./helpers/build.sh
+ 2445  cd
+ 2446  python print_random_numbers.py
+ 2447  python3 print_random_numbers.py
+ 2448  cd dev
+ 2449  cd kth
+ 2450  cd js-wasm-private
+ 2451  ./helpers/build.sh
+ 2452  cd ../
+ 2453  cd k-nuth.github.io
+ 2454  cursor .
+ 2455  ls
+ 2456  cp ../js-wasm/src/kth.* .
+ 2457  cursor .
+ 2458  cd ../
+ 2459  cd kth-master-simple
+ 2460  ./helpers/build_release_linux.sh
+ 2461  cd dev
+ 2462  ls
+ 2463  exit
+ 2464  ./helpers/build_release_linux.sh
+ 2465  cd network
+ 2466  git checkout -b feat/update-seeders
+ 2467  git status
+ 2468  git add .
+ 2469  git commit -am "feat: seeders update"
+ 2470  git push
+ 2471  git push --set-upstream origin feat/update-seeders
+ 2472  cd ../node
+ 2473  cd ../network
+ 2474  git checkout master
+ 2475  git pull
+ 2476  cd ../
+ 2477  ./helpers/build_release_linux.sh
+ 2478  cd node
+ 2479  git checkout -b feat/build-info-more
+ 2480  git push
+ 2481  git push --set-upstream origin feat/build-info-more
+ 2482  git checkout master
+ 2483  git pull
+ 2484  cd ../c-api
+ 2485  git checkout -b feat/build-info-more
+ 2486  git checkout -b feat/build-info-ext
+ 2487  git stash
+ 2488  git stash pop
+ 2489  git status
+ 2490  git commit -am "feat: seeders update"
+ 2491  cd ci_utils
+ 2492  git status
+ 2493  git diff
+ 2494  git stash
+ 2495  cd ../
+ 2496  git status
+ 2497  git push
+ 2498  git push --set-upstream origin feat/build-info-ext
+ 2499  git log
+ 2500  git commit --amend
+ 2501  git push --force
+ 2502  git commit --amend --no-edit\ngit push origin feat/build-info-ext  --force
+ 2503  git checkout master
+ 2504  git checkout -b fix/compiler-warning
+ 2505  git push
+ 2506  git push --set-upstream origin fix/compiler-warning
+ 2507  git checkout master
+ 2508  git pull
+ 2509  cd ../node
+ 2510  git pull
+ 2511  cd ../network
+ 2512  git pull
+ 2513  ssh fernando@192.168.68.98
+ 2514  cd ..
+ 2515  cd js-wasm-private
+ 2516  cursor .
+ 2517  ./helpers/build.sh
+ 2518  yarn
+ 2519  ./helpers/build.sh
+ 2520  yarn test
+ 2521  ./helpers/build.sh
+ 2522  yarn test
+ 2523  ./helpers/build.sh
+ 2524  cd ../kth-master-simple
+ 2525  ./helpers/build.sh
+ 2526  ./helpers/build_release_linux.sh
+ 2527  cd c-api
+ 2528  git status
+ 2529  git checkout -b feat/improve-build-info
+ 2530  git add .
+ 2531  git commit -am "feat: build info improved"
+ 2532  git push
+ 2533  git push --set-upstream origin feat/improve-build-info
+ 2534  git checkout master
+ 2535  git pull
+ 2536  ssh fernando@192.168.68.98
+ 2537  ./helpers/build.sh
+ 2538  yarn test
+ 2539  yarn
+ 2540  yarn test
+ 2541  ./helpers/build.sh
+ 2542  yarn
+ 2543  yarn test
+ 2544  ./helpers/build.sh
+ 2545  yarn test
+ 2546  ./helpers/build.sh
+ 2547  yarn test
+ 2548  ./helpers/build.sh
+ 2549  yarn test
+ 2550  ./helpers/build.sh
+ 2551  yarn test
+ 2552  git status
+ 2553  git log
+ 2554  cd ../js-wasm
+ 2555  git pull
+ 2556  git checkout -b feat/improve-build-info
+ 2557  cursor .
+ 2558  cd src
+ 2559  cd ..
+ 2560  cp ../js-wasm-private/types/* ./types
+ 2561  cp ../js-wasm-private/bin/kth.* ./src
+ 2562  yarn
+ 2563  yarn test
+ 2564  git push
+ 2565  git push --set-upstream origin feat/improve-build-info
+ 2566  cd dev
+ 2567  git clone https://github.com/yvaeltercero1969/yvaeltercero1969.github.io.git
+ 2568  cd yvaeltercero1969.github.io
+ 2569  cursor .
+ 2570  cd ..
+ 2571  rm -rf yvaeltercero1969.github.io
+ 2572  cd
+ 2573  cd .ssh
+ 2574  ls
+ 2575  cat id_ed25519.pub
+ 2576  ssh-keygen -t ed25519 -C "yvaeltercero1969@gmail.com"
+ 2577  ls
+ 2578  cat id_ed25519_yvael.pub
+ 2579  cd
+ 2580  cd dev
+ 2581  git clone git@github.com:yvaeltercero1969/yvaeltercero1969.github.io.git
+ 2582  cd yvaeltercero1969.github.io
+ 2583  cursor .
+ 2584  git push
+ 2585  git config user.name "Yvael Tercero"\ngit config user.email "yvaeltercero1969@gmail.com"\n
+ 2586  git config --list\n
+ 2587  git log
+ 2588  git reset --soft HEAD~1\n
+ 2589  git log
+ 2590  git status
+ 2591  git commit -m "Add initial homepage content"
+ 2592  git push
+ 2593  git remote -v
+ 2594  cd .ssh
+ 2595  ls
+ 2596  cursor config
+ 2597  git remote set-url origin git@github.com-yvael:yvaeltercero1969/yvaeltercero1969.github.io.git\n
+ 2598  git remote -v
+ 2599  git push
+ 2600  git log
+ 2601  cat config
+ 2602  ssh -T git@github.com-yvael\n
+ 2603  ls
+ 2604  cursor config
+ 2605  cat ~/.ssh/id_ed25519_yvael
+ 2606  cat ~/.ssh/id_ed25519_yvael.pub
+ 2607  ssh -T git@github.com-yvael\n
+ 2608  ssh fernando@192.168.68.98
+ 2609  ssh -T git@github.com-yvael\n
+ 2610  exit
+ 2611  git status
+ 2612  git push
+ 2613  git pull
+ 2614  git config pull.rebase true
+ 2615  git pull
+ 2616  git push
+ 2617  git status
+ 2618  git checkout master
+ 2619  git pull
+ 2620  git tag -a v2.3.0 -m "Release v2.3.0"
+ 2621  git push --tags\n
+ 2622  cd ../k-nuth.github.io
+ 2623  ls
+ 2624  cp ../js-wasm/src/kth.* .
+ 2625  cursor .
+ 2626  cursor ../js-wasm
+ 2627  git push
+ 2628  cd
+ 2629  cd dev
+ 2630  cd cppalliance/mrdocs
+ 2631  git checkout develop
+ 2632  git status
+ 2633  git diff
+ 2634  git stash
+ 2635  git checkout develop
+ 2636  git pull
+ 2637  git fetch upstream
+ 2638  git rebase upstream/develop
+ 2639  git push
+ 2640  git checkout -b feat/navigate-to-enclosing-namespace
+ 2641  cursor .
+ 2642  cd build
+ 2643  cmake --build . -j 16
+ 2644  cd ..
+ 2645  exit
+ 2646  cd dev
+ 2647  cd cppalliance
+ 2648  ls
+ 2649  cd mrdocs-helpers
+ 2650  cursor .
+ 2651  cd dev/cppalliance/tools/
+ 2652  cd ..
+ 2653  ;ls
+ 2654  ls
+ 2655  cd third-party
+ 2656  ls
+ 2657  cp -R llvm-project llvm-project-old
+ 2658  rm -rf llvm-project-old
+ 2659  mv llvm-project llvm-project-old
+ 2660  mkdir -p llvm-project\ncd llvm-project\ngit init\ngit remote add origin https://github.com/llvm/llvm-project.git\ngit fetch --depth 1 origin dd7a3d4d798e30dfe53b5bbbbcd9a23c24ea1af9\ngit checkout FETCH_HEAD
+ 2661  cp ../../mrdocs/third-party/llvm/CMakePresets.json ./llvm\ncp ../../mrdocs/third-party/llvm/CMakeUserPresets.json ./llvm/CMakeUserPresets.json
+ 2662  cd llvm\ncmake -S . -B ./build --preset=release-unix
+ 2663  cmake --build ./build --config Release --parallel 16
+ 2664  clang --version
+ 2665  where clang
+ 2666  /usr/bin/clang --version
+ 2667  vi .zshrc
+ 2668  exit
+ 2669  pwd
+ 2670  exit
+ 2671  vi .zshrc
+ 2672  exit
+ 2673  cd /Users/fernando/dev/cppalliance/third-party/llvm-project/llvm
+ 2674  cd ..
+ 2675  git status
+ 2676  cd llvm
+ 2677  ls
+ 2678  cd build
+ 2679  ls
+ 2680  cd ..
+ 2681  rm -rf build
+ 2682  clang --version
+ 2683  cmake -S . -B ./build --preset=release-unix
+ 2684  cmake --build ./build --config Release --parallel 16
+ 2685  clang --version
+ 2686  ls /Library/Developer/CommandLineTools/usr/include/c++/v1
+ 2687  brew --prefix llvm
+ 2688  ls $(brew --prefix llvm)/include/c++/v1
+ 2689  rm -rf build
+ 2690  cmake -S . -B ./build --preset=release-unix \\n    -DCMAKE_C_COMPILER="$(brew --prefix llvm)/bin/clang" \\n    -DCMAKE_CXX_COMPILER="$(brew --prefix llvm)/bin/clang++" \\n    -DCMAKE_CXX_FLAGS="-isystem $(brew --prefix llvm)/include/c++/v1" \\n    -DCMAKE_EXE_LINKER_FLAGS="-L$(brew --prefix llvm)/lib -lc++abi"\n
+ 2691  cmake --build ./build --config Release --parallel 16
+ 2692  find $(brew --prefix llvm) -name cxxabi.h\n
+ 2693  brew install libcxx\n
+ 2694  find $(brew --prefix llvm) -name cxxabi.h\n
+ 2695  brew --prefix llvm
+ 2696  cd ..
+ 2697  find . -name "cxxabi.h"
+ 2698  find / -name "cxxabi.h"
+ 2699  find / -name "cxxabi.h" 2>/dev/null\n
+ 2700  where clan
+ 2701  where clang++
+ 2702  ls /usr/bin/clang++
+ 2703  ls -l /usr/bin/clang++
+ 2704  ls -l /usr/bin/clang
+ 2705  cd llvm
+ 2706  cmake -S . -B ./build --preset=release-unix \\n    -DCMAKE_C_COMPILER="$(brew --prefix llvm)/bin/clang" \\n    -DCMAKE_CXX_COMPILER="$(brew --prefix llvm)/bin/clang++" \\n    -DCMAKE_CXX_FLAGS="-I/Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk/usr/include/c++/v1" \\n    -DCMAKE_EXE_LINKER_FLAGS="-L$(brew --prefix llvm)/lib -lc++abi"\n
+ 2707  cmake --build ./build --config Release --parallel 16
+ 2708  xcode-select --install\n
+ 2709  rm -rf ./build\n
+ 2710  cmake -S . -B ./build --preset=release-unix \\n    -DCMAKE_C_COMPILER=/usr/bin/clang \\n    -DCMAKE_CXX_COMPILER=/usr/bin/clang++ \\n    -DCMAKE_CXX_FLAGS="-I/Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk/usr/include/c++/v1" \\n    -DCMAKE_EXE_LINKER_FLAGS="-lc++abi"\n
+ 2711  git log
+ 2712  cd mrdocs
+ 2713  git log
+ 2714  history > history.txt
+ 2715  cursor history.txt
+ 2716  cd ..
+ 2717  rm -rf llvm-project
+ 2718  mkdir -p llvm-project \ncd llvm-project\ngit init \ngit remote add origin https://github.com/llvm/llvm-project.git \ngit fetch --depth 1 origin e1065370aaacb1b1cb48e77d37d376bf024f4a39\n
+ 2719  xcrun --show-sdk-path
+ 2720  cp ../../mrdocs/third-party/llvm/CMakePresets.json ./llvm\ncp ../../mrdocs/third-party/llvm/CMakeUserPresets.json ./llvm/CMakeUserPresets.json\n
+ 2721  pwd
+ 2722  git checkout FETCH_HEAD
+ 2723  cd ..
+ 2724  rm -rf llvm-project\nmkdir -p llvm-project\ncd llvm-project\ngit init\ngit remote add origin https://github.com/llvm/llvm-project.git\ngit fetch --depth 1 origin e1065370aaacb1b1cb48e77d37d376bf024f4a39\n
+ 2725  git checkout FETCH_HEAD
+ 2726  cp ../../mrdocs/third-party/llvm/CMakePresets.json ./llvm\ncp ../../mrdocs/third-party/llvm/CMakeUserPresets.json ./llvm/CMakeUserPresets.json\n
+ 2727  cat ./llvm/CMakePresets.json
+ 2728  grep -i "LLVM_TARGETS_TO_BUILD" ./llvm/CMakePresets.json
+ 2729  sed -i '' 's/"LLVM_TARGETS_TO_BUILD": "X86"/"LLVM_TARGETS_TO_BUILD": "AArch64;X86"/g' ./llvm/CMakePresets.json
+ 2730  grep -i "LLVM_TARGETS_TO_BUILD" ./llvm/CMakePresets.json
+ 2731  cd llvm\ncmake -S . -B ./build --preset=release-unix\n
+ 2732  cmake --build ./build --config Release --parallel 16
+ 2733  cmake -S . -B ./build \\n    --preset=release-unix \\n    -G Ninja \\n    -D CMAKE_BUILD_TYPE=Release \\n    -D BUILD_TESTING=OFF \\n    -D CMAKE_C_COMPILER=/usr/bin/clang \\n    -D CMAKE_CXX_COMPILER=/usr/bin/clang++ \\n    -D LLVM_ENABLE_PROJECTS="clang" \\n    -D LLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind" \\n    -D LLVM_TARGETS_TO_BUILD="Native" \\n    -D CMAKE_INSTALL_PREFIX=../install
+ 2734  rm -rf build
+ 2735  cmake -S . -B ./build \\n    --preset=release-unix \\n    -G Ninja \\n    -D CMAKE_BUILD_TYPE=Release \\n    -D BUILD_TESTING=OFF \\n    -D CMAKE_C_COMPILER=/usr/bin/clang \\n    -D CMAKE_CXX_COMPILER=/usr/bin/clang++ \\n    -D LLVM_ENABLE_PROJECTS="clang" \\n    -D LLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind" \\n    -D LLVM_TARGETS_TO_BUILD="Native" \\n    -D CMAKE_INSTALL_PREFIX=../install
+ 2736  cmake --build ./build --parallel 16\n
+ 2737  cd dev
+ 2738  cd kth
+ 2739  cd js-wasm-private
+ 2740  git pull
+ 2741  git checkout -v feat/fifth-domain
+ 2742  git checkout -b feat/fifth-domain
+ 2743  cursor .
+ 2744  cd ../
+ 2745  cd kth-master-simple
+ 2746  cursor .
+ 2747  cd c-api
+ 2748  cursor .
+ 2749  cd ..
+ 2750  cd js-wasm-private
+ 2751  ./helpers/build.sh
+ 2752  cmake --install ./build --prefix ../install
+ 2753  cd ../..
+ 2754  ls
+ 2755  cd llvm-project/install
+ 2756  ls
+ 2757  cd bin
+ 2758  ls
+ 2759  cd ..
+ 2760  export CXX="./install/bin/clang++"\nexport CC="./install/bin/clang"
+ 2761  echo $CXX
+ 2762  $CXX --version
+ 2763  cd ..
+ 2764  rm -rf llvm-project
+ 2765  mkdir -p llvm-project\ncd llvm-project\ngit init\ngit remote add origin https://github.com/llvm/llvm-project.git\ngit fetch --depth 1 origin dd7a3d4d798e30dfe53b5bbbbcd9a23c24ea1af9\ngit checkout FETCH_HEAD
+ 2766  ./helpers/build.sh
+ 2767  cp ../../mrdocs/third-party/llvm/CMakePresets.json ./llvm\ncp ../../mrdocs/third-party/llvm/CMakeUserPresets.json ./llvm/CMakeUserPresets.json\n
+ 2768  cd llvm\ncmake -S . -B ./build \\n    --preset=release-unix \\n    -G Ninja \\n    -D CMAKE_BUILD_TYPE=Release \\n    -D BUILD_TESTING=OFF \\n    -D CMAKE_C_COMPILER=/usr/bin/clang \\n    -D CMAKE_CXX_COMPILER=/usr/bin/clang++ \\n    -D LLVM_ENABLE_PROJECTS="clang" \\n    -D LLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind" \\n    -D LLVM_TARGETS_TO_BUILD="Native" \\n    -D CMAKE_INSTALL_PREFIX=../install\n
+ 2769  cmake --build ./build --parallel 16\n
+ 2770  ./helpers/build.sh
+ 2771  rm -rf build
+ 2772  /Users/fernando/dev/cppalliance/third-party/llvm-project/install/
+ 2773  ls
+ 2774  cd bin
+ 2775  ls
+ 2776  cd ..
+ 2777  cd
+ 2778  cd de
+ 2779  cd dev
+ 2780  cd cppalliance/mrdocs
+ 2781  export BUILD_TYPE=Release\n# export BUILD_TYPE=Debug\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport THIRD_PARTY_ROOT=/Users/fernando/dev/cppalliance/third-party\nexport VCPKG_ROOT=$THIRD_PARTY_ROOT/vcpkg\nexport BOOST_ROOT=/Users/fernando/dev/cppalliance/boost-root\n
+ 2782  cd\ncd dev/cppalliance/mrdocs\n\nrm -rf build\ncmake -B build \\n    -D CMAKE_BUILD_TYPE=$BUILD_TYPE  \\n    -D CMAKE_EXPORT_COMPILE_COMMANDS=ON  \\n    -D MRDOCS_BUILD_DOCS=OFF \\n    -D LLVM_ROOT=$LLVM_ROOT  \\n    -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \\n    -D BUILD_TESTING=OFF \\n    -D MRDOCS_BUILD_DOCS=OFF\ncd build
+ 2783  cmake --build . -j 16
+ 2784  export MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc
+ 2785  /Users/fernando/dev/cppalliance/boost-root/
+ 2786  cd libs
+ 2787  ls
+ 2788  cd /Users/fernando/dev/cppalliance/boost-root/libs/
+ 2789  ls
+ 2790  cp -R url url-simple
+ 2791  cd url-simple
+ 2792  ls
+ 2793  cd src
+ 2794  ls
+ 2795  rm -rf *
+ 2796  vi main.cpp
+ 2797  \nexport MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url-simple\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs-adoc.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"
+ 2798  cd\nrm -rf $PROJECT_BUILD_DIR\ncd $PROJECT_SOURCE_DIR\nmkdir $PROJECT_BUILD_DIR\ncd $PROJECT_BUILD_DIR\n
+ 2799  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1
+ 2800  export MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url-simple\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc\n
+ 2801  cd\nrm -rf $PROJECT_BUILD_DIR\ncd $PROJECT_SOURCE_DIR\nmkdir $PROJECT_BUILD_DIR\ncd $PROJECT_BUILD_DIR\n
+ 2802  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1\n
+ 2803  cmake --install ./build --prefix ../install\n
+ 2804  cd ..
+ 2805  export CXX="./install/bin/clang++"\nexport CC="./install/bin/clang"
+ 2806  $CXX --version
+ 2807  cmake -G Ninja  \\n  -S runtimes  \\n  -B build-libcxx  \\n  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind"  \\n  -DCMAKE_INSTALL_PREFIX="$(pwd)/install"
+ 2808  ninja -C build-libcxx cxx cxxabi unwind
+ 2809  ninja -C build-libcxx install-cxx install-cxxabi install-unwind
+ 2810  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1\n
+ 2811  cd ..
+ 2812  rm -rf build
+ 2813  export BUILD_TYPE=Release\n# export BUILD_TYPE=Debug\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport THIRD_PARTY_ROOT=/Users/fernando/dev/cppalliance/third-party\nexport VCPKG_ROOT=$THIRD_PARTY_ROOT/vcpkg\nexport BOOST_ROOT=/Users/fernando/dev/cppalliance/boost-root
+ 2814  cd\ncd dev/cppalliance/mrdocs\n\nrm -rf build\ncmake -B build \\n    -D CMAKE_BUILD_TYPE=$BUILD_TYPE  \\n    -D CMAKE_EXPORT_COMPILE_COMMANDS=ON  \\n    -D MRDOCS_BUILD_DOCS=OFF \\n    -D LLVM_ROOT=$LLVM_ROOT  \\n    -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \\n    -D BUILD_TESTING=OFF \\n    -D MRDOCS_BUILD_DOCS=OFF\ncd build
+ 2815  cmake --build . -j 16
+ 2816  cd ..
+ 2817  rm -rf build
+ 2818  export BUILD_TYPE=Release\n# export BUILD_TYPE=Debug\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport THIRD_PARTY_ROOT=/Users/fernando/dev/cppalliance/third-party\nexport VCPKG_ROOT=$THIRD_PARTY_ROOT/vcpkg\nexport BOOST_ROOT=/Users/fernando/dev/cppalliance/boost-root\n
+ 2819  cd\ncd dev/cppalliance/mrdocs\n\nrm -rf build\n
+ 2820  rm -rf build\ncmake -B build \\n    -D CMAKE_BUILD_TYPE=$BUILD_TYPE  \\n    -D CMAKE_EXPORT_COMPILE_COMMANDS=ON  \\n    -D MRDOCS_BUILD_DOCS=OFF \\n    -D LLVM_ROOT=$LLVM_ROOT  \\n    -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \\n    -D BUILD_TESTING=OFF \\n    -D MRDOCS_BUILD_DOCS=OFF\n
+ 2821  cmake --version
+ 2822  cmake --install .
+ 2823  rm -rf build\ncmake -B build \\n    -D CMAKE_BUILD_TYPE=$BUILD_TYPE  \\n    -D CMAKE_EXPORT_COMPILE_COMMANDS=ON  \\n    -D MRDOCS_BUILD_DOCS=OFF \\n    -D LLVM_ROOT=$LLVM_ROOT  \\n    -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \\n    -D BUILD_TESTING=OFF \\n    -D MRDOCS_BUILD_DOCS=OFF\ncd build\n
+ 2824  cmake --build . -j 16
+ 2825  cmake --install .
+ 2826  cd /usr/local/bin/mrdocs
+ 2827  /usr/local/bin/mrdocs
+ 2828  exit
+ 2829  sudo cmake --install .
+ 2830  exit
+ 2831  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1\n
+ 2832  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1\n
+ 2833  cd /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/
+ 2834  ls
+ 2835  cd headers
+ 2836  ls
+ 2837  cd libc-stubs
+ 2838  ls
+ 2839  cd ..
+ 2840  mkdir libcxx
+ 2841  cd libc
+ 2842  cd libcxx
+ 2843  cd ..
+ 2844  cd headers
+ 2845  ls
+ 2846  cd libcxx
+ 2847  cp -R /usr/local/share/mrdocs/headers/libcxx/* .
+ 2848  ls
+ 2849  ls -l
+ 2850  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1\n
+ 2851  cd ..
+ 2852  mkdir clang
+ 2853  cd clang
+ 2854  cp -R /usr/local/share/mrdocs/headers/clang/* .
+ 2855  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1\n
+ 2856  ls
+ 2857  cd docs
+ 2858  cd reference/adoc/boost
+ 2859  ls
+ 2860  cd ..
+ 2861  ls
+ 2862  cat reference.tag.xml
+ 2863  cd ..
+ 2864  pwd
+ 2865  cd ..
+ 2866  ls
+ 2867  rm -rf include
+ 2868  cd build-docs
+ 2869  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1\n
+ 2870  rm -rf *
+ 2871  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1\n
+ 2872  cd ..
+ 2873  cursor .
+ 2874  cd build-docs
+ 2875  rm -rf *
+ 2876  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1\n
+ 2877  ls
+ 2878  cd docs
+ 2879  ls
+ 2880  cd reference
+ 2881  ls
+ 2882  cd adoc
+ 2883  ls
+ 2884  cat reference.tag.xml
+ 2885  ls
+ 2886  cat index.adoc
+ 2887  cd ..
+ 2888  rm -rf *
+ 2889  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1\n
+ 2890  cat docs/reference/adoc/index.adoc
+ 2891  rm -rf *
+ 2892  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1\n
+ 2893  rm -rf *
+ 2894  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1\n
+ 2895  cat /Users/fernando/dev/cppalliance/boost-root/libs/url-simple/src/main.cpp
+ 2896  cat docs/reference/adoc/reference.adoc
+ 2897  cd ..
+ 2898  cursor .
+ 2899  cd build-docs
+ 2900  rm -rf *
+ 2901  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1\n
+ 2902  cat docs/reference/adoc/reference.adoc
+ 2903  cd ..
+ 2904  ls
+ 2905  cd ..
+ 2906  cd url-simple
+ 2907  cd doc
+ 2908  ls
+ 2909  ./build_antora.sh
+ 2910  history > history.txt
+ 2911  cursor history.txt
+ 2912  cd ..
+ 2913  ls
+ 2914  cd boost-clean/libs
+ 2915  cd ..
+ 2916  ls
+ 2917  cd boost-url
+ 2918  ls
+ 2919  cd ..
+ 2920  cd boost-url
+ 2921  ./build_antora.sh
+ 2922  cd doc
+ 2923  ./build_antora.sh
+ 2924  cd ..
+ 2925  cp -R boost-url url-simple
+ 2926  cd url-simple
+ 2927  ls
+ 2928  rm -rf include
+ 2929  cd src
+ 2930  ls
+ 2931  rm -rf *
+ 2932  ls
+ 2933  vi main.cpp
+ 2934  cd ..
+ 2935  cursor .
+ 2936  pwd
+ 2937  export MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\n# export PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url-simple\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/url-simple\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc\n
+ 2938  cd\nrm -rf $PROJECT_BUILD_DIR\ncd $PROJECT_SOURCE_DIR\nmkdir $PROJECT_BUILD_DIR\ncd $PROJECT_BUILD_DIR\n
+ 2939  pwd
+ 2940  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1
+ 2941  export BOOST_ROOT=/Users/fernando/dev/cppalliance/boost-root
+ 2942  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="adoc" --concurrency=1
+ 2943  cat docs/reference/adoc/reference.adoc
+ 2944  cd ..
+ 2945  cd doc
+ 2946  ls
+ 2947  cat ../build-docs/docs/reference/adoc/reference.tag.xml
+ 2948  ls
+ 2949  cd tagfiles
+ 2950  ls
+ 2951  cat boost-url-doxygen.tag.xml
+ 2952  cd ..
+ 2953  ls
+ 2954  cp ../build-docs/docs/reference/adoc/reference.tag.xml tagfiles
+ 2955  mv tagfiles/reference.tag.xml tagfiles/boost-url-doxygen.tag.xml
+ 2956  cat tagfiles/boost-url-doxygen.tag.xml
+ 2957  ./build_antora.sh
+ 2958  ls
+ 2959  cd tagfiles
+ 2960  ls
+ 2961  rm -rf boost-core-doxygen.tag.xml
+ 2962  rm -rf boost-filesystem-doxygen.tag.xml
+ 2963  rm boost-system-doxygen.tag.xml
+ 2964  ls
+ 2965  cd ..
+ 2966  ls
+ 2967  ./build_antora.sh
+ 2968  cd ..
+ 2969  cd build-docs
+ 2970  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="false" --generate="html" --concurrency=1
+ 2971  cat docs/reference/adoc/reference.html
+ 2972  cd dev
+ 2973  cd cppalliance
+ 2974  ls
+ 2975  find . -name "*.svg"
+ 2976  cursor ./boost-url/doc/build/site/_/img/chevron.svg
+ 2977  cursor ./boost-url/
+ 2978  cursor .
+ 2979  find . -name "*breadcrumbs*"
+ 2980  ls
+ 2981  cd boost-url
+ 2982  ls
+ 2983  cd doc
+ 2984  ls
+ 2985  cd html
+ 2986  ls
+ 2987  cat index.html
+ 2988  ls
+ 2989  cd ..
+ 2990  ls
+ 2991  cd ..
+ 2992  cursor .
+ 2993  exit
+ 2994  pwd
+ 2995  ls
+ 2996  cd docs
+ 2997  ls
+ 2998  cd reference
+ 2999  ls
+ 3000  cd adoc
+ 3001  ls
+ 3002  cd ..
+ 3003  rm -rf build-docs
+ 3004  export MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\n# export PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url-simple\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/url-simple\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc\nexport BOOST_ROOT=/Users/fernando/dev/cppalliance/boost-root
+ 3005  cd\nrm -rf $PROJECT_BUILD_DIR\ncd $PROJECT_SOURCE_DIR\nmkdir $PROJECT_BUILD_DIR\ncd $PROJECT_BUILD_DIR\n
+ 3006  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1
+ 3007  ls cd build
+ 3008  ls
+ 3009  cd docs
+ 3010  ls
+ 3011  cd reference/adoc
+ 3012  ls
+ 3013  cd ..
+ 3014  ls
+ 3015  cd ..
+ 3016  ls
+ 3017  cd ..
+ 3018  ls
+ 3019  cd ..
+ 3020  cd doc
+ 3021  ls
+ 3022  cd ..
+ 3023  cursor .
+ 3024  find . -name "*.adoc"
+ 3025  cd doc
+ 3026  ./build_antora.sh
+ 3027  cd ..
+ 3028  cd boost-url
+ 3029  cd ../url-simple
+ 3030  export MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\n# export PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url-simple\n# export PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/url-simple\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-url\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc\nexport BOOST_ROOT=/Users/fernando/dev/cppalliance/boost-root\n
+ 3031  cd\nrm -rf $PROJECT_BUILD_DIR\ncd $PROJECT_SOURCE_DIR\nmkdir $PROJECT_BUILD_DIR\ncd $PROJECT_BUILD_DIR\n
+ 3032  pwd
+ 3033  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1
+ 3034  cd ..
+ 3035  ls
+ 3036  cd boost-root/libs/url
+ 3037  ls
+ 3038  pwd
+ 3039  export MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\n# export PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url-simple\n# export PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/url-simple\n# export PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-url\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc\nexport BOOST_ROOT=/Users/fernando/dev/cppalliance/boost-root\n
+ 3040  cd\nrm -rf $PROJECT_BUILD_DIR\ncd $PROJECT_SOURCE_DIR\nmkdir $PROJECT_BUILD_DIR\ncd $PROJECT_BUILD_DIR\n
+ 3041  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1
+ 3042  ls
+ 3043  cd docs
+ 3044  ls
+ 3045  cd reference
+ 3046  ls
+ 3047  cd adoc
+ 3048  ls
+ 3049  cd ..
+ 3050  rm -rf build-docs
+ 3051  cp -R ../boost-root/libs/url/build-docs .
+ 3052  cursor .
+ 3053  cd doc
+ 3054  ./build_antora.sh
+ 3055  cd ../build-docs/docs/reference/adoc/
+ 3056  ls
+ 3057  cd ..
+ 3058  cd doc
+ 3059  ./build_antora.sh
+ 3060  cat tagfiles/boost-url-doxygen.tag.xml
+ 3061  ./build_antora.sh
+ 3062  cd ..
+ 3063  find . -name "*arrow*"
+ 3064  cursor .
+ 3065  ./build_antora.sh
+ 3066  cd doc
+ 3067  ./build_antora.sh
+ 3068  cd build
+ 3069  ls
+ 3070  cd ..
+ 3071  mv build build-old
+ 3072  ./build_antora.sh
+ 3073  pwd
+ 3074  ./build_antora.sh
+ 3075  ls
+ 3076  rm -rf build-old
+ 3077  cat file:///Users/fernando/dev/cppalliance/url-simple/doc/build/site/url/reference/Outer/Inner/MyClass.html
+ 3078  cat /Users/fernando/dev/cppalliance/url-simple/doc/build/site/url/reference/Outer/Inner/MyClass.html
+ 3079  rm -rf build
+ 3080  ./build_antora.sh
+ 3081  pwd
+ 3082  cd ../build-docs
+ 3083  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1
+ 3084  cd ../doc
+ 3085  ./build_antora.sh
+ 3086  antora --clean site.yml
+ 3087  ./build_antora.sh
+ 3088  /Users/fernando/Library/Caches/antora/reference-collector/mrdocs/darwin/develop/bin/mrdocs --version
+ 3089  cursor .
+ 3090  pwd
+ 3091  cd ..
+ 3092  pwd
+ 3093  cursor .
+ 3094  cd build
+ 3095  cmake --build . -j 16
+ 3096  ./build_antora.sh
+ 3097  /Users/fernando/Library/Caches/antora/reference-collector/mrdocs/darwin/develop/bin/mrdocs --version
+ 3098  cd dev
+ 3099  cd cppalliance
+ 3100  ls
+ 3101  cd mrdocs-helpers
+ 3102  cursor .
+ 3103  ls
+ 3104  ./mrdocs --version
+ 3105  pwd
+ 3106  exit
+ 3107  export MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs
+ 3108  /Users/fernando/Library/Caches/antora/reference-collector/mrdocs/darwin/develop/bin/mrdocs --version
+ 3109  ./mrdocs --version
+ 3110  git log
+ 3111  rm -rf /Users/fernando/Library/Caches/antora/reference-collector/mrdocs\n
+ 3112  ls /Users/fernando/Library/Caches/antora/reference-collector/mrdocs\n
+ 3113  ./build_antora.sh
+ 3114  pwd
+ 3115  ./build_antora.sh
+ 3116  rm -rf /Users/fernando/Library/Caches/antora/reference-collector/mrdocs\n
+ 3117  ./build_antora.sh
+ 3118  /Users/fernando/Library/Caches/antora/reference-collector/mrdocs/darwin/develop/bin/
+ 3119  ls
+ 3120  cd ..
+ 3121  ls
+ 3122  cd share
+ 3123  ls
+ 3124  cd mrdocs
+ 3125  ls
+ 3126  cd addons
+ 3127  ls
+ 3128  cd generator
+ 3129  ls
+ 3130  cd adoc
+ 3131  ls
+ 3132  cd ..
+ 3133  ls
+ 3134  cd ..
+ 3135  ls
+ 3136  cd lib
+ 3137  ls
+ 3138  cd ..
+ 3139  ./bin/mrdocs --version
+ 3140  pwd
+ 3141  cp /Users/fernando/dev/cppalliance/mrdocs/build/mrdocs ./bin
+ 3142  ./bin/mrdocs --version
+ 3143  ls
+ 3144  cd share
+ 3145  ls
+ 3146  cd mrdocs
+ 3147  ls
+ 3148  cd addons
+ 3149  ls
+ 3150  cd generator
+ 3151  ls
+ 3152  cd ..
+ 3153  ls
+ 3154  cd share
+ 3155  ls
+ 3156  cd mrdocs
+ 3157  ls
+ 3158  cd addons
+ 3159  ls
+ 3160  cd generator
+ 3161  ls
+ 3162  pwd
+ 3163  ls
+ 3164  rm -rf adoc common html
+ 3165  cp -R /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/addons/generator/* .
+ 3166  ls
+ 3167  cd ..
+ 3168  ls
+ 3169  ./build_antora.sh
+ 3170  cd ..
+ 3171  cd build
+ 3172  cmake --build . -j 16
+ 3173  cd share/mrdocs/addons/generator
+ 3174  rm -rf adoc common html
+ 3175  cp -R /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/addons/generator/* .
+ 3176  ./build_antora.sh
+ 3177  rm -rf adoc common html
+ 3178  cp -R /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/addons/generator/* .
+ 3179  ./build_antora.sh
+ 3180  find . -name "MyClass.adoc"
+ 3181  rm -rf adoc common html
+ 3182  cp -R /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/addons/generator/* .
+ 3183  find . -name "MyClass.adoc"
+ 3184  ./build_antora.sh
+ 3185  rm -rf adoc common html
+ 3186  cp -R /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/addons/generator/* .
+ 3187  rm -rf adoc common html
+ 3188  cp -R /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/addons/generator/* .
+ 3189  ./build_antora.sh
+ 3190  rm -rf adoc common html
+ 3191  cp -R /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/addons/generator/* .
+ 3192  ./build_antora.sh
+ 3193  cd ../build-docs
+ 3194  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1
+ 3195  rm -rf adoc common html
+ 3196  cp -R /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/addons/generator/* .
+ 3197  cd ../doc
+ 3198  ./build_antora.sh
+ 3199  rm -rf adoc common html
+ 3200  cp -R /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/addons/generator/* .
+ 3201  ./build_antora.sh
+ 3202  rm -rf adoc common html
+ 3203  cp -R /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/addons/generator/* .
+ 3204  ./build_antora.sh
+ 3205  rm -rf adoc common html
+ 3206  cp -R /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/addons/generator/* .
+ 3207  ./build_antora.sh
+ 3208  rm -rf adoc common html
+ 3209  cp -R /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/addons/generator/* .
+ 3210  ./build_antora.sh
+ 3211  cd ../build-docs
+ 3212  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1
+ 3213  rm -rf adoc common html
+ 3214  cp -R /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/addons/generator/* .
+ 3215  cd ../doc
+ 3216  cd ../build-docs
+ 3217  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1
+ 3218  cd ../doc
+ 3219  ./build_antora.sh
+ 3220  rm -rf adoc common html
+ 3221  cp -R /Users/fernando/dev/cppalliance/mrdocs/share/mrdocs/addons/generator/* .
+ 3222  ./build_antora.sh
+ 3223  cd ../build-docs
+ 3224  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1
+ 3225  cd ../doc
+ 3226  ./build_antora.sh
+ 3227  cd dev
+ 3228  cd cppalliance
+ 3229  cd boost-root
+ 3230  cd ../boost-url
+ 3231  cd doc
+ 3232  ./build_antora.sh
+ 3233  export MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\n# export PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url-simple\n# export PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/url-simple\n# export PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-url\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc\nexport BOOST_ROOT=/Users/fernando/dev/cppalliance/boost-root\n
+ 3234  ./build_antora.sh
+ 3235  cd ..
+ 3236  cd boost-url
+ 3237  ./build_antora.sh
+ 3238  cd doc
+ 3239  git status
+ 3240  git stash
+ 3241  ./build_antora.sh
+ 3242  cd ..
+ 3243  cd boost-root/libs/url
+ 3244  export MRDOCS_ROOT=/Users/fernando/dev/cppalliance/mrdocs\n# export PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url-simple\n# export PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/url-simple\n# export PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-url\nexport PROJECT_SOURCE_DIR=/Users/fernando/dev/cppalliance/boost-root/libs/url\nexport MRDOCS_CONFIG=$PROJECT_SOURCE_DIR/doc/mrdocs.yml\nexport PROJECT_BUILD_DIR=$PROJECT_SOURCE_DIR/build-docs\nexport LLVM_ROOT=/Users/fernando/dev/cppalliance/third-party/llvm-project/install\nexport CXX="$LLVM_ROOT/bin/clang++"\nexport CC="$LLVM_ROOT/bin/clang"\nexport MRDOCS_OUTPUT=$PROJECT_BUILD_DIR/docs/reference/adoc\nexport BOOST_ROOT=/Users/fernando/dev/cppalliance/boost-root
+ 3245  $MRDOCS_ROOT/build/mrdocs --config=$MRDOCS_CONFIG "../CMakeLists.txt" --output="$MRDOCS_OUTPUT" --multipage="true" --generate="adoc" --concurrency=1
+ 3246  cd build-docs
+ 3247  ls
+ 3248  cd ..
+ 3249  cursor .
+ 3250  cd ..
+ 3251  git push
+ 3252  git push --set-upstream origin feat/navigate-to-enclosing-namespace
+ 3253  exit
+ 3254  cursor .
+ 3255  exit
+ 3256  cd dev
+ 3257  cd kth/js-native
+ 3258  cursor .
+ 3259  cd ../js-api
+ 3260  cursor .
+ 3261  cd ..
+ 3262  cd kth-master-simple/c-api
+ 3263  git pull
+ 3264  cursor .
+ 3265  git checkout -b feat/wasm-size-t-compatibility
+ 3266  git status
+ 3267  git push
+ 3268  git push --set-upstream origin feat/wasm-size-t-compatibility
+ 3269  ssh fernando@192.168.68.98
+ 3270* ./helpers/build.sh
+ 3271  git checkout master
+ 3272  git pull
+ 3273  git status
+ 3274  cd ..
+ 3275  cursor .
+ 3276  cd c-api
+ 3277  export VERSION=0.58.0\nconan lock create conanfile.py --version $VERSION --lockfile=conan.lock --lockfile-out=build/conan.lock   \n

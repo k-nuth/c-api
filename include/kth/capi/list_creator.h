@@ -25,9 +25,17 @@ std::vector<cpp_elem_t>& kth_##api##_##list_name##_cpp(list_t l) {              
 #define KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP(api, list_t, cpp_elem_t, list_name)  \
 list_t kth_##api##_##list_name##_construct_from_cpp(std::vector<cpp_elem_t>& l);
 
-#define KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(api, list_t, cpp_elem_t, list_name)  \
-list_t kth_##api##_##list_name##_construct_from_cpp(std::vector<cpp_elem_t>& l) {         \
-    return &l;                                                                      \
+#define KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(api, list_t, cpp_elem_t, list_name)     \
+list_t kth_##api##_##list_name##_construct_from_cpp(std::vector<cpp_elem_t>& l) {  \
+    return &l;                                                                     \
+}
+
+#define KTH_LIST_DECLARE_CONSTRUCT_FROM_CPP_CONST(api, list_t, cpp_elem_t, list_name)  \
+void const* kth_##api##_##list_name##_construct_from_cpp(std::vector<cpp_elem_t> const& l);
+
+#define KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP_CONST(api, list_t, cpp_elem_t, list_name)    \
+void const* kth_##api##_##list_name##_construct_from_cpp(std::vector<cpp_elem_t> const& l) { \
+    return &l;                                                                          \
 }
 
 #define KTH_LIST_DECLARE(api, list_t, elem_t, list_name)                \
