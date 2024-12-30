@@ -70,8 +70,13 @@ typedef void* kth_inputpoint_t;
 typedef void* kth_merkleblock_t;
 typedef void* kth_script_t;
 typedef void* kth_token_data_t;
-typedef void* kth_output_t;
+
+typedef void* kth_operation_list_t;
+typedef void const* kth_operation_list_const_t;
+typedef void* kth_operation_t;
+
 typedef void* kth_output_list_t;
+typedef void* kth_output_t;
 typedef void* kth_outputpoint_t;
 typedef void const* kth_outputpoint_const_t;
 typedef void* kth_point_t;

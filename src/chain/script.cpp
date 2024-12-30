@@ -17,9 +17,20 @@ kth_script_t kth_chain_script_construct_default() {
 }
 
 // script::script(const data_chunk& encoded, bool prefix)
-kth_script_t kth_chain_script_construct(uint8_t* encoded, kth_size_t n, kth_bool_t prefix) {
+kth_script_t kth_chain_script_construct_from_bytes(uint8_t* encoded, kth_size_t n, kth_bool_t prefix) {
     kth::data_chunk encoded_cpp(encoded, std::next(encoded, n));
     return new kth::domain::chain::script(encoded_cpp, kth::int_to_bool(prefix));
+}
+
+kth_script_t kth_chain_script_construct_from_string(char const* str) {
+    auto script = new kth::domain::chain::script();
+    script->from_string(std::string(str));
+    return script;
+}
+
+kth_script_t kth_chain_script_construct_from_operations(kth_operation_list_t operations) {
+    auto const& ops_cpp = kth_chain_operation_list_const_cpp(operations);
+    return new kth::domain::chain::script(ops_cpp);
 }
 
 void kth_chain_script_destruct(kth_script_t script) {
@@ -75,5 +86,36 @@ uint8_t const* kth_chain_script_to_data(kth_script_t script, kth_bool_t prefix, 
 kth_size_t kth_chain_script_sigops(kth_script_t script, kth_bool_t embedded) {
     return kth_chain_script_const_cpp(script).sigops(kth::int_to_bool(embedded));
 }
+
+kth_operation_list_const_t kth_chain_script_operations(kth_script_t script) {
+    auto& script_cpp = kth_chain_script_cpp(script);
+    return kth_chain_operation_list_construct_from_cpp(script_cpp.operations());
+}
+
+
+// // Signing.
+// //-------------------------------------------------------------------------
+
+// static
+// hash_digest generate_signature_hash(transaction const& tx,
+//                                     uint32_t input_index,
+//                                     script const& script_code,
+//                                     uint8_t sighash_type,
+//                                     script_version version = script_version::unversioned,
+//                                     uint64_t value = max_uint64);
+
+// static
+// bool check_signature(ec_signature const& signature,
+//                         uint8_t sighash_type,
+//                         data_chunk const& public_key,
+//                         script const& script_code,
+//                         transaction const& tx,
+//                         uint32_t input_index,
+//                         script_version version = script_version::unversioned,
+//                         uint64_t value = max_uint64);
+
+// static
+// bool create_endorsement(endorsement& out, ec_secret const& secret, script const& prevout_script, transaction const& tx, uint32_t input_index, uint8_t sighash_type, script_version version = script_version::unversioned, uint64_t value = max_uint64);
+
 
 } // extern "C"

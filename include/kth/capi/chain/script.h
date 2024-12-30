@@ -18,7 +18,13 @@ KTH_EXPORT
 kth_script_t kth_chain_script_construct_default(void);
 
 KTH_EXPORT
-kth_script_t kth_chain_script_construct(uint8_t* encoded, kth_size_t n, kth_bool_t prefix);
+kth_script_t kth_chain_script_construct_from_bytes(uint8_t* encoded, kth_size_t n, kth_bool_t prefix);
+
+KTH_EXPORT
+kth_script_t kth_chain_script_construct_from_string(char const* str);
+
+KTH_EXPORT
+kth_script_t kth_chain_script_construct_from_operations(kth_operation_list_t operations);
 
 KTH_EXPORT
 void kth_chain_script_destruct(kth_script_t script);
@@ -46,6 +52,9 @@ uint8_t const* kth_chain_script_to_data(kth_script_t script, kth_bool_t prefix, 
 
 KTH_EXPORT
 kth_size_t kth_chain_script_sigops(kth_script_t script, kth_bool_t embedded);
+
+KTH_EXPORT
+kth_operation_list_const_t kth_chain_script_operations(kth_script_t script);
 
 #ifdef __cplusplus
 } // extern "C"

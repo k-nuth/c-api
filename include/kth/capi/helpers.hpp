@@ -15,6 +15,8 @@
 #include <kth/infrastructure/math/hash.hpp>
 #include <kth/infrastructure/error.hpp>
 #include <kth/node/full_node.hpp>
+#include <kth/domain/machine/opcode.hpp>
+#include <kth/capi/chain/opcode.h>
 
 namespace kth {
 namespace detail {
@@ -224,6 +226,21 @@ bool witness(int x = 1) {
 #else
     return kth::int_to_bool(x);
 #endif
+}
+
+// template <typename E1, typename E2>
+// E1 c_enum_to_cpp_enum(E2 e) {
+//     return static_cast<E1>(e);
+// }
+
+inline
+kth::domain::machine::opcode opcode_to_cpp(kth_opcode_t op) {
+    return static_cast<kth::domain::machine::opcode>(op);
+}
+
+inline
+kth_opcode_t opcode_to_c(kth::domain::machine::opcode op) {
+    return static_cast<kth_opcode_t>(op);
 }
 
 inline
