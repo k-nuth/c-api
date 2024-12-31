@@ -9,6 +9,7 @@
 
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
+#include <kth/capi/chain/rule_fork.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -55,6 +56,85 @@ kth_size_t kth_chain_script_sigops(kth_script_t script, kth_bool_t embedded);
 
 KTH_EXPORT
 kth_operation_list_const_t kth_chain_script_operations(kth_script_t script);
+
+KTH_EXPORT
+uint8_t const* kth_chain_script_to_bytes(kth_script_t script, kth_size_t* out_size);
+
+// Static functions
+
+/// Determine if the fork is enabled in the active forks set.
+KTH_EXPORT
+kth_bool_t kth_chain_script_is_enabled(uint32_t active_forks, kth_rule_fork_t fork);
+
+/// Consensus patterns
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_push_only(kth_operation_list_t ops);
+
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_relaxed_push(kth_operation_list_t ops);
+
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_coinbase_pattern(kth_operation_list_t ops, kth_size_t height);
+
+/// Common output patterns (psh and pwsh are also consensus).
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_null_data_pattern(kth_operation_list_t ops);
+
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_pay_multisig_pattern(kth_operation_list_t ops);
+
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_pay_public_key_pattern(kth_operation_list_t ops);
+
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_pay_key_hash_pattern(kth_operation_list_t ops);
+
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_pay_script_hash_pattern(kth_operation_list_t ops);
+
+/// Common input patterns (skh is also consensus).
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_sign_multisig_pattern(kth_operation_list_t ops);
+
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_sign_public_key_pattern(kth_operation_list_t ops);
+
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_sign_key_hash_pattern(kth_operation_list_t ops);
+
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_sign_script_hash_pattern(kth_operation_list_t ops);
+
+/// Stack factories.
+KTH_EXPORT
+kth_operation_list_const_t kth_chain_script_to_null_data_pattern(uint8_t const* data, kth_size_t n);
+
+KTH_EXPORT
+kth_operation_list_const_t kth_chain_script_to_pay_public_key_pattern(uint8_t const* point, kth_size_t n);
+
+KTH_EXPORT
+kth_operation_list_const_t kth_chain_script_to_pay_key_hash_pattern(kth_shorthash_t const* chash);
+
+KTH_EXPORT
+kth_operation_list_const_t kth_chain_script_to_pay_script_hash_pattern(kth_shorthash_t const* hash);
+
+KTH_EXPORT
+kth_operation_list_const_t kth_chain_script_to_pay_multisig_pattern(uint8_t signatures, kth_ec_compressed_list_t points);
+
+// TODO: add this
+// KTH_EXPORT
+// kth_operation_list_const_t kth_chain_script_to_pay_multisig_pattern(uint8_t signatures, data_stack const& points);
+
+#if defined(KTH_SEGWIT_ENABLED)
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_commitment_pattern(kth_operation_list_t ops);
+
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_witness_program_pattern(kth_operation_list_t ops);
+
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_pay_witness_script_hash_pattern(kth_operation_list_t ops);
+#endif
 
 #ifdef __cplusplus
 } // extern "C"
