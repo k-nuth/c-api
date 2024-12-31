@@ -77,9 +77,29 @@ endif()
 message(STATUS "Knuth: Cryptocurrency: ${CURRENCY}")
 
 # --------------------------------------------------------------------------------
-string(TIMESTAMP KTK_CAPI_BUILD_TIMESTAMP "%s" UTC)
-message(STATUS "KTK_CAPI_BUILD_TIMESTAMP: ${KTK_CAPI_BUILD_TIMESTAMP}")
-add_definitions(-DKTK_CAPI_BUILD_TIMESTAMP=${KTK_CAPI_BUILD_TIMESTAMP})
+string(TIMESTAMP KTH_CAPI_BUILD_TIMESTAMP "%s" UTC)
+message(STATUS "Knuth: KTH_CAPI_BUILD_TIMESTAMP: ${KTH_CAPI_BUILD_TIMESTAMP}")
+add_definitions(-DKTH_CAPI_BUILD_TIMESTAMP=${KTH_CAPI_BUILD_TIMESTAMP})
+# --------------------------------------------------------------------------------
+find_package(Git QUIET)
+if (GIT_FOUND)
+    execute_process(
+            COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            OUTPUT_VARIABLE PROJECT_VERSION_BUILD
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    if (PROJECT_VERSION_BUILD)
+        set(PROJECT_VERSION_BUILD "${PROJECT_VERSION_BUILD}")
+        message(STATUS "Knuth: KTH_CAPI_BUILD_GIT_HASH: ${PROJECT_VERSION_BUILD}")
+        add_definitions(-DKTH_CAPI_BUILD_GIT_HASH=${PROJECT_VERSION_BUILD})
+    else()
+        message(STATUS "Knuth: KTH_CAPI_BUILD_GIT_HASH: not found")
+    endif()
+else()
+    message(STATUS "Knuth: KTH_CAPI_BUILD_GIT_HASH: not found")
+    # set(PROJECT_VERSION_BUILD "")
+endif()
 # --------------------------------------------------------------------------------
 
 
@@ -201,6 +221,7 @@ set(kth_sources
         src/wallet/raw_output_list.cpp
         src/wallet/transaction_functions.cpp
         src/wallet/wallet.cpp
+        src/wallet/ec_compressed_list.cpp
 )
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
@@ -254,6 +275,7 @@ set(kth_headers
   include/kth/capi/node.h
   include/kth/capi/helpers.hpp
   include/kth/capi/libconfig/libconfig.h
+
   include/kth/capi/wallet/raw_output_list.h
   include/kth/capi/wallet/transaction_functions.h
   include/kth/capi/wallet/ec_public.h
@@ -261,6 +283,8 @@ set(kth_headers
   include/kth/capi/wallet/payment_address_list.h
   include/kth/capi/wallet/wallet.h
   include/kth/capi/wallet/raw_output.h
+  include/kth/capi/wallet/ec_compressed_list.h
+
   include/kth/capi/primitives.h
   include/kth/capi/string_list.h
   include/kth/capi/hash_list.h

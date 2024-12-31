@@ -114,10 +114,16 @@ kth_libconfig_t kth_libconfig_get() {
         "-O0";
 #endif
 
-#ifdef KTK_CAPI_BUILD_TIMESTAMP
-    res.build_timestamp = uint32_t(KTK_CAPI_BUILD_TIMESTAMP);
+#ifdef KTH_CAPI_BUILD_TIMESTAMP
+    res.build_timestamp = uint32_t(KTH_CAPI_BUILD_TIMESTAMP);
 #else
     res.build_timestamp = 0;
+#endif
+
+#ifdef KTH_CAPI_BUILD_GIT_HASH
+    res.build_git_hash = KTH_CAPI_BUILD_GIT_HASH;
+#else
+    res.build_git_hash = "";
 #endif
 
     res.endianness =
