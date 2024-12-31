@@ -42,6 +42,7 @@ typedef struct {
     char const* compiler_version;      // ej. "12.2.0"
     char const* optimization_level;    // -O2, -O3
     uint32_t build_timestamp;          // Epoch time
+    char const* build_git_hash;        // Git hash
     char const* endianness;            // little, big
 
     kth_libconfig_type_sizes_t type_sizes;
