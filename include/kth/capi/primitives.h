@@ -99,6 +99,8 @@ typedef void* kth_raw_output_t;
 typedef void* kth_raw_output_list_t;
 typedef void* kth_string_list_t;
 
+typedef void* kth_ec_compressed_list_t;
+
 typedef struct kth_shorthash_t {
     uint8_t hash[KTH_BITCOIN_SHORT_HASH_SIZE];  //kth::hash_size
 } kth_shorthash_t;

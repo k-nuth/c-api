@@ -17,6 +17,7 @@
 #include <kth/node/full_node.hpp>
 #include <kth/domain/machine/opcode.hpp>
 #include <kth/capi/chain/opcode.h>
+#include <kth/capi/chain/rule_fork.h>
 
 namespace kth {
 namespace detail {
@@ -241,6 +242,16 @@ kth::domain::machine::opcode opcode_to_cpp(kth_opcode_t op) {
 inline
 kth_opcode_t opcode_to_c(kth::domain::machine::opcode op) {
     return static_cast<kth_opcode_t>(op);
+}
+
+inline
+kth_rule_fork_t rule_fork_to_c(kth::domain::machine::rule_fork fork) {
+    return static_cast<kth_rule_fork_t>(fork);
+}
+
+inline
+kth::domain::machine::rule_fork rule_fork_to_cpp(kth_rule_fork_t fork) {
+    return static_cast<kth::domain::machine::rule_fork>(fork);
 }
 
 inline

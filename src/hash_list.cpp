@@ -11,6 +11,7 @@ KTH_LIST_DEFINE_CONVERTERS(core, kth_hash_list_t, kth::hash_digest, hash_list)
 KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(core, kth_hash_list_t, kth::hash_digest, hash_list)
 
 // ---------------------------------------------------------------------------
+
 extern "C" {
 
 kth_hash_list_t kth_core_hash_list_construct_default() {
