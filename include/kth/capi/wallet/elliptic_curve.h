@@ -13,6 +13,7 @@
 extern "C" {
 #endif
 
+KTH_EXPORT
 kth_bool_t kth_wallet_secret_to_public(kth_ec_compressed_t* out, kth_ec_secret_t secret);
 
 #ifdef __cplusplus

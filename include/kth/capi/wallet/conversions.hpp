@@ -77,6 +77,15 @@ kth_hd_lineage_t to_hd_lineage_t(kth::infrastructure::wallet::hd_lineage const& 
     return lineage_c;
 }
 
+inline
+kth_ec_signature_t to_ec_signature_t(kth::ec_signature const& obj) {
+    kth_ec_signature_t res;
+    std::copy_n(obj.begin(), obj.size(), res.data);
+    return res;
+}
+
+
+
 // C -> C++ ---------------------------------------------------------
 inline
 std::array<uint8_t, KTH_HD_CHAIN_CODE_SIZE> from_hd_chain_code_t(kth_hd_chain_code_t const& x) {
@@ -139,6 +148,14 @@ kth::infrastructure::wallet::hd_lineage from_hd_lineage_t(kth_hd_lineage_t const
     lineage_cpp.child_number = lineage_c.child_number;
     return lineage_cpp;
 }
+
+inline
+kth::ec_signature from_ec_signature_t(kth_ec_signature_t const& x) {
+    kth::ec_signature result;
+    std::copy(std::begin(x.data), std::end(x.data), result.begin());
+    return result;
+}
+
 
 } // namespace detail
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2024 Knuth Project developers.
+// Copyright (c) 2016-2025 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,6 +10,8 @@
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
 #include <kth/capi/chain/rule_fork.h>
+#include <kth/capi/chain/script_version.h>
+#include <kth/capi/wallet/primitives.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -125,6 +127,50 @@ kth_operation_list_const_t kth_chain_script_to_pay_multisig_pattern(uint8_t sign
 // KTH_EXPORT
 // kth_operation_list_const_t kth_chain_script_to_pay_multisig_pattern(uint8_t signatures, data_stack const& points);
 
+
+// Signing.
+//-------------------------------------------------------------------------
+
+KTH_EXPORT
+kth_hash_t generate_signature_hash(
+    kth_transaction_t tx,
+    uint32_t input_index,
+    kth_script_t script_code,
+    uint8_t sighash_type,
+    kth_script_version_t version,
+    uint64_t value,
+    kth_size_t* out_hashed_bytes
+);
+
+KTH_EXPORT
+kth_bool_t check_signature(
+    kth_ec_signature_t signature,
+    uint8_t sighash_type,
+    uint8_t const* public_key,
+    kth_size_t public_key_size,
+    kth_script_t script_code,
+    kth_transaction_t tx,
+    uint32_t input_index,
+    kth_script_version_t version,
+    uint64_t value,
+    kth_size_t* out_hashed_bytes
+);
+
+//TODO: implement this, we need endorsement type first
+// static
+// bool create_endorsement(endorsement& out, ec_secret const& secret, script const& prevout_script, transaction const& tx, uint32_t input_index, uint8_t sighash_type, script_version version = script_version::unversioned, uint64_t value = max_uint64);
+
+
+// Validation.
+//-----------------------------------------------------------------------------
+
+KTH_EXPORT
+kth_error_code_t kth_chain_script_verify(kth_transaction_t tx, uint32_t input_index, uint32_t forks, kth_script_t input_script, kth_script_t prevout_script, uint64_t value);
+
+KTH_EXPORT
+kth_error_code_t kth_chain_script_verify_transaction(kth_transaction_t tx, uint32_t input, uint32_t forks);
+
+
 #if defined(KTH_SEGWIT_ENABLED)
 KTH_EXPORT
 kth_bool_t  kth_chain_script_is_commitment_pattern(kth_operation_list_t ops);
@@ -140,4 +186,4 @@ kth_bool_t  kth_chain_script_is_pay_witness_script_hash_pattern(kth_operation_li
 } // extern "C"
 #endif
 
-#endif /* KTH_CAPI_CHAIN_SCRIPT_H_ */
+#endif // KTH_CAPI_CHAIN_SCRIPT_H_
