@@ -112,6 +112,7 @@ typedef void* kth_ec_compressed_list_t;
 // VM
 typedef void* kth_metrics_t;
 typedef void* kth_program_t;
+
 typedef void const* kth_program_const_t;
 
 

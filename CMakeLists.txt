@@ -321,6 +321,8 @@ set(kth_headers
 
   include/kth/capi/vm/program.h
 
+  include/kth/capi/vm/program.h
+
   include/kth/capi/wallet/raw_output_list.h
   include/kth/capi/wallet/transaction_functions.h
   include/kth/capi/wallet/ec_public.h

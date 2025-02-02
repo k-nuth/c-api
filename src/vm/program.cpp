@@ -14,7 +14,6 @@
 // KTH_CONV_DEFINE(vm, kth_program_t, kth::domain::machine::program, program)
 KTH_CONV_DEFINE_JUST_CONST(vm, kth_program_const_t, kth::domain::machine::program, program)
 KTH_CONV_DEFINE_JUST_MUTABLE(vm, kth_program_t, kth::domain::machine::program, program)
-
 // ---------------------------------------------------------------------------
 extern "C" {
 
@@ -288,9 +287,6 @@ uint8_t const* kth_vm_program_item(kth_program_t program, kth_size_t index, kth_
 //     value_type& item(size_t index);
 // KTH_EXPORT
 // kth_value_type_t kth_vm_program_item_mutable(kth_program_t program, kth_size_t index);
-
-
-
 
 //     data_chunk& top();
 uint8_t const* kth_vm_program_top(kth_program_t program, kth_size_t* out_size) {
