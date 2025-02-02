@@ -6,6 +6,7 @@
 
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/helpers.hpp>
+#include <kth/capi/wallet/conversions.hpp>
 
 KTH_CONV_DEFINE(chain, kth_script_t, kth::domain::chain::script, script)
 
@@ -220,13 +221,12 @@ kth_bool_t  kth_chain_script_is_pay_witness_script_hash_pattern(kth_operation_li
 #endif
 
 
+// Signing.
+//-------------------------------------------------------------------------
 
-
-// // Signing.
-// //-------------------------------------------------------------------------
 
 // static
-// hash_digest generate_signature_hash(transaction const& tx,
+// std::pair<hash_digest, size_t> generate_signature_hash(transaction const& tx,
 //                                     uint32_t input_index,
 //                                     script const& script_code,
 //                                     uint8_t sighash_type,
@@ -234,7 +234,7 @@ kth_bool_t  kth_chain_script_is_pay_witness_script_hash_pattern(kth_operation_li
 //                                     uint64_t value = max_uint64);
 
 // static
-// bool check_signature(ec_signature const& signature,
+// std::pair<bool, size_t> check_signature(ec_signature const& signature,
 //                         uint8_t sighash_type,
 //                         data_chunk const& public_key,
 //                         script const& script_code,
@@ -246,5 +246,70 @@ kth_bool_t  kth_chain_script_is_pay_witness_script_hash_pattern(kth_operation_li
 // static
 // bool create_endorsement(endorsement& out, ec_secret const& secret, script const& prevout_script, transaction const& tx, uint32_t input_index, uint8_t sighash_type, script_version version = script_version::unversioned, uint64_t value = max_uint64);
 
+// kth_hash_t kth_chain_block_hash(kth_block_t block) {
+//     auto const& hash_cpp = kth_chain_block_const_cpp(block).hash();
+//     return kth::to_hash_t(hash_cpp);
+// }
+
+kth_hash_t generate_signature_hash(
+    kth_transaction_t tx,
+    uint32_t input_index,
+    kth_script_t script_code,
+    uint8_t sighash_type,
+    kth_script_version_t version,
+    uint64_t value,
+    kth_size_t* out_hashed_bytes
+) {
+    auto const& tx_cpp = kth_chain_transaction_const_cpp(tx);
+    auto const& script_code_cpp = kth_chain_script_const_cpp(script_code);
+    auto const& version_cpp = kth::script_version_to_cpp(version);
+    auto res = kth::domain::chain::script::generate_signature_hash(tx_cpp, input_index, script_code_cpp, sighash_type, version_cpp, value);
+    *out_hashed_bytes = res.second;
+    return kth::to_hash_t(res.first);
+}
+
+kth_bool_t check_signature(
+    kth_ec_signature_t signature,
+    uint8_t sighash_type,
+    uint8_t const* public_key,
+    kth_size_t public_key_size,
+    kth_script_t script_code,
+    kth_transaction_t tx,
+    uint32_t input_index,
+    kth_script_version_t version,
+    uint64_t value,
+    kth_size_t* out_hashed_bytes
+) {
+    auto const signature_cpp = detail::from_ec_signature_t(signature);
+    auto const& public_key_cpp = kth::data_chunk(public_key, public_key + public_key_size);
+    auto const& script_code_cpp = kth_chain_script_const_cpp(script_code);
+    auto const& tx_cpp = kth_chain_transaction_const_cpp(tx);
+    auto const& version_cpp = kth::script_version_to_cpp(version);
+    auto res = kth::domain::chain::script::check_signature(signature_cpp, sighash_type, public_key_cpp, script_code_cpp, tx_cpp, input_index, version_cpp, value);
+    *out_hashed_bytes = res.second;
+    return kth::bool_to_int(res.first);
+}
+
+// Validation.
+//-----------------------------------------------------------------------------
+
+// static
+// code verify(transaction const& tx, uint32_t input_index, uint32_t forks, script const& input_script, script const& prevout_script, uint64_t /*value*/);
+
+// static
+// code verify(transaction const& tx, uint32_t input, uint32_t forks);
+
+
+kth_error_code_t kth_chain_script_verify(kth_transaction_t tx, uint32_t input_index, uint32_t forks, kth_script_t input_script, kth_script_t prevout_script, uint64_t value) {
+    auto const& tx_cpp = kth_chain_transaction_const_cpp(tx);
+    auto const& input_script_cpp = kth_chain_script_const_cpp(input_script);
+    auto const& prevout_script_cpp = kth_chain_script_const_cpp(prevout_script);
+    return kth::to_c_err(kth::domain::chain::script::verify(tx_cpp, input_index, forks, input_script_cpp, prevout_script_cpp, value));
+}
+
+kth_error_code_t kth_chain_script_verify_transaction(kth_transaction_t tx, uint32_t input, uint32_t forks) {
+    auto const& tx_cpp = kth_chain_transaction_const_cpp(tx);
+    return kth::to_c_err(kth::domain::chain::script::verify(tx_cpp, input, forks));
+}
 
 } // extern "C"

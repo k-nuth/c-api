@@ -72,7 +72,7 @@ KTH_EXPORT
 kth_bool_t kth_chain_operation_is_positive(kth_operation_t operation);
 
 KTH_EXPORT
-kth_bool_t kth_chain_operation_is_disabled(kth_operation_t operation);
+kth_bool_t kth_chain_operation_is_disabled(kth_operation_t operation, uint32_t active_forks);
 
 KTH_EXPORT
 kth_bool_t kth_chain_operation_is_conditional(kth_operation_t operation);
@@ -81,7 +81,7 @@ KTH_EXPORT
 kth_bool_t kth_chain_operation_is_relaxed_push(kth_operation_t operation);
 
 KTH_EXPORT
-kth_bool_t kth_chain_operation_is_oversized(kth_operation_t operation);
+kth_bool_t kth_chain_operation_is_oversized(kth_operation_t operation, kth_size_t max_size);
 
 KTH_EXPORT
 kth_bool_t kth_chain_operation_is_minimal_push(kth_operation_t operation);
@@ -131,7 +131,7 @@ KTH_EXPORT
 kth_bool_t kth_chain_operation_opcode_is_reserved(kth_opcode_t code);
 
 KTH_EXPORT
-kth_bool_t kth_chain_operation_opcode_is_disabled(kth_opcode_t code);
+kth_bool_t kth_chain_operation_opcode_is_disabled(kth_opcode_t code, uint32_t active_forks);
 
 KTH_EXPORT
 kth_bool_t kth_chain_operation_opcode_is_conditional(kth_opcode_t code);

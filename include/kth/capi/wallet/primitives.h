@@ -22,7 +22,7 @@ extern "C" {
 #define KTH_HD_FIRST_HARDENED_KEY (1 << 31)
 #define KTH_WIF_UNCOMPRESSED_SIZE 37U
 #define KTH_WIF_COMPRESSED_SIZE 38U
-
+#define KTH_EC_SIGNATURE_SIZE 64
 typedef struct {
     uint8_t data[KTH_HD_CHAIN_CODE_SIZE];
 } kth_hd_chain_code_t;
@@ -50,6 +50,13 @@ typedef struct {
 typedef struct {
     uint8_t data[KTH_WIF_COMPRESSED_SIZE];
 } kth_wif_compressed_t;
+
+
+// Parsed ECDSA signature:
+typedef struct {
+    uint8_t data[KTH_EC_SIGNATURE_SIZE];
+} kth_ec_signature_t;
+
 
 typedef void* kth_ec_private_t;
 typedef void* kth_ec_public_t;

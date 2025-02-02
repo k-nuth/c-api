@@ -101,8 +101,8 @@ kth_bool_t kth_chain_operation_is_positive(kth_operation_t operation) {
     return kth::bool_to_int(kth_chain_operation_cpp(operation).is_positive());
 }
 
-kth_bool_t kth_chain_operation_is_disabled(kth_operation_t operation) {
-    return kth::bool_to_int(kth_chain_operation_cpp(operation).is_disabled());
+kth_bool_t kth_chain_operation_is_disabled(kth_operation_t operation, uint32_t active_forks) {
+    return kth::bool_to_int(kth_chain_operation_cpp(operation).is_disabled(active_forks));
 }
 
 kth_bool_t kth_chain_operation_is_conditional(kth_operation_t operation) {
@@ -113,8 +113,8 @@ kth_bool_t kth_chain_operation_is_relaxed_push(kth_operation_t operation) {
     return kth::bool_to_int(kth_chain_operation_cpp(operation).is_relaxed_push());
 }
 
-kth_bool_t kth_chain_operation_is_oversized(kth_operation_t operation) {
-    return kth::bool_to_int(kth_chain_operation_cpp(operation).is_oversized());
+kth_bool_t kth_chain_operation_is_oversized(kth_operation_t operation, kth_size_t max_size) {
+    return kth::bool_to_int(kth_chain_operation_cpp(operation).is_oversized(max_size));
 }
 
 kth_bool_t kth_chain_operation_is_minimal_push(kth_operation_t operation) {
@@ -187,9 +187,9 @@ kth_bool_t kth_chain_operation_opcode_is_reserved(kth_opcode_t code) {
     return kth::bool_to_int(kth::domain::machine::operation::is_reserved(code_c));
 }
 
-kth_bool_t kth_chain_operation_opcode_is_disabled(kth_opcode_t code) {
+kth_bool_t kth_chain_operation_opcode_is_disabled(kth_opcode_t code, uint32_t active_forks) {
     auto code_c = kth::opcode_to_cpp(code);
-    return kth::bool_to_int(kth::domain::machine::operation::is_disabled(code_c));
+    return kth::bool_to_int(kth::domain::machine::operation::is_disabled(code_c, active_forks));
 }
 
 kth_bool_t kth_chain_operation_opcode_is_conditional(kth_opcode_t code) {
