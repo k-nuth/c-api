@@ -30,4 +30,12 @@ type_cpp const& kth_##api##_##obj_name##_const_cpp(type_c o) {        \
     return *static_cast<type_cpp const*>(o);                          \
 }
 
+#define KTH_CONV_DECLARE_JUST_MUTABLE(api, type_c, type_cpp, obj_name) \
+type_cpp& kth_##api##_##obj_name##_cpp(type_c o);
+
+#define KTH_CONV_DEFINE_JUST_MUTABLE(api, type_c, type_cpp, obj_name) \
+type_cpp& kth_##api##_##obj_name##_cpp(type_c o) {                    \
+    return *static_cast<type_cpp*>(o);                                \
+}
+
 #endif /* KTH_CAPI_TYPE_CONVERSIONS_H_ */

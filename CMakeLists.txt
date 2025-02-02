@@ -106,6 +106,11 @@ endif()
 
 if (NOT GLOBAL_BUILD)
   find_package(node REQUIRED)
+  # if (CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+  #   find_package(domain REQUIRED)
+  # else()
+  #   find_package(node REQUIRED)
+  # endif()
 endif()
 
 
@@ -130,6 +135,27 @@ if (_has_pedantic_warning_flag)
   _add_c_compile_flag(-pedantic _has_pedantic_flag)
 endif()
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+    message(STATUS "Knuth: OS is Emscripten")
+    message(STATUS "Knuth: CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}")
+    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -matomics -mbulk-memory")
+    # _add_cxx_compile_flag(-matomics _has_matomics_flag)
+    # _add_cxx_compile_flag(-mbulk-memory _has_mbulk_memory_flag)
+
+
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -matomics" )
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mbulk-memory" )
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -matomics" )
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mbulk-memory" )
+    # set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -matomics" )
+    # set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -mbulk-memory" )
+    # set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} -matomics" )
+    # set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} -mbulk-memory" )
+
+    message(STATUS "Knuth: CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}")
+endif()
+
+
 _add_cxx_compile_flag(-Wno-missing-braces _has_no_missing_braces_warning_flag)
 _add_cxx_compile_flag(-Wno-mismatched-tags _has_no_mismatched_tags_warning_flag)
 _add_c_compile_flag(-Wno-deprecated-declarations _has_no_deprecated_declarations_warning_flag)
@@ -149,13 +175,57 @@ else()
 endif()
 
 set(kth_sources
+
+  src/node_info.cpp
+  src/string_list.cpp
+  src/double_list.cpp
+  src/u32_list.cpp
+  src/u64_list.cpp
+
+
+  src/chain/opcode.cpp
+  src/chain/operation.cpp
+  src/chain/operation_list.cpp
+  src/chain/script.cpp
+  src/chain/transaction.cpp
+  src/chain/transaction_list.cpp
+  src/chain/utxo.cpp
+  src/chain/utxo_list.cpp
+
+
+  src/wallet/ec_private.cpp
+  src/wallet/ec_public.cpp
+  src/wallet/elliptic_curve.cpp
+  src/wallet/hd_public.cpp
+  src/wallet/hd_private.cpp
+
+  src/wallet/payment_address.cpp
+  src/wallet/payment_address_list.cpp
+  src/wallet/raw_output.cpp
+  src/wallet/raw_output_list.cpp
+  src/wallet/transaction_functions.cpp
+  src/wallet/wallet.cpp
+  src/wallet/ec_compressed_list.cpp
+
+  src/libconfig/libconfig.cpp
+
+  src/node/settings.cpp
+
+
+  src/vm/interpreter.cpp
+  src/vm/program.cpp
+
+
+)
+
+# if(NOT CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+  set(kth_sources
+    ${kth_sources}
         src/hash.cpp
         src/hash_list.cpp
         src/binary.cpp
         src/node.cpp
-        src/node_info.cpp
         src/platform.cpp
-        src/string_list.cpp
 
         src/chain/block.cpp
         src/chain/block_indexes.cpp
@@ -179,18 +249,12 @@ set(kth_sources
         src/chain/input_list.cpp
         src/chain/mempool_transaction_list.cpp
         src/chain/merkle_block.cpp
-        src/chain/opcode.cpp
-        src/chain/operation.cpp
-        src/chain/operation_list.cpp
         src/chain/output.cpp
         src/chain/output_list.cpp
         src/chain/output_point.cpp
         src/chain/point.cpp
         src/chain/point_list.cpp
-        src/chain/script.cpp
-        src/chain/transaction.cpp
         src/chain/mempool_transaction.cpp
-        src/chain/transaction_list.cpp
 
         # src/chain/token_data.cpp
 
@@ -203,7 +267,6 @@ set(kth_sources
         src/config/node_settings.cpp
         src/config/settings.cpp
 
-        src/libconfig/libconfig.cpp
 
         src/node/settings.cpp
 
@@ -222,7 +285,10 @@ set(kth_sources
         src/wallet/transaction_functions.cpp
         src/wallet/wallet.cpp
         src/wallet/ec_compressed_list.cpp
-)
+        # src/config/network_settings.cpp
+        # src/p2p/p2p.cpp
+  )
+# endif()
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
   set(kth_sources
@@ -233,48 +299,22 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
 endif()
 
 set(kth_headers
-  include/kth/capi/list_creator.h
-  include/kth/capi/chain/block_list.h
-  include/kth/capi/chain/mempool_transaction_list.h
-  include/kth/capi/chain/compact_block.h
-  include/kth/capi/chain/token_data.h
-  include/kth/capi/chain/input.h
-  include/kth/capi/chain/block_indexes.h
-  include/kth/capi/chain/chain.h
-  include/kth/capi/chain/chain_sync.h
-  include/kth/capi/chain/chain_other.h
-  include/kth/capi/chain/stealth_compact.h
-  include/kth/capi/chain/history_compact_list.h
-  include/kth/capi/chain/stealth_compact_list.h
+
+  include/kth/capi/node_info.h
+  include/kth/capi/string_list.h
+  include/kth/capi/double_list.h
+  include/kth/capi/u32_list.h
+  include/kth/capi/u64_list.h
+
+  include/kth/capi/chain/coin_selection_algorithm.h
   include/kth/capi/chain/opcode.h
   include/kth/capi/chain/operation_list.h
   include/kth/capi/chain/operation.h
-  include/kth/capi/chain/output_point.h
-  include/kth/capi/chain/point_list.h
-  include/kth/capi/chain/header.h
-  include/kth/capi/chain/chain_async.h
-  include/kth/capi/chain/history_compact.h
-  include/kth/capi/chain/transaction.h
-  include/kth/capi/chain/output.h
-  include/kth/capi/chain/output_list.h
-  include/kth/capi/chain/get_blocks.h
-  include/kth/capi/chain/double_spend_proof_spender.h
-  include/kth/capi/chain/point.h
-  include/kth/capi/chain/merkle_block.h
-  include/kth/capi/chain/block.h
-  include/kth/capi/chain/mempool_transaction.h
-  include/kth/capi/chain/rule_fork.h
   include/kth/capi/chain/script.h
   include/kth/capi/chain/get_headers.h
   include/kth/capi/chain/double_spend_proof.h
+  include/kth/capi/chain/transaction.h
   include/kth/capi/chain/transaction_list.h
-  include/kth/capi/chain/input_list.h
-  include/kth/capi/node/settings.h
-  include/kth/capi/platform.h
-  include/kth/capi/p2p/p2p.h
-  include/kth/capi/node.h
-  include/kth/capi/helpers.hpp
-  include/kth/capi/libconfig/libconfig.h
 
   include/kth/capi/wallet/raw_output_list.h
   include/kth/capi/wallet/transaction_functions.h
@@ -286,7 +326,6 @@ set(kth_headers
   include/kth/capi/wallet/ec_compressed_list.h
 
   include/kth/capi/primitives.h
-  include/kth/capi/string_list.h
   include/kth/capi/hash_list.h
   include/kth/capi/type_conversions.h
   include/kth/capi/error.h
@@ -312,8 +351,66 @@ set(kth_headers
   include/kth/capi/config/blockchain_helpers.hpp
   include/kth/capi/config/node_settings.h
   include/kth/capi/config/node_helpers.hpp
+
+  include/kth/capi/node/settings.h
+
+  include/kth/capi/libconfig/libconfig.h
+
+  include/kth/capi/vm/interpreter.h
+  include/kth/capi/vm/program.h
+
   include/kth/capi.h
+
 )
+
+# if(NOT CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+  set(kth_headers
+    ${kth_headers}
+
+    include/kth/capi/list_creator.h
+    include/kth/capi/chain/block_list.h
+    include/kth/capi/chain/mempool_transaction_list.h
+    include/kth/capi/chain/compact_block.h
+    include/kth/capi/chain/token_data.h
+    include/kth/capi/chain/input.h
+    include/kth/capi/chain/block_indexes.h
+    include/kth/capi/chain/chain.h
+    include/kth/capi/chain/chain_sync.h
+    include/kth/capi/chain/chain_other.h
+    include/kth/capi/chain/stealth_compact.h
+    include/kth/capi/chain/history_compact_list.h
+    include/kth/capi/chain/stealth_compact_list.h
+    include/kth/capi/chain/output_point.h
+    include/kth/capi/chain/point_list.h
+    include/kth/capi/chain/header.h
+    include/kth/capi/chain/chain_async.h
+    include/kth/capi/chain/history_compact.h
+    include/kth/capi/chain/output.h
+    include/kth/capi/chain/output_list.h
+    include/kth/capi/chain/get_blocks.h
+    include/kth/capi/chain/double_spend_proof_spender.h
+    include/kth/capi/chain/point.h
+    include/kth/capi/chain/merkle_block.h
+    include/kth/capi/chain/block.h
+    include/kth/capi/chain/mempool_transaction.h
+    include/kth/capi/chain/rule_fork.h
+    include/kth/capi/chain/script_version.h
+    include/kth/capi/chain/get_headers.h
+    include/kth/capi/chain/double_spend_proof.h
+    include/kth/capi/chain/input_list.h
+    include/kth/capi/chain/utxo.h
+    include/kth/capi/chain/utxo_list.h
+    include/kth/capi/platform.h
+    include/kth/capi/p2p/p2p.h
+    include/kth/capi/node.h
+    include/kth/capi/helpers.hpp
+
+    # include/kth/capi/config/network_settings.h
+    # include/kth/capi/config/network_helpers.hpp
+
+  )
+# endif()
+
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
   set(kth_headers
@@ -352,6 +449,11 @@ if (NOT MSVC)
 endif()
 
 target_link_libraries(${PROJECT_NAME} PUBLIC node::node)
+# if(CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+#   target_link_libraries(${PROJECT_NAME} PUBLIC domain::domain)
+# else()
+#   target_link_libraries(${PROJECT_NAME} PUBLIC node::node)
+# endif()
 
 if (MINGW)
   target_link_libraries(${PROJECT_NAME} PUBLIC ws2_32 wsock32)
@@ -364,6 +466,7 @@ if (WITH_CONSOLE_CAPI)
     set(_test_console_sources
       # console/test_wallet.cpp
       # console/test_wallet.c
+      console/test_wallet2.c
       # console/test_header_hash.cpp
       # console/main.cpp
       # console/main.c
@@ -372,7 +475,7 @@ if (WITH_CONSOLE_CAPI)
       # console/test_deadlock.cpp
       # console/config_test.cpp
       # console/platform_test.cpp
-      console/test_libconfig.cpp
+      # console/test_libconfig.cpp
       # console/main_744727.cpp
       # console/main_payment_addr_cash_aware.cpp
       # console/node_info.c

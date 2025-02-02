@@ -12,12 +12,19 @@
 #include <utility>
 
 #include <kth/domain/config/network.hpp>
+#include <kth/domain/machine/opcode.hpp>
+
 #include <kth/infrastructure/math/hash.hpp>
 #include <kth/infrastructure/error.hpp>
-#include <kth/node/full_node.hpp>
-#include <kth/domain/machine/opcode.hpp>
+#include <kth/infrastructure/machine/script_version.hpp>
+
+#include <kth/capi/chain/coin_selection_algorithm.h>
 #include <kth/capi/chain/opcode.h>
 #include <kth/capi/chain/rule_fork.h>
+
+// #ifndef __EMSCRIPTEN__
+#include <kth/node/full_node.hpp>
+// #endif
 
 namespace kth {
 namespace detail {
@@ -254,6 +261,32 @@ kth::domain::machine::rule_fork rule_fork_to_cpp(kth_rule_fork_t fork) {
     return static_cast<kth::domain::machine::rule_fork>(fork);
 }
 
+// Script Version -----------------------------------------------------
+
+inline
+kth::infrastructure::machine::script_version script_version_to_cpp(kth_script_version_t version) {
+    return static_cast<kth::infrastructure::machine::script_version>(version);
+}
+
+inline
+kth_script_version_t script_version_to_c(kth::infrastructure::machine::script_version version) {
+    return static_cast<kth_script_version_t>(version);
+}
+
+// Coin Selection -----------------------------------------------------
+
+inline
+kth::domain::chain::coin_selection_algorithm coin_selection_algorithm_to_cpp(kth_coin_selection_algorithm_t algo) {
+    return static_cast<kth::domain::chain::coin_selection_algorithm>(algo);
+}
+
+inline
+kth_coin_selection_algorithm_t coin_selection_algorithm_to_c(kth::domain::chain::coin_selection_algorithm algo) {
+    return static_cast<kth_coin_selection_algorithm_t>(algo);
+}
+
+// Other -------------------------------------------------------------
+
 inline
 kth::domain::config::network network_to_cpp(kth_network_t net) {
     switch (net) {
@@ -296,6 +329,7 @@ kth_network_t network_to_c(kth::domain::config::network net) {
     }
 }
 
+// #ifndef __EMSCRIPTEN__
 inline
 kth::node::start_modules start_modules_to_cpp(kth_start_modules_t mods) {
     switch (mods) {
@@ -309,6 +343,7 @@ kth::node::start_modules start_modules_to_cpp(kth_start_modules_t mods) {
 
     return kth::node::start_modules::all;
 }
+// #endif
 
 template <typename T>
 inline

@@ -28,6 +28,10 @@ kth_payment_address_t kth_wallet_payment_address_construct_from_public(kth_ec_pu
 KTH_EXPORT
 kth_payment_address_t kth_wallet_payment_address_construct_from_script(kth_script_t script, uint8_t version);
 
+// payment_address payment_address::from_pay_key_hash_script(chain::script const& script, uint8_t version) {
+KTH_EXPORT
+kth_payment_address_t kth_wallet_payment_address_from_pay_key_hash_script(kth_script_t script, uint8_t version);
+
 KTH_EXPORT
 void kth_wallet_payment_address_destruct(kth_payment_address_t payment_address);
 

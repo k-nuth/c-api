@@ -256,7 +256,17 @@ typedef enum error_code {
     // Numeric operations
     kth_ec_overflow,
     kth_ec_underflow,
-    kth_ec_out_of_range
+    kth_ec_out_of_range,
+
+    // Chip VM limits
+    kth_ec_too_many_hash_iters,
+    kth_ec_conditional_stack_depth,
+
+
+    // Create transaction template
+    kth_ec_insufficient_amount,
+    kth_ec_empty_utxo_list,
+    kth_ec_invalid_change
 } kth_error_code_t;
 
 #ifdef __cplusplus

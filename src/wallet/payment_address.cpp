@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2024 Knuth Project developers.
+// Copyright (c) 2016-2025 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -36,6 +36,14 @@ kth_payment_address_t kth_wallet_payment_address_construct_from_script(kth_scrip
     return new kth::domain::wallet::payment_address(script_cpp, version);
 }
 
+// payment_address payment_address::from_pay_key_hash_script(chain::script const& script, uint8_t version) {
+kth_payment_address_t kth_wallet_payment_address_from_pay_key_hash_script(kth_script_t script, uint8_t version) {
+    auto script_cpp = kth_chain_script_const_cpp(script);
+    auto pa = kth::domain::wallet::payment_address::from_pay_key_hash_script(script_cpp, version);
+    return kth::move_or_copy_and_leak(std::move(pa));
+}
+
+
 void kth_wallet_payment_address_destruct(kth_payment_address_t payment_address) {
     delete &kth_wallet_payment_address_cpp(payment_address);
 }
@@ -63,11 +71,21 @@ char* kth_wallet_payment_address_encoded_cashaddr(kth_payment_address_t payment_
 
 kth_shorthash_t kth_wallet_payment_address_hash20(kth_payment_address_t payment_address) {
     auto hash_cpp = kth_wallet_payment_address_const_cpp(payment_address).hash20();
+    // printf("kth_wallet_payment_address_hash20()\n");
+    // for (auto i = 0; i < 20; i++) {
+    //     printf("%d ", int(hash_cpp[i]));
+    // }
+    // printf("\n");
     return kth::to_shorthash_t(hash_cpp);
 }
 
 kth_hash_t kth_wallet_payment_address_hash32(kth_payment_address_t payment_address) {
     auto hash_cpp = kth_wallet_payment_address_const_cpp(payment_address).hash32();
+    // printf("kth_wallet_payment_address_hash32()\n");
+    // for (auto i = 0; i < 32; i++) {
+    //     printf("%d ", int(hash_cpp[i]));
+    // }
+    // printf("\n");
     return kth::to_hash_t(hash_cpp);
 }
 
