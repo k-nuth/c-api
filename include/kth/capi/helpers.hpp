@@ -12,13 +12,21 @@
 #include <utility>
 
 #include <kth/domain/config/network.hpp>
+#include <kth/domain/machine/opcode.hpp>
+
 #include <kth/infrastructure/math/hash.hpp>
 #include <kth/infrastructure/error.hpp>
-#include <kth/node/full_node.hpp>
-#include <kth/domain/machine/opcode.hpp>
+#include <kth/infrastructure/machine/script_version.hpp>
+
+#include <kth/capi/chain/coin_selection_algorithm.h>
 #include <kth/capi/chain/opcode.h>
 #include <kth/capi/chain/rule_fork.h>
 #include <kth/capi/chain/script_version.h>
+
+// #ifndef __EMSCRIPTEN__
+#include <kth/node/full_node.hpp>
+// #endif
+
 
 namespace kth {
 namespace detail {
@@ -269,6 +277,18 @@ kth_script_version_t script_version_to_c(kth::infrastructure::machine::script_ve
     return static_cast<kth_script_version_t>(version);
 }
 
+// Coin Selection -----------------------------------------------------
+
+inline
+kth::domain::chain::coin_selection_algorithm coin_selection_algorithm_to_cpp(kth_coin_selection_algorithm_t algo) {
+    return static_cast<kth::domain::chain::coin_selection_algorithm>(algo);
+}
+
+inline
+kth_coin_selection_algorithm_t coin_selection_algorithm_to_c(kth::domain::chain::coin_selection_algorithm algo) {
+    return static_cast<kth_coin_selection_algorithm_t>(algo);
+}
+
 // Other -------------------------------------------------------------
 
 inline
@@ -313,6 +333,7 @@ kth_network_t network_to_c(kth::domain::config::network net) {
     }
 }
 
+// #ifndef __EMSCRIPTEN__
 inline
 kth::node::start_modules start_modules_to_cpp(kth_start_modules_t mods) {
     switch (mods) {
@@ -326,6 +347,7 @@ kth::node::start_modules start_modules_to_cpp(kth_start_modules_t mods) {
 
     return kth::node::start_modules::all;
 }
+// #endif
 
 template <typename T>
 inline

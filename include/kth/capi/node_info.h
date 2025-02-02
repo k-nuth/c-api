@@ -40,8 +40,10 @@ char const* kth_node_currency_symbol(void);
 KTH_EXPORT
 char const* kth_node_currency(void);
 
+// #ifndef __EMSCRIPTEN__
 KTH_EXPORT
 char const* kth_node_db_type(kth_db_mode_t mode);
+// #endif
 
 KTH_EXPORT
 uint32_t kth_node_cppapi_build_timestamp(void);

@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2025 Knuth Project developers.
+// Copyright (c) 2016-2024 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -20,6 +20,8 @@ extern "C" {
 //     using stack_mutable_iterator = data_stack::iterator;
 
 
+KTH_EXPORT
+void kth_vm_program_destruct(kth_program_t program);
 
 /// Create an instance that does not expect to verify signatures.
 /// This is useful for script utilities but not with input validation.
@@ -218,8 +220,8 @@ KTH_EXPORT
 kth_bool_t kth_vm_program_if(kth_program_t program, kth_operation_t op);
 
 //     value_type const& item(size_t index) const;
-// KTH_EXPORT
-// kth_value_type_t kth_vm_program_item(kth_program_t program, kth_size_t index);
+KTH_EXPORT
+uint8_t const* kth_vm_program_item(kth_program_t program, kth_size_t index, kth_size_t* out_size);
 
 //     value_type& item(size_t index);
 // KTH_EXPORT

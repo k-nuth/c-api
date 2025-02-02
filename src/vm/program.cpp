@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2025 Knuth Project developers.
+// Copyright (c) 2016-2024 Knuth Project developers.
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,10 +11,15 @@
 
 #include <kth/capi/conversions.hpp>
 
-KTH_CONV_DEFINE(vm, kth_program_t, kth::domain::machine::program, program)
-
+// KTH_CONV_DEFINE(vm, kth_program_t, kth::domain::machine::program, program)
+KTH_CONV_DEFINE_JUST_CONST(vm, kth_program_const_t, kth::domain::machine::program, program)
+KTH_CONV_DEFINE_JUST_MUTABLE(vm, kth_program_t, kth::domain::machine::program, program)
 // ---------------------------------------------------------------------------
 extern "C" {
+
+void kth_vm_program_destruct(kth_program_t program) {
+    delete &kth_vm_program_cpp(program);
+}
 
 // kth_payment_address_t kth_wallet_payment_address_construct_from_string(char const* address) {
 //     return new kth::domain::wallet::payment_address(std::string(address));
@@ -25,7 +30,7 @@ kth_program_t kth_vm_program_construct_default() {
 }
 
 kth_program_t kth_vm_program_construct_from_script(kth_script_t script) {
-    auto script_cpp = kth_chain_script_const_cpp(script);
+    auto const& script_cpp = kth_chain_script_const_cpp(script);
     return new kth::domain::machine::program(script_cpp);
 }
 
@@ -48,8 +53,8 @@ kth_program_t kth_vm_program_construct_from_script_program(kth_script_t script, 
 
 // // program(chain::script const& script, program&& x, bool move);
 // kth_program_t kth_vm_program_construct_from_script_program_move(kth_script_t script, kth_program_t program, kth_bool_t move) {
-//     auto script_cpp = kth_chain_script_const_cpp(script);
-//     auto program_cpp = kth_vm_program_const_cpp(program);
+//     auto const& script_cpp = kth_chain_script_const_cpp(script);
+//     auto const& program_cpp = kth_vm_program_const_cpp(program);
 //     return new kth::domain::machine::program(script_cpp, std::move(), kth::int_to_bool(move));
 // }
 
@@ -62,7 +67,7 @@ kth_metrics_t kth_vm_program_get_metrics(kth_program_t program) {
 // kth_metrics_t kth_vm_program_get_metrics_const(kth_program_t program);
 
 kth_bool_t kth_vm_program_is_valid(kth_program_t program) {
-    // auto program_cpp = kth_vm_program_const_cpp(program);
+    // auto const& program_cpp = kth_vm_program_const_cpp(program);
     return kth::bool_to_int(kth_vm_program_const_cpp(program).is_valid());
 }
 
@@ -274,6 +279,10 @@ kth_bool_t kth_vm_program_if(kth_program_t program, kth_operation_t op) {
 //     auto program_cpp = kth_vm_program_const_cpp(program);
 //     return kth_vm_program_const_cpp(program).item(index);
 // }
+uint8_t const* kth_vm_program_item(kth_program_t program, kth_size_t index, kth_size_t* out_size) {
+    auto data = kth_vm_program_const_cpp(program).item(index);
+    return kth::create_c_array(data, *out_size);
+}
 
 //     value_type& item(size_t index);
 // KTH_EXPORT
@@ -381,7 +390,7 @@ kth_size_t kth_vm_program_conditional_stack_size(kth_program_t program) {
 // }
 
 // kth_payment_address_t kth_wallet_payment_address_construct_from_script(kth_script_t script, uint8_t version) {
-//     auto script_cpp = kth_chain_script_const_cpp(script);
+//     auto const& script_cpp = kth_chain_script_const_cpp(script);
 //     return new kth::domain::wallet::payment_address(script_cpp, version);
 // }
 

@@ -66,6 +66,7 @@ typedef void* kth_history_compact_t;
 typedef void* kth_history_compact_list_t;
 typedef void* kth_input_t;
 typedef void* kth_input_list_t;
+typedef void* kth_utxo_list_t;
 typedef void* kth_inputpoint_t;
 typedef void* kth_merkleblock_t;
 typedef void* kth_script_t;
@@ -78,6 +79,7 @@ typedef void* kth_operation_t;
 typedef void* kth_output_list_t;
 typedef void* kth_output_t;
 typedef void* kth_outputpoint_t;
+typedef void* kth_utxo_t;
 typedef void const* kth_outputpoint_const_t;
 typedef void* kth_point_t;
 typedef void* kth_point_list_t;
@@ -99,6 +101,10 @@ typedef void* kth_hash_list_t;
 typedef void* kth_raw_output_t;
 typedef void* kth_raw_output_list_t;
 typedef void* kth_string_list_t;
+typedef void* kth_double_list_t;
+typedef void* kth_u32_list_t;
+typedef void* kth_u64_list_t;
+
 
 typedef void* kth_ec_compressed_list_t;
 
@@ -107,6 +113,7 @@ typedef void* kth_ec_compressed_list_t;
 typedef void* kth_metrics_t;
 typedef void* kth_program_t;
 
+typedef void const* kth_program_const_t;
 
 
 // helper functions
@@ -122,6 +129,7 @@ typedef struct kth_hash_t {
 typedef struct kth_longhash_t {
     uint8_t hash[KTH_BITCOIN_LONG_HASH_SIZE];   //kth::long_hash_size
 } kth_longhash_t;
+
 
 // Currencies --------------------------------------------------------
 

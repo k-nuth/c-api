@@ -24,9 +24,12 @@ kth_script_t kth_chain_script_construct_from_bytes(uint8_t* encoded, kth_size_t 
 }
 
 kth_script_t kth_chain_script_construct_from_string(char const* str) {
-    auto script = new kth::domain::chain::script();
-    script->from_string(std::string(str));
-    return script;
+    kth::domain::chain::script script;
+    auto const res = script.from_string(std::string(str));
+    if ( ! res) {
+        return new kth::domain::chain::script();
+    }
+    return kth::move_or_copy_and_leak(std::move(script));
 }
 
 kth_script_t kth_chain_script_construct_from_operations(kth_operation_list_t operations) {

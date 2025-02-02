@@ -313,7 +313,13 @@ typedef enum error_code {
 
     // Chip VM limits
     kth_ec_too_many_hash_iters,
-    kth_ec_conditional_stack_depth
+    kth_ec_conditional_stack_depth,
+
+
+    // Create transaction template
+    kth_ec_insufficient_amount,
+    kth_ec_empty_utxo_list,
+    kth_ec_invalid_change
 } kth_error_code_t;
 
 #ifdef __cplusplus
