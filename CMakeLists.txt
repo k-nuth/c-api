@@ -81,25 +81,27 @@ string(TIMESTAMP KTH_CAPI_BUILD_TIMESTAMP "%s" UTC)
 message(STATUS "Knuth: KTH_CAPI_BUILD_TIMESTAMP: ${KTH_CAPI_BUILD_TIMESTAMP}")
 add_definitions(-DKTH_CAPI_BUILD_TIMESTAMP=${KTH_CAPI_BUILD_TIMESTAMP})
 # --------------------------------------------------------------------------------
-find_package(Git QUIET)
-if (GIT_FOUND)
-    execute_process(
-            COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
-            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-            OUTPUT_VARIABLE PROJECT_VERSION_BUILD
-            OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    if (PROJECT_VERSION_BUILD)
-        set(PROJECT_VERSION_BUILD "${PROJECT_VERSION_BUILD}")
-        message(STATUS "Knuth: KTH_CAPI_BUILD_GIT_HASH: ${PROJECT_VERSION_BUILD}")
-        add_definitions(-DKTH_CAPI_BUILD_GIT_HASH=${PROJECT_VERSION_BUILD})
-    else()
-        message(STATUS "Knuth: KTH_CAPI_BUILD_GIT_HASH: not found")
-    endif()
-else()
-    message(STATUS "Knuth: KTH_CAPI_BUILD_GIT_HASH: not found")
-    # set(PROJECT_VERSION_BUILD "")
-endif()
+# TODO: do something different, because the project is usually built in
+# a Conan environment, where the git hash is not available.
+# find_package(Git QUIET)
+# if (GIT_FOUND)
+#     execute_process(
+#             COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+#             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+#             OUTPUT_VARIABLE PROJECT_VERSION_BUILD
+#             OUTPUT_STRIP_TRAILING_WHITESPACE
+#     )
+#     if (PROJECT_VERSION_BUILD)
+#         set(PROJECT_VERSION_BUILD "${PROJECT_VERSION_BUILD}")
+#         message(STATUS "Knuth: KTH_CAPI_BUILD_GIT_HASH: ${PROJECT_VERSION_BUILD}")
+#         add_definitions(-DKTH_CAPI_BUILD_GIT_HASH=\"${PROJECT_VERSION_BUILD}\")
+#     else()
+#         message(STATUS "Knuth: KTH_CAPI_BUILD_GIT_HASH: not found")
+#     endif()
+# else()
+#     message(STATUS "Knuth: KTH_CAPI_BUILD_GIT_HASH: not found")
+#     # set(PROJECT_VERSION_BUILD "")
+# endif()
 # --------------------------------------------------------------------------------
 
 
@@ -207,7 +209,7 @@ set(kth_sources
 
         src/node/settings.cpp
 
-
+        src/vm/program.cpp
 
         src/wallet/ec_private.cpp
         src/wallet/ec_public.cpp
@@ -265,6 +267,7 @@ set(kth_headers
   include/kth/capi/chain/mempool_transaction.h
   include/kth/capi/chain/rule_fork.h
   include/kth/capi/chain/script.h
+  include/kth/capi/chain/script_version.h
   include/kth/capi/chain/get_headers.h
   include/kth/capi/chain/double_spend_proof.h
   include/kth/capi/chain/transaction_list.h
@@ -275,6 +278,8 @@ set(kth_headers
   include/kth/capi/node.h
   include/kth/capi/helpers.hpp
   include/kth/capi/libconfig/libconfig.h
+
+  include/kth/capi/vm/program.h
 
   include/kth/capi/wallet/raw_output_list.h
   include/kth/capi/wallet/transaction_functions.h

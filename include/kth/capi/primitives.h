@@ -82,6 +82,7 @@ typedef void const* kth_outputpoint_const_t;
 typedef void* kth_point_t;
 typedef void* kth_point_list_t;
 typedef void* kth_transaction_t;
+typedef void const* kth_transaction_const_t;
 typedef void* kth_transaction_list_t;
 typedef void* kth_mempool_transaction_t;
 typedef void* kth_mempool_transaction_list_t;
@@ -100,6 +101,15 @@ typedef void* kth_raw_output_list_t;
 typedef void* kth_string_list_t;
 
 typedef void* kth_ec_compressed_list_t;
+
+
+// VM
+typedef void* kth_metrics_t;
+typedef void* kth_program_t;
+
+
+
+// helper functions
 
 typedef struct kth_shorthash_t {
     uint8_t hash[KTH_BITCOIN_SHORT_HASH_SIZE];  //kth::hash_size

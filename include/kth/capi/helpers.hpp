@@ -18,6 +18,7 @@
 #include <kth/domain/machine/opcode.hpp>
 #include <kth/capi/chain/opcode.h>
 #include <kth/capi/chain/rule_fork.h>
+#include <kth/capi/chain/script_version.h>
 
 namespace kth {
 namespace detail {
@@ -244,6 +245,8 @@ kth_opcode_t opcode_to_c(kth::domain::machine::opcode op) {
     return static_cast<kth_opcode_t>(op);
 }
 
+// Rule Fork -----------------------------------------------------------
+
 inline
 kth_rule_fork_t rule_fork_to_c(kth::domain::machine::rule_fork fork) {
     return static_cast<kth_rule_fork_t>(fork);
@@ -253,6 +256,20 @@ inline
 kth::domain::machine::rule_fork rule_fork_to_cpp(kth_rule_fork_t fork) {
     return static_cast<kth::domain::machine::rule_fork>(fork);
 }
+
+// Script Version -----------------------------------------------------
+
+inline
+kth::infrastructure::machine::script_version script_version_to_cpp(kth_script_version_t version) {
+    return static_cast<kth::infrastructure::machine::script_version>(version);
+}
+
+inline
+kth_script_version_t script_version_to_c(kth::infrastructure::machine::script_version version) {
+    return static_cast<kth_script_version_t>(version);
+}
+
+// Other -------------------------------------------------------------
 
 inline
 kth::domain::config::network network_to_cpp(kth_network_t net) {
@@ -344,8 +361,6 @@ T* leak(T const& ptr) {
     return leaked;
 }
 
-
-
 template <typename T>
 inline
 std::remove_const_t<T>* leak_if(std::shared_ptr<T> const& ptr, bool leak = true) {
@@ -357,6 +372,18 @@ std::remove_const_t<T>* leak_if(std::shared_ptr<T> const& ptr, bool leak = true)
         return leaked;
     }
     return *ptr;
+}
+
+template <typename T>
+inline
+T* ref_to_c(T& x) {
+    return &x;
+}
+
+template <typename T>
+inline
+T const* ref_to_c(T const& x) {
+    return &x;
 }
 
 } // namespace kth

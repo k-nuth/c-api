@@ -67,6 +67,12 @@ KTH_CONV_DECLARE(wallet, kth_ec_public_t, kth::domain::wallet::ec_public, ec_pub
 
 KTH_LIST_DECLARE_CONVERTERS(wallet, kth_raw_output_list_t, kth::domain::wallet::raw_output, raw_output_list)
 
+
+// VM.
+// ------------------------------------------------------------------------------------
+KTH_CONV_DECLARE(vm, kth_program_t, kth::domain::machine::program, program)
+
+
 // TODO: this is not so good
 using ec_compressed_cpp_t = std::array<uint8_t, KTH_EC_COMPRESSED_SIZE>;
 KTH_LIST_DECLARE_CONVERTERS(wallet, kth_ec_compressed_list_t, ec_compressed_cpp_t, ec_compressed_list)
