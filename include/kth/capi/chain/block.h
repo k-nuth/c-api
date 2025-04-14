@@ -21,7 +21,7 @@ KTH_EXPORT
 kth_block_t kth_chain_block_construct(kth_header_t header, kth_transaction_list_t transactions);
 
 KTH_EXPORT
-kth_block_t kth_chain_block_factory_from_data(uint32_t version, uint8_t* data, kth_size_t n);
+kth_block_t kth_chain_block_factory_from_data(uint8_t* data, kth_size_t n);
 
 KTH_EXPORT
 void kth_chain_block_destruct(kth_block_t block);
@@ -45,7 +45,7 @@ KTH_EXPORT
 kth_transaction_list_t kth_chain_block_transactions(kth_block_t block);
 
 KTH_EXPORT
-kth_size_t kth_chain_block_serialized_size(kth_block_t block, uint32_t version);
+kth_size_t kth_chain_block_serialized_size(kth_block_t block);
 
 /*static*/
 KTH_EXPORT

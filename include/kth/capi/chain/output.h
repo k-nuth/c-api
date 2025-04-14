@@ -10,6 +10,8 @@
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
 
+#include <kth/capi/chain/token_capability.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -18,8 +20,19 @@ KTH_EXPORT
 kth_output_t kth_chain_output_construct_default(void);
 
 KTH_EXPORT
-// kth_output_t kth_chain_output_construct(uint64_t value, kth_script_t script, kth_token_data_t token_data);
 kth_output_t kth_chain_output_construct(uint64_t value, kth_script_t script);
+
+KTH_EXPORT
+kth_output_t kth_chain_output_construct_with_token_fungible(uint64_t value, kth_script_t script, kth_hash_t const* token_category, int64_t token_amount);
+
+KTH_EXPORT
+kth_output_t kth_chain_output_construct_with_token_non_fungible(uint64_t value, kth_script_t script, kth_hash_t const* token_category, kth_token_capability_t capability, uint8_t* commitment_data, kth_size_t commitment_n);
+
+KTH_EXPORT
+kth_output_t kth_chain_output_construct_with_token_both(uint64_t value, kth_script_t script, kth_hash_t const* token_category, int64_t token_amount, kth_token_capability_t capability, uint8_t* commitment_data, kth_size_t commitment_n);
+
+KTH_EXPORT
+kth_output_t kth_chain_output_construct_with_token_data(uint64_t value, kth_script_t script, kth_token_data_t token_data);
 
 KTH_EXPORT
 void kth_chain_output_destruct(kth_output_t output);
@@ -49,6 +62,13 @@ KTH_EXPORT
 uint8_t const* kth_chain_output_to_data(kth_output_t output, kth_bool_t wire, kth_size_t* out_size);
 
 //uint32_t kth_chain_output_get_index(kth_output_t output);
+
+// Cash Tokens ---------------------------------------------------------------
+KTH_EXPORT
+kth_bool_t kth_chain_output_has_token_data(kth_output_t output);
+
+KTH_EXPORT
+kth_token_data_t kth_chain_output_token_data(kth_output_t output);
 
 #ifdef __cplusplus
 } // extern "C"

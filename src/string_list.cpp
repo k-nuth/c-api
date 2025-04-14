@@ -7,9 +7,11 @@
 #include <string>
 #include <vector>
 
+#include <kth/capi/helpers.hpp>
 #include <kth/capi/list_creator.h>
 
 KTH_LIST_DEFINE_CONVERTERS(core, kth_string_list_t, std::string, string_list)
+KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(core, kth_string_list_t, std::string, string_list)
 
 // ---------------------------------------------------------------------------
 extern "C" {
@@ -24,6 +26,15 @@ void kth_core_string_list_destruct(kth_string_list_t string_list) {
 
 void kth_core_string_list_push_back(kth_string_list_t string_list, char const* string) {
     kth_core_string_list_cpp(string_list).emplace_back(std::string(string));
+}
+
+char const* kth_core_string_list_nth(kth_string_list_t string_list, kth_size_t index) {
+    auto str = kth_core_string_list_cpp(string_list)[index];
+    return kth::create_c_str(str);
+}
+
+kth_size_t kth_core_string_list_count(kth_string_list_t string_list) {
+    return kth_core_string_list_cpp(string_list).size();
 }
 
 } // extern "C"

@@ -39,6 +39,18 @@ void kth_wallet_mnemonics_to_seed_out(kth_string_list_t mnemonics, kth_longhash_
     kth::copy_c_hash(hash_cpp, out_hash);
 }
 
+kth_longhash_t kth_wallet_mnemonics_to_seed_normalized_passphrase(kth_string_list_t mnemonics, char const* normalized_passphrase) {
+    auto const& mnemonics_cpp = *static_cast<std::vector<std::string> const*>(mnemonics);
+    auto hash_cpp = kth::infrastructure::wallet::decode_mnemonic_normalized_passphrase(mnemonics_cpp, std::string(normalized_passphrase));
+    return kth::to_longhash_t(hash_cpp);
+}
+
+void kth_wallet_mnemonics_to_seed_normalized_passphrase_out(kth_string_list_t mnemonics, char const* normalized_passphrase, kth_longhash_t* out_hash) {
+    auto const& mnemonics_cpp = *static_cast<std::vector<std::string> const*>(mnemonics);
+    auto hash_cpp = kth::infrastructure::wallet::decode_mnemonic_normalized_passphrase(mnemonics_cpp, std::string(normalized_passphrase));
+    kth::copy_c_hash(hash_cpp, out_hash);
+}
+
 //TODO(fernando): return error code and use output parameters
 kth_hd_private_t kth_wallet_hd_new(kth_longhash_t seed, uint32_t version /* = 76066276*/) {
     kth::data_chunk seed_cpp(seed.hash, std::next(seed.hash, KTH_BITCOIN_LONG_HASH_SIZE));

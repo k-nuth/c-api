@@ -27,6 +27,8 @@
 #include <kth/capi/wallet/hd_public.h>
 #include <kth/capi/wallet/elliptic_curve.h>
 #include <kth/capi/wallet/ec_public.h>
+#include <kth/capi/wallet/wallet_manager.h>
+#include <kth/capi/wallet/wallet_data.h>
 
 void print_hex(uint8_t const* data, size_t n) {
     while (n != 0) {
@@ -37,28 +39,38 @@ void print_hex(uint8_t const* data, size_t n) {
     printf("\n");
 }
 
-#define MAINNET_P2KH 0x00
-#define MAINNET_P2SH 0x05
-
-
 int main(int argc, char* argv[]) {
-    // m/44'/145'/0'
-    char const* m44h145h0h_xpub_str = "xpub...";
+    kth_wallet_data_t wallet_data;
+    kth_error_code_t code = kth_wallet_create_wallet(
+        "12345678",
+        "",
+        &wallet_data);
 
-    kth_hd_public_t m44h145h0h = kth_wallet_hd_public_construct_string(m44h145h0h_xpub_str);
-    kth_hd_public_t m44h145h0h0 = kth_wallet_hd_public_derive_public(m44h145h0h, 0);
+    printf("code: %d\n", code);
+    // printf("wallet_data: %s\n", kth_wallet_wallet_data_encoded(wallet_data));
 
-    printf("BIP44 Account Extended Public Key:  %s\n", kth_wallet_hd_public_encoded(m44h145h0h));
-    printf("BIP32 Account Extended Public Key:  %s\n", kth_wallet_hd_public_encoded(m44h145h0h0));
+    kth_string_list_t mnemonics = kth_wallet_wallet_data_mnemonics(wallet_data);
 
-    // print addresses
-    for (size_t i = 0; i < 20; ++i) {
-        kth_hd_public_t key = kth_wallet_hd_public_derive_public(m44h145h0h0, i);
-        kth_ec_compressed_t point = kth_wallet_hd_public_point(key);
-        kth_ec_public_t ecp = kth_wallet_ec_public_construct_from_point(&point, 1);
-        kth_payment_address_t pa = kth_wallet_ec_public_to_payment_address(ecp, MAINNET_P2KH);
-        printf("%s\n", kth_wallet_payment_address_encoded_cashaddr(pa, 0));
+    kth_size_t count = kth_core_string_list_count(mnemonics);
+    printf("count: %d\n", count);
+
+    for (kth_size_t i = 0; i < count; i++) {
+        char const* mnemonic = kth_core_string_list_nth(mnemonics, i);
+        printf("mnemonic: %s\n", mnemonic);
     }
 
-    printf("\n");
+    kth_encrypted_seed_t seed = kth_wallet_wallet_data_encrypted_seed(wallet_data);
+    print_hex(seed.hash, KTH_BITCOIN_ENCRYPTED_SEED_SIZE);
+
+
+    // -------------------------------------------------------------------------
+
+    kth_longhash_t decrypted_seed;
+    kth_error_code_t code2 = kth_wallet_decrypt_seed(
+        "12345678",
+        &seed,
+        &decrypted_seed);
+
+    printf("code2: %d\n", code2);
+    print_hex(decrypted_seed.hash, KTH_BITCOIN_LONG_HASH_SIZE);
 }

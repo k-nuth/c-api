@@ -7,27 +7,27 @@
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/helpers.hpp>
 
-#include <kth/domain/message/transaction.hpp>
+#include <kth/domain/chain/transaction.hpp>
 
-KTH_CONV_DEFINE(chain, kth_block_t, kth::domain::message::block, block)
+KTH_CONV_DEFINE(chain, kth_block_t, kth::domain::chain::block, block)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
 kth_block_t kth_chain_block_construct_default() {
-    return new kth::domain::message::block();
+    return new kth::domain::chain::block();
 }
 
 kth_block_t kth_chain_block_construct(kth_header_t header, kth_transaction_list_t transactions) {
     auto const& header_cpp = kth_chain_header_const_cpp(header);
     // auto const& txs_cpp = *static_cast<kth::domain::chain::transaction::list const*>(transactions);
     auto const& txs_cpp = kth_chain_transaction_list_const_cpp(transactions);
-    return new kth::domain::message::block(header_cpp, txs_cpp);
+    return new kth::domain::chain::block(header_cpp, txs_cpp);
 }
 
-kth_block_t kth_chain_block_factory_from_data(uint32_t version, uint8_t* data, kth_size_t n) {
+kth_block_t kth_chain_block_factory_from_data(uint8_t* data, kth_size_t n) {
     kth::data_chunk data_cpp(data, std::next(data, n));
-    auto block = kth::domain::create<kth::domain::message::block>(version, data_cpp);
+    auto block = kth::domain::create<kth::domain::chain::block>(data_cpp);
     return kth::move_or_copy_and_leak(std::move(block));
 }
 
@@ -65,21 +65,18 @@ kth_transaction_list_t kth_chain_block_transactions(kth_block_t block) {
 
 // -----------------------
 
-kth_size_t kth_chain_block_serialized_size(kth_block_t block, uint32_t version) {
-    return kth_chain_block_const_cpp(block).serialized_size(version);
+kth_size_t kth_chain_block_serialized_size(kth_block_t block) {
+    return kth_chain_block_const_cpp(block).serialized_size();
 }
 
 /*static*/
 uint64_t kth_chain_block_subsidy(kth_size_t height) {
-    return kth::domain::message::block::subsidy(height);
+    return kth::domain::chain::block::subsidy(height);
 }
 
 //static uint256_t kth_chain_block_proof(uint32_t bits) {}
 
 ///*static*/
-//uint256_t kth_chain_block_proof(kth_size_t height) {
-//    return kth::domain::message::block::proof(height);
-//}
 
 uint64_t kth_chain_block_fees(kth_block_t block) {
     return kth_chain_block_const_cpp(block).fees();
@@ -160,7 +157,7 @@ kth_bool_t kth_chain_block_is_valid_merkle_root(kth_block_t block) {
 }
 
 uint8_t const* kth_chain_block_to_data(kth_block_t block, kth_bool_t wire, kth_size_t* out_size) {
-    auto block_data = kth_chain_block_const_cpp(block).to_data(wire);
+    auto block_data = kth_chain_block_const_cpp(block).to_data(kth::int_to_bool(wire));
     return kth::create_c_array(block_data, *out_size);
 }
 

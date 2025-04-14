@@ -21,6 +21,12 @@ KTH_EXPORT
 void kth_wallet_mnemonics_to_seed_out(kth_string_list_t mnemonics, kth_longhash_t* out_hash);
 
 KTH_EXPORT
+kth_longhash_t kth_wallet_mnemonics_to_seed_normalized_passphrase(kth_string_list_t mnemonics, char const* normalized_passphrase);
+
+KTH_EXPORT
+void kth_wallet_mnemonics_to_seed_normalized_passphrase_out(kth_string_list_t mnemonics, char const* normalized_passphrase, kth_longhash_t* out_hash);
+
+KTH_EXPORT
 kth_hd_private_t kth_wallet_hd_new(kth_longhash_t seed, uint32_t version /* = 76066276*/);
 
 KTH_EXPORT

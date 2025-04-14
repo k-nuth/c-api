@@ -8,11 +8,11 @@
 #include <kth/capi/conversions.hpp>
 
 
-KTH_LIST_DEFINE_CONVERTERS(chain, kth_block_list_t, kth::domain::message::block, block_list)
-KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, kth_block_list_t, kth::domain::message::block, block_list)
+KTH_LIST_DEFINE_CONVERTERS(chain, kth_block_list_t, kth::domain::chain::block, block_list)
+KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(chain, kth_block_list_t, kth::domain::chain::block, block_list)
 
 extern "C" {
 
-KTH_LIST_DEFINE(chain, kth_block_list_t, kth_block_t, block_list, kth::domain::message::block, kth_chain_block_const_cpp)
+KTH_LIST_DEFINE(chain, kth_block_list_t, kth_block_t, block_list, kth::domain::chain::block, kth_chain_block_const_cpp)
 
 } // extern "C"

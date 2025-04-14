@@ -9,10 +9,10 @@
 
 // #include <boost/thread/latch.hpp>
 
-#include <kth/domain/message/block.hpp>
-#include <kth/domain/message/header.hpp>
+#include <kth/domain/chain/block.hpp>
+#include <kth/domain/chain/header.hpp>
 #include <kth/domain/message/merkle_block.hpp>
-#include <kth/domain/message/transaction.hpp>
+#include <kth/domain/chain/transaction.hpp>
 #include <kth/blockchain/interface/safe_chain.hpp>
 
 #include <kth/capi/chain/block_list.h>
@@ -28,7 +28,7 @@ kth::blockchain::safe_chain& safe_chain(kth_chain_t chain) {
 
 inline
 kth::domain::message::transaction::const_ptr tx_shared(kth_transaction_t tx) {
-    auto const& tx_ref = *static_cast<kth::domain::message::transaction const*>(tx);
+    auto const& tx_ref = *static_cast<kth::domain::chain::transaction const*>(tx);
     auto* tx_new = new kth::domain::message::transaction(tx_ref);
     return kth::domain::message::transaction::const_ptr(tx_new);
 }
@@ -42,14 +42,14 @@ kth::domain::message::transaction::const_ptr tx_shared(kth_transaction_t tx) {
 
 inline
 kth::domain::message::block::const_ptr block_shared(kth_block_t block) {
-    auto const& block_ref = *static_cast<kth::domain::message::block const*>(block);
+    auto const& block_ref = *static_cast<kth::domain::chain::block const*>(block);
     auto* block_new = new kth::domain::message::block(block_ref);
     return kth::domain::message::block::const_ptr(block_new);
 }
 
 inline
-kth_block_t cast_block(kth::domain::message::block const& x) {
-    return const_cast<kth::domain::message::block*>(&x);
+kth_block_t cast_block(kth::domain::chain::block const& x) {
+    return const_cast<kth::domain::chain::block*>(&x);
 }
 
 } /* end of anonymous namespace */
@@ -72,7 +72,7 @@ void kth_chain_subscribe_blockchain(kth_node_t exec, kth_chain_t chain, void* ct
         if (incoming) {
             incoming_cpp = kth_chain_block_list_construct_default();
             for (auto&& x : *incoming) {
-                // auto new_block = new kth::domain::message::block(*x);
+                // auto new_block = new kth::domain::chain::block(*x);
                 // kth_chain_block_list_push_back(incoming_cpp, new_block);
                 kth_chain_block_list_push_back(incoming_cpp, cast_block(*x));
             }
@@ -82,7 +82,7 @@ void kth_chain_subscribe_blockchain(kth_node_t exec, kth_chain_t chain, void* ct
         if (replaced_blocks) {
             replaced_blocks_cpp = kth_chain_block_list_construct_default();
             for (auto&& x : *replaced_blocks) {
-                // auto new_block = new kth::domain::message::block(*x);
+                // auto new_block = new kth::domain::chain::block(*x);
                 // kth_chain_block_list_push_back(replaced_blocks_cpp, new_block);
                 // kth_chain_block_list_push_back_const(replaced_blocks_cpp, x.get());
                 kth_chain_block_list_push_back(replaced_blocks_cpp, cast_block(*x));
@@ -158,10 +158,10 @@ kth_bool_t kth_chain_is_stale(kth_chain_t chain) {
 
 // kth_transaction_t kth_chain_hex_to_tx(char const* tx_hex) {
 //
-//    static auto const version = kth::domain::message::version::level::canonical;
+//    static auto const version = kth::domain::chain::version::level::canonical;
 //
-////    auto const tx = std::make_shared<kth::domain::message::transaction>();
-//    auto* tx = new kth::domain::message::transaction;
+////    auto const tx = std::make_shared<kth::domain::chain::transaction>();
+//    auto* tx = new kth::domain::chain::transaction;
 //
 //    std::string tx_hex_cpp(tx_hex);
 //    std::vector<uint8_t> data(tx_hex_cpp.size() / 2); // (tx_hex_cpp.begin(), tx_hex_cpp.end());
@@ -189,7 +189,7 @@ kth_bool_t kth_chain_is_stale(kth_chain_t chain) {
 //
 //    safe_chain(chain).fetch_block_locator(heights_cpp, [chain, ctx, handler](std::error_code const& ec, kth::get_headers_ptr headers) {
 //        //TODO: check if the pointer is set, before dereferencing
-//        auto* new_headers = new kth::domain::message::get_headers(*headers);
+//        auto* new_headers = new kth::domain::chain::get_headers(*headers);
 //        handler(chain, ctx, kth::to_c_err(ec), new_headers);
 //    });
 //}
@@ -203,7 +203,7 @@ kth_bool_t kth_chain_is_stale(kth_chain_t chain) {
 //
 //    safe_chain(chain).fetch_block_locator(heights_cpp, [&](std::error_code const& ec, kth::get_headers_ptr headers) {
 //        //TODO: check if the pointer is set, before dereferencing
-//        *out_headers = new kth::domain::message::get_headers(*headers);
+//        *out_headers = new kth::domain::chain::get_headers(*headers);
 //        res = kth::to_c_err(ec);
 //        latch.count_down();
 //    });
@@ -235,9 +235,9 @@ kth_bool_t kth_chain_is_stale(kth_chain_t chain) {
 //// Filters.
 ////-------------------------------------------------------------------------
 //
-//virtual void filter_blocks(get_data_ptr message, result_handler handler) const = 0;
+//virtual void filter_blocks(get_data_ptr chain, result_handler handler) const = 0;
 
-//void kth_chain_filter_blocks(kth_chain_t chain, void* ctx, get_data_ptr message, result_handler handler) {
+//void kth_chain_filter_blocks(kth_chain_t chain, void* ctx, get_data_ptr chain, result_handler handler) {
 //}
 
 

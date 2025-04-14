@@ -16,7 +16,7 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-kth_transaction_t kth_chain_transaction_factory_from_data(uint32_t version, uint8_t* data, kth_size_t n);
+kth_transaction_t kth_chain_transaction_factory_from_data(uint8_t* data, kth_size_t n);
 
 KTH_EXPORT
 kth_transaction_t kth_chain_transaction_construct_default(void);
