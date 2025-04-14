@@ -213,7 +213,7 @@ void kth_chain_utxo_set_index(kth_utxo_t utxo, uint32_t index) {
     kth_chain_utxo_cpp(utxo).point().set_index(index);
 }
 
-void kth_chain_utxo_set_amount(kth_utxo_t utxo, int64_t amount) {
+void kth_chain_utxo_set_amount(kth_utxo_t utxo, uint64_t amount) {
     kth_chain_utxo_cpp(utxo).set_amount(amount);
 }
 

@@ -80,7 +80,7 @@ KTH_EXPORT
 void kth_chain_utxo_set_index(kth_utxo_t utxo, uint32_t index);
 
 KTH_EXPORT
-void kth_chain_utxo_set_amount(kth_utxo_t utxo, int64_t amount);
+void kth_chain_utxo_set_amount(kth_utxo_t utxo, uint64_t amount);
 
 KTH_EXPORT
 void kth_chain_utxo_set_cached_output(kth_utxo_t utxo, kth_output_t output);
