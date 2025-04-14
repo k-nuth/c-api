@@ -23,14 +23,16 @@ KTH_EXPORT
 kth_payment_address_t kth_wallet_payment_address_construct_from_short_hash(kth_shorthash_t const* hash, uint8_t version);
 
 KTH_EXPORT
+kth_payment_address_t kth_wallet_payment_address_construct_from_hash(kth_hash_t const* hash, uint8_t version);
+
+KTH_EXPORT
 kth_payment_address_t kth_wallet_payment_address_construct_from_public(kth_ec_public_t point, uint8_t version);
 
 KTH_EXPORT
 kth_payment_address_t kth_wallet_payment_address_construct_from_script(kth_script_t script, uint8_t version);
 
-// payment_address payment_address::from_pay_key_hash_script(chain::script const& script, uint8_t version) {
 KTH_EXPORT
-kth_payment_address_t kth_wallet_payment_address_from_pay_key_hash_script(kth_script_t script, uint8_t version);
+kth_payment_address_t kth_wallet_payment_address_from_pay_public_key_hash_script(kth_script_t script, uint8_t version);
 
 KTH_EXPORT
 void kth_wallet_payment_address_destruct(kth_payment_address_t payment_address);
@@ -60,14 +62,14 @@ uint8_t kth_wallet_payment_address_version(kth_payment_address_t payment_address
 KTH_EXPORT
 kth_bool_t kth_wallet_payment_address_is_valid(kth_payment_address_t payment_address);
 
-// KTH_EXPORT
-// kth_payment_address_list_t kth_wallet_payment_address_extract(kth_script_t script, uint8_t p2kh_version, uint8_t p2sh_version);
+KTH_EXPORT
+kth_payment_address_list_const_t kth_wallet_payment_address_extract(kth_script_t script, uint8_t p2kh_version, uint8_t p2sh_version);
 
-// KTH_EXPORT
-// kth_payment_address_list_t kth_wallet_payment_address_extract_input(kth_script_t script, uint8_t p2kh_version, uint8_t p2sh_version);
+KTH_EXPORT
+kth_payment_address_list_const_t kth_wallet_payment_address_extract_input(kth_script_t script, uint8_t p2kh_version, uint8_t p2sh_version);
 
-// KTH_EXPORT
-// kth_payment_address_list_t kth_wallet_payment_address_extract_output(kth_script_t script, uint8_t p2kh_version, uint8_t p2sh_version);
+KTH_EXPORT
+kth_payment_address_list_const_t kth_wallet_payment_address_extract_output(kth_script_t script, uint8_t p2kh_version, uint8_t p2sh_version);
 
 #ifdef __cplusplus
 } // extern "C"

@@ -7,24 +7,24 @@
 #include <kth/capi/conversions.hpp>
 #include <kth/capi/helpers.hpp>
 
-KTH_CONV_DEFINE(chain, kth_header_t, kth::domain::message::header, header)
+KTH_CONV_DEFINE(chain, kth_header_t, kth::domain::chain::header, header)
 
 extern "C" {
 
-kth_header_t kth_chain_header_factory_from_data(uint32_t version, uint8_t* data, kth_size_t n) {
+kth_header_t kth_chain_header_factory_from_data(uint8_t* data, kth_size_t n) {
     kth::data_chunk data_cpp(data, std::next(data, n));
-    auto header = kth::domain::create<kth::domain::message::header>(version, data_cpp);
+    auto header = kth::domain::create<kth::domain::chain::header>(data_cpp);
     return kth::move_or_copy_and_leak(std::move(header));
 }
 
-kth_size_t kth_chain_header_satoshi_fixed_size(uint32_t version) {
-    return kth::domain::message::header::satoshi_fixed_size(version);
+kth_size_t kth_chain_header_satoshi_fixed_size() {
+    return kth::domain::chain::header::satoshi_fixed_size();
 }
 
 //Note: It is the responsability of the user to release/destruct the array
-uint8_t const* kth_chain_header_to_data(kth_header_t header, uint32_t version, kth_size_t* out_size) {
+uint8_t const* kth_chain_header_to_data(kth_header_t header, kth_size_t* out_size) {
     auto const& header_cpp = kth_chain_header_const_cpp(header);
-    auto data = header_cpp.to_data(version);
+    auto data = header_cpp.to_data();
     return kth::create_c_array(data, *out_size);
 }
 
@@ -32,12 +32,12 @@ void kth_chain_header_reset(kth_header_t header) {
     return kth_chain_header_cpp(header).reset();
 }
 
-kth_size_t kth_chain_header_serialized_size(kth_header_t header, uint32_t version) {
-    return kth_chain_header_const_cpp(header).serialized_size(version);
+kth_size_t kth_chain_header_serialized_size(kth_header_t header) {
+    return kth_chain_header_const_cpp(header).serialized_size();
 }
 
 kth_header_t kth_chain_header_construct_default() {
-    return new kth::domain::message::header();
+    return new kth::domain::chain::header();
 }
 
 kth_header_t kth_chain_header_construct(uint32_t version, uint8_t* previous_block_hash, uint8_t* merkle, uint32_t timestamp, uint32_t bits, uint32_t nonce) {
@@ -46,7 +46,7 @@ kth_header_t kth_chain_header_construct(uint32_t version, uint8_t* previous_bloc
 
     auto previous_block_hash_cpp = kth::hash_to_cpp(previous_block_hash);
     auto merkle_cpp = kth::hash_to_cpp(merkle);
-    return new kth::domain::message::header(version, previous_block_hash_cpp, merkle_cpp, timestamp, bits, nonce);
+    return new kth::domain::chain::header(version, previous_block_hash_cpp, merkle_cpp, timestamp, bits, nonce);
 }
 
 void kth_chain_header_destruct(kth_header_t header) {

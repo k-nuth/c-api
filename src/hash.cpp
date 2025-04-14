@@ -111,6 +111,23 @@ void kth_longhash_destruct(kth_longhash_t* longhash) {
     delete longhash;
 }
 
+void kth_encrypted_seed_set(kth_encrypted_seed_t* seed, uint8_t const* data) {
+    memcpy(seed->hash, data, KTH_BITCOIN_ENCRYPTED_SEED_SIZE);
+}
+
+void kth_encrypted_seed_destruct(kth_encrypted_seed_t* seed) {
+    delete seed;
+}
+
+void kth_ec_secret_set(kth_ec_secret_t* secret, uint8_t const* data) {
+    memcpy(secret->hash, data, KTH_BITCOIN_EC_SECRET_SIZE);
+}
+
+void kth_ec_secret_destruct(kth_ec_secret_t* secret) {
+    delete secret;
+}
+
+
 // void print_hex(uint8_t const* data, size_t n) {
 //     while (n != 0) {
 //         printf("%2x", *data);

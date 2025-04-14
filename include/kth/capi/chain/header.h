@@ -16,19 +16,19 @@ extern "C" {
 #endif
 
 KTH_EXPORT
-kth_header_t kth_chain_header_factory_from_data(uint32_t version, uint8_t* data, kth_size_t n);
+kth_header_t kth_chain_header_factory_from_data(uint8_t* data, kth_size_t n);
 
 KTH_EXPORT
-kth_size_t kth_chain_header_satoshi_fixed_size(uint32_t version);
+kth_size_t kth_chain_header_satoshi_fixed_size();
 
 KTH_EXPORT
 void kth_chain_header_reset(kth_header_t header);
 
 KTH_EXPORT
-kth_size_t kth_chain_header_serialized_size(kth_header_t header, uint32_t version);
+kth_size_t kth_chain_header_serialized_size(kth_header_t header);
 
 KTH_EXPORT
-uint8_t const* kth_chain_header_to_data(kth_header_t header, uint32_t version, kth_size_t* out_size);
+uint8_t const* kth_chain_header_to_data(kth_header_t header, kth_size_t* out_size);
 
 KTH_EXPORT
 kth_header_t kth_chain_header_construct_default(void);

@@ -9,10 +9,10 @@
 
 // #include <boost/thread/latch.hpp>
 
-#include <kth/domain/message/block.hpp>
-#include <kth/domain/message/header.hpp>
+#include <kth/domain/chain/block.hpp>
+#include <kth/domain/chain/header.hpp>
 #include <kth/domain/message/merkle_block.hpp>
-#include <kth/domain/message/transaction.hpp>
+#include <kth/domain/chain/transaction.hpp>
 #include <kth/blockchain/interface/safe_chain.hpp>
 
 #include <kth/capi/chain/block_list.h>
@@ -29,7 +29,7 @@ kth::blockchain::safe_chain& safe_chain(kth_chain_t chain) {
 
 inline
 kth::domain::message::transaction::const_ptr tx_shared(kth_transaction_t tx) {
-    auto const& tx_ref = *static_cast<kth::domain::message::transaction const*>(tx);
+    auto const& tx_ref = *static_cast<kth::domain::chain::transaction const*>(tx);
     auto* tx_new = new kth::domain::message::transaction(tx_ref);
     return kth::domain::message::transaction::const_ptr(tx_new);
 }
@@ -43,7 +43,7 @@ kth::domain::message::transaction::const_ptr tx_shared(kth_transaction_t tx) {
 
 inline
 kth::domain::message::block::const_ptr block_shared(kth_block_t block) {
-    auto const& block_ref = *static_cast<kth::domain::message::block const*>(block);
+    auto const& block_ref = *static_cast<kth::domain::chain::block const*>(block);
     auto* block_new = new kth::domain::message::block(block_ref);
     return kth::domain::message::block::const_ptr(block_new);
 }
@@ -88,7 +88,7 @@ kth_error_code_t kth_chain_sync_block_header_by_height(kth_chain_t chain, kth_si
     std::latch latch(1); //Note: workaround to fix an error on some versions of Boost.Threads
     kth_error_code_t res;
 
-    safe_chain(chain).fetch_block_header(height, [&](std::error_code const& ec, kth::domain::message::header::ptr header, size_t h) {
+    safe_chain(chain).fetch_block_header(height, [&](std::error_code const& ec, kth::domain::chain::header::ptr header, size_t h) {
         *out_header = kth::leak_if_success(header, ec);
         *out_height = h;
         res = kth::to_c_err(ec);
@@ -105,7 +105,7 @@ kth_error_code_t kth_chain_sync_block_header_by_hash(kth_chain_t chain, kth_hash
 
     auto hash_cpp = kth::to_array(hash.hash);
 
-    safe_chain(chain).fetch_block_header(hash_cpp, [&](std::error_code const& ec, kth::domain::message::header::ptr header, size_t h) {
+    safe_chain(chain).fetch_block_header(hash_cpp, [&](std::error_code const& ec, kth::domain::chain::header::ptr header, size_t h) {
         *out_header = kth::leak_if_success(header, ec);
         *out_height = h;
         res = kth::to_c_err(ec);

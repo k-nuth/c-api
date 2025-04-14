@@ -7,6 +7,7 @@
 
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
+#include <kth/capi/wallet/primitives.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -44,6 +45,18 @@ void kth_longhash_set(kth_longhash_t* longhash, uint8_t const* data);
 
 KTH_EXPORT
 void kth_longhash_destruct(kth_longhash_t* longhash);
+
+KTH_EXPORT
+void kth_encrypted_seed_set(kth_encrypted_seed_t* seed, uint8_t const* data);
+
+KTH_EXPORT
+void kth_encrypted_seed_destruct(kth_encrypted_seed_t* seed);
+
+KTH_EXPORT
+void kth_ec_secret_set(kth_ec_secret_t* secret, uint8_t const* data);
+
+KTH_EXPORT
+void kth_ec_secret_destruct(kth_ec_secret_t* secret);
 
 #ifdef __cplusplus
 } // extern "C"

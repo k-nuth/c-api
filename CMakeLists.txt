@@ -208,11 +208,12 @@ set(kth_sources
   src/wallet/transaction_functions.cpp
   src/wallet/wallet.cpp
   src/wallet/ec_compressed_list.cpp
+  src/wallet/wallet_data.cpp
+  src/wallet/wallet_manager.cpp
 
   src/libconfig/libconfig.cpp
 
   src/node/settings.cpp
-
 
   src/vm/interpreter.cpp
   src/vm/program.cpp
@@ -258,7 +259,7 @@ set(kth_sources
         src/chain/point_list.cpp
         src/chain/mempool_transaction.cpp
 
-        # src/chain/token_data.cpp
+        src/chain/token_data.cpp
 
         src/config/authority.cpp
         src/config/blockchain_settings.cpp
@@ -268,7 +269,6 @@ set(kth_sources
 
         src/config/node_settings.cpp
         src/config/settings.cpp
-
 
         src/node/settings.cpp
 
@@ -331,6 +331,8 @@ set(kth_headers
   include/kth/capi/wallet/wallet.h
   include/kth/capi/wallet/raw_output.h
   include/kth/capi/wallet/ec_compressed_list.h
+  include/kth/capi/wallet/wallet_data.h
+  include/kth/capi/wallet/wallet_manager.h
 
   include/kth/capi/primitives.h
   include/kth/capi/hash_list.h
@@ -378,6 +380,8 @@ set(kth_headers
     include/kth/capi/chain/block_list.h
     include/kth/capi/chain/mempool_transaction_list.h
     include/kth/capi/chain/compact_block.h
+    include/kth/capi/chain/token_capability.h
+    include/kth/capi/chain/token_kind.h
     include/kth/capi/chain/token_data.h
     include/kth/capi/chain/input.h
     include/kth/capi/chain/block_indexes.h
@@ -402,6 +406,7 @@ set(kth_headers
     include/kth/capi/chain/mempool_transaction.h
     include/kth/capi/chain/rule_fork.h
     include/kth/capi/chain/script_version.h
+    include/kth/capi/chain/script_pattern.h
     include/kth/capi/chain/get_headers.h
     include/kth/capi/chain/double_spend_proof.h
     include/kth/capi/chain/input_list.h
@@ -473,7 +478,9 @@ if (WITH_CONSOLE_CAPI)
     set(_test_console_sources
       # console/test_wallet.cpp
       # console/test_wallet.c
-      console/test_wallet2.c
+      # console/test_wallet2.c
+      console/test_wallet_manager.c
+
       # console/test_header_hash.cpp
       # console/main.cpp
       # console/main.c

@@ -11,23 +11,23 @@
 #include <kth/capi/wallet/payment_address.h>
 
 
-KTH_CONV_DEFINE(chain, kth_transaction_t, kth::domain::message::transaction, transaction)
+KTH_CONV_DEFINE(chain, kth_transaction_t, kth::domain::chain::transaction, transaction)
 
 // ---------------------------------------------------------------------------
 extern "C" {
 
- kth_transaction_t kth_chain_transaction_factory_from_data(uint32_t version, uint8_t* data, kth_size_t n) {
+kth_transaction_t kth_chain_transaction_factory_from_data(uint8_t* data, kth_size_t n) {
     kth::data_chunk data_cpp(data, std::next(data, n));
-    auto tx = kth::domain::create<kth::domain::message::transaction>(version, data_cpp);
+    auto tx = kth::domain::create<kth::domain::chain::transaction>(data_cpp);
     return kth::move_or_copy_and_leak(std::move(tx));
 }
 
- kth_transaction_t kth_chain_transaction_construct_default() {
-    return new kth::domain::message::transaction();
+kth_transaction_t kth_chain_transaction_construct_default() {
+    return new kth::domain::chain::transaction();
 }
 
- kth_transaction_t kth_chain_transaction_construct(uint32_t version, uint32_t locktime, kth_input_list_t inputs, kth_output_list_t outputs) {
-    return new kth::domain::message::transaction(version, locktime,
+kth_transaction_t kth_chain_transaction_construct(uint32_t version, uint32_t locktime, kth_input_list_t inputs, kth_output_list_t outputs) {
+    return new kth::domain::chain::transaction(version, locktime,
                                                 kth_chain_input_list_const_cpp(inputs),
                                                 kth_chain_output_list_const_cpp(outputs));
 }
@@ -45,7 +45,7 @@ uint32_t kth_chain_transaction_version(kth_transaction_t transaction) {
 }
 
 void kth_chain_transaction_set_version(kth_transaction_t transaction, uint32_t version) {
-    return static_cast<kth::domain::message::transaction*>(transaction)->set_version(version);
+    return static_cast<kth::domain::chain::transaction*>(transaction)->set_version(version);
 }
 
 kth_hash_t kth_chain_transaction_hash(kth_transaction_t transaction) {
@@ -148,7 +148,7 @@ kth_input_list_t kth_chain_transaction_inputs(kth_transaction_t transaction) {
 }
 
 uint8_t const* kth_chain_transaction_to_data(kth_transaction_t transaction, kth_bool_t wire, kth_size_t* out_size) {
-    auto tx_data = kth_chain_transaction_const_cpp(transaction).to_data(wire);
+    auto tx_data = kth_chain_transaction_const_cpp(transaction).to_data(kth::int_to_bool(wire));
     return kth::create_c_array(tx_data, *out_size);
 }
 

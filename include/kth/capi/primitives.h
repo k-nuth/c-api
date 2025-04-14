@@ -17,6 +17,7 @@ extern "C" {
 #define KTH_BITCOIN_SHORT_HASH_SIZE 20
 #define KTH_BITCOIN_HASH_SIZE 32
 #define KTH_BITCOIN_LONG_HASH_SIZE 64
+#define KTH_BITCOIN_ENCRYPTED_SEED_SIZE 96
 
 #define KTH_BITCOIN_MINIMUM_SEED_BITS 128
 #define KTH_BITCOIN_BYTE_BITS 8
@@ -71,6 +72,7 @@ typedef void* kth_inputpoint_t;
 typedef void* kth_merkleblock_t;
 typedef void* kth_script_t;
 typedef void* kth_token_data_t;
+typedef void const* kth_token_data_const_t;
 
 typedef void* kth_operation_list_t;
 typedef void const* kth_operation_list_const_t;
@@ -94,6 +96,7 @@ typedef void* kth_get_headers_t;
 typedef void* kth_get_headers_ptr_t;
 typedef void* kth_payment_address_t;
 typedef void* kth_payment_address_list_t;
+typedef void const* kth_payment_address_list_const_t;
 typedef void* kth_binary_t;
 typedef void* kth_stealth_compact_t;
 typedef void* kth_stealth_compact_list_t;
@@ -105,6 +108,7 @@ typedef void* kth_double_list_t;
 typedef void* kth_u32_list_t;
 typedef void* kth_u64_list_t;
 
+typedef void* kth_wallet_data_t;
 
 typedef void* kth_ec_compressed_list_t;
 
@@ -129,6 +133,11 @@ typedef struct kth_hash_t {
 typedef struct kth_longhash_t {
     uint8_t hash[KTH_BITCOIN_LONG_HASH_SIZE];   //kth::long_hash_size
 } kth_longhash_t;
+
+typedef struct kth_encrypted_seed_t {
+    uint8_t hash[KTH_BITCOIN_ENCRYPTED_SEED_SIZE];
+} kth_encrypted_seed_t;
+
 
 
 // Currencies --------------------------------------------------------
@@ -166,6 +175,13 @@ typedef enum {
     kth_db_mode_normal = 1,
     kth_db_mode_full_indexed = 2
 } kth_db_mode_t;
+
+
+// Endorsement type ----------------------------------------------------
+typedef enum {
+    kth_endorsement_type_ecdsa = 0,
+    kth_endorsement_type_schnorr = 1
+} kth_endorsement_type_t;
 
 
 // Callback signatures ------------------------------------------------

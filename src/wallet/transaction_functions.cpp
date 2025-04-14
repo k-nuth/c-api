@@ -34,7 +34,7 @@
 //                );
 
 //     if (p.first == kth::error::success) {
-//         *out_transaction = new kth::domain::message::transaction(std::move(p.second));
+//         *out_transaction = new kth::domain::chain::transaction(std::move(p.second));
 //     } else {
 //         *out_transaction = nullptr;
 //     }
@@ -59,7 +59,7 @@
 //                );
 
 //     if (p.first == kth::error::success) {
-//         *out_transaction = new kth::domain::message::transaction(std::move(p.second));
+//         *out_transaction = new kth::domain::chain::transaction(std::move(p.second));
 //     } else {
 //         *out_transaction = nullptr;
 //     }
@@ -171,7 +171,7 @@
 //                );
 
 //     if (p.first == kth::error::success) {
-//         *out_transaction = new kth::domain::message::transaction(std::move(p.second));
+//         *out_transaction = new kth::domain::chain::transaction(std::move(p.second));
 //     } else {
 //         *out_transaction = nullptr;
 //     }
@@ -197,7 +197,7 @@
 // //                );
 
 // //     if (p.first == kth::error::success) {
-// //         *out_transaction = new kth::domain::message::transaction(std::move(p.second));
+// //         *out_transaction = new kth::domain::chain::transaction(std::move(p.second));
 // //     } else {
 // //         *out_transaction = nullptr;
 // //     }

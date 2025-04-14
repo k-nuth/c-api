@@ -12,7 +12,7 @@
 #include <kth/domain/wallet/payment_address.hpp>
 
 KTH_LIST_DEFINE_CONVERTERS(wallet, kth_payment_address_list_t, kth::domain::wallet::payment_address, payment_address_list)
-KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP(wallet, kth_payment_address_list_t, kth::domain::wallet::payment_address, payment_address_list)
+KTH_LIST_DEFINE_CONSTRUCT_FROM_CPP_BOTH(wallet, kth_payment_address_list_t, kth::domain::wallet::payment_address, payment_address_list)
 
 extern "C" {
 KTH_LIST_DEFINE(wallet, kth_payment_address_list_t, kth_payment_address_t, payment_address_list, kth::domain::wallet::payment_address, kth_wallet_payment_address_const_cpp)

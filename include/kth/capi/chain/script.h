@@ -10,6 +10,7 @@
 #include <kth/capi/primitives.h>
 #include <kth/capi/visibility.h>
 #include <kth/capi/chain/rule_fork.h>
+#include <kth/capi/chain/script_pattern.h>
 #include <kth/capi/chain/script_version.h>
 #include <kth/capi/wallet/primitives.h>
 
@@ -53,8 +54,8 @@ char const* kth_chain_script_type(kth_script_t script);
 KTH_EXPORT
 uint8_t const* kth_chain_script_to_data(kth_script_t script, kth_bool_t prefix, kth_size_t* out_size);
 
-KTH_EXPORT
-kth_size_t kth_chain_script_sigops(kth_script_t script, kth_bool_t embedded);
+// KTH_EXPORT
+// kth_size_t kth_chain_script_sigops(kth_script_t script, kth_bool_t embedded);
 
 KTH_EXPORT
 kth_operation_list_const_t kth_chain_script_operations(kth_script_t script);
@@ -89,10 +90,13 @@ KTH_EXPORT
 kth_bool_t  kth_chain_script_is_pay_public_key_pattern(kth_operation_list_t ops);
 
 KTH_EXPORT
-kth_bool_t  kth_chain_script_is_pay_key_hash_pattern(kth_operation_list_t ops);
+kth_bool_t  kth_chain_script_is_pay_public_key_hash_pattern(kth_operation_list_t ops);
 
 KTH_EXPORT
 kth_bool_t  kth_chain_script_is_pay_script_hash_pattern(kth_operation_list_t ops);
+
+KTH_EXPORT
+kth_bool_t  kth_chain_script_is_pay_script_hash_32_pattern(kth_operation_list_t ops);
 
 /// Common input patterns (skh is also consensus).
 KTH_EXPORT
@@ -102,7 +106,7 @@ KTH_EXPORT
 kth_bool_t  kth_chain_script_is_sign_public_key_pattern(kth_operation_list_t ops);
 
 KTH_EXPORT
-kth_bool_t  kth_chain_script_is_sign_key_hash_pattern(kth_operation_list_t ops);
+kth_bool_t  kth_chain_script_is_sign_public_key_hash_pattern(kth_operation_list_t ops);
 
 KTH_EXPORT
 kth_bool_t  kth_chain_script_is_sign_script_hash_pattern(kth_operation_list_t ops);
@@ -115,10 +119,13 @@ KTH_EXPORT
 kth_operation_list_const_t kth_chain_script_to_pay_public_key_pattern(uint8_t const* point, kth_size_t n);
 
 KTH_EXPORT
-kth_operation_list_const_t kth_chain_script_to_pay_key_hash_pattern(kth_shorthash_t const* chash);
+kth_operation_list_const_t kth_chain_script_to_pay_public_key_hash_pattern(kth_shorthash_t const* chash);
 
 KTH_EXPORT
 kth_operation_list_const_t kth_chain_script_to_pay_script_hash_pattern(kth_shorthash_t const* hash);
+
+KTH_EXPORT
+kth_operation_list_const_t kth_chain_script_to_pay_script_hash_32_pattern(kth_hash_t const* hash);
 
 KTH_EXPORT
 kth_operation_list_const_t kth_chain_script_to_pay_multisig_pattern(uint8_t signatures, kth_ec_compressed_list_t points);
@@ -126,6 +133,31 @@ kth_operation_list_const_t kth_chain_script_to_pay_multisig_pattern(uint8_t sign
 // TODO: add this
 // KTH_EXPORT
 // kth_operation_list_const_t kth_chain_script_to_pay_multisig_pattern(uint8_t signatures, data_stack const& points);
+
+
+// Utilities (non-static).
+//-------------------------------------------------------------------------
+
+/// Common pattern detection.
+
+KTH_EXPORT
+kth_script_pattern_t kth_chain_script_pattern(kth_script_t script);
+
+KTH_EXPORT
+kth_script_pattern_t kth_chain_script_output_pattern(kth_script_t script);
+
+KTH_EXPORT
+kth_script_pattern_t kth_chain_script_input_pattern(kth_script_t script);
+
+/// Consensus computations.
+KTH_EXPORT
+kth_size_t kth_chain_script_sigops(kth_script_t script, kth_bool_t accurate);
+
+KTH_EXPORT
+kth_bool_t kth_chain_script_is_unspendable(kth_script_t script);
+
+KTH_EXPORT
+void kth_chain_script_reset(kth_script_t script);
 
 
 // Signing.
@@ -137,7 +169,10 @@ kth_hash_t generate_signature_hash(
     uint32_t input_index,
     kth_script_t script_code,
     uint8_t sighash_type,
+    uint32_t active_forks,
+#if ! defined(KTH_CURRENCY_BCH)
     kth_script_version_t version,
+#endif // ! KTH_CURRENCY_BCH
     uint64_t value,
     kth_size_t* out_hashed_bytes
 );
@@ -151,15 +186,29 @@ kth_bool_t check_signature(
     kth_script_t script_code,
     kth_transaction_t tx,
     uint32_t input_index,
+    uint32_t active_forks,
+#if ! defined(KTH_CURRENCY_BCH)
     kth_script_version_t version,
+#endif // ! KTH_CURRENCY_BCH
     uint64_t value,
     kth_size_t* out_hashed_bytes
 );
 
-//TODO: implement this, we need endorsement type first
-// static
-// bool create_endorsement(endorsement& out, ec_secret const& secret, script const& prevout_script, transaction const& tx, uint32_t input_index, uint8_t sighash_type, script_version version = script_version::unversioned, uint64_t value = max_uint64);
-
+KTH_EXPORT
+uint8_t const* kth_chain_script_create_endorsement(
+    kth_ec_secret_t const* secret,
+    kth_script_t prevout_script,
+    kth_transaction_t tx,
+    uint32_t input_index,
+    uint8_t sighash_type,
+    uint32_t active_forks,
+#if ! defined(KTH_CURRENCY_BCH)
+    kth_script_version_t version,
+#endif // ! KTH_CURRENCY_BCH
+    uint64_t value,
+    kth_endorsement_type_t type,
+    kth_size_t* out_size
+);
 
 // Validation.
 //-----------------------------------------------------------------------------
