@@ -18,7 +18,7 @@ extern "C" {
 
  kth_transaction_t kth_chain_transaction_factory_from_data(uint32_t version, uint8_t* data, kth_size_t n) {
     kth::data_chunk data_cpp(data, std::next(data, n));
-    auto tx = kth::domain::create<kth::domain::message::transaction>(version, data_cpp);
+    auto tx = kth::domain::create_old<kth::domain::message::transaction>(data_cpp, version);
     return kth::move_or_copy_and_leak(std::move(tx));
 }
 
@@ -58,15 +58,15 @@ void kth_chain_transaction_hash_out(kth_transaction_t transaction, kth_hash_t* o
     kth::copy_c_hash(hash_cpp, out_hash);
 }
 
-kth_hash_t kth_chain_transaction_hash_sighash_type(kth_transaction_t transaction, uint32_t sighash_type) {
-    auto const& hash_cpp = kth_chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
-    return kth::to_hash_t(hash_cpp);
-}
+// kth_hash_t kth_chain_transaction_hash_sighash_type(kth_transaction_t transaction, uint32_t sighash_type) {
+//     auto const& hash_cpp = kth_chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
+//     return kth::to_hash_t(hash_cpp);
+// }
 
-void kth_chain_transaction_hash_sighash_type_out(kth_transaction_t transaction, uint32_t sighash_type, kth_hash_t* out_hash) {
-    auto const& hash_cpp = kth_chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
-    kth::copy_c_hash(hash_cpp, out_hash);
-}
+// void kth_chain_transaction_hash_sighash_type_out(kth_transaction_t transaction, uint32_t sighash_type, kth_hash_t* out_hash) {
+//     auto const& hash_cpp = kth_chain_transaction_const_cpp(transaction).hash(sighash_type != 0u);
+//     kth::copy_c_hash(hash_cpp, out_hash);
+// }
 
 uint32_t kth_chain_transaction_locktime(kth_transaction_t transaction) {
     return kth_chain_transaction_const_cpp(transaction).locktime();
