@@ -20,14 +20,13 @@ kth_block_t kth_chain_block_construct_default() {
 
 kth_block_t kth_chain_block_construct(kth_header_t header, kth_transaction_list_t transactions) {
     auto const& header_cpp = kth_chain_header_const_cpp(header);
-    // auto const& txs_cpp = *static_cast<kth::domain::chain::transaction::list const*>(transactions);
     auto const& txs_cpp = kth_chain_transaction_list_const_cpp(transactions);
     return new kth::domain::chain::block(header_cpp, txs_cpp);
 }
 
 kth_block_t kth_chain_block_factory_from_data(uint8_t* data, kth_size_t n) {
     kth::data_chunk data_cpp(data, std::next(data, n));
-    auto block = kth::domain::create<kth::domain::chain::block>(data_cpp);
+    auto block = kth::domain::create_old<kth::domain::chain::block>(data_cpp);
     return kth::move_or_copy_and_leak(std::move(block));
 }
 

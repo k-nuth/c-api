@@ -98,7 +98,7 @@ void kth_chain_output_destruct(kth_output_t output) {
 
 kth_output_t kth_chain_output_factory_from_data(uint8_t* data, kth_size_t n) {
     kth::data_chunk data_cpp(data, std::next(data, n));
-    auto output = kth::domain::create<kth::domain::chain::output>(data_cpp);
+    auto output = kth::domain::create_old<kth::domain::chain::output>(data_cpp);
     return kth::move_or_copy_and_leak(std::move(output));
 }
 

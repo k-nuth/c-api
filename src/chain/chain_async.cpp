@@ -80,14 +80,14 @@ void kth_chain_async_block_header_by_hash(kth_chain_t chain, void* ctx, kth_hash
 }
 
 void kth_chain_async_block_by_height(kth_chain_t chain, void* ctx, kth_size_t height, kth_block_fetch_handler_t handler) {
-    safe_chain(chain).fetch_block(height, kth::witness(), [chain, ctx, handler](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
+    safe_chain(chain).fetch_block(height, [chain, ctx, handler](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
         handler(chain, ctx, kth::to_c_err(ec), kth::leak_if_success(block, ec), h);
     });
 }
 
 void kth_chain_async_block_by_hash(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_block_fetch_handler_t handler) {
     auto hash_cpp = kth::to_array(hash.hash);
-    safe_chain(chain).fetch_block(hash_cpp, kth::witness(), [chain, ctx, handler](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
+    safe_chain(chain).fetch_block(hash_cpp, [chain, ctx, handler](std::error_code const& ec, kth::domain::message::block::const_ptr block, size_t h) {
         handler(chain, ctx, kth::to_c_err(ec), kth::leak_if_success(block, ec), h);
     });
 }
@@ -140,7 +140,7 @@ void kth_chain_async_block_by_height_timestamp(kth_chain_t chain, void* ctx, kth
 void kth_chain_async_transaction(kth_chain_t chain, void* ctx, kth_hash_t hash, kth_bool_t require_confirmed, kth_transaction_fetch_handler_t handler) {
     //precondition:  [hash, 32] is a valid range
     auto hash_cpp = kth::to_array(hash.hash);
-    safe_chain(chain).fetch_transaction(hash_cpp, kth::int_to_bool(require_confirmed), kth::witness(), [chain, ctx, handler](std::error_code const& ec, kth::domain::message::transaction::const_ptr transaction, size_t i, size_t h) {
+    safe_chain(chain).fetch_transaction(hash_cpp, kth::int_to_bool(require_confirmed), [chain, ctx, handler](std::error_code const& ec, kth::domain::message::transaction::const_ptr transaction, size_t i, size_t h) {
         handler(chain, ctx, kth::to_c_err(ec), kth::leak_if_success(transaction, ec), i, h);
     });
 }

@@ -75,13 +75,13 @@ kth_bool_t kth_chain_token_data_is_valid(kth_token_data_t token_data) {
 }
 
 kth_size_t kth_chain_token_data_serialized_size(kth_token_data_t token_data) {
-    return kth::domain::chain::encoding::serialized_size(
+    return kth::domain::chain::token::encoding::serialized_size(
             kth_chain_token_data_const_cpp(token_data)
         );
 }
 
 uint8_t const* kth_chain_token_data_to_data(kth_token_data_t token_data, kth_size_t* out_size) {
-    auto token_data_data = kth::domain::chain::encoding::to_data(kth_chain_token_data_const_cpp(token_data));
+    auto token_data_data = kth::domain::chain::token::encoding::to_data(kth_chain_token_data_const_cpp(token_data));
     return kth::create_c_array(token_data_data, *out_size);
 }
 

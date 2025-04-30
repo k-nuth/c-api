@@ -13,7 +13,7 @@ extern "C" {
 
 kth_header_t kth_chain_header_factory_from_data(uint8_t* data, kth_size_t n) {
     kth::data_chunk data_cpp(data, std::next(data, n));
-    auto header = kth::domain::create<kth::domain::chain::header>(data_cpp);
+    auto header = kth::domain::create_old<kth::domain::chain::header>(data_cpp);
     return kth::move_or_copy_and_leak(std::move(header));
 }
 
