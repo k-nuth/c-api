@@ -76,11 +76,11 @@ class KnuthCAPIConan(KnuthConanFileV2):
 
     def requirements(self):
         if not self.options.no_compilation and self.settings.get_safe("compiler") is not None:
-            self.requires("node/0.54.0", transitive_headers=True, transitive_libs=True)
+            self.requires("node/0.55.0", transitive_headers=True, transitive_libs=True)
             # if self.settings.os == "Emscripten":
             #     self.requires("domain/0.44.0", transitive_headers=True, transitive_libs=True)
             # else:
-            #     self.requires("node/0.54.0", transitive_headers=True, transitive_libs=True)
+            #     self.requires("node/0.55.0", transitive_headers=True, transitive_libs=True)
 
     def build_requirements(self):
         if self.options.tests:
