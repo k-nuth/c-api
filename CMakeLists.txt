@@ -479,7 +479,8 @@ if (WITH_CONSOLE_CAPI)
       # console/test_wallet.cpp
       # console/test_wallet.c
       # console/test_wallet2.c
-      console/test_wallet_manager.c
+      # console/test_wallet_manager.c
+      console/test_2025_issue.cpp
 
       # console/test_header_hash.cpp
       # console/main.cpp

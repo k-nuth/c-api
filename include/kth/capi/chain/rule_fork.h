@@ -65,7 +65,9 @@ typedef enum {
     kth_rule_fork_bch_lobachevski = 1U << 21,         //2024-May Upgrade - lobachevski - (1715774400)
     kth_rule_fork_bch_galois = 1U << 22,              //2025-May Upgrade - galois - (1747310400)
     kth_rule_fork_bch_leibniz = 1U << 23,             //2026-May Upgrade - leibniz - (1778846400)
-    // kth_rule_fork_bch_unnamed = 1U << 24,          //2027-May Upgrade - unnamed - (9999999999)
+    kth_rule_fork_bch_cantor = 1U << 24,              //2027-May Upgrade - cantor - (xxxxxxxxxxxx)
+    
+    // kth_rule_fork_bch_unnamed = 1U << xx,          //20xx-May Upgrade - unnamed - (9999999999)
 #else
     // Just for segwit coins
     /// Segregated witness consensus layer (soft fork, feature).
