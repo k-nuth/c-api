@@ -1,6 +1,19 @@
 <!-- <a target="_blank" href="http://semver.org">![Version][badge.version]</a> -->
 <!-- <a target="_blank" href="https://cirrus-ci.com/github/k-nuth/c-api">![Build Status][badge.Cirrus]</a> -->
 
+## ⚠️ Project Status: Archived / Deprecated
+
+**This repository is kept only for historical purposes and because it contains open Issues that we will still be addressing.**  
+It is no longer under active development.
+
+Knuth development continues in the new monorepo, which replaces this project and concentrates all current work:
+
+👉 **Active repository:** https://github.com/k-nuth/kth-mono
+
+We recommend using and following that repository for the latest updates, releases, and documentation.
+
+---
+
 <img width="200px" src="https://raw.githubusercontent.com/k-nuth/misc/master/images/KTH-and-C.svg" />
 
 # C API <a target="_blank" href="https://github.com/k-nuth/c-api/releases">![Github Releases][badge.release]</a> <a target="_blank" href="https://github.com/k-nuth/c-api/actions">![Build status][badge.GithubActions]</a> <a href="#">![C][badge.c]</a> <a target="_blank" href="https://t.me/knuth_cash">![Telegram][badge.telegram]</a> <a target="_blank" href="https://k-nuth.slack.com/">![Slack][badge.slack]</a>
